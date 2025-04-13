@@ -6,22 +6,17 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gio::ListStore
-
+=TITLE Gnome::Gio::ListStore
 =head1 Description
 
-B<Gnome::Gio::ListStore> is a simple implementation of B<Gnome::Gio::R-ListModel> that stores all
-items in memory.
+B<Gnome::Gio::ListStore> is a simple implementation of B<Gnome::Gio::ListStore> that stores
+all items in memory.
 
 It provides insertions, deletions, and lookups in logarithmic time
 with a fast path for the common case of iterating the list linearly.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/ListStore.png> :width<50%> :class<inline>
 
 =begin comment
 
@@ -114,7 +109,7 @@ the first occurrence of C<$item>. If C<$item> was not found, then C<$position> w
 not be set, and this method will return C<False>.
 
 If you need to compare the two items with a custom comparison function, use
-C<.find-with-equal-func()> with a custom B<Gnome::Glib::T-DoubleIEEE754> instead.
+C<.find-with-equal-func()> with a custom B<Gnome::Glib::T-types> instead.
 
 =begin code
 method find ( gpointer $item, Array[Int] $position --> Bool )
@@ -138,19 +133,21 @@ set to the position where C<$item> occurred for the first time..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 find-with-equal-func
-This function is not yet available
 
 Looks up the given C<$item> in the list store by looping over the items and
-comparing them with C<$compare-func> until the first occurrence of C<$item> which
+comparing them with C<$equal-func> until the first occurrence of C<$item> which
 matches. If C<$item> was not found, then C<$position> will not be set, and this
 method will return C<False>.
+ C<$item> is always passed as second parameter to C<$equal-func>.
+
+Since GLib 2.76 it is possible to pass undefined for C<$item>.
 
 =begin code
-method find-with-equal-func ( gpointer $item, …, Array[Int] $position --> Bool )
+method find-with-equal-func ( gpointer $item, GEqualFunc &equal-func, Array[Int] $position --> Bool )
 =end code
 
 =item $item; an item.
-=item equal-func; A custom equality check function. Note that each argument must be specified as a type followed by its value!
+=item GEqualFunc &equal-func; A custom equality check function. The function must be specified with the following signature; C<:( gpointer $a, gpointer $b )>.
 =item $position; (transfer ownership: full) the first position of C<$item>, if it was found..
 
 Return value; Whether C<$store> contains C<$item>. If it was found, C<$position> will be
@@ -160,6 +157,37 @@ set to the position where C<$item> occurred for the first time..
 
 =head2 Example
 # Example for find-with-equal-func
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 find-with-equal-func-full
+
+Like C<.find-with-equal-func()> but with an additional C<$user-data>
+that is passed to C<$equal-func>.
+ C<$item> is always passed as second parameter to C<$equal-func>.
+
+Since GLib 2.76 it is possible to pass undefined for C<$item>.
+
+=begin code
+method find-with-equal-func-full ( gpointer $item, GEqualFuncFull &equal-func, gpointer $user-data, Array[Int] $position --> Bool )
+=end code
+
+=item $item; an item.
+=item GEqualFuncFull &equal-func; A custom equality check function. The function must be specified with the following signature; C<:( gpointer $a, gpointer $b, gpointer $user-data )>.
+=item $user-data; user data for C<$equal-func>.
+=item $position; (transfer ownership: full) the first position of C<$item>, if it was found..
+
+Return value; Whether C<$store> contains C<$item>. If it was found, C<$position> will be
+set to the position where C<$item> occurred for the first time.. 
+
+=begin comment
+
+=head2 Example
+# Example for insert
 
 =end comment
 
@@ -188,7 +216,7 @@ method insert ( UInt() $position, gpointer $item )
 =begin comment
 
 =head2 Example
-# Example for insert
+# Example for insert-sorted
 
 =end comment
 
@@ -197,7 +225,6 @@ method insert ( UInt() $position, gpointer $item )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 insert-sorted
-This function is not yet available
 
 Inserts C<$item> into C<$store> at a position to be determined by the C<$compare-func>.
 
@@ -208,11 +235,11 @@ inserting items by way of this function.
 This function takes a ref on C<$item>.
 
 =begin code
-method insert-sorted ( gpointer $item, …, gpointer $user-data --> UInt )
+method insert-sorted ( gpointer $item, GCompareDataFunc &compare-func, gpointer $user-data --> UInt )
 =end code
 
 =item $item; the new item.
-=item compare-func; pairwise comparison function for sorting. Note that each argument must be specified as a type followed by its value!
+=item GCompareDataFunc &compare-func; pairwise comparison function for sorting. The function must be specified with the following signature; C<:( gpointer $a, gpointer $b, gpointer $user-data )>.
 =item $user-data; user data for C<$compare-func>.
 
 Return value; the position at which C<$item> was inserted. 
@@ -220,7 +247,7 @@ Return value; the position at which C<$item> was inserted.
 =begin comment
 
 =head2 Example
-# Example for insert-sorted
+# Example for remove
 
 =end comment
 
@@ -245,7 +272,7 @@ method remove ( UInt() $position )
 =begin comment
 
 =head2 Example
-# Example for remove
+# Example for remove-all
 
 =end comment
 
@@ -264,7 +291,7 @@ method remove-all ( )
 =begin comment
 
 =head2 Example
-# Example for remove-all
+# Example for sort
 
 =end comment
 
@@ -273,21 +300,20 @@ method remove-all ( )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 sort
-This function is not yet available
 
 Sort the items in C<$store> according to C<$compare-func>.
 
 =begin code
-method sort ( …, gpointer $user-data )
+method sort ( GCompareDataFunc &compare-func, gpointer $user-data )
 =end code
 
-=item compare-func; pairwise comparison function for sorting. Note that each argument must be specified as a type followed by its value!
+=item GCompareDataFunc &compare-func; pairwise comparison function for sorting. The function must be specified with the following signature; C<:( gpointer $a, gpointer $b, gpointer $user-data )>.
 =item $user-data; user data for C<$compare-func>.
 
 =begin comment
 
 =head2 Example
-# Example for sort
+# Example for splice
 
 =end comment
 
@@ -303,7 +329,7 @@ B<Gnome::Gio::ListStore>:item-type.  undefined is not permitted.
 
 This function is more efficient than C<.insert()> and
 C<.remove()>, because it only emits
- I<items-changed defined in Gnome::Gio::ListStore> once for the change.
+ I<items-changed> defined in C<Gnome::Gio::ListStore> once for the change.
 
 This function takes a ref on each item in C<$additions>.
 
@@ -318,13 +344,6 @@ method splice ( UInt() $position, UInt() $n-removals, Array $additions, UInt() $
 =item $n-removals; the number of items to remove.
 =item $additions; the items to add.
 =item $n-additions; the number of items to add.
-
-=begin comment
-
-=head2 Example
-# Example for splice
-
-=end comment
 
 =end pod
 

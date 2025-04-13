@@ -1,4 +1,4 @@
-=comment Package: Gio, C-Source: io
+=comment Package: Gio, C-Source: menu
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -6,19 +6,14 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gio::MenuItem
-
+=TITLE Gnome::Gio::MenuItem
 =head1 Description
 
 B<Gnome::Gio::MenuItem> is an opaque structure type.  You must access it using the
 functions below.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/MenuItem.png> :width<50%> :class<inline>
 
 =begin comment
 
@@ -55,7 +50,7 @@ Creates a new B<Gnome::Gio::MenuItem>.
 If C<$label> is non-undefined it is used to set the "label" attribute of the
 new item.
 
-If C<$detailed_action> is non-undefined it is used to set the "action" and
+If C<$detailed-action> is non-undefined it is used to set the "action" and
 possibly the "target" attribute of the new item.  See
 C<.set-detailed-action()> for more information.
 
@@ -81,7 +76,7 @@ method new-menuitem ( Str $label, Str $detailed-action --> Gnome::Gio::MenuItem 
 
 Creates a B<Gnome::Gio::MenuItem> as an exact copy of an existing menu item in a
 B<Gnome::Gio::MenuModel>.
- C<$item_index> must be valid (ie: be sure to call
+ C<$item-index> must be valid (ie: be sure to call
 g_menu_model_get_n_items() first).
 
 =begin code
@@ -111,7 +106,7 @@ C<.set-section()>.
 
 The effect of having one menu appear as a section of another is
 exactly as it sounds: the items from C<$section> become a direct part of
-the menu that C<$menu_item> is added to.
+the menu that C<$menu-item> is added to.
 
 Visual separation is typically displayed between two non-empty
 sections.  If C<$label> is non-undefined then it will be encorporated into
@@ -223,10 +218,10 @@ method new-submenu ( Str $label, N-Object() $submenu --> Gnome::Gio::MenuItem \)
 =head2 get-attribute
 This function is not yet available
 
-Queries the named C<$attribute> on C<$menu_item>.
+Queries the named C<$attribute> on C<$menu-item>.
 
 If the attribute exists and matches the B<Gnome::Glib::N-VariantType> corresponding
-to C<$format_string> then C<$format_string> is used to deconstruct the
+to C<$format-string> then C<$format-string> is used to deconstruct the
 value into the positional parameters and C<True> is returned.
 
 If the attribute does not exist, or it does exist but has the wrong
@@ -257,18 +252,18 @@ Return value; C<True> if the named attribute was found with the expected
 =begin pod
 =head2 get-attribute-value
 
-Queries the named C<$attribute> on C<$menu_item>.
+Queries the named C<$attribute> on C<$menu-item>.
 
-If C<$expected_type> is specified and the attribute does not have this
+If C<$expected-type> is specified and the attribute does not have this
 type, undefined is returned.  undefined is also returned if the attribute
 simply does not exist.
 
 =begin code
-method get-attribute-value ( Str $attribute, CArray[N-VariantType] $expected-type --> CArray[N-Variant] )
+method get-attribute-value ( Str $attribute, N-Object $expected-type --> N-Object )
 =end code
 
 =item $attribute; the attribute name to query.
-=item $expected-type; the expected type of the attribute.
+=item $expected-type; the expected type of the attribute
 
 Return value; the attribute value, or undefined. 
 
@@ -285,7 +280,7 @@ Return value; the attribute value, or undefined.
 =begin pod
 =head2 get-link
 
-Queries the named C<$link> on C<$menu_item>.
+Queries the named C<$link> on C<$menu-item>.
 
 =begin code
 method get-link ( Str $link --> N-Object )
@@ -309,13 +304,13 @@ Return value; the link, or undefined.
 =head2 set-action-and-target
 This function is not yet available
 
-Sets or unsets the "action" and "target" attributes of C<$menu_item>.
+Sets or unsets the "action" and "target" attributes of C<$menu-item>.
 
 If C<$action> is undefined then both the "action" and "target" attributes
-are unset (and C<$format_string> is ignored along with the positional
+are unset (and C<$format-string> is ignored along with the positional
 parameters).
 
-If C<$action> is non-undefined then the "action" attribute is set. C<$format_string> is then inspected.  If it is non-undefined then the proper
+If C<$action> is non-undefined then the "action" attribute is set. C<$format-string> is then inspected.  If it is non-undefined then the proper
 position parameters are collected to create a B<Gnome::Glib::N-Variant> instance to
 use as the target value.  If it is undefined then the positional
 parameters are ignored and the "target" attribute is unset.
@@ -349,13 +344,13 @@ method set-action-and-target ( Str $action, Str $format-string, … )
 =begin pod
 =head2 set-action-and-target-value
 
-Sets or unsets the "action" and "target" attributes of C<$menu_item>.
+Sets or unsets the "action" and "target" attributes of C<$menu-item>.
 
 If C<$action> is undefined then both the "action" and "target" attributes
-are unset (and C<$target_value> is ignored).
+are unset (and C<$target-value> is ignored).
 
 If C<$action> is non-undefined then the "action" attribute is set.  The
-"target" attribute is then set to the value of C<$target_value> if it is
+"target" attribute is then set to the value of C<$target-value> if it is
 non-undefined or unset otherwise.
 
 Normal menu items (ie: not submenu, section or other custom item
@@ -387,11 +382,11 @@ C<.set-detailed-action()> for two equivalent calls that are
 probably more convenient for most uses.
 
 =begin code
-method set-action-and-target-value ( Str $action, CArray[N-Variant] $target-value )
+method set-action-and-target-value ( Str $action, N-Object $target-value )
 =end code
 
 =item $action; the name of the action for this item.
-=item $target-value; a B<Gnome::Glib::N-Variant> to use as the action target.
+=item $target-value; a B<Gnome::Glib::N-Variant> to use as the action target
 
 =begin comment
 
@@ -407,7 +402,7 @@ method set-action-and-target-value ( Str $action, CArray[N-Variant] $target-valu
 =head2 set-attribute
 This function is not yet available
 
-Sets or unsets an attribute on C<$menu_item>.
+Sets or unsets an attribute on C<$menu-item>.
 
 The attribute to set or unset is specified by C<$attribute>. This
 can be one of the standard attribute names C<G_MENU_ATTRIBUTE_LABEL>,
@@ -417,7 +412,7 @@ Attribute names are restricted to lowercase characters, numbers
 and '-'. Furthermore, the names must begin with a lowercase character,
 must not end with a '-', and must not contain consecutive dashes.
 
-If C<$format_string> is non-undefined then the proper position parameters
+If C<$format-string> is non-undefined then the proper position parameters
 are collected to create a B<Gnome::Glib::N-Variant> instance to use as the attribute
 value.  If it is undefined then the positional parameterrs are ignored
 and the named attribute is unset.
@@ -446,7 +441,7 @@ method set-attribute ( Str $attribute, Str $format-string, … )
 =begin pod
 =head2 set-attribute-value
 
-Sets or unsets an attribute on C<$menu_item>.
+Sets or unsets an attribute on C<$menu-item>.
 
 The attribute to set or unset is specified by C<$attribute>. This
 can be one of the standard attribute names C<G_MENU_ATTRIBUTE_LABEL>,
@@ -467,11 +462,11 @@ See also C<.set-attribute()> for a more convenient way to do
 the same.
 
 =begin code
-method set-attribute-value ( Str $attribute, CArray[N-Variant] $value )
+method set-attribute-value ( Str $attribute, N-Object $value )
 =end code
 
 =item $attribute; the attribute to set.
-=item $value; a B<Gnome::Glib::N-Variant> to use as the value, or undefined.
+=item $value; a B<Gnome::Glib::N-Variant> to use as the value, or undefined
 
 =begin comment
 
@@ -486,9 +481,9 @@ method set-attribute-value ( Str $attribute, CArray[N-Variant] $value )
 =begin pod
 =head2 set-detailed-action
 
-Sets the "action" and possibly the "target" attribute of C<$menu_item>.
+Sets the "action" and possibly the "target" attribute of C<$menu-item>.
 
-The format of C<$detailed_action> is the same format parsed by
+The format of C<$detailed-action> is the same format parsed by
 g_action_parse_detailed_name().
 
 See C<.set-action-and-target()> or
@@ -517,7 +512,7 @@ method set-detailed-action ( Str $detailed-action )
 =begin pod
 =head2 set-icon
 
-Sets (or unsets) the icon on C<$menu_item>.
+Sets (or unsets) the icon on C<$menu-item>.
 
 This call is the same as calling g_icon_serialize() and using the
 result as the value to C<.set-attribute-value()> for
@@ -549,7 +544,7 @@ method set-icon ( N-Object() $icon )
 =begin pod
 =head2 set-label
 
-Sets or unsets the "label" attribute of C<$menu_item>.
+Sets or unsets the "label" attribute of C<$menu-item>.
 
 If C<$label> is non-undefined it is used as the label for the menu item.  If
 it is undefined then the label attribute is unset.
@@ -573,7 +568,7 @@ method set-label ( Str $label )
 =begin pod
 =head2 set-link
 
-Creates a link from C<$menu_item> to C<$model> if non-undefined, or unsets it.
+Creates a link from C<$menu-item> to C<$model> if non-undefined, or unsets it.
 
 Links are used to establish a relationship between a particular menu
 item and another menu.  For example, C<G_MENU_LINK_SUBMENU> is used to
@@ -604,11 +599,11 @@ method set-link ( Str $link, N-Object() $model )
 =begin pod
 =head2 set-section
 
-Sets or unsets the "section" link of C<$menu_item> to C<$section>.
+Sets or unsets the "section" link of C<$menu-item> to C<$section>.
 
 The effect of having one menu appear as a section of another is
 exactly as it sounds: the items from C<$section> become a direct part of
-the menu that C<$menu_item> is added to.  See C<.new-section()>
+the menu that C<$menu-item> is added to.  See C<.new-section()>
 for more information about what it means for a menu item to be a
 section.
 
@@ -631,7 +626,7 @@ method set-section ( N-Object() $section )
 =begin pod
 =head2 set-submenu
 
-Sets or unsets the "submenu" link of C<$menu_item> to C<$submenu>.
+Sets or unsets the "submenu" link of C<$menu-item> to C<$submenu>.
 
 If C<$submenu> is non-undefined, it is linked to.  If it is undefined then the
 link is unset.

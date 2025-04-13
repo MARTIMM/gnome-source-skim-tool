@@ -6,24 +6,26 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gio::Application
-
+=TITLE Gnome::Gio::Application
 =head1 Description
 
-A B<Gnome::Gio::Application> is the foundation of an application.  It wraps some
+B<Gnome::Gio::Application> is the core class for application support.
+
+A B<Gnome::Gio::Application> is the foundation of an application. It wraps some
 low-level platform-specific services and is intended to act as the
 foundation for higher-level application classes such as
-B<GtkApplication> or #MxApplication.  In general, you should not use
+B<GtkApplication> or B<MxApplication>. In general, you should not use
 this class outside of a higher level framework.
 
-GApplication provides convenient life cycle management by maintaining
+B<Gnome::Gio::Application> provides convenient life-cycle management by maintaining
 a "use count" for the primary application instance. The use count can
-be changed using C<.hold()> and C<.release()>. If
-it drops to zero, the application exits. Higher-level classes such as
-B<GtkApplication> employ the use count to ensure that the application
-stays alive as long as it has any opened windows.
+be changed using C<.hold()> and
+C<.release()>. If it drops to zero, the application
+exits. Higher-level classes such as B<GtkApplication> employ the use count
+to ensure that the application stays alive as long as it has any opened
+windows.
 
-Another feature that GApplication (optionally) provides is process
+Another feature that B<Gnome::Gio::Application> (optionally) provides is process
 uniqueness. Applications can make use of this functionality by
 providing a unique application ID. If given, only one application
 with this ID can be running at a time per session. The session
@@ -48,36 +50,41 @@ is not the primary instance then a signal is sent to the primary
 instance and C<.run()> promptly returns. See the code
 examples below.
 
-If used, the expected form of an application identifier is the same as
-that of of a
+If used, the expected form of an application identifier is the
+same as that of a
 [D-Bus well-known bus name](https://dbus.freedesktop.org/doc/dbus-specification.html#message-protocol-names-bus).
-Examples include: B<com.example.MyApp>, B<org.example.internal_apps.Calculator>,
-B<org._7_zip.Archiver>.
-For details on valid application identifiers, see C<.id-is-valid()>.
+Examples include: B<com>.example.MyApp`, B<org>.example.internal_apps.Calculator`,
+B<org>._7_zip.Archiver`.
+For details on valid application identifiers, see C<.Application.id-is-valid() in package Gnome::Gio>.
 
 On Linux, the application identifier is claimed as a well-known bus name
-on the user's session bus.  This means that the uniqueness of your
-application is scoped to the current session.  It also means that your
+on the user's session bus. This means that the uniqueness of your
+application is scoped to the current session. It also means that your
 application may provide additional services (through registration of other
-object paths) at that bus name.  The registration of these object paths
-should be done with the shared GDBus session bus.  Note that due to the
+object paths) at that bus name. The registration of these object paths
+should be done with the shared GDBus session bus. Note that due to the
 internal architecture of GDBus, method calls can be dispatched at any time
-(even if a main loop is not running).  For this reason, you must ensure that
+(even if a main loop is not running). For this reason, you must ensure that
 any object paths that you wish to register are registered before B<Gnome::Gio::Application>
 attempts to acquire the bus name of your application (which happens in
-C<.register()>).  Unfortunately, this means that you cannot use
-C<.get-is-remote()> to decide if you want to register object paths.
+C<.register()>). Unfortunately, this means that you cannot
+use I<is-remote defined in Gnome::Gio::Application> to decide if you want to register
+object paths.
 
-GApplication also implements the B<Gnome::Gio::R-ActionGroup> and B<Gnome::Gio::R-ActionMap>
+B<Gnome::Gio::Application> also implements the B<Gnome::Gio::Application> and B<Gnome::Gio::Application>
 interfaces and lets you easily export actions by adding them with
-g_action_map_add_action(). When invoking an action by calling
-g_action_group_activate_action() on the application, it is always
+C<.add-action()> in class C<Gnome::Gio::R-ActionMap>. When invoking an action by calling
+C<.activate-action()> in class C<Gnome::Gio::R-ActionGroup> on the application, it is always
 invoked in the primary instance. The actions are also exported on
-the session bus, and GIO provides the B<Gnome::Gio::DBusActionGroup> wrapper to
-conveniently access them remotely. GIO provides a B<Gnome::Gio::DBusMenuModel> wrapper
-for remote access to exported B<GMenuModels>.
+the session bus, and GIO provides the B<Gnome::Gio::Application> wrapper to
+conveniently access them remotely. GIO provides a B<Gnome::Gio::Application> wrapper
+for remote access to exported B<Gnome::Gio::Application>s.
 
-There is a number of different entry points into a GApplication:
+Note: Due to the fact that actions are exported on the session bus,
+using B<maybe> parameters is not supported, since D-Bus does not support
+B<maybe> types.
+
+There is a number of different entry points into a B<Gnome::Gio::Application>:
 
 =item via 'Activate' (i.e. just starting the application)
 
@@ -87,50 +94,47 @@ There is a number of different entry points into a GApplication:
 
 =item via activating an action
 
-The  I<startup> signal lets you handle the application
+The [signal C<$Gio>.Application::startup] signal lets you handle the application
 initialization for all of these in a single place.
 
 Regardless of which of these entry points is used to start the
-application, GApplication passes some ‘platform data’ from the
+application, B<Gnome::Gio::Application> passes some ‘platform data’ from the
 launching instance to the primary instance, in the form of a
-B<Gnome::Glib::N-Variant> dictionary mapping strings to variants. To use platform
-data, override the C<$before_emit> or C<$after_emit> virtual functions
+ B<Variant>  dictionary mapping strings to variants. To use platform
+data, override the [vfunc C<$Gio>.Application.before_emit] or
+[vfunc C<$Gio>.Application.after_emit] virtual functions
 in your B<Gnome::Gio::Application> subclass. When dealing with
-B<Gnome::Gio::ApplicationCommandLine> objects, the platform data is
-directly available via C<.command-line-get-cwd()>,
-C<.command-line-get-environ()> and
-C<.command-line-get-platform-data()>.
+B<Gnome::Gio::Application> objects, the platform data is
+directly available via C<.get-cwd()> in class C<Gnome::Gio::ApplicationCommandLine>,
+C<.get-environ()> in class C<Gnome::Gio::ApplicationCommandLine> and
+C<.get-platform-data()> in class C<Gnome::Gio::ApplicationCommandLine>.
 
 As the name indicates, the platform data may vary depending on the
 operating system, but it always includes the current directory (key
-"cwd"), and optionally the environment (ie the set of environment
-variables and their values) of the calling process (key "environ").
+B<cwd>), and optionally the environment (ie the set of environment
+variables and their values) of the calling process (key B<environ>).
 The environment is only added to the platform data if the
-C<G_APPLICATION_SEND_ENVIRONMENT> flag is set. B<Gnome::Gio::Application> subclasses
-can add their own platform data by overriding the C<$add_platform_data>
-virtual function. For instance, B<GtkApplication> adds startup notification
-data in this way.
+B<G_APPLICATION_SEND_ENVIRONMENT> flag is set. B<Gnome::Gio::Application> subclasses
+can add their own platform data by overriding the
+[vfunc C<$Gio>.Application.add_platform_data] virtual function. For instance,
+B<GtkApplication> adds startup notification data in this way.
 
 To parse commandline arguments you may handle the
- I<command-line> signal or override the local_command_line()
-vfunc, to parse them in either the primary instance or the local instance,
-respectively.
+[signal C<$Gio>.Application::command-line] signal or override the
+[vfunc C<$Gio>.Application.local_command_line] virtual funcion, to parse them in
+either the primary instance or the local instance, respectively.
 
-For an example of opening files with a GApplication, see
+For an example of opening files with a B<Gnome::Gio::Application>, see
 [gapplication-example-open.c](https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gapplication-example-open.c).
 
-For an example of using actions with GApplication, see
+For an example of using actions with B<Gnome::Gio::Application>, see
 [gapplication-example-actions.c](https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gapplication-example-actions.c).
 
-For an example of using extra D-Bus hooks with GApplication, see
+For an example of using extra D-Bus hooks with B<Gnome::Gio::Application>, see
 [gapplication-example-dbushooks.c](https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gapplication-example-dbushooks.c).
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Application.png> :width<50%> :class<inline>
 
 =begin comment
 
@@ -243,11 +247,11 @@ method add-main-option ( Str $long-name, Int() $short-name, UInt $flags, GOption
 
 =item $long-name; the long name of an option used to specify it in a commandline.
 =item $short-name; the short name of an option.
-=item $flags; flags from B<Gnome::Glib::T-OptionEntry>.
-=item $arg; the type of the option, as a B<Gnome::Glib::T-OptionEntry>.
-=item $description; the description for the option in B<--help> output.
+=item $flags; flags from B<Gnome::Glib::T-option>.
+=item $arg; the type of the option, as a B<Gnome::Glib::T-option>.
+=item $description; the description for the option in `--help` output.
 =item $arg-description; the placeholder to use for the extra argument
-   parsed by the option in B<--help> output.
+   parsed by the option in `--help` output.
 
 =begin comment
 
@@ -261,7 +265,6 @@ method add-main-option ( Str $long-name, Int() $short-name, UInt $flags, GOption
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 add-main-option-entries
-This function is not yet available
 
 Adds main option entries to be handled by C<$application>.
 
@@ -269,15 +272,17 @@ This function is comparable to g_option_context_add_main_entries().
 
 After the commandline arguments are parsed, the
  I<handle-local-options> signal will be emitted.  At this
-point, the application can inspect the values pointed to by C<$arg_data>
+point, the application can inspect the values pointed to by C<$arg-data>
 in the given B<GOptionEntrys>.
 
-Unlike B<GOptionContext>, B<Gnome::Gio::Application> supports giving a undefined C<$arg_data> for a non-callback B<Gnome::Glib::N-OptionEntry>.  This results in the
+Unlike B<GOptionContext>, B<Gnome::Gio::Application> supports giving a undefined C<$arg-data> for a non-callback B<Gnome::Glib::N-OptionEntry>.  This results in the
 argument in question being packed into a B<Gnome::Glib::N-VariantDict> which is also
 passed to  I<handle-local-options>, where it can be
 inspected and modified.  If C<G_APPLICATION_HANDLES_COMMAND_LINE> is
 set, then the resulting dictionary is sent to the primary instance,
 where C<.command-line-get-options-dict()> will return it.
+As it has been passed outside the process at this point, the types of all
+values in the options dict must be checked before being used.
 This "packing" is done according to the type of the argument --
 booleans for normal flags, strings for strings, bytestrings for
 filenames, etc.  The packing only occurs if the flag is given (ie: we
@@ -287,7 +292,7 @@ In general, it is recommended that all commandline arguments are
 parsed locally.  The options dictionary should then be used to
 transmit the result of the parsing to the primary instance, where
 g_variant_dict_lookup() can be used.  For local options, it is
-possible to either use C<$arg_data> in the usual way, or to consult (and
+possible to either use C<$arg-data> in the usual way, or to consult (and
 potentially remove) the option from the options dictionary.
 
 This function is new in GLib 2.40.  Before then, the only real choice
@@ -299,7 +304,7 @@ treated as errors.  Unrecognised options have never been ignored when
 C<G_APPLICATION_HANDLES_COMMAND_LINE> is unset.
 
 If  I<handle-local-options> needs to see the list of
-filenames, then the use of C<G_OPTION_REMAINING> is recommended.  If C<$arg_data> is undefined then C<G_OPTION_REMAINING> can be used as a key into
+filenames, then the use of C<G_OPTION_REMAINING> is recommended.  If C<$arg-data> is undefined then C<G_OPTION_REMAINING> can be used as a key into
 the options dictionary.  If you do use C<G_OPTION_REMAINING> then you
 need to handle these arguments for yourself because once they are
 consumed, they will no longer be visible to the default handling
@@ -308,20 +313,20 @@ consumed, they will no longer be visible to the default handling
 It is important to use the proper GVariant format when retrieving
 the options with g_variant_dict_lookup():
 =item for C<G_OPTION_ARG_NONE>, use B<b>
-=item for C<G_OPTION_ARG_STRING>, use B<&s>
+=item for C<G_OPTION_ARG_STRING>, use `&s`
 =item for C<G_OPTION_ARG_INT>, use B<i>
 =item for %G_OPTION_ARG_INT64, use B<x>
 =item for C<G_OPTION_ARG_DOUBLE>, use B<d>
-=item for C<G_OPTION_ARG_FILENAME>, use B<^&ay>
-=item for C<G_OPTION_ARG_STRING_ARRAY>, use B<^a&s>
-=item for C<G_OPTION_ARG_FILENAME_ARRAY>, use B<^a&ay>
+=item for C<G_OPTION_ARG_FILENAME>, use `^&ay`
+=item for C<G_OPTION_ARG_STRING_ARRAY>, use `^a&s`
+=item for C<G_OPTION_ARG_FILENAME_ARRAY>, use `^a&ay`
 
 =begin code
-method add-main-option-entries ( CArray[N-OptionEntry]  $entries )
+method add-main-option-entries ( N-Object $entries )
 =end code
 
-=item $entries; a
-          undefined-terminated list of B<GOptionEntrys>.
+=item $entries; the
+  main options for the application
 
 =begin comment
 
@@ -335,14 +340,13 @@ method add-main-option-entries ( CArray[N-OptionEntry]  $entries )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 add-option-group
-This function is not yet available
 
 Adds a B<Gnome::Glib::N-OptionGroup> to the commandline handling of C<$application>.
 
 This function is comparable to g_option_context_add_group().
 
 Unlike C<.add-main-option-entries()>, this function does
-not deal with undefined C<$arg_data> and never transmits options to the
+not deal with undefined C<$arg-data> and never transmits options to the
 primary instance.
 
 The reason for that is because, by the time the options arrive at the
@@ -355,7 +359,7 @@ a very long time.
 
 This means that the options from B<Gnome::Glib::N-OptionGroup> are only really usable
 in the case that the instance of the application being run is the
-first instance.  Passing options like B<--display=> or B<--gdk-debug=>
+first instance.  Passing options like `--display=` or `--gdk-debug=`
 on future runs will have no effect on the existing primary instance.
 
 Calling this function will cause the options in the supplied option
@@ -364,10 +368,10 @@ new functionality whereby unrecognised options are rejected even if
 C<G_APPLICATION_HANDLES_COMMAND_LINE> was given.
 
 =begin code
-method add-option-group ( CArray[N-OptionGroup]  $group )
+method add-option-group ( N-Object $group )
 =end code
 
-=item $group; (transfer ownership: full) a B<Gnome::Glib::N-OptionGroup>.
+=item $group; (transfer ownership: full) a B<Gnome::Glib::N-OptionGroup>
 
 =begin comment
 
@@ -498,7 +502,7 @@ Return value; the object path, or undefined.
 
 Gets the flags for C<$application>.
 
-See B<Gnome::Gio::T-Ioenums>.
+See B<Gnome::Gio::T-ioenums>.
 
 =begin code
 method get-flags (--> UInt )
@@ -640,12 +644,33 @@ Return value; the base resource path, if one is set.
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 get-version
+
+Gets the version of C<$application>.
+
+=begin code
+method get-version (--> Str )
+=end code
+
+Return value; the version of C<$application>. 
+
+=begin comment
+
+=head2 Example
+# Example for hold
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
 =head2 hold
 
 Increases the use count of C<$application>.
 
 Use this function to indicate that the application has a reason to
-continue to run.  For example, C<.hold()> is called by GTK+
+continue to run.  For example, C<.hold()> is called by GTK
 when a toplevel window is on the screen.
 
 To cancel the hold, call C<.release()>.
@@ -657,7 +682,7 @@ method hold ( )
 =begin comment
 
 =head2 Example
-# Example for hold
+# Example for mark-busy
 
 =end comment
 
@@ -687,7 +712,7 @@ method mark-busy ( )
 =begin comment
 
 =head2 Example
-# Example for mark-busy
+# Example for open
 
 =end comment
 
@@ -701,7 +726,7 @@ Opens the given files.
 
 In essence, this results in the  I<open> signal being emitted
 in the primary instance.
- C<$n_files> must be greater than zero.
+ C<$n-files> must be greater than zero.
  C<$hint> is simply passed through to the I<open> signal.  It is
 intended to be used by applications that have multiple modes for
 opening files (eg: "view" vs "edit", etc).  Unless you have a need
@@ -721,7 +746,7 @@ method open ( N-Object() $files, Int() $n-files, Str $hint )
 =begin comment
 
 =head2 Example
-# Example for open
+# Example for quit
 
 =end comment
 
@@ -752,7 +777,7 @@ method quit ( )
 =begin comment
 
 =head2 Example
-# Example for quit
+# Example for register
 
 =end comment
 
@@ -807,7 +832,7 @@ Return value; C<True> if registration succeeded.
 =begin comment
 
 =head2 Example
-# Example for register
+# Example for release
 
 =end comment
 
@@ -831,7 +856,7 @@ method release ( )
 =begin comment
 
 =head2 Example
-# Example for release
+# Example for run
 
 =end comment
 
@@ -858,7 +883,7 @@ C<.add-main-option-entries()>.  After this, the
 application can inspect the values of its B<GOptionEntrys>.
 
  I<handle-local-options> is a good place to handle options
-such as B<--version>, where an immediate reply from the local process is
+such as `--version`, where an immediate reply from the local process is
 desired (instead of communicating with an already-running instance).
 A  I<handle-local-options> handler can stop further processing
 by returning a non-negative value, which then becomes the exit status of
@@ -929,7 +954,7 @@ Return value; the exit status.
 =begin comment
 
 =head2 Example
-# Example for run
+# Example for send-notification
 
 =end comment
 
@@ -964,6 +989,9 @@ notifications without an id.
 If C<$notification> is no longer relevant, it can be withdrawn with
 C<.withdraw-notification()>.
 
+It is an error to call this function if C<$application> has no
+application ID.
+
 =begin code
 method send-notification ( Str $id, N-Object() $notification )
 =end code
@@ -974,7 +1002,31 @@ method send-notification ( Str $id, N-Object() $notification )
 =begin comment
 
 =head2 Example
-# Example for send-notification
+# Example for set-application-id
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-action-group
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.32>
+
+This used to be how actions were associated with a B<Gnome::Gio::Application>.
+Now there is B<Gnome::Gio::R-ActionMap> for that.
+
+=begin code
+method set-action-group ( N-Object() $action-group )
+=end code
+
+=item $action-group; a B<Gnome::Gio::R-ActionGroup>, or undefined.
+
+=begin comment
+
+=head2 Example
+# Example for set-default
 
 =end comment
 
@@ -1001,7 +1053,7 @@ method set-application-id ( Str $application-id )
 =begin comment
 
 =head2 Example
-# Example for set-application-id
+# Example for set-flags
 
 =end comment
 
@@ -1024,7 +1076,7 @@ method set-default ( )
 =begin comment
 
 =head2 Example
-# Example for set-default
+# Example for set-inactivity-timeout
 
 =end comment
 
@@ -1039,7 +1091,7 @@ Sets the flags for C<$application>.
 The flags can only be modified if C<$application> has not yet been
 registered.
 
-See B<Gnome::Gio::T-Ioenums>.
+See B<Gnome::Gio::T-ioenums>.
 
 =begin code
 method set-flags ( UInt $flags )
@@ -1050,7 +1102,7 @@ method set-flags ( UInt $flags )
 =begin comment
 
 =head2 Example
-# Example for set-flags
+# Example for set-option-context-description
 
 =end comment
 
@@ -1078,7 +1130,7 @@ method set-inactivity-timeout ( UInt() $inactivity-timeout )
 =begin comment
 
 =head2 Example
-# Example for set-inactivity-timeout
+# Example for set-option-context-parameter-string
 
 =end comment
 
@@ -1096,13 +1148,13 @@ See g_option_context_set_description() for more information.
 method set-option-context-description ( Str $description )
 =end code
 
-=item $description; a string to be shown in B<--help> output
+=item $description; a string to be shown in `--help` output
  after the list of options, or undefined.
 
 =begin comment
 
 =head2 Example
-# Example for set-option-context-description
+# Example for set-option-context-summary
 
 =end comment
 
@@ -1117,19 +1169,19 @@ Sets the parameter string to be used by the commandline handling of C<$applicati
 This function registers the argument to be passed to g_option_context_new()
 when the internal B<GOptionContext> of C<$application> is created.
 
-See g_option_context_new() for more information about C<$parameter_string>.
+See g_option_context_new() for more information about C<$parameter-string>.
 
 =begin code
 method set-option-context-parameter-string ( Str $parameter-string )
 =end code
 
 =item $parameter-string; a string which is displayed
-  in the first line of B<--help> output, after the usage summary B<programname [OPTION...]>..
+  in the first line of `--help` output, after the usage summary B<programname> [OPTION...]`..
 
 =begin comment
 
 =head2 Example
-# Example for set-option-context-parameter-string
+# Example for set-resource-base-path
 
 =end comment
 
@@ -1147,13 +1199,13 @@ See g_option_context_set_summary() for more information.
 method set-option-context-summary ( Str $summary )
 =end code
 
-=item $summary; a string to be shown in B<--help> output
+=item $summary; a string to be shown in `--help` output
  before the list of options, or undefined.
 
 =begin comment
 
 =head2 Example
-# Example for set-option-context-summary
+# Example for unbind-busy-property
 
 =end comment
 
@@ -1206,7 +1258,32 @@ method set-resource-base-path ( Str $resource-path )
 =begin comment
 
 =head2 Example
-# Example for set-resource-base-path
+# Example for unmark-busy
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-version
+
+Sets the version number of C<$application>. This will be used to implement
+a `--version` command line argument
+
+The application version can only be modified if C<$application> has not yet
+been registered.
+
+=begin code
+method set-version ( Str $version )
+=end code
+
+=item $version; the version of C<$application>.
+
+=begin comment
+
+=head2 Example
+# Example for withdraw-notification
 
 =end comment
 
@@ -1229,7 +1306,7 @@ method unbind-busy-property ( gpointer $object, Str $property )
 =begin comment
 
 =head2 Example
-# Example for unbind-busy-property
+# Example for get-default
 
 =end comment
 
@@ -1254,7 +1331,7 @@ method unmark-busy ( )
 =begin comment
 
 =head2 Example
-# Example for unmark-busy
+# Example for id-is-valid
 
 =end comment
 
@@ -1287,7 +1364,7 @@ method withdraw-notification ( Str $id )
 =begin comment
 
 =head2 Example
-# Example for withdraw-notification
+# Example for signal activate
 
 =end comment
 
@@ -1322,7 +1399,7 @@ Return value; the default application for this process, or undefined.
 =begin comment
 
 =head2 Example
-# Example for get-default
+# Example for signal command-line
 
 =end comment
 
@@ -1332,7 +1409,7 @@ Return value; the default application for this process, or undefined.
 =begin pod
 =head2 id-is-valid
 
-Checks if C<$application_id> is a valid application identifier.
+Checks if C<$application-id> is a valid application identifier.
 
 A valid ID is required for calls to C<.new-application()> and
 C<.set-application-id()>.
@@ -1343,20 +1420,20 @@ For convenience, the restrictions on application identifiers are
 reproduced here:
 
 =item Application identifiers are composed of 1 or more elements separated by a
-  period (B<.>) character. All elements must contain at least one character.
+  period (`.`) character. All elements must contain at least one character.
 
-=item Each element must only contain the ASCII characters B<[A-Z][a-z][0-9]_->,
-  with B<-> discouraged in new application identifiers. Each element must not
+=item Each element must only contain the ASCII characters `[A-Z][a-z][0-9]_-`,
+  with `-` discouraged in new application identifiers. Each element must not
   begin with a digit.
 
-=item Application identifiers must contain at least one B<.> (period) character
+=item Application identifiers must contain at least one `.` (period) character
   (and thus at least two elements).
 
-=item Application identifiers must not begin with a B<.> (period) character.
+=item Application identifiers must not begin with a `.` (period) character.
 
 =item Application identifiers must not exceed 255 characters.
 
-Note that the hyphen (B<->) character is allowed in application identifiers,
+Note that the hyphen (`-`) character is allowed in application identifiers,
 but is problematic or not allowed in various specifications and APIs that
 refer to D-Bus, such as
 [Flatpak application IDs](http://docs.flatpak.org/en/latest/introduction.html#identifiers),
@@ -1376,7 +1453,7 @@ As with D-Bus interface names, if the author's DNS domain name contains
 hyphen/minus characters they should be replaced by underscores, and if it
 contains leading digits they should be escaped by prepending an underscore.
 For example, if the owner of 7-zip.org used an application identifier for an
-archiving application, it might be named B<org._7_zip.Archiver>.
+archiving application, it might be named B<org>._7_zip.Archiver`.
 
 =begin code
 method id-is-valid ( Str $application-id --> Bool )
@@ -1384,12 +1461,12 @@ method id-is-valid ( Str $application-id --> Bool )
 
 =item $application-id; a potential application identifier.
 
-Return value; C<True> if C<$application_id> is valid. 
+Return value; C<True> if C<$application-id> is valid. 
 
 =begin comment
 
 =head2 Example
-# Example for id-is-valid
+# Example for signal handle-local-options
 
 =end comment
 
@@ -1425,7 +1502,7 @@ method handler (
 =begin comment
 
 =head2 Example
-# Example for signal activate
+# Example for signal name-lost
 
 =end comment
 
@@ -1460,7 +1537,7 @@ Return value; An integer that is set as the exit status for the calling
 =begin comment
 
 =head2 Example
-# Example for signal command-line
+# Example for signal open
 
 =end comment
 
@@ -1475,7 +1552,7 @@ parsing using C<.add-main-option-entries()> and
 C<.add-option-group()>.
 
 Signal handlers can inspect C<$options> (along with values pointed to
-from the C<$arg_data> of an installed B<GOptionEntrys>) in order to
+from the C<$arg-data> of an installed B<GOptionEntrys>) in order to
 decide to perform certain actions, including direct local handling
 (which may be useful for options like --version).
 
@@ -1498,7 +1575,7 @@ g_action_group_activate_action() then you must be sure to register
 the application first.  You should probably not call
 C<.activate()> for yourself, however: just return -1 and
 allow the default handler to do it for you.  This will ensure that
-the B<--gapplication-service> switch works properly (i.e. no activation
+the `--gapplication-service` switch works properly (i.e. no activation
 in that case).
 
 Note that this signal is emitted from the default implementation of
@@ -1534,7 +1611,7 @@ the default option processing continue.
 =begin comment
 
 =head2 Example
-# Example for signal handle-local-options
+# Example for signal shutdown
 
 =end comment
 
@@ -1567,7 +1644,7 @@ Return value; C<True> if the signal has been handled
 =begin comment
 
 =head2 Example
-# Example for signal name-lost
+# Example for signal startup
 
 =end comment
 
@@ -1597,13 +1674,6 @@ method handler (
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
-=begin comment
-
-=head2 Example
-# Example for signal open
-
-=end comment
-
 =comment -----------------------------------------------------------------------
 =head3 shutdown
 
@@ -1624,13 +1694,6 @@ method handler (
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
-=begin comment
-
-=head2 Example
-# Example for signal shutdown
-
-=end comment
-
 =comment -----------------------------------------------------------------------
 =head3 startup
 
@@ -1650,13 +1713,6 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gio::Application> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
-
-=begin comment
-
-=head2 Example
-# Example for signal startup
-
-=end comment
 
 =end pod
 

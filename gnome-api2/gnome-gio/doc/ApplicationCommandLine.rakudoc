@@ -6,8 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gio::ApplicationCommandLine
-
+=TITLE Gnome::Gio::ApplicationCommandLine
 =head1 Description
 
 B<Gnome::Gio::ApplicationCommandLine> represents a command-line invocation of
@@ -56,7 +55,7 @@ In more complicated cases, the handling of the commandline can be
 split between the launcher and the primary instance.
 
 In this example of split commandline handling, options that start
-with B<--local-> are handled locally, all other options are passed
+with `--local-` are handled locally, all other options are passed
 to the [signal C<$Gio>.Application::command-line] handler which runs in the primary
 instance.
 
@@ -74,12 +73,8 @@ hold the application until you are done with the commandline.
 The complete example can be found here:
 [gapplication-example-cmdline3.c](https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gapplication-example-cmdline3.c)
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/ApplicationCommandLine.png> :width<50%> :class<inline>
 
 =begin comment
 
@@ -119,7 +114,7 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 =begin pod
 =head2 create-file-for-arg
 
-Creates a B<Gnome::Gio::File> corresponding to a filename that was given as part
+Creates a B<Gnome::Gio::R-File> corresponding to a filename that was given as part
 of the invocation of C<$cmdline>.
 
 This differs from g_file_new_for_commandline_arg() in that it
@@ -132,7 +127,7 @@ method create-file-for-arg ( Str $arg --> N-Object )
 
 =item $arg; an argument from C<$cmdline>.
 
-Return value; a new B<Gnome::Gio::File>. 
+Return value; a new B<Gnome::Gio::R-File>. 
 
 =begin comment
 
@@ -477,9 +472,9 @@ method print ( Str $format, … )
 
 Prints a message using the stdout print handler in the invoking process.
 
-Unlike C<.print()>, C<$message> is not a B<printf()>-style
+Unlike C<.print()>, C<$message> is not a B<printf>()`-style
 format string. Use this function if C<$message> contains text you don't have
-control over, that could include B<printf()> escape sequences.
+control over, that could include B<printf>()` escape sequences.
 
 =begin code
 method print-literal ( Str $message )
@@ -550,8 +545,8 @@ command_line (GApplication            *application,
 Prints a message using the stderr print handler in the invoking process.
 
 Unlike C<.printerr()>, C<$message> is not
-a B<printf()>-style format string. Use this function if C<$message> contains text
-you don't have control over, that could include B<printf()> escape sequences.
+a B<printf>()`-style format string. Use this function if C<$message> contains text
+you don't have control over, that could include B<printf>()` escape sequences.
 
 =begin code
 method printerr-literal ( Str $message )
@@ -618,7 +613,7 @@ test_application_class_init (TestApplicationClass *class)
 Sets the exit status that will be used when the invoking process
 exits.
 
-The return value of the  I<command-line defined in Gnome::Gio::ApplicationCommandLine> signal is
+The return value of the  I<command-line> defined in C<Gnome::Gio::ApplicationCommandLine> signal is
 passed to this function when the handler returns.  This is the usual
 way of setting the exit status.
 

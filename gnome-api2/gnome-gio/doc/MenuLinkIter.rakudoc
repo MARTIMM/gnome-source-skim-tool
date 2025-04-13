@@ -6,19 +6,14 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gio::MenuLinkIter
-
+=TITLE Gnome::Gio::MenuLinkIter
 =head1 Description
 
 B<Gnome::Gio::MenuLinkIter> is an opaque structure type.  You must access it using
 the functions below.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/MenuLinkIter.png> :width<50%> :class<inline>
 
 =begin comment
 
@@ -87,12 +82,12 @@ C<.get-name()> and C<.get-value()>.
 First the iterator is advanced to the next (possibly first) link.
 If that fails, then C<False> is returned and there are no other effects.
 
-If successful, C<$out_link> and C<$value> are set to the name and B<Gnome::Gio::MenuModel>
+If successful, C<$out-link> and C<$value> are set to the name and B<Gnome::Gio::MenuModel>
 of the link that has just been advanced to.  At this point,
 C<.get-name()> and C<.get-value()> will return the
 same values again.
 
-The value returned in C<$out_link> remains valid for as long as the iterator
+The value returned in C<$out-link> remains valid for as long as the iterator
 remains at the current position.  The value returned in C<$value> must
 be unreffed using g_object_unref() when it is no longer in use.
 

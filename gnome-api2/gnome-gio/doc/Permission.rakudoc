@@ -6,11 +6,10 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gio::Permission
-
+=TITLE Gnome::Gio::Permission
 =head1 Description
 
-A B<Gnome::Gio::Permission> represents the status of the caller's permission to
+A B<Gnome::Gio::Permission> represents the status of the caller’s permission to
 perform a certain action.
 
 You can query if the action is currently allowed and if it is
@@ -21,17 +20,13 @@ There is also an API to actually acquire the permission and one to
 release it.
 
 As an example, a B<Gnome::Gio::Permission> might represent the ability for the
-user to write to a B<Gnome::Gio::Settings> object.  This B<Gnome::Gio::Permission> object could
-then be used to decide if it is appropriate to show a "Click here to
-unlock" button in a dialog and to provide the mechanism to invoke
+user to write to a B<Gnome::Gio::Permission> object.  This B<Gnome::Gio::Permission> object
+could then be used to decide if it is appropriate to show a “Click here to
+unlock” button in a dialog and to provide the mechanism to invoke
 when that button is clicked.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Permission.png> :width<50%> :class<inline>
 
 =begin comment
 
@@ -117,11 +112,11 @@ This is the first half of the asynchronous version of
 C<.acquire()>.
 
 =begin code
-method acquire-async ( N-Object() $cancellable, &callback, gpointer $user-data )
+method acquire-async ( N-Object() $cancellable, GAsyncReadyCallback &callback, gpointer $user-data )
 =end code
 
 =item $cancellable; a B<Gnome::Gio::Cancellable>, or undefined.
-=item &callback; the B<Gnome::Gio::T-FileAttributeMatcher> to call when done. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
+=item GAsyncReadyCallback &callback; the B<Gnome::Gio::T-iotypes> to call when done. The function must be specified with the following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
 =item $user-data; the user data to pass to C<$callback>.
 
 =begin comment
@@ -147,8 +142,8 @@ C<.acquire()>.
 method acquire-finish ( N-Object() $result, CArray[N-Error] $err --> Bool )
 =end code
 
-=item $result; the B<Gnome::Gio::R-AsyncResult> given to the B<Gnome::Gio::T-FileAttributeMatcher>.
-=item $err; Error object. When defined an error can be returned when there is one.
+=item $result; the B<Gnome::Gio::R-AsyncResult> given to the B<Gnome::Gio::T-iotypes>.
+=item $err; Error object. When defined, an error can be returned when there is one.
 Use C<Pointer> when you want to ignore the error.
 .
 
@@ -283,7 +278,7 @@ method release ( N-Object() $cancellable, CArray[N-Error] $err --> Bool )
 =end code
 
 =item $cancellable; a B<Gnome::Gio::Cancellable>, or undefined.
-=item $err; Error object. When defined an error can be returned when there is one.
+=item $err; Error object. When defined, an error can be returned when there is one.
 Use C<Pointer> when you want to ignore the error.
 .
 
@@ -308,11 +303,11 @@ This is the first half of the asynchronous version of
 C<.release()>.
 
 =begin code
-method release-async ( N-Object() $cancellable, &callback, gpointer $user-data )
+method release-async ( N-Object() $cancellable, GAsyncReadyCallback &callback, gpointer $user-data )
 =end code
 
 =item $cancellable; a B<Gnome::Gio::Cancellable>, or undefined.
-=item &callback; the B<Gnome::Gio::T-FileAttributeMatcher> to call when done. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
+=item GAsyncReadyCallback &callback; the B<Gnome::Gio::T-iotypes> to call when done. The function must be specified with the following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
 =item $user-data; the user data to pass to C<$callback>.
 
 =begin comment
@@ -338,8 +333,8 @@ C<.release()>.
 method release-finish ( N-Object() $result, CArray[N-Error] $err --> Bool )
 =end code
 
-=item $result; the B<Gnome::Gio::R-AsyncResult> given to the B<Gnome::Gio::T-FileAttributeMatcher>.
-=item $err; Error object. When defined an error can be returned when there is one.
+=item $result; the B<Gnome::Gio::R-AsyncResult> given to the B<Gnome::Gio::T-iotypes>.
+=item $err; Error object. When defined, an error can be returned when there is one.
 Use C<Pointer> when you want to ignore the error.
 .
 

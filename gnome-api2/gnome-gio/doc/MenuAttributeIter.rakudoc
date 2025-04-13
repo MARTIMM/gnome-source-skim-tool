@@ -6,19 +6,14 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gio::MenuAttributeIter
-
+=TITLE Gnome::Gio::MenuAttributeIter
 =head1 Description
 
 B<Gnome::Gio::MenuAttributeIter> is an opaque structure type.  You must access it
 using the functions below.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/MenuAttributeIter.png> :width<50%> :class<inline>
 
 =begin comment
 
@@ -99,11 +94,11 @@ remains at the current position.  The value returned in C<$value> must
 be unreffed using g_variant_unref() when it is no longer in use.
 
 =begin code
-method get-next ( Array[Str] $out-name, CArray[N-Variant] $value --> Bool )
+method get-next ( Array[Str] $out-name, N-Object $value --> Bool )
 =end code
 
 =item $out-name; the type of the attribute.
-=item $value; (transfer ownership: full) the attribute value.
+=item $value; (transfer ownership: full) the attribute value
 
 Return value; C<True> on success, or C<False> if there is no additional
     attribute. 
@@ -126,7 +121,7 @@ Gets the value of the attribute at the current iterator position.
 The iterator is not advanced.
 
 =begin code
-method get-value (--> CArray[N-Variant] )
+method get-value (--> N-Object )
 =end code
 
 Return value; the value of the current attribute. 

@@ -1,4 +1,4 @@
-=comment Package: Gio, C-Source: io
+=comment Package: Gio, C-Source: menu
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -6,25 +6,20 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gio::Menu
-
+=TITLE Gnome::Gio::Menu
 =head1 Description
 
-B<Gnome::Gio::Menu> is a simple implementation of B<Gnome::Gio::MenuModel>.
-You populate a B<Gnome::Gio::Menu> by adding B<Gnome::Gio::MenuItem> instances to it.
+B<Gnome::Gio::Menu> is a simple implementation of B<Gnome::Gio::Menu>.
+You populate a B<Gnome::Gio::Menu> by adding B<Gnome::Gio::Menu> instances to it.
 
 There are some convenience functions to allow you to directly
-add items (avoiding B<Gnome::Gio::MenuItem>) for the common cases. To add
+add items (avoiding B<Gnome::Gio::Menu>) for the common cases. To add
 a regular item, use C<.insert()>. To add a section, use
 C<.insert-section()>. To add a submenu, use
 C<.insert-submenu()>.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Menu.png> :width<50%> :class<inline>
 
 =begin comment
 
