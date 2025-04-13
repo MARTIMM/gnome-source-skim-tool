@@ -10,6 +10,7 @@ use Test;
 use NativeCall;
 
 
+
 use Gnome::Gio::T-file:api<2>;
 use Gnome::Glib::T-error:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -24,22 +25,26 @@ my Gnome::Gio::T-file $file .= new;
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
   with $file {
-    my Str $uri;
-    my Str $arg;
-    my gint $io-priority;
-    my N-Object $result;
+    my CArray[N-Object] $iostream;
     my Str $cwd;
-    my gpointer $user-data;
-    sub callback ( N-Object $source-object, N-Object $res, gpointer $user-data ) {}
     my N-Object $cancellable;
+    my gpointer $user-data;
+    my CArray[N-Error] $err;
+    my Str $arg;
+    my Str $tmpl;
+    my Str $uri;
+    my gint $io-priority;
+    my gchar-pptr $args;
     my Str $path;
     my Str $parse-name;
-    my CArray[N-Object] $iostream;
-    my CArray[N-Error] $err;
-    my Str $tmpl;
+    my N-Object $result;
+    sub callback ( N-Object $source-object, N-Object $res, gpointer $data ) {}
 
 
 #`{{
+    #TM:0:file-new-build-filenamev()
+    ok .file-new-build-filenamev( $args), '.file-new-build-filenamev()';
+
     #TM:0:file-new-for-commandline-arg()
     ok .file-new-for-commandline-arg( $arg), '.file-new-for-commandline-arg()';
 

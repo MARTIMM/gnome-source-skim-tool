@@ -1,0 +1,686 @@
+=comment Package: Gio, C-Source: file
+use v6.d;
+
+#TL:1:Gnome::Gio::File:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+
+use Gnome::Gio::File:api<2>;
+#use Gnome::Gio::N-FileAttributeInfoList:api<2>;
+#use Gnome::Gio::T-fileattribute:api<2>;
+use Gnome::Gio::T-ioenums:api<2>;
+use Gnome::Glib::N-Bytes:api<2>;
+use Gnome::Glib::T-array:api<2>;
+use Gnome::Glib::T-error:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gio::File $r-file;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $r-file {
+    my Str $path;
+    my Str $tmpl;
+    my Str $cwd;
+    my Str $uri;
+    my CArray[N-Object] $iostream;
+    my CArray[N-Error] $err;
+    my Str $first-element;
+    my Str $parse-name;
+    my Str $arg;
+
+#`{{
+    #TC:0:new-build-filename()
+    $first-element = 'text';
+    $r-file .= new-build-filename( $first-element);
+    ok .is-valid, '.new-build-filename( $first-element)';
+
+    #TC:0:new-for-commandline-arg()
+    $arg = 'text';
+    $r-file .= new-for-commandline-arg( $arg);
+    ok .is-valid, '.new-for-commandline-arg( $arg)';
+
+    #TC:0:new-for-commandline-arg-and-cwd()
+    $arg = 'text';
+    $cwd = 'text';
+    $r-file .= new-for-commandline-arg-and-cwd( $arg, $cwd);
+    ok .is-valid, '.new-for-commandline-arg-and-cwd( $arg, $cwd)';
+
+    #TC:0:new-for-path()
+    $path = 'text';
+    $r-file .= new-for-path( $path);
+    ok .is-valid, '.new-for-path( $path)';
+
+    #TC:0:new-for-uri()
+    $uri = 'text';
+    $r-file .= new-for-uri( $uri);
+    ok .is-valid, '.new-for-uri( $uri)';
+
+    #TC:0:new-tmp()
+    $tmpl = 'text';
+    $iostream = '…';
+    $err = '…';
+    $r-file .= new-tmp( $tmpl, $iostream, $err);
+    ok .is-valid, '.new-tmp( $tmpl, $iostream, $err)';
+
+    #TM:0:parse-name()
+    ok .parse-name( $parse-name), '.parse-name()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $r-file {
+    my N-Object $parent;
+    my CArray[uint64] $num-files;
+    my gchar-pptr $new-etag;
+    my Str $attribute;
+    my gchar-pptr $etag-out;
+    my CArray[uint64] $disk-usage;
+    my N-Object $result;
+    my gpointer $progress-callback-data;
+    my N-Object $start-operation;
+    my Str $name;
+    my gpointer $progress-data;
+    my GFlag $flags;
+    my N-Object $res;
+    my Str $uri-scheme;
+    my CArray[uint64] $num-dirs;
+    my N-Object $destination;
+    my gboolean $make-backup;
+    sub read-more-callback ( Str $file-contents,  $file-size, gpointer $callback-data ) {}
+    my CArray[N-Error] $err;
+    my gpointer $user-data;
+    my Str $symlink-value;
+    my N-Object $descendant;
+    my N-Object $cancellable;
+    my Str $relative-path;
+    my Str $attributes;
+    my N-Object $mount-operation;
+    my Str $etag;
+    my N-Object $file2;
+    my N-Object $prefix;
+    sub progress-callback (  $current-num-bytes,  $total-num-bytes, gpointer $data ) {}
+    my guint64 $value;
+    my N-Object $info;
+    my gsize $length;
+    my Str $display-name;
+    sub callback ( N-Object $source-object, N-Object $res, gpointer $data ) {}
+    my gint $io-priority;
+    my GFileAttributeType $type;
+    my N-Object $contents;
+    my gpointer $value-p;
+
+
+#`{{
+    #TM:0:append-to()
+    ok .append-to( $flags, $cancellable, $err), '.append-to()';
+
+    #TM:0:append-to-async()
+    ok .append-to-async( $flags, $io-priority, $cancellable, $callback, $user-data), '.append-to-async()';
+
+    #TM:0:append-to-finish()
+    ok .append-to-finish( $res, $err), '.append-to-finish()';
+
+    #TM:0:build-attribute-list-for-copy()
+    ok .build-attribute-list-for-copy( $flags, $cancellable, $err), '.build-attribute-list-for-copy()';
+
+    #TM:0:copy()
+    ok .copy( $destination, $flags, $cancellable, $progress-callback, $progress-callback-data, $err), '.copy()';
+
+    #TM:0:copy-async()
+    ok .copy-async( $destination, $flags, $io-priority, $cancellable, $progress-callback, $progress-callback-data, $callback, $user-data), '.copy-async()';
+
+    #TM:0:copy-attributes()
+    ok .copy-attributes( $destination, $flags, $cancellable, $err), '.copy-attributes()';
+
+    #TM:0:copy-finish()
+    ok .copy-finish( $res, $err), '.copy-finish()';
+
+    #TM:0:create()
+    ok .create( $flags, $cancellable, $err), '.create()';
+
+    #TM:0:create-async()
+    ok .create-async( $flags, $io-priority, $cancellable, $callback, $user-data), '.create-async()';
+
+    #TM:0:create-finish()
+    ok .create-finish( $res, $err), '.create-finish()';
+
+    #TM:0:create-readwrite()
+    ok .create-readwrite( $flags, $cancellable, $err), '.create-readwrite()';
+
+    #TM:0:create-readwrite-async()
+    ok .create-readwrite-async( $flags, $io-priority, $cancellable, $callback, $user-data), '.create-readwrite-async()';
+
+    #TM:0:create-readwrite-finish()
+    ok .create-readwrite-finish( $res, $err), '.create-readwrite-finish()';
+
+    #TM:0:delete()
+    ok .delete( $cancellable, $err), '.delete()';
+
+    #TM:0:delete-async()
+    ok .delete-async( $io-priority, $cancellable, $callback, $user-data), '.delete-async()';
+
+    #TM:0:delete-finish()
+    ok .delete-finish( $result, $err), '.delete-finish()';
+
+    #TM:0:dup()
+    ok .dup(), '.dup()';
+
+    #TM:0:eject-mountable()
+    ok .eject-mountable( $flags, $cancellable, $callback, $user-data), '.eject-mountable()';
+
+    #TM:0:eject-mountable-finish()
+    ok .eject-mountable-finish( $result, $err), '.eject-mountable-finish()';
+
+    #TM:0:eject-mountable-with-operation()
+    ok .eject-mountable-with-operation( $flags, $mount-operation, $cancellable, $callback, $user-data), '.eject-mountable-with-operation()';
+
+    #TM:0:eject-mountable-with-operation-finish()
+    ok .eject-mountable-with-operation-finish( $result, $err), '.eject-mountable-with-operation-finish()';
+
+    #TM:0:enumerate-children()
+    ok .enumerate-children( $attributes, $flags, $cancellable, $err), '.enumerate-children()';
+
+    #TM:0:enumerate-children-async()
+    ok .enumerate-children-async( $attributes, $flags, $io-priority, $cancellable, $callback, $user-data), '.enumerate-children-async()';
+
+    #TM:0:enumerate-children-finish()
+    ok .enumerate-children-finish( $res, $err), '.enumerate-children-finish()';
+
+    #TM:0:equal()
+    ok .equal( $file2), '.equal()';
+
+    #TM:0:find-enclosing-mount()
+    ok .find-enclosing-mount( $cancellable, $err), '.find-enclosing-mount()';
+
+    #TM:0:find-enclosing-mount-async()
+    ok .find-enclosing-mount-async( $io-priority, $cancellable, $callback, $user-data), '.find-enclosing-mount-async()';
+
+    #TM:0:find-enclosing-mount-finish()
+    ok .find-enclosing-mount-finish( $res, $err), '.find-enclosing-mount-finish()';
+
+    #TM:0:get-basename()
+     .get-basename(), '…', '.get-basename()';
+
+    #TM:0:get-child()
+    is .get-child( $name), '…', '.get-child()';
+
+    #TM:0:get-child-for-display-name()
+    is .get-child-for-display-name( $display-name, $err), '…', '.get-child-for-display-name()';
+
+    #TM:0:get-parent()
+     .get-parent(), '…', '.get-parent()';
+
+    #TM:0:get-parse-name()
+     .get-parse-name(), '…', '.get-parse-name()';
+
+    #TM:0:get-path()
+     .get-path(), '…', '.get-path()';
+
+    #TM:0:get-relative-path()
+    is .get-relative-path( $descendant), '…', '.get-relative-path()';
+
+    #TM:0:get-uri()
+     .get-uri(), '…', '.get-uri()';
+
+    #TM:0:get-uri-scheme()
+     .get-uri-scheme(), '…', '.get-uri-scheme()';
+
+    #TM:0:has-parent()
+    ok .has-parent( $parent), '.has-parent()';
+
+    #TM:0:has-prefix()
+    ok .has-prefix( $prefix), '.has-prefix()';
+
+    #TM:0:has-uri-scheme()
+    ok .has-uri-scheme( $uri-scheme), '.has-uri-scheme()';
+
+    #TM:0:hash()
+    ok .hash(), '.hash()';
+
+    #TM:0:is-native()
+    ok .is-native(), '.is-native()';
+
+    #TM:0:load-bytes()
+    ok .load-bytes( $cancellable, $etag-out, $err), '.load-bytes()';
+
+    #TM:0:load-bytes-async()
+    ok .load-bytes-async( $cancellable, $callback, $user-data), '.load-bytes-async()';
+
+    #TM:0:load-bytes-finish()
+    ok .load-bytes-finish( $result, $etag-out, $err), '.load-bytes-finish()';
+
+    #TM:0:load-contents()
+    ok .load-contents( $cancellable, $contents, $length, $etag-out, $err), '.load-contents()';
+
+    #TM:0:load-contents-async()
+    ok .load-contents-async( $cancellable, $callback, $user-data), '.load-contents-async()';
+
+    #TM:0:load-contents-finish()
+    ok .load-contents-finish( $res, $contents, $length, $etag-out, $err), '.load-contents-finish()';
+
+    #TM:0:load-partial-contents-async()
+    ok .load-partial-contents-async( $cancellable, $read-more-callback, $callback, $user-data), '.load-partial-contents-async()';
+
+    #TM:0:load-partial-contents-finish()
+    ok .load-partial-contents-finish( $res, $contents, $length, $etag-out, $err), '.load-partial-contents-finish()';
+
+    #TM:0:make-directory()
+    ok .make-directory( $cancellable, $err), '.make-directory()';
+
+    #TM:0:make-directory-async()
+    ok .make-directory-async( $io-priority, $cancellable, $callback, $user-data), '.make-directory-async()';
+
+    #TM:0:make-directory-finish()
+    ok .make-directory-finish( $result, $err), '.make-directory-finish()';
+
+    #TM:0:make-directory-with-parents()
+    ok .make-directory-with-parents( $cancellable, $err), '.make-directory-with-parents()';
+
+    #TM:0:make-symbolic-link()
+    ok .make-symbolic-link( $symlink-value, $cancellable, $err), '.make-symbolic-link()';
+
+    #TM:0:measure-disk-usage()
+    ok .measure-disk-usage( $flags, $cancellable, $progress-callback, $progress-data, $disk-usage, $num-dirs, $num-files, $err), '.measure-disk-usage()';
+
+    #TM:0:measure-disk-usage-async()
+    ok .measure-disk-usage-async( $flags, $io-priority, $cancellable, $progress-callback, $progress-data, $callback, $user-data), '.measure-disk-usage-async()';
+
+    #TM:0:measure-disk-usage-finish()
+    ok .measure-disk-usage-finish( $result, $disk-usage, $num-dirs, $num-files, $err), '.measure-disk-usage-finish()';
+
+    #TM:0:monitor()
+    ok .monitor( $flags, $cancellable, $err), '.monitor()';
+
+    #TM:0:monitor-directory()
+    ok .monitor-directory( $flags, $cancellable, $err), '.monitor-directory()';
+
+    #TM:0:monitor-file()
+    ok .monitor-file( $flags, $cancellable, $err), '.monitor-file()';
+
+    #TM:0:mount-enclosing-volume()
+    ok .mount-enclosing-volume( $flags, $mount-operation, $cancellable, $callback, $user-data), '.mount-enclosing-volume()';
+
+    #TM:0:mount-enclosing-volume-finish()
+    ok .mount-enclosing-volume-finish( $result, $err), '.mount-enclosing-volume-finish()';
+
+    #TM:0:mount-mountable()
+    ok .mount-mountable( $flags, $mount-operation, $cancellable, $callback, $user-data), '.mount-mountable()';
+
+    #TM:0:mount-mountable-finish()
+    ok .mount-mountable-finish( $result, $err), '.mount-mountable-finish()';
+
+    #TM:0:move()
+    ok .move( $destination, $flags, $cancellable, $progress-callback, $progress-callback-data, $err), '.move()';
+
+    #TM:0:move-async()
+    ok .move-async( $destination, $flags, $io-priority, $cancellable, $progress-callback, $progress-callback-data, $callback, $user-data), '.move-async()';
+
+    #TM:0:move-finish()
+    ok .move-finish( $result, $err), '.move-finish()';
+
+    #TM:0:open-readwrite()
+    ok .open-readwrite( $cancellable, $err), '.open-readwrite()';
+
+    #TM:0:open-readwrite-async()
+    ok .open-readwrite-async( $io-priority, $cancellable, $callback, $user-data), '.open-readwrite-async()';
+
+    #TM:0:open-readwrite-finish()
+    ok .open-readwrite-finish( $res, $err), '.open-readwrite-finish()';
+
+    #TM:0:peek-path()
+    ok .peek-path(), '.peek-path()';
+
+    #TM:0:poll-mountable()
+    ok .poll-mountable( $cancellable, $callback, $user-data), '.poll-mountable()';
+
+    #TM:0:poll-mountable-finish()
+    ok .poll-mountable-finish( $result, $err), '.poll-mountable-finish()';
+
+    #TM:0:query-default-handler()
+    ok .query-default-handler( $cancellable, $err), '.query-default-handler()';
+
+    #TM:0:query-default-handler-async()
+    ok .query-default-handler-async( $io-priority, $cancellable, $callback, $user-data), '.query-default-handler-async()';
+
+    #TM:0:query-default-handler-finish()
+    ok .query-default-handler-finish( $result, $err), '.query-default-handler-finish()';
+
+    #TM:0:query-exists()
+    ok .query-exists( $cancellable), '.query-exists()';
+
+    #TM:0:query-file-type()
+    ok .query-file-type( $flags, $cancellable), '.query-file-type()';
+
+    #TM:0:query-filesystem-info()
+    ok .query-filesystem-info( $attributes, $cancellable, $err), '.query-filesystem-info()';
+
+    #TM:0:query-filesystem-info-async()
+    ok .query-filesystem-info-async( $attributes, $io-priority, $cancellable, $callback, $user-data), '.query-filesystem-info-async()';
+
+    #TM:0:query-filesystem-info-finish()
+    ok .query-filesystem-info-finish( $res, $err), '.query-filesystem-info-finish()';
+
+    #TM:0:query-info()
+    ok .query-info( $attributes, $flags, $cancellable, $err), '.query-info()';
+
+    #TM:0:query-info-async()
+    ok .query-info-async( $attributes, $flags, $io-priority, $cancellable, $callback, $user-data), '.query-info-async()';
+
+    #TM:0:query-info-finish()
+    ok .query-info-finish( $res, $err), '.query-info-finish()';
+
+    #TM:0:query-settable-attributes()
+    ok .query-settable-attributes( $cancellable, $err), '.query-settable-attributes()';
+
+    #TM:0:query-writable-namespaces()
+    ok .query-writable-namespaces( $cancellable, $err), '.query-writable-namespaces()';
+
+    #TM:0:read()
+    ok .read( $cancellable, $err), '.read()';
+
+    #TM:0:read-async()
+    ok .read-async( $io-priority, $cancellable, $callback, $user-data), '.read-async()';
+
+    #TM:0:read-finish()
+    ok .read-finish( $res, $err), '.read-finish()';
+
+    #TM:0:replace()
+    ok .replace( $etag, $make-backup, $flags, $cancellable, $err), '.replace()';
+
+    #TM:0:replace-async()
+    ok .replace-async( $etag, $make-backup, $flags, $io-priority, $cancellable, $callback, $user-data), '.replace-async()';
+
+    #TM:0:replace-contents()
+    ok .replace-contents( $contents, $length, $etag, $make-backup, $flags, $new-etag, $cancellable, $err), '.replace-contents()';
+
+    #TM:0:replace-contents-async()
+    ok .replace-contents-async( $contents, $length, $etag, $make-backup, $flags, $cancellable, $callback, $user-data), '.replace-contents-async()';
+
+    #TM:0:replace-contents-bytes-async()
+    ok .replace-contents-bytes-async( $contents, $etag, $make-backup, $flags, $cancellable, $callback, $user-data), '.replace-contents-bytes-async()';
+
+    #TM:0:replace-contents-finish()
+    ok .replace-contents-finish( $res, $new-etag, $err), '.replace-contents-finish()';
+
+    #TM:0:replace-finish()
+    ok .replace-finish( $res, $err), '.replace-finish()';
+
+    #TM:0:replace-readwrite()
+    ok .replace-readwrite( $etag, $make-backup, $flags, $cancellable, $err), '.replace-readwrite()';
+
+    #TM:0:replace-readwrite-async()
+    ok .replace-readwrite-async( $etag, $make-backup, $flags, $io-priority, $cancellable, $callback, $user-data), '.replace-readwrite-async()';
+
+    #TM:0:replace-readwrite-finish()
+    ok .replace-readwrite-finish( $res, $err), '.replace-readwrite-finish()';
+
+    #TM:0:resolve-relative-path()
+    ok .resolve-relative-path( $relative-path), '.resolve-relative-path()';
+
+    #TM:0:set-attribute()
+    $attribute = 'text';
+    $type = …;
+    $value-p = '…';
+    $flags = …;
+    $cancellable = …;
+    $err = '…';
+    .set-attribute( $attribute, $type, $value-p, $flags, $cancellable, $err);
+    ok True, '.set-attribute()';
+
+    #TM:0:set-attribute-byte-string()
+    $attribute = 'text';
+    $value = 'text';
+    $flags = …;
+    $cancellable = …;
+    $err = '…';
+    .set-attribute-byte-string( $attribute, $value, $flags, $cancellable, $err);
+    ok True, '.set-attribute-byte-string()';
+
+    #TM:0:set-attribute-int32()
+    $attribute = 'text';
+    $value = '…';
+    $flags = …;
+    $cancellable = …;
+    $err = '…';
+    .set-attribute-int32( $attribute, $value, $flags, $cancellable, $err);
+    ok True, '.set-attribute-int32()';
+
+    #TM:0:set-attribute-int64()
+    $attribute = 'text';
+    $value = '…';
+    $flags = …;
+    $cancellable = …;
+    $err = '…';
+    .set-attribute-int64( $attribute, $value, $flags, $cancellable, $err);
+    ok True, '.set-attribute-int64()';
+
+    #TM:0:set-attribute-string()
+    $attribute = 'text';
+    $value = 'text';
+    $flags = …;
+    $cancellable = …;
+    $err = '…';
+    .set-attribute-string( $attribute, $value, $flags, $cancellable, $err);
+    ok True, '.set-attribute-string()';
+
+    #TM:0:set-attribute-uint32()
+    $attribute = 'text';
+    $value = '…';
+    $flags = …;
+    $cancellable = …;
+    $err = '…';
+    .set-attribute-uint32( $attribute, $value, $flags, $cancellable, $err);
+    ok True, '.set-attribute-uint32()';
+
+    #TM:0:set-attribute-uint64()
+    $attribute = 'text';
+    $value = '…';
+    $flags = …;
+    $cancellable = …;
+    $err = '…';
+    .set-attribute-uint64( $attribute, $value, $flags, $cancellable, $err);
+    ok True, '.set-attribute-uint64()';
+
+    #TM:0:set-attributes-async()
+    $info = …;
+    $flags = …;
+    $io-priority = '…';
+    $cancellable = …;
+    $callback = …;
+    $user-data = '…';
+    .set-attributes-async( $info, $flags, $io-priority, $cancellable, $callback, $user-data);
+    ok True, '.set-attributes-async()';
+
+    #TM:0:set-attributes-finish()
+    $result = …;
+    $info = '…';
+    $err = '…';
+    .set-attributes-finish( $result, $info, $err);
+    ok True, '.set-attributes-finish()';
+
+    #TM:0:set-attributes-from-info()
+    $info = …;
+    $flags = …;
+    $cancellable = …;
+    $err = '…';
+    .set-attributes-from-info( $info, $flags, $cancellable, $err);
+    ok True, '.set-attributes-from-info()';
+
+    #TM:0:set-display-name()
+    $display-name = 'text';
+    $cancellable = …;
+    $err = '…';
+    .set-display-name( $display-name, $cancellable, $err);
+    ok True, '.set-display-name()';
+
+    #TM:0:set-display-name-async()
+    $display-name = 'text';
+    $io-priority = '…';
+    $cancellable = …;
+    $callback = …;
+    $user-data = '…';
+    .set-display-name-async( $display-name, $io-priority, $cancellable, $callback, $user-data);
+    ok True, '.set-display-name-async()';
+
+    #TM:0:set-display-name-finish()
+    $res = …;
+    $err = '…';
+    .set-display-name-finish( $res, $err);
+    ok True, '.set-display-name-finish()';
+
+    #TM:0:start-mountable()
+    ok .start-mountable( $flags, $start-operation, $cancellable, $callback, $user-data), '.start-mountable()';
+
+    #TM:0:start-mountable-finish()
+    ok .start-mountable-finish( $result, $err), '.start-mountable-finish()';
+
+    #TM:0:stop-mountable()
+    ok .stop-mountable( $flags, $mount-operation, $cancellable, $callback, $user-data), '.stop-mountable()';
+
+    #TM:0:stop-mountable-finish()
+    ok .stop-mountable-finish( $result, $err), '.stop-mountable-finish()';
+
+    #TM:0:supports-thread-contexts()
+    ok .supports-thread-contexts(), '.supports-thread-contexts()';
+
+    #TM:0:trash()
+    ok .trash( $cancellable, $err), '.trash()';
+
+    #TM:0:trash-async()
+    ok .trash-async( $io-priority, $cancellable, $callback, $user-data), '.trash-async()';
+
+    #TM:0:trash-finish()
+    ok .trash-finish( $result, $err), '.trash-finish()';
+
+    #TM:0:unmount-mountable()
+    ok .unmount-mountable( $flags, $cancellable, $callback, $user-data), '.unmount-mountable()';
+
+    #TM:0:unmount-mountable-finish()
+    ok .unmount-mountable-finish( $result, $err), '.unmount-mountable-finish()';
+
+    #TM:0:unmount-mountable-with-operation()
+    ok .unmount-mountable-with-operation( $flags, $mount-operation, $cancellable, $callback, $user-data), '.unmount-mountable-with-operation()';
+
+    #TM:0:unmount-mountable-with-operation-finish()
+    ok .unmount-mountable-with-operation-finish( $result, $err), '.unmount-mountable-with-operation-finish()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $r-file {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gio::File() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gio::File;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gio::File :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gio::File $r-file .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $r-file.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
