@@ -68,7 +68,7 @@ method generate-plantuml-files ( ) {
       my Str $parent-gname;
       my Str $pg-object = $g-object;
       repeat until $parent-gname ~~ / GInitiallyUnowned | GObject / {
-        $parent-name = $!object-map{$pg-object}<parent-raku-name>;
+        $parent-name = $!object-map{$pg-object}<parent-raku-name> // Str;
         my Str $raku-package = $!work-data<raku-package>;
 #note "$?LINE $pg-object, $parent-name";
 
@@ -274,6 +274,8 @@ submethod prepare-work-data ( SkimSource $source ) {
     when Gio {
       $!work-data = %(
         :gir-module-path(SKIMTOOLDATA ~ 'Gio/'),
+        :result-umlpng(API2MODS ~ 'gnome-gio/doc/plantuml/'),
+        :raku-package<Gnome::Gio>,
       );
     }
 

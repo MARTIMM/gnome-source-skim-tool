@@ -82,6 +82,7 @@ method !set-uml ( Str $class-name --> Str ) {
   my Str $png-file = $class-name;
   $png-file ~~ s/^ Gnome '::' <-[:]>* '::' //;
   $png-file = 'plantuml/' ~ $png-file ~ '.png';
+
   if "$*work-data<result-docs>/$png-file".IO.r {
     $png-file = 'asset_files/images/' ~ $png-file;
     Q:qq:to/EOUML/
