@@ -826,7 +826,13 @@ method !modify-rest ( Str $text is copy --> Str ) {
 #-------------------------------------------------------------------------------
 # Modify xml remnants
 method !modify-xml ( Str $text is copy --> Str ) {
-  
+
+#TODO need to remove <quote> … </quote> in ::Gio::T-ioenums
+#note "$?LINE $/<quote>";
+  # lingering elements not covered
+#  $text ~~ m/ $<quote> = [ '<' '/'? quote '>' ] /;
+
+
   # xml escapes
   $text ~~ s:g/ '&lt;' /</;
   $text ~~ s:g/ '&gt;' />/;
