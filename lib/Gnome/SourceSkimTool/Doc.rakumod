@@ -82,7 +82,6 @@ method !set-uml ( Str $class-name --> Str ) {
   my Str $png-file = $class-name;
   $png-file ~~ s/^ Gnome '::' <-[:]>* '::' //;
   $png-file = 'plantuml/' ~ $png-file ~ '.png';
-
   if "$*work-data<result-docs>/$png-file".IO.r {
     $png-file = 'asset_files/images/' ~ $png-file;
     Q:qq:to/EOUML/
@@ -90,6 +89,10 @@ method !set-uml ( Str $class-name --> Str ) {
       =head2 Uml Diagram
       =for image :src<$png-file> :width<50%> :class<inline>
       EOUML
+  }
+
+  else {
+    ''
   }
 }
 
