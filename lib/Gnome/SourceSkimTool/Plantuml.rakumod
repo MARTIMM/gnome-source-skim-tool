@@ -76,7 +76,14 @@ method generate-plantuml-files ( ) {
         # Assuming the Gnome::N::TopLevelClassSupport
         if !$parent-name {
           #TODO might be linked to Object
-          $plantuml ~= "Gnome::N::TopLevelClassSupport <|-- $class-name\n";
+          if $class-name ~~ m/ Gio | Gdk | Gsk | Gtk / {
+            $plantuml ~= "Gnome::GObject::Object <|-- $class-name\n";
+          }
+          
+          else {
+            $plantuml ~= "Gnome::N::TopLevelClassSupport <|-- $class-name\n";
+          }
+
           last;
         }
 
