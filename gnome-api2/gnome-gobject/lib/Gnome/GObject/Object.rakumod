@@ -61,8 +61,9 @@ submethod BUILD ( *%options ) {
   elsif %options<native-object>:exists { }
 
   #`{{
-    note: thought about moving this test to Widget because the interface
-    Buildable is hooked up there. This is not correct, because, after studying
+    note (From Gtk+, also for Gtk4???): thought about moving this test to
+    Widget because the interface Buildable is hooked up there. This is
+    not correct, because, after studying
     the Buider code, I saw that gtk_builder_expose_object() makes use of
     object_set_name() before inserting the object in a hash table.
     object_set_name() makes use of gtk_buildable_set_name() if the object
