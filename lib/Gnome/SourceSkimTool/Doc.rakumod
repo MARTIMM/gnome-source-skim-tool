@@ -132,7 +132,7 @@ method document-build ( XML::Element $element --> Str ) {
 
     Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
-      multi method new ( N-Object :$native-object! )
+      multi method new ( N-Object() :$native-object! )
 
     EOBUILD
 
@@ -230,7 +230,7 @@ method document-constructors (
       $method-doc
 
       =begin code
-      method $method-name ($raku-list --> $*work-data<raku-class-name> \)
+      method $method-name ($raku-list --> $*work-data<raku-class-name> )
       =end code
 
       $items-doc
