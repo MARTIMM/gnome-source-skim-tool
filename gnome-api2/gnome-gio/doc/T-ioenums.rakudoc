@@ -2,7 +2,7 @@
 use v6.d;
 
 =begin pod
-=head1 Gnome::Gio::T-ioenums
+=TITLE Gnome::Gio::T-ioenums
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -32,12 +32,12 @@ Results returned from g_converter_convert().
 
 Enumeration describing different kinds of native credential types.
 =item C<G_CREDENTIALS_TYPE_INVALID>; Indicates an invalid native credential type.
-=item C<G_CREDENTIALS_TYPE_LINUX_UCRED>; The native credentials type is a B<struct ucred>.
-=item C<G_CREDENTIALS_TYPE_FREEBSD_CMSGCRED>; The native credentials type is a B<struct cmsgcred>.
-=item C<G_CREDENTIALS_TYPE_OPENBSD_SOCKPEERCRED>; The native credentials type is a B<struct sockpeercred>. Added in 2.30.
+=item C<G_CREDENTIALS_TYPE_LINUX_UCRED>; The native credentials type is a B<struct> ucred`.
+=item C<G_CREDENTIALS_TYPE_FREEBSD_CMSGCRED>; The native credentials type is a B<struct> cmsgcred`.
+=item C<G_CREDENTIALS_TYPE_OPENBSD_SOCKPEERCRED>; The native credentials type is a B<struct> sockpeercred`. Added in 2.30.
 =item C<G_CREDENTIALS_TYPE_SOLARIS_UCRED>; The native credentials type is a B<ucred_t>. Added in 2.40.
-=item C<G_CREDENTIALS_TYPE_NETBSD_UNPCBID>; The native credentials type is a B<struct unpcbid>. Added in 2.42.
-=item C<G_CREDENTIALS_TYPE_APPLE_XUCRED>; The native credentials type is a B<struct xucred>. Added in 2.66.
+=item C<G_CREDENTIALS_TYPE_NETBSD_UNPCBID>; The native credentials type is a B<struct> unpcbid`. Added in 2.42.
+=item C<G_CREDENTIALS_TYPE_APPLE_XUCRED>; The native credentials type is a B<struct> xucred`. Added in 2.66.
 =item C<G_CREDENTIALS_TYPE_WIN32_PID>; The native credentials type is a PID B<DWORD>. Added in 2.72.
 
 =head2 GDBusError
@@ -158,8 +158,8 @@ Enumeration describing how a drive can be started/stopped.
    assemble/disassemble a virtual drive from several physical
    drives.
 =item C<G_DRIVE_START_STOP_TYPE_PASSWORD>; The start/stop methods will
-   unlock/lock the disk (for example using the ATA SECURITY
-   UNLOCK DEVICE command)
+   unlock/lock the disk (for example using the ATA <quote>SECURITY
+   UNLOCK DEVICE</quote> command)
 
 =head2 GEmblemOrigin
 
@@ -329,6 +329,7 @@ C<G_IO_ERROR_WOULD_BLOCK> to callers without allocating a B<Gnome::Glib::N-Error
 =item C<G_IO_ERROR_NOT_CONNECTED>; Transport endpoint is not connected. Since 2.44
 =item C<G_IO_ERROR_MESSAGE_TOO_LARGE>; Message too large. Since 2.48.
 =item C<G_IO_ERROR_NO_SUCH_DEVICE>; No such device found. Since 2.74
+=item C<G_IO_ERROR_DESTINATION_UNSET>; Destination address unset. Since 2.80
 
 =head2 GIOModuleScopeFlags
 
@@ -445,15 +446,15 @@ as lists of B<Gnome::Glib::N-Variant> tuples. Each record type has different val
 the variant tuples returned.
 
 C<G_RESOLVER_RECORD_SRV> records are returned as variants with the signature
-B<(qqqs)>, containing a B<guint16> with the priority, a B<guint16> with the
+`(qqqs)`, containing a B<guint16> with the priority, a B<guint16> with the
 weight, a B<guint16> with the port, and a string of the hostname.
 
 C<G_RESOLVER_RECORD_MX> records are returned as variants with the signature
-B<(qs)>, representing a B<guint16> with the preference, and a string containing
+`(qs)`, representing a B<guint16> with the preference, and a string containing
 the mail exchanger hostname.
 
 C<G_RESOLVER_RECORD_TXT> records are returned as variants with the signature
-B<(as)>, representing an array of the strings in the text record. Note: Most TXT
+`(as)`, representing an array of the strings in the text record. Note: Most TXT
 records only contain a single string, but
 [RFC 1035](https://tools.ietf.org/html/rfc1035#section-3.3.14) does allow a
 record to contain multiple strings. The RFC which defines the interpretation
@@ -462,13 +463,13 @@ strings if they are present, as with
 [RFC 7208](https://tools.ietf.org/html/rfc7208#section-3.3).
 
 C<G_RESOLVER_RECORD_SOA> records are returned as variants with the signature
-B<(ssuuuuu)>, representing a string containing the primary name server, a
+`(ssuuuuu)`, representing a string containing the primary name server, a
 string containing the administrator, the serial as a B<guint32>, the refresh
 interval as a B<guint32>, the retry interval as a B<guint32>, the expire timeout
 as a B<guint32>, and the TTL as a B<guint32>.
 
 C<G_RESOLVER_RECORD_NS> records are returned as variants with the signature
-B<(s)>, representing a string of the hostname of the name server.
+`(s)`, representing a string of the hostname of the name server.
 =item C<G_RESOLVER_RECORD_SRV>; look up DNS SRV records for a domain
 =item C<G_RESOLVER_RECORD_MX>; look up DNS MX records for a domain
 =item C<G_RESOLVER_RECORD_TXT>; look up DNS TXT records for a name
@@ -485,7 +486,7 @@ from a B<Gnome::Gio::N-Resource> routine.
 =head2 GSocketClientEvent
 
 Describes an event occurring on a B<Gnome::Gio::SocketClient>. See the
- I<event defined in Gnome::Gio::Ioenums> signal for more details.
+ I<event> defined in C<Gnome::Gio::ioenums> signal for more details.
 
 Additional values may be added to this type in the future.
 =item C<G_SOCKET_CLIENT_RESOLVING>; The client is doing a DNS lookup.
@@ -518,7 +519,7 @@ if available.)
 =head2 GSocketListenerEvent
 
 Describes an event occurring on a B<Gnome::Gio::SocketListener>. See the
- I<event defined in Gnome::Gio::Ioenums> signal for more details.
+ I<event> defined in C<Gnome::Gio::ioenums> signal for more details.
 
 Additional values may be added to this type in the future.
 =item C<G_SOCKET_LISTENER_BINDING>; The listener is about to bind a socket.
@@ -584,7 +585,7 @@ indicate a TLS channel binding retrieval error.
    implementations do not provide a peer certificate for resumed connections.
 =item C<G_TLS_CHANNEL_BINDING_ERROR_NOT_SUPPORTED>; Binding type is not supported
    on the current connection. This error could be triggered when requesting
-   B<tls-server-end-point> binding data for a certificate which has no hash
+   B<tls>-server-end-point` binding data for a certificate which has no hash
    function or uses multiple hash functions.
 =item C<G_TLS_CHANNEL_BINDING_ERROR_GENERAL_ERROR>; Any other backend error
    preventing binding data retrieval.
@@ -593,13 +594,13 @@ indicate a TLS channel binding retrieval error.
 
 The type of TLS channel binding data to retrieve from B<Gnome::Gio::TlsConnection>
 or B<Gnome::Gio::R-DtlsConnection>, as documented by RFC 5929 or RFC 9266. The
-[B<tls-unique-for-telnet>](https://tools.ietf.org/html/rfc5929#section-5)
+[B<tls>-unique-for-telnet`](https://tools.ietf.org/html/rfc5929#section-5)
 binding type is not currently implemented.
-=item C<G_TLS_CHANNEL_BINDING_TLS_UNIQUE>; [B<tls-unique>](https://tools.ietf.org/html/rfc5929#section-3) binding
+=item C<G_TLS_CHANNEL_BINDING_TLS_UNIQUE>; [B<tls>-unique`](https://tools.ietf.org/html/rfc5929#section-3) binding
    type
-=item C<G_TLS_CHANNEL_BINDING_TLS_SERVER_END_POINT>; [B<tls-server-end-point>](https://tools.ietf.org/html/rfc5929#section-4)
+=item C<G_TLS_CHANNEL_BINDING_TLS_SERVER_END_POINT>; [B<tls>-server-end-point`](https://tools.ietf.org/html/rfc5929#section-4)
    binding type
-=item C<G_TLS_CHANNEL_BINDING_TLS_EXPORTER>; [B<tls-exporter>](https://www.rfc-editor.org/rfc/rfc9266.html) binding
+=item C<G_TLS_CHANNEL_BINDING_TLS_EXPORTER>; [B<tls>-exporter`](https://www.rfc-editor.org/rfc/rfc9266.html) binding
    type. Since: 2.74
 
 =head2 GTlsDatabaseLookupFlags
@@ -683,7 +684,7 @@ indicates a socket not bound to any name (eg, a client-side socket,
 or a socket created with socketpair()).
 
 For abstract sockets, there are two incompatible ways of naming
-them; the man pages suggest using the entire B<struct sockaddr_un>
+them; the man pages suggest using the entire B<struct> sockaddr_un`
 as the name, padding the unused parts of the C<sun_path> field with
 zeroes; this corresponds to C<G_UNIX_SOCKET_ADDRESS_ABSTRACT_PADDED>.
 However, many programs instead just use a portion of C<sun_path>, and
@@ -748,7 +749,7 @@ Flags used to define the behaviour of a B<Gnome::Gio::Application>.
     environment variables. For instance, an editor might be expected
     to use the B<GIT_COMMITTER_NAME> environment variable
     when editing a git commit message. The environment is available
-    to the  I<command-line defined in Gnome::Gio::Ioenums> signal handler, via
+    to the  I<command-line> defined in C<Gnome::Gio::ioenums> signal handler, via
     g_application_command_line_getenv().
 =item C<G_APPLICATION_NON_UNIQUE>; Make no attempts to do any of the typical
     single-instance application negotiation, even if the application
@@ -757,12 +758,12 @@ Flags used to define the behaviour of a B<Gnome::Gio::Application>.
     owner already exists.  Everything occurs in the local process.
     Since: 2.30.
 =item C<G_APPLICATION_CAN_OVERRIDE_APP_ID>; Allow users to override the
-    application ID from the command line with B<--gapplication-app-id>.
+    application ID from the command line with `--gapplication-app-id`.
     Since: 2.48
 =item C<G_APPLICATION_ALLOW_REPLACEMENT>; Allow another instance to take over
     the bus name. Since: 2.60
 =item C<G_APPLICATION_REPLACE>; Take over from another instance. This flag is
-    usually set by passing B<--gapplication-replace> on the commandline.
+    usually set by passing `--gapplication-replace` on the commandline.
     Since: 2.60
 
 =head2 GAskPasswordFlags
@@ -898,7 +899,7 @@ Flags used when constructing an instance of a B<Gnome::Gio::DBusProxy> derived c
 =item C<G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START>; If the proxy is for a well-known name,
 do not ask the bus to launch an owner during proxy initialization or a method call.
 This flag is only meaningful in proxies for well-known names.
-=item C<G_DBUS_PROXY_FLAGS_GET_INVALIDATED_PROPERTIES>; If set, the property value for any __invalidated property__ will be (asynchronously) retrieved upon receiving the [B<PropertiesChanged>](http://dbus.freedesktop.org/doc/dbus-specification.html#standard-interfaces-properties) D-Bus signal and the property will not cause emission of the  I<g-properties-changed defined in Gnome::Gio::Ioenums> signal. When the value is received the  I<g-properties-changed defined in Gnome::Gio::Ioenums> signal is emitted for the property along with the retrieved value. Since 2.32.
+=item C<G_DBUS_PROXY_FLAGS_GET_INVALIDATED_PROPERTIES>; If set, the property value for any __invalidated property__ will be (asynchronously) retrieved upon receiving the [B<PropertiesChanged>](http://dbus.freedesktop.org/doc/dbus-specification.html#standard-interfaces-properties) D-Bus signal and the property will not cause emission of the  I<g-properties-changed> defined in C<Gnome::Gio::ioenums> signal. When the value is received the  I<g-properties-changed> defined in C<Gnome::Gio::ioenums> signal is emitted for the property along with the retrieved value. Since 2.32.
 =item C<G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START_AT_CONSTRUCTION>; If the proxy is for a well-known name,
 do not ask the bus to launch an owner during proxy initialization, but allow it to be
 autostarted by a method call. This flag is only meaningful in proxies for well-known names,
@@ -921,7 +922,7 @@ sending a message.
 Flags used when creating a B<Gnome::Gio::DBusServer>.
 
 =item C<G_DBUS_SERVER_FLAGS_NONE>; No flags set.
-=item C<G_DBUS_SERVER_FLAGS_RUN_IN_THREAD>; All  I<new-connection defined in Gnome::Gio::Ioenums>
+=item C<G_DBUS_SERVER_FLAGS_RUN_IN_THREAD>; All  I<new-connection> defined in C<Gnome::Gio::ioenums>
 signals will run in separated dedicated threads (see signal for
 details).
 =item C<G_DBUS_SERVER_FLAGS_AUTHENTICATION_ALLOW_ANONYMOUS>; Allow the anonymous
@@ -977,6 +978,8 @@ Flags used when copying or moving files.
 =item C<G_FILE_COPY_ALL_METADATA>; Copy all file metadata instead of just default set used for copy (see B<Gnome::Gio::FileInfo>).
 =item C<G_FILE_COPY_NO_FALLBACK_FOR_MOVE>; Don't use copy and delete fallback if native move not supported.
 =item C<G_FILE_COPY_TARGET_DEFAULT_PERMS>; Leaves target file with default perms, instead of setting the source file perms.
+=item C<G_FILE_COPY_TARGET_DEFAULT_MODIFIED_TIME>; Use default modification
+    timestamps instead of copying them from the source file. Since 2.80
 
 =head2 GFileCreateFlags
 
@@ -1007,9 +1010,12 @@ Flags that can be used with g_file_measure_disk_usage().
 =item C<G_FILE_MEASURE_APPARENT_SIZE>; Tally usage based on apparent file
   sizes.  Normally, the block-size is used, if available, as this is a
   more accurate representation of disk space used.
-  Compare with B<du --apparent-size>.
+  Compare with B<du> --apparent-size`.
+  Since GLib 2.78. and similarly to B<du> since GNU Coreutils 9.2, this will
+  ignore the sizes of file types other than regular files and links, as the
+  sizes of other file types are not specified in a standard way.
 =item C<G_FILE_MEASURE_NO_XDEV>; Do not cross mount point boundaries.
-  Compare with B<du -x>.
+  Compare with B<du> -x`.
 
 =head2 GFileMonitorFlags
 
@@ -1106,7 +1112,7 @@ the right system header and pass in the flag.
 
 Flags to define the behaviour of a B<Gnome::Gio::Subprocess>.
 
-Note that the default for stdin is to redirect from B</dev/null>.  For
+Note that the default for stdin is to redirect from `/dev/null`.  For
 stdout and stderr the default are for them to inherit the
 corresponding descriptor from the calling process.
 
@@ -1124,12 +1130,12 @@ C<G_SUBPROCESS_FLAGS_STDOUT_SILENCE>.
   spawned process that can be accessed with
   g_subprocess_get_stdout_pipe().
 =item C<G_SUBPROCESS_FLAGS_STDOUT_SILENCE>; silence the stdout of the spawned
-  process (ie: redirect to B</dev/null>).
+  process (ie: redirect to `/dev/null`).
 =item C<G_SUBPROCESS_FLAGS_STDERR_PIPE>; create a pipe for the stderr of the
   spawned process that can be accessed with
   g_subprocess_get_stderr_pipe().
 =item C<G_SUBPROCESS_FLAGS_STDERR_SILENCE>; silence the stderr of the spawned
-  process (ie: redirect to B</dev/null>).
+  process (ie: redirect to `/dev/null`).
 =item C<G_SUBPROCESS_FLAGS_STDERR_MERGE>; merge the stderr of the spawned
   process with whatever the stdout happens to be.  This is a good way
   of directing both streams to a common log file, for example.
@@ -1151,7 +1157,7 @@ Flags to define future B<Gnome::Gio::TestDBus> behaviour.
 
 A set of flags describing TLS certification validation. This can be
 used to describe why a particular certificate was rejected (for
-example, in  I<accept-certificate defined in Gnome::Gio::Ioenums>).
+example, in  I<accept-certificate> defined in C<Gnome::Gio::ioenums>).
 
 GLib guarantees that if certificate verification fails, at least one
 flag will be set, but it does not guarantee that all possible flags

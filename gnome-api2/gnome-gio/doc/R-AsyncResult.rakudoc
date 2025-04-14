@@ -6,8 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gio::R-AsyncResult
-
+=TITLE Gnome::Gio::R-AsyncResult
 =head1 Description
 
 B<Gnome::Gio::R-AsyncResult> provides a base class for implementing asynchronous function results.
@@ -18,26 +17,26 @@ an asynchronous operation, provide a B<Gnome::Gio::T-iotypes> to the
 asynchronous function. This callback will be triggered when the
 operation has completed, and must be run in a later iteration of
 the thread-default main context (see
-C<.push-thread-default() in class Gnome::Gio::AsyncResult>) from where the operation was
+C<.push-thread-default()> in class C<Gnome::Gio::AsyncResult>) from where the operation was
 initiated. It will be passed a B<Gnome::Gio::R-AsyncResult> instance filled with the
 details of the operation's success or failure, the object the asynchronous
 function was started for and any error codes returned. The asynchronous
-callback function is then expected to call the corresponding B<_finish()>
+callback function is then expected to call the corresponding B<_finish>()`
 function, passing the object the function was called for, the
 B<Gnome::Gio::R-AsyncResult> instance, and (optionally) an C<$error> to grab any
 error conditions that may have occurred.
 
-The B<_finish()> function for an operation takes the generic result
+The B<_finish>()` function for an operation takes the generic result
 (of type B<Gnome::Gio::R-AsyncResult>) and returns the specific result that the
 operation in question yields (e.g. a B<Gnome::Gio::AsyncResult> for a
 "enumerate children" operation). If the result or error status of the
-operation is not needed, there is no need to call the B<_finish()>
+operation is not needed, there is no need to call the B<_finish>()`
 function; GIO will take care of cleaning up the result and error
 information after the B<Gnome::Gio::T-iotypes> returns. You can pass
 undefined for the B<Gnome::Gio::T-iotypes> if you don't need to take any
 action at all after the operation completes. Applications may also
-take a reference to the B<Gnome::Gio::R-AsyncResult> and call B<_finish()> later;
-however, the B<_finish()> function may be called at most once.
+take a reference to the B<Gnome::Gio::R-AsyncResult> and call B<_finish>()` later;
+however, the B<_finish>()` function may be called at most once.
 
 Example of a typical asynchronous operation flow:
 
@@ -96,13 +95,6 @@ I/O scheduling. Priorities are integers, with lower numbers indicating
 higher priority. It is recommended to choose priorities between
 B<Gnome::Glib::T-main> and B<Gnome::Glib::T-main>, with B<Gnome::Glib::T-main>
 as a default.
-
-=begin comment
-
-=head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
 
 =begin comment
 

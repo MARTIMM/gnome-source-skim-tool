@@ -6,29 +6,27 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gio::R-ActionGroup
-
+=TITLE Gnome::Gio::R-ActionGroup
 =head1 Description
 
-B<Gnome::Gio::R-ActionGroup> represents a group of actions. Actions can be used to
-expose functionality in a structured way, either from one part of a
-program to another, or to the outside world. Action groups are often
-used together with a B<Gnome::Gio::MenuModel> that provides additional
-representation data for displaying the actions to the user, e.g. in
-a menu.
+B<Gnome::Gio::R-ActionGroup> represents a group of actions.
 
-The main way to interact with the actions in a GActionGroup is to
+Actions can be used to expose functionality in a structured way, either
+from one part of a program to another, or to the outside world. Action
+groups are often used together with a B<Gnome::Gio::MenuModel> that provides additional
+representation data for displaying the actions to the user, e.g. in a menu.
+
+The main way to interact with the actions in a B<Gnome::Gio::R-ActionGroup> is to
 activate them with C<.activate-action()>. Activating an
 action may require a B<Gnome::Glib::N-Variant> parameter. The required type of the
 parameter can be inquired with C<.get-action-parameter-type()>.
 Actions may be disabled, see C<.get-action-enabled()>.
 Activating a disabled action has no effect.
 
-Actions may optionally have a state in the form of a B<Gnome::Glib::N-Variant>. The
-current state of an action can be inquired with
-C<.get-action-state()>. Activating a stateful action may
-change its state, but it is also possible to set the state by calling
-C<.change-action-state()>.
+Actions may optionally have a state in the form of a B<Gnome::Glib::N-Variant>. The current
+state of an action can be inquired with C<.get-action-state()>.
+Activating a stateful action may change its state, but it is also possible to
+set the state by calling C<.change-action-state()>.
 
 As typical example, consider a text editing application which has an
 option to change the current font to 'bold'. A good way to represent
@@ -40,10 +38,10 @@ method calls, except C<.list-actions()> take the name of
 an action as an argument.
 
 The B<Gnome::Gio::R-ActionGroup> API is meant to be the 'public' API to the action
-group.  The calls here are exactly the interaction that 'external
+group. The calls here are exactly the interaction that 'external
 forces' (eg: UI, incoming D-Bus messages, etc.) are supposed to have
-with actions.  'Internal' APIs (ie: ones meant only to be accessed by
-the action group implementation) are found on subclasses.  This is
+with actions. 'Internal' APIs (ie: ones meant only to be accessed by
+the action group implementation) are found on subclasses. This is
 why you will find - for example - C<.get-action-enabled()>
 but not an equivalent set() call.
 
@@ -52,16 +50,9 @@ on individual actions.
 
 Implementations of B<Gnome::Gio::R-ActionGroup> should provide implementations for
 the virtual functions C<.list-actions()> and
-C<.query-action()>.  The other virtual functions should
+C<.query-action()>. The other virtual functions should
 not be implemented - their "wrappers" are actually implemented with
 calls to C<.query-action()>.
-
-=begin comment
-
-=head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
 
 =begin comment
 
@@ -83,7 +74,7 @@ calls to C<.query-action()>.
 =begin pod
 =head2 action-added
 
-Emits the  I<action-added> signal on C<$action_group>.
+Emits the  I<action-added> signal on C<$action-group>.
 
 This function should only be called by B<Gnome::Gio::R-ActionGroup> implementations.
 
@@ -106,7 +97,7 @@ method action-added ( Str $action-name )
 =begin pod
 =head2 action-enabled-changed
 
-Emits the  I<action-enabled-changed> signal on C<$action_group>.
+Emits the  I<action-enabled-changed> signal on C<$action-group>.
 
 This function should only be called by B<Gnome::Gio::R-ActionGroup> implementations.
 
@@ -130,7 +121,7 @@ method action-enabled-changed ( Str $action-name, Bool() $enabled )
 =begin pod
 =head2 action-removed
 
-Emits the  I<action-removed> signal on C<$action_group>.
+Emits the  I<action-removed> signal on C<$action-group>.
 
 This function should only be called by B<Gnome::Gio::R-ActionGroup> implementations.
 
@@ -153,16 +144,16 @@ method action-removed ( Str $action-name )
 =begin pod
 =head2 action-state-changed
 
-Emits the  I<action-state-changed> signal on C<$action_group>.
+Emits the  I<action-state-changed> signal on C<$action-group>.
 
 This function should only be called by B<Gnome::Gio::R-ActionGroup> implementations.
 
 =begin code
-method action-state-changed ( Str $action-name, CArray[N-Variant] $state )
+method action-state-changed ( Str $action-name, N-Object $state )
 =end code
 
 =item $action-name; the name of an action in the group.
-=item $state; the new state of the named action.
+=item $state; the new state of the named action
 
 =begin comment
 
@@ -177,7 +168,7 @@ method action-state-changed ( Str $action-name, CArray[N-Variant] $state )
 =begin pod
 =head2 activate-action
 
-Activate the named action within C<$action_group>.
+Activate the named action within C<$action-group>.
 
 If the action is expecting a parameter, then the correct type of
 parameter must be given as C<$parameter>.  If the action is expecting no
@@ -196,7 +187,7 @@ have been activated.
 The following code which runs in a remote app instance, shows an
 example of a "quit" action being activated on the primary app
 instance over D-Bus. Here g_dbus_connection_flush() is called
-before B<exit()>. Without g_dbus_connection_flush(), the "quit" action
+before B<exit>()`. Without g_dbus_connection_flush(), the "quit" action
 may fail to be activated on the primary instance.
 
 =begin comment
@@ -214,11 +205,11 @@ exit (0);
 =end comment
 
 =begin code
-method activate-action ( Str $action-name, CArray[N-Variant] $parameter )
+method activate-action ( Str $action-name, N-Object $parameter )
 =end code
 
 =item $action-name; the name of the action to activate.
-=item $parameter; parameters to the activation.
+=item $parameter; parameters to the activation
 
 =begin comment
 
@@ -233,7 +224,7 @@ method activate-action ( Str $action-name, CArray[N-Variant] $parameter )
 =begin pod
 =head2 change-action-state
 
-Request for the state of the named action within C<$action_group> to be
+Request for the state of the named action within C<$action-group> to be
 changed to C<$value>.
 
 The action must be stateful and C<$value> must be of the correct type.
@@ -246,11 +237,11 @@ See C<.get-action-state-hint()>.
 If the C<$value> GVariant is floating, it is consumed.
 
 =begin code
-method change-action-state ( Str $action-name, CArray[N-Variant] $value )
+method change-action-state ( Str $action-name, N-Object $value )
 =end code
 
 =item $action-name; the name of the action to request the change on.
-=item $value; the new state.
+=item $value; the new state
 
 =begin comment
 
@@ -265,7 +256,7 @@ method change-action-state ( Str $action-name, CArray[N-Variant] $value )
 =begin pod
 =head2 get-action-enabled
 
-Checks if the named action within C<$action_group> is currently enabled.
+Checks if the named action within C<$action-group> is currently enabled.
 
 An action must be enabled in order to be activated or in order to
 have its state changed from outside callers.
@@ -292,7 +283,7 @@ Return value; whether or not the action is currently enabled.
 =head2 get-action-parameter-type
 
 Queries the type of the parameter that must be given when activating
-the named action within C<$action_group>.
+the named action within C<$action-group>.
 
 When activating the action using C<.activate-action()>,
 the B<Gnome::Glib::N-Variant> given to that function must be of the type returned
@@ -306,7 +297,7 @@ possible for an action to be removed and for a new action to be added
 with the same name but a different parameter type.
 
 =begin code
-method get-action-parameter-type ( Str $action-name --> CArray[N-VariantType] )
+method get-action-parameter-type ( Str $action-name --> N-Object )
 =end code
 
 =item $action-name; the name of the action to query.
@@ -326,7 +317,7 @@ Return value; the parameter type.
 =begin pod
 =head2 get-action-state
 
-Queries the current state of the named action within C<$action_group>.
+Queries the current state of the named action within C<$action-group>.
 
 If the action is not stateful then undefined will be returned.  If the
 action is stateful then the type of the return value is the type
@@ -336,7 +327,7 @@ The return value (if non-undefined) should be freed with
 g_variant_unref() when it is no longer required.
 
 =begin code
-method get-action-state ( Str $action-name --> CArray[N-Variant] )
+method get-action-state ( Str $action-name --> N-Object )
 =end code
 
 =item $action-name; the name of the action to query.
@@ -357,7 +348,7 @@ Return value; the current state of the action.
 =head2 get-action-state-hint
 
 Requests a hint about the valid range of values for the state of the
-named action within C<$action_group>.
+named action within C<$action-group>.
 
 If undefined is returned it either means that the action is not stateful
 or that there is no hint about the valid range of values for the
@@ -376,7 +367,7 @@ The return value (if non-undefined) should be freed with
 g_variant_unref() when it is no longer required.
 
 =begin code
-method get-action-state-hint ( Str $action-name --> CArray[N-Variant] )
+method get-action-state-hint ( Str $action-name --> N-Object )
 =end code
 
 =item $action-name; the name of the action to query.
@@ -396,7 +387,7 @@ Return value; the state range hint.
 =begin pod
 =head2 get-action-state-type
 
-Queries the type of the state of the named action within C<$action_group>.
+Queries the type of the state of the named action within C<$action-group>.
 
 If the action is stateful then this function returns the
 B<Gnome::Glib::N-VariantType> of the state.  All calls to
@@ -413,7 +404,7 @@ possible for an action to be removed and for a new action to be added
 with the same name but a different state type.
 
 =begin code
-method get-action-state-type ( Str $action-name --> CArray[N-VariantType] )
+method get-action-state-type ( Str $action-name --> N-Object )
 =end code
 
 =item $action-name; the name of the action to query.
@@ -433,7 +424,7 @@ Return value; the state type, if the action is stateful.
 =begin pod
 =head2 has-action
 
-Checks if the named action exists within C<$action_group>.
+Checks if the named action exists within C<$action-group>.
 
 =begin code
 method has-action ( Str $action-name --> Bool )
@@ -456,7 +447,7 @@ Return value; whether the named action exists.
 =begin pod
 =head2 list-actions
 
-Lists the actions contained within C<$action_group>.
+Lists the actions contained within C<$action-group>.
 
 The caller is responsible for freeing the list with g_strfreev() when
 it is no longer required.
@@ -481,7 +472,7 @@ actions in the group.
 =begin pod
 =head2 query-action
 
-Queries all aspects of the named action within an C<$action_group>.
+Queries all aspects of the named action within an C<$action-group>.
 
 This function acquires the information available from
 C<.has-action()>, C<.get-action-enabled()>,
@@ -510,15 +501,15 @@ filled.  If the action doesn't exist, C<False> is returned and the
 fields may or may not have been modified.
 
 =begin code
-method query-action ( Str $action-name, Bool() $enabled, CArray[N-VariantType] $parameter-type, CArray[N-VariantType] $state-type, CArray[N-Variant] $state-hint, CArray[N-Variant] $state --> Bool )
+method query-action ( Str $action-name, Bool() $enabled, N-Object $parameter-type, N-Object $state-type, N-Object $state-hint, N-Object $state --> Bool )
 =end code
 
 =item $action-name; the name of an action in the group.
 =item $enabled; (transfer ownership: full) if the action is presently enabled.
-=item $parameter-type; the parameter type, or undefined if none needed.
-=item $state-type; the state type, or undefined if stateless.
-=item $state-hint; (transfer ownership: full) the state hint, or undefined if none.
-=item $state; (transfer ownership: full) the current state, or undefined if stateless.
+=item $parameter-type; the parameter type, or undefined if none needed
+=item $state-type; the state type, or undefined if stateless
+=item $state-hint; (transfer ownership: full) the state hint, or undefined if none
+=item $state; (transfer ownership: full) the current state, or undefined if stateless
 
 Return value; C<True> if the action exists, else C<False>. 
 
@@ -555,7 +546,7 @@ method handler (
 )
 =end code
 
-=item $action-name; the name of the action in C<$action_group>.
+=item $action-name; the name of the action in C<$action-group>.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gio::ActionGroup> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
@@ -584,7 +575,7 @@ method handler (
 )
 =end code
 
-=item $action-name; the name of the action in C<$action_group>.
+=item $action-name; the name of the action in C<$action-group>.
 =item $enabled; whether the action is enabled or not.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gio::ActionGroup> object.
@@ -615,7 +606,7 @@ method handler (
 )
 =end code
 
-=item $action-name; the name of the action in C<$action_group>.
+=item $action-name; the name of the action in C<$action-group>.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gio::ActionGroup> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
@@ -644,7 +635,7 @@ method handler (
 )
 =end code
 
-=item $action-name; the name of the action in C<$action_group>.
+=item $action-name; the name of the action in C<$action-group>.
 =item $value; the new value of the state.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gio::ActionGroup> object.

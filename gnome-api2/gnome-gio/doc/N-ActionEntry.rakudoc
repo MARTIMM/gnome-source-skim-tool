@@ -6,8 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gio::N-ActionEntry
-
+=TITLE Gnome::Gio::N-ActionEntry
 =head1 Description
 
 This struct defines a single action.  It is for use with
@@ -23,49 +22,10 @@ See g_action_map_add_action_entries() for an example.
 
 =begin comment
 
-=head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
-
-=begin comment
-
 =head2 Example
 # Example use of module Gnome::Gio::ActionEntry
 
 =end comment
-
-=end pod
-
-#-------------------------------------------------------------------------------
-#--[Record Structure Documentation]---------------------------------------------
-#-------------------------------------------------------------------------------
-
-=begin pod
-=head1 Record N-ActionEntry
-
-  class N-ActionEntry:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-    has Str $.name;
-    has $.activate;
-    has Str $.parameter-type;
-    has Str $.state;
-    has $.change-state;
-    has gchar-pptr $.padding;
-  }
-
-=item name; the name of the action
-=item activate; 
-=item parameter-type; the type of the parameter that must be passed to the
-                 activate function for this action, given as a single
-                 GVariant type string (or undefined for no parameter)
-=item state; the initial state for this action, given in
-        GVariant text format.  The state is parsed
-        with no extra type information, so type tags must be added to
-        the string if they are necessary.  Stateless actions should
-        give undefined here.
-=item change-state; 
-=item padding; 
 
 =end pod
 

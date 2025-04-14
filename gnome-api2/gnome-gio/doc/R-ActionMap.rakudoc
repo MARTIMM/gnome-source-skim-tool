@@ -6,26 +6,20 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gio::R-ActionMap
-
+=TITLE Gnome::Gio::R-ActionMap
 =head1 Description
 
-The GActionMap interface is implemented by B<Gnome::Gio::R-ActionGroup>
-implementations that operate by containing a number of
-named B<Gnome::Gio::R-Action> instances, such as B<Gnome::Gio::SimpleActionGroup>.
+B<Gnome::Gio::R-ActionMap> is an interface for action containers.
+
+The B<Gnome::Gio::R-ActionMap> interface is implemented by B<Gnome::Gio::ActionMap>
+implementations that operate by containing a number of named
+B<Gnome::Gio::ActionMap> instances, such as B<Gnome::Gio::ActionMap>.
 
 One useful application of this interface is to map the
 names of actions from various action groups to unique,
 prefixed names (e.g. by prepending "app." or "win.").
 This is the motivation for the 'Map' part of the interface
 name.
-
-=begin comment
-
-=head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
 
 =begin comment
 
@@ -47,7 +41,7 @@ name.
 =begin pod
 =head2 add-action
 
-Adds an action to the C<$action_map>.
+Adds an action to the C<$action-map>.
 
 If the action map already contains an action with the same name
 as C<$action> then the old action is dropped from the action map.
@@ -72,54 +66,18 @@ method add-action ( N-Object() $action )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 add-action-entries
-This function is not yet available
 
 A convenience function for creating multiple B<Gnome::Gio::SimpleAction> instances
 and adding them to a B<Gnome::Gio::R-ActionMap>.
 
 Each action is constructed as per one B<Gnome::Gio::N-ActionEntry>.
 
-=begin comment
-<!-- language="C" -->
-static void
-activate_quit (GSimpleAction *simple,
-               GVariant      *parameter,
-               gpointer       user_data)
-{
-  exit (0);
-}
-
-static void
-activate_print_string (GSimpleAction *simple,
-                       GVariant      *parameter,
-                       gpointer       user_data)
-{
-  g_print ("%s\n", g_variant_get_string (parameter, NULL));
-}
-
-static GActionGroup *
-create_action_group (void)
-{
-  const GActionEntry entries[] = {
-    { "quit",         activate_quit              },
-    { "print-string", activate_print_string, "s" }
-  };
-  GSimpleActionGroup *group;
-
-  group = g_simple_action_group_new ();
-  g_action_map_add_action_entries (G_ACTION_MAP (group), entries, G_N_ELEMENTS (entries), NULL);
-
-  return G_ACTION_GROUP (group);
-}
-
-=end comment
-
 =begin code
-method add-action-entries ( CArray[N-ActionEntry]  $entries, Int() $n-entries, gpointer $user-data )
+method add-action-entries ( N-Object $entries, Int() $n-entries, gpointer $user-data )
 =end code
 
 =item $entries; a pointer to
-          the first item in an array of B<Gnome::Gio::N-ActionEntry> structs.
+          the first item in an array of B<Gnome::Gio::N-ActionEntry> structs
 =item $n-entries; the length of C<$entries>, or -1 if C<$entries> is undefined-terminated.
 =item $user-data; the user data for signal connections.
 
@@ -136,7 +94,7 @@ method add-action-entries ( CArray[N-ActionEntry]  $entries, Int() $n-entries, g
 =begin pod
 =head2 lookup-action
 
-Looks up the action with the name C<$action_name> in C<$action_map>.
+Looks up the action with the name C<$action-name> in C<$action-map>.
 
 If no such action exists, returns undefined.
 
@@ -175,6 +133,58 @@ method remove-action ( Str $action-name )
 
 =head2 Example
 # Example for remove-action
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-action-entries
+
+Remove actions from a B<Gnome::Gio::R-ActionMap>. This is meant as the reverse of
+C<.add-action-entries()>.
+
+=begin code
+method remove-action-entries ( N-Object $entries, Int() $n-entries )
+=end code
+
+=item $entries; a pointer to
+          the first item in an array of B<Gnome::Gio::N-ActionEntry> structs
+=item $n-entries; the length of C<$entries>, or -1 if C<$entries> is undefined-terminated.
+
+=begin comment
+<!-- language="C" -->
+static void
+activate_quit (GSimpleAction *simple,
+               GVariant      *parameter,
+               gpointer       user_data)
+{
+  exit (0);
+}
+
+static void
+activate_print_string (GSimpleAction *simple,
+                       GVariant      *parameter,
+                       gpointer       user_data)
+{
+  g_print ("%s\n", g_variant_get_string (parameter, NULL));
+}
+
+static GActionGroup *
+create_action_group (void)
+{
+  const GActionEntry entries[] = {
+    { "quit",         activate_quit              },
+    { "print-string", activate_print_string, "s" }
+  };
+  GSimpleActionGroup *group;
+
+  group = g_simple_action_group_new ();
+  g_action_map_add_action_entries (G_ACTION_MAP (group), entries, G_N_ELEMENTS (entries), NULL);
+
+  return G_ACTION_GROUP (group);
+}
 
 =end comment
 

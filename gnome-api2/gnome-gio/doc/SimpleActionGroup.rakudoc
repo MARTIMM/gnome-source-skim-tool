@@ -6,19 +6,15 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gio::SimpleActionGroup
-
+=TITLE Gnome::Gio::SimpleActionGroup
 =head1 Description
 
-B<Gnome::Gio::SimpleActionGroup> is a hash table filled with B<Gnome::Gio::R-Action> objects,
-implementing the B<Gnome::Gio::R-ActionGroup> and B<Gnome::Gio::R-ActionMap> interfaces.
-
-=begin comment
+B<Gnome::Gio::SimpleActionGroup> is a hash table filled with B<Gnome::Gio::SimpleActionGroup> objects,
+implementing the B<Gnome::Gio::SimpleActionGroup> and B<Gnome::Gio::SimpleActionGroup>
+interfaces.
 
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/SimpleActionGroup.png> :width<50%> :class<inline>
 
 =begin comment
 
@@ -62,6 +58,92 @@ method new-simpleactiongroup ( --> Gnome::Gio::SimpleActionGroup \)
 # Example for new-simpleactiongroup
 
 =end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-entries
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.38>
+
+A convenience function for creating multiple B<Gnome::Gio::SimpleAction> instances
+and adding them to the action group.
+
+=begin code
+method add-entries ( N-Object $entries, Int() $n-entries, gpointer $user-data )
+=end code
+
+=item $entries; a pointer to the first item in
+          an array of B<Gnome::Gio::N-ActionEntry> structs
+=item $n-entries; the length of C<$entries>, or -1.
+=item $user-data; the user data for signal connections.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.38>
+
+Adds an action to the action group.
+
+If the action group already contains an action with the same name as C<$action> then the old action is dropped from the group.
+
+The action group takes its own reference on C<$action>.
+
+=begin code
+method insert ( N-Object() $action )
+=end code
+
+=item $action; a B<Gnome::Gio::R-Action>.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 lookup
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.38>
+
+Looks up the action with the name C<$action-name> in the group.
+
+If no such action exists, returns undefined.
+
+=begin code
+method lookup ( Str $action-name --> N-Object )
+=end code
+
+=item $action-name; the name of an action.
+
+Return value; a B<Gnome::Gio::R-Action>, or undefined. 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.38>
+
+Removes the named action from the action group.
+
+If no action of this name is in the group then nothing happens.
+
+=begin code
+method remove ( Str $action-name )
+=end code
+
+=item $action-name; the name of the action.
 
 =end pod
 

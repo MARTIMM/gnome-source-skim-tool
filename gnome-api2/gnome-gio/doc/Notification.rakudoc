@@ -1,4 +1,4 @@
-=comment Package: Gio, C-Source: io
+=comment Package: Gio, C-Source: notification
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -6,12 +6,11 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gio::Notification
-
+=TITLE Gnome::Gio::Notification
 =head1 Description
 
 B<Gnome::Gio::Notification> is a mechanism for creating a notification to be shown
-to the user -- typically as a pop-up notification presented by the
+to the user — typically as a pop-up notification presented by the
 desktop environment shell.
 
 The key difference between B<Gnome::Gio::Notification> and other similar APIs is
@@ -21,48 +20,30 @@ and even across system reboots.
 
 Since the user may click on a notification while the application is
 not running, applications using B<Gnome::Gio::Notification> should be able to be
-started as a D-Bus service, using B<Gnome::Gio::Application>.
+started as a D-Bus service, using B<Gnome::Gio::Notification>.
 
 In order for B<Gnome::Gio::Notification> to work, the application must have installed
-a B<.desktop> file. For example:
-=begin comment
+a `.desktop` file. For example:
 
- [Desktop Entry]
-  Name=Test Application
-  Comment=Description of what Test Application does
-  Exec=gnome-test-application
-  Icon=org.gnome.TestApplication
-  Terminal=false
-  Type=Application
-  Categories=GNOME;GTK;TestApplication Category;
-  StartupNotify=true
-  DBusActivatable=true
-  X-GNOME-UsesNotifications=true
-
-=end comment
-
-The B<X-GNOME-UsesNotifications> key indicates to GNOME Control Center
+The B<X>-GNOME-UsesNotifications` key indicates to GNOME Control Center
 that this application uses notifications, so it can be listed in the
 Control Center’s ‘Notifications’ panel.
 
-The B<.desktop> file must be named as B<org.gnome.TestApplication.desktop>,
-where B<org.gnome.TestApplication> is the ID passed to g_application_new().
+The `.desktop` file must be named as B<org>.gnome.TestApplication.desktop`,
+where B<org>.gnome.TestApplication` is the ID passed to
+C<.newnotification()> in class C<Gnome::Gio::Application>.
 
 User interaction with a notification (either the default action, or
 buttons) must be associated with actions on the application (ie:
-"app." actions).  It is not possible to route user interaction
+B<app>.` actions).  It is not possible to route user interaction
 through the notification itself, because the object will not exist if
 the application is autostarted as a result of a notification being
 clicked.
 
-A notification can be sent with g_application_send_notification().
-
-=begin comment
+A notification can be sent with C<.send-notification()> in class C<Gnome::Gio::Application>.
 
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Notification.png> :width<50%> :class<inline>
 
 =begin comment
 
@@ -128,13 +109,13 @@ method new-notification ( Str $title --> Gnome::Gio::Notification \)
 =begin pod
 =head2 add-button
 
-Adds a button to C<$notification> that activates the action in C<$detailed_action> when clicked. That action must be an
-application-wide action (starting with "app."). If C<$detailed_action>
+Adds a button to C<$notification> that activates the action in C<$detailed-action> when clicked. That action must be an
+application-wide action (starting with "app."). If C<$detailed-action>
 contains a target, the action will be activated with that target as
 its parameter.
 
 See g_action_parse_detailed_name() for a description of the format
-for C<$detailed_action>.
+for C<$detailed-action>.
 
 =begin code
 method add-button ( Str $label, Str $detailed-action )
@@ -159,7 +140,7 @@ This function is not yet available
 
 Adds a button to C<$notification> that activates C<$action> when clicked. C<$action> must be an application-wide action (it must start with "app.").
 
-If C<$target_format> is given, it is used to collect remaining
+If C<$target-format> is given, it is used to collect remaining
 positional parameters into a B<Gnome::Glib::N-Variant> instance, similar to
 g_variant_new(). C<$action> will be activated with that B<Gnome::Glib::N-Variant> as its
 parameter.
@@ -192,12 +173,12 @@ If C<$target> is non-undefined, C<$action> will be activated with C<$target> as
 its parameter.
 
 =begin code
-method add-button-with-target-value ( Str $label, Str $action, CArray[N-Variant] $target )
+method add-button-with-target-value ( Str $label, Str $action, N-Object $target )
 =end code
 
 =item $label; label of the button.
 =item $action; an action name.
-=item $target; a B<Gnome::Glib::N-Variant> to use as C<$action>'s parameter, or undefined.
+=item $target; a B<Gnome::Glib::N-Variant> to use as C<$action>'s parameter, or undefined
 
 =begin comment
 
@@ -235,7 +216,7 @@ method set-body ( Str $body )
 
 Sets the type of C<$notification> to C<$category>. Categories have a main
 type like B<email>, B<im> or B<device> and can have a detail separated
-by a B<.>, e.g. B<im.received> or B<email.arrived>. Setting the category
+by a `.`, e.g. B<im>.received` or B<email>.arrived`. Setting the category
 helps the notification server to select proper feedback to the user.
 
 Standard categories are [listed in the specification](https://specifications.freedesktop.org/notification-spec/latest/ar01s06.html).
@@ -259,14 +240,14 @@ method set-category ( Str $category )
 =begin pod
 =head2 set-default-action
 
-Sets the default action of C<$notification> to C<$detailed_action>. This
+Sets the default action of C<$notification> to C<$detailed-action>. This
 action is activated when the notification is clicked on.
 
-The action in C<$detailed_action> must be an application-wide action (it
-must start with "app."). If C<$detailed_action> contains a target, the
+The action in C<$detailed-action> must be an application-wide action (it
+must start with "app."). If C<$detailed-action> contains a target, the
 given action will be activated with that target as its parameter.
 See g_action_parse_detailed_name() for a description of the format
-for C<$detailed_action>.
+for C<$detailed-action>.
 
 When no default action is set, the application that the notification
 was sent on is activated.
@@ -295,7 +276,7 @@ Sets the default action of C<$notification> to C<$action>. This action is
 activated when the notification is clicked on. It must be an
 application-wide action (it must start with "app.").
 
-If C<$target_format> is given, it is used to collect remaining
+If C<$target-format> is given, it is used to collect remaining
 positional parameters into a B<Gnome::Glib::N-Variant> instance, similar to
 g_variant_new(). C<$action> will be activated with that B<Gnome::Glib::N-Variant> as its
 parameter.
@@ -329,17 +310,17 @@ activated when the notification is clicked on. It must be an
 application-wide action (start with "app.").
 
 If C<$target> is non-undefined, C<$action> will be activated with C<$target> as
-its parameter.
+its parameter. If C<$target> is floating, it will be consumed.
 
 When no default action is set, the application that the notification
 was sent on is activated.
 
 =begin code
-method set-default-action-and-target-value ( Str $action, CArray[N-Variant] $target )
+method set-default-action-and-target-value ( Str $action, N-Object $target )
 =end code
 
 =item $action; an action name.
-=item $target; a B<Gnome::Glib::N-Variant> to use as C<$action>'s parameter, or undefined.
+=item $target; a B<Gnome::Glib::N-Variant> to use as C<$action>'s parameter, or undefined
 
 =begin comment
 
@@ -376,13 +357,13 @@ method set-icon ( N-Object() $icon )
 =head2 set-priority
 
 Sets the priority of C<$notification> to C<$priority>. See
-B<Gnome::Gio::T-Ioenums> for possible values.
+B<Gnome::Gio::T-ioenums> for possible values.
 
 =begin code
 method set-priority ( GNotificationPriority $priority )
 =end code
 
-=item $priority; a B<Gnome::Gio::T-Ioenums>.
+=item $priority; a B<Gnome::Gio::T-ioenums>.
 
 =begin comment
 
@@ -409,6 +390,38 @@ method set-title ( Str $title )
 
 =head2 Example
 # Example for set-title
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-urgent
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.42>
+
+Deprecated in favor of C<.set-priority()>.
+
+=begin code
+method set-urgent ( Bool() $urgent )
+=end code
+
+=item $urgent; C<True> if C<$notification> is urgent.
+
+=begin comment
+
+ [Desktop Entry]
+  Name=Test Application
+  Comment=Description of what Test Application does
+  Exec=gnome-test-application
+  Icon=org.gnome.TestApplication
+  Terminal=false
+  Type=Application
+  Categories=GNOME;GTK;TestApplication Category;
+  StartupNotify=true
+  DBusActivatable=true
+  X-GNOME-UsesNotifications=true
 
 =end comment
 

@@ -6,8 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gio::SimpleAsyncResult
-
+=TITLE Gnome::Gio::SimpleAsyncResult
 =head1 Description
 
 As of GLib 2.46, B<Gnome::Gio::SimpleAsyncResult> is deprecated in favor of
@@ -59,7 +58,7 @@ C<.complete()> will finish an I/O task directly
 from the point where it is called.
 C<.complete-in-idle()> will finish it from an idle
 handler in the  thread-default main context (see
-C<.push-thread-default() in class Gnome::Gio::SimpleAsyncResult>) where the B<Gnome::Gio::SimpleAsyncResult>
+C<.push-thread-default()> in class C<Gnome::Gio::SimpleAsyncResult>) where the B<Gnome::Gio::SimpleAsyncResult>
 was created. C<.run-in-thread()> will run the job in
 a separate thread and then use
 C<.complete-in-idle()> to deliver the result.
@@ -177,12 +176,8 @@ baker_bake_cake_finish (Baker        *self,
 
 =end comment
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/SimpleAsyncResult.png> :width<50%> :class<inline>
 
 =begin comment
 
@@ -228,11 +223,11 @@ C<.set-check-cancellable()> immediately after
 this function returns.
 
 =begin code
-method new-simpleasyncresult ( N-Object() $source-object, &callback, gpointer $user-data, gpointer $source-tag --> Gnome::Gio::SimpleAsyncResult \)
+method new-simpleasyncresult ( N-Object() $source-object, GAsyncReadyCallback &callback, gpointer $user-data, gpointer $source-tag --> Gnome::Gio::SimpleAsyncResult \)
 =end code
 
 =item $source-object; a B<Gnome::GObject::Object>, or undefined..
-=item &callback; a B<Gnome::Gio::T-iotypes>.. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
+=item GAsyncReadyCallback &callback; a B<Gnome::Gio::T-iotypes>.. The function must be specified with the following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
 =item $user-data; user data passed to C<$callback>..
 =item $source-tag; the asynchronous function..
 
@@ -255,11 +250,11 @@ B<Note: The native version of this routine is deprecated in gio-lib() since vers
 Creates a new B<Gnome::Gio::SimpleAsyncResult> with a set error.
 
 =begin code
-method new-error ( N-Object() $source-object, &callback, gpointer $user-data, UInt $domain, Int() $code, Str $format, … --> Gnome::Gio::SimpleAsyncResult \)
+method new-error ( N-Object() $source-object, GAsyncReadyCallback &callback, gpointer $user-data, UInt $domain, Int() $code, Str $format, … --> Gnome::Gio::SimpleAsyncResult \)
 =end code
 
 =item $source-object; a B<Gnome::GObject::Object>, or undefined..
-=item &callback; a B<Gnome::Gio::T-iotypes>.. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
+=item GAsyncReadyCallback &callback; a B<Gnome::Gio::T-iotypes>.. The function must be specified with the following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
 =item $user-data; user data passed to C<$callback>..
 =item $domain; a B<Gnome::Glib::SimpleAsyncResult>..
 =item $code; an error code..
@@ -284,11 +279,11 @@ B<Note: The native version of this routine is deprecated in gio-lib() since vers
 Creates a B<Gnome::Gio::SimpleAsyncResult> from an error condition.
 
 =begin code
-method new-from-error ( N-Object() $source-object, &callback, gpointer $user-data, N-Object $error --> Gnome::Gio::SimpleAsyncResult \)
+method new-from-error ( N-Object() $source-object, GAsyncReadyCallback &callback, gpointer $user-data, N-Object $error --> Gnome::Gio::SimpleAsyncResult \)
 =end code
 
 =item $source-object; a B<Gnome::GObject::Object>, or undefined..
-=item &callback; a B<Gnome::Gio::T-iotypes>.. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
+=item GAsyncReadyCallback &callback; a B<Gnome::Gio::T-iotypes>.. The function must be specified with the following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
 =item $user-data; user data passed to C<$callback>..
 =item $error; a B<Gnome::Glib::N-Error>
 
@@ -311,11 +306,11 @@ Creates a B<Gnome::Gio::SimpleAsyncResult> from an error condition, and takes ov
 caller's ownership of C<$error>, so the caller does not need to free it anymore.
 
 =begin code
-method new-take-error ( N-Object() $source-object, &callback, gpointer $user-data, N-Object $error --> Gnome::Gio::SimpleAsyncResult \)
+method new-take-error ( N-Object() $source-object, GAsyncReadyCallback &callback, gpointer $user-data, N-Object $error --> Gnome::Gio::SimpleAsyncResult \)
 =end code
 
 =item $source-object; a B<Gnome::GObject::Object>, or undefined.
-=item &callback; a B<Gnome::Gio::T-iotypes>.. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
+=item GAsyncReadyCallback &callback; a B<Gnome::Gio::T-iotypes>.. The function must be specified with the following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
 =item $user-data; user data passed to C<$callback>..
 =item $error; a B<Gnome::Glib::N-Error>
 
@@ -528,10 +523,10 @@ Calling this function takes a reference to C<$simple> for as long as
 is needed to run the job and report its completion.
 
 =begin code
-method run-in-thread ( &func, Int() $io-priority, N-Object() $cancellable )
+method run-in-thread ( GSimpleAsyncThreadFunc &func, Int() $io-priority, N-Object() $cancellable )
 =end code
 
-=item &func; a B<Gnome::Gio::T-iotypes>.. Tthe function must be specified with following signature; C<:( N-Object $res, N-Object $object, N-Object $cancellable )>.
+=item GSimpleAsyncThreadFunc &func; a B<Gnome::Gio::T-iotypes>.. The function must be specified with the following signature; C<:( N-Object $res, N-Object $object, N-Object $cancellable )>.
 =item $io-priority; the io priority of the request..
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object, undefined to ignore..
 
@@ -712,18 +707,17 @@ method set-op-res-gboolean ( Bool() $op-res )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-op-res-gpointer
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
 
 Sets the operation result within the asynchronous result to a pointer.
 
 =begin code
-method set-op-res-gpointer ( gpointer $op-res, … )
+method set-op-res-gpointer ( gpointer $op-res, GDestroyNotify &destroy-op-res )
 =end code
 
 =item $op-res; a pointer result from an asynchronous function..
-=item destroy-op-res; a B<Gnome::Glib::T-types> function.. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &destroy-op-res; a B<Gnome::Glib::T-types> function.. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 

@@ -6,8 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gio::Task
-
+=TITLE Gnome::Gio::Task
 =head1 Description
 
 A B<Gnome::Gio::Task> represents and manages a cancellable ‘task’.
@@ -24,7 +23,7 @@ Eventually, you will call a method such as
 C<.return-pointer()> or C<.return-error()>, which
 will save the value you give it and then invoke the task’s callback
 function in the thread-default main context (see
-C<.push-thread-default() in class Gnome::Gio::Task>)
+C<.push-thread-default()> in class C<Gnome::Gio::Task>)
 where it was created (waiting until the next iteration of the main
 loop first, if necessary). The caller will pass the B<Gnome::Gio::Task> back to
 the operation’s finish function (as a B<Gnome::Gio::Task>), and you can
@@ -36,7 +35,7 @@ the B<Gnome::Gio::Task> was constructed to be running at least until the task ha
 completed and its data has been freed.
 
 If a B<Gnome::Gio::Task> has been constructed and its callback set, it is an error to
-not call B<g_task_return_*()> on it. GLib will warn at runtime if this happens
+not call B<g_task_return_>*()` on it. GLib will warn at runtime if this happens
 (since 2.76).
 
 Here is an example for using B<Gnome::Gio::Task> as a B<Gnome::Gio::Task>:
@@ -281,7 +280,7 @@ baker_bake_cake_finish (Baker         *self,
 You can use C<.run-in-thread()> to turn a synchronous
 operation into an asynchronous one, by running it in a thread.
 When it completes, the result will be dispatched to the thread-default main
-context (see C<.push-thread-default() in class Gnome::Gio::Task>) where the B<Gnome::Gio::Task>
+context (see C<.push-thread-default()> in class C<Gnome::Gio::Task>) where the B<Gnome::Gio::Task>
 was created.
 
 Running a task in a thread:
@@ -470,7 +469,7 @@ in several ways:
 
 =item You can save task-specific data with C<.set-task-data()>, and
   retrieve it later with C<.get-task-data()>. This replaces the
-  abuse of C<.set-op-res-gpointer() in class Gnome::Gio::SimpleAsyncResult> for the same
+  abuse of C<.set-op-res-gpointer()> in class C<Gnome::Gio::SimpleAsyncResult> for the same
   purpose with B<Gnome::Gio::Task>.
 =item In addition to the task data, B<Gnome::Gio::Task> also keeps track of the
   [priority](iface.AsyncResult.html#io-priority), B<Gnome::Gio::Task>,
@@ -481,7 +480,7 @@ in several ways:
   handling for cancellation. In addition, cancellation
   overrides any other B<Gnome::Gio::Task> return value by default, like
   B<Gnome::Gio::Task> does when
-  C<.set-check-cancellable() in class Gnome::Gio::SimpleAsyncResult> is called.
+  C<.set-check-cancellable()> in class C<Gnome::Gio::SimpleAsyncResult> is called.
   (You can use C<.set-check-cancellable()> to turn off that
   behavior.) On the other hand, C<.run-in-thread()>
   guarantees that it will always run your
@@ -504,8 +503,8 @@ in several ways:
   the B<Gnome::Gio::Task>, it is not necessary to juggle pointers around to
   prevent it from being freed twice.
 =item With B<Gnome::Gio::Task>, it was common to call
-  C<.propagate-error() in class Gnome::Gio::SimpleAsyncResult> from the
-  B<_finish()> wrapper function, and have
+  C<.propagate-error()> in class C<Gnome::Gio::SimpleAsyncResult> from the
+  B<_finish>()` wrapper function, and have
   virtual method implementations only deal with successful
   returns. This behavior is deprecated, because it makes it
   difficult for a subclass to chain to a parent class’s async
@@ -513,12 +512,12 @@ in several ways:
   simple wrapper, and the virtual method should call an
   appropriate B<g_task_propagate_> function.
   Note that wrapper methods can now use
-  C<.legacy-propagate-error() in class Gnome::Gio::R-AsyncResult> to do old-style
+  C<.legacy-propagate-error()> in class C<Gnome::Gio::R-AsyncResult> to do old-style
   B<Gnome::Gio::Task> error-returning behavior, and
-  C<.is-tagged() in class Gnome::Gio::R-AsyncResult> to check if a result is tagged as
-  having come from the B<_async()> wrapper
+  C<.is-tagged()> in class C<Gnome::Gio::R-AsyncResult> to check if a result is tagged as
+  having come from the B<_async>()` wrapper
   function (for ‘short-circuit’ results, such as when passing
-  B<0> to C<.read-async() in class Gnome::Gio::InputStream>).
+  B<0> to C<.read-async()> in class C<Gnome::Gio::InputStream>).
 
 =head3 Thread-safety considerations
 
@@ -532,17 +531,13 @@ of these objects may be called on the worker thread.
 This is a problem if the finalizers use non-threadsafe API, and
 can lead to hard-to-debug crashes. Possible workarounds include:
 
-=item Clear task data in a signal handler for B<notify::completed>
+=item Clear task data in a signal handler for B<notify>::completed`
 =item Keep iterating a main context in the main thread and defer
   dropping the reference to the source object to that main
   context when the task is finalized
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Task.png> :width<50%> :class<inline>
 
 =begin comment
 
@@ -591,13 +586,13 @@ do not want this behavior, you can use
 C<.set-check-cancellable()> to change it.
 
 =begin code
-method new-task ( gpointer $source-object, N-Object() $cancellable, &callback, gpointer $callback-data --> Gnome::Gio::Task \)
+method new-task ( gpointer $source-object, N-Object() $cancellable, GAsyncReadyCallback &callback, gpointer $callback-data --> Gnome::Gio::Task \)
 =end code
 
 =item $source-object; the B<Gnome::GObject::Object> that owns
   this task, or undefined..
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object, undefined to ignore..
-=item &callback; a B<Gnome::Gio::T-iotypes>.. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
+=item GAsyncReadyCallback &callback; a B<Gnome::Gio::T-iotypes>.. The function must be specified with the following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
 =item $callback-data; user data passed to C<$callback>..
 
 =begin comment
@@ -620,7 +615,6 @@ method new-task ( gpointer $source-object, N-Object() $cancellable, &callback, g
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 attach-source
-This function is not yet available
 
 A utility function for dealing with async operations where you need
 to wait for a B<Gnome::Glib::N-Source> to trigger. Attaches C<$source> to C<$task>'s
@@ -635,11 +629,11 @@ yet have a name.
 This takes a reference on C<$task> until C<$source> is destroyed.
 
 =begin code
-method attach-source ( N-Object $source, … )
+method attach-source ( N-Object $source, GSourceFunc &callback )
 =end code
 
 =item $source; the source to attach
-=item callback; the callback to invoke when C<$source> triggers. Note that each argument must be specified as a type followed by its value!
+=item GSourceFunc &callback; the callback to invoke when C<$source> triggers. The function must be specified with the following signature; C<:( gpointer $user-data )>.
 
 =begin comment
 
@@ -1181,7 +1175,6 @@ method return-new-error-literal ( UInt $domain, Int() $code, Str $message )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 return-pointer
-This function is not yet available
 
 Sets C<$task>'s result to C<$result> and completes the task. If C<$result>
 is defined, then C<$result-destroy> will be used to free C<$result> if
@@ -1203,12 +1196,12 @@ valid after calling this, unless you are still holding another
 reference on it.
 
 =begin code
-method return-pointer ( gpointer $result, … )
+method return-pointer ( gpointer $result, GDestroyNotify &result-destroy )
 =end code
 
 =item $result; (transfer ownership: full) the pointer result of a task
     function.
-=item result-destroy; a B<Gnome::Glib::T-types> function.. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &result-destroy; a B<Gnome::Glib::T-types> function.. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 
@@ -1308,10 +1301,10 @@ separate worker thread or thread pool explicitly, rather than using
 C<.run-in-thread()>.
 
 =begin code
-method run-in-thread ( &task-func )
+method run-in-thread ( GTaskThreadFunc &task-func )
 =end code
 
-=item &task-func; a B<Gnome::Gio::T-task>. Tthe function must be specified with following signature; C<:( N-Object $task, gpointer $source-object, gpointer $task-data, N-Object $cancellable )>.
+=item GTaskThreadFunc &task-func; a B<Gnome::Gio::T-task>. The function must be specified with the following signature; C<:( N-Object $task, gpointer $source-object, gpointer $task-data, N-Object $cancellable )>.
 
 =begin comment
 
@@ -1344,10 +1337,10 @@ but don't want them to all run at once, you should only queue a
 limited number of them at a time.
 
 =begin code
-method run-in-thread-sync ( &task-func )
+method run-in-thread-sync ( GTaskThreadFunc &task-func )
 =end code
 
-=item &task-func; a B<Gnome::Gio::T-task>. Tthe function must be specified with following signature; C<:( N-Object $task, gpointer $source-object, gpointer $task-data, N-Object $cancellable )>.
+=item GTaskThreadFunc &task-func; a B<Gnome::Gio::T-task>. The function must be specified with the following signature; C<:( N-Object $task, gpointer $source-object, gpointer $task-data, N-Object $cancellable )>.
 
 =begin comment
 
@@ -1561,16 +1554,15 @@ method set-static-name ( Str $name )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-task-data
-This function is not yet available
 
 Sets C<$task>'s task data (freeing the existing task data, if any).
 
 =begin code
-method set-task-data ( gpointer $task-data, … )
+method set-task-data ( gpointer $task-data, GDestroyNotify &task-data-destroy )
 =end code
 
 =item $task-data; task-specific data.
-=item task-data-destroy; B<Gnome::Glib::T-types> for C<$task-data>. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &task-data-destroy; B<Gnome::Glib::T-types> for C<$task-data>. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 
@@ -1631,12 +1623,12 @@ wrapper method, and deal with it appropriately if so.
 See also C<.report-new-error()>.
 
 =begin code
-method report-error ( gpointer $source-object, &callback, gpointer $callback-data, gpointer $source-tag, N-Object $error )
+method report-error ( gpointer $source-object, GAsyncReadyCallback &callback, gpointer $callback-data, gpointer $source-tag, N-Object $error )
 =end code
 
 =item $source-object; the B<Gnome::GObject::Object> that owns
   this task, or undefined..
-=item &callback; a B<Gnome::Gio::T-iotypes>.. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
+=item GAsyncReadyCallback &callback; a B<Gnome::Gio::T-iotypes>.. The function must be specified with the following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
 =item $callback-data; user data passed to C<$callback>..
 =item $source-tag; an opaque pointer indicating the source of this task.
 =item $error; (transfer ownership: full) error to report
@@ -1666,12 +1658,12 @@ appropriately if so.
 See also C<.report-error()>.
 
 =begin code
-method report-new-error ( gpointer $source-object, &callback, gpointer $callback-data, gpointer $source-tag, UInt $domain, Int() $code, Str $format, … )
+method report-new-error ( gpointer $source-object, GAsyncReadyCallback &callback, gpointer $callback-data, gpointer $source-tag, UInt $domain, Int() $code, Str $format, … )
 =end code
 
 =item $source-object; the B<Gnome::GObject::Object> that owns
   this task, or undefined..
-=item &callback; a B<Gnome::Gio::T-iotypes>.. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
+=item GAsyncReadyCallback &callback; a B<Gnome::Gio::T-iotypes>.. The function must be specified with the following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
 =item $callback-data; user data passed to C<$callback>..
 =item $source-tag; an opaque pointer indicating the source of this task.
 =item $domain; a B<Gnome::Glib::Task>..

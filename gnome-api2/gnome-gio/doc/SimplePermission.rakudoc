@@ -1,4 +1,4 @@
-=comment Package: Gio, C-Source: io
+=comment Package: Gio, C-Source: simplepermission
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -6,22 +6,18 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gio::SimplePermission
-
+=TITLE Gnome::Gio::SimplePermission
 =head1 Description
 
-B<Gnome::Gio::SimplePermission> is a trivial implementation of B<Gnome::Gio::Permission> that
-represents a permission that is either always or never allowed.  The
-value is given at construction and doesn't change.
+B<Gnome::Gio::SimplePermission> is a trivial implementation of B<Gnome::Gio::SimplePermission>
+that represents a permission that is either always or never allowed.  The
+value is given at construction and doesn’t change.
 
-Calling request or release will result in errors.
-
-=begin comment
+Calling C<.acquire()> in class C<Gnome::Gio::Permission> or C<.release()> in class C<Gnome::Gio::Permission>
+on a B<Gnome::Gio::SimplePermission> will result in errors.
 
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/SimplePermission.png> :width<50%> :class<inline>
 
 =begin comment
 

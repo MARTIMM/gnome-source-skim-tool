@@ -2,7 +2,7 @@
 use v6.d;
 
 =begin pod
-=head1 Gnome::Gio::T-simpleasyncresult
+=TITLE Gnome::Gio::T-simpleasyncresult
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -37,11 +37,11 @@ directly setting the contents of the B<Gnome::Gio::R-AsyncResult> with the given
 information.
 
 =begin code
-method simple-async-report-error-in-idle ( N-Object() $object, &callback, gpointer $user-data, UInt $domain, Int() $code, Str $format, … )
+method simple-async-report-error-in-idle ( N-Object() $object, GAsyncReadyCallback &callback, gpointer $user-data, UInt $domain, Int() $code, Str $format, … )
 =end code
 
 =item $object; a B<Gnome::GObject::Object>, or undefined..
-=item &callback; a B<Gnome::Gio::T-iotypes>.. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
+=item GAsyncReadyCallback &callback; a B<Gnome::Gio::T-iotypes>.. The function must be specified with the following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
 =item $user-data; user data passed to C<$callback>..
 =item $domain; a B<Gnome::Glib::SimpleAsyncResult> containing the error domain (usually C<G_IO_ERROR>)..
 =item $code; a specific error code..
@@ -66,11 +66,11 @@ g_simple_async_report_error_in_idle(), but takes a B<Gnome::Glib::N-Error> rathe
 than building a new one.
 
 =begin code
-method simple-async-report-gerror-in-idle ( N-Object() $object, &callback, gpointer $user-data, N-Object $error )
+method simple-async-report-gerror-in-idle ( N-Object() $object, GAsyncReadyCallback &callback, gpointer $user-data, N-Object $error )
 =end code
 
 =item $object; a B<Gnome::GObject::Object>, or undefined.
-=item &callback; a B<Gnome::Gio::T-iotypes>.. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
+=item GAsyncReadyCallback &callback; a B<Gnome::Gio::T-iotypes>.. The function must be specified with the following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
 =item $user-data; user data passed to C<$callback>..
 =item $error; the B<Gnome::Glib::N-Error> to report
 
@@ -92,11 +92,11 @@ g_simple_async_report_gerror_in_idle(), but takes over the caller's
 ownership of C<$error>, so the caller does not have to free it any more.
 
 =begin code
-method simple-async-report-take-gerror-in-idle ( N-Object() $object, &callback, gpointer $user-data, N-Object $error )
+method simple-async-report-take-gerror-in-idle ( N-Object() $object, GAsyncReadyCallback &callback, gpointer $user-data, N-Object $error )
 =end code
 
 =item $object; a B<Gnome::GObject::Object>, or undefined.
-=item &callback; a B<Gnome::Gio::T-iotypes>.. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
+=item GAsyncReadyCallback &callback; a B<Gnome::Gio::T-iotypes>.. The function must be specified with the following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
 =item $user-data; user data passed to C<$callback>..
 =item $error; the B<Gnome::Glib::N-Error> to report
 

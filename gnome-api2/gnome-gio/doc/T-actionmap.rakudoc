@@ -1,0 +1,47 @@
+=comment Package: Gio, C-Source: actionmap
+use v6.d;
+
+=begin pod
+=TITLE Gnome::Gio::T-actionmap
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-ActionEntry
+
+  class N-ActionEntry:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has Str $.name;
+    has $.activate;
+    has Str $.parameter-type;
+    has Str $.state;
+    has $.change-state;
+    has gchar-pptr $.padding;
+  }
+
+=item name; the name of the action
+=item activate; the callback to connect to the "activate" signal of the
+           action.  Since GLib 2.40, this can be undefined for stateful
+           actions, in which case the default handler is used.  For
+           boolean-stated actions with no parameter, this is a
+           toggle.  For other state types (and parameter type equal
+           to the state type) this will be a function that
+           just calls C<$change-state> (which you should provide).
+=item parameter-type; the type of the parameter that must be passed to the
+                 activate function for this action, given as a single
+                 GVariant type string (or undefined for no parameter)
+=item state; the initial state for this action, given in
+        GVariant text format.  The state is parsed
+        with no extra type information, so type tags must be added to
+        the string if they are necessary.  Stateless actions should
+        give undefined here.
+=item change-state; the callback to connect to the "change-state" signal
+               of the action.  All stateful actions should provide a
+               handler here; stateless actions should not.
+=item padding; 
+
+=end pod
+
