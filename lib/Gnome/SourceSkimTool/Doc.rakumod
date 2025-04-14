@@ -87,7 +87,7 @@ method !set-uml ( Str $class-name --> Str ) {
     Q:qq:to/EOUML/
 
       =head2 Uml Diagram
-      =for image :src<$png-file> :width<50%> :class<inline>
+      =for image :src<$png-file> :width<70%> :class<inline>
       EOUML
   }
 
