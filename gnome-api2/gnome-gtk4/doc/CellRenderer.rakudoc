@@ -12,13 +12,13 @@ use v6.d;
 An object for rendering a single cell
 
 The B<Gnome::Gtk4::CellRenderer> is a base class of a set of objects used for
-rendering a cell to a B<Gnome::Cairo::N-Context>.  These objects are used primarily by
+rendering a cell to a B<Cairo::cairo_t>.  These objects are used primarily by
 the B<Gnome::Gtk4::TreeView> widget, though they aren’t tied to them in any
 specific way.  It is worth noting that B<Gnome::Gtk4::CellRenderer> is not a
 B<Gnome::Gtk4::Widget> and cannot be treated as such.
 
 The primary use of a B<Gnome::Gtk4::CellRenderer> is for drawing a certain graphical
-elements on a B<Gnome::Cairo::N-Context>. Typically, one cell renderer is used to
+elements on a B<Cairo::cairo_t>. Typically, one cell renderer is used to
 draw many cells on the screen.  To this extent, it isn’t expected that a
 CellRenderer keep any permanent state around.  Instead, any state is set
 just prior to use using B<Gnome::GObject::Object>s property system.  Then, the
@@ -47,12 +47,8 @@ corresponding “set” property, e.g. “cell-background-set” corresponds
 to “cell-background”. These “set” properties reflect whether a property
 has been set or not. You should not set them independently.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/CellRenderer.png> :width<70%> :class<inline>
 
 =begin comment
 

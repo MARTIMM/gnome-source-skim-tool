@@ -29,12 +29,8 @@ B<Gnome::Gtk4::ColorButton> has a single CSS node with name colorbutton which
 contains a button node. To differentiate it from a plain B<Gnome::Gtk4::Button>,
 it gets the .color style class.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/ColorButton.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -79,7 +75,7 @@ to select a color. The swatch will be updated to reflect the new
 color when the user finishes.
 
 =begin code
-method new-colorbutton ( --> Gnome::Gtk4::ColorButton \)
+method new-colorbutton ( --> Gnome::Gtk4::ColorButton )
 =end code
 
 =begin comment
@@ -98,7 +94,7 @@ method new-colorbutton ( --> Gnome::Gtk4::ColorButton \)
 Creates a new color button showing the given color.
 
 =begin code
-method new-with-rgba ( N-Object $rgba --> Gnome::Gtk4::ColorButton \)
+method new-with-rgba ( N-Object $rgba --> Gnome::Gtk4::ColorButton )
 =end code
 
 =item $rgba; A B<Gnome::Gdk4::N-RGBA> to set the current color with
@@ -253,7 +249,7 @@ method handler (
 
 Emitted when the user selects a color.
 
-When handling this signal, use C<.get-rgba() in class Gnome::Gtk4::R-ColorChooser>
+When handling this signal, use C<.get-rgba()> in class C<Gnome::Gtk4::R-ColorChooser>
 to find out which color was just selected.
 
 Note that this signal is only emitted when the user changes the color.

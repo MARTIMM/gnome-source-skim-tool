@@ -61,12 +61,8 @@ is grouped together with other checkbuttons.
 
 B<Gnome::Gtk4::CheckButton> uses the C<GTK_ACCESSIBLE_ROLE_CHECKBOX> role.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/CheckButton.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -101,7 +97,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::CheckButton>.
 
 =begin code
-method new-checkbutton ( --> Gnome::Gtk4::CheckButton \)
+method new-checkbutton ( --> Gnome::Gtk4::CheckButton )
 =end code
 
 =begin comment
@@ -120,7 +116,7 @@ method new-checkbutton ( --> Gnome::Gtk4::CheckButton \)
 Creates a new B<Gnome::Gtk4::CheckButton> with the given text.
 
 =begin code
-method new-with-label ( Str $label --> Gnome::Gtk4::CheckButton \)
+method new-with-label ( Str $label --> Gnome::Gtk4::CheckButton )
 =end code
 
 =item $label; the text for the check button..
@@ -141,7 +137,7 @@ method new-with-label ( Str $label --> Gnome::Gtk4::CheckButton \)
 Creates a new B<Gnome::Gtk4::CheckButton> with the given text and a mnemonic.
 
 =begin code
-method new-with-mnemonic ( Str $label --> Gnome::Gtk4::CheckButton \)
+method new-with-mnemonic ( Str $label --> Gnome::Gtk4::CheckButton )
 =end code
 
 =item $label; The text of the button, with an underscore

@@ -29,12 +29,8 @@ they all share the same height but may have variable widths).
 
 GtkCellView has a single CSS node with name cellview.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/CellView.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -73,7 +69,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Creates a new B<Gnome::Gtk4::CellView> widget.
 
 =begin code
-method new-cellview ( --> Gnome::Gtk4::CellView \)
+method new-cellview ( --> Gnome::Gtk4::CellView )
 =end code
 
 =begin comment
@@ -100,7 +96,7 @@ in this way alignments with cellviews for other rows are
 possible.
 
 =begin code
-method new-with-context ( N-Object() $area, N-Object() $context --> Gnome::Gtk4::CellView \)
+method new-with-context ( N-Object() $area, N-Object() $context --> Gnome::Gtk4::CellView )
 =end code
 
 =item $area; the B<Gnome::Gtk4::CellArea> to layout cells.
@@ -126,7 +122,7 @@ to it, and makes it show C<$markup>. The text can be marked up with
 the [Pango text markup language](https://docs.gtk.org/Pango/pango_markup.html).
 
 =begin code
-method new-with-markup ( Str $markup --> Gnome::Gtk4::CellView \)
+method new-with-markup ( Str $markup --> Gnome::Gtk4::CellView )
 =end code
 
 =item $markup; the text to display in the cell view.
@@ -150,7 +146,7 @@ Creates a new B<Gnome::Gtk4::CellView> widget, adds a B<Gnome::Gtk4::CellRendere
 to it, and makes it show C<$text>.
 
 =begin code
-method new-with-text ( Str $text --> Gnome::Gtk4::CellView \)
+method new-with-text ( Str $text --> Gnome::Gtk4::CellView )
 =end code
 
 =item $text; the text to display in the cell view.
@@ -174,7 +170,7 @@ Creates a new B<Gnome::Gtk4::CellView> widget, adds a B<Gnome::Gtk4::CellRendere
 to it, and makes it show C<$texture>.
 
 =begin code
-method new-with-texture ( N-Object() $texture --> Gnome::Gtk4::CellView \)
+method new-with-texture ( N-Object() $texture --> Gnome::Gtk4::CellView )
 =end code
 
 =item $texture; the image to display in the cell view.
