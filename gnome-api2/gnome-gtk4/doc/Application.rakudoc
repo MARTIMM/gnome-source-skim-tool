@@ -27,7 +27,7 @@ recommended to use it together with B<Gnome::Gtk4::ApplicationWindow>.
 
 B<Gnome::Gtk4::Application> will automatically load menus from the B<Gnome::Gtk4::Builder>
 resource located at "gtk/menus.ui", relative to the application's
-resource base path (see C<.set-resource-base-path() in class Gnome::Gio::Application>).
+resource base path (see C<.set-resource-base-path()> in class C<Gnome::Gio::Application>).
 The menu with the ID "menubar" is taken as the application's
 menubar. Additional menus (most interesting submenus) can be named
 and accessed via C<.get-menu-by-id()> which allows for
@@ -43,7 +43,7 @@ C<.set-menubar()>.
 B<Gnome::Gtk4::Application> will also automatically setup an icon search path for
 the default icon theme by appending "icons" to the resource base
 path. This allows your application to easily store its icons as
-resources. See C<.add-resource-path() in class Gnome::Gtk4::IconTheme> for more
+resources. See C<.add-resource-path()> in class C<Gnome::Gtk4::IconTheme> for more
 information.
 
 If there is a resource located at B<gtk>/help-overlay.ui` which
@@ -77,12 +77,8 @@ session while inhibitors are present.
 [HowDoI: Using GtkApplication](https://wiki.gnome.org/HowDoI/GtkApplication),
 [Getting Started with GTK: Basics](getting_started.html#basics)
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Application.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -134,7 +130,7 @@ If no application ID is given then some features (most notably application
 uniqueness) will be disabled.
 
 =begin code
-method new-application ( Str $application-id, UInt $flags --> Gnome::Gtk4::Application \)
+method new-application ( Str $application-id, UInt $flags --> Gnome::Gtk4::Application )
 =end code
 
 =item $application-id; The application ID.
@@ -339,7 +335,7 @@ Return value; the menubar for windows of B<application>.
 Returns the B<Gnome::Gtk4::ApplicationWindow> with the given ID.
 
 The ID of a B<Gnome::Gtk4::ApplicationWindow> can be retrieved with
-C<.get-id() in class Gnome::Gtk4::ApplicationWindow>.
+C<.get-id()> in class C<Gnome::Gtk4::ApplicationWindow>.
 
 =begin code
 method get-window-by-id ( UInt() $id --> N-Object )

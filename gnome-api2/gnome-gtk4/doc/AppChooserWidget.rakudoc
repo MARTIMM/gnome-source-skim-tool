@@ -33,12 +33,8 @@ I<application-activated> signals.
 
 B<Gnome::Gtk4::AppChooserWidget> has a single CSS node with name appchooser.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/AppChooserWidget.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -78,7 +74,7 @@ Creates a new B<Gnome::Gtk4::AppChooserWidget> for applications
 that can handle content of the given type.
 
 =begin code
-method new-appchooserwidget ( Str $content-type --> Gnome::Gtk4::AppChooserWidget \)
+method new-appchooserwidget ( Str $content-type --> Gnome::Gtk4::AppChooserWidget )
 =end code
 
 =item $content-type; the content type to show applications for.

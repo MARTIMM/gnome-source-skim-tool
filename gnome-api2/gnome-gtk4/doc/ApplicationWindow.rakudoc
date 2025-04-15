@@ -44,7 +44,7 @@ client-side decorations.
 See B<Gnome::Gtk4::PopoverMenu> for information about the XML language
 used by B<Gnome::Gtk4::Builder> for menu models.
 
-See also: C<.set-menubar() in class Gnome::Gtk4::Application>.
+See also: C<.set-menubar()> in class C<Gnome::Gtk4::Application>.
 
 =head3 A GtkApplicationWindow with a menubar
 
@@ -79,12 +79,8 @@ $builder.clear-object
 my Gnome::Gtk4::Widget $window .= new-application-window($app);
 =end code
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/ApplicationWindow.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -119,7 +115,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::ApplicationWindow>.
 
 =begin code
-method new-applicationwindow ( N-Object() $application --> Gnome::Gtk4::ApplicationWindow \)
+method new-applicationwindow ( N-Object() $application --> Gnome::Gtk4::ApplicationWindow )
 =end code
 
 =item $application; a B<Gnome::Gtk4::Application>.
@@ -218,7 +214,7 @@ Return value; C<True> if C<$window> will display a menubar when needed.
 Associates a shortcuts window with the application window.
 
 Additionally, sets up an action with the name
-B<win.show-help-overlay> to present it.
+B<win>.show-help-overlay` to present it.
  C<$window> takes responsibility for destroying C<$help-overlay>.
 
 =begin code

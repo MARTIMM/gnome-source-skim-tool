@@ -15,12 +15,8 @@ The B<Gnome::Gtk4::AlternativeTrigger> triggers when either of two trigger.
 
 This can be cascaded to combine more than two triggers.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/AlternativeTrigger.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -59,7 +55,7 @@ Note that nesting is allowed, so if you want more than two
 alternative, create a new alternative trigger for each option.
 
 =begin code
-method new-alternativetrigger ( N-Object() $first, N-Object() $second --> Gnome::Gtk4::AlternativeTrigger \)
+method new-alternativetrigger ( N-Object() $first, N-Object() $second --> Gnome::Gtk4::AlternativeTrigger )
 =end code
 
 =item $first; (transfer ownership: full) The first trigger that may trigger.

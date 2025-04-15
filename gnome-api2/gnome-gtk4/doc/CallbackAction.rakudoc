@@ -11,12 +11,8 @@ use v6.d;
 
 A B<Gnome::Gtk4::ShortcutAction> that invokes a callback.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/CallbackAction.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -47,19 +43,18 @@ Create an object using a native object from an object of the same type found els
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-callbackaction
-This function is not yet available
 
 Create a custom action that calls the given C<$callback> when
 activated.
 
 =begin code
-method new-callbackaction ( &callback, gpointer $data, … --> Gnome::Gtk4::CallbackAction \)
+method new-callbackaction ( GtkShortcutFunc &callback, gpointer $data, GDestroyNotify &destroy --> Gnome::Gtk4::CallbackAction )
 =end code
 
-=item &callback; the callback to call. Tthe function must be specified with following signature; C<:( N-Object $widget, N-Object $args, gpointer $user-data --> gboolean )>.
+=item GtkShortcutFunc &callback; the callback to call. The function must be specified with the following signature; C<:( N-Object $widget, N-Object $args, gpointer $user-data )>.
 =item $data; the data to be passed to C<$callback>.
-=item destroy; the function to be called when the
-  callback action is finalized. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &destroy; the function to be called when the
+  callback action is finalized. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 

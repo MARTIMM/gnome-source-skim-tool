@@ -21,12 +21,8 @@ All B<GtkShortcutTriggers> are immutable, you can only specify their
 properties during construction. If you want to change a trigger, you
 have to replace it with a new one.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/ShortcutTrigger.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -76,7 +72,7 @@ triggers in XML files, such as GtkBuilder ui files. Use `&lt;` instead of
 `<` and `&gt;` instead of `>`.
 
 =begin code
-method parse-string ( Str $string --> Gnome::Gtk4::ShortcutTrigger \)
+method parse-string ( Str $string --> Gnome::Gtk4::ShortcutTrigger )
 =end code
 
 =item $string; the string to parse.

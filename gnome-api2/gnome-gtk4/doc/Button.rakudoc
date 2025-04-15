@@ -40,12 +40,8 @@ B<Gnome::Gtk4::Button>.
 
 B<Gnome::Gtk4::Button> uses the C<GTK_ACCESSIBLE_ROLE_BUTTON> role.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Button.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -82,7 +78,7 @@ Creates a new B<Gnome::Gtk4::Button> widget.
 To add a child widget to the button, use C<.set-child()>.
 
 =begin code
-method new-button ( --> Gnome::Gtk4::Button \)
+method new-button ( --> Gnome::Gtk4::Button )
 =end code
 
 =begin comment
@@ -105,7 +101,7 @@ displayed instead. If the current icon theme is changed, the icon
 will be updated appropriately.
 
 =begin code
-method new-from-icon-name ( Str $icon-name --> Gnome::Gtk4::Button \)
+method new-from-icon-name ( Str $icon-name --> Gnome::Gtk4::Button )
 =end code
 
 =item $icon-name; an icon name.
@@ -126,7 +122,7 @@ method new-from-icon-name ( Str $icon-name --> Gnome::Gtk4::Button \)
 Creates a B<Gnome::Gtk4::Button> widget with a B<Gnome::Gtk4::Label> child.
 
 =begin code
-method new-with-label ( Str $label --> Gnome::Gtk4::Button \)
+method new-with-label ( Str $label --> Gnome::Gtk4::Button )
 =end code
 
 =item $label; The text you want the B<Gnome::Gtk4::Label> to hold.
@@ -153,7 +149,7 @@ accelerator called a mnemonic. Pressing <kbd>Alt</kbd> and that key
 activates the button.
 
 =begin code
-method new-with-mnemonic ( Str $label --> Gnome::Gtk4::Button \)
+method new-with-mnemonic ( Str $label --> Gnome::Gtk4::Button )
 =end code
 
 =item $label; The text of the button, with an underscore in front of the

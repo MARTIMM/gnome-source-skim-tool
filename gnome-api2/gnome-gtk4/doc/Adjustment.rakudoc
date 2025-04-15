@@ -21,12 +21,8 @@ and B<Gnome::Gtk4::Scale>.
 The B<Gnome::Gtk4::Adjustment> object does not update the value itself. Instead
 it is left up to the owner of the B<Gnome::Gtk4::Adjustment> to control the value.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Adjustment.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -61,7 +57,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::Adjustment>.
 
 =begin code
-method new-adjustment ( Num() $value, Num() $lower, Num() $upper, Num() $step-increment, Num() $page-increment, Num() $page-size --> Gnome::Gtk4::Adjustment \)
+method new-adjustment ( Num() $value, Num() $lower, Num() $upper, Num() $step-increment, Num() $page-increment, Num() $page-size --> Gnome::Gtk4::Adjustment )
 =end code
 
 =item $value; the initial value.

@@ -12,12 +12,8 @@ use v6.d;
 B<Gnome::Gtk4::BoolFilter> evaluates a boolean B<Gnome::Gtk4::Expression>
 to determine whether to include items.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/BoolFilter.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -52,7 +48,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new bool filter.
 
 =begin code
-method new-boolfilter ( N-Object() $expression --> Gnome::Gtk4::BoolFilter \)
+method new-boolfilter ( N-Object() $expression --> Gnome::Gtk4::BoolFilter )
 =end code
 
 =item $expression; (transfer ownership: full) The expression to evaluate.

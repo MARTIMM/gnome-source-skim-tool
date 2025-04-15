@@ -37,12 +37,8 @@ GTK provides various actions:
    gtk_widget_activate_action()
 =item B<Gnome::Gtk4::NothingAction>: a shortcut action that does nothing
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/ShortcutAction.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -88,7 +84,7 @@ The accepted strings are:
 =item B<signal>(NAME)`, for a B<Gnome::Gtk4::SignalAction> for the signal B<NAME>
 
 =begin code
-method parse-string ( Str $string --> Gnome::Gtk4::ShortcutAction \)
+method parse-string ( Str $string --> Gnome::Gtk4::ShortcutAction )
 =end code
 
 =item $string; the string to parse.

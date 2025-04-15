@@ -27,12 +27,8 @@ use C<.set-heading()>.
 B<Gnome::Gtk4::AppChooserDialog> has a single CSS node with the name B<window> and style
 class `.appchooser`.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/AppChooserDialog.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -73,7 +69,7 @@ Creates a new B<Gnome::Gtk4::AppChooserDialog> for the provided B<Gnome::Gio::R-
 The dialog will show applications that can open the file.
 
 =begin code
-method new-appchooserdialog ( N-Object() $parent, UInt $flags, N-Object() $file --> Gnome::Gtk4::AppChooserDialog \)
+method new-appchooserdialog ( N-Object() $parent, UInt $flags, N-Object() $file --> Gnome::Gtk4::AppChooserDialog )
 =end code
 
 =item $parent; a B<Gnome::Gtk4::Window>.
@@ -100,7 +96,7 @@ Creates a new B<Gnome::Gtk4::AppChooserDialog> for the provided content type.
 The dialog will show applications that can open the content type.
 
 =begin code
-method new-for-content-type ( N-Object() $parent, UInt $flags, Str $content-type --> Gnome::Gtk4::AppChooserDialog \)
+method new-for-content-type ( N-Object() $parent, UInt $flags, Str $content-type --> Gnome::Gtk4::AppChooserDialog )
 =end code
 
 =item $parent; a B<Gnome::Gtk4::Window>.

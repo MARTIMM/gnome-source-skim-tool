@@ -11,14 +11,10 @@ use v6.d;
 
 B<Gnome::Gtk4::EveryFilter> matches an item when each of its filters matches.
 
-To add filters to a B<Gnome::Gtk4::EveryFilter>, use C<.append() in class Gnome::Gtk4::MultiFilter>.
-
-=begin comment
+To add filters to a B<Gnome::Gtk4::EveryFilter>, use C<.append()> in class C<Gnome::Gtk4::MultiFilter>.
 
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/EveryFilter.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -52,14 +48,14 @@ Create an object using a native object from an object of the same type found els
 
 Creates a new empty "every" filter.
 
-Use C<.append() in class Gnome::Gtk4::MultiFilter> to add filters to it.
+Use C<.append()> in class C<Gnome::Gtk4::MultiFilter> to add filters to it.
 
 This filter matches an item if each of the filters added to it
 matches the item. In particular, this means that if no filter
 has been added to it, the filter matches every item.
 
 =begin code
-method new-everyfilter ( --> Gnome::Gtk4::EveryFilter \)
+method new-everyfilter ( --> Gnome::Gtk4::EveryFilter )
 =end code
 
 =begin comment

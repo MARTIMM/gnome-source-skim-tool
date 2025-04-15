@@ -34,12 +34,8 @@ Example:
 
 =end comment
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/BuilderListItemFactory.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -75,7 +71,7 @@ Creates a new B<Gnome::Gtk4::BuilderListItemFactory> that instantiates widgets
 using C<$bytes> as the data to pass to B<Gnome::Gtk4::Builder>.
 
 =begin code
-method new-from-bytes ( N-Object() $scope, N-Object $bytes --> Gnome::Gtk4::BuilderListItemFactory \)
+method new-from-bytes ( N-Object() $scope, N-Object $bytes --> Gnome::Gtk4::BuilderListItemFactory )
 =end code
 
 =item $scope; A scope to use when instantiating.
@@ -98,7 +94,7 @@ Creates a new B<Gnome::Gtk4::BuilderListItemFactory> that instantiates widgets
 using data read from the given C<$resource-path> to pass to B<Gnome::Gtk4::Builder>.
 
 =begin code
-method new-from-resource ( N-Object() $scope, Str $resource-path --> Gnome::Gtk4::BuilderListItemFactory \)
+method new-from-resource ( N-Object() $scope, Str $resource-path --> Gnome::Gtk4::BuilderListItemFactory )
 =end code
 
 =item $scope; A scope to use when instantiating.

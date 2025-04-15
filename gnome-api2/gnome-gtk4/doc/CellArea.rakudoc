@@ -242,7 +242,7 @@ Layouting widgets that accept focus on cells should implement the
 responsible for knowing where B<Gnome::Gtk4::R-TreeModel> rows are rendered inside
 the widget, so at [vfunc C<$Gtk>.Widget.focus] time the layouting widget
 should use the B<Gnome::Gtk4::CellArea> methods to navigate focus inside the area
-and then observe the  C<enumeration DirectionType from Gnome::Gtk4::T-enums>  to pass the focus to adjacent
+and then observe the  enumeration C<DirectionType> from C<Gnome::Gtk4::T-enums>  to pass the focus to adjacent
 rows and areas.
 
 A basic example of how the [vfunc C<$Gtk>.Widget.focus] virtual method
@@ -318,9 +318,9 @@ more than its full natural request, or a cell might be configured to “align”
 with adjacent rows which were requested and rendered with the same
 B<Gnome::Gtk4::CellAreaContext>.
 
-Use C<.install-cell-property() in class Gnome::Gtk4::CellArea> to install cell
-properties for a cell area class and C<.find-cell-property() in class Gnome::Gtk4::CellArea>
-or C<.list-cell-properties() in class Gnome::Gtk4::CellArea> to get information about
+Use C<.install-cell-property()> in class C<Gnome::Gtk4::CellArea> to install cell
+properties for a cell area class and C<.find-cell-property()> in class C<Gnome::Gtk4::CellArea>
+or C<.list-cell-properties()> in class C<Gnome::Gtk4::CellArea> to get information about
 existing cell properties.
 
 To set the value of a cell property, use C<.cell-set-property()>,
@@ -328,12 +328,8 @@ C<.cell-set()> or C<.cell-set-valist()>. To obtain
 the value of a cell property, use C<.cell-get-property()>
 C<.cell-get()> or C<.cell-get-valist()>.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/CellArea.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -909,10 +905,10 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Calls C<$callback> for every B<Gnome::Gtk4::CellRenderer> in C<$area>.
 
 =begin code
-method foreach ( &callback, gpointer $callback-data )
+method foreach ( GtkCellCallback &callback, gpointer $callback-data )
 =end code
 
-=item &callback; the B<Gnome::Gtk4::T-cellarea> to call. Tthe function must be specified with following signature; C<:( N-Object $renderer, gpointer $data --> gboolean )>.
+=item GtkCellCallback &callback; the B<Gnome::Gtk4::T-cellarea> to call. The function must be specified with the following signature; C<:( N-Object $renderer, gpointer $data )>.
 =item $callback-data; user provided data pointer.
 
 =begin comment
@@ -932,14 +928,14 @@ Calls C<$callback> for every B<Gnome::Gtk4::CellRenderer> in C<$area> with the
 allocated rectangle inside C<$cell-area>.
 
 =begin code
-method foreach-alloc ( N-Object() $context, N-Object() $widget, N-Object $cell-area, N-Object $background-area, &callback, gpointer $callback-data )
+method foreach-alloc ( N-Object() $context, N-Object() $widget, N-Object $cell-area, N-Object $background-area, GtkCellAllocCallback &callback, gpointer $callback-data )
 =end code
 
 =item $context; the B<Gnome::Gtk4::CellArea>Context for this row of data..
 =item $widget; the B<Gnome::Gtk4::Widget> that C<$area> is rendering to.
 =item $cell-area; the C<$widget> relative coordinates and size for C<$area>
 =item $background-area; the C<$widget> relative coordinates of the background area
-=item &callback; the B<Gnome::Gtk4::T-cellarea> to call. Tthe function must be specified with following signature; C<:( N-Object $renderer, N-Object $cell-area, N-Object $cell-background, gpointer $data --> gboolean )>.
+=item GtkCellAllocCallback &callback; the B<Gnome::Gtk4::T-cellarea> to call. The function must be specified with the following signature; C<:( N-Object $renderer, N-Object $cell-area, N-Object $cell-background, gpointer $data )>.
 =item $callback-data; user provided data pointer.
 
 =begin comment

@@ -11,12 +11,8 @@ use v6.d;
 
 A B<Gnome::Gtk4::ShortcutAction> that activates an action by name.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/NamedAction.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -53,11 +49,11 @@ the named action on the widget.
 
 It also passes the given arguments to it.
 
-See C<.insert-action-group() in class Gnome::Gtk4::Widget> for
+See C<.insert-action-group()> in class C<Gnome::Gtk4::Widget> for
 how to add actions to widgets.
 
 =begin code
-method new-namedaction ( Str $name --> Gnome::Gtk4::NamedAction \)
+method new-namedaction ( Str $name --> Gnome::Gtk4::NamedAction )
 =end code
 
 =item $name; the detailed name of the action.

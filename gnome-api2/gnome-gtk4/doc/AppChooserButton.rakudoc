@@ -37,12 +37,8 @@ I<changed> signal.
 
 B<Gnome::Gtk4::AppChooserButton> has a single CSS node with the name “appchooserbutton”.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/AppChooserButton.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -82,7 +78,7 @@ Creates a new B<Gnome::Gtk4::AppChooserButton> for applications
 that can handle content of the given type.
 
 =begin code
-method new-appchooserbutton ( Str $content-type --> Gnome::Gtk4::AppChooserButton \)
+method new-appchooserbutton ( Str $content-type --> Gnome::Gtk4::AppChooserButton )
 =end code
 
 =item $content-type; the content type to show applications for.
@@ -264,7 +260,7 @@ Selects a custom item.
 
 See C<.append-custom-item()>.
 
-Use C<.refresh() in class Gnome::Gtk4::R-AppChooser> to bring the selection
+Use C<.refresh()> in class C<Gnome::Gtk4::R-AppChooser> to bring the selection
 to its initial state.
 
 =begin code

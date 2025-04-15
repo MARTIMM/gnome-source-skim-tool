@@ -26,12 +26,8 @@ Note that unless C<.add-callback-symbol()> is
 called for all signal callbacks which are referenced by the loaded XML,
 this functionality will require that B<GModule> be supported on the platform.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/BuilderCScope.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -70,7 +66,7 @@ Calling this function is only necessary if you want to add
 custom callbacks via C<.add-callback-symbol()>.
 
 =begin code
-method new-buildercscope ( --> Gnome::Gtk4::BuilderCScope \)
+method new-buildercscope ( --> Gnome::Gtk4::BuilderCScope )
 =end code
 
 =begin comment

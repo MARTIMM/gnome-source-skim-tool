@@ -11,12 +11,8 @@ use v6.d;
 
 A B<Gnome::Gtk4::ShortcutTrigger> that triggers when a specific keyval and modifiers are pressed.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/KeyvalTrigger.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -52,7 +48,7 @@ Creates a B<Gnome::Gtk4::ShortcutTrigger> that will trigger whenever
 the key with the given C<$keyval> and C<$modifiers> is pressed.
 
 =begin code
-method new-keyvaltrigger ( UInt() $keyval, UInt $modifiers --> Gnome::Gtk4::KeyvalTrigger \)
+method new-keyvaltrigger ( UInt() $keyval, UInt $modifiers --> Gnome::Gtk4::KeyvalTrigger )
 =end code
 
 =item $keyval; The keyval to trigger for.

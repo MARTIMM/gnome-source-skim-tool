@@ -18,7 +18,7 @@ through the pages, and controls the page flow to collect the data needed
 for the operation.
 
 B<Gnome::Gtk4::Assistant> handles which buttons to show and to make sensitive based
-on page sequence knowledge and the  C<enumeration AssistantPageType from Gnome::Gtk4::T-assistant>  of each
+on page sequence knowledge and the  enumeration C<AssistantPageType> from C<Gnome::Gtk4::T-assistant>  of each
 page in addition to state information like the *completed* and *committed*
 page statuses.
 
@@ -46,12 +46,8 @@ set the child widget as a property on it.
 B<Gnome::Gtk4::Assistant> has a single CSS node with the name window and style
 class .assistant.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Assistant.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -90,7 +86,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Creates a new B<Gnome::Gtk4::Assistant>.
 
 =begin code
-method new-assistant ( --> Gnome::Gtk4::Assistant \)
+method new-assistant ( --> Gnome::Gtk4::Assistant )
 =end code
 
 =begin comment
@@ -572,7 +568,6 @@ method set-current-page ( Int() $page-num )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-forward-page-func
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -585,13 +580,13 @@ use the default forward function, which just goes to the
 next visible page.
 
 =begin code
-method set-forward-page-func ( &page-func, gpointer $data, … )
+method set-forward-page-func ( GtkAssistantPageFunc &page-func, gpointer $data, GDestroyNotify &destroy )
 =end code
 
-=item &page-func; the B<Gnome::Gtk4::T-assistant>, or undefined
-  to use the default one. Tthe function must be specified with following signature; C<:( gint $current-page, gpointer $data --> gint )>.
+=item GtkAssistantPageFunc &page-func; the B<Gnome::Gtk4::T-assistant>, or undefined
+  to use the default one. The function must be specified with the following signature; C<:( gint $current-page, gpointer $data )>.
 =item $data; user data for C<$page-func>.
-=item destroy; destroy notifier for C<$data>. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &destroy; destroy notifier for C<$data>. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 

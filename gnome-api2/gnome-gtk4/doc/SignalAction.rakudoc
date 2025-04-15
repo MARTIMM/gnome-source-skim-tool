@@ -14,12 +14,8 @@ A B<Gnome::Gtk4::Shortcut>Action that emits a signal.
 Signals that are used in this way are referred to as keybinding signals,
 and they are expected to be defined with the C<G_SIGNAL_ACTION> flag.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/SignalAction.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -57,7 +53,7 @@ on the provided widget.
 It will also unpack the args into arguments passed to the signal.
 
 =begin code
-method new-signalaction ( Str $signal-name --> Gnome::Gtk4::SignalAction \)
+method new-signalaction ( Str $signal-name --> Gnome::Gtk4::SignalAction )
 =end code
 
 =item $signal-name; name of the signal to emit.

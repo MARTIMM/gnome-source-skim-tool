@@ -28,14 +28,14 @@ and drops these references when it is finalized. This finalization can
 cause the destruction of non-widget objects or widgets which are not
 contained in a toplevel window. For toplevel windows constructed by a
 builder, it is the responsibility of the user to call
-C<.destroy() in class Gnome::Gtk4::Window> to get rid of them and all the widgets
+C<.destroy()> in class C<Gnome::Gtk4::Window> to get rid of them and all the widgets
 they contain.
 
 The functions C<.get-object()> and
 C<.get-objects()> can be used to access the widgets in
 the interface by the names assigned to them inside the UI description.
 Toplevel windows returned by these functions will stay around until the
-user explicitly destroys them with C<.destroy() in class Gnome::Gtk4::Window>. Other
+user explicitly destroys them with C<.destroy()> in class C<Gnome::Gtk4::Window>. Other
 widgets will either be part of a larger hierarchy constructed by the
 builder (in which case you should not have to worry about their lifecycle),
 or without a parent, in which case they have to be added to some container
@@ -143,7 +143,7 @@ property types:
 =item flag types (can be specified by their C identifier, short name, integer
   value, and optionally combined with “|” for bitwise OR, e.g.
   “GTK_INPUT_HINT_EMOJI|GTK_INPUT_HINT_LOWERCASE”, or “emoji|lowercase”)
-=item colors (in a format understood by C<.parse() in class Gnome::Gdk4::N-RGBA>)
+=item colors (in a format understood by C<.parse()> in class C<Gnome::Gdk4::N-RGBA>)
 =item B<Gnome::Glib::N-Variant> (can be specified in the format understood by
    C<.Variant.parse() in package Gnome::GLib>)
 =item pixbufs (can be specified as a filename of an image file to load)
@@ -197,7 +197,7 @@ B<bottom_label> widget is bound to the “label” property of the
 B<top_button> widget:
 
 For more information, see the documentation of the
-C<.bind-property() in class Gnome::GObject::Object> method.
+C<.bind-property()> in class C<Gnome::GObject::Object> method.
 
 Please note that another way to set up bindings between objects in .ui files
 is to use the B<Gnome::Gtk4::Expression> methodology. See the
@@ -270,12 +270,8 @@ signal handlers to instance fields and function symbols.
 For more information, see the [B<Gnome::Gtk4::Widget> documentation](class.Widget.html#building-composite-widgets-from-template-xml)
 for details.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Builder.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -315,7 +311,7 @@ or C<.add-from-string()> in order to merge multiple UI
 descriptions into a single builder.
 
 =begin code
-method new-builder ( --> Gnome::Gtk4::Builder \)
+method new-builder ( --> Gnome::Gtk4::Builder )
 =end code
 
 =begin comment
@@ -338,7 +334,7 @@ the program will be aborted. You should only ever attempt to parse
 user interface descriptions that are shipped as part of your program.
 
 =begin code
-method new-from-file ( Str $filename --> Gnome::Gtk4::Builder \)
+method new-from-file ( Str $filename --> Gnome::Gtk4::Builder )
 =end code
 
 =item $filename; filename of user interface description file.
@@ -362,7 +358,7 @@ If there is an error locating the resource or parsing the
 description, then the program will be aborted.
 
 =begin code
-method new-from-resource ( Str $resource-path --> Gnome::Gtk4::Builder \)
+method new-from-resource ( Str $resource-path --> Gnome::Gtk4::Builder )
 =end code
 
 =item $resource-path; a B<Gnome::Gio::N-Resource> resource path.
@@ -390,7 +386,7 @@ aborted. You should not attempt to parse user interface description
 from untrusted sources.
 
 =begin code
-method new-from-string ( Str $string, Int() $length --> Gnome::Gtk4::Builder \)
+method new-from-string ( Str $string, Int() $length --> Gnome::Gtk4::Builder )
 =end code
 
 =item $string; a user interface (XML) description.
@@ -650,7 +646,6 @@ Return value; C<True> on success, C<False> if an error occurred.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 create-closure
-This function is not yet available
 
 Creates a closure to invoke the function called C<$function-name>.
 
@@ -897,7 +892,7 @@ The current object can be thought of as the B<this> object that the
 builder is working for and will often be used as the default object
 when an object is optional.
 
-C<.init-template() in class Gnome::Gtk4::Widget> for example will set the current
+C<.init-template()> in class C<Gnome::Gtk4::Widget> for example will set the current
 object to the widget the template is inited for. For functions like
 C<.new-from-resource()>, the current object will be undefined.
 

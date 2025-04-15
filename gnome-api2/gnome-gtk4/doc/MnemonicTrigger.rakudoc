@@ -14,12 +14,8 @@ A B<Gnome::Gtk4::ShortcutTrigger> that triggers when a specific mnemonic is pres
 Mnemonics require a *mnemonic modifier* (typically <kbd>Alt</kbd>) to be
 pressed together with the mnemonic key.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/MnemonicTrigger.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -58,7 +54,7 @@ Mnemonics are activated by calling code when a key event with the right
 modifiers is detected.
 
 =begin code
-method new-mnemonictrigger ( UInt() $keyval --> Gnome::Gtk4::MnemonicTrigger \)
+method new-mnemonictrigger ( UInt() $keyval --> Gnome::Gtk4::MnemonicTrigger )
 =end code
 
 =item $keyval; The keyval to trigger for.
