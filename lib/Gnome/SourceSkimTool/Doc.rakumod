@@ -59,7 +59,7 @@ method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
 
     $doc
 
-    {self!set-uml($class-name) if $*gnome-package ~~ any( Gtk3, Gtk4, Gio)}
+    {self!set-uml($class-name) if $*gnome-package ~~ any( Gtk3, Gtk4, Gdk3, Gdk4, Gsk4, Gio)}
     {self!set-example}
 
     =end pod
@@ -130,7 +130,7 @@ method document-build ( XML::Element $element --> Str ) {
 
     =head3 :native-object
 
-    Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+    Create an object using a native object from an object of the same type found elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
       multi method new ( N-Object() :$native-object! )
 
