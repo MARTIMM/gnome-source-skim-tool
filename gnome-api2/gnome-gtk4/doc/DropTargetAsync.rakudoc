@@ -19,7 +19,7 @@ it if B<Gnome::Gtk4::DropTarget> doesn't provide all the features you need.
 To use a B<Gnome::Gtk4::DropTargetAsync> to receive drops on a widget, you create
 a B<Gnome::Gtk4::DropTargetAsync> object, configure which data formats and actions
 you support, connect to its signals, and then attach it to the widget
-with C<.add-controller() in class Gnome::Gtk4::Widget>.
+with C<.add-controller()> in class C<Gnome::Gtk4::Widget>.
 
 During a drag operation, the first signal that a B<Gnome::Gtk4::DropTargetAsync>
 emits is I<accept>, which is meant to determine
@@ -38,18 +38,14 @@ The I<drag-enter> and I<drag-motion> handler return a C<bit field GdkDragAction 
 to update the status of the ongoing operation. The I<drop> handler
 should decide if it ultimately accepts the drop and if it does, it
 should initiate the data transfer and finish the operation by calling
-C<.finish() in class Gnome::Gdk4::Drop>.
+C<.finish()> in class C<Gnome::Gdk4::Drop>.
 
 Between the I<drag-enter> and I<drag-leave> signals the widget is a
 current drop target, and will receive the C<GTK_STATE_FLAG_DROP_ACTIVE>
 state, which can be used by themes to style the widget as a drop target.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/DropTargetAsync.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -84,7 +80,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::DropTargetAsync> object.
 
 =begin code
-method new-droptargetasync ( N-Object $formats, UInt $actions --> Gnome::Gtk4::DropTargetAsync \)
+method new-droptargetasync ( N-Object $formats, UInt $actions --> Gnome::Gtk4::DropTargetAsync )
 =end code
 
 =item $formats; (transfer ownership: full) the supported data formats
@@ -377,13 +373,13 @@ drop zone or not. If it is not in a drop zone, it returns C<False> and no
 further processing is necessary.
 
 Otherwise, the handler returns C<True>. In this case, this handler will
-accept the drop. The handler must ensure that C<.finish() in class Gnome::Gdk4::Drop>
+accept the drop. The handler must ensure that C<.finish()> in class C<Gnome::Gdk4::Drop>
 is called to let the source know that the drop is done. The call to
-C<.finish() in class Gnome::Gdk4::Drop> must only be done when all data has been received.
+C<.finish()> in class C<Gnome::Gdk4::Drop> must only be done when all data has been received.
 
 To receive the data, use one of the read functions provided by
-B<Gnome::Gdk4::Drop> such as C<.read-async() in class Gnome::Gdk4::Drop> or
-C<.read-value-async() in class Gnome::Gdk4::Drop>.
+B<Gnome::Gdk4::Drop> such as C<.read-async()> in class C<Gnome::Gdk4::Drop> or
+C<.read-value-async()> in class C<Gnome::Gdk4::Drop>.
 
 =begin code
 method handler (

@@ -19,8 +19,8 @@ and does not provide much API of its own.
 To create a B<Gnome::Gtk4::ColorChooserDialog>, use C<.newcolorchooserdialog()>.
 
 To change the initially selected color, use
-C<.set-rgba() in class Gnome::Gtk4::R-ColorChooser>. To get the selected color use
-C<.get-rgba() in class Gnome::Gtk4::R-ColorChooser>.
+C<.set-rgba()> in class C<Gnome::Gtk4::R-ColorChooser>. To get the selected color use
+C<.get-rgba()> in class C<Gnome::Gtk4::R-ColorChooser>.
 
 B<Gnome::Gtk4::ColorChooserDialog> has been deprecated in favor of B<Gnome::Gtk4::ColorDialog>.
 
@@ -29,12 +29,8 @@ B<Gnome::Gtk4::ColorChooserDialog> has been deprecated in favor of B<Gnome::Gtk4
 B<Gnome::Gtk4::ColorChooserDialog> has a single CSS node with the name B<window> and style
 class `.colorchooser`.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/ColorChooserDialog.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -73,7 +69,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Creates a new B<Gnome::Gtk4::ColorChooserDialog>.
 
 =begin code
-method new-colorchooserdialog ( Str $title, N-Object() $parent --> Gnome::Gtk4::ColorChooserDialog \)
+method new-colorchooserdialog ( Str $title, N-Object() $parent --> Gnome::Gtk4::ColorChooserDialog )
 =end code
 
 =item $title; Title of the dialog.

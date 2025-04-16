@@ -38,7 +38,7 @@ Clicking a button that was added as an action widget will emit the
 I<response> signal with a response ID that you specified.
 GTK will never assign a meaning to positive response IDs; these are
 entirely user-defined. But for convenience, you can use the response
-IDs in the  C<enumeration ResponseType from Gnome::Gtk4::T-dialog>  enumeration (these all have values
+IDs in the  enumeration C<ResponseType> from C<Gnome::Gtk4::T-dialog>  enumeration (these all have values
 less than zero). If a dialog receives a delete event, the
 I<response> signal will be emitted with the
 C<GTK_RESPONSE_DELETE_EVENT> response ID.
@@ -48,7 +48,7 @@ C<.new-with-buttons()>. The latter is recommended; it allows
 you to set the dialog title, some convenient flags, and add buttons.
 
 A “modal” dialog (that is, one which freezes the rest of the application
-from user input), can be created by calling C<.set-modal() in class Gnome::Gtk4::Window>
+from user input), can be created by calling C<.set-modal()> in class C<Gnome::Gtk4::Window>
 on the dialog. When using C<.new-with-buttons()>, you can also
 pass the C<GTK_DIALOG_MODAL> flag to make a dialog modal.
 
@@ -132,12 +132,8 @@ An example of a B<Gnome::Gtk4::Dialog> UI definition fragment:
 
 B<Gnome::Gtk4::Dialog> uses the C<GTK_ACCESSIBLE_ROLE_DIALOG> role.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Dialog.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -180,7 +176,7 @@ directly, but into the C<$content-area> and C<$action-area>,
 as described above.
 
 =begin code
-method new-dialog ( --> Gnome::Gtk4::Dialog \)
+method new-dialog ( --> Gnome::Gtk4::Dialog )
 =end code
 
 =begin comment
@@ -207,7 +203,7 @@ destroyed along with its transient parent, or make it use a headerbar.
 Button text/response ID pairs should be listed in pairs, with a undefined
 pointer ending the list. Button text can be arbitrary text. A response
 ID can be any positive number, or one of the values in the
- C<enumeration ResponseType from Gnome::Gtk4::T-dialog>  enumeration. If the user clicks one of these
+ enumeration C<ResponseType> from C<Gnome::Gtk4::T-dialog>  enumeration. If the user clicks one of these
 buttons, B<Gnome::Gtk4::Dialog> will emit the I<response> signal
 with the corresponding response ID.
 
@@ -235,7 +231,7 @@ dialog = gtk_dialog_new_with_buttons ("My dialog",
 =end comment
 
 =begin code
-method new-with-buttons ( Str $title, N-Object() $parent, UInt $flags, Str $first-button-text, … --> Gnome::Gtk4::Dialog \)
+method new-with-buttons ( Str $title, N-Object() $parent, UInt $flags, Str $first-button-text, … --> Gnome::Gtk4::Dialog )
 =end code
 
 =item $title; Title of the dialog.

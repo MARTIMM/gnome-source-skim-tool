@@ -11,12 +11,8 @@ use v6.d;
 
 B<Gnome::Gtk4::CustomFilter> determines whether to include items with a callback.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/CustomFilter.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -47,7 +43,6 @@ Create an object using a native object from an object of the same type found els
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-customfilter
-This function is not yet available
 
 Creates a new filter using the given C<$match-func> to filter
 items.
@@ -58,12 +53,12 @@ If the filter func changes its filtering behavior,
 gtk_filter_changed() needs to be called.
 
 =begin code
-method new-customfilter ( &match-func, gpointer $user-data, … --> Gnome::Gtk4::CustomFilter \)
+method new-customfilter ( GtkCustomFilterFunc &match-func, gpointer $user-data, GDestroyNotify &user-destroy --> Gnome::Gtk4::CustomFilter )
 =end code
 
-=item &match-func; function to filter items. Tthe function must be specified with following signature; C<:( gpointer $item, gpointer $user-data --> gboolean )>.
+=item GtkCustomFilterFunc &match-func; function to filter items. The function must be specified with the following signature; C<:( gpointer $item, gpointer $user-data )>.
 =item $user-data; user data to pass to C<$match-func>.
-=item user-destroy; destroy notify for C<$user-data>. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &user-destroy; destroy notify for C<$user-data>. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 
@@ -85,7 +80,6 @@ method new-customfilter ( &match-func, gpointer $user-data, … --> Gnome::Gtk4:
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-filter-func
-This function is not yet available
 
 Sets the function used for filtering items.
 
@@ -98,12 +92,12 @@ If a previous function was set, its C<$user-destroy> will be
 called now.
 
 =begin code
-method set-filter-func ( &match-func, gpointer $user-data, … )
+method set-filter-func ( GtkCustomFilterFunc &match-func, gpointer $user-data, GDestroyNotify &user-destroy )
 =end code
 
-=item &match-func; function to filter items. Tthe function must be specified with following signature; C<:( gpointer $item, gpointer $user-data --> gboolean )>.
+=item GtkCustomFilterFunc &match-func; function to filter items. The function must be specified with the following signature; C<:( gpointer $item, gpointer $user-data )>.
 =item $user-data; user data to pass to C<$match-func>.
-=item user-destroy; destroy notify for C<$user-data>. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &user-destroy; destroy notify for C<$user-data>. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 

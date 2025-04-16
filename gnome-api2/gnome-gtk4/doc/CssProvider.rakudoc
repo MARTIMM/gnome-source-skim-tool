@@ -17,7 +17,7 @@ It is able to parse CSS-like input in order to style widgets.
 An application can make GTK parse a specific CSS style sheet by calling
 C<.load-from-file()> or
 C<.load-from-resource()>
-and adding the provider with C<.add-provider() in class Gnome::Gtk4::StyleContext> or
+and adding the provider with C<.add-provider()> in class C<Gnome::Gtk4::StyleContext> or
 C<.StyleContext.add-provider-for-display()>.
 
 In addition, certain files will be read when GTK is initialized.
@@ -39,12 +39,8 @@ current version, GTK tries older versions all the way back to 4.0.
 To track errors while loading CSS, connect to the
 I<parsing-error> signal.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/CssProvider.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -79,7 +75,7 @@ Create an object using a native object from an object of the same type found els
 Returns a newly created B<Gnome::Gtk4::CssProvider>.
 
 =begin code
-method new-cssprovider ( --> Gnome::Gtk4::CssProvider \)
+method new-cssprovider ( --> Gnome::Gtk4::CssProvider )
 =end code
 
 =begin comment

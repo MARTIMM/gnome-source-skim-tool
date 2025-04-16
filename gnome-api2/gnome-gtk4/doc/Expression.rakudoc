@@ -27,10 +27,10 @@ which may or may not influence the result of the evaluation. Use
 C<.evaluate()> for evaluating an expression.
 
 Various methods for defining expressions exist, from simple constants via
-C<.newexpression() in class Gnome::Gtk4::ConstantExpression> to looking up properties in a B<Gnome::GObject::Object>
-(even recursively) via C<.newexpression() in class Gnome::Gtk4::PropertyExpression> or providing
+C<.newexpression()> in class C<Gnome::Gtk4::ConstantExpression> to looking up properties in a B<Gnome::GObject::Object>
+(even recursively) via C<.newexpression()> in class C<Gnome::Gtk4::PropertyExpression> or providing
 custom functions to transform and combine expressions via
-C<.newexpression() in class Gnome::Gtk4::ClosureExpression>.
+C<.newexpression()> in class C<Gnome::Gtk4::ClosureExpression>.
 
 Here is an example of a complex expression:
 
@@ -64,7 +64,7 @@ just a snapshot of the current state at a given time. To get informed about
 changes, an expression needs to be "watched" via a  B<Gnome::Gtk4::N-ExpressionWatch> ,
 which will cause a callback to be called whenever the value of the expression may
 have changed; C<.watch()> starts watching an expression, and
-C<.unwatch() in class Gnome::Gtk4::N-ExpressionWatch> stops.
+C<.unwatch()> in class C<Gnome::Gtk4::N-ExpressionWatch> stops.
 
 Watches can be created for automatically updating the property of an object,
 similar to GObject's B<Gnome::GObject::Binding> mechanism, by using C<.bind()>.
@@ -158,12 +158,8 @@ as the B<this> object when the expression is evaluated. Here is an example in wh
 B<label> property of a B<Gnome::Gtk4::Label> is bound to the B<string> property of another arbitrary
 object:
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Expression.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -366,7 +362,6 @@ method unref ( )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 watch
-This function is not yet available
 
 Watch the given B<expression> for changes.
 
@@ -378,19 +373,19 @@ gets invoked, but it guarantees the opposite: When it did in fact change,
 the C<$notify> will be invoked.
 
 =begin code
-method watch ( gpointer $this, &notify, gpointer $user-data, … --> N-Object )
+method watch ( gpointer $this, GtkExpressionNotify &notify, gpointer $user-data, GDestroyNotify &user-destroy --> N-Object )
 =end code
 
 =item $this; the B<this> argument to
   watch.
-=item &notify; callback to invoke when the expression changes. Tthe function must be specified with following signature; C<:( gpointer $user-data )>.
+=item GtkExpressionNotify &notify; callback to invoke when the expression changes. The function must be specified with the following signature; C<:( gpointer $user-data )>.
 =item $user-data; user data to pass to the B<notify> callback.
-=item user-destroy; destroy notify for B<user_data>. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &user-destroy; destroy notify for B<user_data>. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 Return value; The newly installed watch. Note that the only
   reference held to the watch will be released when the watch is unwatched
   which can happen automatically, and not just via
-  C<.unwatch() in class Gnome::Gtk4::N-ExpressionWatch>. You should call C<.ref() in class Gnome::Gtk4::N-ExpressionWatch>
+  C<.unwatch()> in class C<Gnome::Gtk4::N-ExpressionWatch>. You should call C<.ref()> in class C<Gnome::Gtk4::N-ExpressionWatch>
   if you want to keep the watch around.. 
 
 =begin comment

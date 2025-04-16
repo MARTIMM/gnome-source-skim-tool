@@ -26,12 +26,8 @@ child widget or guide.
 The source and target, as well as their attributes, of a B<Gnome::Gtk4::Constraint>
 instance are immutable after creation.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Constraint.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -67,7 +63,7 @@ Creates a new constraint representing a relation between a layout
 attribute on a source and a layout attribute on a target.
 
 =begin code
-method new-constraint ( gpointer $target, GtkConstraintAttribute $target-attribute, GtkConstraintRelation $relation, gpointer $source, GtkConstraintAttribute $source-attribute, Num() $multiplier, Num() $constant, Int() $strength --> Gnome::Gtk4::Constraint \)
+method new-constraint ( gpointer $target, GtkConstraintAttribute $target-attribute, GtkConstraintRelation $relation, gpointer $source, GtkConstraintAttribute $source-attribute, Num() $multiplier, Num() $constant, Int() $strength --> Gnome::Gtk4::Constraint )
 =end code
 
 =item $target; the target of the constraint.
@@ -96,7 +92,7 @@ Creates a new constraint representing a relation between a layout
 attribute on a target and a constant value.
 
 =begin code
-method new-constant ( gpointer $target, GtkConstraintAttribute $target-attribute, GtkConstraintRelation $relation, Num() $constant, Int() $strength --> Gnome::Gtk4::Constraint \)
+method new-constant ( gpointer $target, GtkConstraintAttribute $target-attribute, GtkConstraintRelation $relation, Num() $constant, Int() $strength --> Gnome::Gtk4::Constraint )
 =end code
 
 =item $target; a the target of the constraint.

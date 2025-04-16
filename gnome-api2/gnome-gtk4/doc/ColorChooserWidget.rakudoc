@@ -24,8 +24,8 @@ as custom colors.
 To create a B<Gnome::Gtk4::ColorChooserWidget>, use C<.newcolorchooserwidget()>.
 
 To change the initially selected color, use
-C<.set-rgba() in class Gnome::Gtk4::R-ColorChooser>. To get the selected color use
-C<.get-rgba() in class Gnome::Gtk4::R-ColorChooser>.
+C<.set-rgba()> in class C<Gnome::Gtk4::R-ColorChooser>. To get the selected color use
+C<.get-rgba()> in class C<Gnome::Gtk4::R-ColorChooser>.
 
 The B<Gnome::Gtk4::ColorChooserWidget> is used in the B<Gnome::Gtk4::ColorChooserDialog>
 to provide a dialog for selecting colors.
@@ -34,12 +34,8 @@ to provide a dialog for selecting colors.
 
 B<Gnome::Gtk4::ColorChooserWidget> has a single CSS node with name colorchooser.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/ColorChooserWidget.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -76,7 +72,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::ColorChooserWidget>.
 
 =begin code
-method new-colorchooserwidget ( --> Gnome::Gtk4::ColorChooserWidget \)
+method new-colorchooserwidget ( --> Gnome::Gtk4::ColorChooserWidget )
 =end code
 
 =begin comment

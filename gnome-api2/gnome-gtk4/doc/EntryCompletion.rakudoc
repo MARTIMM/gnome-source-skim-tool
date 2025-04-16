@@ -31,7 +31,7 @@ entry in the signal handler. Note that you should return C<True> from
 the signal handler to suppress the default behaviour.
 
 To add completion functionality to an entry, use
-C<.set-completion() in class Gnome::Gtk4::Entry>.
+C<.set-completion()> in class C<Gnome::Gtk4::Entry>.
 
 B<Gnome::Gtk4::EntryCompletion> uses a B<Gnome::Gtk4::TreeModelFilter> model to
 represent the subset of the entire model that is currently matching.
@@ -42,18 +42,14 @@ and an iter pointing to that model as arguments, other callbacks and
 signals (such as B<Gnome::Gtk4::T-celllayout> or
 I<apply-attributes) defined in CellArea>
 will generally take the filter model as argument. As long as you are
-only calling C<.get() in class Gnome::Gtk4::R-TreeModel>, this will make no difference to
+only calling C<.get()> in class C<Gnome::Gtk4::R-TreeModel>, this will make no difference to
 you. If for some reason, you need the original model, use
-C<.get-model() in class Gnome::Gtk4::TreeModelFilter>. Don’t forget to use
-C<.convert-iter-to-child-iter() in class Gnome::Gtk4::TreeModelFilter> to obtain a
+C<.get-model()> in class C<Gnome::Gtk4::TreeModelFilter>. Don’t forget to use
+C<.convert-iter-to-child-iter()> in class C<Gnome::Gtk4::TreeModelFilter> to obtain a
 matching iter.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/EntryCompletion.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -92,7 +88,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Creates a new B<Gnome::Gtk4::EntryCompletion> object.
 
 =begin code
-method new-entrycompletion ( --> Gnome::Gtk4::EntryCompletion \)
+method new-entrycompletion ( --> Gnome::Gtk4::EntryCompletion )
 =end code
 
 =begin comment
@@ -117,7 +113,7 @@ The B<Gnome::Gtk4::CellArea> is used to layout cells in the underlying
 B<Gnome::Gtk4::TreeViewColumn> for the drop-down menu.
 
 =begin code
-method new-with-area ( N-Object() $area --> Gnome::Gtk4::EntryCompletion \)
+method new-with-area ( N-Object() $area --> Gnome::Gtk4::EntryCompletion )
 =end code
 
 =item $area; the B<Gnome::Gtk4::CellArea> used to layout cells.
@@ -504,7 +500,6 @@ method set-inline-selection ( Bool() $inline-selection )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-match-func
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -514,12 +509,12 @@ The match function is used to determine if a row should or
 should not be in the completion list.
 
 =begin code
-method set-match-func ( &func, gpointer $func-data, … )
+method set-match-func ( GtkEntryCompletionMatchFunc &func, gpointer $func-data, GDestroyNotify &func-notify )
 =end code
 
-=item &func; the B<Gnome::Gtk4::EntryCompletion>MatchFunc to use. Tthe function must be specified with following signature; C<:( N-Object $completion, Str $key, N-Object $iter, gpointer $user-data --> gboolean )>.
+=item GtkEntryCompletionMatchFunc &func; the B<Gnome::Gtk4::EntryCompletion>MatchFunc to use. The function must be specified with the following signature; C<:( N-Object $completion, Str $key, N-Object $iter, gpointer $user-data )>.
 =item $func-data; user data for C<$func>.
-=item func-notify; destroy notify for C<$func-data>.. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &func-notify; destroy notify for C<$func-data>.. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 

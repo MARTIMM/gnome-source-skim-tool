@@ -19,12 +19,8 @@ widget.
 
 B<Gnome::Gtk4::FileChooserWidget> has a single CSS node with name filechooser.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/FileChooserWidget.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -67,7 +63,7 @@ windows, and it is the same widget that is used by
 B<Gnome::Gtk4::FileChooserDialog>.
 
 =begin code
-method new-filechooserwidget ( GtkFileChooserAction $action --> Gnome::Gtk4::FileChooserWidget \)
+method new-filechooserwidget ( GtkFileChooserAction $action --> Gnome::Gtk4::FileChooserWidget )
 =end code
 
 =item $action; Open or save mode for the widget.

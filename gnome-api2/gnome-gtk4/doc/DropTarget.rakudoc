@@ -82,12 +82,8 @@ If you are not interested in receiving the drop, but just want to update
 UI state during a Drag-and-Drop operation (e.g. switching tabs), you can
 use B<Gnome::Gtk4::DropControllerMotion>.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/DropTarget.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -126,7 +122,7 @@ C<G_TYPE_INVALID> for C<$type> and then call
 C<.set-gtypes()>.
 
 =begin code
-method new-droptarget ( GType $type, UInt $actions --> Gnome::Gtk4::DropTarget \)
+method new-droptarget ( GType $type, UInt $actions --> Gnome::Gtk4::DropTarget )
 =end code
 
 =item $type; The supported type or C<G_TYPE_INVALID>.

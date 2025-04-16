@@ -52,12 +52,8 @@ with the button and popover nodes as children.
 
 B<Gnome::Gtk4::DropDown> uses the C<GTK_ACCESSIBLE_ROLE_COMBO_BOX> role.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/DropDown.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -95,7 +91,7 @@ You may want to call C<.set-factory()>
 to set up a way to map its items to widgets.
 
 =begin code
-method new-dropdown ( N-List() $model, N-Object() $expression --> Gnome::Gtk4::DropDown \)
+method new-dropdown ( N-List() $model, N-Object() $expression --> Gnome::Gtk4::DropDown )
 =end code
 
 =item $model; (transfer ownership: full) the model to use.
@@ -118,7 +114,7 @@ Creates a new B<Gnome::Gtk4::DropDown> that is populated with
 the strings.
 
 =begin code
-method new-from-strings ( Array[Str] $strings --> Gnome::Gtk4::DropDown \)
+method new-from-strings ( Array[Str] $strings --> Gnome::Gtk4::DropDown )
 =end code
 
 =item $strings; The strings to put in the dropdown.

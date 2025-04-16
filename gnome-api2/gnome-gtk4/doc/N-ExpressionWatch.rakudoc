@@ -1,0 +1,142 @@
+=comment Package: Gtk4, C-Source: expression
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=TITLE Gnome::Gtk4::N-ExpressionWatch
+=head1 Description
+
+An opaque structure representing a watched B<Gnome::Gtk4::Expression>.
+
+The contents of B<Gnome::Gtk4::N-ExpressionWatch> should only be accessed through the
+provided API.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::ExpressionWatch
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from an object of the same type found elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object() :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 evaluate
+
+Evaluates the watched expression and on success stores the result
+in B<value>.
+
+This is equivalent to calling C<.evaluate()> in class C<Gnome::Gtk4::Expression> with the
+expression and this pointer originally used to create B<watch>.
+
+=begin code
+method evaluate ( N-Object $value --> Bool )
+=end code
+
+=item $value; an empty B<Gnome::GObject::N-Value> to be set
+
+Return value; C<True> if the expression could be evaluated and B<value> was set. 
+
+=begin comment
+
+=head2 Example
+# Example for evaluate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 ref
+
+Acquires a reference on the given B<Gnome::Gtk4::N-ExpressionWatch>.
+
+=begin code
+method ref (--> N-Object )
+=end code
+
+Return value; the B<Gnome::Gtk4::N-ExpressionWatch> with an additional reference. 
+
+=begin comment
+
+=head2 Example
+# Example for ref
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unref
+
+Releases a reference on the given B<Gnome::Gtk4::N-ExpressionWatch>.
+
+If the reference was the last, the resources associated to B<self> are
+freed.
+
+=begin code
+method unref ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for unref
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unwatch
+
+Stops watching an expression.
+
+See C<.watch()> in class C<Gnome::Gtk4::Expression> for how the watch
+was established.
+
+=begin code
+method unwatch ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for unwatch
+
+=end comment
+
+=end pod
+

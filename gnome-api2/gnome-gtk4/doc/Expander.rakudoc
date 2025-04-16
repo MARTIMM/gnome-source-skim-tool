@@ -105,12 +105,8 @@ expander that is showing its child gets the `:checked` pseudoclass set on it.
 
 B<Gnome::Gtk4::Expander> uses the C<GTK_ACCESSIBLE_ROLE_BUTTON> role.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Expander.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -145,7 +141,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new expander using C<$label> as the text of the label.
 
 =begin code
-method new-expander ( Str $label --> Gnome::Gtk4::Expander \)
+method new-expander ( Str $label --> Gnome::Gtk4::Expander )
 =end code
 
 =item $label; the text of the label.
@@ -173,7 +169,7 @@ a keyboard accelerator called a mnemonic.
 Pressing Alt and that key activates the button.
 
 =begin code
-method new-with-mnemonic ( Str $label --> Gnome::Gtk4::Expander \)
+method new-with-mnemonic ( Str $label --> Gnome::Gtk4::Expander )
 =end code
 
 =item $label; the text of the label with an underscore

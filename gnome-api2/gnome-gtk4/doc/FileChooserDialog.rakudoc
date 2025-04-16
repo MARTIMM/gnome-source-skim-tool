@@ -126,15 +126,15 @@ There are various cases in which you may need to use a B<Gnome::Gtk4::FileChoose
 
 =item To save a file for the first time, use C<GTK_FILE_CHOOSER_ACTION_SAVE>,
   and suggest a name such as “Untitled” with
-  C<.set-current-name() in class Gnome::Gtk4::R-FileChooser>.
+  C<.set-current-name()> in class C<Gnome::Gtk4::R-FileChooser>.
 
 =item To save a file under a different name, use C<GTK_FILE_CHOOSER_ACTION_SAVE>,
-  and set the existing file with C<.set-file() in class Gnome::Gtk4::R-FileChooser>.
+  and set the existing file with C<.set-file()> in class C<Gnome::Gtk4::R-FileChooser>.
 
 =item To choose a folder instead of a filem use C<GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER>.
 
 In general, you should only cause the file chooser to show a specific
-folder when it is appropriate to use C<.set-file() in class Gnome::Gtk4::R-FileChooser>,
+folder when it is appropriate to use C<.set-file()> in class C<Gnome::Gtk4::R-FileChooser>,
 i.e. when you are doing a “Save As” command and you already have a file
 saved somewhere.
 
@@ -161,9 +161,9 @@ dialog = gtk_file_chooser_dialog_new ("Open File",
 =end comment
 
 This will create buttons for “Cancel” and “Open” that use predefined
-response identifiers from  C<enumeration ResponseType from Gnome::Gtk4::T-dialog> .  For most dialog
+response identifiers from  enumeration C<ResponseType> from C<Gnome::Gtk4::T-dialog> .  For most dialog
 boxes you can use your own custom response codes rather than the
-ones in  C<enumeration ResponseType from Gnome::Gtk4::T-dialog> , but B<Gnome::Gtk4::FileChooserDialog> assumes that
+ones in  enumeration C<ResponseType> from C<Gnome::Gtk4::T-dialog> , but B<Gnome::Gtk4::FileChooserDialog> assumes that
 its “accept”-type action, e.g. an “Open” or “Save” button,
 will have one of the following response codes:
 
@@ -185,12 +185,8 @@ when you use B<Gnome::Gtk4::FileChooserDialog> to ensure proper operation.
 B<Gnome::Gtk4::FileChooserDialog> has a single CSS node with the name B<window> and style
 class `.filechooser`.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/FileChooserDialog.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -229,10 +225,10 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 
 Creates a new B<Gnome::Gtk4::FileChooserDialog>.
 
-This function is analogous to C<.new-with-buttons() in class Gnome::Gtk4::Dialog>.
+This function is analogous to C<.new-with-buttons()> in class C<Gnome::Gtk4::Dialog>.
 
 =begin code
-method new-filechooserdialog ( Str $title, N-Object() $parent, GtkFileChooserAction $action, Str $first-button-text, … --> Gnome::Gtk4::FileChooserDialog \)
+method new-filechooserdialog ( Str $title, N-Object() $parent, GtkFileChooserAction $action, Str $first-button-text, … --> Gnome::Gtk4::FileChooserDialog )
 =end code
 
 =item $title; Title of the dialog.

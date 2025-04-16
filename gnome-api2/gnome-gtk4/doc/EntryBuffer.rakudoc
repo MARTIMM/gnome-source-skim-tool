@@ -20,12 +20,8 @@ text to be stored in an alternate location, such as non-pageable memory,
 useful in the case of important passwords. Or a derived class could
 integrate with an application’s concept of undo/redo.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/EntryBuffer.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -62,7 +58,7 @@ Create a new B<Gnome::Gtk4::EntryBuffer> object.
 Optionally, specify initial text to set in the buffer.
 
 =begin code
-method new-entrybuffer ( Str $initial-chars, Int() $n-initial-chars --> Gnome::Gtk4::EntryBuffer \)
+method new-entrybuffer ( Str $initial-chars, Int() $n-initial-chars --> Gnome::Gtk4::EntryBuffer )
 =end code
 
 =item $initial-chars; initial buffer text.

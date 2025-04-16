@@ -29,7 +29,7 @@ If the B<Gnome::Gtk4::ComboBoxText> contains an entry (via the
 I<has-entry defined in Gnome::Gtk4::ComboBox> property), its contents can be retrieved
 using C<.get-active-text()>.
 
-You should not call C<.set-model() in class Gnome::Gtk4::ComboBox> or attempt to pack more
+You should not call C<.set-model()> in class C<Gnome::Gtk4::ComboBox> or attempt to pack more
 cells into this combo box via its B<Gnome::Gtk4::R-CellLayout> interface.
 
 =head3 GtkComboBoxText as GtkBuildable
@@ -67,12 +67,8 @@ B<Gnome::Gtk4::ComboBoxText> has a single CSS node with name combobox. It adds
 the style class .combo to the main CSS nodes of its entry and button
 children, and the .linked class to the node of its internal box.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/ComboBoxText.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -111,7 +107,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Creates a new B<Gnome::Gtk4::ComboBoxText>.
 
 =begin code
-method new-comboboxtext ( --> Gnome::Gtk4::ComboBoxText \)
+method new-comboboxtext ( --> Gnome::Gtk4::ComboBoxText )
 =end code
 
 =begin comment
@@ -132,7 +128,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Creates a new B<Gnome::Gtk4::ComboBoxText> with an entry.
 
 =begin code
-method new-with-entry ( --> Gnome::Gtk4::ComboBoxText \)
+method new-with-entry ( --> Gnome::Gtk4::ComboBoxText )
 =end code
 
 =begin comment

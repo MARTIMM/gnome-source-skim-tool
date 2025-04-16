@@ -1,0 +1,159 @@
+=comment Package: Gtk4, C-Source: expression
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=TITLE Gnome::Gtk4::PropertyExpression
+=head1 Description
+
+A B<Gnome::GObject::Object> property value in a B<Gnome::Gtk4::Expression>.
+
+=head2 Uml Diagram
+=for image :src<asset_files/images/plantuml/PropertyExpression.png> :width<70%> :class<inline>
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::PropertyExpression
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from an object of the same type found elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object() :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-propertyexpression
+
+Creates an expression that looks up a property.
+
+The object to use is found by evaluating the B<expression>,
+or using the B<this> argument when B<expression> is undefined.
+
+If the resulting object conforms to B<this_type>, its property named
+B<property_name> will be queried. Otherwise, this expression's
+evaluation will fail.
+
+The given B<this_type> must have a property with B<property_name>.
+
+=begin code
+method new-propertyexpression ( GType $this-type, N-Object() $expression, Str $property-name --> Gnome::Gtk4::PropertyExpression )
+=end code
+
+=item $this-type; The type to expect for the this type.
+=item $expression; (transfer ownership: full) Expression to
+  evaluate to get the object to query or undefined to
+  query the B<this> object.
+=item $property-name; name of the property.
+
+=begin comment
+
+=head2 Example
+# Example for new-propertyexpression
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-for-pspec
+
+Creates an expression that looks up a property.
+
+The object to use is found by evaluating the B<expression>,
+or using the B<this> argument when B<expression> is undefined.
+
+If the resulting object conforms to B<this_type>, its
+property specified by B<pspec> will be queried.
+Otherwise, this expression's evaluation will fail.
+
+=begin code
+method new-for-pspec ( N-Object() $expression, N-Object() $pspec --> Gnome::Gtk4::PropertyExpression )
+=end code
+
+=item $expression; (transfer ownership: full) Expression to
+  evaluate to get the object to query or undefined to
+  query the B<this> object.
+=item $pspec; the B<Gnome::GObject::ParamSpec> for the property to query.
+
+=begin comment
+
+=head2 Example
+# Example for new-for-pspec
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-expression
+
+Gets the expression specifying the object of
+a property expression.
+
+=begin code
+method get-expression (--> N-Object )
+=end code
+
+Return value; the object expression. 
+
+=begin comment
+
+=head2 Example
+# Example for get-expression
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-pspec
+
+Gets the B<Gnome::GObject::ParamSpec> specifying the property of
+a property expression.
+
+=begin code
+method get-pspec (--> N-Object )
+=end code
+
+Return value; the B<Gnome::GObject::ParamSpec> for the property. 
+
+=begin comment
+
+=head2 Example
+# Example for get-pspec
+
+=end comment
+
+=end pod
+

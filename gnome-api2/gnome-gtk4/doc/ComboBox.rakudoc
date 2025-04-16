@@ -72,12 +72,8 @@ node with name arrow.
 
 B<Gnome::Gtk4::ComboBox> uses the C<GTK_ACCESSIBLE_ROLE_COMBO_BOX> role.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/ComboBox.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -116,7 +112,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Creates a new empty B<Gnome::Gtk4::ComboBox>.
 
 =begin code
-method new-combobox ( --> Gnome::Gtk4::ComboBox \)
+method new-combobox ( --> Gnome::Gtk4::ComboBox )
 =end code
 
 =begin comment
@@ -141,7 +137,7 @@ which column of the model contains the text for the entry
 by calling C<.set-entry-text-column()>.
 
 =begin code
-method new-with-entry ( --> Gnome::Gtk4::ComboBox \)
+method new-with-entry ( --> Gnome::Gtk4::ComboBox )
 =end code
 
 =begin comment
@@ -162,7 +158,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Creates a new B<Gnome::Gtk4::ComboBox> with a model.
 
 =begin code
-method new-with-model ( N-Object() $model --> Gnome::Gtk4::ComboBox \)
+method new-with-model ( N-Object() $model --> Gnome::Gtk4::ComboBox )
 =end code
 
 =item $model; a B<Gnome::Gtk4::R-TreeModel>.
@@ -187,7 +183,7 @@ Creates a new empty B<Gnome::Gtk4::ComboBox> with an entry and a model.
 See also C<.new-with-entry()>.
 
 =begin code
-method new-with-model-and-entry ( N-Object() $model --> Gnome::Gtk4::ComboBox \)
+method new-with-model-and-entry ( N-Object() $model --> Gnome::Gtk4::ComboBox )
 =end code
 
 =item $model; A B<Gnome::Gtk4::R-TreeModel>.
@@ -773,7 +769,7 @@ Will unset a previously set model (if applicable). If model is undefined,
 then it will unset the model.
 
 Note that this function does not clear the cell renderers, you have to
-call C<.clear() in class Gnome::Gtk4::R-CellLayout> yourself if you need to set up different
+call C<.clear()> in class C<Gnome::Gtk4::R-CellLayout> yourself if you need to set up different
 cell renderers for the new model.
 
 =begin code
@@ -820,7 +816,6 @@ method set-popup-fixed-width ( Bool() $fixed )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-row-separator-func
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -831,12 +826,12 @@ If the row separator function is undefined, no separators are drawn.
 This is the default value.
 
 =begin code
-method set-row-separator-func ( &func, gpointer $data, … )
+method set-row-separator-func ( GtkTreeViewRowSeparatorFunc &func, gpointer $data, GDestroyNotify &destroy )
 =end code
 
-=item &func; a B<Gnome::Gtk4::T-treeview>. Tthe function must be specified with following signature; C<:( N-Object $model, N-Object $iter, gpointer $data --> gboolean )>.
+=item GtkTreeViewRowSeparatorFunc &func; a B<Gnome::Gtk4::T-treeview>. The function must be specified with the following signature; C<:( N-Object $model, N-Object $iter, gpointer $data )>.
 =item $data; user data to pass to C<$func>.
-=item destroy; destroy notifier for C<$data>. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &destroy; destroy notifier for C<$data>. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 

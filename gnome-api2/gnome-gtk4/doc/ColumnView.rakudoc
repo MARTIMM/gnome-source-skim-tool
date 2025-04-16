@@ -29,7 +29,7 @@ The column view supports sorting that can be customized by the user by
 clicking on column headers. To set this up, the B<Gnome::Gtk4::Sorter> returned by
 C<.get-sorter()> must be attached to a sort model for the
 data that the view is showing, and the columns must have sorters attached to
-them by calling C<.set-sorter() in class Gnome::Gtk4::ColumnViewColumn>. The initial sort
+them by calling C<.set-sorter()> in class C<Gnome::Gtk4::ColumnViewColumn>. The initial sort
 order can be set with C<.sort-by-column()>.
 
 The column view also supports interactive resizing and reordering of
@@ -62,12 +62,8 @@ widgets are using the C<GTK_ACCESSIBLE_ROLE_COLUMN_HEADER> role. The row widgets
 are using the C<GTK_ACCESSIBLE_ROLE_ROW> role, and individual cells are using
 the C<GTK_ACCESSIBLE_ROLE_GRID_CELL> role
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/ColumnView.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -105,7 +101,7 @@ You most likely want to call C<.append-column()>
 to add columns next.
 
 =begin code
-method new-columnview ( N-Object() $model --> Gnome::Gtk4::ColumnView \)
+method new-columnview ( N-Object() $model --> Gnome::Gtk4::ColumnView )
 =end code
 
 =item $model; (transfer ownership: full) the list model to use.
@@ -355,7 +351,7 @@ To allow users to customizable sorting by clicking on column
 headers, this sorter needs to be set on the sort model underneath
 the model that is displayed by the view.
 
-See C<.set-sorter() in class Gnome::Gtk4::ColumnViewColumn> for setting up
+See C<.set-sorter()> in class C<Gnome::Gtk4::ColumnViewColumn> for setting up
 per-column sorting.
 
 Here is an example:
@@ -455,7 +451,8 @@ If it isn't, then the changes will take effect once that happens.
 method scroll-to ( UInt() $pos, N-Object() $column, UInt $flags, N-Object $scroll )
 =end code
 
-=item $pos; position of the item.
+=item $pos; position of the item. Must be less than the number of
+  items in the view..
 =item $column; The column to scroll to
   or undefined to not scroll columns..
 =item $flags; actions to perform.
@@ -676,7 +673,7 @@ by clicking on the list headers.
 
 This call only has an effect if the sorter returned by
 C<.get-sorter()> is set on a sort model,
-and C<.set-sorter() in class Gnome::Gtk4::ColumnViewColumn> has been called
+and C<.set-sorter()> in class C<Gnome::Gtk4::ColumnViewColumn> has been called
 on C<$column> to associate a sorter with the column.
 
 If C<$column> is undefined, the view will be unsorted.
@@ -704,7 +701,7 @@ Emitted when a row has been activated by the user, usually via activating
 the GtkListBase|list.activate-item action.
 
 This allows for a convenient way to handle activation in a columnview.
-See C<.set-activatable() in class Gnome::Gtk4::ListItem> for details on how to use this
+See C<.set-activatable()> in class C<Gnome::Gtk4::ListItem> for details on how to use this
 signal.
 
 =begin code

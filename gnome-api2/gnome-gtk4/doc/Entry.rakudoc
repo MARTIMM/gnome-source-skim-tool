@@ -99,12 +99,8 @@ content instead.
 
 B<Gnome::Gtk4::Entry> uses the C<GTK_ACCESSIBLE_ROLE_TEXT_BOX> role.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Entry.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -139,7 +135,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new entry.
 
 =begin code
-method new-entry ( --> Gnome::Gtk4::Entry \)
+method new-entry ( --> Gnome::Gtk4::Entry )
 =end code
 
 =begin comment
@@ -158,7 +154,7 @@ method new-entry ( --> Gnome::Gtk4::Entry \)
 Creates a new entry with the specified text buffer.
 
 =begin code
-method new-with-buffer ( N-Object() $buffer --> Gnome::Gtk4::Entry \)
+method new-with-buffer ( N-Object() $buffer --> Gnome::Gtk4::Entry )
 =end code
 
 =item $buffer; The buffer to use for the new B<Gnome::Gtk4::Entry>..
@@ -828,7 +824,7 @@ Return value; the tabstops.
 Retrieves the current length of the text in C<$entry>.
 
 This is equivalent to getting C<$entry>'s B<Gnome::Gtk4::EntryBuffer>
-and calling C<.get-length() in class Gnome::Gtk4::EntryBuffer> on it.
+and calling C<.get-length()> in class C<Gnome::Gtk4::EntryBuffer> on it.
 
 =begin code
 method get-text-length (--> UInt )
@@ -875,7 +871,7 @@ Return value; C<True> if the text is currently visible.
 
 Causes C<$entry> to have keyboard focus.
 
-It behaves like C<.grab-focus() in class Gnome::Gtk4::Widget>, except that it doesn't
+It behaves like C<.grab-focus()> in class C<Gnome::Gtk4::Widget>, except that it doesn't
 select the contents of the entry. You only want to call this on some
 special entries which the user usually doesn't want to replace all text
 in, such as search-as-you-type entries.
@@ -1278,7 +1274,7 @@ the specified position.
 
 Use undefined for C<$tooltip> to remove an existing tooltip.
 
-See also C<.set-tooltip-markup() in class Gnome::Gtk4::Widget> and
+See also C<.set-tooltip-markup()> in class C<Gnome::Gtk4::Widget> and
 C<.set-icon-tooltip-text()>.
 
 =begin code
@@ -1306,15 +1302,15 @@ at the specified position.
 
 Use undefined for C<$tooltip> to remove an existing tooltip.
 
-See also C<.set-tooltip-text() in class Gnome::Gtk4::Widget> and
+See also C<.set-tooltip-text()> in class C<Gnome::Gtk4::Widget> and
 C<.set-icon-tooltip-markup()>.
 
 If you unset the widget tooltip via
-C<.set-tooltip-text() in class Gnome::Gtk4::Widget> or
-C<.set-tooltip-markup() in class Gnome::Gtk4::Widget>, this sets
+C<.set-tooltip-text()> in class C<Gnome::Gtk4::Widget> or
+C<.set-tooltip-markup()> in class C<Gnome::Gtk4::Widget>, this sets
 I<has-tooltip defined in Gnome::Gtk4::Widget> to C<False>, which suppresses
 icon tooltips too. You can resolve this by then calling
-C<.set-has-tooltip() in class Gnome::Gtk4::Widget> to set
+C<.set-has-tooltip()> in class C<Gnome::Gtk4::Widget> to set
 I<has-tooltip defined in Gnome::Gtk4::Widget> back to C<True>, or
 setting at least one non-empty tooltip on any icon
 achieves the same result.
@@ -1419,7 +1415,7 @@ If the current contents are longer than the given length, then
 they will be truncated to fit. The length is in characters.
 
 This is equivalent to getting C<$entry>'s B<Gnome::Gtk4::EntryBuffer> and
-calling C<.set-max-length() in class Gnome::Gtk4::EntryBuffer> on it.
+calling C<.set-max-length()> in class C<Gnome::Gtk4::EntryBuffer> on it.
 
 =begin code
 method set-max-length ( Int() $max )
