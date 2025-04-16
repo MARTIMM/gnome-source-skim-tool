@@ -303,7 +303,15 @@ Gnome::N::TopLevelClassSupport
 ├── N-TreeRowReference
 ├── 
 
+
+
+GtkConstantExpression                           ConstantExpression
+GtkObjectExpression                             ObjectExpression
+GtkPropertyExpression                           PropertyExpression
+
 GtkExpression                                   Expression
+                                                N-ExpressionWatch
+
 ```
 
 ## Type modules
