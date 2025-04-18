@@ -58,12 +58,8 @@ the style of [list presentation](section-list-widget.html#list-styles):
 B<Gnome::Gtk4::ListBox> uses the C<GTK_ACCESSIBLE_ROLE_LIST> role and B<Gnome::Gtk4::ListBoxRow> uses
 the C<GTK_ACCESSIBLE_ROLE_LIST_ITEM> role.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/ListBox.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -98,7 +94,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::ListBox> container.
 
 =begin code
-method new-listbox ( --> Gnome::Gtk4::ListBox \)
+method new-listbox ( --> Gnome::Gtk4::ListBox )
 =end code
 
 =begin comment
@@ -145,7 +141,6 @@ method append ( N-Object() $child )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 bind-model
-This function is not yet available
 
 Binds C<$model> to C<$box>.
 
@@ -164,14 +159,14 @@ functionality in B<Gnome::Gtk4::ListBox>. When using a model, filtering and sort
 should be implemented by the model.
 
 =begin code
-method bind-model ( N-List() $model, &create-widget-func, gpointer $user-data, … )
+method bind-model ( N-List() $model, GtkListBoxCreateWidgetFunc &create-widget-func, gpointer $user-data, GDestroyNotify &user-data-free-func )
 =end code
 
 =item $model; the B<Gnome::Gio::R-ListModel> to be bound to C<$box>.
-=item &create-widget-func; a function that creates widgets for items
-  or undefined in case you also passed undefined as C<$model>. Tthe function must be specified with following signature; C<:( gpointer $item, gpointer $user-data --> N-Object )>.
+=item GtkListBoxCreateWidgetFunc &create-widget-func; a function that creates widgets for items
+  or undefined in case you also passed undefined as C<$model>. The function must be specified with the following signature; C<:( gpointer $item, gpointer $user-data )>.
 =item $user-data; user data passed to C<$create-widget-func>.
-=item user-data-free-func; function for freeing C<$user-data>. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &user-data-free-func; function for freeing C<$user-data>. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 
@@ -627,10 +622,10 @@ Calls a function for each selected child.
 Note that the selection cannot be modified from within this function.
 
 =begin code
-method selected-foreach ( &func, gpointer $data )
+method selected-foreach ( GtkListBoxForeachFunc &func, gpointer $data )
 =end code
 
-=item &func; the function to call for each selected child. Tthe function must be specified with following signature; C<:( N-Object $box, N-Object $row, gpointer $user-data )>.
+=item GtkListBoxForeachFunc &func; the function to call for each selected child. The function must be specified with the following signature; C<:( N-Object $box, N-Object $row, gpointer $user-data )>.
 =item $data; user data to pass to the function.
 
 =begin comment
@@ -697,7 +692,6 @@ method set-adjustment ( N-Object() $adjustment )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-filter-func
-This function is not yet available
 
 By setting a filter function on the C<$box> one can decide dynamically which
 of the rows to show.
@@ -707,19 +701,19 @@ filters the original list to only show the matching rows.
 
 The C<$filter-func> will be called for each row after the call, and
 it will continue to be called each time a row changes (via
-C<.changed() in class Gnome::Gtk4::ListBoxRow>) or when C<.invalidate-filter()>
+C<.changed()> in class C<Gnome::Gtk4::ListBoxRow>) or when C<.invalidate-filter()>
 is called.
 
 Note that using a filter function is incompatible with using a model
 (see C<.bind-model()>).
 
 =begin code
-method set-filter-func ( &filter-func, gpointer $user-data, … )
+method set-filter-func ( GtkListBoxFilterFunc &filter-func, gpointer $user-data, GDestroyNotify &destroy )
 =end code
 
-=item &filter-func; callback that lets you filter which rows to show. Tthe function must be specified with following signature; C<:( N-Object $row, gpointer $user-data --> gboolean )>.
+=item GtkListBoxFilterFunc &filter-func; callback that lets you filter which rows to show. The function must be specified with the following signature; C<:( N-Object $row, gpointer $user-data )>.
 =item $user-data; user data passed to C<$filter-func>.
-=item destroy; destroy notifier for C<$user-data>. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &destroy; destroy notifier for C<$user-data>. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 
@@ -733,7 +727,6 @@ method set-filter-func ( &filter-func, gpointer $user-data, … )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-header-func
-This function is not yet available
 
 Sets a header function.
 
@@ -745,8 +738,8 @@ For instance, one could use it to add headers in front of the first item
 of a new kind, in a list sorted by the kind.
 
 The C<$update-header> can look at the current header widget using
-C<.get-header() in class Gnome::Gtk4::ListBoxRow> and either update the state of the widget
-as needed, or set a new one using C<.set-header() in class Gnome::Gtk4::ListBoxRow>. If no
+C<.get-header()> in class C<Gnome::Gtk4::ListBoxRow> and either update the state of the widget
+as needed, or set a new one using C<.set-header()> in class C<Gnome::Gtk4::ListBoxRow>. If no
 header is needed, set the header to undefined.
 
 Note that you may get many calls C<$update-header> to this for a particular
@@ -756,18 +749,18 @@ with an identical one.
 
 The C<$update-header> function will be called for each row after the call,
 and it will continue to be called each time a row changes (via
-C<.changed() in class Gnome::Gtk4::ListBoxRow>) and when the row before changes (either
-by C<.changed() in class Gnome::Gtk4::ListBoxRow> on the previous row, or when the previous
+C<.changed()> in class C<Gnome::Gtk4::ListBoxRow>) and when the row before changes (either
+by C<.changed()> in class C<Gnome::Gtk4::ListBoxRow> on the previous row, or when the previous
 row becomes a different row). It is also called for all rows when
 C<.invalidate-headers()> is called.
 
 =begin code
-method set-header-func ( &update-header, gpointer $user-data, … )
+method set-header-func ( GtkListBoxUpdateHeaderFunc &update-header, gpointer $user-data, GDestroyNotify &destroy )
 =end code
 
-=item &update-header; callback that lets you add row headers. Tthe function must be specified with following signature; C<:( N-Object $row, N-Object $before, gpointer $user-data )>.
+=item GtkListBoxUpdateHeaderFunc &update-header; callback that lets you add row headers. The function must be specified with the following signature; C<:( N-Object $row, N-Object $before, gpointer $user-data )>.
 =item $user-data; user data passed to C<$update-header>.
-=item destroy; destroy notifier for C<$user-data>. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &destroy; destroy notifier for C<$user-data>. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 
@@ -846,7 +839,6 @@ method set-show-separators ( Bool() $show-separators )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-sort-func
-This function is not yet available
 
 Sets a sort function.
 
@@ -855,19 +847,19 @@ the rows of the list, based on the contents of the rows.
 
 The C<$sort-func> will be called for each row after the call, and will
 continue to be called each time a row changes (via
-C<.changed() in class Gnome::Gtk4::ListBoxRow>) and when C<.invalidate-sort()>
+C<.changed()> in class C<Gnome::Gtk4::ListBoxRow>) and when C<.invalidate-sort()>
 is called.
 
 Note that using a sort function is incompatible with using a model
 (see C<.bind-model()>).
 
 =begin code
-method set-sort-func ( &sort-func, gpointer $user-data, … )
+method set-sort-func ( GtkListBoxSortFunc &sort-func, gpointer $user-data, GDestroyNotify &destroy )
 =end code
 
-=item &sort-func; the sort function. Tthe function must be specified with following signature; C<:( N-Object $row1, N-Object $row2, gpointer $user-data --> gint )>.
+=item GtkListBoxSortFunc &sort-func; the sort function. The function must be specified with the following signature; C<:( N-Object $row1, N-Object $row2, gpointer $user-data )>.
 =item $user-data; user data passed to C<$sort-func>.
-=item destroy; destroy notifier for C<$user-data>. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &destroy; destroy notifier for C<$user-data>. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 

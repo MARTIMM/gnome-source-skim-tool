@@ -28,12 +28,8 @@ various widgets to easily allow searches.
 However, in particular for large lists or complex search methods, it is
 also possible to subclass B<Gnome::Gtk4::Filter> and provide one's own filter.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Filter.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -80,7 +76,7 @@ of the filter should then check items again via
 C<.match()>.
 
 Depending on the C<$change> parameter, not all items need to
-be changed, but only some. Refer to the  C<enumeration FilterChange from Gnome::Gtk4::T-filter> 
+be changed, but only some. Refer to the  enumeration C<FilterChange> from C<Gnome::Gtk4::T-filter> 
 documentation for details.
 
 This function is intended for implementers of B<Gnome::Gtk4::Filter>
@@ -172,7 +168,7 @@ C<.match()>.
 B<Gnome::Gtk4::FilterListModel> handles this signal automatically.
 
 Depending on the C<$change> parameter, not all items need
-to be checked, but only some. Refer to the  C<enumeration FilterChange from Gnome::Gtk4::T-filter> 
+to be checked, but only some. Refer to the  enumeration C<FilterChange> from C<Gnome::Gtk4::T-filter> 
 documentation for details.
 
 =begin code

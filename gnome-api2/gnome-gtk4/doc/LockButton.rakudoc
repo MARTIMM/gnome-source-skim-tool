@@ -47,12 +47,8 @@ I<tooltip-lock>,
 I<tooltip-unlock> and
 I<tooltip-not-authorized> properties.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/LockButton.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -91,7 +87,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Creates a new lock button which reflects the C<$permission>.
 
 =begin code
-method new-lockbutton ( N-Object() $permission --> Gnome::Gtk4::LockButton \)
+method new-lockbutton ( N-Object() $permission --> Gnome::Gtk4::LockButton )
 =end code
 
 =item $permission; a B<Gnome::Gio::Permission>.

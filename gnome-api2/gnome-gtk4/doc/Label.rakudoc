@@ -183,10 +183,8 @@ It is possible to implement custom handling for links and their tooltips
 with the I<activate-link> signal and the
 C<.get-current-uri()> function.
 
-=begin comment
 =head2 Uml Diagram
-![](plantuml/….svg)
-=end comment
+=for image :src<asset_files/images/plantuml/Label.png> :width<70%> :class<inline>
 
 =begin comment
 =head2 Example
@@ -221,7 +219,7 @@ Creates a new label with the given text inside it.
 You can pass undefined to get an empty label widget.
 
 =begin code
-method new-label ( Str $str --> Gnome::Gtk4::Label \)
+method new-label ( Str $str --> Gnome::Gtk4::Label )
 =end code
 
 =item $str; The text of the label.
@@ -255,7 +253,7 @@ the button or menu item will automatically become the mnemonic widget
 and be activated by the mnemonic.
 
 =begin code
-method new-with-mnemonic ( Str $str --> Gnome::Gtk4::Label \)
+method new-with-mnemonic ( Str $str --> Gnome::Gtk4::Label )
 =end code
 
 =item $str; The text of the label, with an underscore in front of the
@@ -676,7 +674,7 @@ Return value; C<True> when the label is in single line mode..
 Gets the tabs for C<$self>.
 
 The returned array will be undefined if “standard” (8-space) tabs are used.
-Free the return value with C<.free() in class Gnome::Pango::N-TabArray>.
+Free the return value with C<.free()> in class C<Gnome::Pango::N-TabArray>.
 
 =begin code
 method get-tabs (--> N-Object )
@@ -684,7 +682,7 @@ method get-tabs (--> N-Object )
 
 Return value; copy of default tab array,
   or undefined if standard tabs are used; must be freed with
-  C<.free() in class Gnome::Pango::N-TabArray>.. 
+  C<.free()> in class C<Gnome::Pango::N-TabArray>.. 
 
 =begin comment
 
@@ -991,7 +989,7 @@ each other.
 
 C<GTK_JUSTIFY_LEFT> is the default value when the widget is first created
 with C<.newlabel()>. If you instead want to set the alignment of
-the label as a whole, use C<.set-halign() in class Gnome::Gtk4::Widget> instead.
+the label as a whole, use C<.set-halign()> in class C<Gnome::Gtk4::Widget> instead.
 C<.set-justify()> has no effect on labels containing
 only a single line.
 
@@ -1410,7 +1408,7 @@ Note that setting line wrapping to C<True> does not make the label
 wrap at its parent container’s width, because GTK widgets
 conceptually can’t make their requisition depend on the parent
 container’s size. For a label that wraps at a specific position,
-set the label’s width using C<.set-size-request() in class Gnome::Gtk4::Widget>.
+set the label’s width using C<.set-size-request()> in class C<Gnome::Gtk4::Widget>.
 
 =begin code
 method set-wrap ( Bool() $wrap )
@@ -1547,7 +1545,7 @@ method handler (
 Gets emitted to activate a URI.
 
 Applications may connect to it to override the default behaviour,
-which is to call C<.launch() in class Gnome::Gtk4::FileLauncher>.
+which is to call C<.launch()> in class C<Gnome::Gtk4::FileLauncher>.
 
 =begin code
 method handler (

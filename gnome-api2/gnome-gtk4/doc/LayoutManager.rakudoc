@@ -18,7 +18,7 @@ the size of a widget depending on its contents.
 
 Each B<Gnome::Gtk4::Widget> can only have a B<Gnome::Gtk4::LayoutManager> instance associated
 to it at any given time; it is possible, though, to replace the layout
-manager instance using C<.set-layout-manager() in class Gnome::Gtk4::Widget>.
+manager instance using C<.set-layout-manager()> in class C<Gnome::Gtk4::Widget>.
 
 =head3 Layout properties
 
@@ -59,12 +59,8 @@ the layout properties; each B<Gnome::Gtk4::LayoutChild> instance should call
 C<.layout-changed()> every time a property is
 updated, in order to queue a new size measuring and allocation.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/LayoutManager.png> :width<70%> :class<inline>
 
 =begin comment
 

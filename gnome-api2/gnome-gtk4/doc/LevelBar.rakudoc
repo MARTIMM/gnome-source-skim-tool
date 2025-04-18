@@ -109,12 +109,8 @@ regardless of text direction.
 
 B<Gnome::Gtk4::LevelBar> uses the C<GTK_ACCESSIBLE_ROLE_METER> role.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/LevelBar.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -149,7 +145,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::LevelBar>.
 
 =begin code
-method new-levelbar ( --> Gnome::Gtk4::LevelBar \)
+method new-levelbar ( --> Gnome::Gtk4::LevelBar )
 =end code
 
 =begin comment
@@ -168,7 +164,7 @@ method new-levelbar ( --> Gnome::Gtk4::LevelBar \)
 Creates a new B<Gnome::Gtk4::LevelBar> for the specified interval.
 
 =begin code
-method new-for-interval ( Num() $min-value, Num() $max-value --> Gnome::Gtk4::LevelBar \)
+method new-for-interval ( Num() $min-value, Num() $max-value --> Gnome::Gtk4::LevelBar )
 =end code
 
 =item $min-value; a positive value.

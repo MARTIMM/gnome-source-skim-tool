@@ -57,12 +57,8 @@ a subnode with name rubberband is used.
 B<Gnome::Gtk4::FlowBox> uses the C<GTK_ACCESSIBLE_ROLE_GRID> role, and B<Gnome::Gtk4::FlowBoxChild>
 uses the C<GTK_ACCESSIBLE_ROLE_GRID_CELL> role.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/FlowBox.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -97,7 +93,7 @@ Create an object using a native object from an object of the same type found els
 Creates a B<Gnome::Gtk4::FlowBox>.
 
 =begin code
-method new-flowbox ( --> Gnome::Gtk4::FlowBox \)
+method new-flowbox ( --> Gnome::Gtk4::FlowBox )
 =end code
 
 =begin comment
@@ -146,7 +142,6 @@ method append ( N-Object() $child )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 bind-model
-This function is not yet available
 
 Binds C<$model> to C<$box>.
 
@@ -165,13 +160,13 @@ functionality in B<Gnome::Gtk4::FlowBox>. When using a model, filtering and sort
 should be implemented by the model.
 
 =begin code
-method bind-model ( N-List() $model, &create-widget-func, gpointer $user-data, … )
+method bind-model ( N-List() $model, GtkFlowBoxCreateWidgetFunc &create-widget-func, gpointer $user-data, GDestroyNotify &user-data-free-func )
 =end code
 
 =item $model; the B<Gnome::Gio::R-ListModel> to be bound to C<$box>.
-=item &create-widget-func; a function that creates widgets for items. Tthe function must be specified with following signature; C<:( gpointer $item, gpointer $user-data --> N-Object )>.
+=item GtkFlowBoxCreateWidgetFunc &create-widget-func; a function that creates widgets for items. The function must be specified with the following signature; C<:( gpointer $item, gpointer $user-data )>.
 =item $user-data; user data passed to C<$create-widget-func>.
-=item user-data-free-func; function for freeing C<$user-data>. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &user-data-free-func; function for freeing C<$user-data>. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 
@@ -600,10 +595,10 @@ Note that the selection cannot be modified from within
 this function.
 
 =begin code
-method selected-foreach ( &func, gpointer $data )
+method selected-foreach ( GtkFlowBoxForeachFunc &func, gpointer $data )
 =end code
 
-=item &func; the function to call for each selected child. Tthe function must be specified with following signature; C<:( N-Object $box, N-Object $child, gpointer $user-data )>.
+=item GtkFlowBoxForeachFunc &func; the function to call for each selected child. The function must be specified with the following signature; C<:( N-Object $box, N-Object $child, gpointer $user-data )>.
 =item $data; user data to pass to the function.
 
 =begin comment
@@ -661,7 +656,6 @@ method set-column-spacing ( UInt() $spacing )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-filter-func
-This function is not yet available
 
 By setting a filter function on the C<$box> one can decide dynamically
 which of the children to show.
@@ -671,20 +665,20 @@ children matching the search terms.
 
 The C<$filter-func> will be called for each child after the call, and
 it will continue to be called each time a child changes (via
-C<.changed() in class Gnome::Gtk4::FlowBoxChild>) or when
+C<.changed()> in class C<Gnome::Gtk4::FlowBoxChild>) or when
 C<.invalidate-filter()> is called.
 
 Note that using a filter function is incompatible with using a model
 (see C<.bind-model()>).
 
 =begin code
-method set-filter-func ( &filter-func, gpointer $user-data, … )
+method set-filter-func ( GtkFlowBoxFilterFunc &filter-func, gpointer $user-data, GDestroyNotify &destroy )
 =end code
 
-=item &filter-func; callback that
-  lets you filter which children to show. Tthe function must be specified with following signature; C<:( N-Object $child, gpointer $user-data --> gboolean )>.
+=item GtkFlowBoxFilterFunc &filter-func; callback that
+  lets you filter which children to show. The function must be specified with the following signature; C<:( N-Object $child, gpointer $user-data )>.
 =item $user-data; user data passed to C<$filter-func>.
-=item destroy; destroy notifier for C<$user-data>. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &destroy; destroy notifier for C<$user-data>. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 
@@ -702,7 +696,7 @@ method set-filter-func ( &filter-func, gpointer $user-data, … )
 Hooks up an adjustment to focus handling in C<$box>.
 
 The adjustment is also used for autoscrolling during
-rubberband selection. See C<.get-hadjustment() in class Gnome::Gtk4::ScrolledWindow>
+rubberband selection. See C<.get-hadjustment()> in class C<Gnome::Gtk4::ScrolledWindow>
 for a typical way of obtaining the adjustment, and
 C<.set-vadjustment()> for setting the vertical
 adjustment.
@@ -843,7 +837,6 @@ method set-selection-mode ( GtkSelectionMode $mode )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-sort-func
-This function is not yet available
 
 By setting a sort function on the C<$box>, one can dynamically
 reorder the children of the box, based on the contents of
@@ -851,19 +844,19 @@ the children.
 
 The C<$sort-func> will be called for each child after the call,
 and will continue to be called each time a child changes (via
-C<.changed() in class Gnome::Gtk4::FlowBoxChild>) and when
+C<.changed()> in class C<Gnome::Gtk4::FlowBoxChild>) and when
 C<.invalidate-sort()> is called.
 
 Note that using a sort function is incompatible with using a model
 (see C<.bind-model()>).
 
 =begin code
-method set-sort-func ( &sort-func, gpointer $user-data, … )
+method set-sort-func ( GtkFlowBoxSortFunc &sort-func, gpointer $user-data, GDestroyNotify &destroy )
 =end code
 
-=item &sort-func; the sort function. Tthe function must be specified with following signature; C<:( N-Object $child1, N-Object $child2, gpointer $user-data --> gint )>.
+=item GtkFlowBoxSortFunc &sort-func; the sort function. The function must be specified with the following signature; C<:( N-Object $child1, N-Object $child2, gpointer $user-data )>.
 =item $user-data; user data passed to C<$sort-func>.
-=item destroy; destroy notifier for C<$user-data>. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &destroy; destroy notifier for C<$user-data>. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 
@@ -881,7 +874,7 @@ method set-sort-func ( &sort-func, gpointer $user-data, … )
 Hooks up an adjustment to focus handling in C<$box>.
 
 The adjustment is also used for autoscrolling during
-rubberband selection. See C<.get-vadjustment() in class Gnome::Gtk4::ScrolledWindow>
+rubberband selection. See C<.get-vadjustment()> in class C<Gnome::Gtk4::ScrolledWindow>
 for a typical way of obtaining the adjustment, and
 C<.set-hadjustment()> for setting the horizontal
 adjustment.

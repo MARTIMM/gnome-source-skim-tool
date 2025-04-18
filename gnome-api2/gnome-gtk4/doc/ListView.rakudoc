@@ -47,12 +47,8 @@ the style of [list presentation](ListContainers.html#list-styles):
 B<Gnome::Gtk4::ListView> uses the C<GTK_ACCESSIBLE_ROLE_LIST> role, and the list
 items use the C<GTK_ACCESSIBLE_ROLE_LIST_ITEM> role.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/ListView.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -91,7 +87,7 @@ The function takes ownership of the
 arguments, so you can write code like
 
 =begin code
-method new-listview ( N-Object() $model, N-Object() $factory --> Gnome::Gtk4::ListView \)
+method new-listview ( N-Object() $model, N-Object() $factory --> Gnome::Gtk4::ListView )
 =end code
 
 =item $model; (transfer ownership: full) the model to use.
@@ -277,7 +273,8 @@ If it isn't, then the changes will take effect once that happens.
 method scroll-to ( UInt() $pos, UInt $flags, N-Object $scroll )
 =end code
 
-=item $pos; position of the item.
+=item $pos; position of the item. Must be less than the number of
+  items in the view..
 =item $flags; actions to perform.
 =item $scroll; (transfer ownership: full) details of how to perform
   the scroll operation or undefined to scroll into view
@@ -500,7 +497,7 @@ Emitted when a row has been activated by the user,
 usually via activating the GtkListView|list.activate-item action.
 
 This allows for a convenient way to handle activation in a listview.
-See C<.set-activatable() in class Gnome::Gtk4::ListItem> for details on how to use
+See C<.set-activatable()> in class C<Gnome::Gtk4::ListItem> for details on how to use
 this signal.
 
 =begin code

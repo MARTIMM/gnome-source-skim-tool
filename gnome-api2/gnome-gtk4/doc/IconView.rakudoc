@@ -34,12 +34,8 @@ iconview.view
 B<Gnome::Gtk4::IconView> has a single CSS node with name iconview and style class .view.
 For rubberband selection, a subnode with name rubberband is used.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/IconView.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -78,7 +74,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Creates a new B<Gnome::Gtk4::IconView> widget
 
 =begin code
-method new-iconview ( --> Gnome::Gtk4::IconView \)
+method new-iconview ( --> Gnome::Gtk4::IconView )
 =end code
 
 =begin comment
@@ -100,7 +96,7 @@ Creates a new B<Gnome::Gtk4::IconView> widget using the
 specified C<$area> to layout cells inside the icons.
 
 =begin code
-method new-with-area ( N-Object() $area --> Gnome::Gtk4::IconView \)
+method new-with-area ( N-Object() $area --> Gnome::Gtk4::IconView )
 =end code
 
 =item $area; the B<Gnome::Gtk4::CellArea> to use to layout cells.
@@ -123,7 +119,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Creates a new B<Gnome::Gtk4::IconView> widget with the model C<$model>.
 
 =begin code
-method new-with-model ( N-Object() $model --> Gnome::Gtk4::IconView \)
+method new-with-model ( N-Object() $model --> Gnome::Gtk4::IconView )
 =end code
 
 =item $model; The model..
@@ -1068,10 +1064,10 @@ Calls a function for each selected icon. Note that the model or
 selection cannot be modified from within this function.
 
 =begin code
-method selected-foreach ( &func, gpointer $data )
+method selected-foreach ( GtkIconViewForeachFunc &func, gpointer $data )
 =end code
 
-=item &func; The function to call for each selected icon.. Tthe function must be specified with following signature; C<:( N-Object $icon-view, N-Object $path, gpointer $data )>.
+=item GtkIconViewForeachFunc &func; The function to call for each selected icon.. The function must be specified with the following signature; C<:( N-Object $icon-view, N-Object $path, gpointer $data )>.
 =item $data; User data to pass to the function..
 
 =begin comment

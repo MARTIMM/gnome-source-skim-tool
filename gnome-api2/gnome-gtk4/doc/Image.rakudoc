@@ -27,7 +27,7 @@ If the file isn’t loaded successfully, the image will contain a
 
 If you want to handle errors in loading the file yourself,
 for example by displaying an error message, then load the image with
-C<.new-from-file() in class Gnome::Gdk4::Texture>, then create the B<Gnome::Gtk4::Image> with
+C<.new-from-file()> in class C<Gnome::Gdk4::Texture>, then create the B<Gnome::Gtk4::Image> with
 C<.new-from-paintable()>.
 
 Sometimes an application will want to avoid depending on external data
@@ -50,12 +50,8 @@ I<icon-size> property.
 
 B<Gnome::Gtk4::Image> uses the B<GTK_ACCESSIBLE_ROLE_IMG> role.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Image.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -90,7 +86,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new empty B<Gnome::Gtk4::Image> widget.
 
 =begin code
-method new-image ( --> Gnome::Gtk4::Image \)
+method new-image ( --> Gnome::Gtk4::Image )
 =end code
 
 =begin comment
@@ -113,7 +109,7 @@ will display a “broken image” icon. This function never returns undefined,
 it always returns a valid B<Gnome::Gtk4::Image> widget.
 
 If you need to detect failures to load the file, use
-C<.new-from-file() in class Gnome::Gdk4::Texture> to load the file yourself,
+C<.new-from-file()> in class C<Gnome::Gdk4::Texture> to load the file yourself,
 then create the B<Gnome::Gtk4::Image> from the texture.
 
 The storage type (see C<.get-storage-type()>)
@@ -121,7 +117,7 @@ of the returned image is not defined, it will be whatever
 is appropriate for displaying the file.
 
 =begin code
-method new-from-file ( Str $filename --> Gnome::Gtk4::Image \)
+method new-from-file ( Str $filename --> Gnome::Gtk4::Image )
 =end code
 
 =item $filename; a filename.
@@ -146,7 +142,7 @@ displayed instead. If the current icon theme is changed, the icon
 will be updated appropriately.
 
 =begin code
-method new-from-gicon ( N-Object() $icon --> Gnome::Gtk4::Image \)
+method new-from-gicon ( N-Object() $icon --> Gnome::Gtk4::Image )
 =end code
 
 =item $icon; an icon.
@@ -171,7 +167,7 @@ displayed instead. If the current icon theme is changed, the icon
 will be updated appropriately.
 
 =begin code
-method new-from-icon-name ( Str $icon-name --> Gnome::Gtk4::Image \)
+method new-from-icon-name ( Str $icon-name --> Gnome::Gtk4::Image )
 =end code
 
 =item $icon-name; an icon name.
@@ -199,7 +195,7 @@ The B<Gnome::Gtk4::Image> will track changes to the C<$paintable> and update
 its size and contents in response to it.
 
 =begin code
-method new-from-paintable ( N-Object() $paintable --> Gnome::Gtk4::Image \)
+method new-from-paintable ( N-Object() $paintable --> Gnome::Gtk4::Image )
 =end code
 
 =item $paintable; a B<Gnome::Gdk4::R-Paintable>.
@@ -233,7 +229,7 @@ The B<Gnome::Gtk4::Image> created will not react to state changes. Should you
 want that, you should use C<.new-from-icon-name()>.
 
 =begin code
-method new-from-pixbuf ( N-Object() $pixbuf --> Gnome::Gtk4::Image \)
+method new-from-pixbuf ( N-Object() $pixbuf --> Gnome::Gtk4::Image )
 =end code
 
 =item $pixbuf; a B<Gnome::GdkPixbuf::Pixbuf>.
@@ -258,7 +254,7 @@ display a “broken image” icon. This function never returns undefined,
 it always returns a valid B<Gnome::Gtk4::Image> widget.
 
 If you need to detect failures to load the file, use
-C<.new-from-file() in class Gnome::Gtk4::Image> to load the file yourself,
+C<.new-from-file()> in class C<Gnome::Gtk4::Image> to load the file yourself,
 then create the B<Gnome::Gtk4::Image> from the pixbuf.
 
 The storage type (see C<.get-storage-type()>) of
@@ -266,7 +262,7 @@ the returned image is not defined, it will be whatever is
 appropriate for displaying the file.
 
 =begin code
-method new-from-resource ( Str $resource-path --> Gnome::Gtk4::Image \)
+method new-from-resource ( Str $resource-path --> Gnome::Gtk4::Image )
 =end code
 
 =item $resource-path; a resource path.

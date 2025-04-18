@@ -47,12 +47,8 @@ If you know none of these things are an issue for your application,
 and prefer the simplicity of B<Gnome::Gtk4::Fixed>, by all means use the
 widget. But you should be aware of the tradeoffs.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Fixed.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -87,7 +83,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::Fixed>.
 
 =begin code
-method new-fixed ( --> Gnome::Gtk4::Fixed \)
+method new-fixed ( --> Gnome::Gtk4::Fixed )
 =end code
 
 =begin comment
@@ -232,7 +228,7 @@ method remove ( N-Object() $widget )
 Sets the transformation for C<$widget>.
 
 This is a convenience function that retrieves the
-B<Gnome::Gtk4::FixedLayoutChild> instance associated to C<$widget> and calls C<.set-transform() in class Gnome::Gtk4::FixedLayoutChild>.
+B<Gnome::Gtk4::FixedLayoutChild> instance associated to C<$widget> and calls C<.set-transform()> in class C<Gnome::Gtk4::FixedLayoutChild>.
 
 =begin code
 method set-child-transform ( N-Object() $widget, N-Object $transform )

@@ -58,12 +58,8 @@ like “border-style” on this node.
 
 B<Gnome::Gtk4::Frame> uses the B<GTK_ACCESSIBLE_ROLE_GROUP> role.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Frame.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -100,7 +96,7 @@ Creates a new B<Gnome::Gtk4::Frame>, with optional label C<$label>.
 If C<$label> is undefined, the label is omitted.
 
 =begin code
-method new-frame ( Str $label --> Gnome::Gtk4::Frame \)
+method new-frame ( Str $label --> Gnome::Gtk4::Frame )
 =end code
 
 =item $label; the text to use as the label of the frame.

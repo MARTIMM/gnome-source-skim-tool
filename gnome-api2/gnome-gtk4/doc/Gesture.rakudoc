@@ -34,7 +34,7 @@ A recognized gesture will then emit the following signals:
 =head3 Event propagation
 
 In order to receive events, a gesture needs to set a propagation phase
-through C<.set-propagation-phase() in class Gnome::Gtk4::EventController>.
+through C<.set-propagation-phase()> in class C<Gnome::Gtk4::EventController>.
 
 In the capture phase, events are propagated from the toplevel down
 to the target widget, and gestures that are attached to containers
@@ -99,12 +99,8 @@ do to enable this support are:
 =item If the gesture has C<GTK_PHASE_NONE>, ensuring events of type
   C<GDK_TOUCHPAD_SWIPE> and C<GDK_TOUCHPAD_PINCH> are handled by the B<Gnome::Gtk4::Gesture>
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Gesture.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -708,7 +704,7 @@ method handler (
 Emitted whenever a sequence is cancelled.
 
 This usually happens on active touches when
-C<.reset() in class Gnome::Gtk4::EventController> is called on C<$gesture>
+C<.reset()> in class C<Gnome::Gtk4::EventController> is called on C<$gesture>
 (manually, due to grabs...), or the individual C<$sequence>
 was claimed by parent widgets' controllers (see
 C<.set-sequence-state()>).

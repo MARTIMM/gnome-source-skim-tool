@@ -13,12 +13,8 @@ Contains information found when looking up an icon in B<Gnome::Gtk4::IconTheme>.
 
 B<Gnome::Gtk4::IconPaintable> implements B<Gnome::Gdk4::R-Paintable>.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/IconPaintable.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -55,7 +51,7 @@ Creates a B<Gnome::Gtk4::IconPaintable> for a file with a given size and scale.
 The icon can then be rendered by using it as a B<Gnome::Gdk4::R-Paintable>.
 
 =begin code
-method new-for-file ( N-Object() $file, Int() $size, Int() $scale --> Gnome::Gtk4::IconPaintable \)
+method new-for-file ( N-Object() $file, Int() $size, Int() $scale --> Gnome::Gtk4::IconPaintable )
 =end code
 
 =item $file; a B<Gnome::Gio::R-File>.

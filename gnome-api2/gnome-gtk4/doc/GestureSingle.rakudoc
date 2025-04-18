@@ -24,12 +24,8 @@ to any mouse button by setting it to 0. While the gesture is active, the
 button being currently pressed can be known through
 C<.get-current-button()>.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/GestureSingle.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -116,7 +112,7 @@ Return value; The current button number.
 
 Returns the event sequence currently interacting with C<$gesture>.
 
-This is only meaningful if C<.is-active() in class Gnome::Gtk4::Gesture>
+This is only meaningful if C<.is-active()> in class C<Gnome::Gtk4::Gesture>
 returns C<True>.
 
 =begin code

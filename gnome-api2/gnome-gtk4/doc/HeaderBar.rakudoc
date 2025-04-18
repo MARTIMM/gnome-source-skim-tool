@@ -23,7 +23,7 @@ B<Gnome::Gtk4::HeaderBar> can add typical window frame controls, such as minimiz
 maximize and close buttons, or the window icon.
 
 For these reasons, B<Gnome::Gtk4::HeaderBar> is the natural choice for use as the
-custom titlebar widget of a B<Gnome::Gtk4::Window> (see C<.set-titlebar() in class Gnome::Gtk4::Window>),
+custom titlebar widget of a B<Gnome::Gtk4::Window> (see C<.set-titlebar()> in class C<Gnome::Gtk4::Window>),
 as it gives features typical of titlebars while allowing the addition of
 child widgets.
 
@@ -83,12 +83,8 @@ B<Gnome::Gtk4::WindowControls> for details, as well as other children.
 
 B<Gnome::Gtk4::HeaderBar> uses the C<GTK_ACCESSIBLE_ROLE_GROUP> role.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/HeaderBar.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -123,7 +119,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::HeaderBar> widget.
 
 =begin code
-method new-headerbar ( --> Gnome::Gtk4::HeaderBar \)
+method new-headerbar ( --> Gnome::Gtk4::HeaderBar )
 =end code
 
 =begin comment

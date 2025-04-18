@@ -25,7 +25,7 @@ data passed in (such as a string or a boxed pointer).  Columns that
 accept B<Gnome::GObject::Object>s are handled a little differently.  The
 B<Gnome::Gtk4::ListStore> will keep a reference to the object instead of copying the
 value.  As a result, if the object is modified, it is up to the
-application writer to call C<.row-changed() in class Gnome::Gtk4::R-TreeModel> to emit the
+application writer to call C<.row-changed()> in class C<Gnome::Gtk4::R-TreeModel> to emit the
 I<row_changed defined in TreeModel> signal. This most commonly affects lists
 with B<Gnome::Gdk4::Texture>s stored.
 
@@ -155,12 +155,8 @@ An example of a UI Definition fragment for a list store:
 
 =end comment
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/ListStore.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -227,7 +223,7 @@ will create a new B<Gnome::Gtk4::ListStore> with three columns, of type B<int>,
 B<gchararray> and B<Gnome::Gdk4::Texture>, respectively.
 
 =begin code
-method new-liststore ( Int() $n-columns, … --> Gnome::Gtk4::ListStore \)
+method new-liststore ( Int() $n-columns, … --> Gnome::Gtk4::ListStore )
 =end code
 
 =item $n-columns; number of columns in the list store.
@@ -254,7 +250,7 @@ Creates a new B<Gnome::Gtk4::ListStore>.
 This function is meant to be used by language bindings.
 
 =begin code
-method newv ( Int() $n-columns, … --> Gnome::Gtk4::ListStore \)
+method newv ( Int() $n-columns, … --> Gnome::Gtk4::ListStore )
 =end code
 
 =item $n-columns; number of columns in the list store.

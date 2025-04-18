@@ -35,12 +35,8 @@ class. For rubberband selection, a subnode with name B<rubberband> is used.
 B<Gnome::Gtk4::GridView> uses the C<GTK_ACCESSIBLE_ROLE_GRID> role, and the items
 use the C<GTK_ACCESSIBLE_ROLE_GRID_CELL> role.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/GridView.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -79,7 +75,7 @@ The function takes ownership of the
 arguments, so you can write code like
 
 =begin code
-method new-gridview ( N-Object() $model, N-Object() $factory --> Gnome::Gtk4::GridView \)
+method new-gridview ( N-Object() $model, N-Object() $factory --> Gnome::Gtk4::GridView )
 =end code
 
 =item $model; (transfer ownership: full) the model to use.
@@ -264,7 +260,8 @@ If it isn't, then the changes will take effect once that happens.
 method scroll-to ( UInt() $pos, UInt $flags, N-Object $scroll )
 =end code
 
-=item $pos; position of the item.
+=item $pos; position of the item. Must be less than the number of
+  items in the view..
 =item $flags; actions to perform.
 =item $scroll; (transfer ownership: full) details of how to perform
   the scroll operation or undefined to scroll into view

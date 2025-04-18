@@ -84,12 +84,8 @@ on the message type.
 If the info bar shows a close button, that button will have the .close
 style class applied.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/InfoBar.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -128,7 +124,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Creates a new B<Gnome::Gtk4::InfoBar> object.
 
 =begin code
-method new-infobar ( --> Gnome::Gtk4::InfoBar \)
+method new-infobar ( --> Gnome::Gtk4::InfoBar )
 =end code
 
 =begin comment
@@ -157,7 +153,7 @@ the I<response> signal with the corresponding
 response ID.
 
 =begin code
-method new-with-buttons ( Str $first-button-text, … --> Gnome::Gtk4::InfoBar \)
+method new-with-buttons ( Str $first-button-text, … --> Gnome::Gtk4::InfoBar )
 =end code
 
 =item $first-button-text; ext to go in first button.

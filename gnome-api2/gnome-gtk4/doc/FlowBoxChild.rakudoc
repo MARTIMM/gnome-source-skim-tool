@@ -11,12 +11,8 @@ use v6.d;
 
 B<Gnome::Gtk4::FlowBoxChild> is the kind of widget that can be added to a B<Gnome::Gtk4::FlowBox>.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/FlowBoxChild.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -53,7 +49,7 @@ Creates a new B<Gnome::Gtk4::FlowBoxChild>.
 This should only be used as a child of a B<Gnome::Gtk4::FlowBox>.
 
 =begin code
-method new-flowboxchild ( --> Gnome::Gtk4::FlowBoxChild \)
+method new-flowboxchild ( --> Gnome::Gtk4::FlowBoxChild )
 =end code
 
 =begin comment
@@ -94,7 +90,7 @@ This generally means that if you don’t fully control the data
 model, you have to duplicate the data that affects the sorting
 and filtering functions into the widgets themselves.
 
-Another alternative is to call C<.invalidate-sort() in class Gnome::Gtk4::FlowBox>
+Another alternative is to call C<.invalidate-sort()> in class C<Gnome::Gtk4::FlowBox>
 on any model change, but that is more expensive.
 
 =begin code

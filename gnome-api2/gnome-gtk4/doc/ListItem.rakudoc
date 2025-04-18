@@ -25,12 +25,8 @@ B<Gnome::Gtk4::ListItem> objects exist in 2 stages:
 2. The bound stage where the listitem references an item from the list.
    The I<item> property is defined.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/ListItem.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -345,7 +341,7 @@ method set-child ( N-Object() $child )
 Sets C<$self> to be focusable.
 
 If an item is focusable, it can be focused using the keyboard.
-This works similar to C<.set-focusable() in class Gnome::Gtk4::Widget>.
+This works similar to C<.set-focusable()> in class C<Gnome::Gtk4::Widget>.
 
 Note that if items are not focusable, the keyboard cannot be used to activate
 them and selecting only works if one of the listitem's children is focusable.
