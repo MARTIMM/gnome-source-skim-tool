@@ -82,9 +82,7 @@ class ToggleDisplay {
 
   method toggle ( ToggleButton() :_native-object($toggle-button) ) {
     my Bool $state = $toggle-button.get-active;
-    my Gnome::Gtk4::Box $widget = self.make-led-text-widget(
-      $state ?? 'Busy' !! 'not Busy', $state
-    );
+    my Gnome::Gtk4::Box $widget = self.make-led-text-widget( 'Busy', $state);
     $toggle-button.set-child($widget);
   }
 }
