@@ -2300,8 +2300,14 @@ method save-file ( Str $filename is copy, Str $content is copy, Str $comment ) {
     }
 
     else {
-      say "\nFile $basename found, Overwrite(o), new version(v) or skip(s)";
-      $a = prompt "[o,v,s] s is default> ";
+      if $*overwrite {
+        $a = 'o';
+      }
+
+      else {
+        say "\nFile $basename found, Overwrite(o), new version(v) or skip(s)";
+        $a = prompt "[o,v,s] s is default> ";
+      }
     }
 
     given $a.lc {
@@ -2328,10 +2334,18 @@ method save-file ( Str $filename is copy, Str $content is copy, Str $comment ) {
     }
   }
 
+  # File not found, create a new one
   else {
-    say "\nFile $filename.IO.basename() not yet saved,",
-      " Write(w), skip(s)";
-    my Str $a = prompt "[w,s] s is default> ";
+    my Str $a;
+    if $*overwrite {
+      $a ='w';
+    }
+
+    else {
+      say "\nFile $filename.IO.basename() not yet saved,",
+        " Write(w), skip(s)";
+      $a = prompt "[w,s] s is default> ";
+    }
     $save-it = $a.lc eq 'w';
   }
 
