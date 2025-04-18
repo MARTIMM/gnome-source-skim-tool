@@ -34,17 +34,20 @@ my Hash $*lib-content-list-file = load-yaml(lib-content-list-file.IO.slurp);
 my Array $*saved-file-summary = [];
 
 #-------------------------------------------------------------------------------
-my Capture $options = get-options(<h v c d t>);
+my Capture $options = get-options(<h v c d t o>);
 my Str ( $gnome-package, $filename, *@types) = @*ARGS;
 my Hash $o = $options.Hash;
 
 my Bool ( $v, $h, $c, $d, $t );
-$v = ?$o<v>;
-$h = ?$o<h>;
-$c = ?$o<c>;
-$d = ?$o<d>;
-$t = ?$o<t>;
+$v = ?$o<v>;  # verbose
+$h = ?$o<h>;  # help
+$c = ?$o<c>;  # generate code
+$d = ?$o<d>;  # generate docs
+$t = ?$o<t>;  # generate tests
 
+my Bool $*overwrite = ?$o<o>;   # Automatic (over)write. When chice is missing,
+                                # the choices are presented to skip or make
+                                # a new version
 
 if $h {
   USAGE;
