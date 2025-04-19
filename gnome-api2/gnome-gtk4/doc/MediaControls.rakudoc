@@ -15,12 +15,8 @@ B<Gnome::Gtk4::MediaControls> is a widget to show controls for a video.
 
 Usually, B<Gnome::Gtk4::MediaControls> is used as part of B<Gnome::Gtk4::Video>.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/MediaControls.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -55,7 +51,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::MediaControls> managing the C<$stream> passed to it.
 
 =begin code
-method new-mediacontrols ( N-Object() $stream --> Gnome::Gtk4::MediaControls \)
+method new-mediacontrols ( N-Object() $stream --> Gnome::Gtk4::MediaControls )
 =end code
 
 =item $stream; a B<Gnome::Gtk4::MediaStream> to manage.

@@ -20,13 +20,13 @@ is toggled on.
 
 For keyboard presses to start a search, the search bar must be told
 of a widget to capture key events from through
-C<.set-key-capture-widget()>. This widget will
+C<.set-key-capture-widget()>]. This widget will
 typically be the top-level window, or a parent container of the
 search bar. Common shortcuts such as Ctrl+F should be handled as an
 application action, or through the menu items.
 
 You will also need to tell the search bar about which entry you
-are using as your search entry using C<.connect-entry()>.
+are using as your search entry using C<.connect-entry()>].
 
 =head3 Creating a search bar
 
@@ -55,12 +55,8 @@ node which gets the .close style class applied.
 
 B<Gnome::Gtk4::SearchBar> uses the C<GTK_ACCESSIBLE_ROLE_SEARCH> role.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/SearchBar.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -95,10 +91,10 @@ Create an object using a native object from an object of the same type found els
 Creates a B<Gnome::Gtk4::SearchBar>.
 
 You will need to tell it about which widget is going to be your text
-entry using C<.connect-entry()>.
+entry using C<.connect-entry()>].
 
 =begin code
-method new-searchbar ( --> Gnome::Gtk4::SearchBar \)
+method new-searchbar ( --> Gnome::Gtk4::SearchBar )
 =end code
 
 =begin comment
@@ -264,7 +260,7 @@ are only 'captured' in the bubble phase, which means that
 editable child widgets of C<$widget> will receive text input
 before it gets captured. If that is not desired, you can
 capture and forward the events yourself with
-C<.forward() in class Gnome::Gtk4::EventControllerKey>.
+C<.forward()> in class B<Gnome::Gtk4::EventControllerKey>].
 
 =begin code
 method set-key-capture-widget ( N-Object() $widget )

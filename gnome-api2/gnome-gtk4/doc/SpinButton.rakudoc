@@ -76,12 +76,8 @@ the .vertical or .horizontal style class on the main node.
 
 B<Gnome::Gtk4::SpinButton> uses the C<GTK_ACCESSIBLE_ROLE_SPIN_BUTTON> role.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/SpinButton.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -116,7 +112,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::SpinButton>.
 
 =begin code
-method new-spinbutton ( N-Object() $adjustment, Num() $climb-rate, UInt() $digits --> Gnome::Gtk4::SpinButton \)
+method new-spinbutton ( N-Object() $adjustment, Num() $climb-rate, UInt() $digits --> Gnome::Gtk4::SpinButton )
 =end code
 
 =item $adjustment; the B<Gnome::Gtk4::Adjustment> that this spin button should use.
@@ -149,10 +145,10 @@ precision of C<$step>.
 Note that the way in which the precision is derived works
 best if C<$step> is a power of ten. If the resulting precision
 is not suitable for your needs, use
-C<.set-digits()> to correct it.
+C<.set-digits()>] to correct it.
 
 =begin code
-method new-with-range ( Num() $min, Num() $max, Num() $step --> Gnome::Gtk4::SpinButton \)
+method new-with-range ( Num() $min, Num() $max, Num() $step --> Gnome::Gtk4::SpinButton )
 =end code
 
 =item $min; Minimum allowable value.
@@ -207,7 +203,7 @@ method configure ( N-Object() $adjustment, Num() $climb-rate, UInt() $digits )
 =begin pod
 =head2 get-activates-default
 
-Retrieves the value set by C<.set-activates-default()>.
+Retrieves the value set by C<.set-activates-default()>].
 
 =begin code
 method get-activates-default (--> Bool )
@@ -294,7 +290,7 @@ Return value; the current precision.
 Gets the current step and page the increments
 used by C<$spin-button>.
 
-See C<.set-increments()>.
+See C<.set-increments()>].
 
 =begin code
 method get-increments ( Num() $step, Num() $page )
@@ -339,7 +335,7 @@ Return value; C<True> if only numeric text can be entered.
 
 Gets the range allowed for C<$spin-button>.
 
-See C<.set-range()>.
+See C<.set-range()>].
 
 =begin code
 method get-range ( Num() $min, Num() $max )
@@ -384,7 +380,7 @@ Return value; C<True> if values are snapped to the nearest step.
 
 Gets the update behavior of a spin button.
 
-See C<.set-update-policy()>.
+See C<.set-update-policy()>].
 
 =begin code
 method get-update-policy (--> GtkSpinButtonUpdatePolicy )
@@ -842,7 +838,7 @@ method handler (
 
 Emitted to convert the users input into a double value.
 
-The signal handler is expected to use C<.get-text() in class Gnome::Gtk4::R-Editable>
+The signal handler is expected to use C<.get-text()> in class B<Gnome::Gtk4::R-Editable>]
 to retrieve the text of the spinbutton and set C<$new-value> to the
 new value.
 

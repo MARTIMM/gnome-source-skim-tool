@@ -12,7 +12,7 @@ use v6.d;
 A B<Gnome::Gtk4::Revealer> animates the transition of its child from invisible to visible.
 
 The style of transition can be controlled with
-C<.set-transition-type()>.
+C<.set-transition-type()>].
 
 These animations respect the I<gtk-enable-animations defined in Gnome::Gtk4::Settings>
 setting.
@@ -31,12 +31,8 @@ B<Gnome::Gtk4::Revealer> uses the C<GTK_ACCESSIBLE_ROLE_GROUP> role.
 The child of B<Gnome::Gtk4::Revealer>, if set, is always available in the accessibility
 tree, regardless of the state of the revealer widget.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Revealer.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -71,7 +67,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::Revealer>.
 
 =begin code
-method new-revealer ( --> Gnome::Gtk4::Revealer \)
+method new-revealer ( --> Gnome::Gtk4::Revealer )
 =end code
 
 =begin comment
@@ -145,7 +141,7 @@ Returns whether the child is currently revealed.
 This function returns C<True> as soon as the transition
 is to the revealed state is started. To learn whether
 the child is fully revealed (ie the transition is completed),
-use C<.get-child-revealed()>.
+use C<.get-child-revealed()>].
 
 =begin code
 method get-reveal-child (--> Bool )

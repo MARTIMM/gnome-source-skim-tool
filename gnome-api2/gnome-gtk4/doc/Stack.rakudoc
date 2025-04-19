@@ -18,15 +18,15 @@ such as B<Gnome::Gtk4::StackSwitcher> or B<Gnome::Gtk4::StackSidebar> can
 be used with B<Gnome::Gtk4::Stack> to provide this functionality.
 
 Transitions between pages can be animated as slides or fades. This
-can be controlled with C<.set-transition-type()>.
+can be controlled with C<.set-transition-type()>].
 These animations respect the I<gtk-enable-animations defined in Gnome::Gtk4::Settings>
 setting.
 
 B<Gnome::Gtk4::Stack> maintains a B<Gnome::Gtk4::StackPage> object for each added
 child, which holds additional per-child properties. You
-obtain the B<Gnome::Gtk4::StackPage> for a child with C<.get-page()>
+obtain the B<Gnome::Gtk4::StackPage> for a child with C<.get-page()>]
 and you can obtain a B<Gnome::Gtk4::R-SelectionModel> containing all the pages
-with C<.get-pages()>.
+with C<.get-pages()>].
 
 =head2 GtkStack as GtkBuildable
 
@@ -58,12 +58,8 @@ B<Gnome::Gtk4::Stack> has a single CSS node named stack.
 B<Gnome::Gtk4::Stack> uses the C<GTK_ACCESSIBLE_ROLE_TAB_PANEL> for the stack
 pages, which are the accessible parent objects of the child widgets.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Stack.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -98,7 +94,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::Stack>.
 
 =begin code
-method new-stack ( --> Gnome::Gtk4::Stack \)
+method new-stack ( --> Gnome::Gtk4::Stack )
 =end code
 
 =begin comment
@@ -605,7 +601,7 @@ the transition between the two will be animated with the
 current transition type of C<$stack>.
 
 Note that the C<$child> widget has to be visible itself
-(see C<.show() in class Gnome::Gtk4::Widget>) in order to become the visible
+(see C<.show()> in class B<Gnome::Gtk4::Widget>]) in order to become the visible
 child of C<$stack>.
 
 =begin code
@@ -630,7 +626,7 @@ method set-visible-child ( N-Object() $child )
 Makes the child with the given name visible.
 
 Note that the child widget has to be visible itself
-(see C<.show() in class Gnome::Gtk4::Widget>) in order to become the visible
+(see C<.show()> in class B<Gnome::Gtk4::Widget>]) in order to become the visible
 child of C<$stack>.
 
 =begin code
@@ -660,7 +656,7 @@ the transition between the two will be animated with the
 current transition type of C<$stack>.
 
 Note that the child widget has to be visible itself
-(see C<.show() in class Gnome::Gtk4::Widget>) in order to become the visible
+(see C<.show()> in class B<Gnome::Gtk4::Widget>]) in order to become the visible
 child of C<$stack>.
 
 =begin code

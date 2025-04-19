@@ -21,7 +21,7 @@ B<Gnome::Gtk4::PrintOperation>.
 In order to print something with B<Gnome::Gtk4::PrintUnixDialog>, you need to
 use C<.get-selected-printer()> to obtain a
 B<Gnome::Gtk4::Printer> object and use it to construct a B<Gnome::Gtk4::PrintJob>
-using C<.newprintunixdialog() in class Gnome::Gtk4::PrintJob>.
+using C<.newprintunixdialog()> in class C<Gnome::Gtk4::PrintJob>.
 
 B<Gnome::Gtk4::PrintUnixDialog> uses the following response values:
 
@@ -67,12 +67,8 @@ An example of a B<Gnome::Gtk4::PrintUnixDialog> UI definition fragment:
 B<Gnome::Gtk4::PrintUnixDialog> has a single CSS node with name window. The style classes
 dialog and print are added.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/PrintUnixDialog.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -107,7 +103,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::PrintUnixDialog>.
 
 =begin code
-method new-printunixdialog ( Str $title, N-Object() $parent --> Gnome::Gtk4::PrintUnixDialog \)
+method new-printunixdialog ( Str $title, N-Object() $parent --> Gnome::Gtk4::PrintUnixDialog )
 =end code
 
 =item $title; Title of the dialog.

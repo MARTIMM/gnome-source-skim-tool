@@ -17,12 +17,12 @@ associated adjustments, and optionally draws a frame around the child.
 Widgets with native scrolling support, i.e. those whose classes implement
 the B<Gnome::Gtk4::R-Scrollable> interface, are added directly. For other types
 of widget, the class B<Gnome::Gtk4::Viewport> acts as an adaptor, giving
-scrollability to other widgets. C<.set-child()>
+scrollability to other widgets. C<.set-child()>]
 intelligently accounts for whether or not the added child is a B<Gnome::Gtk4::R-Scrollable>.
 If it isn’t, then it wraps the child in a B<Gnome::Gtk4::Viewport>. Therefore, you can
 just add any child widget and not worry about the details.
 
-If C<.set-child()> has added a B<Gnome::Gtk4::Viewport> for you,
+If C<.set-child()>] has added a B<Gnome::Gtk4::Viewport> for you,
 it will be automatically removed when you unset the child.
 Unless I<hscrollbar-policy> and
 I<vscrollbar-policy> are C<GTK_POLICY_NEVER> or
@@ -78,12 +78,8 @@ Until GTK 4.10, B<Gnome::Gtk4::ScrolledWindow> used the B<GTK_ACCESSIBLE_ROLE_GR
 
 Starting from GTK 4.12, B<Gnome::Gtk4::ScrolledWindow> uses the B<GTK_ACCESSIBLE_ROLE_GENERIC> role.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/ScrolledWindow.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -118,7 +114,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new scrolled window.
 
 =begin code
-method new-scrolledwindow ( --> Gnome::Gtk4::ScrolledWindow \)
+method new-scrolledwindow ( --> Gnome::Gtk4::ScrolledWindow )
 =end code
 
 =begin comment
@@ -146,7 +142,7 @@ Gets the child widget of C<$scrolled-window>.
 
 If the scrolled window automatically added a B<Gnome::Gtk4::Viewport>, this
 function will return the viewport widget, and you can retrieve its child
-using C<.get-child() in class Gnome::Gtk4::Viewport>.
+using C<.get-child()> in class B<Gnome::Gtk4::Viewport>].
 
 =begin code
 method get-child (--> N-Object )
@@ -383,7 +379,7 @@ Return value; the current placement value..
 Retrieves the current policy values for the horizontal and vertical
 scrollbars.
 
-See C<.set-policy()>.
+See C<.set-policy()>].
 
 =begin code
 method get-policy ( GtkPolicyType $hscrollbar-policy, GtkPolicyType $vscrollbar-policy )
@@ -721,11 +717,11 @@ for the scrolled window.
 
 The default is C<GTK_CORNER_TOP_LEFT>, meaning the child is
 in the top left, with the scrollbars underneath and to the right.
-Other values in  C<enumeration CornerType from Gnome::Gtk4::T-scrolledwindow>  are C<GTK_CORNER_TOP_RIGHT>,
+Other values in  enumeration C<CornerType> from C<Gnome::Gtk4::T-scrolledwindow>  are C<GTK_CORNER_TOP_RIGHT>,
 C<GTK_CORNER_BOTTOM_LEFT>, and C<GTK_CORNER_BOTTOM_RIGHT>.
 
-See also C<.get-placement()> and
-C<.unset-placement()>.
+See also C<.get-placement()>] and
+C<.unset-placement()>].
 
 =begin code
 method set-placement ( GtkCornerType $window-placement )
@@ -749,7 +745,7 @@ method set-placement ( GtkCornerType $window-placement )
 Sets the scrollbar policy for the horizontal and vertical scrollbars.
 
 The policy determines when the scrollbar should appear; it is a value
-from the  C<enumeration PolicyType from Gnome::Gtk4::T-scrolledwindow>  enumeration. If C<GTK_POLICY_ALWAYS>, the
+from the  enumeration C<PolicyType> from C<Gnome::Gtk4::T-scrolledwindow>  enumeration. If C<GTK_POLICY_ALWAYS>, the
 scrollbar is always present; if C<GTK_POLICY_NEVER>, the scrollbar is
 never present; if C<GTK_POLICY_AUTOMATIC>, the scrollbar is present only
 if needed (that is, if the slider part of the bar would be smaller

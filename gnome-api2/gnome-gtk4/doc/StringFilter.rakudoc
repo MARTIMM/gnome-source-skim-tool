@@ -13,22 +13,18 @@ B<Gnome::Gtk4::StringFilter> determines whether to include items by comparing
 strings to a fixed search term.
 
 The strings are obtained from the items by evaluating a B<Gnome::Gtk4::Expression>
-set with C<.set-expression()>, and they are
-compared against a search term set with C<.set-search()>.
+set with C<.set-expression()>], and they are
+compared against a search term set with C<.set-search()>].
 
 B<Gnome::Gtk4::StringFilter> has several different modes of comparison - it
 can match the whole string, just a prefix, or any substring. Use
-C<.set-match-mode()> choose a mode.
+C<.set-match-mode()>] choose a mode.
 
 It is also possible to make case-insensitive comparisons, with
-C<.set-ignore-case()>.
-
-=begin comment
+C<.set-ignore-case()>].
 
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/StringFilter.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -66,7 +62,7 @@ You will want to set up the filter by providing a string to search for
 and by providing a property to look up on the item.
 
 =begin code
-method new-stringfilter ( N-Object() $expression --> Gnome::Gtk4::StringFilter \)
+method new-stringfilter ( N-Object() $expression --> Gnome::Gtk4::StringFilter )
 =end code
 
 =item $expression; (transfer ownership: full) The expression to evaluate.

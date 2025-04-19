@@ -73,12 +73,8 @@ to request a round appearance.
 
 B<Gnome::Gtk4::MenuButton> uses the C<GTK_ACCESSIBLE_ROLE_BUTTON> role.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/MenuButton.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -117,7 +113,7 @@ You can replace the child widget with another B<Gnome::Gtk4::Widget>
 should you wish to.
 
 =begin code
-method new-menubutton ( --> Gnome::Gtk4::MenuButton \)
+method new-menubutton ( --> Gnome::Gtk4::MenuButton )
 =end code
 
 =begin comment
@@ -536,7 +532,6 @@ method set-child ( N-Object() $child )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-create-popup-func
-This function is not yet available
 
 Sets C<$func> to be called when a popup is about to be shown.
  C<$func> should use one of
@@ -550,14 +545,14 @@ If C<$func> is non-undefined, C<$menu-button> will always be sensitive.
 Using this function will not reset the menu widget attached to C<$menu-button>. Instead, this can be done manually in C<$func>.
 
 =begin code
-method set-create-popup-func ( &func, gpointer $user-data, … )
+method set-create-popup-func ( GtkMenuButtonCreatePopupFunc &func, gpointer $user-data, GDestroyNotify &destroy-notify )
 =end code
 
-=item &func; function to call when a popup is about to
+=item GtkMenuButtonCreatePopupFunc &func; function to call when a popup is about to
   be shown, but none has been provided via other means, or undefined
-  to reset to default behavior.. Tthe function must be specified with following signature; C<:( N-Object $menu-button, gpointer $user-data )>.
+  to reset to default behavior.. The function must be specified with the following signature; C<:( N-Object $menu-button, gpointer $user-data )>.
 =item $user-data; user data to pass to C<$func>..
-=item destroy-notify; destroy notify for C<$user-data>. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &destroy-notify; destroy notify for C<$user-data>. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 
@@ -683,7 +678,7 @@ Sets the B<Gnome::Gio::MenuModel> from which the popup will be constructed.
 If C<$menu-model> is undefined, the button is disabled.
 
 A B<Gnome::Gtk4::Popover> will be created from the menu model with
-C<.new-from-model() in class Gnome::Gtk4::PopoverMenu>. Actions will be connected
+C<.new-from-model()> in class C<Gnome::Gtk4::PopoverMenu>. Actions will be connected
 as documented for this function.
 
 If I<popover> is already set, it will be

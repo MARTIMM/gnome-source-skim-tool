@@ -17,14 +17,10 @@ B<Gnome::Gtk4::Scale> and B<Gnome::Gtk4::Scrollbar>.
 
 Apart from signals for monitoring the parameters of the adjustment,
 B<Gnome::Gtk4::Range> provides properties and methods for setting a
-“fill level” on range widgets. See C<.set-fill-level()>.
-
-=begin comment
+“fill level” on range widgets. See C<.set-fill-level()>].
 
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Range.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -108,7 +104,7 @@ Return value; The current fill level.
 
 Gets whether the B<Gnome::Gtk4::Range> respects text direction.
 
-See C<.set-flippable()>.
+See C<.set-flippable()>].
 
 =begin code
 method get-flippable (--> Bool )
@@ -131,7 +127,7 @@ Return value; C<True> if the range is flippable.
 
 Gets whether the range is inverted.
 
-See C<.set-inverted()>.
+See C<.set-inverted()>].
 
 =begin code
 method get-inverted (--> Bool )
@@ -269,7 +265,7 @@ method get-slider-range ( Array[Int] $slider-start, Array[Int] $slider-end )
 
 This function is useful mainly for B<Gnome::Gtk4::Range> subclasses.
 
-See C<.set-slider-size-fixed()>.
+See C<.set-slider-size-fixed()>].
 
 =begin code
 method get-slider-size-fixed (--> Bool )
@@ -350,12 +346,12 @@ be the position up to which the file/stream has been downloaded.
 
 This amount of prebuffering can be displayed on the range’s trough
 and is themeable separately from the trough. To enable fill level
-display, use C<.set-show-fill-level()>. The range defaults
+display, use C<.set-show-fill-level()>]. The range defaults
 to not showing the fill level.
 
 Additionally, it’s possible to restrict the range’s slider position
 to values which are smaller than the fill level. This is controlled
-by C<.set-restrict-to-fill-level()> and is by default
+by C<.set-restrict-to-fill-level()>] and is by default
 enabled.
 
 =begin code
@@ -382,7 +378,7 @@ Sets whether the B<Gnome::Gtk4::Range> respects text direction.
 If a range is flippable, it will switch its direction
 if it is horizontal and its direction is C<GTK_TEXT_DIR_RTL>.
 
-See C<.get-direction() in class Gnome::Gtk4::Widget>.
+See C<.get-direction()> in class B<Gnome::Gtk4::Widget>].
 
 =begin code
 method set-flippable ( Bool() $flippable )
@@ -483,7 +479,7 @@ method set-range ( Num() $min, Num() $max )
 
 Sets whether the slider is restricted to the fill level.
 
-See C<.set-fill-level()> for a general description
+See C<.set-fill-level()>] for a general description
 of the fill level concept.
 
 =begin code
@@ -531,7 +527,7 @@ method set-round-digits ( Int() $round-digits )
 
 Sets whether a graphical fill level is show on the trough.
 
-See C<.set-fill-level()> for a general description
+See C<.set-fill-level()>] for a general description
 of the fill level concept.
 
 =begin code

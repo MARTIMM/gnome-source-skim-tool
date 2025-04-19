@@ -38,12 +38,8 @@ Here is a UI definition fragment specifying a B<Gnome::Gtk4::StringList>
 
 =end comment
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/StringList.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -78,7 +74,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::StringList> with the given C<$strings>.
 
 =begin code
-method new-stringlist ( Array[Str] $strings --> Gnome::Gtk4::StringList \)
+method new-stringlist ( Array[Str] $strings --> Gnome::Gtk4::StringList )
 =end code
 
 =item $strings; The strings to put in the model.
@@ -107,7 +103,7 @@ method new-stringlist ( Array[Str] $strings --> Gnome::Gtk4::StringList \)
 Appends C<$string> to C<$self>.
 
 The C<$string> will be copied. See
-C<.take()> for a way to avoid that.
+C<.take()>] for a way to avoid that.
 
 =begin code
 method append ( Str $string )
@@ -182,8 +178,8 @@ method remove ( UInt() $position )
 Changes C<$self> by removing C<$n-removals> strings and adding C<$additions>
 to it.
 
-This function is more efficient than C<.append()>
-and C<.remove()>, because it only emits the I<items-changed> signal once for the change.
+This function is more efficient than C<.append()>]
+and C<.remove()>], because it only emits the I<items-changed> signal once for the change.
 
 This function copies the strings in C<$additions>.
 
@@ -214,7 +210,7 @@ method splice ( UInt() $position, UInt() $n-removals, Array[Str] $additions )
 Adds C<$string> to self at the end, and takes
 ownership of it.
 
-This variant of C<.append()>
+This variant of C<.append()>]
 is convenient for formatting strings:
 
 =begin comment

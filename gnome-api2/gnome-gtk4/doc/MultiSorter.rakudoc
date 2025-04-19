@@ -15,12 +15,8 @@ in turn.
 If the first sorter compares two items as equal,
 the second is tried next, and so on.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/MultiSorter.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -60,7 +56,7 @@ no sorter has been added to it, it will always compare
 items as equal.
 
 =begin code
-method new-multisorter ( --> Gnome::Gtk4::MultiSorter \)
+method new-multisorter ( --> Gnome::Gtk4::MultiSorter )
 =end code
 
 =begin comment

@@ -44,12 +44,8 @@ using any style classes.
 
 B<Gnome::Gtk4::Switch> uses the C<GTK_ACCESSIBLE_ROLE_SWITCH> role.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Switch.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -84,7 +80,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::Switch> widget.
 
 =begin code
-method new-switch ( --> Gnome::Gtk4::Switch \)
+method new-switch ( --> Gnome::Gtk4::Switch )
 =end code
 
 =begin comment
@@ -235,12 +231,12 @@ method handler (
 Emitted to change the underlying state.
 
 The I<state-set> signal is emitted when the user changes the switch
-position. The default handler calls C<.set-state()> with the
+position. The default handler calls C<.set-state()>] with the
 value of C<$state>.
 
 To implement delayed state change, applications can connect to this
 signal, initiate the change of the underlying state, and call
-C<.set-state()> when the underlying state change is
+C<.set-state()>] when the underlying state change is
 complete. The signal handler should return C<True> to prevent the
 default handler from running.
 

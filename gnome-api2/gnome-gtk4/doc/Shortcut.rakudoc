@@ -25,12 +25,8 @@ B<Gnome::Gtk4::Shortcut> does provide functionality to make it easy for users
 to work with shortcuts, either by providing informational strings
 for display purposes or by allowing shortcuts to be configured.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Shortcut.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -65,7 +61,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::Shortcut> that is triggered by C<$trigger> and then activates C<$action>.
 
 =begin code
-method new-shortcut ( N-Object() $trigger, N-Object() $action --> Gnome::Gtk4::Shortcut \)
+method new-shortcut ( N-Object() $trigger, N-Object() $action --> Gnome::Gtk4::Shortcut )
 =end code
 
 =item $trigger; (transfer ownership: full) The trigger that will trigger the shortcut.
@@ -89,7 +85,7 @@ This function is not yet available
 Creates a new B<Gnome::Gtk4::Shortcut> that is triggered by C<$trigger> and then activates C<$action> with arguments given by C<$format-string>.
 
 =begin code
-method new-with-arguments ( N-Object() $trigger, N-Object() $action, Str $format-string, … --> Gnome::Gtk4::Shortcut \)
+method new-with-arguments ( N-Object() $trigger, N-Object() $action, Str $format-string, … --> Gnome::Gtk4::Shortcut )
 =end code
 
 =item $trigger; (transfer ownership: full) The trigger that will trigger the shortcut.

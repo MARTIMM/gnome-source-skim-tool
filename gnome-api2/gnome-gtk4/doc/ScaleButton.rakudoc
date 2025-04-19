@@ -20,12 +20,8 @@ is tailored for this use case.
 B<Gnome::Gtk4::ScaleButton> has a single CSS node with name scalebutton and `.scale`
 style class, and contains a B<button> node with a `.toggle` style class.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/ScaleButton.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -63,7 +59,7 @@ The new scale button has a range between C<$min> and C<$max>,
 with a stepping of C<$step>.
 
 =begin code
-method new-scalebutton ( Num() $min, Num() $max, Num() $step, Array[Str] $icons --> Gnome::Gtk4::ScaleButton \)
+method new-scalebutton ( Num() $min, Num() $max, Num() $step, Array[Str] $icons --> Gnome::Gtk4::ScaleButton )
 =end code
 
 =item $min; the minimum value of the scale (usually 0).
@@ -120,7 +116,7 @@ Return value; whether the button is pressed.
 
 Gets the B<Gnome::Gtk4::Adjustment> associated with the B<Gnome::Gtk4::ScaleButton>’s scale.
 
-See C<.get-adjustment() in class Gnome::Gtk4::Range> for details.
+See C<.get-adjustment()> in class B<Gnome::Gtk4::Range>] for details.
 
 =begin code
 method get-adjustment (--> N-Object )
@@ -251,7 +247,7 @@ Return value; current value of the scale button.
 Sets the B<Gnome::Gtk4::Adjustment> to be used as a model
 for the B<Gnome::Gtk4::ScaleButton>’s scale.
 
-See C<.set-adjustment() in class Gnome::Gtk4::Range> for details.
+See C<.set-adjustment()> in class B<Gnome::Gtk4::Range>] for details.
 
 =begin code
 method set-adjustment ( N-Object() $adjustment )

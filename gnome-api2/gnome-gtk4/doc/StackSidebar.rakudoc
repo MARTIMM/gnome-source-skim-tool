@@ -13,7 +13,7 @@ A B<Gnome::Gtk4::StackSidebar> uses a sidebar to switch between B<Gnome::Gtk4::S
 
 In order to use a B<Gnome::Gtk4::StackSidebar>, you simply use a B<Gnome::Gtk4::Stack> to
 organize your UI flow, and add the sidebar to your sidebar area. You
-can use C<.set-stack()> to connect the B<Gnome::Gtk4::StackSidebar>
+can use C<.set-stack()>] to connect the B<Gnome::Gtk4::StackSidebar>
 to the B<Gnome::Gtk4::Stack>.
 
 =head2 CSS nodes
@@ -25,12 +25,8 @@ When circumstances require it, B<Gnome::Gtk4::StackSidebar> adds the
 .needs-attention style class to the widgets representing the stack
 pages.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/StackSidebar.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -65,7 +61,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::StackSidebar>.
 
 =begin code
-method new-stacksidebar ( --> Gnome::Gtk4::StackSidebar \)
+method new-stacksidebar ( --> Gnome::Gtk4::StackSidebar )
 =end code
 
 =begin comment

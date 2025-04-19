@@ -53,12 +53,8 @@ B<Gnome::Gtk4::ScrolledWindow> include the positional classes (.left, .right,
 
 B<Gnome::Gtk4::Scrollbar> uses the C<GTK_ACCESSIBLE_ROLE_SCROLLBAR> role.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Scrollbar.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -93,7 +89,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new scrollbar with the given orientation.
 
 =begin code
-method new-scrollbar ( GtkOrientation $orientation, N-Object() $adjustment --> Gnome::Gtk4::Scrollbar \)
+method new-scrollbar ( GtkOrientation $orientation, N-Object() $adjustment --> Gnome::Gtk4::Scrollbar )
 =end code
 
 =item $orientation; the scrollbar’s orientation..

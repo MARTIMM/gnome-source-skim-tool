@@ -14,7 +14,7 @@ B<Gnome::Gtk4::Sorter> is an object to describe sorting criteria.
 Its primary user is B<Gnome::Gtk4::SortListModel>
 
 The model will use a sorter to determine the order in which
-its items should appear by calling C<.compare()>
+its items should appear by calling C<.compare()>]
 for pairs of items.
 
 Sorters may change their sorting behavior through their lifetime.
@@ -30,12 +30,8 @@ change the sorting by clicking on list headers.
 Of course, in particular for large lists, it is also possible to subclass
 B<Gnome::Gtk4::Sorter> and provide one's own sorter.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Sorter.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -79,11 +75,11 @@ Notifies all users of the sorter that it has changed.
 
 This emits the I<changed> signal. Users
 of the sorter should then update the sort order via
-C<.compare()>.
+C<.compare()>].
 
 Depending on the C<$change> parameter, it may be possible to
 update the sort order without a full resorting. Refer to
-the  C<enumeration SorterChange from Gnome::Gtk4::T-sorter>  documentation for details.
+the  enumeration C<SorterChange> from C<Gnome::Gtk4::T-sorter>  documentation for details.
 
 This function is intended for implementers of B<Gnome::Gtk4::Sorter>
 subclasses and should not be called from other functions.
@@ -118,7 +114,7 @@ Sorters implement a partial order:
   then a ≤ c
 
 The sorter may signal it conforms to additional constraints
-via the return value of C<.get-order()>.
+via the return value of C<.get-order()>].
 
 =begin code
 method compare ( gpointer $item1, gpointer $item2 --> GtkOrdering )
@@ -146,7 +142,7 @@ Return value; C<GTK_ORDERING_EQUAL> if C<$item1> == C<$item2>,
 
 Gets the order that C<$self> conforms to.
 
-See  C<enumeration SorterOrder from Gnome::Gtk4::T-sorter>  for details
+See  enumeration C<SorterOrder> from C<Gnome::Gtk4::T-sorter>  for details
 of the possible return values.
 
 This function is intended to allow optimizations.
@@ -185,7 +181,7 @@ B<Gnome::Gtk4::SortListModel> handles this signal automatically.
 
 Depending on the C<$change> parameter, it may be possible to update
 the sort order without a full resorting. Refer to the
- C<enumeration SorterChange from Gnome::Gtk4::T-sorter>  documentation for details.
+ enumeration C<SorterChange> from C<Gnome::Gtk4::T-sorter>  documentation for details.
 
 =begin code
 method handler (

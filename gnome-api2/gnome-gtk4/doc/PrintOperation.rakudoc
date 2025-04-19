@@ -24,7 +24,7 @@ when the user selects to print. Then you set some properties on it,
 e.g. the page size, any B<Gnome::Gtk4::PrintSettings> from previous print
 operations, the number of pages, the current page, etc.
 
-Then you start the print operation by calling C<.run()>.
+Then you start the print operation by calling C<.run()>].
 It will then show a dialog, let the user select a printer and options.
 When the user finished the dialog, various signals will be emitted on
 the B<Gnome::Gtk4::PrintOperation>, the main one being
@@ -68,17 +68,13 @@ do_print (void)
 By default B<Gnome::Gtk4::PrintOperation> uses an external application to do
 print preview. To implement a custom print preview, an application
 must connect to the preview signal. The functions
-C<.render-page() in class Gnome::Gtk4::R-PrintOperationPreview>,
-C<.end-preview() in class Gnome::Gtk4::R-PrintOperationPreview> and
-C<.is-selected() in class Gnome::Gtk4::R-PrintOperationPreview>
+C<.render-page()> in class B<Gnome::Gtk4::R-PrintOperationPreview>],
+C<.end-preview()> in class B<Gnome::Gtk4::R-PrintOperationPreview>] and
+C<.is-selected()> in class B<Gnome::Gtk4::R-PrintOperationPreview>]
 are useful when implementing a print preview.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/PrintOperation.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -113,7 +109,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::PrintOperation>.
 
 =begin code
-method new-printoperation ( --> Gnome::Gtk4::PrintOperation \)
+method new-printoperation ( --> Gnome::Gtk4::PrintOperation )
 =end code
 
 =begin comment
@@ -163,7 +159,7 @@ method cancel ( )
 Signal that drawing of particular page is complete.
 
 It is called after completion of page drawing (e.g. drawing
-in another thread). If C<.set-defer-drawing()>
+in another thread). If C<.set-defer-drawing()>]
 was called before, then this function has to be called by application.
 Otherwise it is called by GTK itself.
 
@@ -229,7 +225,7 @@ Return value; whether page setup selection combos are embedded.
 Call this when the result of a print operation is
 C<GTK_PRINT_OPERATION_RESULT_ERROR>.
 
-It can be called either after C<.run()>
+It can be called either after C<.run()>]
 returns, or in the I<done> signal
 handler.
 
@@ -310,8 +306,8 @@ Return value; the number of pages that will be printed.
 Returns the current print settings.
 
 Note that the return value is undefined until either
-C<.set-print-settings()> or
-C<.run()> have been called.
+C<.set-print-settings()>] or
+C<.run()>] have been called.
 
 =begin code
 method get-print-settings (--> N-Object )
@@ -334,7 +330,7 @@ Return value; the current print settings of C<$op>..
 
 Returns the status of the print operation.
 
-Also see C<.get-status-string()>.
+Also see C<.get-status-string()>].
 
 =begin code
 method get-status (--> GtkPrintStatus )
@@ -361,7 +357,7 @@ print operation.
 The string is translated and suitable for displaying
 the print status e.g. in a B<Gnome::Gtk4::Statusbar>.
 
-Use C<.get-status()> to obtain
+Use C<.get-status()>] to obtain
 a status value that is suitable for programmatic use.
 
 =begin code
@@ -505,7 +501,7 @@ Return value; the result of the print operation. A return value of
   C<GTK_PRINT_OPERATION_RESULT_APPLY> indicates that the printing was
   completed successfully. In this case, it is a good idea to obtain
   the used print settings with
-  C<.get-print-settings()>
+  C<.get-print-settings()>]
   and store them for reuse with the next print operation. A value of
   C<GTK_PRINT_OPERATION_RESULT_IN_PROGRESS> means the operation is running
   asynchronously, and will emit the I<done>
@@ -551,7 +547,7 @@ method set-allow-async ( Bool() $allow-async )
 
 Sets the current page.
 
-If this is called before C<.run()>,
+If this is called before C<.run()>],
 the user will be able to select to print only the current page.
 
 Note that this only makes sense for pre-paginated documents.
@@ -598,7 +594,7 @@ method set-custom-tab-label ( Str $label )
 
 Makes C<$default-page-setup> the default page setup for C<$op>.
 
-This page setup will be used by C<.run()>,
+This page setup will be used by C<.run()>],
 but it can be overridden on a per-page basis by connecting
 to the I<request-page-setup> signal.
 
@@ -622,7 +618,7 @@ method set-default-page-setup ( N-Object() $default-page-setup )
 =head2 set-defer-drawing
 
 Sets up the B<Gnome::Gtk4::PrintOperation> to wait for calling of
-C<.draw-page-finish> from application.
+C<.draw-page-finish()> from application.
 
 This can be used for drawing page in another thread.
 
@@ -633,7 +629,13 @@ I<draw-page> signal.
 method set-defer-drawing ( )
 =end code
 
-----EXAMPLE----020
+=begin comment
+
+=head2 Example
+# Example for set-defer-drawing
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -650,7 +652,13 @@ method set-embed-page-setup ( Bool() $embed )
 
 =item $embed; C<True> to embed page setup selection in the B<Gnome::Gtk4::PrintUnixDialog>.
 
-----EXAMPLE----021
+=begin comment
+
+=head2 Example
+# Example for set-embed-page-setup
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -674,7 +682,13 @@ method set-export-filename ( Str $filename )
 
 =item $filename; the filename for the exported file.
 
-----EXAMPLE----022
+=begin comment
+
+=head2 Example
+# Example for set-export-filename
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -684,7 +698,7 @@ method set-export-filename ( Str $filename )
 Sets whether there is a selection to print.
 
 Application has to set number of pages to which the selection
-will draw by C<.set-n-pages()> in a handler
+will draw by C<.set-n-pages()>] in a handler
 for the I<begin-print> signal.
 
 =begin code
@@ -693,7 +707,13 @@ method set-has-selection ( Bool() $has-selection )
 
 =item $has-selection; C<True> indicates that a selection exists.
 
-----EXAMPLE----023
+=begin comment
+
+=head2 Example
+# Example for set-has-selection
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -714,7 +734,13 @@ method set-job-name ( Str $job-name )
 
 =item $job-name; a string that identifies the print job.
 
-----EXAMPLE----024
+=begin comment
+
+=head2 Example
+# Example for set-job-name
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -731,7 +757,7 @@ Note that the page numbers passed to the
 I<request-page-setup>
 and I<draw-page> signals are 0-based, i.e.
 if the user chooses to print all pages, the last I<draw-page> signal
-will be for page C<$n>-pages - 1.
+will be for page C<$n-pages> - 1.
 
 =begin code
 method set-n-pages ( Int() $n-pages )
@@ -739,7 +765,13 @@ method set-n-pages ( Int() $n-pages )
 
 =item $n-pages; the number of pages.
 
-----EXAMPLE----025
+=begin comment
+
+=head2 Example
+# Example for set-n-pages
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -749,7 +781,7 @@ method set-n-pages ( Int() $n-pages )
 Sets the print settings for C<$op>.
 
 This is typically used to re-establish print settings
-from a previous print operation, see C<.run()>.
+from a previous print operation, see C<.run()>].
 
 =begin code
 method set-print-settings ( N-Object() $print-settings )
@@ -757,14 +789,20 @@ method set-print-settings ( N-Object() $print-settings )
 
 =item $print-settings; B<Gnome::Gtk4::PrintSettings>.
 
-----EXAMPLE----026
+=begin comment
+
+=head2 Example
+# Example for set-print-settings
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-show-progress
 
-If C<$show>-progress is C<True>, the print operation will show
+If C<$show-progress> is C<True>, the print operation will show
 a progress dialog during the print operation.
 
 =begin code
@@ -773,7 +811,13 @@ method set-show-progress ( Bool() $show-progress )
 
 =item $show-progress; C<True> to show a progress dialog.
 
-----EXAMPLE----027
+=begin comment
+
+=head2 Example
+# Example for set-show-progress
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -788,14 +832,20 @@ method set-support-selection ( Bool() $support-selection )
 
 =item $support-selection; C<True> to support selection.
 
-----EXAMPLE----028
+=begin comment
+
+=head2 Example
+# Example for set-support-selection
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-track-print-status
 
-If track-status is C<True>, the print operation will try to continue
+If track_status is C<True>, the print operation will try to continue
 report on the status of the print job in the printer queues and printer.
 
 This can allow your application to show things like “out of paper”
@@ -810,7 +860,13 @@ method set-track-print-status ( Bool() $track-status )
 
 =item $track-status; C<True> to track status after printing.
 
-----EXAMPLE----029
+=begin comment
+
+=head2 Example
+# Example for set-track-print-status
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -827,14 +883,20 @@ method set-unit ( GtkUnit $unit )
 
 =item $unit; the unit to use.
 
-----EXAMPLE----030
+=begin comment
+
+=head2 Example
+# Example for set-unit
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-use-full-page
 
-If C<$full>-page is C<True>, the transformation for the cairo context
+If C<$full-page> is C<True>, the transformation for the cairo context
 obtained from B<Gnome::Gtk4::PrintContext> puts the origin at the top left
 corner of the page.
 
@@ -848,11 +910,17 @@ method set-use-full-page ( Bool() $full-page )
 
 =item $full-page; C<True> to set up the B<Gnome::Gtk4::PrintContext> for the full page.
 
-----EXAMPLE----031
+=begin comment
+
+=head2 Example
+# Example for set-use-full-page
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
-#--[Signal Documentation()>-------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 =begin pod
@@ -867,7 +935,7 @@ in the dialog, before the actual rendering starts.
 A typical use for I<begin-print> is to use the parameters from the
 B<Gnome::Gtk4::PrintContext> and paginate the document accordingly,
 and then set the number of pages with
-C<.set-n-pages()>.
+C<.set-n-pages()>].
 
 =begin code
 method handler (
@@ -968,10 +1036,10 @@ Emitted when the print operation run has finished doing
 everything required for printing.
  C<$result> gives you information about what happened during the run.
 If C<$result> is C<GTK_PRINT_OPERATION_RESULT_ERROR> then you can call
-C<.get-error()> for more information.
+C<.get-error()>] for more information.
 
 If you enabled print status tracking then
-C<.is-finished()> may still return C<False>
+C<.is-finished()>] may still return C<False>
 after the I<done> signal was emitted.
 
 =begin code
@@ -1004,7 +1072,7 @@ Emitted for every page that is printed.
 
 The signal handler must render the C<$page-nr>'s page onto the cairo
 context obtained from C<$context> using
-C<.get-cairo-context() in class Gnome::Gtk4::PrintContext>.
+C<.get-cairo-context()> in class B<Gnome::Gtk4::PrintContext>].
 
 =begin comment
 static void
@@ -1048,8 +1116,8 @@ draw_page (GtkPrintOperation *operation,
 
 =end comment
 
-Use C<.set-use-full-page()> and
-C<.set-unit()> before starting the print
+Use C<.set-use-full-page()>] and
+C<.set-unit()>] before starting the print
 operation to set up the transformation of the cairo context
 according to your needs.
 
@@ -1120,7 +1188,7 @@ It keeps getting emitted until a connected signal handler returns C<True>.
 The I<paginate> signal is intended to be used for paginating a document
 in small chunks, to avoid blocking the user interface for a long
 time. The signal handler should update the number of pages using
-C<.set-n-pages()>, and return C<True> if the document
+C<.set-n-pages()>], and return C<True> if the document
 has been completely paginated.
 
 If you don't need to do pagination in chunks, you can simply do
@@ -1165,13 +1233,13 @@ To implement a custom print preview, an application must return
 C<True> from its handler for this signal. In order to use the
 provided C<$context> for the preview implementation, it must be
 given a suitable cairo context with
-C<.set-cairo-context() in class Gnome::Gtk4::PrintContext>.
+C<.set-cairo-context()> in class B<Gnome::Gtk4::PrintContext>].
 
 The custom preview implementation can use
-C<.is-selected() in class Gnome::Gtk4::R-PrintOperationPreview> and
-C<.render-page() in class Gnome::Gtk4::R-PrintOperationPreview> to find pages which
+C<.is-selected()> in class B<Gnome::Gtk4::R-PrintOperationPreview>] and
+C<.render-page()> in class B<Gnome::Gtk4::R-PrintOperationPreview>] to find pages which
 are selected for print and render them. The preview must be
-finished by calling C<.end-preview() in class Gnome::Gtk4::R-PrintOperationPreview>
+finished by calling C<.end-preview()> in class B<Gnome::Gtk4::R-PrintOperationPreview>]
 (typically in response to the user clicking a close button).
 
 =begin code
@@ -1245,8 +1313,8 @@ method handler (
 
 Emitted at between the various phases of the print operation.
 
-See  C<enumeration PrintStatus from Gnome::Gtk4::T-printoperation>  for the phases that are being discriminated.
-Use C<.get-status()> to find out the current
+See  enumeration C<PrintStatus> from C<Gnome::Gtk4::T-printoperation>  for the phases that are being discriminated.
+Use C<.get-status()>] to find out the current
 status.
 
 =begin code

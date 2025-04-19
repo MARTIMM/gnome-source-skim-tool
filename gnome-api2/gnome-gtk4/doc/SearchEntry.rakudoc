@@ -34,7 +34,7 @@ implement moving between search results and ending the search.
 
 Often, B<Gnome::Gtk4::SearchEntry> will be fed events by means of being
 placed inside a B<Gnome::Gtk4::SearchBar>. If that is not the case,
-you can use C<.set-key-capture-widget()> to
+you can use C<.set-key-capture-widget()>] to
 let it capture key input from another widget.
 
 B<Gnome::Gtk4::SearchEntry> provides only minimal API and should be used with
@@ -49,12 +49,8 @@ a `.search` style class, and the text node is a child of that.
 
 B<Gnome::Gtk4::SearchEntry> uses the C<GTK_ACCESSIBLE_ROLE_SEARCH_BOX> role.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/SearchEntry.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -89,7 +85,7 @@ Create an object using a native object from an object of the same type found els
 Creates a B<Gnome::Gtk4::SearchEntry>.
 
 =begin code
-method new-searchentry ( --> Gnome::Gtk4::SearchEntry \)
+method new-searchentry ( --> Gnome::Gtk4::SearchEntry )
 =end code
 
 =begin comment
@@ -268,7 +264,7 @@ Key events are consumed by the search entry to start or
 continue a search.
 
 If the entry is part of a B<Gnome::Gtk4::SearchBar>, it is preferable
-to call C<.set-key-capture-widget() in class Gnome::Gtk4::SearchBar> instead,
+to call C<.set-key-capture-widget()> in class B<Gnome::Gtk4::SearchBar>] instead,
 which will reveal the entry in addition to triggering the
 search entry.
 
@@ -277,7 +273,7 @@ are only 'captured' in the bubble phase, which means that
 editable child widgets of C<$widget> will receive text input
 before it gets captured. If that is not desired, you can
 capture and forward the events yourself with
-C<.forward() in class Gnome::Gtk4::EventControllerKey>.
+C<.forward()> in class B<Gnome::Gtk4::EventControllerKey>].
 
 =begin code
 method set-key-capture-widget ( N-Object() $widget )

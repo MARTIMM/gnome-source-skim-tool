@@ -12,12 +12,8 @@ use v6.d;
 B<Gnome::Gtk4::MultiSelection> is a B<Gnome::Gtk4::R-SelectionModel> that allows selecting multiple
 elements.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/MultiSelection.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -52,7 +48,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new selection to handle C<$model>.
 
 =begin code
-method new-multiselection ( N-List() $model --> Gnome::Gtk4::MultiSelection \)
+method new-multiselection ( N-List() $model --> Gnome::Gtk4::MultiSelection )
 =end code
 
 =item $model; (transfer ownership: full) the B<Gnome::Gio::R-ListModel> to manage.

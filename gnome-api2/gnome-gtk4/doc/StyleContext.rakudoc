@@ -14,12 +14,12 @@ B<Gnome::Gtk4::StyleContext> stores styling information affecting a widget.
 In order to construct the final style information, B<Gnome::Gtk4::StyleContext>
 queries information from all attached B<GtkStyleProviders>. Style
 providers can be either attached explicitly to the context through
-C<.add-provider()>, or to the display through
+C<.add-provider()>], or to the display through
 C<.StyleContext.add-provider-for-display()>. The resulting
 style is a combination of all providers’ information in priority order.
 
 For GTK widgets, any B<Gnome::Gtk4::StyleContext> returned by
-C<.get-style-context() in class Gnome::Gtk4::Widget> will already have a B<Gnome::Gdk4::Display>
+C<.get-style-context()> in class B<Gnome::Gtk4::Widget>] will already have a B<Gnome::Gdk4::Display>
 and RTL/LTR information set. The style context will also be updated
 automatically if any of these settings change on the widget.
 
@@ -47,12 +47,8 @@ B<XDG_CONFIG_HOME>/gtk-4.0/gtk.css` will
 still take precedence over your changes, as it uses the
 C<GTK_STYLE_PROVIDER_PRIORITY_USER> priority.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/StyleContext.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -314,9 +310,9 @@ Returns the state used for style matching.
 
 This method should only be used to retrieve the C<bit field GtkStateFlags defined in Gnome::Gtk4::T-enums>
 to pass to B<Gnome::Gtk4::StyleContext> methods, like
-C<.get-padding()>.
+C<.get-padding()>].
 If you need to retrieve the current state of a B<Gnome::Gtk4::Widget>, use
-C<.get-state-flags() in class Gnome::Gtk4::Widget>.
+C<.get-state-flags()> in class B<Gnome::Gtk4::Widget>].
 
 =begin code
 method get-state (--> UInt )
@@ -439,7 +435,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 
 Restores C<$context> state to a previous stage.
 
-See C<.save()>.
+See C<.save()>].
 
 =begin code
 method restore ( )
@@ -463,12 +459,12 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Saves the C<$context> state.
 
 This allows temporary modifications done through
-C<.add-class()>,
-C<.remove-class()>,
-C<.set-state()> to be quickly
-reverted in one go through C<.restore()>.
+C<.add-class()>],
+C<.remove-class()>],
+C<.set-state()>] to be quickly
+reverted in one go through C<.restore()>].
 
-The matching call to C<.restore()>
+The matching call to C<.restore()>]
 must be done before GTK returns to the main loop.
 
 =begin code
@@ -496,7 +492,7 @@ The display is used to add style information from “global”
 style providers, such as the display's B<Gnome::Gtk4::Settings> instance.
 
 If you are using a B<Gnome::Gtk4::StyleContext> returned from
-C<.get-style-context() in class Gnome::Gtk4::Widget>, you do not need to
+C<.get-style-context()> in class B<Gnome::Gtk4::Widget>], you do not need to
 call this yourself.
 
 =begin code
@@ -613,7 +609,7 @@ GTK uses this to make styling information from B<Gnome::Gtk4::Settings>
 available.
 
 Note: If both priorities are the same, A B<Gnome::Gtk4::R-StyleProvider>
-added through C<.add-provider()> takes
+added through C<.add-provider()>] takes
 precedence over another added through this function.
 
 =begin code

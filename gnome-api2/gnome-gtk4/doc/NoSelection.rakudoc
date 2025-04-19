@@ -17,12 +17,8 @@ when a B<Gnome::Gtk4::R-SelectionModel> is required.
 
 B<Gnome::Gtk4::NoSelection> passes through sections from the underlying model.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/NoSelection.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -57,7 +53,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new selection to handle C<$model>.
 
 =begin code
-method new-noselection ( N-List() $model --> Gnome::Gtk4::NoSelection \)
+method new-noselection ( N-List() $model --> Gnome::Gtk4::NoSelection )
 =end code
 
 =item $model; (transfer ownership: full) the B<Gnome::Gio::R-ListModel> to manage.

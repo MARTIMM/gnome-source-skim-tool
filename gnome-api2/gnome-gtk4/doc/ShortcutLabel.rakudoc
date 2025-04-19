@@ -13,12 +13,8 @@ B<Gnome::Gtk4::ShortcutLabel> displays a single keyboard shortcut or gesture.
 
 The main use case for B<Gnome::Gtk4::ShortcutLabel> is inside a B<Gnome::Gtk4::ShortcutsWindow>.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/ShortcutLabel.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -53,7 +49,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::ShortcutLabel> with C<$accelerator> set.
 
 =begin code
-method new-shortcutlabel ( Str $accelerator --> Gnome::Gtk4::ShortcutLabel \)
+method new-shortcutlabel ( Str $accelerator --> Gnome::Gtk4::ShortcutLabel )
 =end code
 
 =item $accelerator; the initial accelerator.

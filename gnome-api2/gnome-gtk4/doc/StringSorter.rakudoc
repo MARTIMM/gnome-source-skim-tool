@@ -18,12 +18,8 @@ them before performing the comparison.
 To obtain the strings to compare, this sorter evaluates a
 B<Gnome::Gtk4::Expression>.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/StringSorter.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -61,7 +57,7 @@ Unless an expression is set on it, this sorter will always
 compare items as invalid.
 
 =begin code
-method new-stringsorter ( N-Object() $expression --> Gnome::Gtk4::StringSorter \)
+method new-stringsorter ( N-Object() $expression --> Gnome::Gtk4::StringSorter )
 =end code
 
 =item $expression; (transfer ownership: full) The expression to evaluate.

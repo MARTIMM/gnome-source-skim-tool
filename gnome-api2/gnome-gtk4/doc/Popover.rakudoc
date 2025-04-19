@@ -30,9 +30,9 @@ tweak its behavior.
 
 =head3 GtkPopover as menu replacement
 
-B<Gnome::Gtk4::Popover> is often used to replace menus. The best was to do this
+B<Gnome::Gtk4::Popover> is often used to replace menus. The best way to do this
 is to use the B<Gnome::Gtk4::PopoverMenu> subclass which supports being
-populated from a B<Gnome::Gio::MenuModel> with C<.new-from-model() in class Gnome::Gtk4::PopoverMenu>.
+populated from a B<Gnome::Gio::MenuModel> with C<.new-from-model()> in class C<Gnome::Gtk4::PopoverMenu>.
 
 =begin comment
 <section>
@@ -89,12 +89,8 @@ be the same. The arrow also does not support any border shape other than
 solid, no border-radius, only one border width (border-bottom-width is
 used) and no box-shadow.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Popover.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -129,7 +125,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::Popover>.
 
 =begin code
-method new-popover ( --> Gnome::Gtk4::Popover \)
+method new-popover ( --> Gnome::Gtk4::Popover )
 =end code
 
 =begin comment

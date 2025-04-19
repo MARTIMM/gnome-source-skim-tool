@@ -22,12 +22,8 @@ The typical way to obtain a B<Gnome::Gtk4::Snapshot> object is as an argument to
 the [vfunc C<$Gtk>.Widget.snapshot] vfunc. If you need to create your own
 B<Gnome::Gtk4::Snapshot>, use C<.newsnapshot()>.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Snapshot.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -62,7 +58,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::Snapshot>.
 
 =begin code
-method new-snapshot ( --> Gnome::Gtk4::Snapshot \)
+method new-snapshot ( --> Gnome::Gtk4::Snapshot )
 =end code
 
 =begin comment
@@ -192,7 +188,7 @@ method append-conic-gradient ( N-Object $bounds, N-Object $center, Num() $rotati
 
 A convenience method to fill a path with a color.
 
-See C<.push-fill()> if you need
+See C<.push-fill()>] if you need
 to fill a path with more complex content than
 a color.
 
@@ -426,7 +422,7 @@ Creates a new render node drawing the C<$texture>
 into the given C<$bounds> and appends it to the
 current render node of C<$snapshot>.
 
-In contrast to C<.append-texture()>,
+In contrast to C<.append-texture()>],
 this function provides control about how the filter
 that is used when scaling.
 
@@ -453,7 +449,7 @@ method append-scaled-texture ( N-Object() $texture, GskScalingFilter $filter, N-
 
 A convenience method to stroke a path with a color.
 
-See C<.push-stroke()> if you need
+See C<.push-stroke()>] if you need
 to stroke a path with more complex content than
 a color.
 
@@ -483,7 +479,7 @@ into the given C<$bounds> and appends it to the
 current render node of C<$snapshot>.
 
 If the texture needs to be scaled to fill C<$bounds>,
-linear filtering is used. See C<.append-scaled-texture()>
+linear filtering is used. See C<.append-scaled-texture()>]
 if you need other filtering, such as nearest-neighbour.
 
 =begin code
@@ -509,7 +505,7 @@ method append-texture ( N-Object() $texture, N-Object $bounds )
 Returns the node that was constructed by C<$snapshot>
 and frees C<$snapshot>.
 
-See also C<.to-node()>.
+See also C<.to-node()>].
 
 =begin code
 method free-to-node (--> N-Object )
@@ -560,7 +556,7 @@ adds it to the nearest B<Gnome::Gsk4::GLShaderNode> below it.
 
 This must be called the same number of times as the number
 of textures is needed for the shader in
-C<.push-gl-shader()>.
+C<.push-gl-shader()>].
 
 =begin code
 method gl-shader-pop-texture ( )
@@ -581,7 +577,7 @@ method gl-shader-pop-texture ( )
 
 Applies a perspective projection transform.
 
-See C<.perspective()> in class C<Gnome::Gsk4::N-Transform> for a discussion on the details.
+See C<.perspective()> in class B<Gnome::Gsk4::N-Transform>] for a discussion on the details.
 
 =begin code
 method perspective ( Num() $depth )
@@ -624,13 +620,13 @@ method pop ( )
 
 Blends together two images with the given blend mode.
 
-Until the first call to C<.pop()>, the
+Until the first call to C<.pop()>], the
 bottom image for the blend operation will be recorded.
 After that call, the top image to be blended will be
-recorded until the second call to C<.pop()>.
+recorded until the second call to C<.pop()>].
 
 Calling this function requires two subsequent calls
-to C<.pop()>.
+to C<.pop()>].
 
 =begin code
 method push-blend ( GskBlendMode $blend-mode )
@@ -653,7 +649,7 @@ method push-blend ( GskBlendMode $blend-mode )
 
 Blurs an image.
 
-The image is recorded until the next call to C<.pop()>.
+The image is recorded until the next call to C<.pop()>].
 
 =begin code
 method push-blur ( Num() $radius )
@@ -676,7 +672,7 @@ method push-blur ( Num() $radius )
 
 Clips an image to a rectangle.
 
-The image is recorded until the next call to C<.pop()>.
+The image is recorded until the next call to C<.pop()>].
 
 =begin code
 method push-clip ( N-Object $bounds )
@@ -707,7 +703,7 @@ In particular, the colors will be transformed by applying
 for every pixel. The transformation operates on unpremultiplied
 colors, with color components ordered R, G, B, A.
 
-The image is recorded until the next call to C<.pop()>.
+The image is recorded until the next call to C<.pop()>].
 
 =begin code
 method push-color-matrix ( N-Object $color-matrix, N-Object $color-offset )
@@ -732,12 +728,12 @@ method push-color-matrix ( N-Object $color-matrix, N-Object $color-offset )
 Snapshots a cross-fade operation between two images with the
 given C<$progress>.
 
-Until the first call to C<.pop()>, the start image
+Until the first call to C<.pop()>], the start image
 will be snapshot. After that call, the end image will be recorded
-until the second call to C<.pop()>.
+until the second call to C<.pop()>].
 
 Calling this function requires two subsequent calls
-to C<.pop()>.
+to C<.pop()>].
 
 =begin code
 method push-cross-fade ( Num() $progress )
@@ -788,9 +784,9 @@ method push-debug ( Str $message, … )
 Fills the area given by C<$path> and C<$fill-rule> with an image and discards everything
 outside of it.
 
-The image is recorded until the next call to C<.pop()>.
+The image is recorded until the next call to C<.pop()>].
 
-If you want to fill the path with a color, C<.append-fill()>
+If you want to fill the path with a color, C<.append-fill()>]
 may be more convenient.
 
 =begin code
@@ -821,7 +817,7 @@ which will be passed to the B<Gnome::Gsk4::GLShaderNode>.
 
 The C<$take-args> argument is a block of data to use for uniform
 arguments, as per types and offsets defined by the C<$shader>.
-Normally this is generated by C<.format-args()> in class C<Gnome::Gsk4::GLShader>
+Normally this is generated by C<.format-args()> in class B<Gnome::Gsk4::GLShader>]
 or  B<Gnome::Gsk4::N-ShaderArgsBuilder> .
 
 The snapshotter takes ownership of C<$take-args>, so the caller should
@@ -829,20 +825,20 @@ not free it after this.
 
 If the renderer doesn't support GL shaders, or if there is any
 problem when compiling the shader, then the node will draw pink.
-You should use C<.compile()> in class C<Gnome::Gsk4::GLShader> to ensure the C<$shader>
+You should use C<.compile()> in class B<Gnome::Gsk4::GLShader>] to ensure the C<$shader>
 will work for the renderer before using it.
 
-If the shader requires textures (see C<.get-n-textures()> in class C<Gnome::Gsk4::GLShader>),
-then it is expected that you call C<.gl-shader-pop-texture()>
+If the shader requires textures (see C<.get-n-textures()> in class B<Gnome::Gsk4::GLShader>]),
+then it is expected that you call C<.gl-shader-pop-texture()>]
 the number of times that are required. Each of these calls will generate
 a node that is added as a child to the B<Gnome::Gsk4::GLShaderNode>, which in turn
 will render these offscreen and pass as a texture to the shader.
 
 Once all textures (if any) are pop:ed, you must call the regular
-C<.pop()>.
+C<.pop()>].
 
 If you want to use pre-existing textures as input to the shader rather
-than rendering new ones, use C<.append-texture()> to
+than rendering new ones, use C<.append-texture()>] to
 push a texture node. These will be used directly rather than being
 re-rendered.
 
@@ -869,11 +865,11 @@ method push-gl-shader ( N-Object() $shader, N-Object $bounds, N-Object $take-arg
 =begin pod
 =head2 push-mask
 
-Until the first call to C<.pop()>, the
+Until the first call to C<.pop()>], the
 mask image for the mask operation will be recorded.
 
 After that call, the source image will be recorded until
-the second call to C<.pop()>.
+the second call to C<.pop()>].
 
 Calling this function requires 2 subsequent calls to C<.pop()>.
 
@@ -898,7 +894,7 @@ method push-mask ( GskMaskMode $mask-mode )
 
 Modifies the opacity of an image.
 
-The image is recorded until the next call to C<.pop()>.
+The image is recorded until the next call to C<.pop()>].
 
 =begin code
 method push-opacity ( Num() $opacity )
@@ -921,7 +917,7 @@ method push-opacity ( Num() $opacity )
 
 Creates a node that repeats the child node.
 
-The child is recorded until the next call to C<.pop()>.
+The child is recorded until the next call to C<.pop()>].
 
 =begin code
 method push-repeat ( N-Object $bounds, N-Object $child-bounds )
@@ -946,7 +942,7 @@ method push-repeat ( N-Object $bounds, N-Object $child-bounds )
 
 Clips an image to a rounded rectangle.
 
-The image is recorded until the next call to C<.pop()>.
+The image is recorded until the next call to C<.pop()>].
 
 =begin code
 method push-rounded-clip ( N-Object $bounds )
@@ -969,7 +965,7 @@ method push-rounded-clip ( N-Object $bounds )
 
 Applies a shadow to an image.
 
-The image is recorded until the next call to C<.pop()>.
+The image is recorded until the next call to C<.pop()>].
 
 =begin code
 method push-shadow ( N-Object $shadow, Int() $n-shadows )
@@ -994,13 +990,13 @@ method push-shadow ( N-Object $shadow, Int() $n-shadows )
 Strokes the given C<$path> with the attributes given by C<$stroke> and
 an image.
 
-The image is recorded until the next call to C<.pop()>.
+The image is recorded until the next call to C<.pop()>].
 
 Note that the strokes are subject to the same transformation as
 everything else, so uneven scaling will cause horizontal and vertical
 strokes to have different widths.
 
-If you want to stroke the path with a color, C<.append-stroke()>
+If you want to stroke the path with a color, C<.append-stroke()>]
 may be more convenient.
 
 =begin code
@@ -1191,7 +1187,7 @@ Rotates @ C<$snapshot>'s coordinate system by C<$angle> degrees in 2D space -
 or in 3D speak, rotates around the Z axis. The rotation happens around
 the origin point of (0, 0) in the C<$snapshot>'s current coordinate system.
 
-To rotate around axes other than the Z axis, use C<.rotate3d()> in class C<Gnome::Gsk4::N-Transform>.
+To rotate around axes other than the Z axis, use C<.rotate3d()> in class B<Gnome::Gsk4::N-Transform>].
 
 =begin code
 method rotate ( Num() $angle )
@@ -1214,7 +1210,7 @@ method rotate ( Num() $angle )
 
 Rotates C<$snapshot>'s coordinate system by C<$angle> degrees around C<$axis>.
 
-For a rotation in 2D space, use C<.rotate()> in class C<Gnome::Gsk4::N-Transform>.
+For a rotation in 2D space, use C<.rotate()> in class B<Gnome::Gsk4::N-Transform>].
 
 =begin code
 method rotate3d ( Num() $angle, N-Object $axis )
@@ -1239,10 +1235,10 @@ method rotate3d ( Num() $angle, N-Object $axis )
 Makes a copy of the current state of C<$snapshot> and saves it
 on an internal stack.
 
-When C<.restore()> is called, C<$snapshot> will
+When C<.restore()>] is called, C<$snapshot> will
 be restored to the saved state.
 
-Multiple calls to C<.save()> and C<.restore()>
+Multiple calls to C<.save()>] and C<.restore()>]
 can be nested; each call to B<C><.restore()>` restores the state from
 the matching paired B<C><.save()>`.
 
@@ -1269,7 +1265,7 @@ method save ( )
 Scales C<$snapshot>'s coordinate system in 2-dimensional space by
 the given factors.
 
-Use C<.scale3d()> to scale in all 3 dimensions.
+Use C<.scale3d()>] to scale in all 3 dimensions.
 
 =begin code
 method scale ( Num() $factor-x, Num() $factor-y )
@@ -1323,7 +1319,7 @@ to be rendered.
 
 After calling this function, it is no longer possible to
 add more nodes to C<$snapshot>. The only function that should
-be called after this is C<.unref()> in class C<Gnome::GObject::Object>.
+be called after this is C<.unref()> in class B<Gnome::GObject::Object>].
 
 =begin code
 method to-node (--> N-Object )
@@ -1350,7 +1346,7 @@ that was constructed by C<$snapshot>.
 
 After calling this function, it is no longer possible to
 add more nodes to C<$snapshot>. The only function that should
-be called after this is C<.unref()> in class C<Gnome::GObject::Object>.
+be called after this is C<.unref()> in class B<Gnome::GObject::Object>].
 
 =begin code
 method to-paintable ( N-Object $size --> N-Object )

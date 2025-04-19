@@ -21,7 +21,7 @@ If the file isn’t loaded successfully, the picture will contain a
 “broken image” icon similar to that used in many web browsers.
 If you want to handle errors in loading the file yourself,
 for example by displaying an error message, then load the image with
-C<.new-from-file() in class Gnome::Gdk4::Texture>, then create the B<Gnome::Gtk4::Picture> with
+C<.new-from-file()> in class C<Gnome::Gdk4::Texture>, then create the B<Gnome::Gtk4::Picture> with
 C<.new-for-paintable()>.
 
 Sometimes an application will want to avoid depending on external data
@@ -35,7 +35,7 @@ if you want to display a fixed-size image, such as an icon.
 =head3 Sizing the paintable
 
 You can influence how the paintable is displayed inside the B<Gnome::Gtk4::Picture>
-by changing I<content-fit>. See  C<enumeration ContentFit from Gnome::Gtk4::T-enums> 
+by changing I<content-fit>. See  enumeration C<ContentFit> from C<Gnome::Gtk4::T-enums> 
 for details. I<can-shrink> can be unset to make sure
 that paintables are never made smaller than their ideal size - but
 be careful if you do not know the size of the paintable in use (like
@@ -52,12 +52,8 @@ B<Gnome::Gtk4::Picture> has a single CSS node with the name B<picture>.
 
 B<Gnome::Gtk4::Picture> uses the B<GTK_ACCESSIBLE_ROLE_IMG> role.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Picture.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -92,7 +88,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new empty B<Gnome::Gtk4::Picture> widget.
 
 =begin code
-method new-picture ( --> Gnome::Gtk4::Picture \)
+method new-picture ( --> Gnome::Gtk4::Picture )
 =end code
 
 =begin comment
@@ -114,11 +110,11 @@ If the file isn’t found or can’t be loaded, the resulting
 B<Gnome::Gtk4::Picture> is empty.
 
 If you need to detect failures to load the file, use
-C<.new-from-file() in class Gnome::Gdk4::Texture> to load the file yourself,
+C<.new-from-file()> in class C<Gnome::Gdk4::Texture> to load the file yourself,
 then create the B<Gnome::Gtk4::Picture> from the texture.
 
 =begin code
-method new-for-file ( N-Object() $file --> Gnome::Gtk4::Picture \)
+method new-for-file ( N-Object() $file --> Gnome::Gtk4::Picture )
 =end code
 
 =item $file; a B<Gnome::Gio::R-File>.
@@ -142,7 +138,7 @@ This is a utility function that calls C<.new-for-file()>.
 See that function for details.
 
 =begin code
-method new-for-filename ( Str $filename --> Gnome::Gtk4::Picture \)
+method new-for-filename ( Str $filename --> Gnome::Gtk4::Picture )
 =end code
 
 =item $filename; a filename.
@@ -166,7 +162,7 @@ The B<Gnome::Gtk4::Picture> will track changes to the C<$paintable> and update
 its size and contents in response to it.
 
 =begin code
-method new-for-paintable ( N-Object() $paintable --> Gnome::Gtk4::Picture \)
+method new-for-paintable ( N-Object() $paintable --> Gnome::Gtk4::Picture )
 =end code
 
 =item $paintable; a B<Gnome::Gdk4::R-Paintable>.
@@ -194,7 +190,7 @@ See that function for details.
 The pixbuf must not be modified after passing it to this function.
 
 =begin code
-method new-for-pixbuf ( N-Object() $pixbuf --> Gnome::Gtk4::Picture \)
+method new-for-pixbuf ( N-Object() $pixbuf --> Gnome::Gtk4::Picture )
 =end code
 
 =item $pixbuf; a B<Gnome::GdkPixbuf::Pixbuf>.
@@ -218,7 +214,7 @@ This is a utility function that calls C<.new-for-file()>.
 See that function for details.
 
 =begin code
-method new-for-resource ( Str $resource-path --> Gnome::Gtk4::Picture \)
+method new-for-resource ( Str $resource-path --> Gnome::Gtk4::Picture )
 =end code
 
 =item $resource-path; resource path to play back.
@@ -290,7 +286,7 @@ Return value; C<True> if the picture can be made smaller than its contents.
 
 Returns the fit mode for the content of the B<Gnome::Gtk4::Picture>.
 
-See  C<enumeration ContentFit from Gnome::Gtk4::T-enums>  for details.
+See  enumeration C<ContentFit> from C<Gnome::Gtk4::T-enums>  for details.
 
 =begin code
 method get-content-fit (--> GtkContentFit )
@@ -411,11 +407,11 @@ If set to C<True>, the C<$self> can be made smaller than its contents.
 The contents will then be scaled down when rendering.
 
 If you want to still force a minimum size manually, consider using
-C<.set-size-request() in class Gnome::Gtk4::Widget>.
+C<.set-size-request()> in class C<Gnome::Gtk4::Widget>.
 
 Also of note is that a similar function for growing does not exist
 because the grow behavior can be controlled via
-C<.set-halign() in class Gnome::Gtk4::Widget> and C<.set-valign() in class Gnome::Gtk4::Widget>.
+C<.set-halign()> in class C<Gnome::Gtk4::Widget> and C<.set-valign()> in class C<Gnome::Gtk4::Widget>.
 
 =begin code
 method set-can-shrink ( Bool() $can-shrink )
@@ -438,7 +434,7 @@ method set-can-shrink ( Bool() $can-shrink )
 
 Sets how the content should be resized to fit the B<Gnome::Gtk4::Picture>.
 
-See  C<enumeration ContentFit from Gnome::Gtk4::T-enums>  for details.
+See  enumeration C<ContentFit> from C<Gnome::Gtk4::T-enums>  for details.
 
 =begin code
 method set-content-fit ( GtkContentFit $content-fit )

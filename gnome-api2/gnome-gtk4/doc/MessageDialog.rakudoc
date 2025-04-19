@@ -18,7 +18,7 @@ B<Gnome::Gtk4::MessageDialog> from B<Gnome::Gtk4::Dialog> without too much effor
 B<Gnome::Gtk4::MessageDialog> saves typing.
 
 The easiest way to do a modal message dialog is to use the C<GTK_DIALOG_MODAL>
-flag, which will call C<.set-modal() in class Gnome::Gtk4::Window> internally. The dialog will
+flag, which will call C<.set-modal()> in class C<Gnome::Gtk4::Window> internally. The dialog will
 prevent interaction with the parent window until it's hidden or destroyed.
 You can use the I<response defined in Dialog> signal to know when the user
 dismissed the dialog.
@@ -68,12 +68,8 @@ g_signal_connect (dialog, "response",
 The B<Gnome::Gtk4::MessageDialog> implementation of the B<Gnome::Gtk4::R-Buildable> interface exposes
 the message area as an internal child with the name “message_area”.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/MessageDialog.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -114,11 +110,11 @@ Creates a new message dialog.
 
 This is a simple dialog with some text the user may want to see.
 When the user clicks a button a “response” signal is emitted with
-response IDs from  C<enumeration ResponseType from Gnome::Gtk4::T-dialog> . See B<Gnome::Gtk4::Dialog>
+response IDs from  enumeration C<ResponseType> from C<Gnome::Gtk4::T-dialog> . See B<Gnome::Gtk4::Dialog>
 for more details.
 
 =begin code
-method new-messagedialog ( N-Object() $parent, UInt $flags, GtkMessageType $type, GtkButtonsType $buttons, Str $message-format, … --> Gnome::Gtk4::MessageDialog \)
+method new-messagedialog ( N-Object() $parent, UInt $flags, GtkMessageType $type, GtkButtonsType $buttons, Str $message-format, … --> Gnome::Gtk4::MessageDialog )
 =end code
 
 =item $parent; transient parent.
@@ -148,7 +144,7 @@ Creates a new message dialog.
 
 This is a simple dialog with some text that is marked up with
 Pango markup. When the user clicks a button a “response” signal
-is emitted with response IDs from  C<enumeration ResponseType from Gnome::Gtk4::T-dialog> . See
+is emitted with response IDs from  enumeration C<ResponseType> from C<Gnome::Gtk4::T-dialog> . See
 B<Gnome::Gtk4::Dialog> for more details.
 
 Special XML characters in the printf() arguments passed to this
@@ -175,7 +171,7 @@ gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (dialog),
 =end comment
 
 =begin code
-method new-with-markup ( N-Object() $parent, UInt $flags, GtkMessageType $type, GtkButtonsType $buttons, Str $message-format, … --> Gnome::Gtk4::MessageDialog \)
+method new-with-markup ( N-Object() $parent, UInt $flags, GtkMessageType $type, GtkButtonsType $buttons, Str $message-format, … --> Gnome::Gtk4::MessageDialog )
 =end code
 
 =item $parent; transient parent.
@@ -279,7 +275,7 @@ Returns the message area of the dialog.
 
 This is the box where the dialog’s primary and secondary labels
 are packed. You can add your own extra content to that box and it
-will appear below those labels. See C<.get-content-area() in class Gnome::Gtk4::Dialog>
+will appear below those labels. See C<.get-content-area()> in class C<Gnome::Gtk4::Dialog>
 for the corresponding function in the parent B<Gnome::Gtk4::Dialog>.
 
 =begin code

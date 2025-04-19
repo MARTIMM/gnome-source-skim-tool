@@ -15,12 +15,8 @@ A B<Gnome::Gtk4::StringObject> is a wrapper around a B<const> char*`; it has
 a I<string> property that can be used
 for property bindings and expressions.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/StringObject.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -55,7 +51,7 @@ Create an object using a native object from an object of the same type found els
 Wraps a string in an object for use with B<Gnome::Gio::R-ListModel>.
 
 =begin code
-method new-stringobject ( Str $string --> Gnome::Gtk4::StringObject \)
+method new-stringobject ( Str $string --> Gnome::Gtk4::StringObject )
 =end code
 
 =item $string; The string to wrap.

@@ -40,7 +40,7 @@ using the GTK printing support.
 
 Determines what action the print operation should perform.
 
-A parameter of this typs is passed to C<.run()>.
+A parameter of this typs is passed to C<.run()>].
 =item C<GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG>; Show the print dialog.
 =item C<GTK_PRINT_OPERATION_ACTION_PRINT>; Start to print without showing
   the print dialog, based on the current print settings.
@@ -52,7 +52,7 @@ A parameter of this typs is passed to C<.run()>.
 
 The result of a print operation.
 
-A value of this type is returned by C<.run()>.
+A value of this type is returned by C<.run()>].
 =item C<GTK_PRINT_OPERATION_RESULT_ERROR>; An error has occurred.
 =item C<GTK_PRINT_OPERATION_RESULT_APPLY>; The print settings should be stored.
 =item C<GTK_PRINT_OPERATION_RESULT_CANCEL>; The print operation has been canceled,
@@ -94,9 +94,9 @@ print operation.
 :(  N-Object() $page-setup, gpointer $data  )
 =end code
 
-=item page-setup; the B<Gnome::Gtk4::PageSetup> that has been passed to
+=item $page-setup; the B<Gnome::Gtk4::PageSetup> that has been passed to
   gtk_print_run_page_setup_dialog_async()
-=item data; user data that has been passed to
+=item $data; user data that has been passed to
   gtk_print_run_page_setup_dialog_async()
 
 =end pod
@@ -171,14 +171,14 @@ showing the page setup dialog on platforms that support this, and calls C<$done-
 from a signal handler for the I<response> signal of the dialog.
 
 =begin code
-method print-run-page-setup-dialog-async ( N-Object() $parent, N-Object() $page-setup, N-Object() $settings, &done-cb, gpointer $data )
+method print-run-page-setup-dialog-async ( N-Object() $parent, N-Object() $page-setup, N-Object() $settings, GtkPageSetupDoneFunc &done-cb, gpointer $data )
 =end code
 
 =item $parent; transient parent.
 =item $page-setup; an existing B<Gnome::Gtk4::PageSetup>.
 =item $settings; a B<Gnome::Gtk4::PrintSettings>.
-=item &done-cb; a function to call when the user saves
-   the modified page setup. Tthe function must be specified with following signature; C<:( N-Object $page-setup, gpointer $data )>.
+=item GtkPageSetupDoneFunc &done-cb; a function to call when the user saves
+   the modified page setup. The function must be specified with the following signature; C<:( N-Object $page-setup, gpointer $data )>.
 =item $data; user data to pass to C<$done-cb>.
 
 =begin comment

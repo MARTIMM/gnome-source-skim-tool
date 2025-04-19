@@ -13,8 +13,8 @@ B<Gnome::Gtk4::ShortcutController> is an event controller that manages shortcuts
 
 Most common shortcuts are using this controller implicitly, e.g. by
 adding a mnemonic underline to a B<Gnome::Gtk4::Label>, or by installing a key
-binding using C<.add-binding() in class Gnome::Gtk4::ShortcutController>, or by adding accelerators
-to global actions using C<.set-accels-for-action() in class Gnome::Gtk4::Application>.
+binding using C<.add-binding()> in class B<Gnome::Gtk4::ShortcutController>], or by adding accelerators
+to global actions using C<.set-accels-for-action()> in class B<Gnome::Gtk4::Application>].
 
 But it is possible to create your own shortcut controller, and add
 shortcuts to it.
@@ -46,17 +46,13 @@ An example of a UI definition fragment with B<Gnome::Gtk4::ShortcutController>:
 =end comment
 
 This example creates a B<Gnome::Gtk4::ActivateAction> for triggering the
-B<activate> signal of the B<Gnome::Gtk4::Button>. See C<.parse-string() in class Gnome::Gtk4::ShortcutAction>
+B<activate> signal of the B<Gnome::Gtk4::Button>. See C<.parse-string()> in class B<Gnome::Gtk4::ShortcutAction>
 for the syntax for other kinds of B<Gnome::Gtk4::ShortcutAction>. See
-C<.parse-string() in class Gnome::Gtk4::ShortcutTrigger> to learn more about the syntax
+C<.parse-string()> in class B<Gnome::Gtk4::ShortcutTrigger> to learn more about the syntax
 for triggers.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/ShortcutController.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -91,7 +87,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new shortcut controller.
 
 =begin code
-method new-shortcutcontroller ( --> Gnome::Gtk4::ShortcutController \)
+method new-shortcutcontroller ( --> Gnome::Gtk4::ShortcutController )
 =end code
 
 =begin comment
@@ -115,7 +111,7 @@ remove individual shortcuts using the shortcut controller api,
 but you can change the contents of the model.
 
 =begin code
-method new-for-model ( N-List() $model --> Gnome::Gtk4::ShortcutController \)
+method new-for-model ( N-List() $model --> Gnome::Gtk4::ShortcutController )
 =end code
 
 =item $model; a B<Gnome::Gio::R-ListModel> containing shortcuts.
@@ -188,7 +184,7 @@ Return value; the controller's mnemonics modifiers.
 
 Gets the scope for when this controller activates its shortcuts.
 
-See C<.set-scope()> for details.
+See C<.set-scope()>] for details.
 
 =begin code
 method get-scope (--> GtkShortcutScope )

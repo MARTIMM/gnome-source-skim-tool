@@ -14,12 +14,8 @@ B<Gnome::Gtk4::NumericSorter> is a B<Gnome::Gtk4::Sorter> that compares numbers.
 To obtain the numbers to compare, this sorter evaluates a
 B<Gnome::Gtk4::Expression>.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/NumericSorter.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -57,7 +53,7 @@ Smaller numbers will be sorted first. You can call
 C<.set-sort-order()> to change this.
 
 =begin code
-method new-numericsorter ( N-Object() $expression --> Gnome::Gtk4::NumericSorter \)
+method new-numericsorter ( N-Object() $expression --> Gnome::Gtk4::NumericSorter )
 =end code
 
 =item $expression; (transfer ownership: full) The expression to evaluate.

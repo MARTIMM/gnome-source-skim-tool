@@ -17,12 +17,8 @@ and re-added in the same [signal C<$Gio>.ListModel::items-changed] emission, it
 stays selected. In particular, this means that changing the sort order of an
 underlying sort model will preserve the selection.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/SingleSelection.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -57,7 +53,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new selection to handle C<$model>.
 
 =begin code
-method new-singleselection ( N-List() $model --> Gnome::Gtk4::SingleSelection \)
+method new-singleselection ( N-List() $model --> Gnome::Gtk4::SingleSelection )
 =end code
 
 =item $model; (transfer ownership: full) the B<Gnome::Gio::R-ListModel> to manage.

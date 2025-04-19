@@ -24,8 +24,8 @@ B<Gnome::Gtk4::ShortcutsWindow> with one or more B<Gnome::Gtk4::ShortcutsSection
 which contain one or more B<Gnome::Gtk4::ShortcutsGroup> instances, which, in turn,
 contain B<Gnome::Gtk4::ShortcutsShortcut> instances.
 
-If you need to add a section programmatically, use C<.add-section()>
-instead of C<.set-child() in class Gnome::Gtk4::Window>, as the shortcuts window manages
+If you need to add a section programmatically, use C<.add-section()>]
+instead of C<.set-child()> in class B<Gnome::Gtk4::Window>], as the shortcuts window manages
 its children directly.
 
 =head2 A simple example:
@@ -61,12 +61,8 @@ The .ui file for this example can be found [here](https://gitlab.gnome.org/GNOME
 B<Gnome::Gtk4::ShortcutsWindow> has a single CSS node with the name B<window> and style
 class `.shortcuts`.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/ShortcutsWindow.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -111,7 +107,7 @@ Adds a section to the shortcuts window.
 This is the programmatic equivalent to using B<Gnome::Gtk4::Builder> and a
 `<child>` tag to add the child.
 
-Using C<.set-child() in class Gnome::Gtk4::Window> is not appropriate as the shortcuts
+Using C<.set-child()> in class B<Gnome::Gtk4::Window>] is not appropriate as the shortcuts
 window manages its children internally.
 
 =begin code

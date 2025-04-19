@@ -54,9 +54,9 @@ The following attributes are used when constructing menu items:
      whether a submenu is open
 =item "hidden-when": a string used to determine when the item will be hidden.
      Possible values include "action-disabled", "action-missing", "macos-menubar".
-     This is mainly useful for exported menus, see C<.set-menubar() in class Gnome::Gtk4::Application>.
+     This is mainly useful for exported menus, see C<.set-menubar()> in class C<Gnome::Gtk4::Application>.
 =item "custom": a string used to match against the ID of a custom child added with
-     C<.add-child()>, C<.add-child() in class Gnome::Gtk4::PopoverMenuBar>,
+     C<.add-child()>, C<.add-child()> in class C<Gnome::Gtk4::PopoverMenuBar>,
      or in the ui file with `<child type="ID">`.
 
 The following attributes are used when constructing sections:
@@ -76,9 +76,9 @@ The following attributes are used when constructing submenus:
 =item "icon": icon name to display
 
 Menu items will also show accelerators, which are usually associated
-with actions via C<.set-accels-for-action() in class Gnome::Gtk4::Application>,
+with actions via C<.set-accels-for-action()> in class C<Gnome::Gtk4::Application>,
 [method C<$WidgetClass>.add_binding_action] or
-C<.add-shortcut() in class Gnome::Gtk4::ShortcutController>.
+C<.add-shortcut()> in class C<Gnome::Gtk4::ShortcutController>.
 
 =head2 CSS Nodes
 
@@ -101,12 +101,8 @@ C<GTK_ACCESSIBLE_ROLE_MENU_ITEM_CHECKBOX> or
 C<GTK_ACCESSIBLE_ROLE_MENU_ITEM_RADIO> roles, depending on the
 action they are connected to.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/PopoverMenu.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -145,7 +141,7 @@ B<Gnome::Gtk4::ApplicationWindow> to which the popover belongs - typically
 by means of being attached to a widget that is contained within
 the B<Gnome::Gtk4::ApplicationWindow>s widget hierarchy.
 
-Actions can also be added using C<.insert-action-group() in class Gnome::Gtk4::Widget>
+Actions can also be added using C<.insert-action-group()> in class C<Gnome::Gtk4::Widget>
 on the menus attach widget or on any of its parent widgets.
 
 This function creates menus with sliding submenus.
@@ -153,7 +149,7 @@ See C<.new-from-model-full()> for a way
 to control this.
 
 =begin code
-method new-from-model ( N-Object() $model --> Gnome::Gtk4::PopoverMenu \)
+method new-from-model ( N-Object() $model --> Gnome::Gtk4::PopoverMenu )
 =end code
 
 =item $model; a B<Gnome::Gio::MenuModel>.
@@ -176,11 +172,11 @@ Creates a B<Gnome::Gtk4::PopoverMenu> and populates it according to C<$model>.
 The created buttons are connected to actions found in the
 action groups that are accessible from the parent widget.
 This includes the B<Gnome::Gtk4::ApplicationWindow> to which the popover
-belongs. Actions can also be added using C<.insert-action-group() in class Gnome::Gtk4::Widget>
+belongs. Actions can also be added using C<.insert-action-group()> in class C<Gnome::Gtk4::Widget>
 on the parent widget or on any of its parent widgets.
 
 =begin code
-method new-from-model-full ( N-Object() $model, UInt $flags --> Gnome::Gtk4::PopoverMenu \)
+method new-from-model-full ( N-Object() $model, UInt $flags --> Gnome::Gtk4::PopoverMenu )
 =end code
 
 =item $model; a B<Gnome::Gio::MenuModel>.

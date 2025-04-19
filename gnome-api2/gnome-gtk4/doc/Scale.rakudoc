@@ -15,7 +15,7 @@ A B<Gnome::Gtk4::Scale> is a slider control used to select a numeric value.
 
 To use it, you’ll probably want to investigate the methods on its base
 class, B<Gnome::Gtk4::Range>, in addition to the methods for B<Gnome::Gtk4::Scale> itself.
-To set the value of a scale, you would normally use C<.set-value() in class Gnome::Gtk4::Range>.
+To set the value of a scale, you would normally use C<.set-value()> in class B<Gnome::Gtk4::Range>].
 To detect changes to the value, you would normally use the
 I<value-changed defined in Range> signal.
 
@@ -28,7 +28,7 @@ changing the layout of the application (such as movie or music players).
 
 B<Gnome::Gtk4::Scale> supports a custom `<marks>` element, which can contain multiple
 `<mark\>` elements. The “value” and “position” attributes have the same
-meaning as C<.add-mark()> parameters of the same name. If
+meaning as C<.add-mark()>] parameters of the same name. If
 the element is not empty, its content is taken as the markup to show at
 the mark. It can be translated with the usual ”translatable” and
 “context” attributes.
@@ -63,11 +63,11 @@ with subnodes named trough and slider.
 The main node gets the style class .fine-tune added when the scale is in
 'fine-tuning' mode.
 
-If the scale has an origin (see C<.set-has-origin()>), there is
+If the scale has an origin (see C<.set-has-origin()>]), there is
 a subnode with name highlight below the trough node that is used for rendering
 the highlighted part of the trough.
 
-If the scale is showing a fill level (see C<.set-show-fill-level() in class Gnome::Gtk4::Range>),
+If the scale is showing a fill level (see C<.set-show-fill-level()> in class B<Gnome::Gtk4::Range>]),
 there is a subnode with name fill below the trough node that is used for
 rendering the filled in part of the trough.
 
@@ -91,12 +91,8 @@ classes similar to the marks node.
 
 B<Gnome::Gtk4::Scale> uses the C<GTK_ACCESSIBLE_ROLE_SLIDER> role.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Scale.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -131,7 +127,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::Scale>.
 
 =begin code
-method new-scale ( GtkOrientation $orientation, N-Object() $adjustment --> Gnome::Gtk4::Scale \)
+method new-scale ( GtkOrientation $orientation, N-Object() $adjustment --> Gnome::Gtk4::Scale )
 =end code
 
 =item $orientation; the scale’s orientation..
@@ -160,10 +156,10 @@ the slider moves when using the arrow keys to adjust the scale
 value.
 
 Note that the way in which the precision is derived works best if C<$step> is a power of ten. If the resulting precision is not suitable
-for your needs, use C<.set-digits()> to correct it.
+for your needs, use C<.set-digits()>] to correct it.
 
 =begin code
-method new-with-range ( GtkOrientation $orientation, Num() $min, Num() $max, Num() $step --> Gnome::Gtk4::Scale \)
+method new-with-range ( GtkOrientation $orientation, Num() $min, Num() $max, Num() $step --> Gnome::Gtk4::Scale )
 =end code
 
 =item $orientation; the scale’s orientation..
@@ -200,7 +196,7 @@ marks value.
 
 If C<$markup> is defined, text is shown next to the tick mark.
 
-To remove marks from a scale, use C<.clear-marks()>.
+To remove marks from a scale, use C<.clear-marks()>].
 
 =begin code
 method add-mark ( Num() $value, GtkPositionType $position, Str $markup )
@@ -396,7 +392,7 @@ is C<False>, you can set I<round-digits defined in Gnome::Gtk4::Range> instead.
 
 Note that rounding to a small number of digits can interfere with
 the smooth autoscrolling that is built into B<Gnome::Gtk4::Scale>. As an alternative,
-you can use C<.set-format-value-func()> to format the displayed
+you can use C<.set-format-value-func()>] to format the displayed
 value yourself.
 
 =begin code
@@ -440,7 +436,6 @@ method set-draw-value ( Bool() $draw-value )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-format-value-func
-This function is not yet available
 
  C<$func> allows you to change how the scale value is displayed.
 
@@ -451,12 +446,12 @@ its own, rounded according to the value of the
 I<digits> property.
 
 =begin code
-method set-format-value-func ( &func, gpointer $user-data, … )
+method set-format-value-func ( GtkScaleFormatValueFunc &func, gpointer $user-data, GDestroyNotify &destroy-notify )
 =end code
 
-=item &func; function that formats the value. Tthe function must be specified with following signature; C<:( N-Object $scale, gdouble $value, gpointer $user-data --> Str )>.
+=item GtkScaleFormatValueFunc &func; function that formats the value. The function must be specified with the following signature; C<:( N-Object $scale, gdouble $value, gpointer $user-data )>.
 =item $user-data; user data to pass to C<$func>.
-=item destroy-notify; destroy function for C<$user-data>. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &destroy-notify; destroy function for C<$user-data>. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 
