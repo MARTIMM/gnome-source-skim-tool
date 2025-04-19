@@ -263,10 +263,11 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
 
   my Str ( $package, $class, $funcname);
 
-  my token package { <-[\.\]]>+ }
-  my token class { <-[\.\]]>+ }
-  my token funcname { <-[\]]>+  }
-  my regex mfunc-regex { '[method@' <package> '.' <class> '.' <funcname> ']' }
+  my token package { <-[\.\]\s]>+ }
+  my token class { <-[\.\]\s]>+ }
+  my token funcname { <-[\]\s]>+  }
+  # in some of the source files, the closing bracket ']' is missing.
+  my regex mfunc-regex { '[method@' <package> '.' <class> '.' <funcname> ']'? <|w> }
   while $text ~~ m/ <mfunc-regex> / {
 #note "$?LINE $/.gist()";
     $package = $/<mfunc-regex><package>.Str;
@@ -288,7 +289,7 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
     else {
       my Hash $h = $!solve.search-name($package ~ $class);
       my $classname = $!solve.set-object-name($h);
-      $text ~~ s/ <mfunc-regex> /C<.$funcname\(\)> in class C<$classname>/;
+      $text ~~ s/ <mfunc-regex> /C<.$funcname\(\)> in class B<$classname>/;
     }
   }
 
@@ -309,7 +310,7 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
     else {
       my Hash $h = $!solve.search-name($package ~ $class);
       my $classname = $!solve.set-object-name($h);
-      $text ~~ s/ <cfunc-regex> /C<.$funcname\(\)> in class C<$classname>/;
+      $text ~~ s/ <cfunc-regex> /C<.$funcname\(\)> in class B<$classname>/;
     }
   }
 
