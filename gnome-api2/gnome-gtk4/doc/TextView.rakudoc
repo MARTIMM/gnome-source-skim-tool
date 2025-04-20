@@ -45,12 +45,8 @@ of the main node.
 
 B<Gnome::Gtk4::TextView> uses the C<GTK_ACCESSIBLE_ROLE_TEXT_BOX> role.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/TextView.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -84,13 +80,13 @@ Create an object using a native object from an object of the same type found els
 
 Creates a new B<Gnome::Gtk4::TextView>.
 
-If you don’t call C<.set-buffer()> before using the
+If you don’t call C<.set-buffer()>] before using the
 text view, an empty default buffer will be created for you. Get the
-buffer with C<.get-buffer()>. If you want to specify
+buffer with C<.get-buffer()>]. If you want to specify
 your own buffer, consider C<.new-with-buffer()>.
 
 =begin code
-method new-textview ( --> Gnome::Gtk4::TextView \)
+method new-textview ( --> Gnome::Gtk4::TextView )
 =end code
 
 =begin comment
@@ -114,7 +110,7 @@ to C<.newtextview()>. The text view adds its own reference count
 to the buffer; it does not take over an existing reference.
 
 =begin code
-method new-with-buffer ( N-Object() $buffer --> Gnome::Gtk4::TextView \)
+method new-with-buffer ( N-Object() $buffer --> Gnome::Gtk4::TextView )
 =end code
 
 =item $buffer; a B<Gnome::Gtk4::TextBuffer>.
@@ -165,7 +161,7 @@ method add-child-at-anchor ( N-Object() $child, N-Object() $anchor )
 Adds C<$child> at a fixed coordinate in the B<Gnome::Gtk4::TextView>'s text window.
 
 The C<$xpos> and C<$ypos> must be in buffer coordinates (see
-C<.get-iter-location()> to convert to
+C<.get-iter-location()>] to convert to
 buffer coordinates).
  C<$child> will scroll with the text view.
 
@@ -344,7 +340,7 @@ Return value; C<True> if C<$iter> was moved and is not on the end iterator.
 
 Returns whether pressing the <kbd>Tab</kbd> key inserts a tab characters.
 
-See C<.set-accepts-tab()>.
+See C<.set-accepts-tab()>].
 
 =begin code
 method get-accepts-tab (--> Bool )
@@ -429,7 +425,7 @@ returned locations will be adjusted to account for the preedit
 cursor’s offset within the preedit sequence.
 
 The rectangle position is in buffer coordinates; use
-C<.buffer-to-window-coords()> to convert these
+C<.buffer-to-window-coords()>] to convert these
 coordinates to coordinates for one of the windows in the text view.
 
 =begin code
@@ -521,7 +517,7 @@ Return value; the menu model.
 
 Gets a B<Gnome::Gtk4::Widget> that has previously been set as gutter.
 
-See C<.set-gutter()>.
+See C<.set-gutter()>].
  C<$win> must be one of C<GTK_TEXT_WINDOW_LEFT>, C<GTK_TEXT_WINDOW_RIGHT>,
 C<GTK_TEXT_WINDOW_TOP>, or C<GTK_TEXT_WINDOW_BOTTOM>.
 
@@ -617,7 +613,7 @@ Retrieves the iterator at buffer coordinates C<$x> and C<$y>.
 Buffer coordinates are coordinates for the entire buffer, not just
 the currently-displayed portion. If you have coordinates from an
 event, you have to convert those to buffer coordinates with
-C<.window-to-buffer-coords()>.
+C<.window-to-buffer-coords()>].
 
 =begin code
 method get-iter-at-location ( N-Object $iter, Int() $x, Int() $y --> Bool )
@@ -648,9 +644,9 @@ coordinates C<$x> and C<$y>.
 Buffer coordinates are coordinates for the entire buffer, not just
 the currently-displayed portion. If you have coordinates from an event,
 you have to convert those to buffer coordinates with
-C<.window-to-buffer-coords()>.
+C<.window-to-buffer-coords()>].
 
-Note that this is different from C<.get-iter-at-location()>,
+Note that this is different from C<.get-iter-at-location()>],
 which returns cursor locations, i.e. positions between characters.
 
 =begin code
@@ -683,7 +679,7 @@ Return value; C<True> if the position is over text.
 Gets a rectangle which roughly contains the character at C<$iter>.
 
 The rectangle position is in buffer coordinates; use
-C<.buffer-to-window-coords()> to convert these
+C<.buffer-to-window-coords()>] to convert these
 coordinates to coordinates for one of the windows in the text view.
 
 =begin code
@@ -755,7 +751,7 @@ Return value; left margin in pixels.
 Gets the B<Gnome::Gtk4::N-TextIter> at the start of the line containing
 the coordinate C<$y>.
  C<$y> is in buffer coordinates, convert from window coordinates with
-C<.window-to-buffer-coords()>. If non-undefined, C<$line-top> will be filled with the coordinate of the top edge
+C<.window-to-buffer-coords()>]. If non-undefined, C<$line-top> will be filled with the coordinate of the top edge
 of the line.
 
 =begin code
@@ -783,7 +779,7 @@ Gets the y coordinate of the top of the line containing C<$iter>,
 and the height of the line.
 
 The coordinate is a buffer coordinate; convert to window
-coordinates with C<.buffer-to-window-coords()>.
+coordinates with C<.buffer-to-window-coords()>].
 
 =begin code
 method get-line-yrange ( N-Object $iter, Array[Int] $y, Array[Int] $height )
@@ -874,7 +870,7 @@ Return value; whether C<$text-view> is in overwrite mode or not..
 
 Gets the default number of pixels to put above paragraphs.
 
-Adding this function with C<.get-pixels-below-lines()>
+Adding this function with C<.get-pixels-below-lines()>]
 is equal to the line space between each paragraph.
 
 =begin code
@@ -899,7 +895,7 @@ Return value; default number of pixels above paragraphs.
 Gets the default number of pixels to put below paragraphs.
 
 The line space is the sum of the value returned by this function and
-the value returned by C<.get-pixels-above-lines()>.
+the value returned by C<.get-pixels-above-lines()>].
 
 =begin code
 method get-pixels-below-lines (--> Int )
@@ -993,7 +989,7 @@ Gets the default tabs for C<$text-view>.
 
 Tags in the buffer may override the defaults. The returned array
 will be undefined if “standard” (8-space) tabs are used. Free the
-return value with C<.free() in class Gnome::Pango::N-TabArray>.
+return value with C<.free()> in class B<Gnome::Pango::N-TabArray>].
 
 =begin code
 method get-tabs (--> N-Object )
@@ -1001,7 +997,7 @@ method get-tabs (--> N-Object )
 
 Return value; copy of default tab array,
   or undefined if standard tabs are used; must be freed with
-  C<.free() in class Gnome::Pango::N-TabArray>.. 
+  C<.free()> in class B<Gnome::Pango::N-TabArray>].. 
 
 =begin comment
 
@@ -1041,7 +1037,7 @@ Fills C<$visible-rect> with the currently-visible
 region of the buffer, in buffer coordinates.
 
 Convert to window coordinates with
-C<.buffer-to-window-coords()>.
+C<.buffer-to-window-coords()>].
 
 =begin code
 method get-visible-rect ( N-Object $visible-rect )
@@ -1087,7 +1083,7 @@ Allow the B<Gnome::Gtk4::TextView> input method to internally handle key press
 and release events.
 
 If this function returns C<True>, then no further processing should be
-done for this key event. See C<.filter-keypress() in class Gnome::Gtk4::IMContext>.
+done for this key event. See C<.filter-keypress()> in class B<Gnome::Gtk4::IMContext>].
 
 Note that you are expected to call this function from your handler
 when overriding key event handling. This is needed in the case when
@@ -1163,13 +1159,13 @@ Return value; C<True> if the mark moved (wasn’t already onscreen).
 
 Updates the position of a child.
 
-See C<.add-overlay()>.
+See C<.add-overlay()>].
 
 =begin code
 method move-overlay ( N-Object() $child, Int() $xpos, Int() $ypos )
 =end code
 
-=item $child; a widget already added with C<.add-overlay()>.
+=item $child; a widget already added with C<.add-overlay()>].
 =item $xpos; new X position in buffer coordinates.
 =item $ypos; new Y position in buffer coordinates.
 
@@ -1348,7 +1344,7 @@ Note that this function uses the currently-computed height of the
 lines in the text buffer. Line heights are computed in an idle
 handler; so this function may not have the desired effect if it’s
 called before the height computations. To avoid oddness, consider
-using C<.scroll-to-mark()> which saves a point to be
+using C<.scroll-to-mark()>] which saves a point to be
 scrolled to after line validation.
 
 =begin code
@@ -1918,7 +1914,7 @@ method set-wrap-mode ( GtkWrapMode $wrap-mode )
 
 Determines whether C<$iter> is at the start of a display line.
 
-See C<.forward-display-line()> for an
+See C<.forward-display-line()>] for an
 explanation of display lines vs. paragraphs.
 
 =begin code

@@ -24,12 +24,8 @@ selection, or input. If you are writing a full-fledged video player,
 you may want to use the B<Gnome::Gdk4::R-Paintable> API and a media framework
 such as Gstreamer directly.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Video.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -64,7 +60,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new empty B<Gnome::Gtk4::Video>.
 
 =begin code
-method new-video ( --> Gnome::Gtk4::Video \)
+method new-video ( --> Gnome::Gtk4::Video )
 =end code
 
 =begin comment
@@ -83,7 +79,7 @@ method new-video ( --> Gnome::Gtk4::Video \)
 Creates a B<Gnome::Gtk4::Video> to play back the given C<$file>.
 
 =begin code
-method new-for-file ( N-Object() $file --> Gnome::Gtk4::Video \)
+method new-for-file ( N-Object() $file --> Gnome::Gtk4::Video )
 =end code
 
 =item $file; a B<Gnome::Gio::R-File>.
@@ -107,7 +103,7 @@ This is a utility function that calls C<.new-for-file()>,
 See that function for details.
 
 =begin code
-method new-for-filename ( Str $filename --> Gnome::Gtk4::Video \)
+method new-for-filename ( Str $filename --> Gnome::Gtk4::Video )
 =end code
 
 =item $filename; filename to play back.
@@ -128,7 +124,7 @@ method new-for-filename ( Str $filename --> Gnome::Gtk4::Video \)
 Creates a B<Gnome::Gtk4::Video> to play back the given C<$stream>.
 
 =begin code
-method new-for-media-stream ( N-Object() $stream --> Gnome::Gtk4::Video \)
+method new-for-media-stream ( N-Object() $stream --> Gnome::Gtk4::Video )
 =end code
 
 =item $stream; a B<Gnome::Gtk4::MediaStream>.
@@ -152,7 +148,7 @@ given C<$resource-path>.
 This is a utility function that calls C<.new-for-file()>.
 
 =begin code
-method new-for-resource ( Str $resource-path --> Gnome::Gtk4::Video \)
+method new-for-resource ( Str $resource-path --> Gnome::Gtk4::Video )
 =end code
 
 =item $resource-path; resource path to play back.
@@ -403,7 +399,7 @@ Sets the media stream to be played back.
 want to manage a media stream yourself, consider using a
 B<Gnome::Gtk4::Picture> for display.
 
-If you want to display a file, consider using C<.set-file()>
+If you want to display a file, consider using C<.set-file()>]
 instead.
 
 =begin code
@@ -420,7 +416,7 @@ method set-media-stream ( N-Object() $stream )
 
 Makes C<$self> play the resource at the given C<$resource-path>.
 
-This is a utility function that calls C<.set-file()>.
+This is a utility function that calls C<.set-file()>].
 
 =begin code
 method set-resource ( Str $resource-path )

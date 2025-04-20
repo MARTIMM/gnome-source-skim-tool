@@ -24,12 +24,8 @@ gtk_column_view_set_model (view, G_LIST_MODEL (selection));
 
 =end comment
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/TreeListRowSorter.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -68,7 +64,7 @@ Note that this sorter relies on I<passthrough defined in Gnome::Gtk4::TreeListMo
 being C<False> as it can only sort B<Gnome::Gtk4::TreeListRow>s.
 
 =begin code
-method new-treelistrowsorter ( N-Object() $sorter --> Gnome::Gtk4::TreeListRowSorter \)
+method new-treelistrowsorter ( N-Object() $sorter --> Gnome::Gtk4::TreeListRowSorter )
 =end code
 
 =item $sorter; (transfer ownership: full) a B<Gnome::Gtk4::Sorter>.

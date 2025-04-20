@@ -36,12 +36,8 @@ gtk_tree_store_new (3, G_TYPE_INT, G_TYPE_STRING, GDK_TYPE_TEXTURE);
 
 =end comment
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/TreeStore.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -104,7 +100,7 @@ will create a new B<Gnome::Gtk4::TreeStore> with three columns of type
 B<int>, B<gchararray>, and B<Gnome::Gdk4::Texture> respectively.
 
 =begin code
-method new-treestore ( Int() $n-columns, … --> Gnome::Gtk4::TreeStore \)
+method new-treestore ( Int() $n-columns, … --> Gnome::Gtk4::TreeStore )
 =end code
 
 =item $n-columns; number of columns in the tree store.
@@ -131,7 +127,7 @@ Creates a new tree store.
 This constructor is meant for language bindings.
 
 =begin code
-method newv ( Int() $n-columns, … --> Gnome::Gtk4::TreeStore \)
+method newv ( Int() $n-columns, … --> Gnome::Gtk4::TreeStore )
 =end code
 
 =item $n-columns; number of columns in the tree store.

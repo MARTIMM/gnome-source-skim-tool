@@ -34,8 +34,8 @@ These are:
 Several functions are available for converting between the different
 coordinate systems.  The most common translations are between widget and bin
 window coordinates and between bin window and tree coordinates. For the
-former you can use C<.convert-widget-to-bin-window-coords()>
-(and vice versa), for the latter C<.convert-bin-window-to-tree-coords()>
+former you can use C<.convert-widget-to-bin-window-coords()>]
+(and vice versa), for the latter C<.convert-bin-window-to-tree-coords()>]
 (and vice versa).
 
 ## B<Gnome::Gtk4::TreeView> as B<Gnome::Gtk4::R-Buildable>
@@ -98,12 +98,8 @@ For rubberband selection, a subnode with name B<rubberband> is used.
 
 For the drop target location during DND, a subnode with name B<dndtarget> is used.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/TreeView.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -142,7 +138,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Creates a new B<Gnome::Gtk4::TreeView> widget.
 
 =begin code
-method new-treeview ( --> Gnome::Gtk4::TreeView \)
+method new-treeview ( --> Gnome::Gtk4::TreeView )
 =end code
 
 =begin comment
@@ -163,7 +159,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Creates a new B<Gnome::Gtk4::TreeView> widget with the model initialized to C<$model>.
 
 =begin code
-method new-with-model ( N-Object() $model --> Gnome::Gtk4::TreeView \)
+method new-with-model ( N-Object() $model --> Gnome::Gtk4::TreeView )
 =end code
 
 =item $model; the model..
@@ -446,7 +442,7 @@ method convert-widget-to-tree-coords ( Int() $wx, Int() $wy, Array[Int] $tx, Arr
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Creates a B<Gnome::Cairo::N-Context> representation of the row at C<$path>.
+Creates a B<Cairo::cairo_surface_t> representation of the row at C<$path>.
 This image is used for a drag icon.
 
 =begin code
@@ -1521,7 +1517,6 @@ Return value; The number of columns in C<$tree-view> after insertion..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 insert-column-with-data-func
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -1533,15 +1528,15 @@ If C<$tree-view> has “fixed_height” mode enabled, then the new column will h
 “sizing” property set to be GTK_TREE_VIEW_COLUMN_FIXED.
 
 =begin code
-method insert-column-with-data-func ( Int() $position, Str $title, N-Object() $cell, &func, gpointer $data, … --> Int )
+method insert-column-with-data-func ( Int() $position, Str $title, N-Object() $cell, GtkTreeCellDataFunc &func, gpointer $data, GDestroyNotify &dnotify --> Int )
 =end code
 
 =item $position; Position to insert, -1 for append.
 =item $title; column title.
 =item $cell; cell renderer for column.
-=item &func; function to set attributes of cell renderer. Tthe function must be specified with following signature; C<:( N-Object $tree-column, N-Object $cell, N-Object $tree-model, N-Object $iter, gpointer $data )>.
+=item GtkTreeCellDataFunc &func; function to set attributes of cell renderer. The function must be specified with the following signature; C<:( N-Object $tree-column, N-Object $cell, N-Object $tree-model, N-Object $iter, gpointer $data )>.
 =item $data; data for C<$func>.
-=item dnotify; destroy notifier for C<$data>. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &dnotify; destroy notifier for C<$data>. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 Return value; number of columns in the tree view post-insert. 
 
@@ -1639,10 +1634,10 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Calls C<$func> on all expanded rows.
 
 =begin code
-method map-expanded-rows ( &func, gpointer $data )
+method map-expanded-rows ( GtkTreeViewMappingFunc &func, gpointer $data )
 =end code
 
-=item &func; A function to be called. Tthe function must be specified with following signature; C<:( N-Object $tree-view, N-Object $path, gpointer $user-data )>.
+=item GtkTreeViewMappingFunc &func; A function to be called. The function must be specified with the following signature; C<:( N-Object $tree-view, N-Object $path, gpointer $user-data )>.
 =item $data; User data to be passed to the function..
 
 =begin comment
@@ -1850,7 +1845,6 @@ method set-activate-on-single-click ( Bool() $single )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-column-drag-function
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -1863,12 +1857,12 @@ are undefined, then they indicate an edge.  If C<$func> is set to be undefined, 
 dropped everywhere.
 
 =begin code
-method set-column-drag-function ( &func, gpointer $user-data, … )
+method set-column-drag-function ( GtkTreeViewColumnDropFunc &func, gpointer $user-data, GDestroyNotify &destroy )
 =end code
 
-=item &func; A function to determine which columns are reorderable. Tthe function must be specified with following signature; C<:( N-Object $tree-view, N-Object $column, N-Object $prev-column, N-Object $next-column, gpointer $data --> gboolean )>.
+=item GtkTreeViewColumnDropFunc &func; A function to determine which columns are reorderable. The function must be specified with the following signature; C<:( N-Object $tree-view, N-Object $column, N-Object $prev-column, N-Object $next-column, gpointer $data )>.
 =item $user-data; User data to be passed to C<$func>.
-=item destroy; Destroy notifier for C<$user-data>. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &destroy; Destroy notifier for C<$user-data>. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 
@@ -2293,7 +2287,6 @@ method set-reorderable ( Bool() $reorderable )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-row-separator-func
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -2302,12 +2295,12 @@ whether a row should be drawn as a separator. If the row separator
 function is undefined, no separators are drawn. This is the default value.
 
 =begin code
-method set-row-separator-func ( &func, gpointer $data, … )
+method set-row-separator-func ( GtkTreeViewRowSeparatorFunc &func, gpointer $data, GDestroyNotify &destroy )
 =end code
 
-=item &func; a B<Gnome::Gtk4::TreeView>RowSeparatorFunc. Tthe function must be specified with following signature; C<:( N-Object $model, N-Object $iter, gpointer $data --> gboolean )>.
+=item GtkTreeViewRowSeparatorFunc &func; a B<Gnome::Gtk4::TreeView>RowSeparatorFunc. The function must be specified with the following signature; C<:( N-Object $model, N-Object $iter, gpointer $data )>.
 =item $data; user data to pass to C<$func>.
-=item destroy; destroy notifier for C<$data>. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &destroy; destroy notifier for C<$data>. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 
@@ -2402,7 +2395,6 @@ method set-search-entry ( N-Object() $entry )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-search-equal-func
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -2411,12 +2403,12 @@ that somewhat like strcmp() returning 0 for equality
 B<Gnome::Gtk4::TreeView>SearchEqualFunc returns C<False> on matches.
 
 =begin code
-method set-search-equal-func ( &search-equal-func, gpointer $search-user-data, … )
+method set-search-equal-func ( GtkTreeViewSearchEqualFunc &search-equal-func, gpointer $search-user-data, GDestroyNotify &search-destroy )
 =end code
 
-=item &search-equal-func; the compare function to use during the search. Tthe function must be specified with following signature; C<:( N-Object $model, gint $column, Str $key, N-Object $iter, gpointer $search-data --> gboolean )>.
+=item GtkTreeViewSearchEqualFunc &search-equal-func; the compare function to use during the search. The function must be specified with the following signature; C<:( N-Object $model, gint $column, Str $key, N-Object $iter, gpointer $search-data )>.
 =item $search-user-data; user data to pass to C<$search-equal-func>.
-=item search-destroy; Destroy notifier for C<$search-user-data>. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &search-destroy; Destroy notifier for C<$search-user-data>. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 
@@ -2741,7 +2733,7 @@ Return value; C<True> if C<$step> is supported, C<False> otherwise.
 =head3 row-activated
 
 The "row-activated" signal is emitted when the method
-C<.row-activated()> is called.
+C<.row-activated()>] is called.
 
 This signal is emitted when the user double-clicks a treeview row with the
 I<activate-on-single-click> property set to C<False>,

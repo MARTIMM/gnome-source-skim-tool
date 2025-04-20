@@ -110,12 +110,8 @@ selection_changed (GtkTreeSelection *selection, gpointer data)
 
 =end comment
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/TreeModelSort.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -152,7 +148,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::TreeModelSort>, with C<$child-model> as the child model.
 
 =begin code
-method new-with-model ( N-Object() $child-model --> Gnome::Gtk4::TreeModelSort \)
+method new-with-model ( N-Object() $child-model --> Gnome::Gtk4::TreeModelSort )
 =end code
 
 =item $child-model; A B<Gnome::Gtk4::R-TreeModel>.

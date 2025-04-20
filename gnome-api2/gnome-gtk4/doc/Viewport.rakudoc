@@ -28,12 +28,8 @@ Until GTK 4.10, B<Gnome::Gtk4::Viewport> used the B<GTK_ACCESSIBLE_ROLE_GROUP> r
 
 Starting from GTK 4.12, B<Gnome::Gtk4::Viewport> uses the B<GTK_ACCESSIBLE_ROLE_GENERIC> role.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Viewport.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -71,7 +67,7 @@ The new viewport uses the given adjustments, or default
 adjustments if none are given.
 
 =begin code
-method new-viewport ( N-Object() $hadjustment, N-Object() $vadjustment --> Gnome::Gtk4::Viewport \)
+method new-viewport ( N-Object() $hadjustment, N-Object() $vadjustment --> Gnome::Gtk4::Viewport )
 =end code
 
 =item $hadjustment; horizontal adjustment.

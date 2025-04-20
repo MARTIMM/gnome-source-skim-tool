@@ -19,7 +19,7 @@ related to the text widget and how they work together.
 Tags should be in the B<Gnome::Gtk4::TextTagTable> for a given
 B<Gnome::Gtk4::TextBuffer> before using them with that buffer.
 
-C<.create-tag() in class Gnome::Gtk4::TextBuffer> is the best way to create tags.
+C<.create-tag()> in class B<Gnome::Gtk4::TextBuffer>] is the best way to create tags.
 See “gtk4-demo” for numerous examples.
 
 For each property of B<Gnome::Gtk4::TextTag>, there is a “set” property, e.g.
@@ -28,12 +28,8 @@ whether a property has been set or not.
 
 They are maintained by GTK and you should not set them independently.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/TextTag.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -68,7 +64,7 @@ Create an object using a native object from an object of the same type found els
 Creates a B<Gnome::Gtk4::TextTag>.
 
 =begin code
-method new-texttag ( Str $name --> Gnome::Gtk4::TextTag \)
+method new-texttag ( Str $name --> Gnome::Gtk4::TextTag )
 =end code
 
 =item $name; tag name.
@@ -143,7 +139,7 @@ Return value; The tag’s priority..
 Sets the priority of a B<Gnome::Gtk4::TextTag>.
 
 Valid priorities start at 0 and go to one less than
-C<.get-size() in class Gnome::Gtk4::TextTagTable>. Each tag in a table
+C<.get-size()> in class B<Gnome::Gtk4::TextTagTable>]. Each tag in a table
 has a unique priority; setting the priority of one tag shifts
 the priorities of all the other tags in the table to maintain
 a unique priority for each tag.
@@ -152,7 +148,7 @@ Higher priority tags “win” if two tags both set the same text
 attribute. When adding a tag to a tag table, it will be assigned
 the highest priority in the table by default; so normally the
 precedence of a set of tags is the order in which they were added
-to the table, or created with C<.create-tag() in class Gnome::Gtk4::TextBuffer>,
+to the table, or created with C<.create-tag()> in class B<Gnome::Gtk4::TextBuffer>],
 which adds the tag to the buffer’s table automatically.
 
 =begin code

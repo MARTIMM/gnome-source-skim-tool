@@ -21,12 +21,8 @@ objects, such as the B<Gnome::Gtk4::TreeExpander> widget that allows displaying
 an icon to expand or collapse a row or B<Gnome::Gtk4::TreeListRowSorter> that
 makes it possible to sort trees properly.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/TreeListRow.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -244,7 +240,7 @@ Return value; The position in the model.
 Checks if a row can be expanded.
 
 This does not mean that the row is actually expanded,
-this can be checked with C<.get-expanded()>.
+this can be checked with C<.get-expanded()>].
 
 If a row is expandable never changes until the row is removed
 from its model at which point it will forever return C<False>.

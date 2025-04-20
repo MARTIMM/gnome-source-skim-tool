@@ -20,11 +20,11 @@ to pack a widget, (such as a B<Gnome::Gtk4::Label> and/or a B<Gnome::Gtk4::Image
 button’s container. (See B<Gnome::Gtk4::Button> for more information).
 
 The state of a B<Gnome::Gtk4::ToggleButton> can be set specifically using
-C<.set-active()>, and retrieved using
-C<.get-active()>.
+C<.set-active()>], and retrieved using
+C<.get-active()>].
 
 To simply switch the state of a toggle button, use
-C<.toggled()>.
+C<.toggled()>].
 
 =head3 Grouping
 
@@ -32,7 +32,7 @@ Toggle buttons can be grouped together, to form mutually exclusive
 groups - only one of the buttons can be toggled at a time, and toggling
 another one will switch the currently toggled one off.
 
-To add a B<Gnome::Gtk4::ToggleButton> to a group, use C<.set-group()>.
+To add a B<Gnome::Gtk4::ToggleButton> to a group, use C<.set-group()>].
 
 =head3 CSS nodes
 
@@ -86,12 +86,8 @@ make_toggles (void)
 
 =end comment
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/ToggleButton.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -125,10 +121,10 @@ Create an object using a native object from an object of the same type found els
 
 Creates a new toggle button.
 
-A widget should be packed into the button, as in C<.newtogglebutton() in class Gnome::Gtk4::Button>.
+A widget should be packed into the button, as in C<.newtogglebutton()> in class B<Gnome::Gtk4::Button>.
 
 =begin code
-method new-togglebutton ( --> Gnome::Gtk4::ToggleButton \)
+method new-togglebutton ( --> Gnome::Gtk4::ToggleButton )
 =end code
 
 =begin comment
@@ -147,7 +143,7 @@ method new-togglebutton ( --> Gnome::Gtk4::ToggleButton \)
 Creates a new toggle button with a text label.
 
 =begin code
-method new-with-label ( Str $label --> Gnome::Gtk4::ToggleButton \)
+method new-with-label ( Str $label --> Gnome::Gtk4::ToggleButton )
 =end code
 
 =item $label; a string containing the message to be placed in the toggle button..
@@ -167,11 +163,11 @@ method new-with-label ( Str $label --> Gnome::Gtk4::ToggleButton \)
 
 Creates a new B<Gnome::Gtk4::ToggleButton> containing a label.
 
-The label will be created using C<.new-with-mnemonic() in class Gnome::Gtk4::Label>,
+The label will be created using C<.new-with-mnemonic()> in class B<Gnome::Gtk4::Label>,
 so underscores in C<$label> indicate the mnemonic for the button.
 
 =begin code
-method new-with-mnemonic ( Str $label --> Gnome::Gtk4::ToggleButton \)
+method new-with-mnemonic ( Str $label --> Gnome::Gtk4::ToggleButton )
 =end code
 
 =item $label; the text of the button, with an underscore in front of the

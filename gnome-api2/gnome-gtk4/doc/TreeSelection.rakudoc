@@ -35,12 +35,8 @@ Additionally, it may on occasion emit a B<Gnome::Gtk4::TreeSelection>::changed s
 when nothing has happened (mostly as a result of programmers calling
 select_row on an already selected row).
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/TreeSelection.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -413,10 +409,10 @@ the tree or selection from within this function. As a result,
 C<.get-selected-rows()> might be more useful.
 
 =begin code
-method selected-foreach ( &func, gpointer $data )
+method selected-foreach ( GtkTreeSelectionForeachFunc &func, gpointer $data )
 =end code
 
-=item &func; The function to call for each selected node.. Tthe function must be specified with following signature; C<:( N-Object $model, N-Object $path, N-Object $iter, gpointer $data )>.
+=item GtkTreeSelectionForeachFunc &func; The function to call for each selected node.. The function must be specified with the following signature; C<:( N-Object $model, N-Object $path, N-Object $iter, gpointer $data )>.
 =item $data; user data to pass to the function..
 
 =begin comment
@@ -456,7 +452,6 @@ method set-mode ( GtkSelectionMode $type )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-select-function
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -468,12 +463,12 @@ should return C<True> if the state of the node may be toggled, and C<False>
 if the state of the node should be left unchanged.
 
 =begin code
-method set-select-function ( &func, gpointer $data, … )
+method set-select-function ( GtkTreeSelectionFunc &func, gpointer $data, GDestroyNotify &destroy )
 =end code
 
-=item &func; The selection function. May be undefined. Tthe function must be specified with following signature; C<:( N-Object $selection, N-Object $model, N-Object $path, gboolean $path-currently-selected, gpointer $data --> gboolean )>.
+=item GtkTreeSelectionFunc &func; The selection function. May be undefined. The function must be specified with the following signature; C<:( N-Object $selection, N-Object $model, N-Object $path, gboolean $path-currently-selected, gpointer $data )>.
 =item $data; The selection function’s data. May be undefined.
-=item destroy; The destroy function for user data.  May be undefined. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &destroy; The destroy function for user data.  May be undefined. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 

@@ -77,12 +77,8 @@ because it does not implement reference counting, or for models that
 do implement reference counting, obtain references on these child levels
 yourself.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/TreeModelFilter.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -319,14 +315,14 @@ Note that C<.set-modify-func()>
 can only be called once for a given filter model.
 
 =begin code
-method set-modify-func ( Int() $n-columns, …, &func, gpointer $data, … )
+method set-modify-func ( Int() $n-columns, …, GtkTreeModelFilterModifyFunc &func, gpointer $data, GDestroyNotify &destroy )
 =end code
 
 =item $n-columns; The number of columns in the filter model..
 =item types; The B<Gnome::GObject::TreeModelFilter>s of the columns.. Note that each argument must be specified as a type followed by its value!
-=item &func; A B<Gnome::Gtk4::T-treemodelfilter>. Tthe function must be specified with following signature; C<:( N-Object $model, N-Object $iter, N-Object $value, gint $column, gpointer $data )>.
+=item GtkTreeModelFilterModifyFunc &func; A B<Gnome::Gtk4::T-treemodelfilter>. The function must be specified with the following signature; C<:( N-Object $model, N-Object $iter, N-Object $value, gint $column, gpointer $data )>.
 =item $data; User data to pass to the modify function.
-=item destroy; Destroy notifier of C<$data>. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &destroy; Destroy notifier of C<$data>. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 
@@ -370,7 +366,6 @@ method set-visible-column ( Int() $column )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-visible-func
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -413,12 +408,12 @@ C<.set-visible-column()> can only be called
 once for a given filter model.
 
 =begin code
-method set-visible-func ( &func, gpointer $data, … )
+method set-visible-func ( GtkTreeModelFilterVisibleFunc &func, gpointer $data, GDestroyNotify &destroy )
 =end code
 
-=item &func; A B<Gnome::Gtk4::T-treemodelfilter>, the visible function. Tthe function must be specified with following signature; C<:( N-Object $model, N-Object $iter, gpointer $data --> gboolean )>.
+=item GtkTreeModelFilterVisibleFunc &func; A B<Gnome::Gtk4::T-treemodelfilter>, the visible function. The function must be specified with the following signature; C<:( N-Object $model, N-Object $iter, gpointer $data )>.
 =item $data; User data to pass to the visible function.
-=item destroy; Destroy notifier of C<$data>. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &destroy; Destroy notifier of C<$data>. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 

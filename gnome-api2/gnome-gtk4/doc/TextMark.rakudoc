@@ -19,7 +19,7 @@ related to the text widget and how they work together.
 
 A B<Gnome::Gtk4::TextMark> is like a bookmark in a text buffer; it preserves
 a position in the text. You can convert the mark to an iterator using
-C<.get-iter-at-mark() in class Gnome::Gtk4::TextBuffer>. Unlike iterators, marks remain
+C<.get-iter-at-mark()> in class B<Gnome::Gtk4::TextBuffer>]. Unlike iterators, marks remain
 valid across buffer mutations, because their behavior is defined when
 text is inserted or deleted. When text containing a mark is deleted,
 the mark remains in the position originally occupied by the deleted
@@ -34,21 +34,17 @@ displayed.
 
 Marks are reference counted, but the reference count only controls
 the validity of the memory; marks can be deleted from the buffer at
-any time with C<.delete-mark() in class Gnome::Gtk4::TextBuffer>. Once deleted from
+any time with C<.delete-mark()> in class B<Gnome::Gtk4::TextBuffer>]. Once deleted from
 the buffer, a mark is essentially useless.
 
 Marks optionally have names; these can be convenient to avoid passing
 the B<Gnome::Gtk4::TextMark> object around.
 
-Marks are typically created using the C<.create-mark() in class Gnome::Gtk4::TextBuffer>
+Marks are typically created using the C<.create-mark()> in class B<Gnome::Gtk4::TextBuffer>]
 function.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/TextMark.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -82,9 +78,9 @@ Create an object using a native object from an object of the same type found els
 
 Creates a text mark.
 
-Add it to a buffer using C<.add-mark() in class Gnome::Gtk4::TextBuffer>.
+Add it to a buffer using C<.add-mark()> in class B<Gnome::Gtk4::TextBuffer>].
 If C<$name> is undefined, the mark is anonymous; otherwise, the mark can be
-retrieved by name using C<.get-mark() in class Gnome::Gtk4::TextBuffer>. If a mark
+retrieved by name using C<.get-mark()> in class B<Gnome::Gtk4::TextBuffer>]. If a mark
 has left gravity, and text is inserted at the mark’s current location,
 the mark will be moved to the left of the newly-inserted text. If the
 mark has right gravity ( C<$left-gravity> = C<False>), the mark will end up
@@ -93,7 +89,7 @@ is a mark with right gravity (when you type, the cursor stays on the
 right side of the text you’re typing).
 
 =begin code
-method new-textmark ( Str $name, Bool() $left-gravity --> Gnome::Gtk4::TextMark \)
+method new-textmark ( Str $name, Bool() $left-gravity --> Gnome::Gtk4::TextMark )
 =end code
 
 =item $name; mark name.
@@ -145,7 +141,7 @@ Return value; the mark’s B<Gnome::Gtk4::TextBuffer>.
 
 Returns C<True> if the mark has been removed from its buffer.
 
-See C<.add-mark() in class Gnome::Gtk4::TextBuffer> for a way to add it
+See C<.add-mark()> in class B<Gnome::Gtk4::TextBuffer>] for a way to add it
 to a buffer again.
 
 =begin code

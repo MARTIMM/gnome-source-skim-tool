@@ -30,12 +30,8 @@ of recursion when this happens. If you do this however, ensure that the
 I<can-shrink defined in Gnome::Gtk4::Picture> property is set to C<True> or you might
 end up with an infinitely growing widget.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/WidgetPaintable.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -70,7 +66,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new widget paintable observing the given widget.
 
 =begin code
-method new-widgetpaintable ( N-Object() $widget --> Gnome::Gtk4::WidgetPaintable \)
+method new-widgetpaintable ( N-Object() $widget --> Gnome::Gtk4::WidgetPaintable )
 =end code
 
 =item $widget; a B<Gnome::Gtk4::Widget>.

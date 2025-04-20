@@ -27,20 +27,6 @@ An enum for determining where a dropped row goes.
 
 =begin pod
 =head1 Callback Functions
-=head2 TreeViewSearchEqualFunc
-
-=head3 Signature
-=begin code
-:(  N-Object() $model, Int() $column, Str $key, N-Object $iter, gpointer $search-data  )
-=end code
-
-=item model; the B<Gnome::Gtk4::R-TreeModel> being searched
-=item column; the search column set by gtk_tree_view_set_search_column()
-=item key; the key string to compare with
-=item iter; a B<Gnome::Gtk4::N-TreeIter> pointing the row of C<$model> that should be compared
- with C<$key>.
-=item search-data; user data from gtk_tree_view_set_search_equal_func()
-
 =head2 TreeViewMappingFunc
 
 =head3 Signature
@@ -48,22 +34,23 @@ An enum for determining where a dropped row goes.
 :(  N-Object() $tree-view, N-Object $path, gpointer $user-data  )
 =end code
 
-=item tree-view; A B<Gnome::Gtk4::TreeView>
-=item path; The path that’s expanded
-=item user-data; user data
+=item $tree-view; A B<Gnome::Gtk4::TreeView>
+=item $path; The path that’s expanded
+=item $user-data; user data
 
-=head2 TreeViewColumnDropFunc
+=head2 TreeViewSearchEqualFunc
 
 =head3 Signature
 =begin code
-:(  N-Object() $tree-view, N-Object() $column, N-Object() $prev-column, N-Object() $next-column, gpointer $data  )
+:(  N-Object() $model, Int() $column, Str $key, N-Object $iter, gpointer $search-data  )
 =end code
 
-=item tree-view; A B<Gnome::Gtk4::TreeView>
-=item column; The B<Gnome::Gtk4::TreeViewColumn> being dragged
-=item prev-column; A B<Gnome::Gtk4::TreeViewColumn> on one side of C<$column>
-=item next-column; A B<Gnome::Gtk4::TreeViewColumn> on the other side of C<$column>
-=item data; user data
+=item $model; the B<Gnome::Gtk4::R-TreeModel> being searched
+=item $column; the search column set by gtk_tree_view_set_search_column()
+=item $key; the key string to compare with
+=item $iter; a B<Gnome::Gtk4::N-TreeIter> pointing the row of C<$model> that should be compared
+ with C<$key>.
+=item $search-data; user data from gtk_tree_view_set_search_equal_func()
 
 =head2 TreeViewRowSeparatorFunc
 
@@ -72,8 +59,21 @@ An enum for determining where a dropped row goes.
 :(  N-Object() $model, N-Object $iter, gpointer $data  )
 =end code
 
-=item model; the B<Gnome::Gtk4::R-TreeModel>
-=item iter; a B<Gnome::Gtk4::N-TreeIter> pointing at a row in C<$model>
-=item data; user data
+=item $model; the B<Gnome::Gtk4::R-TreeModel>
+=item $iter; a B<Gnome::Gtk4::N-TreeIter> pointing at a row in C<$model>
+=item $data; user data
+
+=head2 TreeViewColumnDropFunc
+
+=head3 Signature
+=begin code
+:(  N-Object() $tree-view, N-Object() $column, N-Object() $prev-column, N-Object() $next-column, gpointer $data  )
+=end code
+
+=item $tree-view; A B<Gnome::Gtk4::TreeView>
+=item $column; The B<Gnome::Gtk4::TreeViewColumn> being dragged
+=item $prev-column; A B<Gnome::Gtk4::TreeViewColumn> on one side of C<$column>
+=item $next-column; A B<Gnome::Gtk4::TreeViewColumn> on the other side of C<$column>
+=item $data; user data
 
 =end pod

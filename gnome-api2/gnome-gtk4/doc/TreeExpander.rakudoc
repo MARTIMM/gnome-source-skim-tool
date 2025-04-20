@@ -27,9 +27,9 @@ inside the list to make use of the keybindings.
 
 The B<Gnome::Gtk4::TreeListModel> must be set to not be passthrough. Then it
 will provide B<Gnome::Gtk4::TreeListRow> items which can be set via
-C<.set-list-row()> on the expander.
+C<.set-list-row()>] on the expander.
 The expander will then watch that row item automatically.
-C<.set-child()> sets the widget that displays
+C<.set-child()>] sets the widget that displays
 the actual row contents.
 
 B<Gnome::Gtk4::TreeExpander> can be modified with properties such as
@@ -57,12 +57,8 @@ Until GTK 4.10, B<Gnome::Gtk4::TreeExpander> used the B<GTK_ACCESSIBLE_ROLE_GROU
 Since GTK 4.12, B<Gnome::Gtk4::TreeExpander> uses the B<GTK_ACCESSIBLE_ROLE_BUTTON> role.
 Toggling it will change the B<GTK_ACCESSIBLE_STATE_EXPANDED> state.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/TreeExpander.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -97,7 +93,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::TreeExpander>
 
 =begin code
-method new-treeexpander ( --> Gnome::Gtk4::TreeExpander \)
+method new-treeexpander ( --> Gnome::Gtk4::TreeExpander )
 =end code
 
 =begin comment

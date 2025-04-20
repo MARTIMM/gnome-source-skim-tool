@@ -21,11 +21,11 @@ entered text is longer than the allocation of the widget, the widget
 will scroll so that the cursor position is visible.
 
 When using an entry for passwords and other sensitive information,
-it can be put into “password mode” using C<.set-visibility()>.
+it can be put into “password mode” using C<.set-visibility()>].
 In this mode, entered text is displayed using a “invisible” character.
 By default, GTK picks the best invisible character that is available
 in the current font, but it can be changed with
-C<.set-invisible-char()>.
+C<.set-invisible-char()>].
 
 If you are looking to add icons or progress display in an entry, look
 at B<Gnome::Gtk4::Entry>. There other alternatives for more specialized use
@@ -73,12 +73,8 @@ skipped for accessibility. This is because B<Gnome::Gtk4::Text> is expected to b
 as a delegate for a B<Gnome::Gtk4::R-Editable> implementation that will be represented
 to accessibility.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/Text.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -113,7 +109,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::Text>.
 
 =begin code
-method new-text ( --> Gnome::Gtk4::Text \)
+method new-text ( --> Gnome::Gtk4::Text )
 =end code
 
 =begin comment
@@ -132,7 +128,7 @@ method new-text ( --> Gnome::Gtk4::Text \)
 Creates a new B<Gnome::Gtk4::Text> with the specified text buffer.
 
 =begin code
-method new-with-buffer ( N-Object() $buffer --> Gnome::Gtk4::Text \)
+method new-with-buffer ( N-Object() $buffer --> Gnome::Gtk4::Text )
 =end code
 
 =item $buffer; The buffer to use for the new B<Gnome::Gtk4::Text>..
@@ -193,7 +189,7 @@ method compute-cursor-extents ( Int() $position, N-Object $strong, N-Object $wea
 Returns whether pressing Enter will activate
 the default widget for the window containing C<$self>.
 
-See C<.set-activates-default()>.
+See C<.set-activates-default()>].
 
 =begin code
 method get-activates-default (--> Bool )
@@ -216,7 +212,7 @@ Return value; C<True> if the B<Gnome::Gtk4::Text> will activate the default widg
 
 Gets the attribute list that was set on the B<Gnome::Gtk4::Text>.
 
-See C<.set-attributes()>.
+See C<.set-attributes()>].
 
 =begin code
 method get-attributes (--> N-Object )
@@ -283,7 +279,7 @@ Return value; C<True> if Emoji completion is enabled.
 
 Gets the menu model for extra items in the context menu.
 
-See C<.set-extra-menu()>.
+See C<.set-extra-menu()>].
 
 =begin code
 method get-extra-menu (--> N-Object )
@@ -350,7 +346,7 @@ Retrieves the character displayed when visibility is set to false.
 
 Note that GTK does not compute this value unless it needs it,
 so the value returned by this function is not very useful unless
-it has been explicitly set with C<.set-invisible-char()>.
+it has been explicitly set with C<.set-invisible-char()>].
 
 =begin code
 method get-invisible-char (--> UInt )
@@ -374,10 +370,10 @@ Return value; the current invisible char, or 0, if C<$text> does not
 
 Retrieves the maximum allowed length of the text in C<$self>.
 
-See C<.set-max-length()>.
+See C<.set-max-length()>].
 
 This is equivalent to getting C<$self>'s B<Gnome::Gtk4::EntryBuffer> and
-calling C<.get-max-length() in class Gnome::Gtk4::EntryBuffer> on it.
+calling C<.get-max-length()> in class B<Gnome::Gtk4::EntryBuffer>] on it.
 
 =begin code
 method get-max-length (--> Int )
@@ -401,7 +397,7 @@ Return value; the maximum allowed number of characters
 
 Gets whether text is overwritten when typing in the B<Gnome::Gtk4::Text>.
 
-See C<.set-overwrite-mode()>.
+See C<.set-overwrite-mode()>].
 
 =begin code
 method get-overwrite-mode (--> Bool )
@@ -469,7 +465,7 @@ Return value; C<True> if C<$self> will propagate the text width.
 
 Gets the tabstops that were set on the B<Gnome::Gtk4::Text>.
 
-See C<.set-tabs()>.
+See C<.set-tabs()>].
 
 =begin code
 method get-tabs (--> N-Object )
@@ -493,7 +489,7 @@ Return value; the tabstops.
 Retrieves the current length of the text in C<$self>.
 
 This is equivalent to getting C<$self>'s B<Gnome::Gtk4::EntryBuffer>
-and calling C<.get-length() in class Gnome::Gtk4::EntryBuffer> on it.
+and calling C<.get-length()> in class B<Gnome::Gtk4::EntryBuffer>] on it.
 
 =begin code
 method get-text-length (--> UInt )
@@ -560,7 +556,7 @@ Return value; C<True> if the text is currently visible.
 
 Causes C<$self> to have keyboard focus.
 
-It behaves like C<.grab-focus() in class Gnome::Gtk4::Widget>,
+It behaves like C<.grab-focus()> in class B<Gnome::Gtk4::Widget>],
 except that it doesn't select the contents of C<$self>.
 You only want to call this on some special entries
 which the user usually doesn't want to replace all text in,
@@ -779,7 +775,7 @@ If the current contents are longer than the given length, then
 they will be truncated to fit.
 
 This is equivalent to getting C<$self>'s B<Gnome::Gtk4::EntryBuffer> and
-calling C<.set-max-length() in class Gnome::Gtk4::EntryBuffer> on it.
+calling C<.set-max-length()> in class B<Gnome::Gtk4::EntryBuffer>] on it.
 
 =begin code
 method set-max-length ( Int() $length )
@@ -921,7 +917,7 @@ the text in the widget is copied to the clipboard.
 
 By default, GTK picks the best invisible character available
 in the current font, but it can be changed with
-C<.set-invisible-char()>.
+C<.set-invisible-char()>].
 
 Note that you probably want to set I<input-purpose>
 to C<GTK_INPUT_PURPOSE_PASSWORD> or C<GTK_INPUT_PURPOSE_PIN> to

@@ -17,14 +17,10 @@ which gives an overview of all the objects and data types
 related to the text widget and how they work together.
 
 GtkTextBuffer can support undoing changes to the buffer
-content, see C<.set-enable-undo()>.
-
-=begin comment
+content, see C<.set-enable-undo()>].
 
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/TextBuffer.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -59,7 +55,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new text buffer.
 
 =begin code
-method new-textbuffer ( N-Object() $table --> Gnome::Gtk4::TextBuffer \)
+method new-textbuffer ( N-Object() $table --> Gnome::Gtk4::TextBuffer )
 =end code
 
 =item $table; a tag table, or undefined to create a new one.
@@ -118,7 +114,7 @@ Adds C<$clipboard> to the list of clipboards in which the selection
 contents of C<$buffer> are available.
 
 In most cases, C<$clipboard> will be the B<Gnome::Gdk4::Clipboard> returned by
-C<.get-primary-clipboard() in class Gnome::Gtk4::Widget> for a view of C<$buffer>.
+C<.get-primary-clipboard()> in class B<Gnome::Gtk4::Widget>] for a view of C<$buffer>.
 
 =begin code
 method add-selection-clipboard ( N-Object() $clipboard )
@@ -167,9 +163,9 @@ method apply-tag ( N-Object() $tag, N-Object $start, N-Object $end )
 
 Emits the “apply-tag” signal on C<$buffer>.
 
-Calls C<.lookup() in class Gnome::Gtk4::TextTagTable> on the buffer’s
+Calls C<.lookup()> in class B<Gnome::Gtk4::TextTagTable>] on the buffer’s
 tag table to get a B<Gnome::Gtk4::TextTag>, then calls
-C<.apply-tag()>.
+C<.apply-tag()>].
 
 =begin code
 method apply-tag-by-name ( Str $name, N-Object $start, N-Object $end )
@@ -233,7 +229,7 @@ This will cause any previous operations in the undo/redo queue
 to be cleared.
 
 This should be paired with a call to
-C<.end-irreversible-action()> after the irreversible
+C<.end-irreversible-action()>] after the irreversible
 action has completed.
 
 You may nest calls to C<.begin-irreversible-action()>
@@ -270,7 +266,7 @@ outermost pair of calls. This allows you to build user actions
 from other user actions.
 
 The “interactive” buffer mutation functions, such as
-C<.insert-interactive()>, automatically call
+C<.insert-interactive()>], automatically call
 begin/end user action around the buffer operations they perform,
 so there's no need to add extra calls if you user action consists
 solely of a single call to one of those functions.
@@ -316,8 +312,8 @@ method copy-clipboard ( N-Object() $clipboard )
 Creates and inserts a child anchor.
 
 This is a convenience function which simply creates a child anchor
-with C<.newtextbuffer() in class Gnome::Gtk4::TextChildAnchor> and inserts it into the buffer
-with C<.insert-child-anchor()>.
+with C<.newtextbuffer()> in class B<Gnome::Gtk4::TextChildAnchor> and inserts it into the buffer
+with C<.insert-child-anchor()>].
 
 The new anchor is owned by the buffer; no reference count is
 returned to the caller of this function.
@@ -346,7 +342,7 @@ Return value; the created child anchor.
 Creates a mark at position C<$where>.
 
 If C<$mark-name> is undefined, the mark is anonymous; otherwise, the mark
-can be retrieved by name using C<.get-mark()>.
+can be retrieved by name using C<.get-mark()>].
 If a mark has left gravity, and text is inserted at the mark’s
 current location, the mark will be moved to the left of the
 newly-inserted text. If the mark has right gravity
@@ -389,7 +385,7 @@ This function is not yet available
 
 Creates a tag and adds it to the tag table for C<$buffer>.
 
-Equivalent to calling C<.newtextbuffer() in class Gnome::Gtk4::TextTag> and then adding the
+Equivalent to calling C<.newtextbuffer()> in class B<Gnome::Gtk4::TextTag> and then adding the
 tag to the buffer’s tag table. The returned tag is owned by
 the buffer’s tag table, so the ref count will be equal to one.
 
@@ -480,7 +476,7 @@ method delete ( N-Object $start, N-Object $end )
 
 Deletes all editable text in the given range.
 
-Calls C<.delete()> for each editable
+Calls C<.delete()>] for each editable
 sub-range of [ C<$start>, C<$end>). C<$start> and C<$end> are revalidated
 to point to the location of the last deleted range, or left
 untouched if no text was deleted.
@@ -515,7 +511,7 @@ Removes the reference the buffer holds to the mark, so if
 you haven’t called g_object_ref() on the mark, it will be freed.
 Even if the mark isn’t freed, most operations on C<$mark> become
 invalid, until it gets added to a buffer again with
-C<.add-mark()>. Use C<.get-deleted() in class Gnome::Gtk4::TextMark>
+C<.add-mark()>]. Use C<.get-deleted()> in class B<Gnome::Gtk4::TextMark>]
 to find out if a mark has been removed from its buffer.
 
 The I<mark-deleted> signal will be emitted as
@@ -542,7 +538,7 @@ method delete-mark ( N-Object() $mark )
 
 Deletes the mark named C<$name>; the mark must exist.
 
-See C<.delete-mark()> for details.
+See C<.delete-mark()>] for details.
 
 =begin code
 method delete-mark-by-name ( Str $name )
@@ -597,7 +593,7 @@ This will cause any previous operations in the undo/redo
 queue to be cleared.
 
 This should be called after completing modifications to the
-text buffer after C<.begin-irreversible-action()>
+text buffer after C<.begin-irreversible-action()>]
 was called.
 
 You may nest calls to C<.begin-irreversible-action()>
@@ -623,7 +619,7 @@ method end-irreversible-action ( )
 Ends a user-visible operation.
 
 Should be paired with a call to
-C<.begin-user-action()>.
+C<.begin-user-action()>].
 See that function for a full explanation.
 
 =begin code
@@ -738,8 +734,8 @@ Return value; number of characters in the buffer.
 Gets whether the buffer is saving modifications to the buffer
 to allow for undo and redo actions.
 
-See C<.begin-irreversible-action()> and
-C<.end-irreversible-action()> to create
+See C<.begin-irreversible-action()>] and
+C<.end-irreversible-action()>] to create
 changes to the buffer that cannot be undone.
 
 =begin code
@@ -764,10 +760,10 @@ Return value; C<True> if undoing and redoing changes to the buffer is allowed..
 Initializes C<$iter> with the “end iterator,” one past the last valid
 character in the text buffer.
 
-If dereferenced with C<.get-char() in class Gnome::Gtk4::N-TextIter>, the end
+If dereferenced with C<.get-char()> in class B<Gnome::Gtk4::N-TextIter>], the end
 iterator has a character value of 0.
 The entire buffer lies in the range from the first position in
-the buffer (call C<.get-start-iter()> to get
+the buffer (call C<.get-start-iter()>] to get
 character position 0) to the end iterator.
 
 =begin code
@@ -812,7 +808,7 @@ Return value; C<True> if the there is text selected.
 
 Returns the mark that represents the cursor (insertion point).
 
-Equivalent to calling C<.get-mark()>
+Equivalent to calling C<.get-mark()>]
 to get the mark named “insert”, but very slightly more
 efficient, and involves less typing.
 
@@ -1069,7 +1065,7 @@ Return value; The max number of undo levels allowed (0 indicates unlimited)..
 =head2 get-modified
 
 Indicates whether the buffer has been modified since the last call
-to C<.set-modified()> set the modification flag to
+to C<.set-modified()>] set the modification flag to
 C<False>.
 
 Used for example to enable a “save” function in a text editor.
@@ -1095,14 +1091,14 @@ Return value; C<True> if the buffer has been modified.
 
 Returns the mark that represents the selection bound.
 
-Equivalent to calling C<.get-mark()>
+Equivalent to calling C<.get-mark()>]
 to get the mark named “selection_bound”, but very slightly
 more efficient, and involves less typing.
 
 The currently-selected text in C<$buffer> is the region between the
 “selection_bound” and “insert” marks. If “selection_bound” and
 “insert” are in the same place, then there is no current selection.
-C<.get-selection-bounds()> is another convenient
+C<.get-selection-bounds()>] is another convenient
 function for handling the selection, if you just want to know whether
 there’s a selection and what its bounds are.
 
@@ -1158,7 +1154,7 @@ Return value; whether the selection has nonzero length.
 Get a content provider for this buffer.
 
 It can be used to make the content of C<$buffer> available
-in a B<Gnome::Gdk4::Clipboard>, see C<.set-content() in class Gnome::Gdk4::Clipboard>.
+in a B<Gnome::Gdk4::Clipboard>, see C<.set-content()> in class B<Gnome::Gdk4::Clipboard>].
 
 =begin code
 method get-selection-content (--> N-Object )
@@ -1186,7 +1182,7 @@ invisibility attribute) if C<$include-hidden-chars> is C<False>.
 The returned string includes a 0xFFFC character whenever the
 buffer contains embedded images, so byte and character indexes
 into the returned string do correspond to byte and character
-indexes into the buffer. Contrast with C<.get-text()>.
+indexes into the buffer. Contrast with C<.get-text()>].
 Note that 0xFFFC can occur in normal text as well, so it is not a
 reliable indicator that a paintable or widget is in the buffer.
 
@@ -1215,7 +1211,7 @@ Return value; an allocated UTF-8 string.
 
 Initialized C<$iter> with the first position in the text buffer.
 
-This is the same as using C<.get-iter-at-offset()>
+This is the same as using C<.get-iter-at-offset()>]
 to get the iter at character offset 0.
 
 =begin code
@@ -1265,7 +1261,7 @@ invisibility attribute) if C<$include-hidden-chars> is C<False>.
 Does not include characters representing embedded images, so
 byte and character indexes into the returned string do not
 correspond to byte and character indexes into the buffer.
-Contrast with C<.get-slice()>.
+Contrast with C<.get-slice()>].
 
 =begin code
 method get-text ( N-Object $start, N-Object $end, Bool() $include-hidden-chars --> Str )
@@ -1322,7 +1318,7 @@ method insert ( N-Object $iter, Str $text, Int() $len )
 
 Inserts C<$text> in C<$buffer>.
 
-Simply calls C<.insert()>,
+Simply calls C<.insert()>],
 using the current cursor position as the insertion point.
 
 =begin code
@@ -1352,10 +1348,10 @@ when obtaining the buffer contents as a string, will be represented
 by the Unicode “object replacement character” 0xFFFC. Note that the
 “slice” variants for obtaining portions of the buffer as a string
 include this character for child anchors, but the “text” variants do
-not. E.g. see C<.get-slice()> and
-C<.get-text()>.
+not. E.g. see C<.get-slice()>] and
+C<.get-text()>].
 
-Consider C<.create-child-anchor()> as a more
+Consider C<.create-child-anchor()>] as a more
 convenient alternative to this function. The buffer will add a
 reference to the anchor, so you can unref it after insertion.
 
@@ -1381,13 +1377,13 @@ method insert-child-anchor ( N-Object $iter, N-Object() $anchor )
 
 Inserts C<$text> in C<$buffer>.
 
-Like C<.insert()>, but the insertion will not occur
+Like C<.insert()>], but the insertion will not occur
 if C<$iter> is at a non-editable location in the buffer. Usually you
 want to prevent insertions at ineditable locations if the insertion
 results from a user action (is interactive).
  C<$default-editable> indicates the editability of text that doesn't
 have a tag affecting editability applied to it. Typically the
-result of C<.get-editable() in class Gnome::Gtk4::TextView> is appropriate here.
+result of C<.get-editable()> in class B<Gnome::Gtk4::TextView>] is appropriate here.
 
 =begin code
 method insert-interactive ( N-Object $iter, Str $text, Int() $len, Bool() $default-editable --> Bool )
@@ -1415,11 +1411,11 @@ Return value; whether text was actually inserted.
 
 Inserts C<$text> in C<$buffer>.
 
-Calls C<.insert-interactive()>
+Calls C<.insert-interactive()>]
 at the cursor position.
  C<$default-editable> indicates the editability of text that doesn't
 have a tag affecting editability applied to it. Typically the
-result of C<.get-editable() in class Gnome::Gtk4::TextView> is appropriate here.
+result of C<.get-editable()> in class B<Gnome::Gtk4::TextView>] is appropriate here.
 
 =begin code
 method insert-interactive-at-cursor ( Str $text, Int() $len, Bool() $default-editable --> Bool )
@@ -1478,8 +1474,8 @@ and when obtaining the buffer contents as a string, will be
 represented by the Unicode “object replacement character” 0xFFFC.
 Note that the “slice” variants for obtaining portions of the buffer
 as a string include this character for paintable, but the “text”
-variants do not. e.g. see C<.get-slice()> and
-C<.get-text()>.
+variants do not. e.g. see C<.get-slice()>] and
+C<.get-text()>].
 
 =begin code
 method insert-paintable ( N-Object $iter, N-Object() $paintable )
@@ -1536,11 +1532,11 @@ method insert-range ( N-Object $iter, N-Object $start, N-Object $end )
 Copies text, tags, and paintables between C<$start> and C<$end>
 and inserts the copy at C<$iter>.
 
-Same as C<.insert-range()>, but does nothing
+Same as C<.insert-range()>], but does nothing
 if the insertion point isn’t editable. The C<$default-editable>
 parameter indicates whether the text is editable at C<$iter> if
 no tags enclosing C<$iter> affect editability. Typically the result
-of C<.get-editable() in class Gnome::Gtk4::TextView> is appropriate here.
+of C<.get-editable()> in class B<Gnome::Gtk4::TextView>] is appropriate here.
 
 =begin code
 method insert-range-interactive ( N-Object $iter, N-Object $start, N-Object $end, Bool() $default-editable --> Bool )
@@ -1571,8 +1567,8 @@ Inserts C<$text> into C<$buffer> at C<$iter>, applying the list of tags to
 the newly-inserted text.
 
 The last tag specified must be undefined to terminate the list.
-Equivalent to calling C<.insert()>,
-then C<.apply-tag()> on the inserted text;
+Equivalent to calling C<.insert()>],
+then C<.apply-tag()>] on the inserted text;
 this is just a convenience function.
 
 =begin code
@@ -1602,7 +1598,7 @@ This function is not yet available
 Inserts C<$text> into C<$buffer> at C<$iter>, applying the list of tags to
 the newly-inserted text.
 
-Same as C<.insert-with-tags()>, but allows you
+Same as C<.insert-with-tags()>], but allows you
 to pass in tag names instead of tag objects.
 
 =begin code
@@ -1655,7 +1651,7 @@ method move-mark ( N-Object() $mark, N-Object $where )
 
 Moves the mark named C<$name> (which must exist) to location C<$where>.
 
-See C<.move-mark()> for details.
+See C<.move-mark()>] for details.
 
 =begin code
 method move-mark-by-name ( Str $name, N-Object $where )
@@ -1712,7 +1708,7 @@ This function moves the “insert” and “selection_bound” marks
 simultaneously.
 
 If you move them to the same place in two steps with
-C<.move-mark()>, you will temporarily select a
+C<.move-mark()>], you will temporarily select a
 region in between their old and new locations, which can be pretty
 inefficient since the temporarily-selected region will force stuff
 to be recalculated. This function moves them as a unit, which can
@@ -1784,14 +1780,14 @@ method remove-all-tags ( N-Object $start, N-Object $end )
 =head2 remove-selection-clipboard
 
 Removes a B<Gnome::Gdk4::Clipboard> added with
-C<.add-selection-clipboard()>
+C<.add-selection-clipboard()>]
 
 =begin code
 method remove-selection-clipboard ( N-Object() $clipboard )
 =end code
 
 =item $clipboard; a B<Gnome::Gdk4::Clipboard> added to C<$buffer> by
-  C<.add-selection-clipboard()>.
+  C<.add-selection-clipboard()>].
 
 =begin comment
 
@@ -1835,9 +1831,9 @@ method remove-tag ( N-Object() $tag, N-Object $start, N-Object $end )
 
 Emits the “remove-tag” signal.
 
-Calls C<.lookup() in class Gnome::Gtk4::TextTagTable> on the buffer’s
+Calls C<.lookup()> in class B<Gnome::Gtk4::TextTagTable>] on the buffer’s
 tag table to get a B<Gnome::Gtk4::TextTag>, then calls
-C<.remove-tag()>.
+C<.remove-tag()>].
 
 =begin code
 method remove-tag-by-name ( Str $name, N-Object $start, N-Object $end )
@@ -1864,7 +1860,7 @@ This function moves the “insert” and “selection_bound” marks
 simultaneously.
 
 If you move them in two steps with
-C<.move-mark()>, you will temporarily select a
+C<.move-mark()>], you will temporarily select a
 region in between their old and new locations, which can be pretty
 inefficient since the temporarily-selected region will force stuff
 to be recalculated. This function moves them as a unit, which can
@@ -1896,10 +1892,10 @@ Undoable actions in this context are changes to the text content of
 the buffer. Changes to tags and marks are not tracked.
 
 If enabled, the user will be able to undo the last number of actions
-up to C<.get-max-undo-levels()>.
+up to C<.get-max-undo-levels()>].
 
-See C<.begin-irreversible-action()> and
-C<.end-irreversible-action()> to create
+See C<.begin-irreversible-action()>] and
+C<.end-irreversible-action()>] to create
 changes to the buffer that cannot be undone.
 
 =begin code
@@ -2036,9 +2032,9 @@ it must not invalidate the C<$start> and C<$end> iters (or has to
 revalidate them).
 
 See also:
-C<.apply-tag()>,
-C<.insert-with-tags()>,
-C<.insert-range()>.
+C<.apply-tag()>],
+C<.insert-with-tags()>],
+C<.insert-range()>].
 
 =begin code
 method handler (
@@ -2074,12 +2070,12 @@ Emitted at the beginning of a single user-visible
 operation on a B<Gnome::Gtk4::TextBuffer>.
 
 See also:
-C<.begin-user-action()>,
-C<.insert-interactive()>,
-C<.insert-range-interactive()>,
-C<.delete-interactive()>,
-C<.backspace()>,
-C<.delete-selection()>.
+C<.begin-user-action()>],
+C<.insert-interactive()>],
+C<.insert-range-interactive()>],
+C<.delete-interactive()>],
+C<.backspace()>],
+C<.delete-selection()>].
 
 =begin code
 method handler (
@@ -2141,7 +2137,7 @@ where text was deleted. Handlers which run after the default
 handler (see g_signal_connect_after()) do not have access to
 the deleted text.
 
-See also: C<.delete()>.
+See also: C<.delete()>].
 
 =begin code
 method handler (
@@ -2175,13 +2171,13 @@ Emitted at the end of a single user-visible
 operation on the B<Gnome::Gtk4::TextBuffer>.
 
 See also:
-C<.end-user-action()>,
-C<.insert-interactive()>,
-C<.insert-range-interactive()>,
-C<.delete-interactive()>,
-C<.backspace()>,
-C<.delete-selection()>,
-C<.backspace()>.
+C<.end-user-action()>],
+C<.insert-interactive()>],
+C<.insert-range-interactive()>],
+C<.delete-interactive()>],
+C<.backspace()>],
+C<.delete-selection()>],
+C<.backspace()>].
 
 =begin code
 method handler (
@@ -2216,7 +2212,7 @@ it must not invalidate the C<$location> iter (or has to
 revalidate it). The default signal handler revalidates
 it to be placed after the inserted C<$anchor>.
 
-See also: C<.insert-child-anchor()>.
+See also: C<.insert-child-anchor()>].
 
 =begin code
 method handler (
@@ -2255,7 +2251,7 @@ it must not invalidate the C<$location> iter (or has to
 revalidate it). The default signal handler revalidates
 it to be placed after the inserted C<$paintable>.
 
-See also: C<.insert-paintable()>.
+See also: C<.insert-paintable()>].
 
 =begin code
 method handler (
@@ -2294,8 +2290,8 @@ it must not invalidate the C<$location> iter (or has to
 revalidate it). The default signal handler revalidates
 it to point to the end of the inserted text.
 
-See also: C<.insert()>,
-C<.insert-range()>.
+See also: C<.insert()>],
+C<.insert-range()>].
 
 =begin code
 method handler (
@@ -2329,7 +2325,7 @@ method handler (
 
 Emitted as notification after a B<Gnome::Gtk4::TextMark> is deleted.
 
-See also: C<.delete-mark()>.
+See also: C<.delete-mark()>].
 
 =begin code
 method handler (
@@ -2360,8 +2356,8 @@ method handler (
 Emitted as notification after a B<Gnome::Gtk4::TextMark> is set.
 
 See also:
-C<.create-mark()>,
-C<.move-mark()>.
+C<.create-mark()>],
+C<.move-mark()>].
 
 =begin code
 method handler (
@@ -2393,7 +2389,7 @@ method handler (
 
 Emitted when the modified bit of a B<Gnome::Gtk4::TextBuffer> flips.
 
-See also: C<.set-modified()>.
+See also: C<.set-modified()>].
 
 =begin code
 method handler (
@@ -2422,7 +2418,7 @@ method handler (
 Emitted after paste operation has been completed.
 
 This is useful to properly scroll the view to the end
-of the pasted text. See C<.paste-clipboard()>
+of the pasted text. See C<.paste-clipboard()>]
 for more details.
 
 =begin code
@@ -2487,7 +2483,7 @@ Note that if your handler runs before the default handler
 it must not invalidate the C<$start> and C<$end> iters (or has
 to revalidate them).
 
-See also: C<.remove-tag()>.
+See also: C<.remove-tag()>].
 
 =begin code
 method handler (

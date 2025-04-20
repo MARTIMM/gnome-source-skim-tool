@@ -32,12 +32,8 @@ An example of a UI definition fragment specifying tags:
 
 =end comment
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/TextTagTable.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -74,7 +70,7 @@ Creates a new B<Gnome::Gtk4::TextTagTable>.
 The table contains no tags by default.
 
 =begin code
-method new-texttagtable ( --> Gnome::Gtk4::TextTagTable \)
+method new-texttagtable ( --> Gnome::Gtk4::TextTagTable )
 =end code
 
 =begin comment
@@ -131,10 +127,10 @@ Note that the table may not be modified while iterating
 over it (you can’t add/remove tags).
 
 =begin code
-method foreach ( &func, gpointer $data )
+method foreach ( GtkTextTagTableForeach &func, gpointer $data )
 =end code
 
-=item &func; a function to call on each tag. Tthe function must be specified with following signature; C<:( N-Object $tag, gpointer $data )>.
+=item GtkTextTagTableForeach &func; a function to call on each tag. The function must be specified with the following signature; C<:( N-Object $tag, gpointer $data )>.
 =item $data; user data.
 
 =begin comment

@@ -20,12 +20,8 @@ for an overview of all the objects and data types related to the tree widget and
 how they work together, and to the B<Gnome::Gtk4::TreeView> documentation for specifics
 about the CSS node structure for treeviews and their headers.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/TreeViewColumn.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -64,7 +60,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Creates a new B<Gnome::Gtk4::TreeViewColumn>.
 
 =begin code
-method new-treeviewcolumn ( --> Gnome::Gtk4::TreeViewColumn \)
+method new-treeviewcolumn ( --> Gnome::Gtk4::TreeViewColumn )
 =end code
 
 =begin comment
@@ -85,7 +81,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Creates a new B<Gnome::Gtk4::TreeViewColumn> using C<$area> to render its cells.
 
 =begin code
-method new-with-area ( N-Object() $area --> Gnome::Gtk4::TreeViewColumn \)
+method new-with-area ( N-Object() $area --> Gnome::Gtk4::TreeViewColumn )
 =end code
 
 =item $area; the B<Gnome::Gtk4::CellArea> that the newly created column should use to layout cells..
@@ -130,7 +126,7 @@ Here’s a simple example:
 =end comment
 
 =begin code
-method new-with-attributes ( Str $title, N-Object() $cell, … --> Gnome::Gtk4::TreeViewColumn \)
+method new-with-attributes ( Str $title, N-Object() $cell, … --> Gnome::Gtk4::TreeViewColumn )
 =end code
 
 =item $title; The title to set the header to.
@@ -631,7 +627,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Gets the logical C<$sort-column-id> that the model sorts on
 when this column is selected for sorting.
 
-See C<.set-sort-column-id()>.
+See C<.set-sort-column-id()>].
 
 =begin code
 method get-sort-column-id (--> Int )
@@ -994,7 +990,6 @@ method set-attributes ( N-Object() $cell-renderer, … )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-cell-data-func
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -1007,13 +1002,13 @@ cell renderer as appropriate.  C<$func> may be undefined to remove an
 older one.
 
 =begin code
-method set-cell-data-func ( N-Object() $cell-renderer, &func, gpointer $func-data, … )
+method set-cell-data-func ( N-Object() $cell-renderer, GtkTreeCellDataFunc &func, gpointer $func-data, GDestroyNotify &destroy )
 =end code
 
 =item $cell-renderer; A B<Gnome::Gtk4::CellRenderer>.
-=item &func; The B<Gnome::Gtk4::T-treeviewcolumn> to use.. Tthe function must be specified with following signature; C<:( N-Object $tree-column, N-Object $cell, N-Object $tree-model, N-Object $iter, gpointer $data )>.
+=item GtkTreeCellDataFunc &func; The B<Gnome::Gtk4::T-treeviewcolumn> to use.. The function must be specified with the following signature; C<:( N-Object $tree-column, N-Object $cell, N-Object $tree-model, N-Object $iter, gpointer $data )>.
 =item $func-data; The user data for C<$func>..
-=item destroy; The destroy notification for C<$func-data>. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &destroy; The destroy notification for C<$func-data>. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 
