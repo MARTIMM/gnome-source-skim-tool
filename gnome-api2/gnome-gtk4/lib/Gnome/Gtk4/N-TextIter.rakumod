@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Glib::T-slist:api<2>;
 use Gnome::Gtk4::T-textiter:api<2>;
@@ -16,48 +18,15 @@ use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::TopLevelClassSupport:api<2>;
 use Gnome::N::X:api<2>;
-#use Gnome::Pango::N-Language:api<2>;
+use Gnome::Pango::T-types:api<2>;
 
 
 #-------------------------------------------------------------------------------
-#--[Class Declaration]----------------------------------------------------------
+#--[Structure Declaration]------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Gtk4::N-TextIter:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
-
-
-#-------------------------------------------------------------------------------
-#--[Record Structure]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-class N-TextIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-  has gpointer $.dummy1;
-  has gpointer $.dummy2;
-  has gint $.dummy3;
-  has gint $.dummy4;
-  has gint $.dummy5;
-  has gint $.dummy6;
-  has gint $.dummy7;
-  has gint $.dummy8;
-  has gpointer $.dummy9;
-  has gpointer $.dummy10;
-  has gint $.dummy11;
-  has gint $.dummy12;
-  has gint $.dummy13;
-  has gpointer $.dummy14;
-
-  submethod BUILD (
-    gpointer :$!dummy1, gpointer :$!dummy2, gint :$!dummy3, gint :$!dummy4, gint :$!dummy5, gint :$!dummy6, gint :$!dummy7, gint :$!dummy8, gpointer :$!dummy9, gpointer :$!dummy10, gint :$!dummy11, gint :$!dummy12, gint :$!dummy13, gpointer :$!dummy14, 
-  ) {
-  }
-
-  method COERCE ( $no --> N-TextIter ) {
-    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
-    nativecast( N-TextIter, $no)
-  }
-}
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -71,6 +40,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
 
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
@@ -102,96 +72,96 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  assign => %(:is-symbol<gtk_text_iter_assign>,  :parameters([N-TextIter])),
-  backward-char => %(:is-symbol<gtk_text_iter_backward_char>,  :returns(gboolean), :cnv-return(Bool)),
-  backward-chars => %(:is-symbol<gtk_text_iter_backward_chars>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint])),
-  backward-cursor-position => %(:is-symbol<gtk_text_iter_backward_cursor_position>,  :returns(gboolean), :cnv-return(Bool)),
-  backward-cursor-positions => %(:is-symbol<gtk_text_iter_backward_cursor_positions>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint])),
-  backward-find-char => %(:is-symbol<gtk_text_iter_backward_find_char>,  :returns(gboolean), :cnv-return(Bool), :parameters([:( gunichar $ch, gpointer $user-data --> gboolean ), gpointer, N-TextIter])),
-  backward-line => %(:is-symbol<gtk_text_iter_backward_line>,  :returns(gboolean), :cnv-return(Bool)),
-  backward-lines => %(:is-symbol<gtk_text_iter_backward_lines>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint])),
-  backward-search => %(:is-symbol<gtk_text_iter_backward_search>,  :returns(gboolean), :cnv-return(Bool), :parameters([Str, GFlag, N-TextIter, N-TextIter, N-TextIter])),
-  backward-sentence-start => %(:is-symbol<gtk_text_iter_backward_sentence_start>,  :returns(gboolean), :cnv-return(Bool)),
-  backward-sentence-starts => %(:is-symbol<gtk_text_iter_backward_sentence_starts>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint])),
-  backward-to-tag-toggle => %(:is-symbol<gtk_text_iter_backward_to_tag_toggle>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
-  backward-visible-cursor-position => %(:is-symbol<gtk_text_iter_backward_visible_cursor_position>,  :returns(gboolean), :cnv-return(Bool)),
-  backward-visible-cursor-positions => %(:is-symbol<gtk_text_iter_backward_visible_cursor_positions>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint])),
-  backward-visible-line => %(:is-symbol<gtk_text_iter_backward_visible_line>,  :returns(gboolean), :cnv-return(Bool)),
-  backward-visible-lines => %(:is-symbol<gtk_text_iter_backward_visible_lines>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint])),
-  backward-visible-word-start => %(:is-symbol<gtk_text_iter_backward_visible_word_start>,  :returns(gboolean), :cnv-return(Bool)),
-  backward-visible-word-starts => %(:is-symbol<gtk_text_iter_backward_visible_word_starts>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint])),
-  backward-word-start => %(:is-symbol<gtk_text_iter_backward_word_start>,  :returns(gboolean), :cnv-return(Bool)),
-  backward-word-starts => %(:is-symbol<gtk_text_iter_backward_word_starts>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint])),
-  can-insert => %(:is-symbol<gtk_text_iter_can_insert>,  :returns(gboolean), :cnv-return(Bool), :parameters([gboolean])),
-  compare => %(:is-symbol<gtk_text_iter_compare>,  :returns(gint), :parameters([N-TextIter])),
-  copy => %(:is-symbol<gtk_text_iter_copy>,  :returns(N-TextIter)),
-  editable => %(:is-symbol<gtk_text_iter_editable>,  :returns(gboolean), :cnv-return(Bool), :parameters([gboolean])),
-  ends-line => %(:is-symbol<gtk_text_iter_ends_line>,  :returns(gboolean), :cnv-return(Bool)),
-  ends-sentence => %(:is-symbol<gtk_text_iter_ends_sentence>,  :returns(gboolean), :cnv-return(Bool)),
-  ends-tag => %(:is-symbol<gtk_text_iter_ends_tag>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
-  ends-word => %(:is-symbol<gtk_text_iter_ends_word>,  :returns(gboolean), :cnv-return(Bool)),
-  equal => %(:is-symbol<gtk_text_iter_equal>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-TextIter])),
-  forward-char => %(:is-symbol<gtk_text_iter_forward_char>,  :returns(gboolean), :cnv-return(Bool)),
-  forward-chars => %(:is-symbol<gtk_text_iter_forward_chars>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint])),
-  forward-cursor-position => %(:is-symbol<gtk_text_iter_forward_cursor_position>,  :returns(gboolean), :cnv-return(Bool)),
-  forward-cursor-positions => %(:is-symbol<gtk_text_iter_forward_cursor_positions>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint])),
-  forward-find-char => %(:is-symbol<gtk_text_iter_forward_find_char>,  :returns(gboolean), :cnv-return(Bool), :parameters([:( gunichar $ch, gpointer $user-data --> gboolean ), gpointer, N-TextIter])),
-  forward-line => %(:is-symbol<gtk_text_iter_forward_line>,  :returns(gboolean), :cnv-return(Bool)),
-  forward-lines => %(:is-symbol<gtk_text_iter_forward_lines>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint])),
-  forward-search => %(:is-symbol<gtk_text_iter_forward_search>,  :returns(gboolean), :cnv-return(Bool), :parameters([Str, GFlag, N-TextIter, N-TextIter, N-TextIter])),
-  forward-sentence-end => %(:is-symbol<gtk_text_iter_forward_sentence_end>,  :returns(gboolean), :cnv-return(Bool)),
-  forward-sentence-ends => %(:is-symbol<gtk_text_iter_forward_sentence_ends>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint])),
+  assign => %(:is-symbol<gtk_text_iter_assign>, :parameters([N-Object]), ),
+  backward-char => %(:is-symbol<gtk_text_iter_backward_char>, :returns(gboolean), ),
+  backward-chars => %(:is-symbol<gtk_text_iter_backward_chars>, :returns(gboolean), :parameters([gint]), ),
+  backward-cursor-position => %(:is-symbol<gtk_text_iter_backward_cursor_position>, :returns(gboolean), ),
+  backward-cursor-positions => %(:is-symbol<gtk_text_iter_backward_cursor_positions>, :returns(gboolean), :parameters([gint]), ),
+  backward-find-char => %(:is-symbol<gtk_text_iter_backward_find_char>, :returns(gboolean), :parameters([:( gunichar $ch, gpointer $user-data ), gpointer, N-Object]), ),
+  backward-line => %(:is-symbol<gtk_text_iter_backward_line>, :returns(gboolean), ),
+  backward-lines => %(:is-symbol<gtk_text_iter_backward_lines>, :returns(gboolean), :parameters([gint]), ),
+  backward-search => %(:is-symbol<gtk_text_iter_backward_search>, :returns(gboolean), :parameters([Str, GFlag, N-Object, N-Object, N-Object]), ),
+  backward-sentence-start => %(:is-symbol<gtk_text_iter_backward_sentence_start>, :returns(gboolean), ),
+  backward-sentence-starts => %(:is-symbol<gtk_text_iter_backward_sentence_starts>, :returns(gboolean), :parameters([gint]), ),
+  backward-to-tag-toggle => %(:is-symbol<gtk_text_iter_backward_to_tag_toggle>, :returns(gboolean), :parameters([N-Object]), ),
+  backward-visible-cursor-position => %(:is-symbol<gtk_text_iter_backward_visible_cursor_position>, :returns(gboolean), ),
+  backward-visible-cursor-positions => %(:is-symbol<gtk_text_iter_backward_visible_cursor_positions>, :returns(gboolean), :parameters([gint]), ),
+  backward-visible-line => %(:is-symbol<gtk_text_iter_backward_visible_line>, :returns(gboolean), ),
+  backward-visible-lines => %(:is-symbol<gtk_text_iter_backward_visible_lines>, :returns(gboolean), :parameters([gint]), ),
+  backward-visible-word-start => %(:is-symbol<gtk_text_iter_backward_visible_word_start>, :returns(gboolean), ),
+  backward-visible-word-starts => %(:is-symbol<gtk_text_iter_backward_visible_word_starts>, :returns(gboolean), :parameters([gint]), ),
+  backward-word-start => %(:is-symbol<gtk_text_iter_backward_word_start>, :returns(gboolean), ),
+  backward-word-starts => %(:is-symbol<gtk_text_iter_backward_word_starts>, :returns(gboolean), :parameters([gint]), ),
+  can-insert => %(:is-symbol<gtk_text_iter_can_insert>, :returns(gboolean), :parameters([gboolean]), ),
+  compare => %(:is-symbol<gtk_text_iter_compare>, :returns(gint), :parameters([N-Object]), ),
+  copy => %(:is-symbol<gtk_text_iter_copy>, :returns(N-Object), ),
+  editable => %(:is-symbol<gtk_text_iter_editable>, :returns(gboolean), :parameters([gboolean]), ),
+  ends-line => %(:is-symbol<gtk_text_iter_ends_line>, :returns(gboolean), ),
+  ends-sentence => %(:is-symbol<gtk_text_iter_ends_sentence>, :returns(gboolean), ),
+  ends-tag => %(:is-symbol<gtk_text_iter_ends_tag>, :returns(gboolean), :parameters([N-Object]), ),
+  ends-word => %(:is-symbol<gtk_text_iter_ends_word>, :returns(gboolean), ),
+  equal => %(:is-symbol<gtk_text_iter_equal>, :returns(gboolean), :parameters([N-Object]), ),
+  forward-char => %(:is-symbol<gtk_text_iter_forward_char>, :returns(gboolean), ),
+  forward-chars => %(:is-symbol<gtk_text_iter_forward_chars>, :returns(gboolean), :parameters([gint]), ),
+  forward-cursor-position => %(:is-symbol<gtk_text_iter_forward_cursor_position>, :returns(gboolean), ),
+  forward-cursor-positions => %(:is-symbol<gtk_text_iter_forward_cursor_positions>, :returns(gboolean), :parameters([gint]), ),
+  forward-find-char => %(:is-symbol<gtk_text_iter_forward_find_char>, :returns(gboolean), :parameters([:( gunichar $ch, gpointer $user-data ), gpointer, N-Object]), ),
+  forward-line => %(:is-symbol<gtk_text_iter_forward_line>, :returns(gboolean), ),
+  forward-lines => %(:is-symbol<gtk_text_iter_forward_lines>, :returns(gboolean), :parameters([gint]), ),
+  forward-search => %(:is-symbol<gtk_text_iter_forward_search>, :returns(gboolean), :parameters([Str, GFlag, N-Object, N-Object, N-Object]), ),
+  forward-sentence-end => %(:is-symbol<gtk_text_iter_forward_sentence_end>, :returns(gboolean), ),
+  forward-sentence-ends => %(:is-symbol<gtk_text_iter_forward_sentence_ends>, :returns(gboolean), :parameters([gint]), ),
   forward-to-end => %(:is-symbol<gtk_text_iter_forward_to_end>, ),
-  forward-to-line-end => %(:is-symbol<gtk_text_iter_forward_to_line_end>,  :returns(gboolean), :cnv-return(Bool)),
-  forward-to-tag-toggle => %(:is-symbol<gtk_text_iter_forward_to_tag_toggle>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
-  forward-visible-cursor-position => %(:is-symbol<gtk_text_iter_forward_visible_cursor_position>,  :returns(gboolean), :cnv-return(Bool)),
-  forward-visible-cursor-positions => %(:is-symbol<gtk_text_iter_forward_visible_cursor_positions>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint])),
-  forward-visible-line => %(:is-symbol<gtk_text_iter_forward_visible_line>,  :returns(gboolean), :cnv-return(Bool)),
-  forward-visible-lines => %(:is-symbol<gtk_text_iter_forward_visible_lines>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint])),
-  forward-visible-word-end => %(:is-symbol<gtk_text_iter_forward_visible_word_end>,  :returns(gboolean), :cnv-return(Bool)),
-  forward-visible-word-ends => %(:is-symbol<gtk_text_iter_forward_visible_word_ends>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint])),
-  forward-word-end => %(:is-symbol<gtk_text_iter_forward_word_end>,  :returns(gboolean), :cnv-return(Bool)),
-  forward-word-ends => %(:is-symbol<gtk_text_iter_forward_word_ends>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint])),
+  forward-to-line-end => %(:is-symbol<gtk_text_iter_forward_to_line_end>, :returns(gboolean), ),
+  forward-to-tag-toggle => %(:is-symbol<gtk_text_iter_forward_to_tag_toggle>, :returns(gboolean), :parameters([N-Object]), ),
+  forward-visible-cursor-position => %(:is-symbol<gtk_text_iter_forward_visible_cursor_position>, :returns(gboolean), ),
+  forward-visible-cursor-positions => %(:is-symbol<gtk_text_iter_forward_visible_cursor_positions>, :returns(gboolean), :parameters([gint]), ),
+  forward-visible-line => %(:is-symbol<gtk_text_iter_forward_visible_line>, :returns(gboolean), ),
+  forward-visible-lines => %(:is-symbol<gtk_text_iter_forward_visible_lines>, :returns(gboolean), :parameters([gint]), ),
+  forward-visible-word-end => %(:is-symbol<gtk_text_iter_forward_visible_word_end>, :returns(gboolean), ),
+  forward-visible-word-ends => %(:is-symbol<gtk_text_iter_forward_visible_word_ends>, :returns(gboolean), :parameters([gint]), ),
+  forward-word-end => %(:is-symbol<gtk_text_iter_forward_word_end>, :returns(gboolean), ),
+  forward-word-ends => %(:is-symbol<gtk_text_iter_forward_word_ends>, :returns(gboolean), :parameters([gint]), ),
   free => %(:is-symbol<gtk_text_iter_free>, ),
-  get-buffer => %(:is-symbol<gtk_text_iter_get_buffer>,  :returns(N-Object)),
-  get-bytes-in-line => %(:is-symbol<gtk_text_iter_get_bytes_in_line>,  :returns(gint)),
-  get-char => %(:is-symbol<gtk_text_iter_get_char>,  :returns(gunichar)),
-  get-chars-in-line => %(:is-symbol<gtk_text_iter_get_chars_in_line>,  :returns(gint)),
-  get-child-anchor => %(:is-symbol<gtk_text_iter_get_child_anchor>,  :returns(N-Object)),
-  #get-language => %(:is-symbol<gtk_text_iter_get_language>,  :returns(N-Language )),
-  get-line => %(:is-symbol<gtk_text_iter_get_line>,  :returns(gint)),
-  get-line-index => %(:is-symbol<gtk_text_iter_get_line_index>,  :returns(gint)),
-  get-line-offset => %(:is-symbol<gtk_text_iter_get_line_offset>,  :returns(gint)),
-  get-marks => %(:is-symbol<gtk_text_iter_get_marks>,  :returns(N-SList)),
-  get-offset => %(:is-symbol<gtk_text_iter_get_offset>,  :returns(gint)),
-  get-paintable => %(:is-symbol<gtk_text_iter_get_paintable>,  :returns(N-Object)),
-  get-slice => %(:is-symbol<gtk_text_iter_get_slice>,  :returns(Str), :parameters([N-TextIter])),
-  get-tags => %(:is-symbol<gtk_text_iter_get_tags>,  :returns(N-SList)),
-  get-text => %(:is-symbol<gtk_text_iter_get_text>,  :returns(Str), :parameters([N-TextIter])),
-  get-toggled-tags => %(:is-symbol<gtk_text_iter_get_toggled_tags>,  :returns(N-SList), :parameters([gboolean])),
-  get-visible-line-index => %(:is-symbol<gtk_text_iter_get_visible_line_index>,  :returns(gint)),
-  get-visible-line-offset => %(:is-symbol<gtk_text_iter_get_visible_line_offset>,  :returns(gint)),
-  get-visible-slice => %(:is-symbol<gtk_text_iter_get_visible_slice>,  :returns(Str), :parameters([N-TextIter])),
-  get-visible-text => %(:is-symbol<gtk_text_iter_get_visible_text>,  :returns(Str), :parameters([N-TextIter])),
-  has-tag => %(:is-symbol<gtk_text_iter_has_tag>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
-  in-range => %(:is-symbol<gtk_text_iter_in_range>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-TextIter, N-TextIter])),
-  inside-sentence => %(:is-symbol<gtk_text_iter_inside_sentence>,  :returns(gboolean), :cnv-return(Bool)),
-  inside-word => %(:is-symbol<gtk_text_iter_inside_word>,  :returns(gboolean), :cnv-return(Bool)),
-  is-cursor-position => %(:is-symbol<gtk_text_iter_is_cursor_position>,  :returns(gboolean), :cnv-return(Bool)),
-  is-end => %(:is-symbol<gtk_text_iter_is_end>,  :returns(gboolean), :cnv-return(Bool)),
-  is-start => %(:is-symbol<gtk_text_iter_is_start>,  :returns(gboolean), :cnv-return(Bool)),
-  order => %(:is-symbol<gtk_text_iter_order>,  :parameters([N-TextIter])),
-  set-line => %(:is-symbol<gtk_text_iter_set_line>,  :parameters([gint])),
-  set-line-index => %(:is-symbol<gtk_text_iter_set_line_index>,  :parameters([gint])),
-  set-line-offset => %(:is-symbol<gtk_text_iter_set_line_offset>,  :parameters([gint])),
-  set-offset => %(:is-symbol<gtk_text_iter_set_offset>,  :parameters([gint])),
-  set-visible-line-index => %(:is-symbol<gtk_text_iter_set_visible_line_index>,  :parameters([gint])),
-  set-visible-line-offset => %(:is-symbol<gtk_text_iter_set_visible_line_offset>,  :parameters([gint])),
-  starts-line => %(:is-symbol<gtk_text_iter_starts_line>,  :returns(gboolean), :cnv-return(Bool)),
-  starts-sentence => %(:is-symbol<gtk_text_iter_starts_sentence>,  :returns(gboolean), :cnv-return(Bool)),
-  starts-tag => %(:is-symbol<gtk_text_iter_starts_tag>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
-  starts-word => %(:is-symbol<gtk_text_iter_starts_word>,  :returns(gboolean), :cnv-return(Bool)),
-  toggles-tag => %(:is-symbol<gtk_text_iter_toggles_tag>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
+  get-buffer => %(:is-symbol<gtk_text_iter_get_buffer>, :returns(N-Object), ),
+  get-bytes-in-line => %(:is-symbol<gtk_text_iter_get_bytes_in_line>, :returns(gint), ),
+  get-char => %(:is-symbol<gtk_text_iter_get_char>, :returns(gunichar), ),
+  get-chars-in-line => %(:is-symbol<gtk_text_iter_get_chars_in_line>, :returns(gint), ),
+  get-child-anchor => %(:is-symbol<gtk_text_iter_get_child_anchor>, :returns(N-Object), ),
+  get-language => %(:is-symbol<gtk_text_iter_get_language>, :returns(N-Object), ),
+  get-line => %(:is-symbol<gtk_text_iter_get_line>, :returns(gint), ),
+  get-line-index => %(:is-symbol<gtk_text_iter_get_line_index>, :returns(gint), ),
+  get-line-offset => %(:is-symbol<gtk_text_iter_get_line_offset>, :returns(gint), ),
+  get-marks => %(:is-symbol<gtk_text_iter_get_marks>, :returns(N-Object), ),
+  get-offset => %(:is-symbol<gtk_text_iter_get_offset>, :returns(gint), ),
+  get-paintable => %(:is-symbol<gtk_text_iter_get_paintable>, :returns(N-Object), ),
+  get-slice => %(:is-symbol<gtk_text_iter_get_slice>, :returns(Str), :parameters([N-Object]), ),
+  get-tags => %(:is-symbol<gtk_text_iter_get_tags>, :returns(N-Object), ),
+  get-text => %(:is-symbol<gtk_text_iter_get_text>, :returns(Str), :parameters([N-Object]), ),
+  get-toggled-tags => %(:is-symbol<gtk_text_iter_get_toggled_tags>, :returns(N-Object), :parameters([gboolean]), ),
+  get-visible-line-index => %(:is-symbol<gtk_text_iter_get_visible_line_index>, :returns(gint), ),
+  get-visible-line-offset => %(:is-symbol<gtk_text_iter_get_visible_line_offset>, :returns(gint), ),
+  get-visible-slice => %(:is-symbol<gtk_text_iter_get_visible_slice>, :returns(Str), :parameters([N-Object]), ),
+  get-visible-text => %(:is-symbol<gtk_text_iter_get_visible_text>, :returns(Str), :parameters([N-Object]), ),
+  has-tag => %(:is-symbol<gtk_text_iter_has_tag>, :returns(gboolean), :parameters([N-Object]), ),
+  in-range => %(:is-symbol<gtk_text_iter_in_range>, :returns(gboolean), :parameters([N-Object, N-Object]), ),
+  inside-sentence => %(:is-symbol<gtk_text_iter_inside_sentence>, :returns(gboolean), ),
+  inside-word => %(:is-symbol<gtk_text_iter_inside_word>, :returns(gboolean), ),
+  is-cursor-position => %(:is-symbol<gtk_text_iter_is_cursor_position>, :returns(gboolean), ),
+  is-end => %(:is-symbol<gtk_text_iter_is_end>, :returns(gboolean), ),
+  is-start => %(:is-symbol<gtk_text_iter_is_start>, :returns(gboolean), ),
+  order => %(:is-symbol<gtk_text_iter_order>, :parameters([N-Object]), ),
+  set-line => %(:is-symbol<gtk_text_iter_set_line>, :parameters([gint]), ),
+  set-line-index => %(:is-symbol<gtk_text_iter_set_line_index>, :parameters([gint]), ),
+  set-line-offset => %(:is-symbol<gtk_text_iter_set_line_offset>, :parameters([gint]), ),
+  set-offset => %(:is-symbol<gtk_text_iter_set_offset>, :parameters([gint]), ),
+  set-visible-line-index => %(:is-symbol<gtk_text_iter_set_visible_line_index>, :parameters([gint]), ),
+  set-visible-line-offset => %(:is-symbol<gtk_text_iter_set_visible_line_offset>, :parameters([gint]), ),
+  starts-line => %(:is-symbol<gtk_text_iter_starts_line>, :returns(gboolean), ),
+  starts-sentence => %(:is-symbol<gtk_text_iter_starts_sentence>, :returns(gboolean), ),
+  starts-tag => %(:is-symbol<gtk_text_iter_starts_tag>, :returns(gboolean), :parameters([N-Object]), ),
+  starts-word => %(:is-symbol<gtk_text_iter_starts_word>, :returns(gboolean), ),
+  toggles-tag => %(:is-symbol<gtk_text_iter_toggles_tag>, :returns(gboolean), :parameters([N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------
