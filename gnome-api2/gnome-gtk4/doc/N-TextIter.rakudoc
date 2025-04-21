@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::N-TextIter
-
-![](images/textiter.png)
-
+=TITLE Gnome::Gtk4::N-TextIter
 =head1 Description
 
 An iterator for the contents of a B<Gnome::Gtk4::TextBuffer>.
@@ -21,59 +18,10 @@ related to the text widget and how they work together.
 
 =begin comment
 
-=head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
-
-=begin comment
-
 =head2 Example
 # Example use of module Gnome::Gtk4::TextIter
 
 =end comment
-
-=end pod
-
-#-------------------------------------------------------------------------------
-#--[Record Structure Documentation]---------------------------------------------
-#-------------------------------------------------------------------------------
-
-=begin pod
-=head1 Record N-TextIter
-
-  class N-TextIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-    has gpointer $.dummy1;
-    has gpointer $.dummy2;
-    has gint $.dummy3;
-    has gint $.dummy4;
-    has gint $.dummy5;
-    has gint $.dummy6;
-    has gint $.dummy7;
-    has gint $.dummy8;
-    has gpointer $.dummy9;
-    has gpointer $.dummy10;
-    has gint $.dummy11;
-    has gint $.dummy12;
-    has gint $.dummy13;
-    has gpointer $.dummy14;
-  }
-
-=item dummy1; 
-=item dummy2; 
-=item dummy3; 
-=item dummy4; 
-=item dummy5; 
-=item dummy6; 
-=item dummy7; 
-=item dummy8; 
-=item dummy9; 
-=item dummy10; 
-=item dummy11; 
-=item dummy12; 
-=item dummy13; 
-=item dummy14; 
 
 =end pod
 
@@ -109,15 +57,15 @@ Create an object using a native object from an object of the same type found els
 Assigns the value of C<$other> to C<$iter>.
 
 This function is not useful in applications, because
-iterators can be assigned with B<GtkTextIter i = j;>.
+iterators can be assigned with B<Gnome::Gtk4::N-TextIter> i = j;`.
 
 The function is used by language bindings.
 
 =begin code
-method assign ( CArray[N-TextIter] $other )
+method assign ( N-Object $other )
 =end code
 
-=item $other; another B<Gnome::Gtk4::N-TextIter>.
+=item $other; another B<Gnome::Gtk4::N-TextIter>
 
 =begin comment
 
@@ -188,7 +136,7 @@ Return value; whether C<$iter> moved and is dereferenceable.
 =begin pod
 =head2 backward-cursor-position
 
-Like C<.forward-cursor-position()>, but moves backward.
+Like C<.forward-cursor-position()>], but moves backward.
 
 =begin code
 method backward-cursor-position (--> Bool )
@@ -211,7 +159,7 @@ Return value; C<True> if we moved.
 
 Moves up to C<$count> cursor positions.
 
-See C<.forward-cursor-position()> for details.
+See C<.forward-cursor-position()>] for details.
 
 =begin code
 method backward-cursor-positions ( Int() $count --> Bool )
@@ -234,16 +182,16 @@ Return value; C<True> if we moved and the new position is dereferenceable.
 =begin pod
 =head2 backward-find-char
 
-Same as C<.forward-find-char()>,
+Same as C<.forward-find-char()>],
 but goes backward from C<$iter>.
 
 =begin code
-method backward-find-char ( &pred, gpointer $user-data, CArray[N-TextIter] $limit --> Bool )
+method backward-find-char ( GtkTextCharPredicate &pred, gpointer $user-data, N-Object $limit --> Bool )
 =end code
 
-=item &pred; function to be called on each character. Tthe function must be specified with following signature; C<:( gunichar $ch, gpointer $user-data --> gboolean )>.
+=item GtkTextCharPredicate &pred; function to be called on each character. The function must be specified with the following signature; C<:( gunichar $ch, gpointer $user-data )>.
 =item $user-data; user data for C<$pred>.
-=item $limit; search limit.
+=item $limit; search limit
 
 Return value; whether a match was found. 
 
@@ -320,19 +268,19 @@ Return value; whether C<$iter> moved and is dereferenceable.
 =begin pod
 =head2 backward-search
 
-Same as C<.forward-search()>, but moves backward.
+Same as C<.forward-search()>], but moves backward.
  C<$match-end> will never be set to a B<Gnome::Gtk4::N-TextIter> located after C<$iter>,
 even if there is a possible C<$match-start> before or at C<$iter>.
 
 =begin code
-method backward-search ( Str $str, UInt $flags, CArray[N-TextIter] $match-start, CArray[N-TextIter] $match-end, CArray[N-TextIter] $limit --> Bool )
+method backward-search ( Str $str, UInt $flags, N-Object $match-start, N-Object $match-end, N-Object $limit --> Bool )
 =end code
 
 =item $str; search string.
 =item $flags; bitmask of flags affecting the search.
-=item $match-start; return location for start of match.
-=item $match-end; return location for end of match.
-=item $limit; location of last possible C<$match-start>, or undefined for start of buffer.
+=item $match-start; return location for start of match
+=item $match-end; return location for end of match
+=item $limit; location of last possible C<$match-start>, or undefined for start of buffer
 
 Return value; whether a match was found. 
 
@@ -376,7 +324,7 @@ Return value; C<True> if C<$iter> moved and is not the end iterator.
 =begin pod
 =head2 backward-sentence-starts
 
-Calls C<.backward-sentence-start()> up to C<$count> times.
+Calls C<.backward-sentence-start()>] up to C<$count> times.
 
 If C<$count> is negative, moves forward instead of backward.
 
@@ -430,9 +378,9 @@ Return value; whether we found a tag toggle before C<$iter>.
 =begin pod
 =head2 backward-visible-cursor-position
 
-Moves C<$iter> forward to the previous visible cursor position.
+Moves C<$iter> backward to the previous visible cursor position.
 
-See C<.backward-cursor-position()> for details.
+See C<.backward-cursor-position()>] for details.
 
 =begin code
 method backward-visible-cursor-position (--> Bool )
@@ -455,7 +403,7 @@ Return value; C<True> if we moved and the new position is dereferenceable.
 
 Moves up to C<$count> visible cursor positions.
 
-See C<.backward-cursor-position()> for details.
+See C<.backward-cursor-position()>] for details.
 
 =begin code
 method backward-visible-cursor-positions ( Int() $count --> Bool )
@@ -565,7 +513,7 @@ Return value; C<True> if C<$iter> moved and is not the end iterator.
 =begin pod
 =head2 backward-visible-word-starts
 
-Calls C<.backward-visible-word-start()> up to C<$count> times.
+Calls C<.backward-visible-word-start()>] up to C<$count> times.
 
 =begin code
 method backward-visible-word-starts ( Int() $count --> Bool )
@@ -615,7 +563,7 @@ Return value; C<True> if C<$iter> moved and is not the end iterator.
 =begin pod
 =head2 backward-word-starts
 
-Calls C<.backward-word-start()> up to C<$count> times.
+Calls C<.backward-word-start()>] up to C<$count> times.
 
 =begin code
 method backward-word-starts ( Int() $count --> Bool )
@@ -644,7 +592,7 @@ be editable.
 
 If text inserted at C<$iter> would be editable then the
 user should be allowed to insert text at C<$iter>.
-C<.insert-interactive() in class Gnome::Gtk4::TextBuffer> uses this function
+C<.insert-interactive()> in class B<Gnome::Gtk4::TextBuffer>] uses this function
 to decide whether insertions are allowed at a given position.
 
 =begin code
@@ -674,10 +622,10 @@ Ordering is in character offset order, i.e. the first character
 in the buffer is less than the second character in the buffer.
 
 =begin code
-method compare ( CArray[N-TextIter] $rhs --> Int )
+method compare ( N-Object $rhs --> Int )
 =end code
 
-=item $rhs; another B<Gnome::Gtk4::N-TextIter>.
+=item $rhs; another B<Gnome::Gtk4::N-TextIter>
 
 Return value; -1 if C<$lhs> is less than C<$rhs>, 1 if C<$lhs> is greater, 0 if they are equal. 
 
@@ -698,15 +646,15 @@ Creates a dynamically-allocated copy of an iterator.
 
 This function is not useful in applications, because
 iterators can be copied with a simple assignment
-(B<GtkTextIter i = j;>).
+(B<Gnome::Gtk4::N-TextIter> i = j;`).
 
 The function is used by language bindings.
 
 =begin code
-method copy (--> CArray[N-TextIter] )
+method copy (--> N-Object )
 =end code
 
-Return value; a copy of the C<$iter>, free with C<.free()>. 
+Return value; a copy of the C<$iter>, free with C<.free()>]. 
 
 =begin comment
 
@@ -732,7 +680,7 @@ You don’t want to use this function to decide whether text can be
 inserted at C<$iter>, because for insertion you don’t want to know
 whether the char at C<$iter> is inside an editable range, you want to
 know whether a new character inserted at C<$iter> would be inside an
-editable range. Use C<.can-insert()> to handle this
+editable range. Use C<.can-insert()>] to handle this
 case.
 
 =begin code
@@ -817,8 +765,8 @@ If C<$tag> is undefined, returns C<True> if any tag is toggled off at this point
 
 Note that if this function returns C<True>, it means that C<$iter> is at the end of the tagged range, but that the character
 at C<$iter> is outside the tagged range. In other words,
-unlike C<.starts-tag()>, if this function
-returns C<True>, C<.has-tag()> will return
+unlike C<.starts-tag()>], if this function
+returns C<True>, C<.has-tag()>] will return
 C<False> for the same parameters.
 
 =begin code
@@ -872,13 +820,13 @@ mechanism.
 This function is very fast; you can expect it to perform
 better than e.g. getting the character offset for each
 iterator and comparing the offsets yourself. Also, it’s a
-bit faster than C<.compare()>.
+bit faster than C<.compare()>].
 
 =begin code
-method equal ( CArray[N-TextIter] $rhs --> Bool )
+method equal ( N-Object $rhs --> Bool )
 =end code
 
-=item $rhs; another B<Gnome::Gtk4::N-TextIter>.
+=item $rhs; another B<Gnome::Gtk4::N-TextIter>
 
 Return value; C<True> if the iterators point to the same place in the buffer. 
 
@@ -989,7 +937,7 @@ Return value; C<True> if we moved and the new position is dereferenceable.
 
 Moves up to C<$count> cursor positions.
 
-See C<.forward-cursor-position()> for details.
+See C<.forward-cursor-position()>] for details.
 
 =begin code
 method forward-cursor-positions ( Int() $count --> Bool )
@@ -1018,12 +966,12 @@ If C<$pred> returns C<True>, returns C<True> and stops scanning.
 If C<$pred> never returns C<True>, C<$iter> is set to C<$limit> if C<$limit> is non-undefined, otherwise to the end iterator.
 
 =begin code
-method forward-find-char ( &pred, gpointer $user-data, CArray[N-TextIter] $limit --> Bool )
+method forward-find-char ( GtkTextCharPredicate &pred, gpointer $user-data, N-Object $limit --> Bool )
 =end code
 
-=item &pred; a function to be called on each character. Tthe function must be specified with following signature; C<:( gunichar $ch, gpointer $user-data --> gboolean )>.
+=item GtkTextCharPredicate &pred; a function to be called on each character. The function must be specified with the following signature; C<:( gunichar $ch, gpointer $user-data )>.
 =item $user-data; user data for C<$pred>.
-=item $limit; search limit.
+=item $limit; search limit
 
 Return value; whether a match was found. 
 
@@ -1109,14 +1057,14 @@ locking up your UI on large buffers.
 even if there is a possible C<$match-end> after or at C<$iter>.
 
 =begin code
-method forward-search ( Str $str, UInt $flags, CArray[N-TextIter] $match-start, CArray[N-TextIter] $match-end, CArray[N-TextIter] $limit --> Bool )
+method forward-search ( Str $str, UInt $flags, N-Object $match-start, N-Object $match-end, N-Object $limit --> Bool )
 =end code
 
 =item $str; a search string.
 =item $flags; flags affecting how the search is done.
-=item $match-start; return location for start of match.
-=item $match-end; return location for end of match.
-=item $limit; location of last possible C<$match-end>, or undefined for the end of the buffer.
+=item $match-start; return location for start of match
+=item $match-end; return location for end of match
+=item $limit; location of last possible C<$match-end>, or undefined for the end of the buffer
 
 Return value; whether a match was found. 
 
@@ -1160,7 +1108,7 @@ Return value; C<True> if C<$iter> moved and is not the end iterator.
 =begin pod
 =head2 forward-sentence-ends
 
-Calls C<.forward-sentence-end()> C<$count> times.
+Calls C<.forward-sentence-end()>] C<$count> times.
 
 If C<$count> is negative, moves backward instead of forward.
 
@@ -1188,7 +1136,7 @@ Return value; C<True> if C<$iter> moved and is not the end iterator.
 Moves C<$iter> forward to the “end iterator”, which points
 one past the last valid character in the buffer.
 
-C<.get-char()> called on the end iterator
+C<.get-char()>] called on the end iterator
 returns 0, which is convenient for writing loops.
 
 =begin code
@@ -1270,7 +1218,7 @@ Return value; whether we found a tag toggle after C<$iter>.
 
 Moves C<$iter> forward to the next visible cursor position.
 
-See C<.forward-cursor-position()> for details.
+See C<.forward-cursor-position()>] for details.
 
 =begin code
 method forward-visible-cursor-position (--> Bool )
@@ -1293,7 +1241,7 @@ Return value; C<True> if we moved and the new position is dereferenceable.
 
 Moves up to C<$count> visible cursor positions.
 
-See C<.forward-cursor-position()> for details.
+See C<.forward-cursor-position()>] for details.
 
 =begin code
 method forward-visible-cursor-positions ( Int() $count --> Bool )
@@ -1401,7 +1349,7 @@ Return value; C<True> if C<$iter> moved and is not the end iterator.
 =begin pod
 =head2 forward-visible-word-ends
 
-Calls C<.forward-visible-word-end()> up to C<$count> times.
+Calls C<.forward-visible-word-end()>] up to C<$count> times.
 
 =begin code
 method forward-visible-word-ends ( Int() $count --> Bool )
@@ -1451,7 +1399,7 @@ Return value; C<True> if C<$iter> moved and is not the end iterator.
 =begin pod
 =head2 forward-word-ends
 
-Calls C<.forward-word-end()> up to C<$count> times.
+Calls C<.forward-word-end()>] up to C<$count> times.
 
 =begin code
 method forward-word-ends ( Int() $count --> Bool )
@@ -1614,7 +1562,6 @@ Return value; the anchor at C<$iter>.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-language
-This function is not yet available
 
 Returns the language in effect at C<$iter>.
 
@@ -1622,7 +1569,7 @@ If no tags affecting language apply to C<$iter>, the return
 value is identical to that of C<.get-default-language()>.
 
 =begin code
-method get-language (--> CArray[N-Language]  )
+method get-language (--> N-Object )
 =end code
 
 Return value; language in effect at C<$iter>. 
@@ -1746,7 +1693,7 @@ Returns the character offset of an iterator.
 
 Each character in a B<Gnome::Gtk4::TextBuffer> has an offset,
 starting with 0 for the first character in the buffer.
-Use [method C<$Gtk>,TextBuffer.get_iter_at_offset] to convert
+Use C<.get-iter-at-offset()> in class B<Gnome::Gtk4::TextBuffer>] to convert
 an offset back into an iterator.
 
 =begin code
@@ -1803,10 +1750,10 @@ text as well, so it is not a reliable indicator that a paintable or
 widget is in the buffer.
 
 =begin code
-method get-slice ( CArray[N-TextIter] $end --> Str )
+method get-slice ( N-Object $end --> Str )
 =end code
 
-=item $end; iterator at end of a range.
+=item $end; iterator at end of a range
 
 Return value; slice of text from the buffer. 
 
@@ -1857,13 +1804,13 @@ If the range
 contains non-text elements such as images, the character and byte
 offsets in the returned string will not correspond to character and
 byte offsets in the buffer. If you want offsets to correspond, see
-C<.get-slice()>.
+C<.get-slice()>].
 
 =begin code
-method get-text ( CArray[N-TextIter] $end --> Str )
+method get-text ( N-Object $end --> Str )
 =end code
 
-=item $end; iterator at end of a range.
+=item $end; iterator at end of a range
 
 Return value; array of characters from the buffer. 
 
@@ -1961,16 +1908,16 @@ Return value; offset in visible characters from the start of the line.
 
 Returns visible text in the given range.
 
-Like C<.get-slice()>, but invisible text
+Like C<.get-slice()>], but invisible text
 is not included. Invisible text is usually invisible because
 a B<Gnome::Gtk4::TextTag> with the “invisible” attribute turned on has
 been applied to it.
 
 =begin code
-method get-visible-slice ( CArray[N-TextIter] $end --> Str )
+method get-visible-slice ( N-Object $end --> Str )
 =end code
 
-=item $end; iterator at end of range.
+=item $end; iterator at end of range
 
 Return value; slice of text from the buffer. 
 
@@ -1989,16 +1936,16 @@ Return value; slice of text from the buffer.
 
 Returns visible text in the given range.
 
-Like C<.get-text()>, but invisible text
+Like C<.get-text()>], but invisible text
 is not included. Invisible text is usually invisible because
 a B<Gnome::Gtk4::TextTag> with the “invisible” attribute turned on has
 been applied to it.
 
 =begin code
-method get-visible-text ( CArray[N-TextIter] $end --> Str )
+method get-visible-text ( N-Object $end --> Str )
 =end code
 
-=item $end; iterator at end of range.
+=item $end; iterator at end of range
 
 Return value; string containing visible text in the
 range. 
@@ -2019,8 +1966,8 @@ range.
 Returns C<True> if C<$iter> points to a character that is part
 of a range tagged with C<$tag>.
 
-See also C<.starts-tag()> and
-C<.ends-tag()>.
+See also C<.starts-tag()>] and
+C<.ends-tag()>].
 
 =begin code
 method has-tag ( N-Object() $tag --> Bool )
@@ -2047,11 +1994,11 @@ Checks whether C<$iter> falls in the range [ C<$start>, C<$end>).
  C<$start> and C<$end> must be in ascending order.
 
 =begin code
-method in-range ( CArray[N-TextIter] $start, CArray[N-TextIter] $end --> Bool )
+method in-range ( N-Object $start, N-Object $end --> Bool )
 =end code
 
-=item $start; start of range.
-=item $end; end of range.
+=item $start; start of range
+=item $end; end of range
 
 Return value; C<True> if C<$iter> is in the range. 
 
@@ -2100,7 +2047,7 @@ natural-language word (as opposed to say inside some whitespace).
 Word breaks are determined by Pango and should be correct
 for nearly any language.
 
-Note that if C<.starts-word()> returns C<True>,
+Note that if C<.starts-word()>] returns C<True>,
 then this function returns C<True> too, since C<$iter> points to
 the first character of the word.
 
@@ -2125,7 +2072,7 @@ Return value; C<True> if C<$iter> is inside a word.
 
 Determine if C<$iter> is at a cursor position.
 
-See C<.forward-cursor-position()> or
+See C<.forward-cursor-position()>] or
  B<Gnome::Pango::N-LogAttr>  or C<.break() in package Gnome::Pango> for details
 on what a cursor position is.
 
@@ -2151,7 +2098,7 @@ Return value; C<True> if the cursor can be placed at C<$iter>.
 Returns C<True> if C<$iter> is the end iterator.
 
 This means it is one past the last dereferenceable iterator
-in the buffer. C<.is-end()> is the most efficient
+in the buffer. C<.is-end()>] is the most efficient
 way to check whether an iterator is the end iterator.
 
 =begin code
@@ -2200,14 +2147,14 @@ That is, ensures that C<$first> and C<$second> are in sequence.
 Most text buffer functions that take a range call this
 automatically on your behalf, so there’s no real reason to
 call it yourself in those cases. There are some exceptions,
-such as C<.in-range()>, that expect a
+such as C<.in-range()>], that expect a
 pre-sorted range.
 
 =begin code
-method order ( CArray[N-TextIter] $second )
+method order ( N-Object $second )
 =end code
 
-=item $second; another B<Gnome::Gtk4::N-TextIter>.
+=item $second; another B<Gnome::Gtk4::N-TextIter>
 
 =begin comment
 
@@ -2246,7 +2193,7 @@ method set-line ( Int() $line-number )
 =begin pod
 =head2 set-line-index
 
-Same as C<.set-line-offset()>, but works with a
+Same as C<.set-line-offset()>], but works with a
 byte index. The given byte index must be at
 the start of a character, it can’t be in the middle of a UTF-8
 encoded character.
@@ -2274,7 +2221,7 @@ Moves C<$iter> within a line, to a new character (not byte) offset.
 
 The given character offset must be less than or equal to the number
 of characters in the line; if equal, C<$iter> moves to the start of the
-next line. See C<.set-line-index()> if you have a byte
+next line. See C<.set-line-index()>] if you have a byte
 index rather than a character offset.
 
 =begin code
@@ -2319,7 +2266,7 @@ method set-offset ( Int() $char-offset )
 =begin pod
 =head2 set-visible-line-index
 
-Like C<.set-line-index()>, but the index is in visible
+Like C<.set-line-index()>], but the index is in visible
 bytes, i.e. text with a tag making it invisible is not counted
 in the index.
 
@@ -2342,7 +2289,7 @@ method set-visible-line-index ( Int() $byte-on-line )
 =begin pod
 =head2 set-visible-line-offset
 
-Like C<.set-line-offset()>, but the offset is in visible
+Like C<.set-line-offset()>], but the offset is in visible
 characters, i.e. text with a tag making it invisible is not
 counted in the offset.
 
@@ -2367,9 +2314,9 @@ method set-visible-line-offset ( Int() $char-on-line )
 
 Returns C<True> if C<$iter> begins a paragraph.
 
-This is the case if C<.get-line-offset()>
+This is the case if C<.get-line-offset()>]
 would return 0. However this function is potentially more
-efficient than C<.get-line-offset()>, because
+efficient than C<.get-line-offset()>], because
 it doesn’t have to compute the offset, it just has to see
 whether it’s 0.
 
@@ -2422,8 +2369,8 @@ If C<$tag> is undefined, returns C<True> if any tag is toggled on at this point.
 
 Note that if this function returns C<True>, it means that C<$iter> is at the beginning of the tagged range, and that the
 character at C<$iter> is inside the tagged range. In other
-words, unlike C<.ends-tag()>, if
-this function returns C<True>, [method C<$Gtk>.TextIter.has_tag
+words, unlike C<.ends-tag()>], if
+this function returns C<True>, C<.has-tag()>]
 will also return C<True> for the same parameters.
 
 =begin code
