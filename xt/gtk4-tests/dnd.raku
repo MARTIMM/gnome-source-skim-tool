@@ -229,12 +229,12 @@ note "$?LINE $drag.gist()";
 
       else {
         note 'drop2: package from abroad';
-#        $drop.read-value-async(
-#          G_TYPE_STRING, 1, gpointer, &get-data-value-async, gpointer
-#        );
-        $drop.read-async(
-          CArray[Str].new('text/plain'), 1, gpointer, &get-data-async, gpointer
+        $drop.read-value-async(
+          G_TYPE_STRING, 1, gpointer, &get-data-value-async, gpointer
         );
+#        $drop.read-async(
+#          CArray[Str].new('text/plain'), 1, gpointer, &get-data-async, gpointer
+#        );
       }
     }
 
@@ -332,10 +332,10 @@ note "$?LINE $drag.gist()";
 sub get-data-value-async (
   Gnome::Gdk4::Drop() $drop, Gnome::Gio::Task() $result, gpointer $
 ) {
+note "$?LINE $drop.gist()";
   CONTROL { when CX::Warn {  note .gist; #`{{.resume;}} } }
   CATCH { default { .message.note; .backtrace.concise.note } }
 
-note "$?LINE $drop.gist()";
 note "get-data actions: ", $drop.get-actions.fmt('0x%04x');
 note "get-data is COPY: ", $drop.get-actions.fmt('0x%04x') ?& GDK_ACTION_COPY;
 
