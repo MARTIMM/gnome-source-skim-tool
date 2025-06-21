@@ -399,7 +399,6 @@ method !modify-v4classes ( Str $text is copy --> Str ) {
     $text ~~ s/ <exception> /B<$classname>/;
   }
 
-
   # [class@Gtk.Entry]
   my token prefix { <-[\.\]]>+ }
   my token classname { <-[\]]>+ }
