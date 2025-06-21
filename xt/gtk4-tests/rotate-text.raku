@@ -1,11 +1,10 @@
 #!/usr/bin/env -S rakudo
 #-------------------------------------------------------------------------------
 
-use NativeCall;
+#use NativeCall;
 
-use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-Object:api<2>;
-use Gnome::N::X:api<2>;
+#use Gnome::N::GlibToRakuTypes:api<2>;
+#use Gnome::N::X:api<2>;
 #Gnome::N::debug(:on);
 
 use Gnome::Gtk4::Widget:api<2>;
@@ -21,31 +20,20 @@ use Gnome::Graphene::T-size:api<2>;
 
 use Gnome::Gdk4::T-rgba:api<2>;
 use Gnome::Gdk4::Texture:api<2>;
-#use Gnome::Gdk4::T-types:api<2>;
 
 use Gnome::Pango::Layout:api<2>;
 use Gnome::Pango::T-types:api<2>;
 
-use Gnome::Glib::N-MainLoop:api<2>;
-
 #-------------------------------------------------------------------------------
-constant N-MainLoop = Gnome::Glib::N-MainLoop;
-constant Widget = Gnome::Gtk4::Widget;
-constant Window = Gnome::Gtk4::Window;
-constant Label = Gnome::Gtk4::Label;
-constant Snapshot = Gnome::Gtk4::Snapshot;
-constant Picture = Gnome::Gtk4::Picture;
-constant Box = Gnome::Gtk4::Box;
-constant PLayout = Gnome::Pango::Layout;
+my constant Texture = Gnome::Gdk4::Texture;
+my constant PLayout = Gnome::Pango::Layout;
 
-my N-MainLoop $main-loop .= new-mainloop( N-Object, True);
-
-#-------------------------------------------------------------------------------
-class Helper {
-  method exit ( ) {
-    $main-loop.quit;
-  }
-}
+my constant Widget = Gnome::Gtk4::Widget;
+my constant Window = Gnome::Gtk4::Window;
+my constant Label = Gnome::Gtk4::Label;
+my constant Snapshot = Gnome::Gtk4::Snapshot;
+my constant Picture = Gnome::Gtk4::Picture;
+my constant Box = Gnome::Gtk4::Box;
 
 #-------------------------------------------------------------------------------
 class RotateLabel is Picture {
@@ -55,9 +43,12 @@ class RotateLabel is Picture {
   submethod BUILD ( Str :$!label, Num() :$!angle is copy ) {
     $!angle %= 360;
 
+    # Raku calculates with radians, Gnome with degrees.
+    my $radians = $!angle*2*pi/360;
+
     my PLayout() $layout = self.create-pango-layout('');
-    $layout.set-indent(0);
-    $layout.set-text( $!label, $!label.chars);
+#    $layout.set-indent(0);
+    $layout.set-markup( $!label, $!label.chars);
 
     # Get size info of string
     my Int ( $x, $y, $w, $h) = self.get-text-info($layout);
@@ -66,9 +57,6 @@ class RotateLabel is Picture {
 #TODO test angle
 # below 0 ≤ angle < 90
     my ( $w1, $w2, $h1, $h2, $new_width, $new_height, $nx, $ny);
-
-    # Raku calculates with radians, Gnome with degrees.
-    my $radians = $!angle*2*pi/360;
 
     if 0 < $!angle ≤ 90 {
       ( $w1, $w2, $h1, $h2, $new_width, $new_height) =
@@ -116,7 +104,7 @@ class RotateLabel is Picture {
       $layout, N-RGBA.new( :red(1), :green(1), :blue(0), :alpha(1))
     );
     my N-Size() $n-size .= new( :width($new_width), :height($new_height));
-    my Gnome::Gdk4::Texture() $texture = $snapshot.free-to-paintable($n-size);
+    my Texture() $texture = $snapshot.free-to-paintable($n-size);
 
     self.set-size-request( $new_width, $new_height);
     self.set-paintable($texture);
@@ -145,48 +133,88 @@ class RotateLabel is Picture {
     my N-Rectangle $ink .= new;
     my N-Rectangle $log .= new;
     $layout.get-pixel-extents( $ink, $log);
-    ( $log.x, $log.y, $log.width, $log.height)
+    $log.x, $log.y, $log.width, $log.height
+#    $ink.x, $ink.y, $ink.width, $ink.height
   }
 }
 
 #-------------------------------------------------------------------------------
-sub MAIN ( Int $angle = 10 ) {
-  my Helper $helper .= new;
+use Gnome::Gdk4::Display:api<2>;
+use Gnome::Glib::N-MainLoop:api<2>;
+use Gnome::N::N-Object:api<2>;
 
-  my RotateLabel $RotateLabel1 .= new-picture(
-    :label('Big Test Label Text'), :$angle
+use Gnome::Gtk4::CssProvider:api<2>;
+use Gnome::Gtk4::StyleContext:api<2>;
+use Gnome::Gtk4::T-styleprovider:api<2>;
+
+my constant N-MainLoop = Gnome::Glib::N-MainLoop;
+my constant Display = Gnome::Gdk4::Display;
+my constant CssProvider = Gnome::Gtk4::CssProvider;
+my constant StyleContext = Gnome::Gtk4::StyleContext;
+
+my N-MainLoop $main-loop .= new-mainloop( N-Object, True);
+
+#-------------------------------------------------------------------------------
+class Helper {
+  method exit ( ) {
+    $main-loop.quit;
+  }
+}
+
+#-------------------------------------------------------------------------------
+sub MAIN ( Rat $angle = 10.5 ) {
+  my Str $css = Q:q:to/EOCSS/;
+    .rotate-label {
+      border-style: solid;
+      border-color: #aeaeff;
+      border-width: 2px;
+    }
+    EOCSS
+
+  my CssProvider $css-provider .= new-cssprovider;
+  $css-provider.load-from-data( $css, $css.chars);
+  my StyleContext $style-context .= new;
+  $style-context.add-provider-for-display(
+    Display.new.get-default,
+    $css-provider,
+    GTK_STYLE_PROVIDER_PRIORITY_APPLICATION
   );
 
-  my RotateLabel $RotateLabel2 .= new-picture(
-    :label('Big Test Label Text'), :angle($angle + 90)
+  my RotateLabel $rotate-label1 .= new-picture(
+    :label('Big <b>Test</b> Label Text'), :$angle
   );
+  $rotate-label1.add-css-class('rotate-label');
+  
+  my RotateLabel $rotate-label2 .= new-picture(
+    :label('<span bgcolor="purple">Big Test Label <b><span fgcolor="lightblue">Text</span></b></span>'),
+    :angle($angle + 90)
+  );
+  $rotate-label2.add-css-class('rotate-label');
 
-  my RotateLabel $RotateLabel3 .= new-picture(
-    :label('Big Test Label Text'), :angle($angle + 180)
+  my RotateLabel $rotate-label3 .= new-picture(
+    :label('<i>Big Test Label Text</i>'), :angle($angle + 180)
   );
+  $rotate-label3.add-css-class('rotate-label');
 
-  my RotateLabel $RotateLabel4 .= new-picture(
-    :label('Big Test Label Text'), :angle($angle + 270)
+  my RotateLabel $rotate-label4 .= new-picture(
+    :label('<span fgcolor="lightgreen">Big</span> Test Label Text'),
+    :angle($angle + 270)
   );
+  $rotate-label4.add-css-class('rotate-label');
+
   with my Box $box .= new-box( GTK_ORIENTATION_HORIZONTAL, 0) {
-    .append($RotateLabel1);
-    .append($RotateLabel2);
-    .append($RotateLabel3);
-    .append($RotateLabel4);
+    .append($rotate-label1);
+    .append($rotate-label2);
+    .append($rotate-label3);
+    .append($rotate-label4);
   }
 
   with my Window $window .= new-window {
     .set-title('Rotated text widget');
-
     .set-child($box);
     .present;
 
-    .set-margin-top(0);
-    .set-margin-bottom(0);
-    .set-margin-start(0);
-    .set-margin-end(0);
-
-    .register-signal( $helper, 'exit', 'close-request');
+    .register-signal( Helper.new, 'exit', 'close-request');
   }
 
   $main-loop.run;
