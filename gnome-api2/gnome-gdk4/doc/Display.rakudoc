@@ -1,0 +1,981 @@
+=comment Package: Gdk4, C-Source: display
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=TITLE Gnome::Gdk4::Display
+=head1 Description
+
+B<Gnome::Gdk4::Display> objects are the GDK representation of a workstation.
+
+Their purpose are two-fold:
+
+=item To manage and provide information about input devices (pointers, keyboards, etc)
+=item To manage and provide information about output devices (monitors, projectors, etc)
+
+Most of the input device handling has been factored out into separate
+B<Gnome::Gdk4::Seat> objects. Every display has a one or more seats, which
+can be accessed with C<.get-default-seat()>] and
+C<.list-seats()>].
+
+Output devices are represented by B<Gnome::Gdk4::Monitor> objects, which can
+be accessed with C<.get-monitor-at-surface()>] and similar APIs.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gdk4::Display
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from an object of the same type found elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object() :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 beep
+
+Emits a short beep on C<$display>
+
+=begin code
+method beep ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for beep
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 close
+
+Closes the connection to the windowing system for the given display.
+
+This cleans up associated resources.
+
+=begin code
+method close ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for close
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 create-gl-context
+
+Creates a new B<Gnome::Gdk4::GLContext> for the B<Gnome::Gdk4::Display>.
+
+The context is disconnected from any particular surface or surface
+and cannot be used to draw to any surface. It can only be used to
+draw to non-surface framebuffers like textures.
+
+If the creation of the B<Gnome::Gdk4::GLContext> failed, C<$error> will be set.
+Before using the returned B<Gnome::Gdk4::GLContext>, you will need to
+call C<.make-current()> in class B<Gnome::Gdk4::GLContext>] or C<.realize()> in class B<Gnome::Gdk4::GLContext>].
+
+=begin code
+method create-gl-context ( CArray[N-Error] $err --> N-Object )
+=end code
+
+=item $err; Error object. When defined, an error can be returned when there is one.
+Use C<Pointer> when you want to ignore the error.
+.
+
+Return value; the newly created B<Gnome::Gdk4::GLContext>. 
+
+=begin comment
+
+=head2 Example
+# Example for create-gl-context
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 device-is-grabbed
+
+Returns C<True> if there is an ongoing grab on C<$device> for C<$display>.
+
+=begin code
+method device-is-grabbed ( N-Object() $device --> Bool )
+=end code
+
+=item $device; a B<Gnome::Gdk4::Device>.
+
+Return value; C<True> if there is a grab in effect for C<$device>.. 
+
+=begin comment
+
+=head2 Example
+# Example for device-is-grabbed
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 flush
+
+Flushes any requests queued for the windowing system.
+
+This happens automatically when the main loop blocks waiting for new events,
+but if your application is drawing without returning control to the main loop,
+you may need to call this function explicitly. A common case where this function
+needs to be called is when an application is executing drawing commands
+from a thread other than the thread where the main loop is running.
+
+This is most useful for X11. On windowing systems where requests are
+handled synchronously, this function will do nothing.
+
+=begin code
+method flush ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for flush
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-app-launch-context
+
+Returns a B<Gnome::Gdk4::AppLaunchContext> suitable for launching
+applications on the given display.
+
+=begin code
+method get-app-launch-context (--> N-Object )
+=end code
+
+Return value; a new B<Gnome::Gdk4::AppLaunchContext> for C<$display>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-app-launch-context
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-clipboard
+
+Gets the clipboard used for copy/paste operations.
+
+=begin code
+method get-clipboard (--> N-Object )
+=end code
+
+Return value; the display's clipboard. 
+
+=begin comment
+
+=head2 Example
+# Example for get-clipboard
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-default-seat
+
+Returns the default B<Gnome::Gdk4::Seat> for this display.
+
+Note that a display may not have a seat. In this case,
+this function will return undefined.
+
+=begin code
+method get-default-seat (--> N-Object )
+=end code
+
+Return value; the default seat.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-default-seat
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-monitor-at-surface
+
+Gets the monitor in which the largest area of C<$surface>
+resides.
+
+Returns a monitor close to C<$surface> if it is outside
+of all monitors.
+
+=begin code
+method get-monitor-at-surface ( N-Object() $surface --> N-Object )
+=end code
+
+=item $surface; a B<Gnome::Gdk4::Surface>.
+
+Return value; the monitor with the largest
+  overlap with C<$surface>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-monitor-at-surface
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-monitors
+
+Gets the list of monitors associated with this display.
+
+Subsequent calls to this function will always return the
+same list for the same display.
+
+You can listen to the GListModel::items-changed signal on
+this list to monitor changes to the monitor of this display.
+
+=begin code
+method get-monitors (--> N-List )
+=end code
+
+Return value; a B<Gnome::Gio::R-ListModel> of B<Gnome::Gdk4::Monitor>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-monitors
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-name
+
+Gets the name of the display.
+
+=begin code
+method get-name (--> Str )
+=end code
+
+Return value; a string representing the display name. This string is owned
+  by GDK and should not be modified or freed.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-primary-clipboard
+
+Gets the clipboard used for the primary selection.
+
+On backends where the primary clipboard is not supported natively,
+GDK emulates this clipboard locally.
+
+=begin code
+method get-primary-clipboard (--> N-Object )
+=end code
+
+Return value; the primary clipboard. 
+
+=begin comment
+
+=head2 Example
+# Example for get-primary-clipboard
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-setting
+
+Retrieves a desktop-wide setting such as double-click time
+for the C<$display>.
+
+=begin code
+method get-setting ( Str $name, N-Object $value --> Bool )
+=end code
+
+=item $name; the name of the setting.
+=item $value; location to store the value of the setting
+
+Return value; C<True> if the setting existed and a value was stored
+  in C<$value>, C<False> otherwise. 
+
+=begin comment
+
+=head2 Example
+# Example for get-setting
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-startup-notification-id
+
+Gets the startup notification ID for a Wayland display, or undefined
+if no ID has been defined.
+
+=begin code
+method get-startup-notification-id (--> Str )
+=end code
+
+Return value; the startup notification ID for C<$display>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-startup-notification-id
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-closed
+
+Finds out if the display has been closed.
+
+=begin code
+method is-closed (--> Bool )
+=end code
+
+Return value; C<True> if the display is closed.. 
+
+=begin comment
+
+=head2 Example
+# Example for is-closed
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-composited
+
+Returns whether surfaces can reasonably be expected to have
+their alpha channel drawn correctly on the screen.
+
+Check C<.is-rgba()>] for whether the display
+supports an alpha channel.
+
+On X11 this function returns whether a compositing manager is
+compositing on C<$display>.
+
+On modern displays, this value is always C<True>.
+
+=begin code
+method is-composited (--> Bool )
+=end code
+
+Return value; Whether surfaces with RGBA visuals can reasonably
+  be expected to have their alpha channels drawn correctly
+  on the screen.. 
+
+=begin comment
+
+=head2 Example
+# Example for is-composited
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-rgba
+
+Returns whether surfaces on this C<$display> are created with an
+alpha channel.
+
+Even if a C<True> is returned, it is possible that the
+surface’s alpha channel won’t be honored when displaying the
+surface on the screen: in particular, for X an appropriate
+windowing manager and compositing manager must be running to
+provide appropriate display. Use C<.is-composited()>]
+to check if that is the case.
+
+On modern displays, this value is always C<True>.
+
+=begin code
+method is-rgba (--> Bool )
+=end code
+
+Return value; C<True> if surfaces are created with an alpha channel or
+  C<False> if the display does not support this functionality.. 
+
+=begin comment
+
+=head2 Example
+# Example for is-rgba
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 list-seats
+
+Returns the list of seats known to C<$display>.
+
+=begin code
+method list-seats (--> N-List )
+=end code
+
+Return value; the
+  list of seats known to the B<Gnome::Gdk4::Display>. 
+
+=begin comment
+
+=head2 Example
+# Example for list-seats
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 map-keycode
+
+Returns the keyvals bound to C<$keycode>.
+
+The Nth B<Gnome::Gdk4::N-KeymapKey> in C<$keys> is bound to the Nth keyval in C<$keyvals>.
+
+When a keycode is pressed by the user, the keyval from
+this list of entries is selected by considering the effective
+keyboard group and level.
+
+Free the returned arrays with g_free().
+
+=begin code
+method map-keycode ( UInt() $keycode, N-Object $keys, Array[Int] $keyvals, Array[Int] $n-entries --> Bool )
+=end code
+
+=item $keycode; a keycode.
+=item $keys; (transfer ownership: full) return
+  location for array of B<Gnome::Gdk4::N-KeymapKey>
+=item $keyvals; (transfer ownership: full) return
+  location for array of keyvals.
+=item $n-entries; (transfer ownership: full) length of C<$keys> and C<$keyvals>.
+
+Return value; C<True> if there were any entries. 
+
+=begin comment
+
+=head2 Example
+# Example for map-keycode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 map-keyval
+
+Obtains a list of keycode/group/level combinations that will
+generate C<$keyval>.
+
+Groups and levels are two kinds of keyboard mode; in general, the level
+determines whether the top or bottom symbol on a key is used, and the
+group determines whether the left or right symbol is used.
+
+On US keyboards, the shift key changes the keyboard level, and there
+are no groups. A group switch key might convert a keyboard between
+Hebrew to English modes, for example.
+
+B<GdkEventKey> contains a C<group> field that indicates the active
+keyboard group. The level is computed from the modifier mask.
+
+The returned array should be freed with g_free().
+
+=begin code
+method map-keyval ( UInt() $keyval, N-Object $keys, Array[Int] $n-keys --> Bool )
+=end code
+
+=item $keyval; a keyval, such as C<GDK_KEY_a>, C<GDK_KEY_Up>, C<GDK_KEY_Return>, etc..
+=item $keys; (transfer ownership: full) return location
+  for an array of B<Gnome::Gdk4::N-KeymapKey>
+=item $n-keys; (transfer ownership: full) return location for number of elements in returned array.
+
+Return value; C<True> if keys were found and returned. 
+
+=begin comment
+
+=head2 Example
+# Example for map-keyval
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 notify-startup-complete
+
+Indicates to the GUI environment that the application has
+finished loading, using a given identifier.
+
+GTK will call this function automatically for B<Gnome::Gtk4::Window>
+with custom startup-notification identifier unless
+C<.set-auto-startup-notification()> in class B<Gnome::Gtk4::Window>]
+is called to disable that feature.
+
+=begin code
+method notify-startup-complete ( Str $startup-id )
+=end code
+
+=item $startup-id; a startup-notification identifier, for which
+  notification process should be completed.
+
+=begin comment
+
+=head2 Example
+# Example for notify-startup-complete
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 prepare-gl
+
+Checks that OpenGL is available for C<$self> and ensures that it is
+properly initialized.
+When this fails, an C<$error> will be set describing the error and this
+function returns C<False>.
+
+Note that even if this function succeeds, creating a B<Gnome::Gdk4::GLContext>
+may still fail.
+
+This function is idempotent. Calling it multiple times will just
+return the same value or error.
+
+You never need to call this function, GDK will call it automatically
+as needed. But you can use it as a check when setting up code that
+might make use of OpenGL.
+
+=begin code
+method prepare-gl ( CArray[N-Error] $err --> Bool )
+=end code
+
+=item $err; Error object. When defined, an error can be returned when there is one.
+Use C<Pointer> when you want to ignore the error.
+.
+
+Return value; C<True> if the display supports OpenGL. 
+
+=begin comment
+
+=head2 Example
+# Example for prepare-gl
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 put-event
+
+Appends the given event onto the front of the event
+queue for C<$display>.
+
+This function is only useful in very special situations
+and should not be used by applications.
+
+=begin code
+method put-event ( N-Object() $event )
+=end code
+
+=item $event; a B<Gnome::Gdk4::Event>.
+
+=begin comment
+
+=head2 Example
+# Example for put-event
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 supports-input-shapes
+
+Returns C<True> if the display supports input shapes.
+
+This means that C<.set-input-region()> in class B<Gnome::Gdk4::Surface>] can
+be used to modify the input shape of surfaces on C<$display>.
+
+On modern displays, this value is always C<True>.
+
+=begin code
+method supports-input-shapes (--> Bool )
+=end code
+
+Return value; C<True> if surfaces with modified input shape are supported. 
+
+=begin comment
+
+=head2 Example
+# Example for supports-input-shapes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 sync
+
+Flushes any requests queued for the windowing system and waits until all
+requests have been handled.
+
+This is often used for making sure that the display is synchronized
+with the current state of the program. Calling C<.sync()>]
+before C<.error-trap-pop()> in class B<Gnome::Gdk4::Display>] makes sure that any errors
+generated from earlier requests are handled before the error trap is removed.
+
+This is most useful for X11. On windowing systems where requests are
+handled synchronously, this function will do nothing.
+
+=begin code
+method sync ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for sync
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 translate-key
+
+Translates the contents of a B<GdkEventKey> into a keyval, effective group,
+and level.
+
+Modifiers that affected the translation and are thus unavailable for
+application use are returned in C<$consumed-modifiers>.
+
+The C<$effective-group> is the group that was actually used for the
+translation; some keys such as Enter are not affected by the active
+keyboard group. The C<$level> is derived from C<$state>.
+ C<$consumed-modifiers> gives modifiers that should be masked out
+from C<$state> when comparing this key press to a keyboard shortcut.
+For instance, on a US keyboard, the B<plus> symbol is shifted, so
+when comparing a key press to a `<Control>plus` accelerator `<Shift>`
+should be masked out.
+
+This function should rarely be needed, since B<GdkEventKey> already
+contains the translated keyval. It is exported for the benefit of
+virtualized test environments.
+
+=begin code
+method translate-key ( UInt() $keycode, UInt $state, Int() $group, Array[Int] $keyval, Array[Int] $effective-group, Array[Int] $level, UInt $consumed --> Bool )
+=end code
+
+=item $keycode; a keycode.
+=item $state; a modifier state.
+=item $group; active keyboard group.
+=item $keyval; (transfer ownership: full) return location for keyval.
+=item $effective-group; (transfer ownership: full) return location for effective group.
+=item $level; (transfer ownership: full) return location for level.
+=item $consumed; (transfer ownership: full) return location for modifiers that were used
+  to determine the group or level.
+
+Return value; C<True> if there was a keyval bound to keycode/state/group.. 
+
+=begin comment
+
+=head2 Example
+# Example for translate-key
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Functions]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-default
+
+Gets the default B<Gnome::Gdk4::Display>.
+
+This is a convenience function for:
+
+    gdk_display_manager_get_default_display (gdk_display_manager_get ())
+
+=begin code
+method get-default (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Gdk4::Display>, or undefined if
+  there is no default display. 
+
+=begin comment
+
+=head2 Example
+# Example for get-default
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 open
+
+Opens a display.
+
+If opening the display fails, undefined is returned.
+
+=begin code
+method open ( Str $display-name --> N-Object )
+=end code
+
+=item $display-name; the name of the display to open.
+
+Return value; a B<Gnome::Gdk4::Display>. 
+
+=begin comment
+
+=head2 Example
+# Example for open
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 closed
+
+Emitted when the connection to the windowing system for C<$display> is closed.
+
+=begin code
+method handler (
+  gboolean $is-error,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gdk4::Display :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $is-error; C<True> if the display was closed due to an error.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gdk4::Display> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal closed
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 opened
+
+Emitted when the connection to the windowing system for C<$display> is opened.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gdk4::Display :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gdk4::Display> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal opened
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 seat-added
+
+Emitted whenever a new seat is made known to the windowing system.
+
+=begin code
+method handler (
+  N-Object $seat,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gdk4::Display :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $seat; the seat that was just added.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gdk4::Display> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal seat-added
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 seat-removed
+
+Emitted whenever a seat is removed by the windowing system.
+
+=begin code
+method handler (
+  N-Object $seat,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gdk4::Display :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $seat; the seat that was just removed.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gdk4::Display> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal seat-removed
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 setting-changed
+
+Emitted whenever a setting changes its value.
+
+=begin code
+method handler (
+  Str $setting,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gdk4::Display :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $setting; the name of the setting that changed.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gdk4::Display> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal setting-changed
+
+=end comment
+
+=end pod
+

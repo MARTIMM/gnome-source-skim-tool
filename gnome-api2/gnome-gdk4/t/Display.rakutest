@@ -1,0 +1,254 @@
+=comment Package: Gdk4, C-Source: display
+use v6.d;
+
+#TL:1:Gnome::Gdk4::Display:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+
+use Gnome::GObject::N-Value:api<2>;
+use Gnome::GObject::T-value:api<2>;
+use Gnome::Gdk4::Display:api<2>;
+#use Gnome::Gdk4::N-KeymapKey:api<2>;
+use Gnome::Gdk4::T-enums:api<2>;
+use Gnome::Gdk4::T-types:api<2>;
+use Gnome::Glib::N-List:api<2>;
+use Gnome::Glib::T-error:api<2>;
+use Gnome::Glib::T-list:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gdk4::Display $display;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $display {
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $display {
+    my gint-ptr $n-keys;
+    my gint-ptr $keyvals;
+    my guint $keycode;
+    my gint-ptr $level;
+    my N-Object $device;
+    my Str $startup-id;
+    my gint-ptr $keyval;
+    my Str $name;
+    my N-Object $keys;
+    my CArray[N-Error] $err;
+    my gint $group;
+    my gint-ptr $effective-group;
+    my N-Object $surface;
+    my gint-ptr $n-entries;
+    my N-Object $value;
+    my N-Object $event;
+    my GFlag $state;
+    my GFlag $consumed;
+
+
+#`{{
+    #TM:0:beep()
+    ok .beep(), '.beep()';
+
+    #TM:0:close()
+    ok .close(), '.close()';
+
+    #TM:0:create-gl-context()
+    ok .create-gl-context( $err), '.create-gl-context()';
+
+    #TM:0:device-is-grabbed()
+    ok .device-is-grabbed( $device), '.device-is-grabbed()';
+
+    #TM:0:flush()
+    ok .flush(), '.flush()';
+
+    #TM:0:get-app-launch-context()
+     .get-app-launch-context(), '…', '.get-app-launch-context()';
+
+    #TM:0:get-clipboard()
+     .get-clipboard(), '…', '.get-clipboard()';
+
+    #TM:0:get-default-seat()
+     .get-default-seat(), '…', '.get-default-seat()';
+
+    #TM:0:get-monitor-at-surface()
+    is .get-monitor-at-surface( $surface), '…', '.get-monitor-at-surface()';
+
+    #TM:0:get-monitors()
+     .get-monitors(), '…', '.get-monitors()';
+
+    #TM:0:get-name()
+     .get-name(), '…', '.get-name()';
+
+    #TM:0:get-primary-clipboard()
+     .get-primary-clipboard(), '…', '.get-primary-clipboard()';
+
+    #TM:0:get-setting()
+    is .get-setting( $name, $value), '…', '.get-setting()';
+
+    #TM:0:get-startup-notification-id()
+     .get-startup-notification-id(), '…', '.get-startup-notification-id()';
+
+    #TM:0:is-closed()
+    ok .is-closed(), '.is-closed()';
+
+    #TM:0:is-composited()
+    ok .is-composited(), '.is-composited()';
+
+    #TM:0:is-rgba()
+    ok .is-rgba(), '.is-rgba()';
+
+    #TM:0:list-seats()
+    ok .list-seats(), '.list-seats()';
+
+    #TM:0:map-keycode()
+    ok .map-keycode( $keycode, $keys, $keyvals, $n-entries), '.map-keycode()';
+
+    #TM:0:map-keyval()
+    ok .map-keyval( $keyval, $keys, $n-keys), '.map-keyval()';
+
+    #TM:0:notify-startup-complete()
+    ok .notify-startup-complete( $startup-id), '.notify-startup-complete()';
+
+    #TM:0:prepare-gl()
+    ok .prepare-gl( $err), '.prepare-gl()';
+
+    #TM:0:put-event()
+    ok .put-event( $event), '.put-event()';
+
+    #TM:0:supports-input-shapes()
+    ok .supports-input-shapes(), '.supports-input-shapes()';
+
+    #TM:0:sync()
+    ok .sync(), '.sync()';
+
+    #TM:0:translate-key()
+    ok .translate-key( $keycode, $state, $group, $keyval, $effective-group, $level, $consumed), '.translate-key()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $display {
+    my Str $display-name;
+
+
+#`{{
+    #TM:0:get-default()
+     .get-default(), '…', '.get-default()';
+
+    #TM:0:open()
+    ok .open( $display-name), '.open()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gdk4::Display() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gdk4::Display;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gdk4::Display :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gdk4::Display $display .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $display.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
