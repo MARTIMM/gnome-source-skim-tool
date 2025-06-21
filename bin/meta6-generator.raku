@@ -189,7 +189,9 @@ sub check-module-files ( Str $cdir ) {
       # Skip all but module files
       next unless $mpath ~~ m/ \. rakumod $/;
 
-      $*update-version = ($*update-version or ($f.modified > $*meta-modified));
+      my Bool $modified = ($f.modified > $*meta-modified);
+      note "Module $f is modified" if $modified;
+      $*update-version = ($*update-version or $modified);
 
       my Str $mclass = $mpath;
 
@@ -211,9 +213,6 @@ sub check-module-files ( Str $cdir ) {
 #-------------------------------------------------------------------------------
 sub check-other-files ( Str $cdir ) {
 
-  # We're done if update is already needed
-  return if $*update-version;
-
   # Skip all hidden directories like .precomp
   return if $cdir ~~ m/^ '.' /;
   return unless $cdir.IO.d;
@@ -222,16 +221,21 @@ sub check-other-files ( Str $cdir ) {
     # skip check of META6.json
     next if $f.Str ~~ m/ META6\.json $/;
 
+    # skip check of git argive
+    next if $f.Str ~~ m/ \.tgz $/;
+
     # Recurse into directory
     if $f ~~ :d {
       # Skip lib, we did that above
-      next if $f.Str ~~ / lib /;
+      next if $f.Str ~~ /^ lib $/;
 
       check-other-files($f.Str);
     }
 
     else {
-      $*update-version = ($*update-version or ($f.modified > $*meta-modified));
+      my Bool $modified = ($f.modified > $*meta-modified);
+      note "File $f is modified" if $modified;
+      $*update-version = ($*update-version or $modified);
     }
   }
 }
