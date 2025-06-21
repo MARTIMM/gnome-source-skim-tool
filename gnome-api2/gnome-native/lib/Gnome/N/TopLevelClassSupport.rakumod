@@ -184,7 +184,9 @@ method FALLBACK (
 # the leaf class. When nothing is found, the call ends up here and the only
 # thing to do then is to die().
 method _fallback-v2 ( Str $n, Bool $_fallback-v2-ok is rw, *@arguments ) {
-  die X::Gnome.new(:message("Native sub '$n' not found"));
+  die X::Gnome.new(
+    :message("Native sub '$n' not found, Please verify the version of the libraries used and check the documentation against this version!")
+  );
 }
 
 #-------------------------------------------------------------------------------
