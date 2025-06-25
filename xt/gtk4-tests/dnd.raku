@@ -14,6 +14,7 @@ use Gnome::Glib::N-Bytes:api<2>;
 use Gnome::Glib::N-Error:api<2>;
 use Gnome::Glib::T-error:api<2>;
 
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::X:api<2>;
@@ -33,8 +34,9 @@ use Gnome::Gdk4::ContentProvider:api<2>;
 use Gnome::Gdk4::N-ContentFormats:api<2>;
 use Gnome::Gdk4::T-enums:api<2>;
 
-use Gnome::Gio::File:api<2>;
+#use Gnome::Gio::File:api<2>;
 #use Gnome::Gio::FileIcon:api<2>;
+use Gnome::Gio::Task:api<2>;
 
 use Gnome::GObject::T-type:api<2>;
 use Gnome::GObject::N-Value:api<2>;
@@ -93,10 +95,11 @@ class Helper {
     Gnome::Gtk4::DragSource() :_native-object($ds),
     Gnome::Gtk4::Picture :$pic,
   ) {
-note "$?LINE drag-begin: $drag, $pic.gist()";
+note "$?LINE drag-begin: $drag.gist(), $pic.gist()";
     $ds.set-icon( $pic.get-paintable, -20, 20);
   }
 
+#`{{
   #-----------------------------------------------------------------------------
   method accept1 (
     Gnome::Gdk4::Drop() $drop, 
@@ -173,6 +176,7 @@ note $?LINE, ', ', $value.get-string;
 
     True; #$drop-ok;
   }
+}}
 
   #-----------------------------------------------------------------------------
   method accept2 (
@@ -225,16 +229,15 @@ note "$?LINE $drag.gist()";
         $drop.read-value-async(
           G_TYPE_STRING, 1, gpointer, &get-data-value-async, gpointer
         );
+
+#        $drop.finish(GDK_ACTION_COPY);
       }
 
       else {
         note 'drop2: package from abroad';
-        $drop.read-value-async(
-          G_TYPE_STRING, 1, gpointer, &get-data-value-async, gpointer
+        $drop.read-async(
+          CArray[Str].new('text/plain'), 1, gpointer, &get-data-async, gpointer
         );
-#        $drop.read-async(
-#          CArray[Str].new('text/plain'), 1, gpointer, &get-data-async, gpointer
-#        );
       }
     }
 
@@ -332,34 +335,76 @@ note "$?LINE $drag.gist()";
 sub get-data-value-async (
   Gnome::Gdk4::Drop() $drop, Gnome::Gio::Task() $result, gpointer $
 ) {
-note "$?LINE $drop.gist()";
+note "$?LINE $drop.gist(), $result.gist(), $result.get-name()";
   CONTROL { when CX::Warn {  note .gist; #`{{.resume;}} } }
   CATCH { default { .message.note; .backtrace.concise.note } }
 
-note "get-data actions: ", $drop.get-actions.fmt('0x%04x');
-note "get-data is COPY: ", $drop.get-actions.fmt('0x%04x') ?& GDK_ACTION_COPY;
+#note "get-data actions: ", $drop.get-actions.fmt('0x%04x');
+#note "get-data is COPY: ", $drop.get-actions.fmt('0x%04x') ?& GDK_ACTION_COPY;
 
   my $e = CArray[N-Error].new(N-Error);
-#  my $n-v = CArray[N-Value].new(N-Value);
-#  my Bool $is-ok = $result.propagate-value( $n-v, $e);
-#note "$?LINE $is-ok, $e.gist()";
-#note "Error: $e[0].message()" unless $is-ok;
-#  my Gnome::GObject::N-Value $v .= new(:native-object($n-v[0]));
-
   my gpointer $p = $result.propagate-pointer($e);
-note "Error: $e[0].message()" unless ?$p;
+  if ?$p {
+    my Gnome::GObject::N-Value $v .= new(
+      :native-object(nativecast( N-Object, $p))
+    );
 
-  my Gnome::GObject::N-Value $v .= new(
-    :native-object(nativecast( N-Object, $p))
-  );
-
-#note "$?LINE $n-v.gist()";
-note "$?LINE v: $v.gist()";
+note "$?LINE v: $v.gist(), $v.get-native-object.gist()";
 note "$?LINE v: $v.get-string()";
-#  $drop.read-value-finish( $result, $e);
-note "Error: $e[0].message()" unless ?$p;
+    $drop.finish(GDK_ACTION_COPY);
+  }
+
+  else {
+note "$?LINE Error: $e[0].message()";
+  }
 }
 
+#-------------------------------------------------------------------------------
+sub get-data-async (
+  Gnome::Gdk4::Drop() $drop, Gnome::Gio::Task() $result, gpointer $
+) {
+note "$?LINE $drop.gist(), $result.gist(), $result.get-name()";
+  CONTROL { when CX::Warn {  note .gist; #`{{.resume;}} } }
+  CATCH { default { .message.note; .backtrace.concise.note } }
+
+#note "get-data actions: ", $drop.get-actions.fmt('0x%04x');
+#note "get-data is COPY: ", $drop.get-actions.fmt('0x%04x') ?& GDK_ACTION_COPY;
+
+#`{{
+  my $e = CArray[N-Error].new(N-Error);
+  my N-Value $v = nativecast( N-Value, $drop.read-value-finish( $result, $e));
+  my Gnome::GObject::N-Value $value .= new(:native-object($v));
+note "$?LINE v: $value.gist()";
+note "$?LINE v: $value.get-string()";
+}}
+
+##`{{
+  my N-Value $v .= new(:g-type(G_TYPE_STRING));
+  my Gnome::GObject::N-Value $value .= new(:native-object($v));
+  $value.set-string('');
+#  my $n-v = CArray[N-Value].new($v);
+#  $result.return-value($n-v);
+#  $result.return-value($v);
+#note "$?LINE $v.gist()";
+
+  my $e = CArray[N-Error].new(N-Error);
+  my Bool $is-ok = $result.propagate-value( $v, $e);
+note "$?LINE $is-ok, $e[0].gist()";
+
+  if $is-ok {
+#note "$?LINE $n-v.gist()";
+note "$?LINE v: $value.gist()";
+note "$?LINE v: $value.get-string()";
+  }
+
+  else {
+note "$?LINE Error: $e[0].message()" if ?$e[0];
+  }
+#}}
+  $drop.finish(GDK_ACTION_COPY);
+}
+
+#`{{
 #-------------------------------------------------------------------------------
 sub get-data-async (
   Gnome::Gdk4::Drop() $drop, Gnome::Gio::Task() $result, gpointer $
@@ -379,7 +424,7 @@ note "get-data is COPY: ", $drop.get-actions.fmt('0x%04x') ?& GDK_ACTION_COPY;
 #  my Gnome::GObject::N-Value $v .= new(:native-object($n-v[0]));
 
   my gpointer $p = $result.propagate-pointer($e);
-note "Error: $e[0].message()" unless ?$p;
+note "$?LINE Error: $e[0].message()" unless ?$p;
 
   my Gnome::GObject::N-Value $v .= new(
     :native-object(nativecast( N-Object, $p))
@@ -387,13 +432,15 @@ note "Error: $e[0].message()" unless ?$p;
 
 
 #note "$?LINE $n-v.gist()";
-note "$?LINE v: $v.gist()";
+note "$?LINE v: $v.gist(), $v.get-native-object.gist()";
 note "$?LINE v: $v.get-string()";
 
 #  my $rm = CArray[Str];
 #  $drop.read-finish( $result, $rm, $e);
 #note "Error: $e[0].message()" unless ?$p;
+  $drop.finish(GDK_ACTION_COPY);
 }
+}}
 
 #-------------------------------------------------------------------------------
 my Helper $helper .= new;
@@ -439,6 +486,7 @@ sub set-drag-source ( Str $pic-file --> Gnome::Gtk4::Picture ) {
   $pic
 }
 
+#`{{
 #-------------------------------------------------------------------------------
 sub set-drag-target1 ( Str $pic-file --> Gnome::Gtk4::Picture ) {
 
@@ -464,8 +512,8 @@ note "$?LINE $size.gist(), $mime-types.elems()";
       note "Mime type: ", $mime-types[$i];
     }
 
-    .register-signal( $helper, 'drop1', 'drop');
     .register-signal( $helper, 'accept1', 'accept');
+    .register-signal( $helper, 'drop1', 'drop');
 #    .register-signal( $helper, 'enter', 'enter');
 #    .register-signal( $helper, 'leave', 'leave');
 #    .register-signal( $helper, 'motion', 'motion');
@@ -477,6 +525,7 @@ note "$?LINE $size.gist(), $mime-types.elems()";
 
   $pic
 }
+}}
 
 #-------------------------------------------------------------------------------
 sub set-drag-target2 ( Str $pic-file --> Gnome::Gtk4::Picture ) {
@@ -485,13 +534,14 @@ sub set-drag-target2 ( Str $pic-file --> Gnome::Gtk4::Picture ) {
   my Gnome::Gtk4::DropTargetAsync $target;
 
   my Gnome::Gdk4::N-ContentFormats $formats .= new-contentformats(
-    CArray[Str].new(<text/plain>,), 1
+    CArray[Str].new(<text/plain text/uri-list>), 1
   );
 
   with $target .= new-droptargetasync(
     $formats, GDK_ACTION_COPY +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
   ) {
 
+#`{{
     my Gnome::Gdk4::N-ContentFormats() $formats = .get-formats;
     my $size = CArray[gsize].new(0);
     my Array $mime-types = $formats.get-mime-types($size);
@@ -499,9 +549,10 @@ note "$?LINE $size.gist(), $mime-types.elems()";
     loop ( my Int $i = 0; $i < $size[0]; $i++ ) {
       note "Mime type: ", $mime-types[$i];
     }
+}}
 
-    .register-signal( $helper, 'drop2', 'drop');
     .register-signal( $helper, 'accept2', 'accept');
+    .register-signal( $helper, 'drop2', 'drop');
 #    .register-signal( $helper, 'drag-enter', 'drag-enter');
 #    .register-signal( $helper, 'drag-leave', 'drag-leave');
 #    .register-signal( $helper, 'drag-motion', 'drag-motion');
