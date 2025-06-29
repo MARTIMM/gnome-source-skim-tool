@@ -8,7 +8,7 @@ use Gnome::SourceSkimTool::Prepare;
 constant $API2MODS is export = '/home/marcel/Languages/Raku/Projects/gnome-source-skim-tool/gnome-api2';
 
 my Hash $test-location = %(
-  :Atk<gnome-atk>,
+#  :Atk<gnome-atk>,
   :Cairo<gnome-cairo>,
   :Gtk3<gnome-gtk3>, :Gdk3<gnome-gdk3>,
   :Gtk4<gnome-gtk4>, :Gsk4<gnome-gsk4>, :Gdk4<gnome-gdk4>,

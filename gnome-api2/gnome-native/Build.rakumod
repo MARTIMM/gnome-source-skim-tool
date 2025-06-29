@@ -21,12 +21,13 @@ method !map-installed-libraries ( ) {
   # Native lib calls are like 'is native(&gtk-lib)'. Library names on linux
   # and windows, all start with 'lib' (see also https://www.tecmint.com/understanding-shared-libraries-in-linux/ and https://tldp.org/HOWTO/Program-Library-HOWTO/shared-libraries.html).
   #
-  # There is no gdk lib in version 4. It is included in the gtk lib.
+  # There is no gdk,gsk lib in version 4. It is included in the gtk lib.
   my %libs-to-map = %(
-    :atk(1), :cairo-gobject(2), :cairo(2), :gdk(3), :gdk3(3),  :gdk_pixbuf(2),
+    :cairo-gobject(2), :cairo(2), :gdk(3), :gdk3(3),  :gdk_pixbuf(2),
     :gio(2), :glib(2), :gobject(2), :gtk(3), :gtk3(3),
     :gtk4(4), :gsk4(4), :gdk4(4), :graphene(1), :pango(1), :pangocairo(1),
   );
+# :atk(1), 
 #note %libs-to-map.perl;
 
   # generate head
@@ -46,8 +47,10 @@ method !map-installed-libraries ( ) {
 
   if $*DISTRO.is-win {
     # Pick names found for mingw installation on AppVeyor
+#      sub atk-lib ( --> Str )           is export { 'libatk-1.0-0.dll'; }
+#      sub gtk4-lib ( --> Str )          is export { 'libgtk-4-0.dll'; }
+
     $map ~= Q:q:to/EOMAP/;
-      sub atk-lib ( --> Str )           is export { 'libatk-1.0-0.dll'; }
       sub cairo-gobject-lib ( --> Str ) is export { 'libcairo-gobject-2.dll'; }
       sub cairo-lib ( --> Str )         is export { 'libcairo-2.dll'; }
       sub gdk-lib ( --> Str )           is export { 'libgdk-3-0.dll'; }
@@ -58,7 +61,6 @@ method !map-installed-libraries ( ) {
       sub gobject-lib ( --> Str )       is export { 'libgobject-2.0-0.dll'; }
       sub gtk-lib ( --> Str )           is export { 'libgtk-3-0.dll'; }
       sub gtk3-lib ( --> Str )          is export { 'libgtk-3-0.dll'; }
-      sub gtk4-lib ( --> Str )          is export { 'libgtk-4-0.dll'; }
       sub gdk4-lib ( --> Str )          is export { 'libgtk-4-0.dll'; }
       sub gsk4-lib ( --> Str )          is export { 'libgtk-4-0.dll'; }
       sub pango-lib ( --> Str )         is export { 'libpango-1.0-0.dll'; }
