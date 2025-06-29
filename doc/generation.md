@@ -31,7 +31,7 @@ To compare the pros and cons of the two methods is difficult but boiles down to 
   
   * No tests can be made for the modules except for the base modules delevered in the package! Because everything from the tests will generate new code and the time you want to save while installing the modules will be taken by the tests.
 
-Thinking it all over, I will keep it like it is now except that there must be a way to see what gnome library version the raku code, tests, and documentation is generated against. E.g. `dnf list atk|grep x86_64`.
+Thinking it all over, I will keep it like it is now except that there must be a way to see what gnome library version the raku code, tests, and documentation is generated against. Using for example `dnf list atk|grep x86_64`.
 
 ## Result files
 

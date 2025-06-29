@@ -6,17 +6,17 @@ use v6.d;
 # gdk4, gsk4, gtk4 is stored in gtk4
 # gio, glib, gobject is stored in glib
 
-use YAMLish;
+#use YAMLish;
 
 my Hash $h = %();
 
-for <atk cairo gtk3 gtk4 glib graphene pango> -> $package {
+for <atk cairo gtk3 gtk4 glib2 graphene pango> -> $package {
   my Proc $p = shell "dnf list $package | grep x86_64", :out, :err;
   for $p.out.lines -> $l {
     next if $l ~~ m/ Updating | Repositories /;
     my Str ( $, $v) = $l.split(' ');
     $v ~~ s/ '-' .* $//;
-    note "$package $v";
+#    note "$package $v";
     given $package {
       when m/ gtk3 / {
         $h<gtk3-lib> = $v;
@@ -58,4 +58,35 @@ for <atk cairo gtk3 gtk4 glib graphene pango> -> $package {
   $p.err.close;
 }
 
-save-yaml($h).say;
+#say save-yaml($h);
+
+
+my Str $code = Q:q:to/EORAKU/;
+  #!/usr/bin/env -S raku
+  use v6.d;
+
+  my Hash $versions = %(;
+  EORAKU
+
+  for $h.kv -> $lib-name, $version {
+    $code ~= [~] '  :', $lib-name, '<', $version, ">,\n";
+  }
+
+$code ~= Q:q:to/EORAKU/;
+  );
+
+  sub MAIN ( Str $package ) {
+    my Str $p = $package ~ '-lib';
+
+    if ?$versions{$p} {
+      say "Gnome version of $package library at time of generation is: $versions{$p}";
+    }
+
+    else {
+      say "version of $package library not found. The following libraries are available: ", $versions.keys.join(', ');
+    }
+  }
+  EORAKU
+
+say $code;
+'bin/version-of.raku'.IO.spurt($code);
