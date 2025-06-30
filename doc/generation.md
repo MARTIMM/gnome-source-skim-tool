@@ -88,11 +88,11 @@ Types and files for a union like used in <ins>Event</ins> structure in Gdk versi
 * Doc filename `doc/N-Event.rakudoc`.
 
 ### Other types
-Other types like enumerations, constants and standalone functions are gathered in one file named after the C source file it is defined in. For example the <ins>Window</ins> class in Gtk version 3 has a few enumerations.
+Other types like enumerations, constants and standalone functions are gathered in one file named after the C source file it is defined in. For example the <ins>Window</ins> class in Gtk version 4 has a few enumerations.
 * Class name **Gnome::Gtk3::T-Window**.
-* Class Filename `lib/Gnome/Gtk3/T-Window.rakumod`.
-* Test Filename `t/T-Window.rakutest`.
-* Doc filename `doc/T-Window.rakudoc`.
+* Class Filename `lib/Gnome/Gtk3/T-window.rakumod`.
+* Test Filename `t/T-window.rakutest`.
+* Doc filename `doc/T-window.rakudoc`.
 
 ---
 ## Call interface

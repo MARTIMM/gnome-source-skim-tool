@@ -80,7 +80,15 @@ find . -name '*.raku*' | xargs wc -l
 
 # Release notes
 * 2025-06-29
-  * Program to get version of current generation.
+  * Program to get version of current generation. When the information is retrieved from the GIR XML files, the program `bin/versions.raku` is run to generate a program `version-of.raku` and is stored in the Gtk3 and Gtk4 bin directory. That program is then published together with the installation of the `Gnome::Gtk3` and `Gnome::Gtk4` packages. Examples of use;
+    ```
+    > version-of.raku cairo
+    Gnome version of cairo library at time of generation is: 1.18.2
+
+    > version-of.raku gtk4
+    Gnome version of gtk4 library at time of generation is: 4.16.13
+    ```
+  * With this information you are able to understand when there is an error of a missing function you just found in the Gnome docs. Though, there might be other reasons, like missing classes and such.
 
 * 2025-03-26 0.17.3
   * Add some new modules to Gsk4
