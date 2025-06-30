@@ -83,10 +83,16 @@ $code ~= Q:q:to/EORAKU/;
     }
 
     else {
-      say "version of $package library not found. The following libraries are available: ", $versions.keys.join(', ');
+      say "version of $package library not found.";
+      say "The following libraries are available:";
+      say [$versions.keys].map({$_ ~~ s/\-lib $//; $_}).join(', ');
     }
   }
   EORAKU
 
-say $code;
+say "write 'bin/version-of.raku'";
 'bin/version-of.raku'.IO.spurt($code);
+say "write 'gnome-api2/gnome-gtk4/bin/version-of.raku'";
+'gnome-api2/gnome-gtk4/bin/version-of.raku'.IO.spurt($code);
+say "write 'gnome-api2/gnome-gtk3/bin/version-of.raku'";
+'gnome-api2/gnome-gtk3/bin/version-of.raku'.IO.spurt($code);
