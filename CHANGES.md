@@ -26,11 +26,23 @@
 
   * [x] `GdkPixdata` is deprecated. Not needed to implement.
 
-  * [x] `Gnome::Cairo` distribution in the old setup is not available in the new api. It is possible to use Timo's **Cairo** distro.
+  * [x] `Atk` is not needed to implement. [On this page](https://gnome.pages.gitlab.gnome.org/at-spi2-core/atk/) it states "ATK support is built into GTK+ 3 and the rest of the GNOME platform", and "GTK4 now includes accessibility support natively and does not need ATK".
+
+  * [x] `Gnome::Cairo` distribution in the old setup is not available in the new api. It is possible to use Timo's **Cairo** distribution.
 
   * [ ] Changes in documentation to be used with modern pod doc called Rakudoc using **RakuDoc::To::HTML**. Now still depending on **Pod::To::HTML2**.
 
   * [ ] GtkExpression does not have a parent. Must become TopLevelSupport. In the docs it seems to be a `GObject.TypeInstance`.
+
+  * [x] Program to get version of current generation. When the information is retrieved from the GIR XML files, the program `bin/versions.raku` is run to generate a program `version-of.raku` and is stored in the Gtk3 and Gtk4 bin directory. That program is then published together with the installation of the `Gnome::Gtk3` and `Gnome::Gtk4` packages. Examples of use;
+    ```
+    > version-of.raku cairo
+    Gnome version of cairo library at time of generation is: 1.18.2
+
+    > version-of.raku gtk4
+    Gnome version of gtk4 library at time of generation is: 4.16.13
+    ```
+  * With this information you are able to understand when there is an error of a missing function you just found in the Gnome docs. Though, there might be other reasons, like missing classes and such which will inhibit the use of a method/function.
 
 <!--
 ### Testing command with timing -o for dump to file

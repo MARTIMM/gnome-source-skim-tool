@@ -4,16 +4,18 @@
 
 The purpose is to get the information out of the source code (`.h` and `.c` files) of packages of Gnome like Glib, (with Gio, GObject), Pango and Cairo (for which Gnome has bindings too), Gtk and Gdk (versions 3 and 4) Atk and a few others.
 
-I have done that myself in the past using a single program and generate Raku modules from the retrieved information. The program is getting a bit awkward to maintain, because of the many differences found in the C source code.
+I have done that myself in the past using a single program and generated Raku modules from the retrieved information. The program has become a bit awkward to maintain, because of the many differences found in the C source code.
 
-Now I've come across a package of Gnome called `GtkDoc`. It is a bit of a beast to get that working. Gnome apologises for that, that it was intended to be used internally only to get their documentation in a neat display.
+Now I've come across a package of Gnome called `GtkDoc`. It is a bit of a beast to get that working. Gnome apologises for that, and said that it was intended to be used internally only to get their documentation in a neat display.
 
 In this GtkDoc package there are programs which read those source files and generate files in all sorts of formats. The modules and programs in this Raku package can read the generated files (of which we only need a few of them) and generate the Raku modules which can then access the gnome libraries. The Raku modules come with documentation and a test template for initialization, method calls, signal handling and property testing. Markdown or HTML can be generated from the documentation using Raku pod rendering programs.
 
-### Update
-GtkDoc is not what I hoped for. There are mistakes found in the XML for Glib. So, before it is completely depending on it I choose to find yet another way to get things done. I looked into the `GObject Introspection Repository` which was a little bit dawnting at the time. Now chosen as a last resort. The API can be used to generate the Raku interface. The documentation of the routines and classes, however, could not be found in this way. There are so called `.gir` files found in the system at `/usr/share/gir-1.0/`. These files are XML files where also the documentation can be found.
 
-The generated Raku modules would have some work afterwards to remove problems which can not be handled at generation time.
+### Update
+
+GtkDoc is not what I hoped for. There are mistakes found in the XML for Glib. So, before it is completely depending on it I choose to find yet another way to get things done. I looked into the `GObject Introspection Repository` or `GIR` for short, which was a little bit dawnting at the time. Now chosen as a last resort. The API can be used to generate the Raku interface. The documentation of the routines and classes, however, could not be found in this way. There are so called `.gir` files found in the system at `/usr/share/gir-1.0/`. These files are XML files where also the documentation can be found.
+
+The generated Raku modules, tests, and documentation, need some work afterwards to remove problems which can not be handled at generation time.
 
 Issue #1 is a discussion on how to proceed. There was a proposal to generate everything on the fly by using the gir libraries. This means that there is an impact on run time to check mehods, functions, structures, arguments, etc. before calling a native routine. A drawback also is that the users of the modules must have the gir libraries installed. So I decided to do something in between. That is, generating modules for classes, records, interfaces, etc. but having less code in it. All info to call functions and methods are stored in a Hash. When the user needs to call a method, the native function is found and stored in the same Hash (at run time!) so that a second call can be a bit faster. Types like structures, unions, enumerations, etc. are still completely generated.
 
