@@ -7,14 +7,15 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
+
 use Gnome::Glib::N-List:api<2>;
 use Gnome::Glib::T-list:api<2>;
-
 use Gnome::Gtk4::R-Native:api<2>;
 use Gnome::Gtk4::R-Root:api<2>;
 use Gnome::Gtk4::R-ShortcutManager:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
-
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -47,10 +48,11 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<activate-default keys-changed activate-focus close-request>,
+      :w0<keys-changed activate-default close-request activate-focus>,
       :w1<enable-debugging>,
     );
 
@@ -91,65 +93,66 @@ my Hash $methods = %(
   close => %(:is-symbol<gtk_window_close>, ),
   destroy => %(:is-symbol<gtk_window_destroy>, ),
   fullscreen => %(:is-symbol<gtk_window_fullscreen>, ),
-  fullscreen-on-monitor => %(:is-symbol<gtk_window_fullscreen_on_monitor>,  :parameters([N-Object])),
-  get-application => %(:is-symbol<gtk_window_get_application>,  :returns(N-Object)),
-  get-child => %(:is-symbol<gtk_window_get_child>,  :returns(N-Object)),
-  get-decorated => %(:is-symbol<gtk_window_get_decorated>,  :returns(gboolean), :cnv-return(Bool)),
-  get-default-size => %(:is-symbol<gtk_window_get_default_size>,  :parameters([gint-ptr, gint-ptr])),
-  get-default-widget => %(:is-symbol<gtk_window_get_default_widget>,  :returns(N-Object)),
-  get-deletable => %(:is-symbol<gtk_window_get_deletable>,  :returns(gboolean), :cnv-return(Bool)),
-  get-destroy-with-parent => %(:is-symbol<gtk_window_get_destroy_with_parent>,  :returns(gboolean), :cnv-return(Bool)),
-  get-focus => %(:is-symbol<gtk_window_get_focus>,  :returns(N-Object)),
-  get-focus-visible => %(:is-symbol<gtk_window_get_focus_visible>,  :returns(gboolean), :cnv-return(Bool)),
-  get-group => %(:is-symbol<gtk_window_get_group>,  :returns(N-Object)),
-  get-handle-menubar-accel => %(:is-symbol<gtk_window_get_handle_menubar_accel>,  :returns(gboolean), :cnv-return(Bool)),
-  get-hide-on-close => %(:is-symbol<gtk_window_get_hide_on_close>,  :returns(gboolean), :cnv-return(Bool)),
-  get-icon-name => %(:is-symbol<gtk_window_get_icon_name>,  :returns(Str)),
-  get-mnemonics-visible => %(:is-symbol<gtk_window_get_mnemonics_visible>,  :returns(gboolean), :cnv-return(Bool)),
-  get-modal => %(:is-symbol<gtk_window_get_modal>,  :returns(gboolean), :cnv-return(Bool)),
-  get-resizable => %(:is-symbol<gtk_window_get_resizable>,  :returns(gboolean), :cnv-return(Bool)),
-  get-title => %(:is-symbol<gtk_window_get_title>,  :returns(Str)),
-  get-titlebar => %(:is-symbol<gtk_window_get_titlebar>,  :returns(N-Object)),
-  get-transient-for => %(:is-symbol<gtk_window_get_transient_for>,  :returns(N-Object)),
-  has-group => %(:is-symbol<gtk_window_has_group>,  :returns(gboolean), :cnv-return(Bool)),
-  is-active => %(:is-symbol<gtk_window_is_active>,  :returns(gboolean), :cnv-return(Bool)),
-  is-fullscreen => %(:is-symbol<gtk_window_is_fullscreen>,  :returns(gboolean), :cnv-return(Bool)),
-  is-maximized => %(:is-symbol<gtk_window_is_maximized>,  :returns(gboolean), :cnv-return(Bool)),
+  fullscreen-on-monitor => %(:is-symbol<gtk_window_fullscreen_on_monitor>, :parameters([N-Object]), ),
+  get-application => %(:is-symbol<gtk_window_get_application>, :returns(N-Object), ),
+  get-child => %(:is-symbol<gtk_window_get_child>, :returns(N-Object), ),
+  get-decorated => %(:is-symbol<gtk_window_get_decorated>, :returns(gboolean), ),
+  get-default-size => %(:is-symbol<gtk_window_get_default_size>, :parameters([gint-ptr, gint-ptr]), ),
+  get-default-widget => %(:is-symbol<gtk_window_get_default_widget>, :returns(N-Object), ),
+  get-deletable => %(:is-symbol<gtk_window_get_deletable>, :returns(gboolean), ),
+  get-destroy-with-parent => %(:is-symbol<gtk_window_get_destroy_with_parent>, :returns(gboolean), ),
+  get-focus => %(:is-symbol<gtk_window_get_focus>, :returns(N-Object), ),
+  get-focus-visible => %(:is-symbol<gtk_window_get_focus_visible>, :returns(gboolean), ),
+  get-group => %(:is-symbol<gtk_window_get_group>, :returns(N-Object), ),
+  get-handle-menubar-accel => %(:is-symbol<gtk_window_get_handle_menubar_accel>, :returns(gboolean), ),
+  get-hide-on-close => %(:is-symbol<gtk_window_get_hide_on_close>, :returns(gboolean), ),
+  get-icon-name => %(:is-symbol<gtk_window_get_icon_name>, :returns(Str), ),
+  get-mnemonics-visible => %(:is-symbol<gtk_window_get_mnemonics_visible>, :returns(gboolean), ),
+  get-modal => %(:is-symbol<gtk_window_get_modal>, :returns(gboolean), ),
+  get-resizable => %(:is-symbol<gtk_window_get_resizable>, :returns(gboolean), ),
+  get-title => %(:is-symbol<gtk_window_get_title>, :returns(Str), ),
+  get-titlebar => %(:is-symbol<gtk_window_get_titlebar>, :returns(N-Object), ),
+  get-transient-for => %(:is-symbol<gtk_window_get_transient_for>, :returns(N-Object), ),
+  has-group => %(:is-symbol<gtk_window_has_group>, :returns(gboolean), ),
+  is-active => %(:is-symbol<gtk_window_is_active>, :returns(gboolean), ),
+  is-fullscreen => %(:is-symbol<gtk_window_is_fullscreen>, :returns(gboolean), ),
+  is-maximized => %(:is-symbol<gtk_window_is_maximized>, :returns(gboolean), ),
+  is-suspended => %(:is-symbol<gtk_window_is_suspended>, :returns(gboolean), ),
   maximize => %(:is-symbol<gtk_window_maximize>, ),
   minimize => %(:is-symbol<gtk_window_minimize>, ),
   present => %(:is-symbol<gtk_window_present>, ),
-  present-with-time => %(:is-symbol<gtk_window_present_with_time>,  :parameters([guint32])),
-  set-application => %(:is-symbol<gtk_window_set_application>,  :parameters([N-Object])),
-  set-child => %(:is-symbol<gtk_window_set_child>,  :parameters([N-Object])),
-  set-decorated => %(:is-symbol<gtk_window_set_decorated>,  :parameters([gboolean])),
-  set-default-size => %(:is-symbol<gtk_window_set_default_size>,  :parameters([gint, gint])),
-  set-default-widget => %(:is-symbol<gtk_window_set_default_widget>,  :parameters([N-Object])),
-  set-deletable => %(:is-symbol<gtk_window_set_deletable>,  :parameters([gboolean])),
-  set-destroy-with-parent => %(:is-symbol<gtk_window_set_destroy_with_parent>,  :parameters([gboolean])),
-  set-display => %(:is-symbol<gtk_window_set_display>,  :parameters([N-Object])),
-  set-focus => %(:is-symbol<gtk_window_set_focus>,  :parameters([N-Object])),
-  set-focus-visible => %(:is-symbol<gtk_window_set_focus_visible>,  :parameters([gboolean])),
-  set-handle-menubar-accel => %(:is-symbol<gtk_window_set_handle_menubar_accel>,  :parameters([gboolean])),
-  set-hide-on-close => %(:is-symbol<gtk_window_set_hide_on_close>,  :parameters([gboolean])),
-  set-icon-name => %(:is-symbol<gtk_window_set_icon_name>,  :parameters([Str])),
-  set-mnemonics-visible => %(:is-symbol<gtk_window_set_mnemonics_visible>,  :parameters([gboolean])),
-  set-modal => %(:is-symbol<gtk_window_set_modal>,  :parameters([gboolean])),
-  set-resizable => %(:is-symbol<gtk_window_set_resizable>,  :parameters([gboolean])),
-  set-startup-id => %(:is-symbol<gtk_window_set_startup_id>,  :parameters([Str])),
-  set-title => %(:is-symbol<gtk_window_set_title>,  :parameters([Str])),
-  set-titlebar => %(:is-symbol<gtk_window_set_titlebar>,  :parameters([N-Object])),
-  set-transient-for => %(:is-symbol<gtk_window_set_transient_for>,  :parameters([N-Object])),
+  present-with-time => %(:is-symbol<gtk_window_present_with_time>, :parameters([guint32]), :deprecated, :deprecated-version<4.14>, ),
+  set-application => %(:is-symbol<gtk_window_set_application>, :parameters([N-Object]), ),
+  set-child => %(:is-symbol<gtk_window_set_child>, :parameters([N-Object]), ),
+  set-decorated => %(:is-symbol<gtk_window_set_decorated>, :parameters([gboolean]), ),
+  set-default-size => %(:is-symbol<gtk_window_set_default_size>, :parameters([gint, gint]), ),
+  set-default-widget => %(:is-symbol<gtk_window_set_default_widget>, :parameters([N-Object]), ),
+  set-deletable => %(:is-symbol<gtk_window_set_deletable>, :parameters([gboolean]), ),
+  set-destroy-with-parent => %(:is-symbol<gtk_window_set_destroy_with_parent>, :parameters([gboolean]), ),
+  set-display => %(:is-symbol<gtk_window_set_display>, :parameters([N-Object]), ),
+  set-focus => %(:is-symbol<gtk_window_set_focus>, :parameters([N-Object]), ),
+  set-focus-visible => %(:is-symbol<gtk_window_set_focus_visible>, :parameters([gboolean]), ),
+  set-handle-menubar-accel => %(:is-symbol<gtk_window_set_handle_menubar_accel>, :parameters([gboolean]), ),
+  set-hide-on-close => %(:is-symbol<gtk_window_set_hide_on_close>, :parameters([gboolean]), ),
+  set-icon-name => %(:is-symbol<gtk_window_set_icon_name>, :parameters([Str]), ),
+  set-mnemonics-visible => %(:is-symbol<gtk_window_set_mnemonics_visible>, :parameters([gboolean]), ),
+  set-modal => %(:is-symbol<gtk_window_set_modal>, :parameters([gboolean]), ),
+  set-resizable => %(:is-symbol<gtk_window_set_resizable>, :parameters([gboolean]), ),
+  set-startup-id => %(:is-symbol<gtk_window_set_startup_id>, :parameters([Str]), ),
+  set-title => %(:is-symbol<gtk_window_set_title>, :parameters([Str]), ),
+  set-titlebar => %(:is-symbol<gtk_window_set_titlebar>, :parameters([N-Object]), ),
+  set-transient-for => %(:is-symbol<gtk_window_set_transient_for>, :parameters([N-Object]), ),
   unfullscreen => %(:is-symbol<gtk_window_unfullscreen>, ),
   unmaximize => %(:is-symbol<gtk_window_unmaximize>, ),
   unminimize => %(:is-symbol<gtk_window_unminimize>, ),
 
   #--[Functions]----------------------------------------------------------------
-  get-default-icon-name => %( :type(Function), :is-symbol<gtk_window_get_default_icon_name>,  :returns(Str)),
-  get-toplevels => %( :type(Function), :is-symbol<gtk_window_get_toplevels>,  :returns(N-Object)),
-  list-toplevels => %( :type(Function), :is-symbol<gtk_window_list_toplevels>,  :returns(N-List)),
-  set-auto-startup-notification => %( :type(Function), :is-symbol<gtk_window_set_auto_startup_notification>,  :parameters([gboolean])),
-  set-default-icon-name => %( :type(Function), :is-symbol<gtk_window_set_default_icon_name>,  :parameters([Str])),
-  set-interactive-debugging => %( :type(Function), :is-symbol<gtk_window_set_interactive_debugging>,  :parameters([gboolean])),
+  get-default-icon-name => %( :type(Function), :is-symbol<gtk_window_get_default_icon_name>, :returns(Str), ),
+  get-toplevels => %( :type(Function), :is-symbol<gtk_window_get_toplevels>, :returns(N-Object), ),
+  list-toplevels => %( :type(Function), :is-symbol<gtk_window_list_toplevels>, :returns(N-Object), ),
+  set-auto-startup-notification => %( :type(Function), :is-symbol<gtk_window_set_auto_startup_notification>, :parameters([gboolean]), ),
+  set-default-icon-name => %( :type(Function), :is-symbol<gtk_window_set_default_icon_name>, :parameters([Str]), ),
+  set-interactive-debugging => %( :type(Function), :is-symbol<gtk_window_set_interactive_debugging>, :parameters([gboolean]), ),
 );
 
 #-------------------------------------------------------------------------------

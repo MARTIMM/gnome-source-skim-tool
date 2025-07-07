@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
@@ -59,14 +61,14 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-windowcontrols => %( :type(Constructor), :is-symbol<gtk_window_controls_new>, :returns(N-Object), :parameters([ GEnum])),
+  new-windowcontrols => %( :type(Constructor), :is-symbol<gtk_window_controls_new>, :returns(N-Object), :parameters([ GEnum]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-decoration-layout => %(:is-symbol<gtk_window_controls_get_decoration_layout>,  :returns(Str)),
-  get-empty => %(:is-symbol<gtk_window_controls_get_empty>,  :returns(gboolean), :cnv-return(Bool)),
+  get-decoration-layout => %(:is-symbol<gtk_window_controls_get_decoration_layout>, :returns(Str), ),
+  get-empty => %(:is-symbol<gtk_window_controls_get_empty>, :returns(gboolean), ),
   get-side => %(:is-symbol<gtk_window_controls_get_side>,  :returns(GEnum), :cnv-return(GtkPackType)),
-  set-decoration-layout => %(:is-symbol<gtk_window_controls_set_decoration_layout>,  :parameters([Str])),
-  set-side => %(:is-symbol<gtk_window_controls_set_side>,  :parameters([GEnum])),
+  set-decoration-layout => %(:is-symbol<gtk_window_controls_set_decoration_layout>, :parameters([Str]), ),
+  set-side => %(:is-symbol<gtk_window_controls_set_side>, :parameters([GEnum]), ),
 );
 
 #-------------------------------------------------------------------------------

@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -61,8 +63,8 @@ my Hash $methods = %(
   new-windowhandle => %( :type(Constructor), :is-symbol<gtk_window_handle_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-child => %(:is-symbol<gtk_window_handle_get_child>,  :returns(N-Object)),
-  set-child => %(:is-symbol<gtk_window_handle_set_child>,  :parameters([N-Object])),
+  get-child => %(:is-symbol<gtk_window_handle_get_child>, :returns(N-Object), ),
+  set-child => %(:is-symbol<gtk_window_handle_set_child>, :parameters([N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------

@@ -7,9 +7,8 @@ use v6.d;
 
 use NativeCall;
 
-#use Cairo;
+use Cairo;
 
-use Gnome::Gdk4::R-Paintable:api<2>;
 
 use Gnome::GObject::Object:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -25,7 +24,6 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Gtk4::WidgetPaintable:auth<github:MARTIMM>:api<2>;
 also is Gnome::GObject::Object;
-also does Gnome::Gdk4::R-Paintable;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
