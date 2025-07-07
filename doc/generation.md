@@ -8,7 +8,7 @@ This project is about the skimming of the `Gnome Introspection Repository` or `G
 
 There has been a discussion about how to proceed getting and using the info from the `GIR`. For now I decided to go through the XML equivalent and store the necessary data in a YAML file. The generator takes that data and generates the Raku modules in such a way that the info of every constructor, method, or function is stored in a **Hash**. When running the module, the needed calls are bound to the native routines and saved for that run only.
 
-The other angle to take is to directly call methods from the library to bind the the calls to the named routines on the fly. The named routines are only saved while running the program and then forgotten when the program end.
+The other angle to take is to directly call methods from the library to bind the the calls to the named routines on the fly. The named routines are only saved while running the program and then forgotten when the program ends.
 
 To compare the pros and cons of the two methods is difficult but boiles down to the following;
 * The first has everything in a **Hash** and does not have to look up the data from the `GIR`. Its pro is that there is no overhead of accessing the `GIR` libraries to get the info. On the contrary however, modules may have missing calls because it might be generated with older `GIR` XML data. Or, the modules may have calls which aren't yet in the users installed libraries.
@@ -31,7 +31,7 @@ To compare the pros and cons of the two methods is difficult but boiles down to 
   
   * No tests can be made for the modules except for the base modules delevered in the package! Because everything from the tests will generate new code and the time you want to save while installing the modules will be taken by the tests.
 
-Thinking it all over, I will keep it like it is now except that there must be a way to see what gnome library version the raku code, tests, and documentation is generated against. Using for example `dnf list atk|grep x86_64`.
+Thinking it all over, I will keep it like it is now except that there must be a way to see what gnome library version the raku code, tests, and documentation is generated against. Using for example `dnf list gtk4|grep x86_64`.
 
 ## Result files
 
