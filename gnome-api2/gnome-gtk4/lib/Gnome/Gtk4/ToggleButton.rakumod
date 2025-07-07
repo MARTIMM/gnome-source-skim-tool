@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Button:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -38,6 +40,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
@@ -68,14 +71,14 @@ my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
   new-togglebutton => %( :type(Constructor), :is-symbol<gtk_toggle_button_new>, :returns(N-Object), ),
-  new-with-label => %( :type(Constructor), :is-symbol<gtk_toggle_button_new_with_label>, :returns(N-Object), :parameters([ Str])),
-  new-with-mnemonic => %( :type(Constructor), :is-symbol<gtk_toggle_button_new_with_mnemonic>, :returns(N-Object), :parameters([ Str])),
+  new-with-label => %( :type(Constructor), :is-symbol<gtk_toggle_button_new_with_label>, :returns(N-Object), :parameters([ Str]), ),
+  new-with-mnemonic => %( :type(Constructor), :is-symbol<gtk_toggle_button_new_with_mnemonic>, :returns(N-Object), :parameters([ Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-active => %(:is-symbol<gtk_toggle_button_get_active>,  :returns(gboolean), :cnv-return(Bool)),
-  set-active => %(:is-symbol<gtk_toggle_button_set_active>,  :parameters([gboolean])),
-  set-group => %(:is-symbol<gtk_toggle_button_set_group>,  :parameters([N-Object])),
-  toggled => %(:is-symbol<gtk_toggle_button_toggled>, ),
+  get-active => %(:is-symbol<gtk_toggle_button_get_active>, :returns(gboolean), ),
+  set-active => %(:is-symbol<gtk_toggle_button_set_active>, :parameters([gboolean]), ),
+  set-group => %(:is-symbol<gtk_toggle_button_set_group>, :parameters([N-Object]), ),
+  toggled => %(:is-symbol<gtk_toggle_button_toggled>, :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------
@@ -90,7 +93,6 @@ method _fallback-v2 (
         :library(gtk4-lib())
       );
 
-      # Check the function name. 
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)

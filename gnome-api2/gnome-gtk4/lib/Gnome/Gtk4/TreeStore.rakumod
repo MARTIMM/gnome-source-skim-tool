@@ -7,17 +7,20 @@ use v6.d;
 
 use NativeCall;
 
-use Gnome::GObject::T-value:api<2>;
+use Cairo;
 
+
+use Gnome::GObject::N-Value:api<2>;
 use Gnome::GObject::Object:api<2>;
-
+use Gnome::GObject::T-value:api<2>;
 use Gnome::Gtk4::N-TreeIter:api<2>;
 use Gnome::Gtk4::R-Buildable:api<2>;
 use Gnome::Gtk4::R-TreeDragDest:api<2>;
 use Gnome::Gtk4::R-TreeDragSource:api<2>;
 use Gnome::Gtk4::R-TreeModel:api<2>;
 use Gnome::Gtk4::R-TreeSortable:api<2>;
-
+#use Gnome::Gtk4::T-treemodel:api<2>;
+#use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -52,6 +55,13 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
+  Gnome::N::deprecate(
+    'Gnome::Gtk4::TreeStore', ', Str, ',
+    '4.10', Str,
+    :class, :gnome-lib(gtk4-lib())  
+  );
+
   # Add signal administration info.
   unless $signals-added {
     
@@ -90,31 +100,31 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-treestore => %( :type(Constructor), :is-symbol<gtk_tree_store_new>, :returns(N-Object), :variable-list, :parameters([ gint])),
-  #newv => %( :type(Constructor), :is-symbol<gtk_tree_store_newv>, :returns(N-Object), :parameters([ gint, ])),
+  new-treestore => %( :type(Constructor), :is-symbol<gtk_tree_store_new>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :variable-list, :parameters([ gint]), ),
+  #newv => %( :type(Constructor), :is-symbol<gtk_tree_store_newv>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :parameters([ gint, ]), ),
 
   #--[Methods]------------------------------------------------------------------
-  append => %(:is-symbol<gtk_tree_store_append>,  :parameters([N-TreeIter, N-TreeIter])),
-  clear => %(:is-symbol<gtk_tree_store_clear>, ),
-  insert => %(:is-symbol<gtk_tree_store_insert>,  :parameters([N-TreeIter, N-TreeIter, gint])),
-  insert-after => %(:is-symbol<gtk_tree_store_insert_after>,  :parameters([N-TreeIter, N-TreeIter, N-TreeIter])),
-  insert-before => %(:is-symbol<gtk_tree_store_insert_before>,  :parameters([N-TreeIter, N-TreeIter, N-TreeIter])),
-  insert-with-values => %(:is-symbol<gtk_tree_store_insert_with_values>, :variable-list,  :parameters([N-TreeIter, N-TreeIter, gint])),
-  insert-with-valuesv => %(:is-symbol<gtk_tree_store_insert_with_valuesv>,  :parameters([N-TreeIter, N-TreeIter, gint, gint-ptr, N-Value, gint])),
-  is-ancestor => %(:is-symbol<gtk_tree_store_is_ancestor>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-TreeIter, N-TreeIter])),
-  iter-depth => %(:is-symbol<gtk_tree_store_iter_depth>,  :returns(gint), :parameters([N-TreeIter])),
-  iter-is-valid => %(:is-symbol<gtk_tree_store_iter_is_valid>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-TreeIter])),
-  move-after => %(:is-symbol<gtk_tree_store_move_after>,  :parameters([N-TreeIter, N-TreeIter])),
-  move-before => %(:is-symbol<gtk_tree_store_move_before>,  :parameters([N-TreeIter, N-TreeIter])),
-  prepend => %(:is-symbol<gtk_tree_store_prepend>,  :parameters([N-TreeIter, N-TreeIter])),
-  remove => %(:is-symbol<gtk_tree_store_remove>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-TreeIter])),
-  reorder => %(:is-symbol<gtk_tree_store_reorder>,  :parameters([N-TreeIter, gint-ptr])),
-  set => %(:is-symbol<gtk_tree_store_set>, :variable-list,  :parameters([N-TreeIter])),
-  #set-column-types => %(:is-symbol<gtk_tree_store_set_column_types>,  :parameters([gint, ])),
-  #set-valist => %(:is-symbol<gtk_tree_store_set_valist>,  :parameters([N-TreeIter, ])),
-  set-value => %(:is-symbol<gtk_tree_store_set_value>,  :parameters([N-TreeIter, gint, N-Value])),
-  set-valuesv => %(:is-symbol<gtk_tree_store_set_valuesv>,  :parameters([N-TreeIter, gint-ptr, N-Value, gint])),
-  swap => %(:is-symbol<gtk_tree_store_swap>,  :parameters([N-TreeIter, N-TreeIter])),
+  append => %(:is-symbol<gtk_tree_store_append>, :parameters([N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  clear => %(:is-symbol<gtk_tree_store_clear>, :deprecated, :deprecated-version<4.10>, ),
+  insert => %(:is-symbol<gtk_tree_store_insert>, :parameters([N-Object, N-Object, gint]), :deprecated, :deprecated-version<4.10>, ),
+  insert-after => %(:is-symbol<gtk_tree_store_insert_after>, :parameters([N-Object, N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  insert-before => %(:is-symbol<gtk_tree_store_insert_before>, :parameters([N-Object, N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  insert-with-values => %(:is-symbol<gtk_tree_store_insert_with_values>, :variable-list, :parameters([N-Object, N-Object, gint]), :deprecated, :deprecated-version<4.10>, ),
+  insert-with-valuesv => %(:is-symbol<gtk_tree_store_insert_with_valuesv>, :parameters([N-Object, N-Object, gint, gint-ptr, N-Object, gint]), :deprecated, :deprecated-version<4.10>, ),
+  is-ancestor => %(:is-symbol<gtk_tree_store_is_ancestor>, :returns(gboolean), :parameters([N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  iter-depth => %(:is-symbol<gtk_tree_store_iter_depth>, :returns(gint), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  iter-is-valid => %(:is-symbol<gtk_tree_store_iter_is_valid>, :returns(gboolean), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  move-after => %(:is-symbol<gtk_tree_store_move_after>, :parameters([N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  move-before => %(:is-symbol<gtk_tree_store_move_before>, :parameters([N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  prepend => %(:is-symbol<gtk_tree_store_prepend>, :parameters([N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  remove => %(:is-symbol<gtk_tree_store_remove>, :returns(gboolean), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  reorder => %(:is-symbol<gtk_tree_store_reorder>, :parameters([N-Object, gint-ptr]), :deprecated, :deprecated-version<4.10>, ),
+  set => %(:is-symbol<gtk_tree_store_set>, :variable-list, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  #set-column-types => %(:is-symbol<gtk_tree_store_set_column_types>, :parameters([gint, ]), :deprecated, :deprecated-version<4.10>, ),
+  #set-valist => %(:is-symbol<gtk_tree_store_set_valist>, :parameters([N-Object, ]), :deprecated, :deprecated-version<4.10>, ),
+  set-value => %(:is-symbol<gtk_tree_store_set_value>, :parameters([N-Object, gint, N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  set-valuesv => %(:is-symbol<gtk_tree_store_set_valuesv>, :parameters([N-Object, gint-ptr, N-Object, gint]), :deprecated, :deprecated-version<4.10>, ),
+  swap => %(:is-symbol<gtk_tree_store_swap>, :parameters([N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------

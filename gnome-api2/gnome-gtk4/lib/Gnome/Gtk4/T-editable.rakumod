@@ -6,8 +6,10 @@ use v6.d;
 
 use NativeCall;
 
-use Gnome::GObject::T-value:api<2>;
+use Cairo;
 
+
+use Gnome::GObject::T-value:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -51,9 +53,9 @@ enum GtkEditableProperties is export <
 my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
-  editable-delegate-get-property => %( :type(Function), :is-symbol<gtk_editable_delegate_get_property>,  :returns(gboolean), :parameters([ N-Object, guint, N-Value, N-Object])),
-  editable-delegate-set-property => %( :type(Function), :is-symbol<gtk_editable_delegate_set_property>,  :returns(gboolean), :parameters([ N-Object, guint, N-Value, N-Object])),
-  #editable-install-properties => %( :type(Function), :is-symbol<gtk_editable_install_properties>,  :returns(guint), :parameters([ , guint])),
+  editable-delegate-get-property => %( :type(Function), :is-symbol<gtk_editable_delegate_get_property>, :returns(gboolean), :parameters([ N-Object, guint, N-Object, N-Object]), ),
+  editable-delegate-set-property => %( :type(Function), :is-symbol<gtk_editable_delegate_set_property>, :returns(gboolean), :parameters([ N-Object, guint, N-Object, N-Object]), ),
+  #editable-install-properties => %( :type(Function), :is-symbol<gtk_editable_install_properties>, :returns(guint), :parameters([ , guint]), ),
 
 );
 # This method is recognized in class Gnome::N::TopLevelClassSupport.

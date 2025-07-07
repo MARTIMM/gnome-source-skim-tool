@@ -6,10 +6,11 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
+
 use Gnome::GObject::T-value:api<2>;
-
 use Gnome::Gtk4::T-enums:api<2>;
-
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -40,6 +41,12 @@ submethod BUILD ( ) {
 }
 
 #-------------------------------------------------------------------------------
+#--[Record Structure]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+# This is an opaque type of which fields are not available.
+class N-AccessibleList:auth<github:MARTIMM>:api<2> is export is repr('CPointer') { }
+
+#-------------------------------------------------------------------------------
 #--[Enumerations]---------------------------------------------------------------
 #-------------------------------------------------------------------------------
 enum GtkAccessiblePlatformState is export <
@@ -53,9 +60,9 @@ enum GtkAccessiblePlatformState is export <
 my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
-  accessible-property-init-value => %( :type(Function), :is-symbol<gtk_accessible_property_init_value>,  :parameters([ GtkAccessibleProperty, N-Object])),
-  accessible-relation-init-value => %( :type(Function), :is-symbol<gtk_accessible_relation_init_value>,  :parameters([ GtkAccessibleRelation, N-Object])),
-  accessible-state-init-value => %( :type(Function), :is-symbol<gtk_accessible_state_init_value>,  :parameters([ GtkAccessibleState, N-Object])),
+  accessible-property-init-value => %( :type(Function), :is-symbol<gtk_accessible_property_init_value>, :parameters([ GtkAccessibleProperty, N-Object]), ),
+  accessible-relation-init-value => %( :type(Function), :is-symbol<gtk_accessible_relation_init_value>, :parameters([ GtkAccessibleRelation, N-Object]), ),
+  accessible-state-init-value => %( :type(Function), :is-symbol<gtk_accessible_state_init_value>, :parameters([ GtkAccessibleState, N-Object]), ),
 
 );
 # This method is recognized in class Gnome::N::TopLevelClassSupport.

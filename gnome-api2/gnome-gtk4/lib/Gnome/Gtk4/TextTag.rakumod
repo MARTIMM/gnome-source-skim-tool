@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::GObject::Object:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -36,6 +38,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -57,12 +60,12 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-texttag => %( :type(Constructor), :is-symbol<gtk_text_tag_new>, :returns(N-Object), :parameters([ Str])),
+  new-texttag => %( :type(Constructor), :is-symbol<gtk_text_tag_new>, :returns(N-Object), :parameters([ Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  changed => %(:is-symbol<gtk_text_tag_changed>,  :parameters([gboolean])),
-  get-priority => %(:is-symbol<gtk_text_tag_get_priority>,  :returns(gint)),
-  set-priority => %(:is-symbol<gtk_text_tag_set_priority>,  :parameters([gint])),
+  changed => %(:is-symbol<gtk_text_tag_changed>, :parameters([gboolean]), ),
+  get-priority => %(:is-symbol<gtk_text_tag_get_priority>, :returns(gint), ),
+  set-priority => %(:is-symbol<gtk_text_tag_set_priority>, :parameters([gint]), ),
 );
 
 #-------------------------------------------------------------------------------

@@ -6,6 +6,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -62,9 +64,9 @@ enum GtkPrintStatus is export <
 my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
-  print-error-quark => %( :type(Function), :is-symbol<gtk_print_error_quark>,  :returns(GQuark)),
-  print-run-page-setup-dialog => %( :type(Function), :is-symbol<gtk_print_run_page_setup_dialog>,  :returns(N-Object), :parameters([ N-Object, N-Object, N-Object])),
-  print-run-page-setup-dialog-async => %( :type(Function), :is-symbol<gtk_print_run_page_setup_dialog_async>,  :parameters([ N-Object, N-Object, N-Object, :( N-Object $page-setup, gpointer $data ), gpointer])),
+  print-error-quark => %( :type(Function), :is-symbol<gtk_print_error_quark>, :returns(GQuark), ),
+  print-run-page-setup-dialog => %( :type(Function), :is-symbol<gtk_print_run_page_setup_dialog>, :returns(N-Object), :parameters([ N-Object, N-Object, N-Object]), ),
+  print-run-page-setup-dialog-async => %( :type(Function), :is-symbol<gtk_print_run_page_setup_dialog_async>, :parameters([ N-Object, N-Object, N-Object, :( N-Object $page-setup, gpointer $data ), gpointer]), ),
 
 );
 # This method is recognized in class Gnome::N::TopLevelClassSupport.

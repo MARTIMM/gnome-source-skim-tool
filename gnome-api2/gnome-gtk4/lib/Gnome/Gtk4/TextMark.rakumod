@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::GObject::Object:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -36,6 +38,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -57,15 +60,15 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-textmark => %( :type(Constructor), :is-symbol<gtk_text_mark_new>, :returns(N-Object), :parameters([ Str, gboolean])),
+  new-textmark => %( :type(Constructor), :is-symbol<gtk_text_mark_new>, :returns(N-Object), :parameters([ Str, gboolean]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-buffer => %(:is-symbol<gtk_text_mark_get_buffer>,  :returns(N-Object)),
-  get-deleted => %(:is-symbol<gtk_text_mark_get_deleted>,  :returns(gboolean), :cnv-return(Bool)),
-  get-left-gravity => %(:is-symbol<gtk_text_mark_get_left_gravity>,  :returns(gboolean), :cnv-return(Bool)),
-  get-name => %(:is-symbol<gtk_text_mark_get_name>,  :returns(Str)),
-  get-visible => %(:is-symbol<gtk_text_mark_get_visible>,  :returns(gboolean), :cnv-return(Bool)),
-  set-visible => %(:is-symbol<gtk_text_mark_set_visible>,  :parameters([gboolean])),
+  get-buffer => %(:is-symbol<gtk_text_mark_get_buffer>, :returns(N-Object), ),
+  get-deleted => %(:is-symbol<gtk_text_mark_get_deleted>, :returns(gboolean), ),
+  get-left-gravity => %(:is-symbol<gtk_text_mark_get_left_gravity>, :returns(gboolean), ),
+  get-name => %(:is-symbol<gtk_text_mark_get_name>, :returns(Str), ),
+  get-visible => %(:is-symbol<gtk_text_mark_get_visible>, :returns(gboolean), ),
+  set-visible => %(:is-symbol<gtk_text_mark_set_visible>, :parameters([gboolean]), ),
 );
 
 #-------------------------------------------------------------------------------

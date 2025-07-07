@@ -6,6 +6,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -43,7 +45,7 @@ submethod BUILD ( ) {
 my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
-  native-get-for-surface => %( :type(Function), :is-symbol<gtk_native_get_for_surface>,  :returns(N-Object), :parameters([N-Object])),
+  native-get-for-surface => %( :type(Function), :is-symbol<gtk_native_get_for_surface>, :returns(N-Object), :parameters([N-Object]), ),
 
 );
 # This method is recognized in class Gnome::N::TopLevelClassSupport.

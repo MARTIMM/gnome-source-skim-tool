@@ -7,10 +7,12 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
+
 use Gnome::GObject::Object:api<2>;
-
+use Gnome::Gdk4::N-Rectangle:api<2>;
 use Gnome::Gdk4::T-types:api<2>;
-
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -38,6 +40,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -59,13 +62,13 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  set-custom => %(:is-symbol<gtk_tooltip_set_custom>,  :parameters([N-Object])),
-  set-icon => %(:is-symbol<gtk_tooltip_set_icon>,  :parameters([N-Object])),
-  set-icon-from-gicon => %(:is-symbol<gtk_tooltip_set_icon_from_gicon>,  :parameters([N-Object])),
-  set-icon-from-icon-name => %(:is-symbol<gtk_tooltip_set_icon_from_icon_name>,  :parameters([Str])),
-  set-markup => %(:is-symbol<gtk_tooltip_set_markup>,  :parameters([Str])),
-  set-text => %(:is-symbol<gtk_tooltip_set_text>,  :parameters([Str])),
-  set-tip-area => %(:is-symbol<gtk_tooltip_set_tip_area>,  :parameters([N-Rectangle])),
+  set-custom => %(:is-symbol<gtk_tooltip_set_custom>, :parameters([N-Object]), ),
+  set-icon => %(:is-symbol<gtk_tooltip_set_icon>, :parameters([N-Object]), ),
+  set-icon-from-gicon => %(:is-symbol<gtk_tooltip_set_icon_from_gicon>, :parameters([N-Object]), ),
+  set-icon-from-icon-name => %(:is-symbol<gtk_tooltip_set_icon_from_icon_name>, :parameters([Str]), ),
+  set-markup => %(:is-symbol<gtk_tooltip_set_markup>, :parameters([Str]), ),
+  set-text => %(:is-symbol<gtk_tooltip_set_text>, :parameters([Str]), ),
+  set-tip-area => %(:is-symbol<gtk_tooltip_set_tip_area>, :parameters([N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------

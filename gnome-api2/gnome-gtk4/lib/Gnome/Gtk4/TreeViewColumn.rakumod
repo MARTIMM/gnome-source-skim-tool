@@ -7,13 +7,16 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::GObject::InitiallyUnowned:api<2>;
-use Gnome::Gtk4::N-TreeIter:api<2>;
 use Gnome::Gtk4::R-Buildable:api<2>;
 use Gnome::Gtk4::R-CellLayout:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
+#use Gnome::Gtk4::T-treemodel:api<2>;
 use Gnome::Gtk4::T-treeviewcolumn:api<2>;
+#use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -45,6 +48,13 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
+  Gnome::N::deprecate(
+    'Gnome::Gtk4::TreeViewColumn', ', Str, ',
+    '4.10', Str,
+    :class, :gnome-lib(gtk4-lib())  
+  );
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
@@ -80,61 +90,61 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-treeviewcolumn => %( :type(Constructor), :is-symbol<gtk_tree_view_column_new>, :returns(N-Object), ),
-  new-with-area => %( :type(Constructor), :is-symbol<gtk_tree_view_column_new_with_area>, :returns(N-Object), :parameters([ N-Object])),
-  new-with-attributes => %( :type(Constructor), :is-symbol<gtk_tree_view_column_new_with_attributes>, :returns(N-Object), :variable-list, :parameters([ Str, N-Object])),
+  new-treeviewcolumn => %( :type(Constructor), :is-symbol<gtk_tree_view_column_new>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  new-with-area => %( :type(Constructor), :is-symbol<gtk_tree_view_column_new_with_area>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :parameters([ N-Object]), ),
+  new-with-attributes => %( :type(Constructor), :is-symbol<gtk_tree_view_column_new_with_attributes>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :variable-list, :parameters([ Str, N-Object]), ),
 
   #--[Methods]------------------------------------------------------------------
-  add-attribute => %(:is-symbol<gtk_tree_view_column_add_attribute>,  :parameters([N-Object, Str, gint])),
-  cell-get-position => %(:is-symbol<gtk_tree_view_column_cell_get_position>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, gint-ptr, gint-ptr])),
-  cell-get-size => %(:is-symbol<gtk_tree_view_column_cell_get_size>,  :parameters([gint-ptr, gint-ptr, gint-ptr, gint-ptr])),
-  cell-is-visible => %(:is-symbol<gtk_tree_view_column_cell_is_visible>,  :returns(gboolean), :cnv-return(Bool)),
-  cell-set-cell-data => %(:is-symbol<gtk_tree_view_column_cell_set_cell_data>,  :parameters([N-Object, N-TreeIter, gboolean, gboolean])),
-  clear => %(:is-symbol<gtk_tree_view_column_clear>, ),
-  clear-attributes => %(:is-symbol<gtk_tree_view_column_clear_attributes>,  :parameters([N-Object])),
-  clicked => %(:is-symbol<gtk_tree_view_column_clicked>, ),
-  focus-cell => %(:is-symbol<gtk_tree_view_column_focus_cell>,  :parameters([N-Object])),
-  get-alignment => %(:is-symbol<gtk_tree_view_column_get_alignment>,  :returns(gfloat)),
-  get-button => %(:is-symbol<gtk_tree_view_column_get_button>,  :returns(N-Object)),
-  get-clickable => %(:is-symbol<gtk_tree_view_column_get_clickable>,  :returns(gboolean), :cnv-return(Bool)),
-  get-expand => %(:is-symbol<gtk_tree_view_column_get_expand>,  :returns(gboolean), :cnv-return(Bool)),
-  get-fixed-width => %(:is-symbol<gtk_tree_view_column_get_fixed_width>,  :returns(gint)),
-  get-max-width => %(:is-symbol<gtk_tree_view_column_get_max_width>,  :returns(gint)),
-  get-min-width => %(:is-symbol<gtk_tree_view_column_get_min_width>,  :returns(gint)),
-  get-reorderable => %(:is-symbol<gtk_tree_view_column_get_reorderable>,  :returns(gboolean), :cnv-return(Bool)),
-  get-resizable => %(:is-symbol<gtk_tree_view_column_get_resizable>,  :returns(gboolean), :cnv-return(Bool)),
-  get-sizing => %(:is-symbol<gtk_tree_view_column_get_sizing>,  :returns(GEnum), :cnv-return(GtkTreeViewColumnSizing)),
-  get-sort-column-id => %(:is-symbol<gtk_tree_view_column_get_sort_column_id>,  :returns(gint)),
-  get-sort-indicator => %(:is-symbol<gtk_tree_view_column_get_sort_indicator>,  :returns(gboolean), :cnv-return(Bool)),
-  get-sort-order => %(:is-symbol<gtk_tree_view_column_get_sort_order>,  :returns(GEnum), :cnv-return(GtkSortType)),
-  get-spacing => %(:is-symbol<gtk_tree_view_column_get_spacing>,  :returns(gint)),
-  get-title => %(:is-symbol<gtk_tree_view_column_get_title>,  :returns(Str)),
-  get-tree-view => %(:is-symbol<gtk_tree_view_column_get_tree_view>,  :returns(N-Object)),
-  get-visible => %(:is-symbol<gtk_tree_view_column_get_visible>,  :returns(gboolean), :cnv-return(Bool)),
-  get-widget => %(:is-symbol<gtk_tree_view_column_get_widget>,  :returns(N-Object)),
-  get-width => %(:is-symbol<gtk_tree_view_column_get_width>,  :returns(gint)),
-  get-x-offset => %(:is-symbol<gtk_tree_view_column_get_x_offset>,  :returns(gint)),
-  pack-end => %(:is-symbol<gtk_tree_view_column_pack_end>,  :parameters([N-Object, gboolean])),
-  pack-start => %(:is-symbol<gtk_tree_view_column_pack_start>,  :parameters([N-Object, gboolean])),
-  queue-resize => %(:is-symbol<gtk_tree_view_column_queue_resize>, ),
-  set-alignment => %(:is-symbol<gtk_tree_view_column_set_alignment>,  :parameters([gfloat])),
-  set-attributes => %(:is-symbol<gtk_tree_view_column_set_attributes>, :variable-list,  :parameters([N-Object])),
-  #set-cell-data-func => %(:is-symbol<gtk_tree_view_column_set_cell_data_func>,  :parameters([N-Object, :( N-Object $tree-column, N-Object $cell, N-Object $tree-model, N-TreeIter $iter, gpointer $data ), gpointer, ])),
-  set-clickable => %(:is-symbol<gtk_tree_view_column_set_clickable>,  :parameters([gboolean])),
-  set-expand => %(:is-symbol<gtk_tree_view_column_set_expand>,  :parameters([gboolean])),
-  set-fixed-width => %(:is-symbol<gtk_tree_view_column_set_fixed_width>,  :parameters([gint])),
-  set-max-width => %(:is-symbol<gtk_tree_view_column_set_max_width>,  :parameters([gint])),
-  set-min-width => %(:is-symbol<gtk_tree_view_column_set_min_width>,  :parameters([gint])),
-  set-reorderable => %(:is-symbol<gtk_tree_view_column_set_reorderable>,  :parameters([gboolean])),
-  set-resizable => %(:is-symbol<gtk_tree_view_column_set_resizable>,  :parameters([gboolean])),
-  set-sizing => %(:is-symbol<gtk_tree_view_column_set_sizing>,  :parameters([GEnum])),
-  set-sort-column-id => %(:is-symbol<gtk_tree_view_column_set_sort_column_id>,  :parameters([gint])),
-  set-sort-indicator => %(:is-symbol<gtk_tree_view_column_set_sort_indicator>,  :parameters([gboolean])),
-  set-sort-order => %(:is-symbol<gtk_tree_view_column_set_sort_order>,  :parameters([GEnum])),
-  set-spacing => %(:is-symbol<gtk_tree_view_column_set_spacing>,  :parameters([gint])),
-  set-title => %(:is-symbol<gtk_tree_view_column_set_title>,  :parameters([Str])),
-  set-visible => %(:is-symbol<gtk_tree_view_column_set_visible>,  :parameters([gboolean])),
-  set-widget => %(:is-symbol<gtk_tree_view_column_set_widget>,  :parameters([N-Object])),
+  add-attribute => %(:is-symbol<gtk_tree_view_column_add_attribute>, :parameters([N-Object, Str, gint]), :deprecated, :deprecated-version<4.10>, ),
+  cell-get-position => %(:is-symbol<gtk_tree_view_column_cell_get_position>, :returns(gboolean), :parameters([N-Object, gint-ptr, gint-ptr]), :deprecated, :deprecated-version<4.10>, ),
+  cell-get-size => %(:is-symbol<gtk_tree_view_column_cell_get_size>, :parameters([gint-ptr, gint-ptr, gint-ptr, gint-ptr]), :deprecated, :deprecated-version<4.10>, ),
+  cell-is-visible => %(:is-symbol<gtk_tree_view_column_cell_is_visible>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  cell-set-cell-data => %(:is-symbol<gtk_tree_view_column_cell_set_cell_data>, :parameters([N-Object, N-Object, gboolean, gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  clear => %(:is-symbol<gtk_tree_view_column_clear>, :deprecated, :deprecated-version<4.10>, ),
+  clear-attributes => %(:is-symbol<gtk_tree_view_column_clear_attributes>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  clicked => %(:is-symbol<gtk_tree_view_column_clicked>, :deprecated, :deprecated-version<4.10>, ),
+  focus-cell => %(:is-symbol<gtk_tree_view_column_focus_cell>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  get-alignment => %(:is-symbol<gtk_tree_view_column_get_alignment>, :returns(gfloat), :deprecated, :deprecated-version<4.10>, ),
+  get-button => %(:is-symbol<gtk_tree_view_column_get_button>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  get-clickable => %(:is-symbol<gtk_tree_view_column_get_clickable>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-expand => %(:is-symbol<gtk_tree_view_column_get_expand>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-fixed-width => %(:is-symbol<gtk_tree_view_column_get_fixed_width>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
+  get-max-width => %(:is-symbol<gtk_tree_view_column_get_max_width>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
+  get-min-width => %(:is-symbol<gtk_tree_view_column_get_min_width>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
+  get-reorderable => %(:is-symbol<gtk_tree_view_column_get_reorderable>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-resizable => %(:is-symbol<gtk_tree_view_column_get_resizable>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-sizing => %(:is-symbol<gtk_tree_view_column_get_sizing>,  :returns(GEnum), :cnv-return(GtkTreeViewColumnSizing),:deprecated, :deprecated-version<4.10>, ),
+  get-sort-column-id => %(:is-symbol<gtk_tree_view_column_get_sort_column_id>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
+  get-sort-indicator => %(:is-symbol<gtk_tree_view_column_get_sort_indicator>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-sort-order => %(:is-symbol<gtk_tree_view_column_get_sort_order>,  :returns(GEnum), :cnv-return(GtkSortType),:deprecated, :deprecated-version<4.10>, ),
+  get-spacing => %(:is-symbol<gtk_tree_view_column_get_spacing>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
+  get-title => %(:is-symbol<gtk_tree_view_column_get_title>, :returns(Str), :deprecated, :deprecated-version<4.10>, ),
+  get-tree-view => %(:is-symbol<gtk_tree_view_column_get_tree_view>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  get-visible => %(:is-symbol<gtk_tree_view_column_get_visible>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-widget => %(:is-symbol<gtk_tree_view_column_get_widget>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  get-width => %(:is-symbol<gtk_tree_view_column_get_width>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
+  get-x-offset => %(:is-symbol<gtk_tree_view_column_get_x_offset>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
+  pack-end => %(:is-symbol<gtk_tree_view_column_pack_end>, :parameters([N-Object, gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  pack-start => %(:is-symbol<gtk_tree_view_column_pack_start>, :parameters([N-Object, gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  queue-resize => %(:is-symbol<gtk_tree_view_column_queue_resize>, :deprecated, :deprecated-version<4.10>, ),
+  set-alignment => %(:is-symbol<gtk_tree_view_column_set_alignment>, :parameters([gfloat]), :deprecated, :deprecated-version<4.10>, ),
+  set-attributes => %(:is-symbol<gtk_tree_view_column_set_attributes>, :variable-list, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  set-cell-data-func => %(:is-symbol<gtk_tree_view_column_set_cell_data_func>, :parameters([N-Object, :( N-Object $tree-column, N-Object $cell, N-Object $tree-model, N-Object $iter, gpointer $data ), gpointer, :( gpointer $data )]), :deprecated, :deprecated-version<4.10>, ),
+  set-clickable => %(:is-symbol<gtk_tree_view_column_set_clickable>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-expand => %(:is-symbol<gtk_tree_view_column_set_expand>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-fixed-width => %(:is-symbol<gtk_tree_view_column_set_fixed_width>, :parameters([gint]), :deprecated, :deprecated-version<4.10>, ),
+  set-max-width => %(:is-symbol<gtk_tree_view_column_set_max_width>, :parameters([gint]), :deprecated, :deprecated-version<4.10>, ),
+  set-min-width => %(:is-symbol<gtk_tree_view_column_set_min_width>, :parameters([gint]), :deprecated, :deprecated-version<4.10>, ),
+  set-reorderable => %(:is-symbol<gtk_tree_view_column_set_reorderable>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-resizable => %(:is-symbol<gtk_tree_view_column_set_resizable>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-sizing => %(:is-symbol<gtk_tree_view_column_set_sizing>, :parameters([GEnum]), :deprecated, :deprecated-version<4.10>, ),
+  set-sort-column-id => %(:is-symbol<gtk_tree_view_column_set_sort_column_id>, :parameters([gint]), :deprecated, :deprecated-version<4.10>, ),
+  set-sort-indicator => %(:is-symbol<gtk_tree_view_column_set_sort_indicator>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-sort-order => %(:is-symbol<gtk_tree_view_column_set_sort_order>, :parameters([GEnum]), :deprecated, :deprecated-version<4.10>, ),
+  set-spacing => %(:is-symbol<gtk_tree_view_column_set_spacing>, :parameters([gint]), :deprecated, :deprecated-version<4.10>, ),
+  set-title => %(:is-symbol<gtk_tree_view_column_set_title>, :parameters([Str]), :deprecated, :deprecated-version<4.10>, ),
+  set-visible => %(:is-symbol<gtk_tree_view_column_set_visible>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-widget => %(:is-symbol<gtk_tree_view_column_set_widget>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------

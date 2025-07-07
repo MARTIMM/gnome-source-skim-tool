@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::GObject::Object:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -36,6 +38,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -57,15 +60,15 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  #new-treelistmodel => %( :type(Constructor), :is-symbol<gtk_tree_list_model_new>, :returns(N-Object), :parameters([ N-Object, gboolean, gboolean, , gpointer, ])),
+  new-treelistmodel => %( :type(Constructor), :is-symbol<gtk_tree_list_model_new>, :returns(N-Object), :parameters([ N-Object, gboolean, gboolean, , gpointer, ]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-autoexpand => %(:is-symbol<gtk_tree_list_model_get_autoexpand>,  :returns(gboolean), :cnv-return(Bool)),
-  get-child-row => %(:is-symbol<gtk_tree_list_model_get_child_row>,  :returns(N-Object), :parameters([guint])),
-  get-model => %(:is-symbol<gtk_tree_list_model_get_model>,  :returns(N-Object)),
-  get-passthrough => %(:is-symbol<gtk_tree_list_model_get_passthrough>,  :returns(gboolean), :cnv-return(Bool)),
-  get-row => %(:is-symbol<gtk_tree_list_model_get_row>,  :returns(N-Object), :parameters([guint])),
-  set-autoexpand => %(:is-symbol<gtk_tree_list_model_set_autoexpand>,  :parameters([gboolean])),
+  get-autoexpand => %(:is-symbol<gtk_tree_list_model_get_autoexpand>, :returns(gboolean), ),
+  get-child-row => %(:is-symbol<gtk_tree_list_model_get_child_row>, :returns(N-Object), :parameters([guint]), ),
+  get-model => %(:is-symbol<gtk_tree_list_model_get_model>, :returns(N-Object), ),
+  get-passthrough => %(:is-symbol<gtk_tree_list_model_get_passthrough>, :returns(gboolean), ),
+  get-row => %(:is-symbol<gtk_tree_list_model_get_row>, :returns(N-Object), :parameters([guint]), ),
+  set-autoexpand => %(:is-symbol<gtk_tree_list_model_set_autoexpand>, :parameters([gboolean]), ),
 );
 
 #-------------------------------------------------------------------------------

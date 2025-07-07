@@ -6,6 +6,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -54,7 +56,7 @@ enum GtkFileChooserError is export <
 my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
-  file-chooser-error-quark => %( :type(Function), :is-symbol<gtk_file_chooser_error_quark>,  :returns(GQuark)),
+  file-chooser-error-quark => %( :type(Function), :is-symbol<gtk_file_chooser_error_quark>, :returns(GQuark), ),
 
 );
 # This method is recognized in class Gnome::N::TopLevelClassSupport.

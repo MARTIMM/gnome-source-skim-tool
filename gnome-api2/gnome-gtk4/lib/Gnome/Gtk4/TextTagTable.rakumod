@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::GObject::Object:api<2>;
 use Gnome::Gtk4::R-Buildable:api<2>;
@@ -40,6 +42,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
@@ -77,11 +80,11 @@ my Hash $methods = %(
   new-texttagtable => %( :type(Constructor), :is-symbol<gtk_text_tag_table_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  add => %(:is-symbol<gtk_text_tag_table_add>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
-  foreach => %(:is-symbol<gtk_text_tag_table_foreach>,  :parameters([:( N-Object $tag, gpointer $data ), gpointer])),
-  get-size => %(:is-symbol<gtk_text_tag_table_get_size>,  :returns(gint)),
-  lookup => %(:is-symbol<gtk_text_tag_table_lookup>,  :returns(N-Object), :parameters([Str])),
-  remove => %(:is-symbol<gtk_text_tag_table_remove>,  :parameters([N-Object])),
+  add => %(:is-symbol<gtk_text_tag_table_add>, :returns(gboolean), :parameters([N-Object]), ),
+  foreach => %(:is-symbol<gtk_text_tag_table_foreach>, :parameters([:( N-Object $tag, gpointer $data ), gpointer]), ),
+  get-size => %(:is-symbol<gtk_text_tag_table_get_size>, :returns(gint), ),
+  lookup => %(:is-symbol<gtk_text_tag_table_lookup>, :returns(N-Object), :parameters([Str]), ),
+  remove => %(:is-symbol<gtk_text_tag_table_remove>, :parameters([N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------

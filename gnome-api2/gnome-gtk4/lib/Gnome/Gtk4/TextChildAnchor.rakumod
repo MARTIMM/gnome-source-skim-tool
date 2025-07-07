@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::GObject::Object:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -36,6 +38,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -58,11 +61,11 @@ my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
   new-textchildanchor => %( :type(Constructor), :is-symbol<gtk_text_child_anchor_new>, :returns(N-Object), ),
-  new-with-replacement => %( :type(Constructor), :is-symbol<gtk_text_child_anchor_new_with_replacement>, :returns(N-Object), :parameters([ Str])),
+  new-with-replacement => %( :type(Constructor), :is-symbol<gtk_text_child_anchor_new_with_replacement>, :returns(N-Object), :parameters([ Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-deleted => %(:is-symbol<gtk_text_child_anchor_get_deleted>,  :returns(gboolean), :cnv-return(Bool)),
-  get-widgets => %(:is-symbol<gtk_text_child_anchor_get_widgets>,  :returns(CArray[N-Object]), :parameters([gint-ptr])),
+  get-deleted => %(:is-symbol<gtk_text_child_anchor_get_deleted>, :returns(gboolean), ),
+  get-widgets => %(:is-symbol<gtk_text_child_anchor_get_widgets>, :returns(CArray[N-Object]), :parameters([gint-ptr]), ),
 );
 
 #-------------------------------------------------------------------------------

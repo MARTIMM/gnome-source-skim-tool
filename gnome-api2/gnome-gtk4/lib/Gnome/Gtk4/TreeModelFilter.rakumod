@@ -7,15 +7,18 @@ use v6.d;
 
 use NativeCall;
 
-use Gnome::GObject::T-value:api<2>;
+use Cairo;
 
+
+use Gnome::GObject::N-Value:api<2>;
 use Gnome::GObject::Object:api<2>;
-
+use Gnome::GObject::T-value:api<2>;
 use Gnome::Gtk4::N-TreeIter:api<2>;
 use Gnome::Gtk4::N-TreePath:api<2>;
 use Gnome::Gtk4::R-TreeDragSource:api<2>;
 use Gnome::Gtk4::R-TreeModel:api<2>;
-
+#use Gnome::Gtk4::T-treemodel:api<2>;
+#use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -47,6 +50,13 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
+  Gnome::N::deprecate(
+    'Gnome::Gtk4::TreeModelFilter', ', Str, ',
+    '4.10', Str,
+    :class, :gnome-lib(gtk4-lib())  
+  );
+
   # Add signal administration info.
   unless $signals-added {
     
@@ -79,16 +89,16 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  clear-cache => %(:is-symbol<gtk_tree_model_filter_clear_cache>, ),
-  convert-child-iter-to-iter => %(:is-symbol<gtk_tree_model_filter_convert_child_iter_to_iter>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-TreeIter, N-TreeIter])),
-  convert-child-path-to-path => %(:is-symbol<gtk_tree_model_filter_convert_child_path_to_path>,  :returns(N-TreePath), :parameters([N-TreePath])),
-  convert-iter-to-child-iter => %(:is-symbol<gtk_tree_model_filter_convert_iter_to_child_iter>,  :parameters([N-TreeIter, N-TreeIter])),
-  convert-path-to-child-path => %(:is-symbol<gtk_tree_model_filter_convert_path_to_child_path>,  :returns(N-TreePath), :parameters([N-TreePath])),
-  get-model => %(:is-symbol<gtk_tree_model_filter_get_model>,  :returns(N-Object)),
-  refilter => %(:is-symbol<gtk_tree_model_filter_refilter>, ),
-  #set-modify-func => %(:is-symbol<gtk_tree_model_filter_set_modify_func>,  :parameters([gint, , :( N-Object $model, N-TreeIter $iter, N-Value $value, gint $column, gpointer $data ), gpointer, ])),
-  set-visible-column => %(:is-symbol<gtk_tree_model_filter_set_visible_column>,  :parameters([gint])),
-  #set-visible-func => %(:is-symbol<gtk_tree_model_filter_set_visible_func>,  :parameters([:( N-Object $model, N-TreeIter $iter, gpointer $data --> gboolean ), gpointer, ])),
+  clear-cache => %(:is-symbol<gtk_tree_model_filter_clear_cache>, :deprecated, :deprecated-version<4.10>, ),
+  convert-child-iter-to-iter => %(:is-symbol<gtk_tree_model_filter_convert_child_iter_to_iter>, :returns(gboolean), :parameters([N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  convert-child-path-to-path => %(:is-symbol<gtk_tree_model_filter_convert_child_path_to_path>, :returns(N-Object), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  convert-iter-to-child-iter => %(:is-symbol<gtk_tree_model_filter_convert_iter_to_child_iter>, :parameters([N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  convert-path-to-child-path => %(:is-symbol<gtk_tree_model_filter_convert_path_to_child_path>, :returns(N-Object), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  get-model => %(:is-symbol<gtk_tree_model_filter_get_model>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  refilter => %(:is-symbol<gtk_tree_model_filter_refilter>, :deprecated, :deprecated-version<4.10>, ),
+  #set-modify-func => %(:is-symbol<gtk_tree_model_filter_set_modify_func>, :parameters([gint, , :( N-Object $model, N-Object $iter, N-Object $value, gint $column, gpointer $data ), gpointer, :( gpointer $data )]), :deprecated, :deprecated-version<4.10>, ),
+  set-visible-column => %(:is-symbol<gtk_tree_model_filter_set_visible_column>, :parameters([gint]), :deprecated, :deprecated-version<4.10>, ),
+  set-visible-func => %(:is-symbol<gtk_tree_model_filter_set_visible_func>, :parameters([:( N-Object $model, N-Object $iter, gpointer $data ), gpointer, :( gpointer $data )]), :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------

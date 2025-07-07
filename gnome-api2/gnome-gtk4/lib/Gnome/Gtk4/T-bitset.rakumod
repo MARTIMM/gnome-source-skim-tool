@@ -6,6 +6,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::T-types:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -63,9 +65,9 @@ class N-BitsetIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
 my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
-  bitset-iter-init-at => %( :type(Function), :is-symbol<gtk_bitset_iter_init_at>,  :returns(gboolean), :parameters([ N-Object, N-Object, guint, gint-ptr])),
-  bitset-iter-init-first => %( :type(Function), :is-symbol<gtk_bitset_iter_init_first>,  :returns(gboolean), :parameters([ N-Object, N-Object, gint-ptr])),
-  bitset-iter-init-last => %( :type(Function), :is-symbol<gtk_bitset_iter_init_last>,  :returns(gboolean), :parameters([ N-Object, N-Object, gint-ptr])),
+  bitset-iter-init-at => %( :type(Function), :is-symbol<gtk_bitset_iter_init_at>, :returns(gboolean), :parameters([ N-Object, N-Object, guint, gint-ptr]), ),
+  bitset-iter-init-first => %( :type(Function), :is-symbol<gtk_bitset_iter_init_first>, :returns(gboolean), :parameters([ N-Object, N-Object, gint-ptr]), ),
+  bitset-iter-init-last => %( :type(Function), :is-symbol<gtk_bitset_iter_init_last>, :returns(gboolean), :parameters([ N-Object, N-Object, gint-ptr]), ),
 
 );
 # This method is recognized in class Gnome::N::TopLevelClassSupport.

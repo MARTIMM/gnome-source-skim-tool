@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -36,6 +38,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -60,13 +63,17 @@ my Hash $methods = %(
   new-treeexpander => %( :type(Constructor), :is-symbol<gtk_tree_expander_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-child => %(:is-symbol<gtk_tree_expander_get_child>,  :returns(N-Object)),
-  get-indent-for-icon => %(:is-symbol<gtk_tree_expander_get_indent_for_icon>,  :returns(gboolean), :cnv-return(Bool)),
-  get-item => %(:is-symbol<gtk_tree_expander_get_item>,  :returns(gpointer)),
-  get-list-row => %(:is-symbol<gtk_tree_expander_get_list_row>,  :returns(N-Object)),
-  set-child => %(:is-symbol<gtk_tree_expander_set_child>,  :parameters([N-Object])),
-  set-indent-for-icon => %(:is-symbol<gtk_tree_expander_set_indent_for_icon>,  :parameters([gboolean])),
-  set-list-row => %(:is-symbol<gtk_tree_expander_set_list_row>,  :parameters([N-Object])),
+  get-child => %(:is-symbol<gtk_tree_expander_get_child>, :returns(N-Object), ),
+  get-hide-expander => %(:is-symbol<gtk_tree_expander_get_hide_expander>, :returns(gboolean), ),
+  get-indent-for-depth => %(:is-symbol<gtk_tree_expander_get_indent_for_depth>, :returns(gboolean), ),
+  get-indent-for-icon => %(:is-symbol<gtk_tree_expander_get_indent_for_icon>, :returns(gboolean), ),
+  get-item => %(:is-symbol<gtk_tree_expander_get_item>, :returns(gpointer), ),
+  get-list-row => %(:is-symbol<gtk_tree_expander_get_list_row>, :returns(N-Object), ),
+  set-child => %(:is-symbol<gtk_tree_expander_set_child>, :parameters([N-Object]), ),
+  set-hide-expander => %(:is-symbol<gtk_tree_expander_set_hide_expander>, :parameters([gboolean]), ),
+  set-indent-for-depth => %(:is-symbol<gtk_tree_expander_set_indent_for_depth>, :parameters([gboolean]), ),
+  set-indent-for-icon => %(:is-symbol<gtk_tree_expander_set_indent_for_icon>, :parameters([gboolean]), ),
+  set-list-row => %(:is-symbol<gtk_tree_expander_set_list_row>, :parameters([N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------

@@ -7,14 +7,16 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
+
 use Gnome::GObject::Object:api<2>;
-
+use Gnome::Glib::N-List:api<2>;
 use Gnome::Glib::T-list:api<2>;
-
 use Gnome::Gtk4::N-TreeIter:api<2>;
-use Gnome::Gtk4::N-TreePath:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
-
+#use Gnome::Gtk4::T-treemodel:api<2>;
+#use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -44,6 +46,13 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
+  Gnome::N::deprecate(
+    'Gnome::Gtk4::TreeSelection', ', Str, ',
+    '4.10', Str,
+    :class, :gnome-lib(gtk4-lib())  
+  );
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
@@ -73,26 +82,26 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  count-selected-rows => %(:is-symbol<gtk_tree_selection_count_selected_rows>,  :returns(gint)),
-  get-mode => %(:is-symbol<gtk_tree_selection_get_mode>,  :returns(GEnum), :cnv-return(GtkSelectionMode)),
-#  get-select-function => %(:is-symbol<gtk_tree_selection_get_select_function>,  :returns(), :cnv-return(( N-Object $selection, N-Object $model, N-TreePath $path, gboolean $path-currently-selected, gpointer $data --> gboolean ))),
-  get-selected => %(:is-symbol<gtk_tree_selection_get_selected>,  :returns(gboolean), :cnv-return(Bool), :parameters([CArray[N-Object], N-TreeIter])),
-  get-selected-rows => %(:is-symbol<gtk_tree_selection_get_selected_rows>,  :returns(N-List), :parameters([CArray[N-Object]])),
-  get-tree-view => %(:is-symbol<gtk_tree_selection_get_tree_view>,  :returns(N-Object)),
-  get-user-data => %(:is-symbol<gtk_tree_selection_get_user_data>,  :returns(gpointer)),
-  iter-is-selected => %(:is-symbol<gtk_tree_selection_iter_is_selected>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-TreeIter])),
-  path-is-selected => %(:is-symbol<gtk_tree_selection_path_is_selected>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-TreePath])),
-  select-all => %(:is-symbol<gtk_tree_selection_select_all>, ),
-  select-iter => %(:is-symbol<gtk_tree_selection_select_iter>,  :parameters([N-TreeIter])),
-  select-path => %(:is-symbol<gtk_tree_selection_select_path>,  :parameters([N-TreePath])),
-  select-range => %(:is-symbol<gtk_tree_selection_select_range>,  :parameters([N-TreePath, N-TreePath])),
-  selected-foreach => %(:is-symbol<gtk_tree_selection_selected_foreach>,  :parameters([:( N-Object $model, N-TreePath $path, N-TreeIter $iter, gpointer $data ), gpointer])),
-  set-mode => %(:is-symbol<gtk_tree_selection_set_mode>,  :parameters([GEnum])),
-  #set-select-function => %(:is-symbol<gtk_tree_selection_set_select_function>,  :parameters([:( N-Object $selection, N-Object $model, N-TreePath $path, gboolean $path-currently-selected, gpointer $data --> gboolean ), gpointer, ])),
-  unselect-all => %(:is-symbol<gtk_tree_selection_unselect_all>, ),
-  unselect-iter => %(:is-symbol<gtk_tree_selection_unselect_iter>,  :parameters([N-TreeIter])),
-  unselect-path => %(:is-symbol<gtk_tree_selection_unselect_path>,  :parameters([N-TreePath])),
-  unselect-range => %(:is-symbol<gtk_tree_selection_unselect_range>,  :parameters([N-TreePath, N-TreePath])),
+  count-selected-rows => %(:is-symbol<gtk_tree_selection_count_selected_rows>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
+  get-mode => %(:is-symbol<gtk_tree_selection_get_mode>,  :returns(GEnum), :cnv-return(GtkSelectionMode),:deprecated, :deprecated-version<4.10>, ),
+  get-select-function => %(:is-symbol<gtk_tree_selection_get_select_function>,  :returns(), :cnv-return(( N-Object $selection, N-Object $model, N-Object $path, gboolean $path-currently-selected, gpointer $data )),:deprecated, :deprecated-version<4.10>, ),
+  get-selected => %(:is-symbol<gtk_tree_selection_get_selected>, :returns(gboolean), :parameters([CArray[N-Object], N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  get-selected-rows => %(:is-symbol<gtk_tree_selection_get_selected_rows>, :returns(N-Object), :parameters([CArray[N-Object]]), :deprecated, :deprecated-version<4.10>, ),
+  get-tree-view => %(:is-symbol<gtk_tree_selection_get_tree_view>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  get-user-data => %(:is-symbol<gtk_tree_selection_get_user_data>, :returns(gpointer), :deprecated, :deprecated-version<4.10>, ),
+  iter-is-selected => %(:is-symbol<gtk_tree_selection_iter_is_selected>, :returns(gboolean), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  path-is-selected => %(:is-symbol<gtk_tree_selection_path_is_selected>, :returns(gboolean), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  select-all => %(:is-symbol<gtk_tree_selection_select_all>, :deprecated, :deprecated-version<4.10>, ),
+  select-iter => %(:is-symbol<gtk_tree_selection_select_iter>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  select-path => %(:is-symbol<gtk_tree_selection_select_path>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  select-range => %(:is-symbol<gtk_tree_selection_select_range>, :parameters([N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  selected-foreach => %(:is-symbol<gtk_tree_selection_selected_foreach>, :parameters([:( N-Object $model, N-Object $path, N-Object $iter, gpointer $data ), gpointer]), :deprecated, :deprecated-version<4.10>, ),
+  set-mode => %(:is-symbol<gtk_tree_selection_set_mode>, :parameters([GEnum]), :deprecated, :deprecated-version<4.10>, ),
+  set-select-function => %(:is-symbol<gtk_tree_selection_set_select_function>, :parameters([:( N-Object $selection, N-Object $model, N-Object $path, gboolean $path-currently-selected, gpointer $data ), gpointer, :( gpointer $data )]), :deprecated, :deprecated-version<4.10>, ),
+  unselect-all => %(:is-symbol<gtk_tree_selection_unselect_all>, :deprecated, :deprecated-version<4.10>, ),
+  unselect-iter => %(:is-symbol<gtk_tree_selection_unselect_iter>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  unselect-path => %(:is-symbol<gtk_tree_selection_unselect_path>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  unselect-range => %(:is-symbol<gtk_tree_selection_unselect_range>, :parameters([N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------
