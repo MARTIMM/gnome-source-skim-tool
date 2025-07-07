@@ -149,6 +149,11 @@ method generate-code ( ) {
     # For a types file/class it must start with 'T-'.
     $data<type-letter> = 'T';
     $data<package-name> = $*work-data<raku-package>;
+    $filename = ?$data<source-filename>
+                 ?? [~] $data<type-letter>,
+                        '-', $data<source-filename>,
+                        '.rakumod'
+                 !! '';
 
     $*gnome-class = $data<type-name>;
     $t-prep .= new unless ?$t-prep;
@@ -158,7 +163,7 @@ method generate-code ( ) {
 #    my Str $prefix = $*work-data<name-prefix>;
 #    $type-name ~~ s:i/^ 'T-' $prefix /T-/;
 #    $filename = [~] $*work-data<result-mods>, $type-name, '.rakumod';
-    $filename =  $!solve.set-object-name( $data, :name-type(FilenameCodeType))
+    $filename = $!solve.set-object-name( $data, :name-type(FilenameCodeType))
       unless ?$filename;
     $class-name = $!solve.set-object-name($data) unless ?$class-name;
 
