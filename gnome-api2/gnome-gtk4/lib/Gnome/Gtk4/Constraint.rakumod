@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::GObject::Object:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
@@ -37,6 +39,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -58,21 +61,21 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-constraint => %( :type(Constructor), :is-symbol<gtk_constraint_new>, :returns(gint-ptr), :parameters([ gpointer, GEnum, GEnum, gpointer, GEnum, gdouble, gdouble, gint])),
-  new-constant => %( :type(Constructor), :is-symbol<gtk_constraint_new_constant>, :returns(gint-ptr), :parameters([ gpointer, GEnum, GEnum, gdouble, gint])),
+  new-constraint => %( :type(Constructor), :is-symbol<gtk_constraint_new>, :returns(gint-ptr), :parameters([ gpointer, GEnum, GEnum, gpointer, GEnum, gdouble, gdouble, gint]), ),
+  new-constant => %( :type(Constructor), :is-symbol<gtk_constraint_new_constant>, :returns(gint-ptr), :parameters([ gpointer, GEnum, GEnum, gdouble, gint]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-constant => %(:is-symbol<gtk_constraint_get_constant>,  :returns(gdouble)),
-  get-multiplier => %(:is-symbol<gtk_constraint_get_multiplier>,  :returns(gdouble)),
+  get-constant => %(:is-symbol<gtk_constraint_get_constant>, :returns(gdouble), ),
+  get-multiplier => %(:is-symbol<gtk_constraint_get_multiplier>, :returns(gdouble), ),
   get-relation => %(:is-symbol<gtk_constraint_get_relation>,  :returns(GEnum), :cnv-return(GtkConstraintRelation)),
-  get-source => %(:is-symbol<gtk_constraint_get_source>,  :returns(N-Object)),
+  get-source => %(:is-symbol<gtk_constraint_get_source>, :returns(N-Object), ),
   get-source-attribute => %(:is-symbol<gtk_constraint_get_source_attribute>,  :returns(GEnum), :cnv-return(GtkConstraintAttribute)),
-  get-strength => %(:is-symbol<gtk_constraint_get_strength>,  :returns(gint)),
-  get-target => %(:is-symbol<gtk_constraint_get_target>,  :returns(N-Object)),
+  get-strength => %(:is-symbol<gtk_constraint_get_strength>, :returns(gint), ),
+  get-target => %(:is-symbol<gtk_constraint_get_target>, :returns(N-Object), ),
   get-target-attribute => %(:is-symbol<gtk_constraint_get_target_attribute>,  :returns(GEnum), :cnv-return(GtkConstraintAttribute)),
-  is-attached => %(:is-symbol<gtk_constraint_is_attached>,  :returns(gboolean), :cnv-return(Bool)),
-  is-constant => %(:is-symbol<gtk_constraint_is_constant>,  :returns(gboolean), :cnv-return(Bool)),
-  is-required => %(:is-symbol<gtk_constraint_is_required>,  :returns(gboolean), :cnv-return(Bool)),
+  is-attached => %(:is-symbol<gtk_constraint_is_attached>, :returns(gboolean), ),
+  is-constant => %(:is-symbol<gtk_constraint_is_constant>, :returns(gboolean), ),
+  is-required => %(:is-symbol<gtk_constraint_is_required>, :returns(gboolean), ),
 );
 
 #-------------------------------------------------------------------------------

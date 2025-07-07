@@ -7,11 +7,14 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
 
-use Gnome::Gtk4::N-TreePath:api<2>;
+
 use Gnome::Gtk4::R-CellLayout:api<2>;
 use Gnome::Gtk4::R-Orientable:api<2>;
+#use Gnome::Gtk4::T-treemodel:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
+#use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -43,6 +46,13 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
+  Gnome::N::deprecate(
+    'Gnome::Gtk4::CellView', ', Str, ',
+    '4.10', Str,
+    :class, :gnome-lib(gtk4-lib())  
+  );
+
   # Add signal administration info.
   unless $signals-added {
     
@@ -75,21 +85,21 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-cellview => %( :type(Constructor), :is-symbol<gtk_cell_view_new>, :returns(N-Object), ),
-  new-with-context => %( :type(Constructor), :is-symbol<gtk_cell_view_new_with_context>, :returns(N-Object), :parameters([ N-Object, N-Object])),
-  new-with-markup => %( :type(Constructor), :is-symbol<gtk_cell_view_new_with_markup>, :returns(N-Object), :parameters([ Str])),
-  new-with-text => %( :type(Constructor), :is-symbol<gtk_cell_view_new_with_text>, :returns(N-Object), :parameters([ Str])),
-  new-with-texture => %( :type(Constructor), :is-symbol<gtk_cell_view_new_with_texture>, :returns(N-Object), :parameters([ N-Object])),
+  new-cellview => %( :type(Constructor), :is-symbol<gtk_cell_view_new>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  new-with-context => %( :type(Constructor), :is-symbol<gtk_cell_view_new_with_context>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :parameters([ N-Object, N-Object]), ),
+  new-with-markup => %( :type(Constructor), :is-symbol<gtk_cell_view_new_with_markup>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :parameters([ Str]), ),
+  new-with-text => %( :type(Constructor), :is-symbol<gtk_cell_view_new_with_text>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :parameters([ Str]), ),
+  new-with-texture => %( :type(Constructor), :is-symbol<gtk_cell_view_new_with_texture>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :parameters([ N-Object]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-displayed-row => %(:is-symbol<gtk_cell_view_get_displayed_row>,  :returns(N-TreePath)),
-  get-draw-sensitive => %(:is-symbol<gtk_cell_view_get_draw_sensitive>,  :returns(gboolean), :cnv-return(Bool)),
-  get-fit-model => %(:is-symbol<gtk_cell_view_get_fit_model>,  :returns(gboolean), :cnv-return(Bool)),
-  get-model => %(:is-symbol<gtk_cell_view_get_model>,  :returns(N-Object)),
-  set-displayed-row => %(:is-symbol<gtk_cell_view_set_displayed_row>,  :parameters([N-TreePath])),
-  set-draw-sensitive => %(:is-symbol<gtk_cell_view_set_draw_sensitive>,  :parameters([gboolean])),
-  set-fit-model => %(:is-symbol<gtk_cell_view_set_fit_model>,  :parameters([gboolean])),
-  set-model => %(:is-symbol<gtk_cell_view_set_model>,  :parameters([N-Object])),
+  get-displayed-row => %(:is-symbol<gtk_cell_view_get_displayed_row>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  get-draw-sensitive => %(:is-symbol<gtk_cell_view_get_draw_sensitive>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-fit-model => %(:is-symbol<gtk_cell_view_get_fit_model>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-model => %(:is-symbol<gtk_cell_view_get_model>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  set-displayed-row => %(:is-symbol<gtk_cell_view_set_displayed_row>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  set-draw-sensitive => %(:is-symbol<gtk_cell_view_set_draw_sensitive>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-fit-model => %(:is-symbol<gtk_cell_view_set_fit_model>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-model => %(:is-symbol<gtk_cell_view_set_model>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------

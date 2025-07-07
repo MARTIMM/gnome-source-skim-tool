@@ -7,8 +7,11 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::CellArea:api<2>;
+use Gnome::Gtk4::R-Orientable:api<2>;
 #use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -23,6 +26,7 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Gtk4::CellAreaBox:auth<github:MARTIMM>:api<2>;
 also is Gnome::Gtk4::CellArea;
+also does Gnome::Gtk4::R-Orientable;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -30,6 +34,9 @@ also is Gnome::Gtk4::CellArea;
 
 # Define callable helper
 has Gnome::N::GnomeRoutineCaller $!routine-caller;
+
+# Add signal registration helper
+my Bool $signals-added = False;
 
 #-------------------------------------------------------------------------------
 #--[BUILD submethod]------------------------------------------------------------
@@ -43,6 +50,14 @@ submethod BUILD ( *%options ) {
     :class, :gnome-lib(gtk4-lib())  
   );
 
+  # Add signal administration info.
+  unless $signals-added {
+    
+    # Signals from interfaces
+    self._add_gtk_orientable_signal_types($?CLASS.^name)
+      if self.^can('_add_gtk_orientable_signal_types');
+    $signals-added = True;
+  }
 
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
@@ -68,10 +83,10 @@ my Hash $methods = %(
   new-cellareabox => %( :type(Constructor), :is-symbol<gtk_cell_area_box_new>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
 
   #--[Methods]------------------------------------------------------------------
-  get-spacing => %(:is-symbol<gtk_cell_area_box_get_spacing>,  :returns(gint),:deprecated, :deprecated-version<4.10>, ),
-  pack-end => %(:is-symbol<gtk_cell_area_box_pack_end>,  :parameters([N-Object, gboolean, gboolean, gboolean]),:deprecated, :deprecated-version<4.10>, ),
-  pack-start => %(:is-symbol<gtk_cell_area_box_pack_start>,  :parameters([N-Object, gboolean, gboolean, gboolean]),:deprecated, :deprecated-version<4.10>, ),
-  set-spacing => %(:is-symbol<gtk_cell_area_box_set_spacing>,  :parameters([gint]),:deprecated, :deprecated-version<4.10>, ),
+  get-spacing => %(:is-symbol<gtk_cell_area_box_get_spacing>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
+  pack-end => %(:is-symbol<gtk_cell_area_box_pack_end>, :parameters([N-Object, gboolean, gboolean, gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  pack-start => %(:is-symbol<gtk_cell_area_box_pack_start>, :parameters([N-Object, gboolean, gboolean, gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-spacing => %(:is-symbol<gtk_cell_area_box_set_spacing>, :parameters([gint]), :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------
@@ -107,6 +122,13 @@ method _fallback-v2 (
   }
 
   else {
+    my $r;
+    my $native-object = self.get-native-object-no-reffing;
+    $r = self._do_gtk_orientable_fallback-v2(
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
+    ) if self.^can('_do_gtk_orientable_fallback-v2');
+    return $r if $_fallback-v2-ok;
+
     callsame;
   }
 }

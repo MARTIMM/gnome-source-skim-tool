@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Window:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -36,6 +38,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -57,14 +60,14 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-applicationwindow => %( :type(Constructor), :is-symbol<gtk_application_window_new>, :returns(N-Object), :parameters([ N-Object])),
+  new-applicationwindow => %( :type(Constructor), :is-symbol<gtk_application_window_new>, :returns(N-Object), :parameters([ N-Object]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-help-overlay => %(:is-symbol<gtk_application_window_get_help_overlay>,  :returns(N-Object)),
-  get-id => %(:is-symbol<gtk_application_window_get_id>,  :returns(guint)),
-  get-show-menubar => %(:is-symbol<gtk_application_window_get_show_menubar>,  :returns(gboolean), :cnv-return(Bool)),
-  set-help-overlay => %(:is-symbol<gtk_application_window_set_help_overlay>,  :parameters([N-Object])),
-  set-show-menubar => %(:is-symbol<gtk_application_window_set_show_menubar>,  :parameters([gboolean])),
+  get-help-overlay => %(:is-symbol<gtk_application_window_get_help_overlay>, :returns(N-Object), ),
+  get-id => %(:is-symbol<gtk_application_window_get_id>, :returns(guint), ),
+  get-show-menubar => %(:is-symbol<gtk_application_window_get_show_menubar>, :returns(gboolean), ),
+  set-help-overlay => %(:is-symbol<gtk_application_window_set_help_overlay>, :parameters([N-Object]), ),
+  set-show-menubar => %(:is-symbol<gtk_application_window_set_show_menubar>, :parameters([gboolean]), ),
 );
 
 #-------------------------------------------------------------------------------
@@ -79,7 +82,6 @@ method _fallback-v2 (
         :library(gtk4-lib())
       );
 
-      # Check the function name. 
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)

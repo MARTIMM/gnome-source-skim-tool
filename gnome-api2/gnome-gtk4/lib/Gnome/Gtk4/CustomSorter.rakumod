@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Sorter:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -36,6 +38,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -57,10 +60,10 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  #new-customsorter => %( :type(Constructor), :is-symbol<gtk_custom_sorter_new>, :returns(N-Object), :parameters([ , gpointer, ])),
+  new-customsorter => %( :type(Constructor), :is-symbol<gtk_custom_sorter_new>, :returns(N-Object), :parameters([ , gpointer, ]), ),
 
   #--[Methods]------------------------------------------------------------------
-  #set-sort-func => %(:is-symbol<gtk_custom_sorter_set_sort_func>,  :parameters([, gpointer, ])),
+  set-sort-func => %(:is-symbol<gtk_custom_sorter_set_sort_func>, :parameters([:( gpointer $a, gpointer $b, gpointer $user-data ), gpointer, :( gpointer $data )]), ),
 );
 
 #-------------------------------------------------------------------------------

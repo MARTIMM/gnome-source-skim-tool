@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -36,6 +38,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -60,13 +63,13 @@ my Hash $methods = %(
   new-actionbar => %( :type(Constructor), :is-symbol<gtk_action_bar_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-center-widget => %(:is-symbol<gtk_action_bar_get_center_widget>,  :returns(N-Object)),
-  get-revealed => %(:is-symbol<gtk_action_bar_get_revealed>,  :returns(gboolean), :cnv-return(Bool)),
-  pack-end => %(:is-symbol<gtk_action_bar_pack_end>,  :parameters([N-Object])),
-  pack-start => %(:is-symbol<gtk_action_bar_pack_start>,  :parameters([N-Object])),
-  remove => %(:is-symbol<gtk_action_bar_remove>,  :parameters([N-Object])),
-  set-center-widget => %(:is-symbol<gtk_action_bar_set_center_widget>,  :parameters([N-Object])),
-  set-revealed => %(:is-symbol<gtk_action_bar_set_revealed>,  :parameters([gboolean])),
+  get-center-widget => %(:is-symbol<gtk_action_bar_get_center_widget>, :returns(N-Object), ),
+  get-revealed => %(:is-symbol<gtk_action_bar_get_revealed>, :returns(gboolean), ),
+  pack-end => %(:is-symbol<gtk_action_bar_pack_end>, :parameters([N-Object]), ),
+  pack-start => %(:is-symbol<gtk_action_bar_pack_start>, :parameters([N-Object]), ),
+  remove => %(:is-symbol<gtk_action_bar_remove>, :parameters([N-Object]), ),
+  set-center-widget => %(:is-symbol<gtk_action_bar_set_center_widget>, :parameters([N-Object]), ),
+  set-revealed => %(:is-symbol<gtk_action_bar_set_revealed>, :parameters([gboolean]), ),
 );
 
 #-------------------------------------------------------------------------------
@@ -81,7 +84,6 @@ method _fallback-v2 (
         :library(gtk4-lib())
       );
 
-      # Check the function name. 
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)

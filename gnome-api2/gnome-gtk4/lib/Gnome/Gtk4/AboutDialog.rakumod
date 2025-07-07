@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::T-aboutdialog:api<2>;
 use Gnome::Gtk4::Window:api<2>;
@@ -39,6 +41,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
@@ -71,39 +74,39 @@ my Hash $methods = %(
   new-aboutdialog => %( :type(Constructor), :is-symbol<gtk_about_dialog_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  add-credit-section => %(:is-symbol<gtk_about_dialog_add_credit_section>,  :parameters([Str, gchar-pptr])),
-  get-artists => %(:is-symbol<gtk_about_dialog_get_artists>,  :returns(gchar-pptr)),
-  get-authors => %(:is-symbol<gtk_about_dialog_get_authors>,  :returns(gchar-pptr)),
-  get-comments => %(:is-symbol<gtk_about_dialog_get_comments>,  :returns(Str)),
-  get-copyright => %(:is-symbol<gtk_about_dialog_get_copyright>,  :returns(Str)),
-  get-documenters => %(:is-symbol<gtk_about_dialog_get_documenters>,  :returns(gchar-pptr)),
-  get-license => %(:is-symbol<gtk_about_dialog_get_license>,  :returns(Str)),
+  add-credit-section => %(:is-symbol<gtk_about_dialog_add_credit_section>, :parameters([Str, gchar-pptr]), ),
+  get-artists => %(:is-symbol<gtk_about_dialog_get_artists>, :returns(gchar-pptr), ),
+  get-authors => %(:is-symbol<gtk_about_dialog_get_authors>, :returns(gchar-pptr), ),
+  get-comments => %(:is-symbol<gtk_about_dialog_get_comments>, :returns(Str), ),
+  get-copyright => %(:is-symbol<gtk_about_dialog_get_copyright>, :returns(Str), ),
+  get-documenters => %(:is-symbol<gtk_about_dialog_get_documenters>, :returns(gchar-pptr), ),
+  get-license => %(:is-symbol<gtk_about_dialog_get_license>, :returns(Str), ),
   get-license-type => %(:is-symbol<gtk_about_dialog_get_license_type>,  :returns(GEnum), :cnv-return(GtkLicense)),
-  get-logo => %(:is-symbol<gtk_about_dialog_get_logo>,  :returns(N-Object)),
-  get-logo-icon-name => %(:is-symbol<gtk_about_dialog_get_logo_icon_name>,  :returns(Str)),
-  get-program-name => %(:is-symbol<gtk_about_dialog_get_program_name>,  :returns(Str)),
-  get-system-information => %(:is-symbol<gtk_about_dialog_get_system_information>,  :returns(Str)),
-  get-translator-credits => %(:is-symbol<gtk_about_dialog_get_translator_credits>,  :returns(Str)),
-  get-version => %(:is-symbol<gtk_about_dialog_get_version>,  :returns(Str)),
-  get-website => %(:is-symbol<gtk_about_dialog_get_website>,  :returns(Str)),
-  get-website-label => %(:is-symbol<gtk_about_dialog_get_website_label>,  :returns(Str)),
-  get-wrap-license => %(:is-symbol<gtk_about_dialog_get_wrap_license>,  :returns(gboolean), :cnv-return(Bool)),
-  set-artists => %(:is-symbol<gtk_about_dialog_set_artists>,  :parameters([gchar-pptr])),
-  set-authors => %(:is-symbol<gtk_about_dialog_set_authors>,  :parameters([gchar-pptr])),
-  set-comments => %(:is-symbol<gtk_about_dialog_set_comments>,  :parameters([Str])),
-  set-copyright => %(:is-symbol<gtk_about_dialog_set_copyright>,  :parameters([Str])),
-  set-documenters => %(:is-symbol<gtk_about_dialog_set_documenters>,  :parameters([gchar-pptr])),
-  set-license => %(:is-symbol<gtk_about_dialog_set_license>,  :parameters([Str])),
-  set-license-type => %(:is-symbol<gtk_about_dialog_set_license_type>,  :parameters([GEnum])),
-  set-logo => %(:is-symbol<gtk_about_dialog_set_logo>,  :parameters([N-Object])),
-  set-logo-icon-name => %(:is-symbol<gtk_about_dialog_set_logo_icon_name>,  :parameters([Str])),
-  set-program-name => %(:is-symbol<gtk_about_dialog_set_program_name>,  :parameters([Str])),
-  set-system-information => %(:is-symbol<gtk_about_dialog_set_system_information>,  :parameters([Str])),
-  set-translator-credits => %(:is-symbol<gtk_about_dialog_set_translator_credits>,  :parameters([Str])),
-  set-version => %(:is-symbol<gtk_about_dialog_set_version>,  :parameters([Str])),
-  set-website => %(:is-symbol<gtk_about_dialog_set_website>,  :parameters([Str])),
-  set-website-label => %(:is-symbol<gtk_about_dialog_set_website_label>,  :parameters([Str])),
-  set-wrap-license => %(:is-symbol<gtk_about_dialog_set_wrap_license>,  :parameters([gboolean])),
+  get-logo => %(:is-symbol<gtk_about_dialog_get_logo>, :returns(N-Object), ),
+  get-logo-icon-name => %(:is-symbol<gtk_about_dialog_get_logo_icon_name>, :returns(Str), ),
+  get-program-name => %(:is-symbol<gtk_about_dialog_get_program_name>, :returns(Str), ),
+  get-system-information => %(:is-symbol<gtk_about_dialog_get_system_information>, :returns(Str), ),
+  get-translator-credits => %(:is-symbol<gtk_about_dialog_get_translator_credits>, :returns(Str), ),
+  get-version => %(:is-symbol<gtk_about_dialog_get_version>, :returns(Str), ),
+  get-website => %(:is-symbol<gtk_about_dialog_get_website>, :returns(Str), ),
+  get-website-label => %(:is-symbol<gtk_about_dialog_get_website_label>, :returns(Str), ),
+  get-wrap-license => %(:is-symbol<gtk_about_dialog_get_wrap_license>, :returns(gboolean), ),
+  set-artists => %(:is-symbol<gtk_about_dialog_set_artists>, :parameters([gchar-pptr]), ),
+  set-authors => %(:is-symbol<gtk_about_dialog_set_authors>, :parameters([gchar-pptr]), ),
+  set-comments => %(:is-symbol<gtk_about_dialog_set_comments>, :parameters([Str]), ),
+  set-copyright => %(:is-symbol<gtk_about_dialog_set_copyright>, :parameters([Str]), ),
+  set-documenters => %(:is-symbol<gtk_about_dialog_set_documenters>, :parameters([gchar-pptr]), ),
+  set-license => %(:is-symbol<gtk_about_dialog_set_license>, :parameters([Str]), ),
+  set-license-type => %(:is-symbol<gtk_about_dialog_set_license_type>, :parameters([GEnum]), ),
+  set-logo => %(:is-symbol<gtk_about_dialog_set_logo>, :parameters([N-Object]), ),
+  set-logo-icon-name => %(:is-symbol<gtk_about_dialog_set_logo_icon_name>, :parameters([Str]), ),
+  set-program-name => %(:is-symbol<gtk_about_dialog_set_program_name>, :parameters([Str]), ),
+  set-system-information => %(:is-symbol<gtk_about_dialog_set_system_information>, :parameters([Str]), ),
+  set-translator-credits => %(:is-symbol<gtk_about_dialog_set_translator_credits>, :parameters([Str]), ),
+  set-version => %(:is-symbol<gtk_about_dialog_set_version>, :parameters([Str]), ),
+  set-website => %(:is-symbol<gtk_about_dialog_set_website>, :parameters([Str]), ),
+  set-website-label => %(:is-symbol<gtk_about_dialog_set_website_label>, :parameters([Str]), ),
+  set-wrap-license => %(:is-symbol<gtk_about_dialog_set_wrap_license>, :parameters([gboolean]), ),
 );
 
 #-------------------------------------------------------------------------------

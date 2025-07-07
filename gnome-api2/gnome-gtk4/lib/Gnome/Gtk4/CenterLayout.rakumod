@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::LayoutManager:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
@@ -37,6 +39,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -62,15 +65,17 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   get-baseline-position => %(:is-symbol<gtk_center_layout_get_baseline_position>,  :returns(GEnum), :cnv-return(GtkBaselinePosition)),
-  get-center-widget => %(:is-symbol<gtk_center_layout_get_center_widget>,  :returns(N-Object)),
-  get-end-widget => %(:is-symbol<gtk_center_layout_get_end_widget>,  :returns(N-Object)),
+  get-center-widget => %(:is-symbol<gtk_center_layout_get_center_widget>, :returns(N-Object), ),
+  get-end-widget => %(:is-symbol<gtk_center_layout_get_end_widget>, :returns(N-Object), ),
   get-orientation => %(:is-symbol<gtk_center_layout_get_orientation>,  :returns(GEnum), :cnv-return(GtkOrientation)),
-  get-start-widget => %(:is-symbol<gtk_center_layout_get_start_widget>,  :returns(N-Object)),
-  set-baseline-position => %(:is-symbol<gtk_center_layout_set_baseline_position>,  :parameters([GEnum])),
-  set-center-widget => %(:is-symbol<gtk_center_layout_set_center_widget>,  :parameters([N-Object])),
-  set-end-widget => %(:is-symbol<gtk_center_layout_set_end_widget>,  :parameters([N-Object])),
-  set-orientation => %(:is-symbol<gtk_center_layout_set_orientation>,  :parameters([GEnum])),
-  set-start-widget => %(:is-symbol<gtk_center_layout_set_start_widget>,  :parameters([N-Object])),
+  get-shrink-center-last => %(:is-symbol<gtk_center_layout_get_shrink_center_last>, :returns(gboolean), ),
+  get-start-widget => %(:is-symbol<gtk_center_layout_get_start_widget>, :returns(N-Object), ),
+  set-baseline-position => %(:is-symbol<gtk_center_layout_set_baseline_position>, :parameters([GEnum]), ),
+  set-center-widget => %(:is-symbol<gtk_center_layout_set_center_widget>, :parameters([N-Object]), ),
+  set-end-widget => %(:is-symbol<gtk_center_layout_set_end_widget>, :parameters([N-Object]), ),
+  set-orientation => %(:is-symbol<gtk_center_layout_set_orientation>, :parameters([GEnum]), ),
+  set-shrink-center-last => %(:is-symbol<gtk_center_layout_set_shrink_center_last>, :parameters([gboolean]), ),
+  set-start-widget => %(:is-symbol<gtk_center_layout_set_start_widget>, :parameters([N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------

@@ -7,9 +7,12 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::R-AppChooser:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
+#use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -40,6 +43,13 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
+  Gnome::N::deprecate(
+    'Gnome::Gtk4::AppChooserWidget', ', Str, ',
+    '4.10', Str,
+    :class, :gnome-lib(gtk4-lib())  
+  );
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
@@ -73,21 +83,21 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-appchooserwidget => %( :type(Constructor), :is-symbol<gtk_app_chooser_widget_new>, :returns(N-Object), :parameters([ Str])),
+  new-appchooserwidget => %( :type(Constructor), :is-symbol<gtk_app_chooser_widget_new>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :parameters([ Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-default-text => %(:is-symbol<gtk_app_chooser_widget_get_default_text>,  :returns(Str)),
-  get-show-all => %(:is-symbol<gtk_app_chooser_widget_get_show_all>,  :returns(gboolean), :cnv-return(Bool)),
-  get-show-default => %(:is-symbol<gtk_app_chooser_widget_get_show_default>,  :returns(gboolean), :cnv-return(Bool)),
-  get-show-fallback => %(:is-symbol<gtk_app_chooser_widget_get_show_fallback>,  :returns(gboolean), :cnv-return(Bool)),
-  get-show-other => %(:is-symbol<gtk_app_chooser_widget_get_show_other>,  :returns(gboolean), :cnv-return(Bool)),
-  get-show-recommended => %(:is-symbol<gtk_app_chooser_widget_get_show_recommended>,  :returns(gboolean), :cnv-return(Bool)),
-  set-default-text => %(:is-symbol<gtk_app_chooser_widget_set_default_text>,  :parameters([Str])),
-  set-show-all => %(:is-symbol<gtk_app_chooser_widget_set_show_all>,  :parameters([gboolean])),
-  set-show-default => %(:is-symbol<gtk_app_chooser_widget_set_show_default>,  :parameters([gboolean])),
-  set-show-fallback => %(:is-symbol<gtk_app_chooser_widget_set_show_fallback>,  :parameters([gboolean])),
-  set-show-other => %(:is-symbol<gtk_app_chooser_widget_set_show_other>,  :parameters([gboolean])),
-  set-show-recommended => %(:is-symbol<gtk_app_chooser_widget_set_show_recommended>,  :parameters([gboolean])),
+  get-default-text => %(:is-symbol<gtk_app_chooser_widget_get_default_text>, :returns(Str), :deprecated, :deprecated-version<4.10>, ),
+  get-show-all => %(:is-symbol<gtk_app_chooser_widget_get_show_all>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-show-default => %(:is-symbol<gtk_app_chooser_widget_get_show_default>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-show-fallback => %(:is-symbol<gtk_app_chooser_widget_get_show_fallback>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-show-other => %(:is-symbol<gtk_app_chooser_widget_get_show_other>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-show-recommended => %(:is-symbol<gtk_app_chooser_widget_get_show_recommended>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  set-default-text => %(:is-symbol<gtk_app_chooser_widget_set_default_text>, :parameters([Str]), :deprecated, :deprecated-version<4.10>, ),
+  set-show-all => %(:is-symbol<gtk_app_chooser_widget_set_show_all>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-show-default => %(:is-symbol<gtk_app_chooser_widget_set_show_default>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-show-fallback => %(:is-symbol<gtk_app_chooser_widget_set_show_fallback>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-show-other => %(:is-symbol<gtk_app_chooser_widget_set_show_other>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-show-recommended => %(:is-symbol<gtk_app_chooser_widget_set_show_recommended>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------

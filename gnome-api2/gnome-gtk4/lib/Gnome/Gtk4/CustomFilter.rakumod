@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Filter:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -58,10 +60,10 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  #new-customfilter => %( :type(Constructor), :is-symbol<gtk_custom_filter_new>, :returns(N-Object), :parameters([ , gpointer, ])),
+  new-customfilter => %( :type(Constructor), :is-symbol<gtk_custom_filter_new>, :returns(N-Object), :parameters([ , gpointer, ]), ),
 
   #--[Methods]------------------------------------------------------------------
-  #set-filter-func => %(:is-symbol<gtk_custom_filter_set_filter_func>,  :parameters([:( gpointer $item, gpointer $user-data --> gboolean ), gpointer, ])),
+  set-filter-func => %(:is-symbol<gtk_custom_filter_set_filter_func>, :parameters([:( gpointer $item, gpointer $user-data ), gpointer, :( gpointer $data )]), ),
 );
 
 #-------------------------------------------------------------------------------

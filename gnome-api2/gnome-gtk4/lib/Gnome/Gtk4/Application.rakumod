@@ -7,14 +7,14 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
+
 use Gnome::Gio::Application:api<2>;
 use Gnome::Gio::T-ioenums:api<2>;
-
 use Gnome::Glib::N-List:api<2>;
 use Gnome::Glib::T-list:api<2>;
-
 use Gnome::Gtk4::T-application:api<2>;
-
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -44,6 +44,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
@@ -74,23 +75,23 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-application => %( :type(Constructor), :is-symbol<gtk_application_new>, :returns(N-Object), :parameters([ Str, GFlag])),
+  new-application => %( :type(Constructor), :is-symbol<gtk_application_new>, :returns(N-Object), :parameters([ Str, GFlag]), ),
 
   #--[Methods]------------------------------------------------------------------
-  add-window => %(:is-symbol<gtk_application_add_window>,  :parameters([N-Object])),
-  get-accels-for-action => %(:is-symbol<gtk_application_get_accels_for_action>,  :returns(gchar-pptr), :parameters([Str])),
-  get-actions-for-accel => %(:is-symbol<gtk_application_get_actions_for_accel>,  :returns(gchar-pptr), :parameters([Str])),
-  get-active-window => %(:is-symbol<gtk_application_get_active_window>,  :returns(N-Object)),
-  get-menu-by-id => %(:is-symbol<gtk_application_get_menu_by_id>,  :returns(N-Object), :parameters([Str])),
-  get-menubar => %(:is-symbol<gtk_application_get_menubar>,  :returns(N-Object)),
-  get-window-by-id => %(:is-symbol<gtk_application_get_window_by_id>,  :returns(N-Object), :parameters([guint])),
-  get-windows => %(:is-symbol<gtk_application_get_windows>,  :returns(N-List)),
-  inhibit => %(:is-symbol<gtk_application_inhibit>,  :returns(guint), :parameters([N-Object, GFlag, Str])),
-  list-action-descriptions => %(:is-symbol<gtk_application_list_action_descriptions>,  :returns(gchar-pptr)),
-  remove-window => %(:is-symbol<gtk_application_remove_window>,  :parameters([N-Object])),
-  set-accels-for-action => %(:is-symbol<gtk_application_set_accels_for_action>,  :parameters([Str, gchar-pptr])),
-  set-menubar => %(:is-symbol<gtk_application_set_menubar>,  :parameters([N-Object])),
-  uninhibit => %(:is-symbol<gtk_application_uninhibit>,  :parameters([guint])),
+  add-window => %(:is-symbol<gtk_application_add_window>, :parameters([N-Object]), ),
+  get-accels-for-action => %(:is-symbol<gtk_application_get_accels_for_action>, :returns(gchar-pptr), :parameters([Str]), ),
+  get-actions-for-accel => %(:is-symbol<gtk_application_get_actions_for_accel>, :returns(gchar-pptr), :parameters([Str]), ),
+  get-active-window => %(:is-symbol<gtk_application_get_active_window>, :returns(N-Object), ),
+  get-menu-by-id => %(:is-symbol<gtk_application_get_menu_by_id>, :returns(N-Object), :parameters([Str]), ),
+  get-menubar => %(:is-symbol<gtk_application_get_menubar>, :returns(N-Object), ),
+  get-window-by-id => %(:is-symbol<gtk_application_get_window_by_id>, :returns(N-Object), :parameters([guint]), ),
+  get-windows => %(:is-symbol<gtk_application_get_windows>, :returns(N-Object), ),
+  inhibit => %(:is-symbol<gtk_application_inhibit>, :returns(guint), :parameters([N-Object, GFlag, Str]), ),
+  list-action-descriptions => %(:is-symbol<gtk_application_list_action_descriptions>, :returns(gchar-pptr), ),
+  remove-window => %(:is-symbol<gtk_application_remove_window>, :parameters([N-Object]), ),
+  set-accels-for-action => %(:is-symbol<gtk_application_set_accels_for_action>, :parameters([Str, gchar-pptr]), ),
+  set-menubar => %(:is-symbol<gtk_application_set_menubar>, :parameters([N-Object]), ),
+  uninhibit => %(:is-symbol<gtk_application_uninhibit>, :parameters([guint]), ),
 );
 
 #-------------------------------------------------------------------------------
@@ -105,7 +106,6 @@ method _fallback-v2 (
         :library(gtk4-lib())
       );
 
-      # Check the function name. 
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)

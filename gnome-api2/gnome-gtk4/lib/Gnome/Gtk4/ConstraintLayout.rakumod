@@ -7,9 +7,14 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
 
+
+use Gnome::Glib::N-Error:api<2>;
+#use Gnome::Glib::N-HashTable:api<2>;
+use Gnome::Glib::N-List:api<2>;
 use Gnome::Glib::T-error:api<2>;
-#use Gnome::Glib::T-hashtable:api<2>;
+#use Gnome::Glib::T-hash:api<2>;
 use Gnome::Glib::T-list:api<2>;
 use Gnome::Gtk4::LayoutManager:api<2>;
 use Gnome::Gtk4::R-Buildable:api<2>;
@@ -43,6 +48,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     
@@ -76,15 +82,15 @@ my Hash $methods = %(
   new-constraintlayout => %( :type(Constructor), :is-symbol<gtk_constraint_layout_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  add-constraint => %(:is-symbol<gtk_constraint_layout_add_constraint>,  :parameters([gint-ptr])),
-  add-constraints-from-description => %(:is-symbol<gtk_constraint_layout_add_constraints_from_description>, :variable-list,  :returns(N-List), :parameters([gchar-pptr, gsize, gint, gint, CArray[N-Error], Str])),
-  #add-constraints-from-descriptionv => %(:is-symbol<gtk_constraint_layout_add_constraints_from_descriptionv>,  :returns(N-List), :parameters([gchar-pptr, gsize, gint, gint, N-HashTable , CArray[N-Error]])),
-  add-guide => %(:is-symbol<gtk_constraint_layout_add_guide>,  :parameters([N-Object])),
-  observe-constraints => %(:is-symbol<gtk_constraint_layout_observe_constraints>,  :returns(N-Object)),
-  observe-guides => %(:is-symbol<gtk_constraint_layout_observe_guides>,  :returns(N-Object)),
+  add-constraint => %(:is-symbol<gtk_constraint_layout_add_constraint>, :parameters([gint-ptr]), ),
+  add-constraints-from-description => %(:is-symbol<gtk_constraint_layout_add_constraints_from_description>, :variable-list, :returns(N-Object), :parameters([gchar-pptr, gsize, gint, gint, N-Object, Str]), ),
+  add-constraints-from-descriptionv => %(:is-symbol<gtk_constraint_layout_add_constraints_from_descriptionv>, :returns(N-Object), :parameters([gchar-pptr, gsize, gint, gint, N-Object, CArray[N-Error]]), ),
+  add-guide => %(:is-symbol<gtk_constraint_layout_add_guide>, :parameters([N-Object]), ),
+  observe-constraints => %(:is-symbol<gtk_constraint_layout_observe_constraints>, :returns(N-Object), ),
+  observe-guides => %(:is-symbol<gtk_constraint_layout_observe_guides>, :returns(N-Object), ),
   remove-all-constraints => %(:is-symbol<gtk_constraint_layout_remove_all_constraints>, ),
-  remove-constraint => %(:is-symbol<gtk_constraint_layout_remove_constraint>,  :parameters([gint-ptr])),
-  remove-guide => %(:is-symbol<gtk_constraint_layout_remove_guide>,  :parameters([N-Object])),
+  remove-constraint => %(:is-symbol<gtk_constraint_layout_remove_constraint>, :parameters([gint-ptr]), ),
+  remove-guide => %(:is-symbol<gtk_constraint_layout_remove_guide>, :parameters([N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------

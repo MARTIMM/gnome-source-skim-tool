@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::GObject::InitiallyUnowned:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -38,10 +40,11 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<changed value-changed>,
+      :w0<value-changed changed>,
     );
     $signals-added = True;
   }
@@ -67,24 +70,24 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-adjustment => %( :type(Constructor), :is-symbol<gtk_adjustment_new>, :returns(N-Object), :parameters([ gdouble, gdouble, gdouble, gdouble, gdouble, gdouble])),
+  new-adjustment => %( :type(Constructor), :is-symbol<gtk_adjustment_new>, :returns(N-Object), :parameters([ gdouble, gdouble, gdouble, gdouble, gdouble, gdouble]), ),
 
   #--[Methods]------------------------------------------------------------------
-  clamp-page => %(:is-symbol<gtk_adjustment_clamp_page>,  :parameters([gdouble, gdouble])),
-  configure => %(:is-symbol<gtk_adjustment_configure>,  :parameters([gdouble, gdouble, gdouble, gdouble, gdouble, gdouble])),
-  get-lower => %(:is-symbol<gtk_adjustment_get_lower>,  :returns(gdouble)),
-  get-minimum-increment => %(:is-symbol<gtk_adjustment_get_minimum_increment>,  :returns(gdouble)),
-  get-page-increment => %(:is-symbol<gtk_adjustment_get_page_increment>,  :returns(gdouble)),
-  get-page-size => %(:is-symbol<gtk_adjustment_get_page_size>,  :returns(gdouble)),
-  get-step-increment => %(:is-symbol<gtk_adjustment_get_step_increment>,  :returns(gdouble)),
-  get-upper => %(:is-symbol<gtk_adjustment_get_upper>,  :returns(gdouble)),
-  get-value => %(:is-symbol<gtk_adjustment_get_value>,  :returns(gdouble)),
-  set-lower => %(:is-symbol<gtk_adjustment_set_lower>,  :parameters([gdouble])),
-  set-page-increment => %(:is-symbol<gtk_adjustment_set_page_increment>,  :parameters([gdouble])),
-  set-page-size => %(:is-symbol<gtk_adjustment_set_page_size>,  :parameters([gdouble])),
-  set-step-increment => %(:is-symbol<gtk_adjustment_set_step_increment>,  :parameters([gdouble])),
-  set-upper => %(:is-symbol<gtk_adjustment_set_upper>,  :parameters([gdouble])),
-  set-value => %(:is-symbol<gtk_adjustment_set_value>,  :parameters([gdouble])),
+  clamp-page => %(:is-symbol<gtk_adjustment_clamp_page>, :parameters([gdouble, gdouble]), ),
+  configure => %(:is-symbol<gtk_adjustment_configure>, :parameters([gdouble, gdouble, gdouble, gdouble, gdouble, gdouble]), ),
+  get-lower => %(:is-symbol<gtk_adjustment_get_lower>, :returns(gdouble), ),
+  get-minimum-increment => %(:is-symbol<gtk_adjustment_get_minimum_increment>, :returns(gdouble), ),
+  get-page-increment => %(:is-symbol<gtk_adjustment_get_page_increment>, :returns(gdouble), ),
+  get-page-size => %(:is-symbol<gtk_adjustment_get_page_size>, :returns(gdouble), ),
+  get-step-increment => %(:is-symbol<gtk_adjustment_get_step_increment>, :returns(gdouble), ),
+  get-upper => %(:is-symbol<gtk_adjustment_get_upper>, :returns(gdouble), ),
+  get-value => %(:is-symbol<gtk_adjustment_get_value>, :returns(gdouble), ),
+  set-lower => %(:is-symbol<gtk_adjustment_set_lower>, :parameters([gdouble]), ),
+  set-page-increment => %(:is-symbol<gtk_adjustment_set_page_increment>, :parameters([gdouble]), ),
+  set-page-size => %(:is-symbol<gtk_adjustment_set_page_size>, :parameters([gdouble]), ),
+  set-step-increment => %(:is-symbol<gtk_adjustment_set_step_increment>, :parameters([gdouble]), ),
+  set-upper => %(:is-symbol<gtk_adjustment_set_upper>, :parameters([gdouble]), ),
+  set-value => %(:is-symbol<gtk_adjustment_set_value>, :parameters([gdouble]), ),
 );
 
 #-------------------------------------------------------------------------------

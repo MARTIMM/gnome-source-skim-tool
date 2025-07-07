@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::R-Actionable:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
@@ -40,6 +42,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
@@ -74,19 +77,21 @@ my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
   new-checkbutton => %( :type(Constructor), :is-symbol<gtk_check_button_new>, :returns(N-Object), ),
-  new-with-label => %( :type(Constructor), :is-symbol<gtk_check_button_new_with_label>, :returns(N-Object), :parameters([ Str])),
-  new-with-mnemonic => %( :type(Constructor), :is-symbol<gtk_check_button_new_with_mnemonic>, :returns(N-Object), :parameters([ Str])),
+  new-with-label => %( :type(Constructor), :is-symbol<gtk_check_button_new_with_label>, :returns(N-Object), :parameters([ Str]), ),
+  new-with-mnemonic => %( :type(Constructor), :is-symbol<gtk_check_button_new_with_mnemonic>, :returns(N-Object), :parameters([ Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-active => %(:is-symbol<gtk_check_button_get_active>,  :returns(gboolean), :cnv-return(Bool)),
-  get-inconsistent => %(:is-symbol<gtk_check_button_get_inconsistent>,  :returns(gboolean), :cnv-return(Bool)),
-  get-label => %(:is-symbol<gtk_check_button_get_label>,  :returns(Str)),
-  get-use-underline => %(:is-symbol<gtk_check_button_get_use_underline>,  :returns(gboolean), :cnv-return(Bool)),
-  set-active => %(:is-symbol<gtk_check_button_set_active>,  :parameters([gboolean])),
-  set-group => %(:is-symbol<gtk_check_button_set_group>,  :parameters([N-Object])),
-  set-inconsistent => %(:is-symbol<gtk_check_button_set_inconsistent>,  :parameters([gboolean])),
-  set-label => %(:is-symbol<gtk_check_button_set_label>,  :parameters([Str])),
-  set-use-underline => %(:is-symbol<gtk_check_button_set_use_underline>,  :parameters([gboolean])),
+  get-active => %(:is-symbol<gtk_check_button_get_active>, :returns(gboolean), ),
+  get-child => %(:is-symbol<gtk_check_button_get_child>, :returns(N-Object), ),
+  get-inconsistent => %(:is-symbol<gtk_check_button_get_inconsistent>, :returns(gboolean), ),
+  get-label => %(:is-symbol<gtk_check_button_get_label>, :returns(Str), ),
+  get-use-underline => %(:is-symbol<gtk_check_button_get_use_underline>, :returns(gboolean), ),
+  set-active => %(:is-symbol<gtk_check_button_set_active>, :parameters([gboolean]), ),
+  set-child => %(:is-symbol<gtk_check_button_set_child>, :parameters([N-Object]), ),
+  set-group => %(:is-symbol<gtk_check_button_set_group>, :parameters([N-Object]), ),
+  set-inconsistent => %(:is-symbol<gtk_check_button_set_inconsistent>, :parameters([gboolean]), ),
+  set-label => %(:is-symbol<gtk_check_button_set_label>, :parameters([Str]), ),
+  set-use-underline => %(:is-symbol<gtk_check_button_set_use_underline>, :parameters([gboolean]), ),
 );
 
 #-------------------------------------------------------------------------------

@@ -7,9 +7,13 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
 
-#use Gnome::Gtk4::R-Scrollable:api<2>;
+
+use Gnome::Gtk4::N-ScrollInfo:api<2>;
+use Gnome::Gtk4::R-Scrollable:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
+use Gnome::Gtk4::T-types:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -24,7 +28,7 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Gtk4::ColumnView:auth<github:MARTIMM>:api<2>;
 also is Gnome::Gtk4::Widget;
-#also does Gnome::Gtk4::R-Scrollable;
+also does Gnome::Gtk4::R-Scrollable;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -41,6 +45,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
@@ -48,10 +53,8 @@ submethod BUILD ( *%options ) {
     );
 
     # Signals from interfaces
-#`{{
     self._add_gtk_scrollable_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_scrollable_signal_types');
-}}
     $signals-added = True;
   }
 
@@ -76,27 +79,34 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-columnview => %( :type(Constructor), :is-symbol<gtk_column_view_new>, :returns(N-Object), :parameters([ N-Object])),
+  new-columnview => %( :type(Constructor), :is-symbol<gtk_column_view_new>, :returns(N-Object), :parameters([ N-Object]), ),
 
   #--[Methods]------------------------------------------------------------------
-  append-column => %(:is-symbol<gtk_column_view_append_column>,  :parameters([N-Object])),
-  get-columns => %(:is-symbol<gtk_column_view_get_columns>,  :returns(N-Object)),
-  get-enable-rubberband => %(:is-symbol<gtk_column_view_get_enable_rubberband>,  :returns(gboolean), :cnv-return(Bool)),
-  get-model => %(:is-symbol<gtk_column_view_get_model>,  :returns(N-Object)),
-  get-reorderable => %(:is-symbol<gtk_column_view_get_reorderable>,  :returns(gboolean), :cnv-return(Bool)),
-  get-show-column-separators => %(:is-symbol<gtk_column_view_get_show_column_separators>,  :returns(gboolean), :cnv-return(Bool)),
-  get-show-row-separators => %(:is-symbol<gtk_column_view_get_show_row_separators>,  :returns(gboolean), :cnv-return(Bool)),
-  get-single-click-activate => %(:is-symbol<gtk_column_view_get_single_click_activate>,  :returns(gboolean), :cnv-return(Bool)),
-  get-sorter => %(:is-symbol<gtk_column_view_get_sorter>,  :returns(N-Object)),
-  insert-column => %(:is-symbol<gtk_column_view_insert_column>,  :parameters([guint, N-Object])),
-  remove-column => %(:is-symbol<gtk_column_view_remove_column>,  :parameters([N-Object])),
-  set-enable-rubberband => %(:is-symbol<gtk_column_view_set_enable_rubberband>,  :parameters([gboolean])),
-  set-model => %(:is-symbol<gtk_column_view_set_model>,  :parameters([N-Object])),
-  set-reorderable => %(:is-symbol<gtk_column_view_set_reorderable>,  :parameters([gboolean])),
-  set-show-column-separators => %(:is-symbol<gtk_column_view_set_show_column_separators>,  :parameters([gboolean])),
-  set-show-row-separators => %(:is-symbol<gtk_column_view_set_show_row_separators>,  :parameters([gboolean])),
-  set-single-click-activate => %(:is-symbol<gtk_column_view_set_single_click_activate>,  :parameters([gboolean])),
-  sort-by-column => %(:is-symbol<gtk_column_view_sort_by_column>,  :parameters([N-Object, GEnum])),
+  append-column => %(:is-symbol<gtk_column_view_append_column>, :parameters([N-Object]), ),
+  get-columns => %(:is-symbol<gtk_column_view_get_columns>, :returns(N-Object), ),
+  get-enable-rubberband => %(:is-symbol<gtk_column_view_get_enable_rubberband>, :returns(gboolean), ),
+  get-header-factory => %(:is-symbol<gtk_column_view_get_header_factory>, :returns(N-Object), ),
+  get-model => %(:is-symbol<gtk_column_view_get_model>, :returns(N-Object), ),
+  get-reorderable => %(:is-symbol<gtk_column_view_get_reorderable>, :returns(gboolean), ),
+  get-row-factory => %(:is-symbol<gtk_column_view_get_row_factory>, :returns(N-Object), ),
+  get-show-column-separators => %(:is-symbol<gtk_column_view_get_show_column_separators>, :returns(gboolean), ),
+  get-show-row-separators => %(:is-symbol<gtk_column_view_get_show_row_separators>, :returns(gboolean), ),
+  get-single-click-activate => %(:is-symbol<gtk_column_view_get_single_click_activate>, :returns(gboolean), ),
+  get-sorter => %(:is-symbol<gtk_column_view_get_sorter>, :returns(N-Object), ),
+  get-tab-behavior => %(:is-symbol<gtk_column_view_get_tab_behavior>,  :returns(GEnum), :cnv-return(GtkListTabBehavior)),
+  insert-column => %(:is-symbol<gtk_column_view_insert_column>, :parameters([guint, N-Object]), ),
+  remove-column => %(:is-symbol<gtk_column_view_remove_column>, :parameters([N-Object]), ),
+  scroll-to => %(:is-symbol<gtk_column_view_scroll_to>, :parameters([guint, N-Object, GFlag, N-Object]), ),
+  set-enable-rubberband => %(:is-symbol<gtk_column_view_set_enable_rubberband>, :parameters([gboolean]), ),
+  set-header-factory => %(:is-symbol<gtk_column_view_set_header_factory>, :parameters([N-Object]), ),
+  set-model => %(:is-symbol<gtk_column_view_set_model>, :parameters([N-Object]), ),
+  set-reorderable => %(:is-symbol<gtk_column_view_set_reorderable>, :parameters([gboolean]), ),
+  set-row-factory => %(:is-symbol<gtk_column_view_set_row_factory>, :parameters([N-Object]), ),
+  set-show-column-separators => %(:is-symbol<gtk_column_view_set_show_column_separators>, :parameters([gboolean]), ),
+  set-show-row-separators => %(:is-symbol<gtk_column_view_set_show_row_separators>, :parameters([gboolean]), ),
+  set-single-click-activate => %(:is-symbol<gtk_column_view_set_single_click_activate>, :parameters([gboolean]), ),
+  set-tab-behavior => %(:is-symbol<gtk_column_view_set_tab_behavior>, :parameters([GEnum]), ),
+  sort-by-column => %(:is-symbol<gtk_column_view_sort_by_column>, :parameters([N-Object, GEnum]), ),
 );
 
 #-------------------------------------------------------------------------------
@@ -134,13 +144,11 @@ method _fallback-v2 (
   else {
     my $r;
     my $native-object = self.get-native-object-no-reffing;
-#`{{
     $r = self._do_gtk_scrollable_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
     ) if self.^can('_do_gtk_scrollable_fallback-v2');
     return $r if $_fallback-v2-ok;
 
-}}
     callsame;
   }
 }

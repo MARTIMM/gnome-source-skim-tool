@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::R-Orientable:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
@@ -41,6 +43,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     
@@ -71,20 +74,22 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-box => %( :type(Constructor), :is-symbol<gtk_box_new>, :returns(N-Object), :parameters([ GEnum, gint])),
+  new-box => %( :type(Constructor), :is-symbol<gtk_box_new>, :returns(N-Object), :parameters([ GEnum, gint]), ),
 
   #--[Methods]------------------------------------------------------------------
-  append => %(:is-symbol<gtk_box_append>,  :parameters([N-Object])),
+  append => %(:is-symbol<gtk_box_append>, :parameters([N-Object]), ),
+  get-baseline-child => %(:is-symbol<gtk_box_get_baseline_child>, :returns(gint), ),
   get-baseline-position => %(:is-symbol<gtk_box_get_baseline_position>,  :returns(GEnum), :cnv-return(GtkBaselinePosition)),
-  get-homogeneous => %(:is-symbol<gtk_box_get_homogeneous>,  :returns(gboolean), :cnv-return(Bool)),
-  get-spacing => %(:is-symbol<gtk_box_get_spacing>,  :returns(gint)),
-  insert-child-after => %(:is-symbol<gtk_box_insert_child_after>,  :parameters([N-Object, N-Object])),
-  prepend => %(:is-symbol<gtk_box_prepend>,  :parameters([N-Object])),
-  remove => %(:is-symbol<gtk_box_remove>,  :parameters([N-Object])),
-  reorder-child-after => %(:is-symbol<gtk_box_reorder_child_after>,  :parameters([N-Object, N-Object])),
-  set-baseline-position => %(:is-symbol<gtk_box_set_baseline_position>,  :parameters([GEnum])),
-  set-homogeneous => %(:is-symbol<gtk_box_set_homogeneous>,  :parameters([gboolean])),
-  set-spacing => %(:is-symbol<gtk_box_set_spacing>,  :parameters([gint])),
+  get-homogeneous => %(:is-symbol<gtk_box_get_homogeneous>, :returns(gboolean), ),
+  get-spacing => %(:is-symbol<gtk_box_get_spacing>, :returns(gint), ),
+  insert-child-after => %(:is-symbol<gtk_box_insert_child_after>, :parameters([N-Object, N-Object]), ),
+  prepend => %(:is-symbol<gtk_box_prepend>, :parameters([N-Object]), ),
+  remove => %(:is-symbol<gtk_box_remove>, :parameters([N-Object]), ),
+  reorder-child-after => %(:is-symbol<gtk_box_reorder_child_after>, :parameters([N-Object, N-Object]), ),
+  set-baseline-child => %(:is-symbol<gtk_box_set_baseline_child>, :parameters([gint]), ),
+  set-baseline-position => %(:is-symbol<gtk_box_set_baseline_position>, :parameters([GEnum]), ),
+  set-homogeneous => %(:is-symbol<gtk_box_set_homogeneous>, :parameters([gboolean]), ),
+  set-spacing => %(:is-symbol<gtk_box_set_spacing>, :parameters([gint]), ),
 );
 
 #-------------------------------------------------------------------------------

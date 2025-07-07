@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::GObject::InitiallyUnowned:api<2>;
 use Gnome::Gdk4::N-Rectangle:api<2>;
@@ -82,33 +84,33 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  activate => %(:is-symbol<gtk_cell_renderer_activate>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, N-Object, Str, N-Object, N-Object, GFlag]),:deprecated, :deprecated-version<4.10>, ),
-  get-aligned-area => %(:is-symbol<gtk_cell_renderer_get_aligned_area>,  :parameters([N-Object, GFlag, N-Object, N-Object]),:deprecated, :deprecated-version<4.10>, ),
-  get-alignment => %(:is-symbol<gtk_cell_renderer_get_alignment>,  :parameters([CArray[gfloat], CArray[gfloat]]),:deprecated, :deprecated-version<4.10>, ),
-  get-fixed-size => %(:is-symbol<gtk_cell_renderer_get_fixed_size>,  :parameters([gint-ptr, gint-ptr]),:deprecated, :deprecated-version<4.10>, ),
-  get-is-expanded => %(:is-symbol<gtk_cell_renderer_get_is_expanded>,  :returns(gboolean), :cnv-return(Bool),:deprecated, :deprecated-version<4.10>, ),
-  get-is-expander => %(:is-symbol<gtk_cell_renderer_get_is_expander>,  :returns(gboolean), :cnv-return(Bool),:deprecated, :deprecated-version<4.10>, ),
-  get-padding => %(:is-symbol<gtk_cell_renderer_get_padding>,  :parameters([gint-ptr, gint-ptr]),:deprecated, :deprecated-version<4.10>, ),
-  get-preferred-height => %(:is-symbol<gtk_cell_renderer_get_preferred_height>,  :parameters([N-Object, gint-ptr, gint-ptr]),:deprecated, :deprecated-version<4.10>, ),
-  get-preferred-height-for-width => %(:is-symbol<gtk_cell_renderer_get_preferred_height_for_width>,  :parameters([N-Object, gint, gint-ptr, gint-ptr]),:deprecated, :deprecated-version<4.10>, ),
-  get-preferred-size => %(:is-symbol<gtk_cell_renderer_get_preferred_size>,  :parameters([N-Object, N-Object, N-Object]),:deprecated, :deprecated-version<4.10>, ),
-  get-preferred-width => %(:is-symbol<gtk_cell_renderer_get_preferred_width>,  :parameters([N-Object, gint-ptr, gint-ptr]),:deprecated, :deprecated-version<4.10>, ),
-  get-preferred-width-for-height => %(:is-symbol<gtk_cell_renderer_get_preferred_width_for_height>,  :parameters([N-Object, gint, gint-ptr, gint-ptr]),:deprecated, :deprecated-version<4.10>, ),
+  activate => %(:is-symbol<gtk_cell_renderer_activate>, :returns(gboolean), :parameters([N-Object, N-Object, Str, N-Object, N-Object, GFlag]), :deprecated, :deprecated-version<4.10>, ),
+  get-aligned-area => %(:is-symbol<gtk_cell_renderer_get_aligned_area>, :parameters([N-Object, GFlag, N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  get-alignment => %(:is-symbol<gtk_cell_renderer_get_alignment>, :parameters([CArray[gfloat], CArray[gfloat]]), :deprecated, :deprecated-version<4.10>, ),
+  get-fixed-size => %(:is-symbol<gtk_cell_renderer_get_fixed_size>, :parameters([gint-ptr, gint-ptr]), :deprecated, :deprecated-version<4.10>, ),
+  get-is-expanded => %(:is-symbol<gtk_cell_renderer_get_is_expanded>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-is-expander => %(:is-symbol<gtk_cell_renderer_get_is_expander>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-padding => %(:is-symbol<gtk_cell_renderer_get_padding>, :parameters([gint-ptr, gint-ptr]), :deprecated, :deprecated-version<4.10>, ),
+  get-preferred-height => %(:is-symbol<gtk_cell_renderer_get_preferred_height>, :parameters([N-Object, gint-ptr, gint-ptr]), :deprecated, :deprecated-version<4.10>, ),
+  get-preferred-height-for-width => %(:is-symbol<gtk_cell_renderer_get_preferred_height_for_width>, :parameters([N-Object, gint, gint-ptr, gint-ptr]), :deprecated, :deprecated-version<4.10>, ),
+  get-preferred-size => %(:is-symbol<gtk_cell_renderer_get_preferred_size>, :parameters([N-Object, N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  get-preferred-width => %(:is-symbol<gtk_cell_renderer_get_preferred_width>, :parameters([N-Object, gint-ptr, gint-ptr]), :deprecated, :deprecated-version<4.10>, ),
+  get-preferred-width-for-height => %(:is-symbol<gtk_cell_renderer_get_preferred_width_for_height>, :parameters([N-Object, gint, gint-ptr, gint-ptr]), :deprecated, :deprecated-version<4.10>, ),
   get-request-mode => %(:is-symbol<gtk_cell_renderer_get_request_mode>,  :returns(GEnum), :cnv-return(GtkSizeRequestMode),:deprecated, :deprecated-version<4.10>, ),
-  get-sensitive => %(:is-symbol<gtk_cell_renderer_get_sensitive>,  :returns(gboolean), :cnv-return(Bool),:deprecated, :deprecated-version<4.10>, ),
-  get-state => %(:is-symbol<gtk_cell_renderer_get_state>,  :returns(GFlag), :cnv-return(GtkStateFlags), :parameters([N-Object, GFlag]),:deprecated, :deprecated-version<4.10>, ),
-  get-visible => %(:is-symbol<gtk_cell_renderer_get_visible>,  :returns(gboolean), :cnv-return(Bool),:deprecated, :deprecated-version<4.10>, ),
-  is-activatable => %(:is-symbol<gtk_cell_renderer_is_activatable>,  :returns(gboolean), :cnv-return(Bool),:deprecated, :deprecated-version<4.10>, ),
-  set-alignment => %(:is-symbol<gtk_cell_renderer_set_alignment>,  :parameters([gfloat, gfloat]),:deprecated, :deprecated-version<4.10>, ),
-  set-fixed-size => %(:is-symbol<gtk_cell_renderer_set_fixed_size>,  :parameters([gint, gint]),:deprecated, :deprecated-version<4.10>, ),
-  set-is-expanded => %(:is-symbol<gtk_cell_renderer_set_is_expanded>,  :parameters([gboolean]),:deprecated, :deprecated-version<4.10>, ),
-  set-is-expander => %(:is-symbol<gtk_cell_renderer_set_is_expander>,  :parameters([gboolean]),:deprecated, :deprecated-version<4.10>, ),
-  set-padding => %(:is-symbol<gtk_cell_renderer_set_padding>,  :parameters([gint, gint]),:deprecated, :deprecated-version<4.10>, ),
-  set-sensitive => %(:is-symbol<gtk_cell_renderer_set_sensitive>,  :parameters([gboolean]),:deprecated, :deprecated-version<4.10>, ),
-  set-visible => %(:is-symbol<gtk_cell_renderer_set_visible>,  :parameters([gboolean]),:deprecated, :deprecated-version<4.10>, ),
-  snapshot => %(:is-symbol<gtk_cell_renderer_snapshot>,  :parameters([N-Object, N-Object, N-Object, N-Object, GFlag]),:deprecated, :deprecated-version<4.10>, ),
-  start-editing => %(:is-symbol<gtk_cell_renderer_start_editing>,  :returns(N-Object), :parameters([N-Object, N-Object, Str, N-Object, N-Object, GFlag]),:deprecated, :deprecated-version<4.10>, ),
-  stop-editing => %(:is-symbol<gtk_cell_renderer_stop_editing>,  :parameters([gboolean]),:deprecated, :deprecated-version<4.10>, ),
+  get-sensitive => %(:is-symbol<gtk_cell_renderer_get_sensitive>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-state => %(:is-symbol<gtk_cell_renderer_get_state>,  :returns(GFlag), :cnv-return(GtkStateFlags),:parameters([N-Object, GFlag]), :deprecated, :deprecated-version<4.10>, ),
+  get-visible => %(:is-symbol<gtk_cell_renderer_get_visible>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  is-activatable => %(:is-symbol<gtk_cell_renderer_is_activatable>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  set-alignment => %(:is-symbol<gtk_cell_renderer_set_alignment>, :parameters([gfloat, gfloat]), :deprecated, :deprecated-version<4.10>, ),
+  set-fixed-size => %(:is-symbol<gtk_cell_renderer_set_fixed_size>, :parameters([gint, gint]), :deprecated, :deprecated-version<4.10>, ),
+  set-is-expanded => %(:is-symbol<gtk_cell_renderer_set_is_expanded>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-is-expander => %(:is-symbol<gtk_cell_renderer_set_is_expander>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-padding => %(:is-symbol<gtk_cell_renderer_set_padding>, :parameters([gint, gint]), :deprecated, :deprecated-version<4.10>, ),
+  set-sensitive => %(:is-symbol<gtk_cell_renderer_set_sensitive>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-visible => %(:is-symbol<gtk_cell_renderer_set_visible>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  snapshot => %(:is-symbol<gtk_cell_renderer_snapshot>, :parameters([N-Object, N-Object, N-Object, N-Object, GFlag]), :deprecated, :deprecated-version<4.10>, ),
+  start-editing => %(:is-symbol<gtk_cell_renderer_start_editing>, :returns(N-Object), :parameters([N-Object, N-Object, Str, N-Object, N-Object, GFlag]), :deprecated, :deprecated-version<4.10>, ),
+  stop-editing => %(:is-symbol<gtk_cell_renderer_stop_editing>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------

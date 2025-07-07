@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::R-Actionable:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
@@ -40,6 +42,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
@@ -74,21 +77,23 @@ my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
   new-button => %( :type(Constructor), :is-symbol<gtk_button_new>, :returns(N-Object), ),
-  new-from-icon-name => %( :type(Constructor), :is-symbol<gtk_button_new_from_icon_name>, :returns(N-Object), :parameters([ Str])),
-  new-with-label => %( :type(Constructor), :is-symbol<gtk_button_new_with_label>, :returns(N-Object), :parameters([ Str])),
-  new-with-mnemonic => %( :type(Constructor), :is-symbol<gtk_button_new_with_mnemonic>, :returns(N-Object), :parameters([ Str])),
+  new-from-icon-name => %( :type(Constructor), :is-symbol<gtk_button_new_from_icon_name>, :returns(N-Object), :parameters([ Str]), ),
+  new-with-label => %( :type(Constructor), :is-symbol<gtk_button_new_with_label>, :returns(N-Object), :parameters([ Str]), ),
+  new-with-mnemonic => %( :type(Constructor), :is-symbol<gtk_button_new_with_mnemonic>, :returns(N-Object), :parameters([ Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-child => %(:is-symbol<gtk_button_get_child>,  :returns(N-Object)),
-  get-has-frame => %(:is-symbol<gtk_button_get_has_frame>,  :returns(gboolean), :cnv-return(Bool)),
-  get-icon-name => %(:is-symbol<gtk_button_get_icon_name>,  :returns(Str)),
-  get-label => %(:is-symbol<gtk_button_get_label>,  :returns(Str)),
-  get-use-underline => %(:is-symbol<gtk_button_get_use_underline>,  :returns(gboolean), :cnv-return(Bool)),
-  set-child => %(:is-symbol<gtk_button_set_child>,  :parameters([N-Object])),
-  set-has-frame => %(:is-symbol<gtk_button_set_has_frame>,  :parameters([gboolean])),
-  set-icon-name => %(:is-symbol<gtk_button_set_icon_name>,  :parameters([Str])),
-  set-label => %(:is-symbol<gtk_button_set_label>,  :parameters([Str])),
-  set-use-underline => %(:is-symbol<gtk_button_set_use_underline>,  :parameters([gboolean])),
+  get-can-shrink => %(:is-symbol<gtk_button_get_can_shrink>, :returns(gboolean), ),
+  get-child => %(:is-symbol<gtk_button_get_child>, :returns(N-Object), ),
+  get-has-frame => %(:is-symbol<gtk_button_get_has_frame>, :returns(gboolean), ),
+  get-icon-name => %(:is-symbol<gtk_button_get_icon_name>, :returns(Str), ),
+  get-label => %(:is-symbol<gtk_button_get_label>, :returns(Str), ),
+  get-use-underline => %(:is-symbol<gtk_button_get_use_underline>, :returns(gboolean), ),
+  set-can-shrink => %(:is-symbol<gtk_button_set_can_shrink>, :parameters([gboolean]), ),
+  set-child => %(:is-symbol<gtk_button_set_child>, :parameters([N-Object]), ),
+  set-has-frame => %(:is-symbol<gtk_button_set_has_frame>, :parameters([gboolean]), ),
+  set-icon-name => %(:is-symbol<gtk_button_set_icon_name>, :parameters([Str]), ),
+  set-label => %(:is-symbol<gtk_button_set_label>, :parameters([Str]), ),
+  set-use-underline => %(:is-symbol<gtk_button_set_use_underline>, :parameters([gboolean]), ),
 );
 
 #-------------------------------------------------------------------------------

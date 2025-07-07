@@ -7,11 +7,14 @@ use v6.d;
 
 use NativeCall;
 
-use Gnome::Gdk4::T-rgba:api<2>;
+use Cairo;
 
+
+use Gnome::Gdk4::N-RGBA:api<2>;
+use Gnome::Gdk4::T-rgba:api<2>;
 use Gnome::Gtk4::R-ColorChooser:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
-
+#use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -42,10 +45,17 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
+  Gnome::N::deprecate(
+    'Gnome::Gtk4::ColorButton', ', Str, ',
+    '4.10', Str,
+    :class, :gnome-lib(gtk4-lib())  
+  );
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<color-set activate>,
+      :w0<activate color-set>,
     );
 
     # Signals from interfaces
@@ -75,14 +85,14 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-colorbutton => %( :type(Constructor), :is-symbol<gtk_color_button_new>, :returns(N-Object), ),
-  new-with-rgba => %( :type(Constructor), :is-symbol<gtk_color_button_new_with_rgba>, :returns(N-Object), :parameters([ N-RGBA])),
+  new-colorbutton => %( :type(Constructor), :is-symbol<gtk_color_button_new>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  new-with-rgba => %( :type(Constructor), :is-symbol<gtk_color_button_new_with_rgba>, :returns(N-Object), :parameters([ N-Object]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-modal => %(:is-symbol<gtk_color_button_get_modal>,  :returns(gboolean), :cnv-return(Bool)),
-  get-title => %(:is-symbol<gtk_color_button_get_title>,  :returns(Str)),
-  set-modal => %(:is-symbol<gtk_color_button_set_modal>,  :parameters([gboolean])),
-  set-title => %(:is-symbol<gtk_color_button_set_title>,  :parameters([Str])),
+  get-modal => %(:is-symbol<gtk_color_button_get_modal>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-title => %(:is-symbol<gtk_color_button_get_title>, :returns(Str), :deprecated, :deprecated-version<4.10>, ),
+  set-modal => %(:is-symbol<gtk_color_button_set_modal>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-title => %(:is-symbol<gtk_color_button_set_title>, :parameters([Str]), :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------

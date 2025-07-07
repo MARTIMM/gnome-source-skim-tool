@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Filter:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -58,13 +60,13 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-boolfilter => %( :type(Constructor), :is-symbol<gtk_bool_filter_new>, :returns(N-Object), :parameters([ N-Object])),
+  new-boolfilter => %( :type(Constructor), :is-symbol<gtk_bool_filter_new>, :returns(N-Object), :parameters([ N-Object]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-expression => %(:is-symbol<gtk_bool_filter_get_expression>,  :returns(N-Object)),
-  get-invert => %(:is-symbol<gtk_bool_filter_get_invert>,  :returns(gboolean), :cnv-return(Bool)),
-  set-expression => %(:is-symbol<gtk_bool_filter_set_expression>,  :parameters([N-Object])),
-  set-invert => %(:is-symbol<gtk_bool_filter_set_invert>,  :parameters([gboolean])),
+  get-expression => %(:is-symbol<gtk_bool_filter_get_expression>, :returns(N-Object), ),
+  get-invert => %(:is-symbol<gtk_bool_filter_get_invert>, :returns(gboolean), ),
+  set-expression => %(:is-symbol<gtk_bool_filter_set_expression>, :parameters([N-Object]), ),
+  set-invert => %(:is-symbol<gtk_bool_filter_set_invert>, :parameters([gboolean]), ),
 );
 
 #-------------------------------------------------------------------------------

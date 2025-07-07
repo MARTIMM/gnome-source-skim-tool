@@ -7,8 +7,11 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
 
-use Gnome::Gtk4::N-TreeIter:api<2>;
+
+use Gnome::Gtk4::R-CellEditable:api<2>;
+use Gnome::Gtk4::R-CellLayout:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
 #use Gnome::Gtk4::T-treemodel:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
@@ -26,6 +29,8 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Gtk4::ComboBox:auth<github:MARTIMM>:api<2>;
 also is Gnome::Gtk4::Widget;
+also does Gnome::Gtk4::R-CellEditable;
+also does Gnome::Gtk4::R-CellLayout;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -52,9 +57,15 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<popdown activate changed popup>,
+      :w0<popup changed activate popdown>,
       :w1<format-entry-text move-active>,
     );
+
+    # Signals from interfaces
+    self._add_gtk_cell_editable_signal_types($?CLASS.^name)
+      if self.^can('_add_gtk_cell_editable_signal_types');
+    self._add_gtk_cell_layout_signal_types($?CLASS.^name)
+      if self.^can('_add_gtk_cell_layout_signal_types');
     $signals-added = True;
   }
 
@@ -81,34 +92,34 @@ my Hash $methods = %(
   #--[Constructors]-------------------------------------------------------------
   new-combobox => %( :type(Constructor), :is-symbol<gtk_combo_box_new>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
   new-with-entry => %( :type(Constructor), :is-symbol<gtk_combo_box_new_with_entry>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
-  new-with-model => %( :type(Constructor), :is-symbol<gtk_combo_box_new_with_model>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :parameters([ N-Object])),
-  new-with-model-and-entry => %( :type(Constructor), :is-symbol<gtk_combo_box_new_with_model_and_entry>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :parameters([ N-Object])),
+  new-with-model => %( :type(Constructor), :is-symbol<gtk_combo_box_new_with_model>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :parameters([ N-Object]), ),
+  new-with-model-and-entry => %( :type(Constructor), :is-symbol<gtk_combo_box_new_with_model_and_entry>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :parameters([ N-Object]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-active => %(:is-symbol<gtk_combo_box_get_active>,  :returns(gint),:deprecated, :deprecated-version<4.10>, ),
-  get-active-id => %(:is-symbol<gtk_combo_box_get_active_id>,  :returns(Str),:deprecated, :deprecated-version<4.10>, ),
-  get-active-iter => %(:is-symbol<gtk_combo_box_get_active_iter>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object]),:deprecated, :deprecated-version<4.10>, ),
+  get-active => %(:is-symbol<gtk_combo_box_get_active>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
+  get-active-id => %(:is-symbol<gtk_combo_box_get_active_id>, :returns(Str), :deprecated, :deprecated-version<4.10>, ),
+  get-active-iter => %(:is-symbol<gtk_combo_box_get_active_iter>, :returns(gboolean), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
   get-button-sensitivity => %(:is-symbol<gtk_combo_box_get_button_sensitivity>,  :returns(GEnum), :cnv-return(GtkSensitivityType),:deprecated, :deprecated-version<4.10>, ),
-  get-child => %(:is-symbol<gtk_combo_box_get_child>,  :returns(N-Object),:deprecated, :deprecated-version<4.10>, ),
-  get-entry-text-column => %(:is-symbol<gtk_combo_box_get_entry_text_column>,  :returns(gint),:deprecated, :deprecated-version<4.10>, ),
-  get-has-entry => %(:is-symbol<gtk_combo_box_get_has_entry>,  :returns(gboolean), :cnv-return(Bool),:deprecated, :deprecated-version<4.10>, ),
-  get-id-column => %(:is-symbol<gtk_combo_box_get_id_column>,  :returns(gint),:deprecated, :deprecated-version<4.10>, ),
-  get-model => %(:is-symbol<gtk_combo_box_get_model>,  :returns(N-Object),:deprecated, :deprecated-version<4.10>, ),
-  get-popup-fixed-width => %(:is-symbol<gtk_combo_box_get_popup_fixed_width>,  :returns(gboolean), :cnv-return(Bool),:deprecated, :deprecated-version<4.10>, ),
-#  get-row-separator-func => %(:is-symbol<gtk_combo_box_get_row_separator_func>,  :returns(), :cnv-return(( N-Object $model, N-Object $iter, gpointer $data --> gboolean )),:deprecated, :deprecated-version<4.10>, ),
+  get-child => %(:is-symbol<gtk_combo_box_get_child>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  get-entry-text-column => %(:is-symbol<gtk_combo_box_get_entry_text_column>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
+  get-has-entry => %(:is-symbol<gtk_combo_box_get_has_entry>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-id-column => %(:is-symbol<gtk_combo_box_get_id_column>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
+  get-model => %(:is-symbol<gtk_combo_box_get_model>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  get-popup-fixed-width => %(:is-symbol<gtk_combo_box_get_popup_fixed_width>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-row-separator-func => %(:is-symbol<gtk_combo_box_get_row_separator_func>,  :returns(), :cnv-return(( N-Object $model, N-Object $iter, gpointer $data )),:deprecated, :deprecated-version<4.10>, ),
   popdown => %(:is-symbol<gtk_combo_box_popdown>, :deprecated, :deprecated-version<4.10>, ),
   popup => %(:is-symbol<gtk_combo_box_popup>, :deprecated, :deprecated-version<4.10>, ),
-  popup-for-device => %(:is-symbol<gtk_combo_box_popup_for_device>,  :parameters([N-Object]),:deprecated, :deprecated-version<4.10>, ),
-  set-active => %(:is-symbol<gtk_combo_box_set_active>,  :parameters([gint]),:deprecated, :deprecated-version<4.10>, ),
-  set-active-id => %(:is-symbol<gtk_combo_box_set_active_id>,  :returns(gboolean), :cnv-return(Bool), :parameters([Str]),:deprecated, :deprecated-version<4.10>, ),
-  set-active-iter => %(:is-symbol<gtk_combo_box_set_active_iter>,  :parameters([N-Object]),:deprecated, :deprecated-version<4.10>, ),
-  set-button-sensitivity => %(:is-symbol<gtk_combo_box_set_button_sensitivity>,  :parameters([GEnum]),:deprecated, :deprecated-version<4.10>, ),
-  set-child => %(:is-symbol<gtk_combo_box_set_child>,  :parameters([N-Object]),:deprecated, :deprecated-version<4.10>, ),
-  set-entry-text-column => %(:is-symbol<gtk_combo_box_set_entry_text_column>,  :parameters([gint]),:deprecated, :deprecated-version<4.10>, ),
-  set-id-column => %(:is-symbol<gtk_combo_box_set_id_column>,  :parameters([gint]),:deprecated, :deprecated-version<4.10>, ),
-  set-model => %(:is-symbol<gtk_combo_box_set_model>,  :parameters([N-Object]),:deprecated, :deprecated-version<4.10>, ),
-  set-popup-fixed-width => %(:is-symbol<gtk_combo_box_set_popup_fixed_width>,  :parameters([gboolean]),:deprecated, :deprecated-version<4.10>, ),
-  #set-row-separator-func => %(:is-symbol<gtk_combo_box_set_row_separator_func>,  :parameters([:( N-Object $model, N-Object $iter, gpointer $data --> gboolean ), gpointer, ]),:deprecated, :deprecated-version<4.10>, ),
+  popup-for-device => %(:is-symbol<gtk_combo_box_popup_for_device>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  set-active => %(:is-symbol<gtk_combo_box_set_active>, :parameters([gint]), :deprecated, :deprecated-version<4.10>, ),
+  set-active-id => %(:is-symbol<gtk_combo_box_set_active_id>, :returns(gboolean), :parameters([Str]), :deprecated, :deprecated-version<4.10>, ),
+  set-active-iter => %(:is-symbol<gtk_combo_box_set_active_iter>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  set-button-sensitivity => %(:is-symbol<gtk_combo_box_set_button_sensitivity>, :parameters([GEnum]), :deprecated, :deprecated-version<4.10>, ),
+  set-child => %(:is-symbol<gtk_combo_box_set_child>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  set-entry-text-column => %(:is-symbol<gtk_combo_box_set_entry_text_column>, :parameters([gint]), :deprecated, :deprecated-version<4.10>, ),
+  set-id-column => %(:is-symbol<gtk_combo_box_set_id_column>, :parameters([gint]), :deprecated, :deprecated-version<4.10>, ),
+  set-model => %(:is-symbol<gtk_combo_box_set_model>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  set-popup-fixed-width => %(:is-symbol<gtk_combo_box_set_popup_fixed_width>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-row-separator-func => %(:is-symbol<gtk_combo_box_set_row_separator_func>, :parameters([:( N-Object $model, N-Object $iter, gpointer $data ), gpointer, :( gpointer $data )]), :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------
@@ -144,6 +155,18 @@ method _fallback-v2 (
   }
 
   else {
+    my $r;
+    my $native-object = self.get-native-object-no-reffing;
+    $r = self._do_gtk_cell_editable_fallback-v2(
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
+    ) if self.^can('_do_gtk_cell_editable_fallback-v2');
+    return $r if $_fallback-v2-ok;
+
+    $r = self._do_gtk_cell_layout_fallback-v2(
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
+    ) if self.^can('_do_gtk_cell_layout_fallback-v2');
+    return $r if $_fallback-v2-ok;
+
     callsame;
   }
 }

@@ -7,9 +7,12 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
+
 use Gnome::Gtk4::T-assistant:api<2>;
 use Gnome::Gtk4::Window:api<2>;
-
+#use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -49,7 +52,7 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<apply close escape cancel>,
+      :w0<cancel apply close escape>,
       :w1<prepare>,
     );
     $signals-added = True;

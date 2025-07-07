@@ -7,8 +7,11 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 #use Gnome::Glib::N-DateTime:api<2>;
+#use Gnome::Glib::T-datetime:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -39,10 +42,11 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<prev-month next-year next-month day-selected prev-year>,
+      :w0<next-month prev-month day-selected next-year prev-year>,
     );
     $signals-added = True;
   }
@@ -72,17 +76,23 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   clear-marks => %(:is-symbol<gtk_calendar_clear_marks>, ),
-  #get-date => %(:is-symbol<gtk_calendar_get_date>,  :returns(N-DateTime )),
-  get-day-is-marked => %(:is-symbol<gtk_calendar_get_day_is_marked>,  :returns(gboolean), :cnv-return(Bool), :parameters([guint])),
-  get-show-day-names => %(:is-symbol<gtk_calendar_get_show_day_names>,  :returns(gboolean), :cnv-return(Bool)),
-  get-show-heading => %(:is-symbol<gtk_calendar_get_show_heading>,  :returns(gboolean), :cnv-return(Bool)),
-  get-show-week-numbers => %(:is-symbol<gtk_calendar_get_show_week_numbers>,  :returns(gboolean), :cnv-return(Bool)),
-  mark-day => %(:is-symbol<gtk_calendar_mark_day>,  :parameters([guint])),
-  #select-day => %(:is-symbol<gtk_calendar_select_day>,  :parameters([N-DateTime ])),
-  set-show-day-names => %(:is-symbol<gtk_calendar_set_show_day_names>,  :parameters([gboolean])),
-  set-show-heading => %(:is-symbol<gtk_calendar_set_show_heading>,  :parameters([gboolean])),
-  set-show-week-numbers => %(:is-symbol<gtk_calendar_set_show_week_numbers>,  :parameters([gboolean])),
-  unmark-day => %(:is-symbol<gtk_calendar_unmark_day>,  :parameters([guint])),
+  get-date => %(:is-symbol<gtk_calendar_get_date>, :returns(N-Object), ),
+  get-day => %(:is-symbol<gtk_calendar_get_day>, :returns(gint), ),
+  get-day-is-marked => %(:is-symbol<gtk_calendar_get_day_is_marked>, :returns(gboolean), :parameters([guint]), ),
+  get-month => %(:is-symbol<gtk_calendar_get_month>, :returns(gint), ),
+  get-show-day-names => %(:is-symbol<gtk_calendar_get_show_day_names>, :returns(gboolean), ),
+  get-show-heading => %(:is-symbol<gtk_calendar_get_show_heading>, :returns(gboolean), ),
+  get-show-week-numbers => %(:is-symbol<gtk_calendar_get_show_week_numbers>, :returns(gboolean), ),
+  get-year => %(:is-symbol<gtk_calendar_get_year>, :returns(gint), ),
+  mark-day => %(:is-symbol<gtk_calendar_mark_day>, :parameters([guint]), ),
+  select-day => %(:is-symbol<gtk_calendar_select_day>, :parameters([N-Object]), ),
+  set-day => %(:is-symbol<gtk_calendar_set_day>, :parameters([gint]), ),
+  set-month => %(:is-symbol<gtk_calendar_set_month>, :parameters([gint]), ),
+  set-show-day-names => %(:is-symbol<gtk_calendar_set_show_day_names>, :parameters([gboolean]), ),
+  set-show-heading => %(:is-symbol<gtk_calendar_set_show_heading>, :parameters([gboolean]), ),
+  set-show-week-numbers => %(:is-symbol<gtk_calendar_set_show_week_numbers>, :parameters([gboolean]), ),
+  set-year => %(:is-symbol<gtk_calendar_set_year>, :parameters([gint]), ),
+  unmark-day => %(:is-symbol<gtk_calendar_unmark_day>, :parameters([guint]), ),
 );
 
 #-------------------------------------------------------------------------------
@@ -97,7 +107,6 @@ method _fallback-v2 (
         :library(gtk4-lib())
       );
 
-      # Check the function name. 
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)

@@ -7,8 +7,12 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::GObject::Object:api<2>;
+use Gnome::Glib::N-Bytes:api<2>;
+use Gnome::Glib::T-array:api<2>;
 use Gnome::Gtk4::R-StyleProvider:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -40,6 +44,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
@@ -76,12 +81,14 @@ my Hash $methods = %(
   new-cssprovider => %( :type(Constructor), :is-symbol<gtk_css_provider_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  load-from-data => %(:is-symbol<gtk_css_provider_load_from_data>,  :parameters([Str, gssize])),
-  load-from-file => %(:is-symbol<gtk_css_provider_load_from_file>,  :parameters([N-Object])),
-  load-from-path => %(:is-symbol<gtk_css_provider_load_from_path>,  :parameters([Str])),
-  load-from-resource => %(:is-symbol<gtk_css_provider_load_from_resource>,  :parameters([Str])),
-  load-named => %(:is-symbol<gtk_css_provider_load_named>,  :parameters([Str, Str])),
-  to-string => %(:is-symbol<gtk_css_provider_to_string>,  :returns(Str)),
+  load-from-bytes => %(:is-symbol<gtk_css_provider_load_from_bytes>, :parameters([N-Object]), ),
+  load-from-data => %(:is-symbol<gtk_css_provider_load_from_data>, :parameters([Str, gssize]), :deprecated, :deprecated-version<4.12>, ),
+  load-from-file => %(:is-symbol<gtk_css_provider_load_from_file>, :parameters([N-Object]), ),
+  load-from-path => %(:is-symbol<gtk_css_provider_load_from_path>, :parameters([Str]), ),
+  load-from-resource => %(:is-symbol<gtk_css_provider_load_from_resource>, :parameters([Str]), ),
+  load-from-string => %(:is-symbol<gtk_css_provider_load_from_string>, :parameters([Str]), ),
+  load-named => %(:is-symbol<gtk_css_provider_load_named>, :parameters([Str, Str]), ),
+  to-string => %(:is-symbol<gtk_css_provider_to_string>, :returns(Str), ),
 );
 
 #-------------------------------------------------------------------------------

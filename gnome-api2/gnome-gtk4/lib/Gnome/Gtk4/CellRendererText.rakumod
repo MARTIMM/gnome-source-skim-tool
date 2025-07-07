@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::CellRenderer:api<2>;
 #use Gnome::N:api<2>;
@@ -78,7 +80,7 @@ my Hash $methods = %(
   new-cellrenderertext => %( :type(Constructor), :is-symbol<gtk_cell_renderer_text_new>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
 
   #--[Methods]------------------------------------------------------------------
-  set-fixed-height-from-font => %(:is-symbol<gtk_cell_renderer_text_set_fixed_height_from_font>,  :parameters([gint]),:deprecated, :deprecated-version<4.10>, ),
+  set-fixed-height-from-font => %(:is-symbol<gtk_cell_renderer_text_set_fixed_height_from_font>, :parameters([gint]), :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------

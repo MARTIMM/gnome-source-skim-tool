@@ -7,8 +7,11 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
 
-#use Gnome::Glib::N-Bytes:api<2>;
+
+use Gnome::Glib::N-Bytes:api<2>;
+use Gnome::Glib::T-array:api<2>;
 use Gnome::Gtk4::ListItemFactory:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -37,6 +40,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -58,13 +62,13 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  #new-from-bytes => %( :type(Constructor), :is-symbol<gtk_builder_list_item_factory_new_from_bytes>, :returns(N-Object), :parameters([ N-Object, N-Bytes ])),
-  new-from-resource => %( :type(Constructor), :is-symbol<gtk_builder_list_item_factory_new_from_resource>, :returns(N-Object), :parameters([ N-Object, Str])),
+  new-from-bytes => %( :type(Constructor), :is-symbol<gtk_builder_list_item_factory_new_from_bytes>, :returns(N-Object), :parameters([ N-Object, N-Object]), ),
+  new-from-resource => %( :type(Constructor), :is-symbol<gtk_builder_list_item_factory_new_from_resource>, :returns(N-Object), :parameters([ N-Object, Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  #get-bytes => %(:is-symbol<gtk_builder_list_item_factory_get_bytes>,  :returns(N-Bytes )),
-  get-resource => %(:is-symbol<gtk_builder_list_item_factory_get_resource>,  :returns(Str)),
-  get-scope => %(:is-symbol<gtk_builder_list_item_factory_get_scope>,  :returns(N-Object)),
+  get-bytes => %(:is-symbol<gtk_builder_list_item_factory_get_bytes>, :returns(N-Object), ),
+  get-resource => %(:is-symbol<gtk_builder_list_item_factory_get_resource>, :returns(Str), ),
+  get-scope => %(:is-symbol<gtk_builder_list_item_factory_get_scope>, :returns(N-Object), ),
 );
 
 #-------------------------------------------------------------------------------

@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -36,6 +38,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -57,19 +60,19 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-aspectframe => %( :type(Constructor), :is-symbol<gtk_aspect_frame_new>, :returns(N-Object), :parameters([ gfloat, gfloat, gfloat, gboolean])),
+  new-aspectframe => %( :type(Constructor), :is-symbol<gtk_aspect_frame_new>, :returns(N-Object), :parameters([ gfloat, gfloat, gfloat, gboolean]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-child => %(:is-symbol<gtk_aspect_frame_get_child>,  :returns(N-Object)),
-  get-obey-child => %(:is-symbol<gtk_aspect_frame_get_obey_child>,  :returns(gboolean), :cnv-return(Bool)),
-  get-ratio => %(:is-symbol<gtk_aspect_frame_get_ratio>,  :returns(gfloat)),
-  get-xalign => %(:is-symbol<gtk_aspect_frame_get_xalign>,  :returns(gfloat)),
-  get-yalign => %(:is-symbol<gtk_aspect_frame_get_yalign>,  :returns(gfloat)),
-  set-child => %(:is-symbol<gtk_aspect_frame_set_child>,  :parameters([N-Object])),
-  set-obey-child => %(:is-symbol<gtk_aspect_frame_set_obey_child>,  :parameters([gboolean])),
-  set-ratio => %(:is-symbol<gtk_aspect_frame_set_ratio>,  :parameters([gfloat])),
-  set-xalign => %(:is-symbol<gtk_aspect_frame_set_xalign>,  :parameters([gfloat])),
-  set-yalign => %(:is-symbol<gtk_aspect_frame_set_yalign>,  :parameters([gfloat])),
+  get-child => %(:is-symbol<gtk_aspect_frame_get_child>, :returns(N-Object), ),
+  get-obey-child => %(:is-symbol<gtk_aspect_frame_get_obey_child>, :returns(gboolean), ),
+  get-ratio => %(:is-symbol<gtk_aspect_frame_get_ratio>, :returns(gfloat), ),
+  get-xalign => %(:is-symbol<gtk_aspect_frame_get_xalign>, :returns(gfloat), ),
+  get-yalign => %(:is-symbol<gtk_aspect_frame_get_yalign>, :returns(gfloat), ),
+  set-child => %(:is-symbol<gtk_aspect_frame_set_child>, :parameters([N-Object]), ),
+  set-obey-child => %(:is-symbol<gtk_aspect_frame_set_obey_child>, :parameters([gboolean]), ),
+  set-ratio => %(:is-symbol<gtk_aspect_frame_set_ratio>, :parameters([gfloat]), ),
+  set-xalign => %(:is-symbol<gtk_aspect_frame_set_xalign>, :parameters([gfloat]), ),
+  set-yalign => %(:is-symbol<gtk_aspect_frame_set_yalign>, :parameters([gfloat]), ),
 );
 
 #-------------------------------------------------------------------------------
@@ -84,7 +87,6 @@ method _fallback-v2 (
         :library(gtk4-lib())
       );
 
-      # Check the function name. 
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)

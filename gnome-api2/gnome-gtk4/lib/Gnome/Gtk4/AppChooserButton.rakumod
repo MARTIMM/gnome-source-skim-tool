@@ -7,9 +7,12 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::R-AppChooser:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
+#use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -40,10 +43,17 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
+  Gnome::N::deprecate(
+    'Gnome::Gtk4::AppChooserButton', ', Str, ',
+    '4.10', Str,
+    :class, :gnome-lib(gtk4-lib())  
+  );
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<changed activate>,
+      :w0<activate changed>,
       :w1<custom-item-activated>,
     );
 
@@ -74,20 +84,20 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-appchooserbutton => %( :type(Constructor), :is-symbol<gtk_app_chooser_button_new>, :returns(N-Object), :parameters([ Str])),
+  new-appchooserbutton => %( :type(Constructor), :is-symbol<gtk_app_chooser_button_new>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :parameters([ Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  append-custom-item => %(:is-symbol<gtk_app_chooser_button_append_custom_item>,  :parameters([Str, Str, N-Object])),
-  append-separator => %(:is-symbol<gtk_app_chooser_button_append_separator>, ),
-  get-heading => %(:is-symbol<gtk_app_chooser_button_get_heading>,  :returns(Str)),
-  get-modal => %(:is-symbol<gtk_app_chooser_button_get_modal>,  :returns(gboolean), :cnv-return(Bool)),
-  get-show-default-item => %(:is-symbol<gtk_app_chooser_button_get_show_default_item>,  :returns(gboolean), :cnv-return(Bool)),
-  get-show-dialog-item => %(:is-symbol<gtk_app_chooser_button_get_show_dialog_item>,  :returns(gboolean), :cnv-return(Bool)),
-  set-active-custom-item => %(:is-symbol<gtk_app_chooser_button_set_active_custom_item>,  :parameters([Str])),
-  set-heading => %(:is-symbol<gtk_app_chooser_button_set_heading>,  :parameters([Str])),
-  set-modal => %(:is-symbol<gtk_app_chooser_button_set_modal>,  :parameters([gboolean])),
-  set-show-default-item => %(:is-symbol<gtk_app_chooser_button_set_show_default_item>,  :parameters([gboolean])),
-  set-show-dialog-item => %(:is-symbol<gtk_app_chooser_button_set_show_dialog_item>,  :parameters([gboolean])),
+  append-custom-item => %(:is-symbol<gtk_app_chooser_button_append_custom_item>, :parameters([Str, Str, N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  append-separator => %(:is-symbol<gtk_app_chooser_button_append_separator>, :deprecated, :deprecated-version<4.10>, ),
+  get-heading => %(:is-symbol<gtk_app_chooser_button_get_heading>, :returns(Str), :deprecated, :deprecated-version<4.10>, ),
+  get-modal => %(:is-symbol<gtk_app_chooser_button_get_modal>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-show-default-item => %(:is-symbol<gtk_app_chooser_button_get_show_default_item>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-show-dialog-item => %(:is-symbol<gtk_app_chooser_button_get_show_dialog_item>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  set-active-custom-item => %(:is-symbol<gtk_app_chooser_button_set_active_custom_item>, :parameters([Str]), :deprecated, :deprecated-version<4.10>, ),
+  set-heading => %(:is-symbol<gtk_app_chooser_button_set_heading>, :parameters([Str]), :deprecated, :deprecated-version<4.10>, ),
+  set-modal => %(:is-symbol<gtk_app_chooser_button_set_modal>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-show-default-item => %(:is-symbol<gtk_app_chooser_button_set_show_default_item>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-show-dialog-item => %(:is-symbol<gtk_app_chooser_button_set_show_dialog_item>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------

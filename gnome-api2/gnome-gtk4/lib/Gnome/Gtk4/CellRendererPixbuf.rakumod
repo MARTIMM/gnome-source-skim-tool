@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::CellRenderer:api<2>;
 #use Gnome::N:api<2>;

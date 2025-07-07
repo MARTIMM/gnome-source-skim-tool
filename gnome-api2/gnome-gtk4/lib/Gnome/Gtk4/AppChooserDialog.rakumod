@@ -7,8 +7,11 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Dialog:api<2>;
+use Gnome::Gtk4::R-AppChooser:api<2>;
 use Gnome::Gtk4::T-dialog:api<2>;
 #use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -24,6 +27,7 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Gtk4::AppChooserDialog:auth<github:MARTIMM>:api<2>;
 also is Gnome::Gtk4::Dialog;
+also does Gnome::Gtk4::R-AppChooser;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -31,6 +35,9 @@ also is Gnome::Gtk4::Dialog;
 
 # Define callable helper
 has Gnome::N::GnomeRoutineCaller $!routine-caller;
+
+# Add signal registration helper
+my Bool $signals-added = False;
 
 #-------------------------------------------------------------------------------
 #--[BUILD submethod]------------------------------------------------------------
@@ -44,6 +51,14 @@ submethod BUILD ( *%options ) {
     :class, :gnome-lib(gtk4-lib())  
   );
 
+  # Add signal administration info.
+  unless $signals-added {
+    
+    # Signals from interfaces
+    self._add_gtk_app_chooser_signal_types($?CLASS.^name)
+      if self.^can('_add_gtk_app_chooser_signal_types');
+    $signals-added = True;
+  }
 
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
@@ -66,13 +81,13 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-appchooserdialog => %( :type(Constructor), :is-symbol<gtk_app_chooser_dialog_new>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :parameters([ N-Object, GFlag, N-Object])),
-  new-for-content-type => %( :type(Constructor), :is-symbol<gtk_app_chooser_dialog_new_for_content_type>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :parameters([ N-Object, GFlag, Str])),
+  new-appchooserdialog => %( :type(Constructor), :is-symbol<gtk_app_chooser_dialog_new>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :parameters([ N-Object, GFlag, N-Object]), ),
+  new-for-content-type => %( :type(Constructor), :is-symbol<gtk_app_chooser_dialog_new_for_content_type>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :parameters([ N-Object, GFlag, Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-heading => %(:is-symbol<gtk_app_chooser_dialog_get_heading>,  :returns(Str),:deprecated, :deprecated-version<4.10>, ),
-  get-widget => %(:is-symbol<gtk_app_chooser_dialog_get_widget>,  :returns(N-Object),:deprecated, :deprecated-version<4.10>, ),
-  set-heading => %(:is-symbol<gtk_app_chooser_dialog_set_heading>,  :parameters([Str]),:deprecated, :deprecated-version<4.10>, ),
+  get-heading => %(:is-symbol<gtk_app_chooser_dialog_get_heading>, :returns(Str), :deprecated, :deprecated-version<4.10>, ),
+  get-widget => %(:is-symbol<gtk_app_chooser_dialog_get_widget>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  set-heading => %(:is-symbol<gtk_app_chooser_dialog_set_heading>, :parameters([Str]), :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------
@@ -108,6 +123,13 @@ method _fallback-v2 (
   }
 
   else {
+    my $r;
+    my $native-object = self.get-native-object-no-reffing;
+    $r = self._do_gtk_app_chooser_fallback-v2(
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
+    ) if self.^can('_do_gtk_app_chooser_fallback-v2');
+    return $r if $_fallback-v2-ok;
+
     callsame;
   }
 }

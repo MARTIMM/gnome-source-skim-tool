@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::R-Orientable:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
@@ -41,6 +43,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     
@@ -75,13 +78,15 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   get-baseline-position => %(:is-symbol<gtk_center_box_get_baseline_position>,  :returns(GEnum), :cnv-return(GtkBaselinePosition)),
-  get-center-widget => %(:is-symbol<gtk_center_box_get_center_widget>,  :returns(N-Object)),
-  get-end-widget => %(:is-symbol<gtk_center_box_get_end_widget>,  :returns(N-Object)),
-  get-start-widget => %(:is-symbol<gtk_center_box_get_start_widget>,  :returns(N-Object)),
-  set-baseline-position => %(:is-symbol<gtk_center_box_set_baseline_position>,  :parameters([GEnum])),
-  set-center-widget => %(:is-symbol<gtk_center_box_set_center_widget>,  :parameters([N-Object])),
-  set-end-widget => %(:is-symbol<gtk_center_box_set_end_widget>,  :parameters([N-Object])),
-  set-start-widget => %(:is-symbol<gtk_center_box_set_start_widget>,  :parameters([N-Object])),
+  get-center-widget => %(:is-symbol<gtk_center_box_get_center_widget>, :returns(N-Object), ),
+  get-end-widget => %(:is-symbol<gtk_center_box_get_end_widget>, :returns(N-Object), ),
+  get-shrink-center-last => %(:is-symbol<gtk_center_box_get_shrink_center_last>, :returns(gboolean), ),
+  get-start-widget => %(:is-symbol<gtk_center_box_get_start_widget>, :returns(N-Object), ),
+  set-baseline-position => %(:is-symbol<gtk_center_box_set_baseline_position>, :parameters([GEnum]), ),
+  set-center-widget => %(:is-symbol<gtk_center_box_set_center_widget>, :parameters([N-Object]), ),
+  set-end-widget => %(:is-symbol<gtk_center_box_set_end_widget>, :parameters([N-Object]), ),
+  set-shrink-center-last => %(:is-symbol<gtk_center_box_set_shrink_center_last>, :parameters([gboolean]), ),
+  set-start-widget => %(:is-symbol<gtk_center_box_set_start_widget>, :parameters([N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------
