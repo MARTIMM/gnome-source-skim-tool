@@ -64,7 +64,8 @@ try {
   }
 }
 
-# Must use =comment because '#' is translated in =head2 later on
+# Must use =comment because '#' is translated in =head2 later on.
+# This line shows up at the top of eache generated file.
 $filename .= lc;
 $*command-line = "=comment Package: $*gnome-package.Str(), C-Source: $filename";
 $*verbose = $v;
@@ -119,8 +120,8 @@ sub USAGE ( ) {
 
   say qq:to/EOHELP/;
 
-  Program to generate Raku modules from the Gnome source code using
-  the GtkDoc tool also used by Gnome to generate there documentation.
+  Program to generate Raku modules, documentation and test code from the
+  XML files of the Gnome Introspection Repository files.
 
   Usage
     {$*PROGRAM.basename} -h
@@ -154,13 +155,13 @@ sub USAGE ( ) {
                 Pango PangoCairo GIRepo.
       filename  A source filename wherein everything is defined originally
                 (from *.c/*.h files). Several types like classes, record etc,
-                may be defined in the file. An example is the name from Gtk3,
+                may be defined in the file. An example is the name from Gtk4,
                 'aboutdialog' where an independent function 
                 'gtk_show_about_dialog', an enumeration 'GtkLicense' and a
                 class 'GtkAboutDialog' is found. The results are stored in a
-                single file 'lib/Gnome/Gtk3/AboutDialog.rakumod'.
-                Other names may result in more files.
-                separately.
+                file 'lib/Gnome/Gtk4/AboutDialog.rakumod' and
+                'lib/Gnome/Gtk4/T-aboutdialog.rakumod'. Other names may
+                result in more and different files.
       gir-types Types to process. The main types are 'class', 'interface',
                 'record', 'union', 'enumeration', 'bitfield' and 'constant'.
                 There are a few more but not yet processed. Name those you want
