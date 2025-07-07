@@ -7,9 +7,13 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gdk4::N-Rectangle:api<2>;
 use Gnome::Gdk4::T-types:api<2>;
+use Gnome::Gtk4::R-Native:api<2>;
+use Gnome::Gtk4::R-ShortcutManager:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -25,6 +29,8 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Gtk4::Popover:auth<github:MARTIMM>:api<2>;
 also is Gnome::Gtk4::Widget;
+also does Gnome::Gtk4::R-Native;
+also does Gnome::Gtk4::R-ShortcutManager;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -45,8 +51,14 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<closed activate-default>,
+      :w0<activate-default closed>,
     );
+
+    # Signals from interfaces
+    self._add_gtk_native_signal_types($?CLASS.^name)
+      if self.^can('_add_gtk_native_signal_types');
+    self._add_gtk_shortcut_manager_signal_types($?CLASS.^name)
+      if self.^can('_add_gtk_shortcut_manager_signal_types');
     $signals-added = True;
   }
 
@@ -74,26 +86,26 @@ my Hash $methods = %(
   new-popover => %( :type(Constructor), :is-symbol<gtk_popover_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-autohide => %(:is-symbol<gtk_popover_get_autohide>,  :returns(gboolean), :cnv-return(Bool)),
-  get-cascade-popdown => %(:is-symbol<gtk_popover_get_cascade_popdown>,  :returns(gboolean), :cnv-return(Bool)),
-  get-child => %(:is-symbol<gtk_popover_get_child>,  :returns(N-Object)),
-  get-has-arrow => %(:is-symbol<gtk_popover_get_has_arrow>,  :returns(gboolean), :cnv-return(Bool)),
-  get-mnemonics-visible => %(:is-symbol<gtk_popover_get_mnemonics_visible>,  :returns(gboolean), :cnv-return(Bool)),
-  get-offset => %(:is-symbol<gtk_popover_get_offset>,  :parameters([gint-ptr, gint-ptr])),
-  get-pointing-to => %(:is-symbol<gtk_popover_get_pointing_to>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
+  get-autohide => %(:is-symbol<gtk_popover_get_autohide>, :returns(gboolean), ),
+  get-cascade-popdown => %(:is-symbol<gtk_popover_get_cascade_popdown>, :returns(gboolean), ),
+  get-child => %(:is-symbol<gtk_popover_get_child>, :returns(N-Object), ),
+  get-has-arrow => %(:is-symbol<gtk_popover_get_has_arrow>, :returns(gboolean), ),
+  get-mnemonics-visible => %(:is-symbol<gtk_popover_get_mnemonics_visible>, :returns(gboolean), ),
+  get-offset => %(:is-symbol<gtk_popover_get_offset>, :parameters([gint-ptr, gint-ptr]), ),
+  get-pointing-to => %(:is-symbol<gtk_popover_get_pointing_to>, :returns(gboolean), :parameters([N-Object]), ),
   get-position => %(:is-symbol<gtk_popover_get_position>,  :returns(GEnum), :cnv-return(GtkPositionType)),
   popdown => %(:is-symbol<gtk_popover_popdown>, ),
   popup => %(:is-symbol<gtk_popover_popup>, ),
   present => %(:is-symbol<gtk_popover_present>, ),
-  set-autohide => %(:is-symbol<gtk_popover_set_autohide>,  :parameters([gboolean])),
-  set-cascade-popdown => %(:is-symbol<gtk_popover_set_cascade_popdown>,  :parameters([gboolean])),
-  set-child => %(:is-symbol<gtk_popover_set_child>,  :parameters([N-Object])),
-  set-default-widget => %(:is-symbol<gtk_popover_set_default_widget>,  :parameters([N-Object])),
-  set-has-arrow => %(:is-symbol<gtk_popover_set_has_arrow>,  :parameters([gboolean])),
-  set-mnemonics-visible => %(:is-symbol<gtk_popover_set_mnemonics_visible>,  :parameters([gboolean])),
-  set-offset => %(:is-symbol<gtk_popover_set_offset>,  :parameters([gint, gint])),
-  set-pointing-to => %(:is-symbol<gtk_popover_set_pointing_to>,  :parameters([N-Object])),
-  set-position => %(:is-symbol<gtk_popover_set_position>,  :parameters([GEnum])),
+  set-autohide => %(:is-symbol<gtk_popover_set_autohide>, :parameters([gboolean]), ),
+  set-cascade-popdown => %(:is-symbol<gtk_popover_set_cascade_popdown>, :parameters([gboolean]), ),
+  set-child => %(:is-symbol<gtk_popover_set_child>, :parameters([N-Object]), ),
+  set-default-widget => %(:is-symbol<gtk_popover_set_default_widget>, :parameters([N-Object]), ),
+  set-has-arrow => %(:is-symbol<gtk_popover_set_has_arrow>, :parameters([gboolean]), ),
+  set-mnemonics-visible => %(:is-symbol<gtk_popover_set_mnemonics_visible>, :parameters([gboolean]), ),
+  set-offset => %(:is-symbol<gtk_popover_set_offset>, :parameters([gint, gint]), ),
+  set-pointing-to => %(:is-symbol<gtk_popover_set_pointing_to>, :parameters([N-Object]), ),
+  set-position => %(:is-symbol<gtk_popover_set_position>, :parameters([GEnum]), ),
 );
 
 #-------------------------------------------------------------------------------
@@ -129,6 +141,18 @@ method _fallback-v2 (
   }
 
   else {
+    my $r;
+    my $native-object = self.get-native-object-no-reffing;
+    $r = self._do_gtk_native_fallback-v2(
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
+    ) if self.^can('_do_gtk_native_fallback-v2');
+    return $r if $_fallback-v2-ok;
+
+    $r = self._do_gtk_shortcut_manager_fallback-v2(
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
+    ) if self.^can('_do_gtk_shortcut_manager_fallback-v2');
+    return $r if $_fallback-v2-ok;
+
     callsame;
   }
 }

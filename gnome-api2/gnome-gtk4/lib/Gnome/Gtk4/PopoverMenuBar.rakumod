@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -58,13 +60,13 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-from-model => %( :type(Constructor), :is-symbol<gtk_popover_menu_bar_new_from_model>, :returns(N-Object), :parameters([ N-Object])),
+  new-from-model => %( :type(Constructor), :is-symbol<gtk_popover_menu_bar_new_from_model>, :returns(N-Object), :parameters([ N-Object]), ),
 
   #--[Methods]------------------------------------------------------------------
-  add-child => %(:is-symbol<gtk_popover_menu_bar_add_child>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, Str])),
-  get-menu-model => %(:is-symbol<gtk_popover_menu_bar_get_menu_model>,  :returns(N-Object)),
-  remove-child => %(:is-symbol<gtk_popover_menu_bar_remove_child>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
-  set-menu-model => %(:is-symbol<gtk_popover_menu_bar_set_menu_model>,  :parameters([N-Object])),
+  add-child => %(:is-symbol<gtk_popover_menu_bar_add_child>, :returns(gboolean), :parameters([N-Object, Str]), ),
+  get-menu-model => %(:is-symbol<gtk_popover_menu_bar_get_menu_model>, :returns(N-Object), ),
+  remove-child => %(:is-symbol<gtk_popover_menu_bar_remove_child>, :returns(gboolean), :parameters([N-Object]), ),
+  set-menu-model => %(:is-symbol<gtk_popover_menu_bar_set_menu_model>, :parameters([N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------

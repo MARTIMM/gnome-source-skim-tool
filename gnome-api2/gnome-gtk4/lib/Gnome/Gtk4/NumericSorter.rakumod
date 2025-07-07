@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Sorter:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
@@ -37,6 +39,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -58,13 +61,13 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-numericsorter => %( :type(Constructor), :is-symbol<gtk_numeric_sorter_new>, :returns(N-Object), :parameters([ N-Object])),
+  new-numericsorter => %( :type(Constructor), :is-symbol<gtk_numeric_sorter_new>, :returns(N-Object), :parameters([ N-Object]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-expression => %(:is-symbol<gtk_numeric_sorter_get_expression>,  :returns(N-Object)),
+  get-expression => %(:is-symbol<gtk_numeric_sorter_get_expression>, :returns(N-Object), ),
   get-sort-order => %(:is-symbol<gtk_numeric_sorter_get_sort_order>,  :returns(GEnum), :cnv-return(GtkSortType)),
-  set-expression => %(:is-symbol<gtk_numeric_sorter_set_expression>,  :parameters([N-Object])),
-  set-sort-order => %(:is-symbol<gtk_numeric_sorter_set_sort_order>,  :parameters([GEnum])),
+  set-expression => %(:is-symbol<gtk_numeric_sorter_set_expression>, :parameters([N-Object]), ),
+  set-sort-order => %(:is-symbol<gtk_numeric_sorter_set_sort_order>, :parameters([GEnum]), ),
 );
 
 #-------------------------------------------------------------------------------

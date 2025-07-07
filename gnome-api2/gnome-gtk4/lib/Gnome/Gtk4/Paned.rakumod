@@ -7,7 +7,10 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
 
+
+#use Gnome::Gtk4::R-AccessibleRange:api<2>;
 use Gnome::Gtk4::R-Orientable:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
@@ -24,6 +27,7 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Gtk4::Paned:auth<github:MARTIMM>:api<2>;
 also is Gnome::Gtk4::Widget;
+#also does Gnome::Gtk4::R-AccessibleRange;
 also does Gnome::Gtk4::R-Orientable;
 
 #-------------------------------------------------------------------------------
@@ -41,6 +45,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
@@ -49,6 +54,10 @@ submethod BUILD ( *%options ) {
     );
 
     # Signals from interfaces
+#`{{
+    self._add_gtk_accessible_range_signal_types($?CLASS.^name)
+      if self.^can('_add_gtk_accessible_range_signal_types');
+}}
     self._add_gtk_orientable_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_orientable_signal_types');
     $signals-added = True;
@@ -75,25 +84,25 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-paned => %( :type(Constructor), :is-symbol<gtk_paned_new>, :returns(N-Object), :parameters([ GEnum])),
+  new-paned => %( :type(Constructor), :is-symbol<gtk_paned_new>, :returns(N-Object), :parameters([ GEnum]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-end-child => %(:is-symbol<gtk_paned_get_end_child>,  :returns(N-Object)),
-  get-position => %(:is-symbol<gtk_paned_get_position>,  :returns(gint)),
-  get-resize-end-child => %(:is-symbol<gtk_paned_get_resize_end_child>,  :returns(gboolean), :cnv-return(Bool)),
-  get-resize-start-child => %(:is-symbol<gtk_paned_get_resize_start_child>,  :returns(gboolean), :cnv-return(Bool)),
-  get-shrink-end-child => %(:is-symbol<gtk_paned_get_shrink_end_child>,  :returns(gboolean), :cnv-return(Bool)),
-  get-shrink-start-child => %(:is-symbol<gtk_paned_get_shrink_start_child>,  :returns(gboolean), :cnv-return(Bool)),
-  get-start-child => %(:is-symbol<gtk_paned_get_start_child>,  :returns(N-Object)),
-  get-wide-handle => %(:is-symbol<gtk_paned_get_wide_handle>,  :returns(gboolean), :cnv-return(Bool)),
-  set-end-child => %(:is-symbol<gtk_paned_set_end_child>,  :parameters([N-Object])),
-  set-position => %(:is-symbol<gtk_paned_set_position>,  :parameters([gint])),
-  set-resize-end-child => %(:is-symbol<gtk_paned_set_resize_end_child>,  :parameters([gboolean])),
-  set-resize-start-child => %(:is-symbol<gtk_paned_set_resize_start_child>,  :parameters([gboolean])),
-  set-shrink-end-child => %(:is-symbol<gtk_paned_set_shrink_end_child>,  :parameters([gboolean])),
-  set-shrink-start-child => %(:is-symbol<gtk_paned_set_shrink_start_child>,  :parameters([gboolean])),
-  set-start-child => %(:is-symbol<gtk_paned_set_start_child>,  :parameters([N-Object])),
-  set-wide-handle => %(:is-symbol<gtk_paned_set_wide_handle>,  :parameters([gboolean])),
+  get-end-child => %(:is-symbol<gtk_paned_get_end_child>, :returns(N-Object), ),
+  get-position => %(:is-symbol<gtk_paned_get_position>, :returns(gint), ),
+  get-resize-end-child => %(:is-symbol<gtk_paned_get_resize_end_child>, :returns(gboolean), ),
+  get-resize-start-child => %(:is-symbol<gtk_paned_get_resize_start_child>, :returns(gboolean), ),
+  get-shrink-end-child => %(:is-symbol<gtk_paned_get_shrink_end_child>, :returns(gboolean), ),
+  get-shrink-start-child => %(:is-symbol<gtk_paned_get_shrink_start_child>, :returns(gboolean), ),
+  get-start-child => %(:is-symbol<gtk_paned_get_start_child>, :returns(N-Object), ),
+  get-wide-handle => %(:is-symbol<gtk_paned_get_wide_handle>, :returns(gboolean), ),
+  set-end-child => %(:is-symbol<gtk_paned_set_end_child>, :parameters([N-Object]), ),
+  set-position => %(:is-symbol<gtk_paned_set_position>, :parameters([gint]), ),
+  set-resize-end-child => %(:is-symbol<gtk_paned_set_resize_end_child>, :parameters([gboolean]), ),
+  set-resize-start-child => %(:is-symbol<gtk_paned_set_resize_start_child>, :parameters([gboolean]), ),
+  set-shrink-end-child => %(:is-symbol<gtk_paned_set_shrink_end_child>, :parameters([gboolean]), ),
+  set-shrink-start-child => %(:is-symbol<gtk_paned_set_shrink_start_child>, :parameters([gboolean]), ),
+  set-start-child => %(:is-symbol<gtk_paned_set_start_child>, :parameters([N-Object]), ),
+  set-wide-handle => %(:is-symbol<gtk_paned_set_wide_handle>, :parameters([gboolean]), ),
 );
 
 #-------------------------------------------------------------------------------
@@ -131,6 +140,13 @@ method _fallback-v2 (
   else {
     my $r;
     my $native-object = self.get-native-object-no-reffing;
+#`{{
+    $r = self._do_gtk_accessible_range_fallback-v2(
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
+    ) if self.^can('_do_gtk_accessible_range_fallback-v2');
+    return $r if $_fallback-v2-ok;
+
+}}
     $r = self._do_gtk_orientable_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
     ) if self.^can('_do_gtk_orientable_fallback-v2');

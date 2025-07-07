@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::ShortcutTrigger:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -36,6 +38,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -57,7 +60,7 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Functions]----------------------------------------------------------------
-  get => %( :type(Function), :is-symbol<gtk_never_trigger_get>,  :returns(N-Object)),
+  get => %( :type(Function), :is-symbol<gtk_never_trigger_get>, :returns(N-Object), ),
 );
 
 #-------------------------------------------------------------------------------
@@ -72,7 +75,6 @@ method _fallback-v2 (
         :library(gtk4-lib())
       );
 
-      # Check the function name. 
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)

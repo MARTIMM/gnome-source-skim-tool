@@ -7,8 +7,11 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::GObject::Object:api<2>;
+#use Gnome::Gtk4::R-SectionModel:api<2>;
 use Gnome::Gtk4::R-SelectionModel:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -23,6 +26,7 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Gtk4::NoSelection:auth<github:MARTIMM>:api<2>;
 also is Gnome::GObject::Object;
+#also does Gnome::Gtk4::R-SectionModel;
 also does Gnome::Gtk4::R-SelectionModel;
 
 #-------------------------------------------------------------------------------
@@ -40,10 +44,15 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     
     # Signals from interfaces
+#`{{
+    self._add_gtk_section_model_signal_types($?CLASS.^name)
+      if self.^can('_add_gtk_section_model_signal_types');
+}}
     self._add_gtk_selection_model_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_selection_model_signal_types');
     $signals-added = True;
@@ -70,11 +79,11 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-noselection => %( :type(Constructor), :is-symbol<gtk_no_selection_new>, :returns(N-Object), :parameters([ N-Object])),
+  new-noselection => %( :type(Constructor), :is-symbol<gtk_no_selection_new>, :returns(N-Object), :parameters([ N-Object]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-model => %(:is-symbol<gtk_no_selection_get_model>,  :returns(N-Object)),
-  set-model => %(:is-symbol<gtk_no_selection_set_model>,  :parameters([N-Object])),
+  get-model => %(:is-symbol<gtk_no_selection_get_model>, :returns(N-Object), ),
+  set-model => %(:is-symbol<gtk_no_selection_set_model>, :parameters([N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------
@@ -112,6 +121,13 @@ method _fallback-v2 (
   else {
     my $r;
     my $native-object = self.get-native-object-no-reffing;
+#`{{
+    $r = self._do_gtk_section_model_fallback-v2(
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
+    ) if self.^can('_do_gtk_section_model_fallback-v2');
+    return $r if $_fallback-v2-ok;
+
+}}
     $r = self._do_gtk_selection_model_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
     ) if self.^can('_do_gtk_selection_model_fallback-v2');

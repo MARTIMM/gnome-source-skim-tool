@@ -7,7 +7,10 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
 
+
+#use Gnome::Gtk4::R-AccessibleRange:api<2>;
 use Gnome::Gtk4::R-Orientable:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -24,6 +27,7 @@ use Gnome::Pango::T-layout:api<2>;
 
 unit class Gnome::Gtk4::ProgressBar:auth<github:MARTIMM>:api<2>;
 also is Gnome::Gtk4::Widget;
+#also does Gnome::Gtk4::R-AccessibleRange;
 also does Gnome::Gtk4::R-Orientable;
 
 #-------------------------------------------------------------------------------
@@ -41,10 +45,15 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     
     # Signals from interfaces
+#`{{
+    self._add_gtk_accessible_range_signal_types($?CLASS.^name)
+      if self.^can('_add_gtk_accessible_range_signal_types');
+}}
     self._add_gtk_orientable_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_orientable_signal_types');
     $signals-added = True;
@@ -75,18 +84,18 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   get-ellipsize => %(:is-symbol<gtk_progress_bar_get_ellipsize>,  :returns(GEnum), :cnv-return(PangoEllipsizeMode)),
-  get-fraction => %(:is-symbol<gtk_progress_bar_get_fraction>,  :returns(gdouble)),
-  get-inverted => %(:is-symbol<gtk_progress_bar_get_inverted>,  :returns(gboolean), :cnv-return(Bool)),
-  get-pulse-step => %(:is-symbol<gtk_progress_bar_get_pulse_step>,  :returns(gdouble)),
-  get-show-text => %(:is-symbol<gtk_progress_bar_get_show_text>,  :returns(gboolean), :cnv-return(Bool)),
-  get-text => %(:is-symbol<gtk_progress_bar_get_text>,  :returns(Str)),
+  get-fraction => %(:is-symbol<gtk_progress_bar_get_fraction>, :returns(gdouble), ),
+  get-inverted => %(:is-symbol<gtk_progress_bar_get_inverted>, :returns(gboolean), ),
+  get-pulse-step => %(:is-symbol<gtk_progress_bar_get_pulse_step>, :returns(gdouble), ),
+  get-show-text => %(:is-symbol<gtk_progress_bar_get_show_text>, :returns(gboolean), ),
+  get-text => %(:is-symbol<gtk_progress_bar_get_text>, :returns(Str), ),
   pulse => %(:is-symbol<gtk_progress_bar_pulse>, ),
-  set-ellipsize => %(:is-symbol<gtk_progress_bar_set_ellipsize>,  :parameters([GEnum])),
-  set-fraction => %(:is-symbol<gtk_progress_bar_set_fraction>,  :parameters([gdouble])),
-  set-inverted => %(:is-symbol<gtk_progress_bar_set_inverted>,  :parameters([gboolean])),
-  set-pulse-step => %(:is-symbol<gtk_progress_bar_set_pulse_step>,  :parameters([gdouble])),
-  set-show-text => %(:is-symbol<gtk_progress_bar_set_show_text>,  :parameters([gboolean])),
-  set-text => %(:is-symbol<gtk_progress_bar_set_text>,  :parameters([Str])),
+  set-ellipsize => %(:is-symbol<gtk_progress_bar_set_ellipsize>, :parameters([GEnum]), ),
+  set-fraction => %(:is-symbol<gtk_progress_bar_set_fraction>, :parameters([gdouble]), ),
+  set-inverted => %(:is-symbol<gtk_progress_bar_set_inverted>, :parameters([gboolean]), ),
+  set-pulse-step => %(:is-symbol<gtk_progress_bar_set_pulse_step>, :parameters([gdouble]), ),
+  set-show-text => %(:is-symbol<gtk_progress_bar_set_show_text>, :parameters([gboolean]), ),
+  set-text => %(:is-symbol<gtk_progress_bar_set_text>, :parameters([Str]), ),
 );
 
 #-------------------------------------------------------------------------------
@@ -124,6 +133,13 @@ method _fallback-v2 (
   else {
     my $r;
     my $native-object = self.get-native-object-no-reffing;
+#`{{
+    $r = self._do_gtk_accessible_range_fallback-v2(
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
+    ) if self.^can('_do_gtk_accessible_range_fallback-v2');
+    return $r if $_fallback-v2-ok;
+
+}}
     $r = self._do_gtk_orientable_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
     ) if self.^can('_do_gtk_orientable_fallback-v2');

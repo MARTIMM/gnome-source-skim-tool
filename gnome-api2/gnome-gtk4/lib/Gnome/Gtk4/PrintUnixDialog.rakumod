@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Dialog:api<2>;
 #use Gnome::Gtk4::T-printer:api<2>;
@@ -59,26 +61,26 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-printunixdialog => %( :type(Constructor), :is-symbol<gtk_print_unix_dialog_new>, :returns(N-Object), :parameters([ Str, N-Object])),
+  new-printunixdialog => %( :type(Constructor), :is-symbol<gtk_print_unix_dialog_new>, :returns(N-Object), :parameters([ Str, N-Object]), ),
 
   #--[Methods]------------------------------------------------------------------
-  add-custom-tab => %(:is-symbol<gtk_print_unix_dialog_add_custom_tab>,  :parameters([N-Object, N-Object])),
-  get-current-page => %(:is-symbol<gtk_print_unix_dialog_get_current_page>,  :returns(gint)),
-  get-embed-page-setup => %(:is-symbol<gtk_print_unix_dialog_get_embed_page_setup>,  :returns(gboolean), :cnv-return(Bool)),
-  get-has-selection => %(:is-symbol<gtk_print_unix_dialog_get_has_selection>,  :returns(gboolean), :cnv-return(Bool)),
+  add-custom-tab => %(:is-symbol<gtk_print_unix_dialog_add_custom_tab>, :parameters([N-Object, N-Object]), ),
+  get-current-page => %(:is-symbol<gtk_print_unix_dialog_get_current_page>, :returns(gint), ),
+  get-embed-page-setup => %(:is-symbol<gtk_print_unix_dialog_get_embed_page_setup>, :returns(gboolean), ),
+  get-has-selection => %(:is-symbol<gtk_print_unix_dialog_get_has_selection>, :returns(gboolean), ),
   #get-manual-capabilities => %(:is-symbol<gtk_print_unix_dialog_get_manual_capabilities>,  :returns(GFlag), :cnv-return(GtkPrintCapabilities )),
-  get-page-setup => %(:is-symbol<gtk_print_unix_dialog_get_page_setup>,  :returns(N-Object)),
-  get-page-setup-set => %(:is-symbol<gtk_print_unix_dialog_get_page_setup_set>,  :returns(gboolean), :cnv-return(Bool)),
-  get-selected-printer => %(:is-symbol<gtk_print_unix_dialog_get_selected_printer>,  :returns(N-Object)),
-  get-settings => %(:is-symbol<gtk_print_unix_dialog_get_settings>,  :returns(N-Object)),
-  get-support-selection => %(:is-symbol<gtk_print_unix_dialog_get_support_selection>,  :returns(gboolean), :cnv-return(Bool)),
-  set-current-page => %(:is-symbol<gtk_print_unix_dialog_set_current_page>,  :parameters([gint])),
-  set-embed-page-setup => %(:is-symbol<gtk_print_unix_dialog_set_embed_page_setup>,  :parameters([gboolean])),
-  set-has-selection => %(:is-symbol<gtk_print_unix_dialog_set_has_selection>,  :parameters([gboolean])),
-  #set-manual-capabilities => %(:is-symbol<gtk_print_unix_dialog_set_manual_capabilities>,  :parameters([GFlag])),
-  set-page-setup => %(:is-symbol<gtk_print_unix_dialog_set_page_setup>,  :parameters([N-Object])),
-  set-settings => %(:is-symbol<gtk_print_unix_dialog_set_settings>,  :parameters([N-Object])),
-  set-support-selection => %(:is-symbol<gtk_print_unix_dialog_set_support_selection>,  :parameters([gboolean])),
+  get-page-setup => %(:is-symbol<gtk_print_unix_dialog_get_page_setup>, :returns(N-Object), ),
+  get-page-setup-set => %(:is-symbol<gtk_print_unix_dialog_get_page_setup_set>, :returns(gboolean), ),
+  get-selected-printer => %(:is-symbol<gtk_print_unix_dialog_get_selected_printer>, :returns(N-Object), ),
+  get-settings => %(:is-symbol<gtk_print_unix_dialog_get_settings>, :returns(N-Object), ),
+  get-support-selection => %(:is-symbol<gtk_print_unix_dialog_get_support_selection>, :returns(gboolean), ),
+  set-current-page => %(:is-symbol<gtk_print_unix_dialog_set_current_page>, :parameters([gint]), ),
+  set-embed-page-setup => %(:is-symbol<gtk_print_unix_dialog_set_embed_page_setup>, :parameters([gboolean]), ),
+  set-has-selection => %(:is-symbol<gtk_print_unix_dialog_set_has_selection>, :parameters([gboolean]), ),
+  #set-manual-capabilities => %(:is-symbol<gtk_print_unix_dialog_set_manual_capabilities>, :parameters([GFlag]), ),
+  set-page-setup => %(:is-symbol<gtk_print_unix_dialog_set_page_setup>, :parameters([N-Object]), ),
+  set-settings => %(:is-symbol<gtk_print_unix_dialog_set_settings>, :parameters([N-Object]), ),
+  set-support-selection => %(:is-symbol<gtk_print_unix_dialog_set_support_selection>, :parameters([gboolean]), ),
 );
 
 #-------------------------------------------------------------------------------

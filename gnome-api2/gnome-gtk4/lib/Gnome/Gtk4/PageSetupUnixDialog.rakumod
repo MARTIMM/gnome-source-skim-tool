@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Dialog:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -36,6 +38,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -57,13 +60,13 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-pagesetupunixdialog => %( :type(Constructor), :is-symbol<gtk_page_setup_unix_dialog_new>, :returns(N-Object), :parameters([ Str, N-Object])),
+  new-pagesetupunixdialog => %( :type(Constructor), :is-symbol<gtk_page_setup_unix_dialog_new>, :returns(N-Object), :parameters([ Str, N-Object]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-page-setup => %(:is-symbol<gtk_page_setup_unix_dialog_get_page_setup>,  :returns(N-Object)),
-  get-print-settings => %(:is-symbol<gtk_page_setup_unix_dialog_get_print_settings>,  :returns(N-Object)),
-  set-page-setup => %(:is-symbol<gtk_page_setup_unix_dialog_set_page_setup>,  :parameters([N-Object])),
-  set-print-settings => %(:is-symbol<gtk_page_setup_unix_dialog_set_print_settings>,  :parameters([N-Object])),
+  get-page-setup => %(:is-symbol<gtk_page_setup_unix_dialog_get_page_setup>, :returns(N-Object), ),
+  get-print-settings => %(:is-symbol<gtk_page_setup_unix_dialog_get_print_settings>, :returns(N-Object), ),
+  set-page-setup => %(:is-symbol<gtk_page_setup_unix_dialog_set_page_setup>, :parameters([N-Object]), ),
+  set-print-settings => %(:is-symbol<gtk_page_setup_unix_dialog_set_print_settings>, :parameters([N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------

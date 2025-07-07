@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::LayoutChild:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -36,6 +38,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -57,10 +60,10 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-clip-overlay => %(:is-symbol<gtk_overlay_layout_child_get_clip_overlay>,  :returns(gboolean), :cnv-return(Bool)),
-  get-measure => %(:is-symbol<gtk_overlay_layout_child_get_measure>,  :returns(gboolean), :cnv-return(Bool)),
-  set-clip-overlay => %(:is-symbol<gtk_overlay_layout_child_set_clip_overlay>,  :parameters([gboolean])),
-  set-measure => %(:is-symbol<gtk_overlay_layout_child_set_measure>,  :parameters([gboolean])),
+  get-clip-overlay => %(:is-symbol<gtk_overlay_layout_child_get_clip_overlay>, :returns(gboolean), ),
+  get-measure => %(:is-symbol<gtk_overlay_layout_child_get_measure>, :returns(gboolean), ),
+  set-clip-overlay => %(:is-symbol<gtk_overlay_layout_child_set_clip_overlay>, :parameters([gboolean]), ),
+  set-measure => %(:is-symbol<gtk_overlay_layout_child_set_measure>, :parameters([gboolean]), ),
 );
 
 #-------------------------------------------------------------------------------
