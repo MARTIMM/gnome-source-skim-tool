@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gdk4::T-enums:api<2>;
 use Gnome::Gtk4::GestureSingle:api<2>;
@@ -44,7 +46,7 @@ submethod BUILD ( *%options ) {
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
       :w1<drag-begin>,
-      :w2<prepare drag-cancel drag-end>,
+      :w2<drag-cancel drag-end prepare>,
     );
     $signals-added = True;
   }
@@ -75,11 +77,11 @@ my Hash $methods = %(
   #--[Methods]------------------------------------------------------------------
   drag-cancel => %(:is-symbol<gtk_drag_source_drag_cancel>, ),
   get-actions => %(:is-symbol<gtk_drag_source_get_actions>,  :returns(GFlag), :cnv-return(GdkDragAction)),
-  get-content => %(:is-symbol<gtk_drag_source_get_content>,  :returns(N-Object)),
-  get-drag => %(:is-symbol<gtk_drag_source_get_drag>,  :returns(N-Object)),
-  set-actions => %(:is-symbol<gtk_drag_source_set_actions>,  :parameters([GFlag])),
-  set-content => %(:is-symbol<gtk_drag_source_set_content>,  :parameters([N-Object])),
-  set-icon => %(:is-symbol<gtk_drag_source_set_icon>,  :parameters([N-Object, gint, gint])),
+  get-content => %(:is-symbol<gtk_drag_source_get_content>, :returns(N-Object), ),
+  get-drag => %(:is-symbol<gtk_drag_source_get_drag>, :returns(N-Object), ),
+  set-actions => %(:is-symbol<gtk_drag_source_set_actions>, :parameters([GFlag]), ),
+  set-content => %(:is-symbol<gtk_drag_source_set_content>, :parameters([N-Object]), ),
+  set-icon => %(:is-symbol<gtk_drag_source_set_icon>, :parameters([N-Object, gint, gint]), ),
 );
 
 #-------------------------------------------------------------------------------

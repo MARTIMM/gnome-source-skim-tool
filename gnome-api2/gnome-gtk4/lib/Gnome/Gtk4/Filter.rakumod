@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::GObject::Object:api<2>;
 use Gnome::Gtk4::T-filter:api<2>;
@@ -69,9 +71,9 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  changed => %(:is-symbol<gtk_filter_changed>,  :parameters([GEnum])),
+  changed => %(:is-symbol<gtk_filter_changed>, :parameters([GEnum]), ),
   get-strictness => %(:is-symbol<gtk_filter_get_strictness>,  :returns(GEnum), :cnv-return(GtkFilterMatch)),
-  match => %(:is-symbol<gtk_filter_match>,  :returns(gboolean), :cnv-return(Bool), :parameters([gpointer])),
+  match => %(:is-symbol<gtk_filter_match>, :returns(gboolean), :parameters([gpointer]), ),
 );
 
 #-------------------------------------------------------------------------------

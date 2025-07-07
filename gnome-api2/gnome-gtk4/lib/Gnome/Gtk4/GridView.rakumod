@@ -7,8 +7,13 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::ListBase:api<2>;
+use Gnome::Gtk4::N-ScrollInfo:api<2>;
+use Gnome::Gtk4::T-enums:api<2>;
+use Gnome::Gtk4::T-types:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -38,6 +43,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
@@ -67,21 +73,24 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-gridview => %( :type(Constructor), :is-symbol<gtk_grid_view_new>, :returns(N-Object), :parameters([ N-Object, N-Object])),
+  new-gridview => %( :type(Constructor), :is-symbol<gtk_grid_view_new>, :returns(N-Object), :parameters([ N-Object, N-Object]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-enable-rubberband => %(:is-symbol<gtk_grid_view_get_enable_rubberband>,  :returns(gboolean), :cnv-return(Bool)),
-  get-factory => %(:is-symbol<gtk_grid_view_get_factory>,  :returns(N-Object)),
-  get-max-columns => %(:is-symbol<gtk_grid_view_get_max_columns>,  :returns(guint)),
-  get-min-columns => %(:is-symbol<gtk_grid_view_get_min_columns>,  :returns(guint)),
-  get-model => %(:is-symbol<gtk_grid_view_get_model>,  :returns(N-Object)),
-  get-single-click-activate => %(:is-symbol<gtk_grid_view_get_single_click_activate>,  :returns(gboolean), :cnv-return(Bool)),
-  set-enable-rubberband => %(:is-symbol<gtk_grid_view_set_enable_rubberband>,  :parameters([gboolean])),
-  set-factory => %(:is-symbol<gtk_grid_view_set_factory>,  :parameters([N-Object])),
-  set-max-columns => %(:is-symbol<gtk_grid_view_set_max_columns>,  :parameters([guint])),
-  set-min-columns => %(:is-symbol<gtk_grid_view_set_min_columns>,  :parameters([guint])),
-  set-model => %(:is-symbol<gtk_grid_view_set_model>,  :parameters([N-Object])),
-  set-single-click-activate => %(:is-symbol<gtk_grid_view_set_single_click_activate>,  :parameters([gboolean])),
+  get-enable-rubberband => %(:is-symbol<gtk_grid_view_get_enable_rubberband>, :returns(gboolean), ),
+  get-factory => %(:is-symbol<gtk_grid_view_get_factory>, :returns(N-Object), ),
+  get-max-columns => %(:is-symbol<gtk_grid_view_get_max_columns>, :returns(guint), ),
+  get-min-columns => %(:is-symbol<gtk_grid_view_get_min_columns>, :returns(guint), ),
+  get-model => %(:is-symbol<gtk_grid_view_get_model>, :returns(N-Object), ),
+  get-single-click-activate => %(:is-symbol<gtk_grid_view_get_single_click_activate>, :returns(gboolean), ),
+  get-tab-behavior => %(:is-symbol<gtk_grid_view_get_tab_behavior>,  :returns(GEnum), :cnv-return(GtkListTabBehavior)),
+  scroll-to => %(:is-symbol<gtk_grid_view_scroll_to>, :parameters([guint, GFlag, N-Object]), ),
+  set-enable-rubberband => %(:is-symbol<gtk_grid_view_set_enable_rubberband>, :parameters([gboolean]), ),
+  set-factory => %(:is-symbol<gtk_grid_view_set_factory>, :parameters([N-Object]), ),
+  set-max-columns => %(:is-symbol<gtk_grid_view_set_max_columns>, :parameters([guint]), ),
+  set-min-columns => %(:is-symbol<gtk_grid_view_set_min_columns>, :parameters([guint]), ),
+  set-model => %(:is-symbol<gtk_grid_view_set_model>, :parameters([N-Object]), ),
+  set-single-click-activate => %(:is-symbol<gtk_grid_view_set_single_click_activate>, :parameters([gboolean]), ),
+  set-tab-behavior => %(:is-symbol<gtk_grid_view_set_tab_behavior>, :parameters([GEnum]), ),
 );
 
 #-------------------------------------------------------------------------------

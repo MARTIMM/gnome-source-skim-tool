@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::LayoutManager:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
@@ -37,6 +39,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -61,18 +64,18 @@ my Hash $methods = %(
   new-gridlayout => %( :type(Constructor), :is-symbol<gtk_grid_layout_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-baseline-row => %(:is-symbol<gtk_grid_layout_get_baseline_row>,  :returns(gint)),
-  get-column-homogeneous => %(:is-symbol<gtk_grid_layout_get_column_homogeneous>,  :returns(gboolean), :cnv-return(Bool)),
-  get-column-spacing => %(:is-symbol<gtk_grid_layout_get_column_spacing>,  :returns(guint)),
-  get-row-baseline-position => %(:is-symbol<gtk_grid_layout_get_row_baseline_position>,  :returns(GEnum), :cnv-return(GtkBaselinePosition), :parameters([gint])),
-  get-row-homogeneous => %(:is-symbol<gtk_grid_layout_get_row_homogeneous>,  :returns(gboolean), :cnv-return(Bool)),
-  get-row-spacing => %(:is-symbol<gtk_grid_layout_get_row_spacing>,  :returns(guint)),
-  set-baseline-row => %(:is-symbol<gtk_grid_layout_set_baseline_row>,  :parameters([gint])),
-  set-column-homogeneous => %(:is-symbol<gtk_grid_layout_set_column_homogeneous>,  :parameters([gboolean])),
-  set-column-spacing => %(:is-symbol<gtk_grid_layout_set_column_spacing>,  :parameters([guint])),
-  set-row-baseline-position => %(:is-symbol<gtk_grid_layout_set_row_baseline_position>,  :parameters([gint, GEnum])),
-  set-row-homogeneous => %(:is-symbol<gtk_grid_layout_set_row_homogeneous>,  :parameters([gboolean])),
-  set-row-spacing => %(:is-symbol<gtk_grid_layout_set_row_spacing>,  :parameters([guint])),
+  get-baseline-row => %(:is-symbol<gtk_grid_layout_get_baseline_row>, :returns(gint), ),
+  get-column-homogeneous => %(:is-symbol<gtk_grid_layout_get_column_homogeneous>, :returns(gboolean), ),
+  get-column-spacing => %(:is-symbol<gtk_grid_layout_get_column_spacing>, :returns(guint), ),
+  get-row-baseline-position => %(:is-symbol<gtk_grid_layout_get_row_baseline_position>,  :returns(GEnum), :cnv-return(GtkBaselinePosition),:parameters([gint]), ),
+  get-row-homogeneous => %(:is-symbol<gtk_grid_layout_get_row_homogeneous>, :returns(gboolean), ),
+  get-row-spacing => %(:is-symbol<gtk_grid_layout_get_row_spacing>, :returns(guint), ),
+  set-baseline-row => %(:is-symbol<gtk_grid_layout_set_baseline_row>, :parameters([gint]), ),
+  set-column-homogeneous => %(:is-symbol<gtk_grid_layout_set_column_homogeneous>, :parameters([gboolean]), ),
+  set-column-spacing => %(:is-symbol<gtk_grid_layout_set_column_spacing>, :parameters([guint]), ),
+  set-row-baseline-position => %(:is-symbol<gtk_grid_layout_set_row_baseline_position>, :parameters([gint, GEnum]), ),
+  set-row-homogeneous => %(:is-symbol<gtk_grid_layout_set_row_homogeneous>, :parameters([gboolean]), ),
+  set-row-spacing => %(:is-symbol<gtk_grid_layout_set_row_spacing>, :parameters([guint]), ),
 );
 
 #-------------------------------------------------------------------------------

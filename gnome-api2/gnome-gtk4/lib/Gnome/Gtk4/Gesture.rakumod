@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 #use Gnome::Gdk4::N-EventSequence:api<2>;
 use Gnome::Gdk4::N-Rectangle:api<2>;
@@ -49,7 +51,7 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w1<cancel end update begin>,
+      :w1<begin end cancel update>,
       :w2<sequence-state-changed>,
     );
     $signals-added = True;
@@ -76,22 +78,22 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-bounding-box => %(:is-symbol<gtk_gesture_get_bounding_box>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
-  get-bounding-box-center => %(:is-symbol<gtk_gesture_get_bounding_box_center>,  :returns(gboolean), :cnv-return(Bool), :parameters([CArray[gdouble], CArray[gdouble]])),
-  get-device => %(:is-symbol<gtk_gesture_get_device>,  :returns(N-Object)),
-  get-group => %(:is-symbol<gtk_gesture_get_group>,  :returns(N-Object)),
-  get-last-event => %(:is-symbol<gtk_gesture_get_last_event>,  :returns(N-Object), :parameters([N-Object])),
-  get-last-updated-sequence => %(:is-symbol<gtk_gesture_get_last_updated_sequence>,  :returns(N-Object)),
-  get-point => %(:is-symbol<gtk_gesture_get_point>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, CArray[gdouble], CArray[gdouble]])),
-  get-sequence-state => %(:is-symbol<gtk_gesture_get_sequence_state>,  :returns(GEnum), :cnv-return(GtkEventSequenceState), :parameters([N-Object])),
-  get-sequences => %(:is-symbol<gtk_gesture_get_sequences>,  :returns(N-Object)),
-  group => %(:is-symbol<gtk_gesture_group>,  :parameters([N-Object])),
-  handles-sequence => %(:is-symbol<gtk_gesture_handles_sequence>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
-  is-active => %(:is-symbol<gtk_gesture_is_active>,  :returns(gboolean), :cnv-return(Bool)),
-  is-grouped-with => %(:is-symbol<gtk_gesture_is_grouped_with>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
-  is-recognized => %(:is-symbol<gtk_gesture_is_recognized>,  :returns(gboolean), :cnv-return(Bool)),
-  set-sequence-state => %(:is-symbol<gtk_gesture_set_sequence_state>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, GEnum]),:deprecated, :deprecated-version<4.10.>, ),
-  set-state => %(:is-symbol<gtk_gesture_set_state>,  :returns(gboolean), :cnv-return(Bool), :parameters([GEnum])),
+  get-bounding-box => %(:is-symbol<gtk_gesture_get_bounding_box>, :returns(gboolean), :parameters([N-Object]), ),
+  get-bounding-box-center => %(:is-symbol<gtk_gesture_get_bounding_box_center>, :returns(gboolean), :parameters([CArray[gdouble], CArray[gdouble]]), ),
+  get-device => %(:is-symbol<gtk_gesture_get_device>, :returns(N-Object), ),
+  get-group => %(:is-symbol<gtk_gesture_get_group>, :returns(N-Object), ),
+  get-last-event => %(:is-symbol<gtk_gesture_get_last_event>, :returns(N-Object), :parameters([N-Object]), ),
+  get-last-updated-sequence => %(:is-symbol<gtk_gesture_get_last_updated_sequence>, :returns(N-Object), ),
+  get-point => %(:is-symbol<gtk_gesture_get_point>, :returns(gboolean), :parameters([N-Object, CArray[gdouble], CArray[gdouble]]), ),
+  get-sequence-state => %(:is-symbol<gtk_gesture_get_sequence_state>,  :returns(GEnum), :cnv-return(GtkEventSequenceState),:parameters([N-Object]), ),
+  get-sequences => %(:is-symbol<gtk_gesture_get_sequences>, :returns(N-Object), ),
+  group => %(:is-symbol<gtk_gesture_group>, :parameters([N-Object]), ),
+  handles-sequence => %(:is-symbol<gtk_gesture_handles_sequence>, :returns(gboolean), :parameters([N-Object]), ),
+  is-active => %(:is-symbol<gtk_gesture_is_active>, :returns(gboolean), ),
+  is-grouped-with => %(:is-symbol<gtk_gesture_is_grouped_with>, :returns(gboolean), :parameters([N-Object]), ),
+  is-recognized => %(:is-symbol<gtk_gesture_is_recognized>, :returns(gboolean), ),
+  set-sequence-state => %(:is-symbol<gtk_gesture_set_sequence_state>, :returns(gboolean), :parameters([N-Object, GEnum]), :deprecated, :deprecated-version<4.10.>, ),
+  set-state => %(:is-symbol<gtk_gesture_set_state>, :returns(gboolean), :parameters([GEnum]), ),
   ungroup => %(:is-symbol<gtk_gesture_ungroup>, ),
 );
 

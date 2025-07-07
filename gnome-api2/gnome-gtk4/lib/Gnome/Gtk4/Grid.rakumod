@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::R-Orientable:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
@@ -41,6 +43,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     
@@ -74,28 +77,28 @@ my Hash $methods = %(
   new-grid => %( :type(Constructor), :is-symbol<gtk_grid_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  attach => %(:is-symbol<gtk_grid_attach>,  :parameters([N-Object, gint, gint, gint, gint])),
-  attach-next-to => %(:is-symbol<gtk_grid_attach_next_to>,  :parameters([N-Object, N-Object, GEnum, gint, gint])),
-  get-baseline-row => %(:is-symbol<gtk_grid_get_baseline_row>,  :returns(gint)),
-  get-child-at => %(:is-symbol<gtk_grid_get_child_at>,  :returns(N-Object), :parameters([gint, gint])),
-  get-column-homogeneous => %(:is-symbol<gtk_grid_get_column_homogeneous>,  :returns(gboolean), :cnv-return(Bool)),
-  get-column-spacing => %(:is-symbol<gtk_grid_get_column_spacing>,  :returns(guint)),
-  get-row-baseline-position => %(:is-symbol<gtk_grid_get_row_baseline_position>,  :returns(GEnum), :cnv-return(GtkBaselinePosition), :parameters([gint])),
-  get-row-homogeneous => %(:is-symbol<gtk_grid_get_row_homogeneous>,  :returns(gboolean), :cnv-return(Bool)),
-  get-row-spacing => %(:is-symbol<gtk_grid_get_row_spacing>,  :returns(guint)),
-  insert-column => %(:is-symbol<gtk_grid_insert_column>,  :parameters([gint])),
-  insert-next-to => %(:is-symbol<gtk_grid_insert_next_to>,  :parameters([N-Object, GEnum])),
-  insert-row => %(:is-symbol<gtk_grid_insert_row>,  :parameters([gint])),
-  query-child => %(:is-symbol<gtk_grid_query_child>,  :parameters([N-Object, gint-ptr, gint-ptr, gint-ptr, gint-ptr])),
-  remove => %(:is-symbol<gtk_grid_remove>,  :parameters([N-Object])),
-  remove-column => %(:is-symbol<gtk_grid_remove_column>,  :parameters([gint])),
-  remove-row => %(:is-symbol<gtk_grid_remove_row>,  :parameters([gint])),
-  set-baseline-row => %(:is-symbol<gtk_grid_set_baseline_row>,  :parameters([gint])),
-  set-column-homogeneous => %(:is-symbol<gtk_grid_set_column_homogeneous>,  :parameters([gboolean])),
-  set-column-spacing => %(:is-symbol<gtk_grid_set_column_spacing>,  :parameters([guint])),
-  set-row-baseline-position => %(:is-symbol<gtk_grid_set_row_baseline_position>,  :parameters([gint, GEnum])),
-  set-row-homogeneous => %(:is-symbol<gtk_grid_set_row_homogeneous>,  :parameters([gboolean])),
-  set-row-spacing => %(:is-symbol<gtk_grid_set_row_spacing>,  :parameters([guint])),
+  attach => %(:is-symbol<gtk_grid_attach>, :parameters([N-Object, gint, gint, gint, gint]), ),
+  attach-next-to => %(:is-symbol<gtk_grid_attach_next_to>, :parameters([N-Object, N-Object, GEnum, gint, gint]), ),
+  get-baseline-row => %(:is-symbol<gtk_grid_get_baseline_row>, :returns(gint), ),
+  get-child-at => %(:is-symbol<gtk_grid_get_child_at>, :returns(N-Object), :parameters([gint, gint]), ),
+  get-column-homogeneous => %(:is-symbol<gtk_grid_get_column_homogeneous>, :returns(gboolean), ),
+  get-column-spacing => %(:is-symbol<gtk_grid_get_column_spacing>, :returns(guint), ),
+  get-row-baseline-position => %(:is-symbol<gtk_grid_get_row_baseline_position>,  :returns(GEnum), :cnv-return(GtkBaselinePosition),:parameters([gint]), ),
+  get-row-homogeneous => %(:is-symbol<gtk_grid_get_row_homogeneous>, :returns(gboolean), ),
+  get-row-spacing => %(:is-symbol<gtk_grid_get_row_spacing>, :returns(guint), ),
+  insert-column => %(:is-symbol<gtk_grid_insert_column>, :parameters([gint]), ),
+  insert-next-to => %(:is-symbol<gtk_grid_insert_next_to>, :parameters([N-Object, GEnum]), ),
+  insert-row => %(:is-symbol<gtk_grid_insert_row>, :parameters([gint]), ),
+  query-child => %(:is-symbol<gtk_grid_query_child>, :parameters([N-Object, gint-ptr, gint-ptr, gint-ptr, gint-ptr]), ),
+  remove => %(:is-symbol<gtk_grid_remove>, :parameters([N-Object]), ),
+  remove-column => %(:is-symbol<gtk_grid_remove_column>, :parameters([gint]), ),
+  remove-row => %(:is-symbol<gtk_grid_remove_row>, :parameters([gint]), ),
+  set-baseline-row => %(:is-symbol<gtk_grid_set_baseline_row>, :parameters([gint]), ),
+  set-column-homogeneous => %(:is-symbol<gtk_grid_set_column_homogeneous>, :parameters([gboolean]), ),
+  set-column-spacing => %(:is-symbol<gtk_grid_set_column_spacing>, :parameters([guint]), ),
+  set-row-baseline-position => %(:is-symbol<gtk_grid_set_row_baseline_position>, :parameters([gint, GEnum]), ),
+  set-row-homogeneous => %(:is-symbol<gtk_grid_set_row_homogeneous>, :parameters([gboolean]), ),
+  set-row-spacing => %(:is-symbol<gtk_grid_set_row_spacing>, :parameters([guint]), ),
 );
 
 #-------------------------------------------------------------------------------

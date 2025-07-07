@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -36,6 +38,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -57,17 +60,17 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-frame => %( :type(Constructor), :is-symbol<gtk_frame_new>, :returns(N-Object), :parameters([ Str])),
+  new-frame => %( :type(Constructor), :is-symbol<gtk_frame_new>, :returns(N-Object), :parameters([ Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-child => %(:is-symbol<gtk_frame_get_child>,  :returns(N-Object)),
-  get-label => %(:is-symbol<gtk_frame_get_label>,  :returns(Str)),
-  get-label-align => %(:is-symbol<gtk_frame_get_label_align>,  :returns(gfloat)),
-  get-label-widget => %(:is-symbol<gtk_frame_get_label_widget>,  :returns(N-Object)),
-  set-child => %(:is-symbol<gtk_frame_set_child>,  :parameters([N-Object])),
-  set-label => %(:is-symbol<gtk_frame_set_label>,  :parameters([Str])),
-  set-label-align => %(:is-symbol<gtk_frame_set_label_align>,  :parameters([gfloat])),
-  set-label-widget => %(:is-symbol<gtk_frame_set_label_widget>,  :parameters([N-Object])),
+  get-child => %(:is-symbol<gtk_frame_get_child>, :returns(N-Object), ),
+  get-label => %(:is-symbol<gtk_frame_get_label>, :returns(Str), ),
+  get-label-align => %(:is-symbol<gtk_frame_get_label_align>, :returns(gfloat), ),
+  get-label-widget => %(:is-symbol<gtk_frame_get_label_widget>, :returns(N-Object), ),
+  set-child => %(:is-symbol<gtk_frame_set_child>, :parameters([N-Object]), ),
+  set-label => %(:is-symbol<gtk_frame_set_label>, :parameters([Str]), ),
+  set-label-align => %(:is-symbol<gtk_frame_set_label_align>, :parameters([gfloat]), ),
+  set-label-widget => %(:is-symbol<gtk_frame_set_label_widget>, :parameters([N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------

@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::R-Editable:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
@@ -40,6 +42,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     
@@ -70,12 +73,12 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-editablelabel => %( :type(Constructor), :is-symbol<gtk_editable_label_new>, :returns(N-Object), :parameters([ Str])),
+  new-editablelabel => %( :type(Constructor), :is-symbol<gtk_editable_label_new>, :returns(N-Object), :parameters([ Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-editing => %(:is-symbol<gtk_editable_label_get_editing>,  :returns(gboolean), :cnv-return(Bool)),
+  get-editing => %(:is-symbol<gtk_editable_label_get_editing>, :returns(gboolean), ),
   start-editing => %(:is-symbol<gtk_editable_label_start_editing>, ),
-  stop-editing => %(:is-symbol<gtk_editable_label_stop_editing>,  :parameters([gboolean])),
+  stop-editing => %(:is-symbol<gtk_editable_label_stop_editing>, :parameters([gboolean]), ),
 );
 
 #-------------------------------------------------------------------------------

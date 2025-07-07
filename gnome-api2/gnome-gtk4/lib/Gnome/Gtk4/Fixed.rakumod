@@ -7,8 +7,11 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
 
-#use Gnome::Gsk4::N-Transform:api<2>;
+
+use Gnome::Gsk4::N-Transform:api<2>;
+use Gnome::Gsk4::T-types:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -37,6 +40,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -61,12 +65,12 @@ my Hash $methods = %(
   new-fixed => %( :type(Constructor), :is-symbol<gtk_fixed_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-child-position => %(:is-symbol<gtk_fixed_get_child_position>,  :parameters([N-Object, CArray[gdouble], CArray[gdouble]])),
-  #get-child-transform => %(:is-symbol<gtk_fixed_get_child_transform>,  :returns(N-Transform ), :parameters([N-Object])),
-  move => %(:is-symbol<gtk_fixed_move>,  :parameters([N-Object, gdouble, gdouble])),
-  put => %(:is-symbol<gtk_fixed_put>,  :parameters([N-Object, gdouble, gdouble])),
-  remove => %(:is-symbol<gtk_fixed_remove>,  :parameters([N-Object])),
-  #set-child-transform => %(:is-symbol<gtk_fixed_set_child_transform>,  :parameters([N-Object, N-Transform ])),
+  get-child-position => %(:is-symbol<gtk_fixed_get_child_position>, :parameters([N-Object, CArray[gdouble], CArray[gdouble]]), ),
+  get-child-transform => %(:is-symbol<gtk_fixed_get_child_transform>, :returns(N-Object), :parameters([N-Object]), ),
+  move => %(:is-symbol<gtk_fixed_move>, :parameters([N-Object, gdouble, gdouble]), ),
+  put => %(:is-symbol<gtk_fixed_put>, :parameters([N-Object, gdouble, gdouble]), ),
+  remove => %(:is-symbol<gtk_fixed_remove>, :parameters([N-Object]), ),
+  set-child-transform => %(:is-symbol<gtk_fixed_set_child_transform>, :parameters([N-Object, N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------

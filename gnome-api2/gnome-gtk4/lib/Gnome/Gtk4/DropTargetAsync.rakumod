@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gdk4::N-ContentFormats:api<2>;
 use Gnome::Gdk4::T-enums:api<2>;
@@ -45,8 +47,8 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w1<accept drag-leave>,
-      :w3<drag-motion drop drag-enter>,
+      :w1<drag-leave accept>,
+      :w3<drop drag-enter drag-motion>,
     );
     $signals-added = True;
   }
@@ -72,14 +74,14 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-droptargetasync => %( :type(Constructor), :is-symbol<gtk_drop_target_async_new>, :returns(N-Object), :parameters([ N-Object, GFlag])),
+  new-droptargetasync => %( :type(Constructor), :is-symbol<gtk_drop_target_async_new>, :returns(N-Object), :parameters([ N-Object, GFlag]), ),
 
   #--[Methods]------------------------------------------------------------------
   get-actions => %(:is-symbol<gtk_drop_target_async_get_actions>,  :returns(GFlag), :cnv-return(GdkDragAction)),
-  get-formats => %(:is-symbol<gtk_drop_target_async_get_formats>,  :returns(N-Object)),
-  reject-drop => %(:is-symbol<gtk_drop_target_async_reject_drop>,  :parameters([N-Object])),
-  set-actions => %(:is-symbol<gtk_drop_target_async_set_actions>,  :parameters([GFlag])),
-  set-formats => %(:is-symbol<gtk_drop_target_async_set_formats>,  :parameters([N-Object])),
+  get-formats => %(:is-symbol<gtk_drop_target_async_get_formats>, :returns(N-Object), ),
+  reject-drop => %(:is-symbol<gtk_drop_target_async_reject_drop>, :parameters([N-Object]), ),
+  set-actions => %(:is-symbol<gtk_drop_target_async_set_actions>, :parameters([GFlag]), ),
+  set-formats => %(:is-symbol<gtk_drop_target_async_set_formats>, :parameters([N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------

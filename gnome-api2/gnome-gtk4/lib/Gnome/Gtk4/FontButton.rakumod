@@ -7,7 +7,10 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
 
+
+use Gnome::Gtk4::R-FontChooser:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 #use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -23,6 +26,7 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Gtk4::FontButton:auth<github:MARTIMM>:api<2>;
 also is Gnome::Gtk4::Widget;
+also does Gnome::Gtk4::R-FontChooser;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -51,6 +55,10 @@ submethod BUILD ( *%options ) {
     self.add-signal-types( $?CLASS.^name,
       :w0<activate font-set>,
     );
+
+    # Signals from interfaces
+    self._add_gtk_font_chooser_signal_types($?CLASS.^name)
+      if self.^can('_add_gtk_font_chooser_signal_types');
     $signals-added = True;
   }
 
@@ -76,17 +84,17 @@ my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
   new-fontbutton => %( :type(Constructor), :is-symbol<gtk_font_button_new>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
-  new-with-font => %( :type(Constructor), :is-symbol<gtk_font_button_new_with_font>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :parameters([ Str])),
+  new-with-font => %( :type(Constructor), :is-symbol<gtk_font_button_new_with_font>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :parameters([ Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-modal => %(:is-symbol<gtk_font_button_get_modal>,  :returns(gboolean), :cnv-return(Bool),:deprecated, :deprecated-version<4.10>, ),
-  get-title => %(:is-symbol<gtk_font_button_get_title>,  :returns(Str),:deprecated, :deprecated-version<4.10>, ),
-  get-use-font => %(:is-symbol<gtk_font_button_get_use_font>,  :returns(gboolean), :cnv-return(Bool),:deprecated, :deprecated-version<4.10>, ),
-  get-use-size => %(:is-symbol<gtk_font_button_get_use_size>,  :returns(gboolean), :cnv-return(Bool),:deprecated, :deprecated-version<4.10>, ),
-  set-modal => %(:is-symbol<gtk_font_button_set_modal>,  :parameters([gboolean]),:deprecated, :deprecated-version<4.10>, ),
-  set-title => %(:is-symbol<gtk_font_button_set_title>,  :parameters([Str]),:deprecated, :deprecated-version<4.10>, ),
-  set-use-font => %(:is-symbol<gtk_font_button_set_use_font>,  :parameters([gboolean]),:deprecated, :deprecated-version<4.10>, ),
-  set-use-size => %(:is-symbol<gtk_font_button_set_use_size>,  :parameters([gboolean]),:deprecated, :deprecated-version<4.10>, ),
+  get-modal => %(:is-symbol<gtk_font_button_get_modal>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-title => %(:is-symbol<gtk_font_button_get_title>, :returns(Str), :deprecated, :deprecated-version<4.10>, ),
+  get-use-font => %(:is-symbol<gtk_font_button_get_use_font>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-use-size => %(:is-symbol<gtk_font_button_get_use_size>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  set-modal => %(:is-symbol<gtk_font_button_set_modal>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-title => %(:is-symbol<gtk_font_button_set_title>, :parameters([Str]), :deprecated, :deprecated-version<4.10>, ),
+  set-use-font => %(:is-symbol<gtk_font_button_set_use_font>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-use-size => %(:is-symbol<gtk_font_button_set_use_size>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------
@@ -122,6 +130,13 @@ method _fallback-v2 (
   }
 
   else {
+    my $r;
+    my $native-object = self.get-native-object-no-reffing;
+    $r = self._do_gtk_font_chooser_fallback-v2(
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
+    ) if self.^can('_do_gtk_font_chooser_fallback-v2');
+    return $r if $_fallback-v2-ok;
+
     callsame;
   }
 }

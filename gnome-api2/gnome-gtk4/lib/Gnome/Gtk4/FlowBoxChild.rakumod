@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -72,10 +74,10 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   changed => %(:is-symbol<gtk_flow_box_child_changed>, ),
-  get-child => %(:is-symbol<gtk_flow_box_child_get_child>,  :returns(N-Object)),
-  get-index => %(:is-symbol<gtk_flow_box_child_get_index>,  :returns(gint)),
-  is-selected => %(:is-symbol<gtk_flow_box_child_is_selected>,  :returns(gboolean), :cnv-return(Bool)),
-  set-child => %(:is-symbol<gtk_flow_box_child_set_child>,  :parameters([N-Object])),
+  get-child => %(:is-symbol<gtk_flow_box_child_get_child>, :returns(N-Object), ),
+  get-index => %(:is-symbol<gtk_flow_box_child_get_index>, :returns(gint), ),
+  is-selected => %(:is-symbol<gtk_flow_box_child_is_selected>, :returns(gboolean), ),
+  set-child => %(:is-symbol<gtk_flow_box_child_set_child>, :parameters([N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------

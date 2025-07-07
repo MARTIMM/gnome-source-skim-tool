@@ -7,9 +7,12 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::R-FontChooser:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
+#use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -40,6 +43,13 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
+  Gnome::N::deprecate(
+    'Gnome::Gtk4::FontChooserWidget', ', Str, ',
+    '4.10', Str,
+    :class, :gnome-lib(gtk4-lib())  
+  );
+
   # Add signal administration info.
   unless $signals-added {
     
@@ -70,7 +80,7 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-fontchooserwidget => %( :type(Constructor), :is-symbol<gtk_font_chooser_widget_new>, :returns(N-Object), ),
+  new-fontchooserwidget => %( :type(Constructor), :is-symbol<gtk_font_chooser_widget_new>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------

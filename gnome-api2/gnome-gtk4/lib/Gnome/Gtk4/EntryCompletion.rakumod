@@ -7,9 +7,12 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::GObject::Object:api<2>;
-use Gnome::Gtk4::N-TreeIter:api<2>;
+use Gnome::Gtk4::R-Buildable:api<2>;
+use Gnome::Gtk4::R-CellLayout:api<2>;
 #use Gnome::Gtk4::T-treemodel:api<2>;
 #use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -25,6 +28,8 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Gtk4::EntryCompletion:auth<github:MARTIMM>:api<2>;
 also is Gnome::GObject::Object;
+also does Gnome::Gtk4::R-Buildable;
+also does Gnome::Gtk4::R-CellLayout;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -53,8 +58,14 @@ submethod BUILD ( *%options ) {
     self.add-signal-types( $?CLASS.^name,
       :w0<no-matches>,
       :w1<insert-prefix>,
-      :w2<cursor-on-match match-selected>,
+      :w2<match-selected cursor-on-match>,
     );
+
+    # Signals from interfaces
+    self._add_gtk_buildable_signal_types($?CLASS.^name)
+      if self.^can('_add_gtk_buildable_signal_types');
+    self._add_gtk_cell_layout_signal_types($?CLASS.^name)
+      if self.^can('_add_gtk_cell_layout_signal_types');
     $signals-added = True;
   }
 
@@ -80,31 +91,31 @@ my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
   new-entrycompletion => %( :type(Constructor), :is-symbol<gtk_entry_completion_new>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
-  new-with-area => %( :type(Constructor), :is-symbol<gtk_entry_completion_new_with_area>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :parameters([ N-Object])),
+  new-with-area => %( :type(Constructor), :is-symbol<gtk_entry_completion_new_with_area>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :parameters([ N-Object]), ),
 
   #--[Methods]------------------------------------------------------------------
   complete => %(:is-symbol<gtk_entry_completion_complete>, :deprecated, :deprecated-version<4.10>, ),
-  compute-prefix => %(:is-symbol<gtk_entry_completion_compute_prefix>,  :returns(Str), :parameters([Str]),:deprecated, :deprecated-version<4.10>, ),
-  get-completion-prefix => %(:is-symbol<gtk_entry_completion_get_completion_prefix>,  :returns(Str),:deprecated, :deprecated-version<4.10>, ),
-  get-entry => %(:is-symbol<gtk_entry_completion_get_entry>,  :returns(N-Object),:deprecated, :deprecated-version<4.10>, ),
-  get-inline-completion => %(:is-symbol<gtk_entry_completion_get_inline_completion>,  :returns(gboolean), :cnv-return(Bool),:deprecated, :deprecated-version<4.10>, ),
-  get-inline-selection => %(:is-symbol<gtk_entry_completion_get_inline_selection>,  :returns(gboolean), :cnv-return(Bool),:deprecated, :deprecated-version<4.10>, ),
-  get-minimum-key-length => %(:is-symbol<gtk_entry_completion_get_minimum_key_length>,  :returns(gint),:deprecated, :deprecated-version<4.10>, ),
-  get-model => %(:is-symbol<gtk_entry_completion_get_model>,  :returns(N-Object),:deprecated, :deprecated-version<4.10>, ),
-  get-popup-completion => %(:is-symbol<gtk_entry_completion_get_popup_completion>,  :returns(gboolean), :cnv-return(Bool),:deprecated, :deprecated-version<4.10>, ),
-  get-popup-set-width => %(:is-symbol<gtk_entry_completion_get_popup_set_width>,  :returns(gboolean), :cnv-return(Bool),:deprecated, :deprecated-version<4.10>, ),
-  get-popup-single-match => %(:is-symbol<gtk_entry_completion_get_popup_single_match>,  :returns(gboolean), :cnv-return(Bool),:deprecated, :deprecated-version<4.10>, ),
-  get-text-column => %(:is-symbol<gtk_entry_completion_get_text_column>,  :returns(gint),:deprecated, :deprecated-version<4.10>, ),
+  compute-prefix => %(:is-symbol<gtk_entry_completion_compute_prefix>, :returns(Str), :parameters([Str]), :deprecated, :deprecated-version<4.10>, ),
+  get-completion-prefix => %(:is-symbol<gtk_entry_completion_get_completion_prefix>, :returns(Str), :deprecated, :deprecated-version<4.10>, ),
+  get-entry => %(:is-symbol<gtk_entry_completion_get_entry>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  get-inline-completion => %(:is-symbol<gtk_entry_completion_get_inline_completion>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-inline-selection => %(:is-symbol<gtk_entry_completion_get_inline_selection>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-minimum-key-length => %(:is-symbol<gtk_entry_completion_get_minimum_key_length>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
+  get-model => %(:is-symbol<gtk_entry_completion_get_model>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  get-popup-completion => %(:is-symbol<gtk_entry_completion_get_popup_completion>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-popup-set-width => %(:is-symbol<gtk_entry_completion_get_popup_set_width>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-popup-single-match => %(:is-symbol<gtk_entry_completion_get_popup_single_match>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-text-column => %(:is-symbol<gtk_entry_completion_get_text_column>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
   insert-prefix => %(:is-symbol<gtk_entry_completion_insert_prefix>, :deprecated, :deprecated-version<4.10>, ),
-  set-inline-completion => %(:is-symbol<gtk_entry_completion_set_inline_completion>,  :parameters([gboolean]),:deprecated, :deprecated-version<4.10>, ),
-  set-inline-selection => %(:is-symbol<gtk_entry_completion_set_inline_selection>,  :parameters([gboolean]),:deprecated, :deprecated-version<4.10>, ),
-  #set-match-func => %(:is-symbol<gtk_entry_completion_set_match_func>,  :parameters([:( N-Object $completion, Str $key, N-Object $iter, gpointer $user-data --> gboolean ), gpointer, ]),:deprecated, :deprecated-version<4.10>, ),
-  set-minimum-key-length => %(:is-symbol<gtk_entry_completion_set_minimum_key_length>,  :parameters([gint]),:deprecated, :deprecated-version<4.10>, ),
-  set-model => %(:is-symbol<gtk_entry_completion_set_model>,  :parameters([N-Object]),:deprecated, :deprecated-version<4.10>, ),
-  set-popup-completion => %(:is-symbol<gtk_entry_completion_set_popup_completion>,  :parameters([gboolean]),:deprecated, :deprecated-version<4.10>, ),
-  set-popup-set-width => %(:is-symbol<gtk_entry_completion_set_popup_set_width>,  :parameters([gboolean]),:deprecated, :deprecated-version<4.10>, ),
-  set-popup-single-match => %(:is-symbol<gtk_entry_completion_set_popup_single_match>,  :parameters([gboolean]),:deprecated, :deprecated-version<4.10>, ),
-  set-text-column => %(:is-symbol<gtk_entry_completion_set_text_column>,  :parameters([gint]),:deprecated, :deprecated-version<4.10>, ),
+  set-inline-completion => %(:is-symbol<gtk_entry_completion_set_inline_completion>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-inline-selection => %(:is-symbol<gtk_entry_completion_set_inline_selection>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-match-func => %(:is-symbol<gtk_entry_completion_set_match_func>, :parameters([:( N-Object $completion, Str $key, N-Object $iter, gpointer $user-data ), gpointer, :( gpointer $data )]), :deprecated, :deprecated-version<4.10>, ),
+  set-minimum-key-length => %(:is-symbol<gtk_entry_completion_set_minimum_key_length>, :parameters([gint]), :deprecated, :deprecated-version<4.10>, ),
+  set-model => %(:is-symbol<gtk_entry_completion_set_model>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  set-popup-completion => %(:is-symbol<gtk_entry_completion_set_popup_completion>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-popup-set-width => %(:is-symbol<gtk_entry_completion_set_popup_set_width>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-popup-single-match => %(:is-symbol<gtk_entry_completion_set_popup_single_match>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-text-column => %(:is-symbol<gtk_entry_completion_set_text_column>, :parameters([gint]), :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------
@@ -140,6 +151,18 @@ method _fallback-v2 (
   }
 
   else {
+    my $r;
+    my $native-object = self.get-native-object-no-reffing;
+    $r = self._do_gtk_buildable_fallback-v2(
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
+    ) if self.^can('_do_gtk_buildable_fallback-v2');
+    return $r if $_fallback-v2-ok;
+
+    $r = self._do_gtk_cell_layout_fallback-v2(
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
+    ) if self.^can('_do_gtk_cell_layout_fallback-v2');
+    return $r if $_fallback-v2-ok;
+
     callsame;
   }
 }

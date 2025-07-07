@@ -7,13 +7,12 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::GObject::Object:api<2>;
-
 use Gnome::Gdk4::T-enums:api<2>;
-
 use Gnome::Gtk4::T-enums:api<2>;
-
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -41,6 +40,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -62,18 +62,19 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-current-event => %(:is-symbol<gtk_event_controller_get_current_event>,  :returns(N-Object)),
-  get-current-event-device => %(:is-symbol<gtk_event_controller_get_current_event_device>,  :returns(N-Object)),
+  get-current-event => %(:is-symbol<gtk_event_controller_get_current_event>, :returns(N-Object), ),
+  get-current-event-device => %(:is-symbol<gtk_event_controller_get_current_event_device>, :returns(N-Object), ),
   get-current-event-state => %(:is-symbol<gtk_event_controller_get_current_event_state>,  :returns(GFlag), :cnv-return(GdkModifierType)),
-  get-current-event-time => %(:is-symbol<gtk_event_controller_get_current_event_time>,  :returns(guint32)),
-  get-name => %(:is-symbol<gtk_event_controller_get_name>,  :returns(Str)),
-  get-propagation-limit => %(:is-symbol<gtk_event_controller_get_propagation_limit>,  :returns(GEnum), :cnv-return(GtkPropagationLimit )),
-  get-propagation-phase => %(:is-symbol<gtk_event_controller_get_propagation_phase>,  :returns(GEnum), :cnv-return(GtkPropagationPhase )),
-  get-widget => %(:is-symbol<gtk_event_controller_get_widget>,  :returns(N-Object)),
+  get-current-event-time => %(:is-symbol<gtk_event_controller_get_current_event_time>, :returns(guint32), ),
+  get-name => %(:is-symbol<gtk_event_controller_get_name>, :returns(Str), ),
+  get-propagation-limit => %(:is-symbol<gtk_event_controller_get_propagation_limit>,  :returns(GEnum), :cnv-return(GtkPropagationLimit)),
+  get-propagation-phase => %(:is-symbol<gtk_event_controller_get_propagation_phase>,  :returns(GEnum), :cnv-return(GtkPropagationPhase)),
+  get-widget => %(:is-symbol<gtk_event_controller_get_widget>, :returns(N-Object), ),
   reset => %(:is-symbol<gtk_event_controller_reset>, ),
-  set-name => %(:is-symbol<gtk_event_controller_set_name>,  :parameters([Str])),
-  set-propagation-limit => %(:is-symbol<gtk_event_controller_set_propagation_limit>,  :parameters([GEnum])),
-  set-propagation-phase => %(:is-symbol<gtk_event_controller_set_propagation_phase>,  :parameters([GEnum])),
+  set-name => %(:is-symbol<gtk_event_controller_set_name>, :parameters([Str]), ),
+  set-propagation-limit => %(:is-symbol<gtk_event_controller_set_propagation_limit>, :parameters([GEnum]), ),
+  set-propagation-phase => %(:is-symbol<gtk_event_controller_set_propagation_phase>, :parameters([GEnum]), ),
+  set-static-name => %(:is-symbol<gtk_event_controller_set_static_name>, :parameters([Str]), ),
 );
 
 #-------------------------------------------------------------------------------

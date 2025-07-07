@@ -7,7 +7,10 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
 
+
+use Gnome::Gtk4::T-stringfilter:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -38,6 +41,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
@@ -67,25 +71,29 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-dropdown => %( :type(Constructor), :is-symbol<gtk_drop_down_new>, :returns(N-Object), :parameters([ N-Object, N-Object])),
-  new-from-strings => %( :type(Constructor), :is-symbol<gtk_drop_down_new_from_strings>, :returns(N-Object), :parameters([ gchar-pptr])),
+  new-dropdown => %( :type(Constructor), :is-symbol<gtk_drop_down_new>, :returns(N-Object), :parameters([ N-Object, N-Object]), ),
+  new-from-strings => %( :type(Constructor), :is-symbol<gtk_drop_down_new_from_strings>, :returns(N-Object), :parameters([ gchar-pptr]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-enable-search => %(:is-symbol<gtk_drop_down_get_enable_search>,  :returns(gboolean), :cnv-return(Bool)),
-  get-expression => %(:is-symbol<gtk_drop_down_get_expression>,  :returns(N-Object)),
-  get-factory => %(:is-symbol<gtk_drop_down_get_factory>,  :returns(N-Object)),
-  get-list-factory => %(:is-symbol<gtk_drop_down_get_list_factory>,  :returns(N-Object)),
-  get-model => %(:is-symbol<gtk_drop_down_get_model>,  :returns(N-Object)),
-  get-selected => %(:is-symbol<gtk_drop_down_get_selected>,  :returns(guint)),
-  get-selected-item => %(:is-symbol<gtk_drop_down_get_selected_item>,  :returns(gpointer)),
-  get-show-arrow => %(:is-symbol<gtk_drop_down_get_show_arrow>,  :returns(gboolean), :cnv-return(Bool)),
-  set-enable-search => %(:is-symbol<gtk_drop_down_set_enable_search>,  :parameters([gboolean])),
-  set-expression => %(:is-symbol<gtk_drop_down_set_expression>,  :parameters([N-Object])),
-  set-factory => %(:is-symbol<gtk_drop_down_set_factory>,  :parameters([N-Object])),
-  set-list-factory => %(:is-symbol<gtk_drop_down_set_list_factory>,  :parameters([N-Object])),
-  set-model => %(:is-symbol<gtk_drop_down_set_model>,  :parameters([N-Object])),
-  set-selected => %(:is-symbol<gtk_drop_down_set_selected>,  :parameters([guint])),
-  set-show-arrow => %(:is-symbol<gtk_drop_down_set_show_arrow>,  :parameters([gboolean])),
+  get-enable-search => %(:is-symbol<gtk_drop_down_get_enable_search>, :returns(gboolean), ),
+  get-expression => %(:is-symbol<gtk_drop_down_get_expression>, :returns(N-Object), ),
+  get-factory => %(:is-symbol<gtk_drop_down_get_factory>, :returns(N-Object), ),
+  get-header-factory => %(:is-symbol<gtk_drop_down_get_header_factory>, :returns(N-Object), ),
+  get-list-factory => %(:is-symbol<gtk_drop_down_get_list_factory>, :returns(N-Object), ),
+  get-model => %(:is-symbol<gtk_drop_down_get_model>, :returns(N-Object), ),
+  get-search-match-mode => %(:is-symbol<gtk_drop_down_get_search_match_mode>,  :returns(GEnum), :cnv-return(GtkStringFilterMatchMode)),
+  get-selected => %(:is-symbol<gtk_drop_down_get_selected>, :returns(guint), ),
+  get-selected-item => %(:is-symbol<gtk_drop_down_get_selected_item>, :returns(gpointer), ),
+  get-show-arrow => %(:is-symbol<gtk_drop_down_get_show_arrow>, :returns(gboolean), ),
+  set-enable-search => %(:is-symbol<gtk_drop_down_set_enable_search>, :parameters([gboolean]), ),
+  set-expression => %(:is-symbol<gtk_drop_down_set_expression>, :parameters([N-Object]), ),
+  set-factory => %(:is-symbol<gtk_drop_down_set_factory>, :parameters([N-Object]), ),
+  set-header-factory => %(:is-symbol<gtk_drop_down_set_header_factory>, :parameters([N-Object]), ),
+  set-list-factory => %(:is-symbol<gtk_drop_down_set_list_factory>, :parameters([N-Object]), ),
+  set-model => %(:is-symbol<gtk_drop_down_set_model>, :parameters([N-Object]), ),
+  set-search-match-mode => %(:is-symbol<gtk_drop_down_set_search_match_mode>, :parameters([GEnum]), ),
+  set-selected => %(:is-symbol<gtk_drop_down_set_selected>, :parameters([guint]), ),
+  set-show-arrow => %(:is-symbol<gtk_drop_down_set_show_arrow>, :parameters([gboolean]), ),
 );
 
 #-------------------------------------------------------------------------------

@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::EventController:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -38,6 +40,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
@@ -71,9 +74,9 @@ my Hash $methods = %(
   new-dropcontrollermotion => %( :type(Constructor), :is-symbol<gtk_drop_controller_motion_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  contains-pointer => %(:is-symbol<gtk_drop_controller_motion_contains_pointer>,  :returns(gboolean), :cnv-return(Bool)),
-  get-drop => %(:is-symbol<gtk_drop_controller_motion_get_drop>,  :returns(N-Object)),
-  is-pointer => %(:is-symbol<gtk_drop_controller_motion_is_pointer>,  :returns(gboolean), :cnv-return(Bool)),
+  contains-pointer => %(:is-symbol<gtk_drop_controller_motion_contains_pointer>, :returns(gboolean), ),
+  get-drop => %(:is-symbol<gtk_drop_controller_motion_get_drop>, :returns(N-Object), ),
+  is-pointer => %(:is-symbol<gtk_drop_controller_motion_is_pointer>, :returns(gboolean), ),
 );
 
 #-------------------------------------------------------------------------------

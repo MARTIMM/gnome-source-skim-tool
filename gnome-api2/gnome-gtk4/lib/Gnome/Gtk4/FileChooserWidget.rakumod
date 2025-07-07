@@ -7,10 +7,13 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::R-FileChooser:api<2>;
 use Gnome::Gtk4::T-filechooser:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
+#use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -41,11 +44,18 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
+  Gnome::N::deprecate(
+    'Gnome::Gtk4::FileChooserWidget', ', Str, ',
+    '4.10', Str,
+    :class, :gnome-lib(gtk4-lib())  
+  );
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<location-toggle-popup show-hidden places-shortcut home-folder up-folder search-shortcut location-popup-on-paste recent-shortcut down-folder desktop-folder>,
-      :w1<quick-bookmark location-popup>,
+      :w0<up-folder down-folder location-toggle-popup places-shortcut home-folder show-hidden location-popup-on-paste desktop-folder search-shortcut recent-shortcut>,
+      :w1<location-popup quick-bookmark>,
     );
 
     # Signals from interfaces
@@ -75,7 +85,7 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-filechooserwidget => %( :type(Constructor), :is-symbol<gtk_file_chooser_widget_new>, :returns(N-Object), :parameters([ GEnum])),
+  new-filechooserwidget => %( :type(Constructor), :is-symbol<gtk_file_chooser_widget_new>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :parameters([ GEnum]), ),
 );
 
 #-------------------------------------------------------------------------------

@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::LayoutChild:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -36,6 +38,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -57,14 +60,14 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-column => %(:is-symbol<gtk_grid_layout_child_get_column>,  :returns(gint)),
-  get-column-span => %(:is-symbol<gtk_grid_layout_child_get_column_span>,  :returns(gint)),
-  get-row => %(:is-symbol<gtk_grid_layout_child_get_row>,  :returns(gint)),
-  get-row-span => %(:is-symbol<gtk_grid_layout_child_get_row_span>,  :returns(gint)),
-  set-column => %(:is-symbol<gtk_grid_layout_child_set_column>,  :parameters([gint])),
-  set-column-span => %(:is-symbol<gtk_grid_layout_child_set_column_span>,  :parameters([gint])),
-  set-row => %(:is-symbol<gtk_grid_layout_child_set_row>,  :parameters([gint])),
-  set-row-span => %(:is-symbol<gtk_grid_layout_child_set_row_span>,  :parameters([gint])),
+  get-column => %(:is-symbol<gtk_grid_layout_child_get_column>, :returns(gint), ),
+  get-column-span => %(:is-symbol<gtk_grid_layout_child_get_column_span>, :returns(gint), ),
+  get-row => %(:is-symbol<gtk_grid_layout_child_get_row>, :returns(gint), ),
+  get-row-span => %(:is-symbol<gtk_grid_layout_child_get_row_span>, :returns(gint), ),
+  set-column => %(:is-symbol<gtk_grid_layout_child_set_column>, :parameters([gint]), ),
+  set-column-span => %(:is-symbol<gtk_grid_layout_child_set_column_span>, :parameters([gint]), ),
+  set-row => %(:is-symbol<gtk_grid_layout_child_set_row>, :parameters([gint]), ),
+  set-row-span => %(:is-symbol<gtk_grid_layout_child_set_row_span>, :parameters([gint]), ),
 );
 
 #-------------------------------------------------------------------------------

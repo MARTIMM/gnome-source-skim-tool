@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -68,24 +70,24 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-expander => %( :type(Constructor), :is-symbol<gtk_expander_new>, :returns(N-Object), :parameters([ Str])),
-  new-with-mnemonic => %( :type(Constructor), :is-symbol<gtk_expander_new_with_mnemonic>, :returns(N-Object), :parameters([ Str])),
+  new-expander => %( :type(Constructor), :is-symbol<gtk_expander_new>, :returns(N-Object), :parameters([ Str]), ),
+  new-with-mnemonic => %( :type(Constructor), :is-symbol<gtk_expander_new_with_mnemonic>, :returns(N-Object), :parameters([ Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-child => %(:is-symbol<gtk_expander_get_child>,  :returns(N-Object)),
-  get-expanded => %(:is-symbol<gtk_expander_get_expanded>,  :returns(gboolean), :cnv-return(Bool)),
-  get-label => %(:is-symbol<gtk_expander_get_label>,  :returns(Str)),
-  get-label-widget => %(:is-symbol<gtk_expander_get_label_widget>,  :returns(N-Object)),
-  get-resize-toplevel => %(:is-symbol<gtk_expander_get_resize_toplevel>,  :returns(gboolean), :cnv-return(Bool)),
-  get-use-markup => %(:is-symbol<gtk_expander_get_use_markup>,  :returns(gboolean), :cnv-return(Bool)),
-  get-use-underline => %(:is-symbol<gtk_expander_get_use_underline>,  :returns(gboolean), :cnv-return(Bool)),
-  set-child => %(:is-symbol<gtk_expander_set_child>,  :parameters([N-Object])),
-  set-expanded => %(:is-symbol<gtk_expander_set_expanded>,  :parameters([gboolean])),
-  set-label => %(:is-symbol<gtk_expander_set_label>,  :parameters([Str])),
-  set-label-widget => %(:is-symbol<gtk_expander_set_label_widget>,  :parameters([N-Object])),
-  set-resize-toplevel => %(:is-symbol<gtk_expander_set_resize_toplevel>,  :parameters([gboolean])),
-  set-use-markup => %(:is-symbol<gtk_expander_set_use_markup>,  :parameters([gboolean])),
-  set-use-underline => %(:is-symbol<gtk_expander_set_use_underline>,  :parameters([gboolean])),
+  get-child => %(:is-symbol<gtk_expander_get_child>, :returns(N-Object), ),
+  get-expanded => %(:is-symbol<gtk_expander_get_expanded>, :returns(gboolean), ),
+  get-label => %(:is-symbol<gtk_expander_get_label>, :returns(Str), ),
+  get-label-widget => %(:is-symbol<gtk_expander_get_label_widget>, :returns(N-Object), ),
+  get-resize-toplevel => %(:is-symbol<gtk_expander_get_resize_toplevel>, :returns(gboolean), ),
+  get-use-markup => %(:is-symbol<gtk_expander_get_use_markup>, :returns(gboolean), ),
+  get-use-underline => %(:is-symbol<gtk_expander_get_use_underline>, :returns(gboolean), ),
+  set-child => %(:is-symbol<gtk_expander_set_child>, :parameters([N-Object]), ),
+  set-expanded => %(:is-symbol<gtk_expander_set_expanded>, :parameters([gboolean]), ),
+  set-label => %(:is-symbol<gtk_expander_set_label>, :parameters([Str]), ),
+  set-label-widget => %(:is-symbol<gtk_expander_set_label_widget>, :parameters([N-Object]), ),
+  set-resize-toplevel => %(:is-symbol<gtk_expander_set_resize_toplevel>, :parameters([gboolean]), ),
+  set-use-markup => %(:is-symbol<gtk_expander_set_use_markup>, :parameters([gboolean]), ),
+  set-use-underline => %(:is-symbol<gtk_expander_set_use_underline>, :parameters([gboolean]), ),
 );
 
 #-------------------------------------------------------------------------------

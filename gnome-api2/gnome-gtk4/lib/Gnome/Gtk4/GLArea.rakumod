@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 #use Gnome::Gdk4::T-glcontext:api<2>;
 use Gnome::Glib::N-Error:api<2>;
@@ -79,22 +81,22 @@ my Hash $methods = %(
   attach-buffers => %(:is-symbol<gtk_g_l_area_attach_buffers>, ),
   #get-allowed-apis => %(:is-symbol<gtk_g_l_area_get_allowed_apis>,  :returns(GFlag), :cnv-return(GdkGLAPI )),
   #get-api => %(:is-symbol<gtk_g_l_area_get_api>,  :returns(GFlag), :cnv-return(GdkGLAPI )),
-  get-auto-render => %(:is-symbol<gtk_g_l_area_get_auto_render>,  :returns(gboolean), :cnv-return(Bool)),
-  get-context => %(:is-symbol<gtk_g_l_area_get_context>,  :returns(N-Object)),
-  get-error => %(:is-symbol<gtk_g_l_area_get_error>,  :returns(N-Object)),
-  get-has-depth-buffer => %(:is-symbol<gtk_g_l_area_get_has_depth_buffer>,  :returns(gboolean), :cnv-return(Bool)),
-  get-has-stencil-buffer => %(:is-symbol<gtk_g_l_area_get_has_stencil_buffer>,  :returns(gboolean), :cnv-return(Bool)),
-  get-required-version => %(:is-symbol<gtk_g_l_area_get_required_version>,  :parameters([gint-ptr, gint-ptr])),
-  get-use-es => %(:is-symbol<gtk_g_l_area_get_use_es>,  :returns(gboolean), :cnv-return(Bool),:deprecated, :deprecated-version<4.12>, ),
+  get-auto-render => %(:is-symbol<gtk_g_l_area_get_auto_render>, :returns(gboolean), ),
+  get-context => %(:is-symbol<gtk_g_l_area_get_context>, :returns(N-Object), ),
+  get-error => %(:is-symbol<gtk_g_l_area_get_error>, :returns(N-Object), ),
+  get-has-depth-buffer => %(:is-symbol<gtk_g_l_area_get_has_depth_buffer>, :returns(gboolean), ),
+  get-has-stencil-buffer => %(:is-symbol<gtk_g_l_area_get_has_stencil_buffer>, :returns(gboolean), ),
+  get-required-version => %(:is-symbol<gtk_g_l_area_get_required_version>, :parameters([gint-ptr, gint-ptr]), ),
+  get-use-es => %(:is-symbol<gtk_g_l_area_get_use_es>, :returns(gboolean), :deprecated, :deprecated-version<4.12>, ),
   make-current => %(:is-symbol<gtk_g_l_area_make_current>, ),
   queue-render => %(:is-symbol<gtk_g_l_area_queue_render>, ),
-  #set-allowed-apis => %(:is-symbol<gtk_g_l_area_set_allowed_apis>,  :parameters([GFlag])),
-  set-auto-render => %(:is-symbol<gtk_g_l_area_set_auto_render>,  :parameters([gboolean])),
-  set-error => %(:is-symbol<gtk_g_l_area_set_error>,  :parameters([N-Object])),
-  set-has-depth-buffer => %(:is-symbol<gtk_g_l_area_set_has_depth_buffer>,  :parameters([gboolean])),
-  set-has-stencil-buffer => %(:is-symbol<gtk_g_l_area_set_has_stencil_buffer>,  :parameters([gboolean])),
-  set-required-version => %(:is-symbol<gtk_g_l_area_set_required_version>,  :parameters([gint, gint])),
-  set-use-es => %(:is-symbol<gtk_g_l_area_set_use_es>,  :parameters([gboolean]),:deprecated, :deprecated-version<4.12>, ),
+  #set-allowed-apis => %(:is-symbol<gtk_g_l_area_set_allowed_apis>, :parameters([GFlag]), ),
+  set-auto-render => %(:is-symbol<gtk_g_l_area_set_auto_render>, :parameters([gboolean]), ),
+  set-error => %(:is-symbol<gtk_g_l_area_set_error>, :parameters([N-Object]), ),
+  set-has-depth-buffer => %(:is-symbol<gtk_g_l_area_set_has_depth_buffer>, :parameters([gboolean]), ),
+  set-has-stencil-buffer => %(:is-symbol<gtk_g_l_area_set_has_stencil_buffer>, :parameters([gboolean]), ),
+  set-required-version => %(:is-symbol<gtk_g_l_area_set_required_version>, :parameters([gint, gint]), ),
+  set-use-es => %(:is-symbol<gtk_g_l_area_set_use_es>, :parameters([gboolean]), :deprecated, :deprecated-version<4.12>, ),
 );
 
 #-------------------------------------------------------------------------------

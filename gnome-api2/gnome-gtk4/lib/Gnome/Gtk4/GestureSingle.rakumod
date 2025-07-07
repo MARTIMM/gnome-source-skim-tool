@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 #use Gnome::Gdk4::N-EventSequence:api<2>;
 #use Gnome::Gdk4::T-events:api<2>;
@@ -60,14 +62,14 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-button => %(:is-symbol<gtk_gesture_single_get_button>,  :returns(guint)),
-  get-current-button => %(:is-symbol<gtk_gesture_single_get_current_button>,  :returns(guint)),
-  get-current-sequence => %(:is-symbol<gtk_gesture_single_get_current_sequence>,  :returns(N-Object)),
-  get-exclusive => %(:is-symbol<gtk_gesture_single_get_exclusive>,  :returns(gboolean), :cnv-return(Bool)),
-  get-touch-only => %(:is-symbol<gtk_gesture_single_get_touch_only>,  :returns(gboolean), :cnv-return(Bool)),
-  set-button => %(:is-symbol<gtk_gesture_single_set_button>,  :parameters([guint])),
-  set-exclusive => %(:is-symbol<gtk_gesture_single_set_exclusive>,  :parameters([gboolean])),
-  set-touch-only => %(:is-symbol<gtk_gesture_single_set_touch_only>,  :parameters([gboolean])),
+  get-button => %(:is-symbol<gtk_gesture_single_get_button>, :returns(guint), ),
+  get-current-button => %(:is-symbol<gtk_gesture_single_get_current_button>, :returns(guint), ),
+  get-current-sequence => %(:is-symbol<gtk_gesture_single_get_current_sequence>, :returns(N-Object), ),
+  get-exclusive => %(:is-symbol<gtk_gesture_single_get_exclusive>, :returns(gboolean), ),
+  get-touch-only => %(:is-symbol<gtk_gesture_single_get_touch_only>, :returns(gboolean), ),
+  set-button => %(:is-symbol<gtk_gesture_single_set_button>, :parameters([guint]), ),
+  set-exclusive => %(:is-symbol<gtk_gesture_single_set_exclusive>, :parameters([gboolean]), ),
+  set-touch-only => %(:is-symbol<gtk_gesture_single_set_touch_only>, :parameters([gboolean]), ),
 );
 
 #-------------------------------------------------------------------------------

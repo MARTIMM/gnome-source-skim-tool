@@ -7,8 +7,11 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
 
-#use Gnome::Gsk4::N-Transform:api<2>;
+
+use Gnome::Gsk4::N-Transform:api<2>;
+use Gnome::Gsk4::T-types:api<2>;
 use Gnome::Gtk4::LayoutChild:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -37,6 +40,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -58,8 +62,8 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  #get-transform => %(:is-symbol<gtk_fixed_layout_child_get_transform>,  :returns(N-Transform )),
-  #set-transform => %(:is-symbol<gtk_fixed_layout_child_set_transform>,  :parameters([N-Transform ])),
+  get-transform => %(:is-symbol<gtk_fixed_layout_child_get_transform>, :returns(N-Object), ),
+  set-transform => %(:is-symbol<gtk_fixed_layout_child_set_transform>, :parameters([N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------

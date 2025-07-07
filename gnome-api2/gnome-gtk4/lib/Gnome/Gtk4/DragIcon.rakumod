@@ -7,12 +7,14 @@ use v6.d;
 
 use NativeCall;
 
-use Gnome::GObject::T-value:api<2>;
+use Cairo;
 
+
+use Gnome::GObject::N-Value:api<2>;
+use Gnome::GObject::T-value:api<2>;
 use Gnome::Gtk4::R-Native:api<2>;
 use Gnome::Gtk4::R-Root:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
-
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -44,6 +46,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     
@@ -76,13 +79,13 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-child => %(:is-symbol<gtk_drag_icon_get_child>,  :returns(N-Object)),
-  set-child => %(:is-symbol<gtk_drag_icon_set_child>,  :parameters([N-Object])),
+  get-child => %(:is-symbol<gtk_drag_icon_get_child>, :returns(N-Object), ),
+  set-child => %(:is-symbol<gtk_drag_icon_set_child>, :parameters([N-Object]), ),
 
   #--[Functions]----------------------------------------------------------------
-  create-widget-for-value => %( :type(Function), :is-symbol<gtk_drag_icon_create_widget_for_value>,  :returns(N-Object), :parameters([N-Value])),
-  get-for-drag => %( :type(Function), :is-symbol<gtk_drag_icon_get_for_drag>,  :returns(N-Object), :parameters([N-Object])),
-  set-from-paintable => %( :type(Function), :is-symbol<gtk_drag_icon_set_from_paintable>,  :parameters([ N-Object, N-Object, gint, gint])),
+  create-widget-for-value => %( :type(Function), :is-symbol<gtk_drag_icon_create_widget_for_value>, :returns(N-Object), :parameters([N-Object]), ),
+  get-for-drag => %( :type(Function), :is-symbol<gtk_drag_icon_get_for_drag>, :returns(N-Object), :parameters([N-Object]), ),
+  set-from-paintable => %( :type(Function), :is-symbol<gtk_drag_icon_set_from_paintable>, :parameters([ N-Object, N-Object, gint, gint]), ),
 );
 
 #-------------------------------------------------------------------------------

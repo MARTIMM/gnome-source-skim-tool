@@ -7,16 +7,18 @@ use v6.d;
 
 use NativeCall;
 
-use Gnome::Gdk4::T-types:api<2>;
-use Gnome::Gdk4::T-enums:api<2>;
+use Cairo;
 
+
+use Gnome::Gdk4::N-Rectangle:api<2>;
+use Gnome::Gdk4::T-enums:api<2>;
+use Gnome::Gdk4::T-types:api<2>;
 use Gnome::Gtk4::R-CellEditable:api<2>;
 use Gnome::Gtk4::R-Editable:api<2>;
 use Gnome::Gtk4::T-entry:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::Gtk4::T-image:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
-
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -24,6 +26,8 @@ use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 #use Gnome::Pango::N-AttrList:api<2>;
 use Gnome::Pango::N-TabArray:api<2>;
+#use Gnome::Pango::T-attributes:api<2>;
+#use Gnome::Pango::T-tabs:api<2>;
 
 
 #-------------------------------------------------------------------------------
@@ -50,11 +54,12 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
       :w0<activate>,
-      :w1<icon-release icon-press>,
+      :w1<icon-press icon-release>,
     );
 
     # Signals from interfaces
@@ -87,66 +92,66 @@ my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
   new-entry => %( :type(Constructor), :is-symbol<gtk_entry_new>, :returns(N-Object), ),
-  new-with-buffer => %( :type(Constructor), :is-symbol<gtk_entry_new_with_buffer>, :returns(N-Object), :parameters([ N-Object])),
+  new-with-buffer => %( :type(Constructor), :is-symbol<gtk_entry_new_with_buffer>, :returns(N-Object), :parameters([ N-Object]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-activates-default => %(:is-symbol<gtk_entry_get_activates_default>,  :returns(gboolean), :cnv-return(Bool)),
-  get-alignment => %(:is-symbol<gtk_entry_get_alignment>,  :returns(gfloat)),
-  #get-attributes => %(:is-symbol<gtk_entry_get_attributes>,  :returns(N-AttrList )),
-  get-buffer => %(:is-symbol<gtk_entry_get_buffer>,  :returns(N-Object)),
-  get-completion => %(:is-symbol<gtk_entry_get_completion>,  :returns(N-Object)),
-  get-current-icon-drag-source => %(:is-symbol<gtk_entry_get_current_icon_drag_source>,  :returns(gint)),
-  get-extra-menu => %(:is-symbol<gtk_entry_get_extra_menu>,  :returns(N-Object)),
-  get-has-frame => %(:is-symbol<gtk_entry_get_has_frame>,  :returns(gboolean), :cnv-return(Bool)),
-  get-icon-activatable => %(:is-symbol<gtk_entry_get_icon_activatable>,  :returns(gboolean), :cnv-return(Bool), :parameters([GEnum])),
-  get-icon-area => %(:is-symbol<gtk_entry_get_icon_area>,  :parameters([GEnum, N-Rectangle])),
-  get-icon-at-pos => %(:is-symbol<gtk_entry_get_icon_at_pos>,  :returns(gint), :parameters([gint, gint])),
-  get-icon-gicon => %(:is-symbol<gtk_entry_get_icon_gicon>,  :returns(N-Object), :parameters([GEnum])),
-  get-icon-name => %(:is-symbol<gtk_entry_get_icon_name>,  :returns(Str), :parameters([GEnum])),
-  get-icon-paintable => %(:is-symbol<gtk_entry_get_icon_paintable>,  :returns(N-Object), :parameters([GEnum])),
-  get-icon-sensitive => %(:is-symbol<gtk_entry_get_icon_sensitive>,  :returns(gboolean), :cnv-return(Bool), :parameters([GEnum])),
-  get-icon-storage-type => %(:is-symbol<gtk_entry_get_icon_storage_type>,  :returns(GEnum), :cnv-return(GtkImageType), :parameters([GEnum])),
-  get-icon-tooltip-markup => %(:is-symbol<gtk_entry_get_icon_tooltip_markup>,  :returns(Str), :parameters([GEnum])),
-  get-icon-tooltip-text => %(:is-symbol<gtk_entry_get_icon_tooltip_text>,  :returns(Str), :parameters([GEnum])),
+  get-activates-default => %(:is-symbol<gtk_entry_get_activates_default>, :returns(gboolean), ),
+  get-alignment => %(:is-symbol<gtk_entry_get_alignment>, :returns(gfloat), ),
+  get-attributes => %(:is-symbol<gtk_entry_get_attributes>, :returns(N-Object), ),
+  get-buffer => %(:is-symbol<gtk_entry_get_buffer>, :returns(N-Object), ),
+  get-completion => %(:is-symbol<gtk_entry_get_completion>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  get-current-icon-drag-source => %(:is-symbol<gtk_entry_get_current_icon_drag_source>, :returns(gint), ),
+  get-extra-menu => %(:is-symbol<gtk_entry_get_extra_menu>, :returns(N-Object), ),
+  get-has-frame => %(:is-symbol<gtk_entry_get_has_frame>, :returns(gboolean), ),
+  get-icon-activatable => %(:is-symbol<gtk_entry_get_icon_activatable>, :returns(gboolean), :parameters([GEnum]), ),
+  get-icon-area => %(:is-symbol<gtk_entry_get_icon_area>, :parameters([GEnum, N-Object]), ),
+  get-icon-at-pos => %(:is-symbol<gtk_entry_get_icon_at_pos>, :returns(gint), :parameters([gint, gint]), ),
+  get-icon-gicon => %(:is-symbol<gtk_entry_get_icon_gicon>, :returns(N-Object), :parameters([GEnum]), ),
+  get-icon-name => %(:is-symbol<gtk_entry_get_icon_name>, :returns(Str), :parameters([GEnum]), ),
+  get-icon-paintable => %(:is-symbol<gtk_entry_get_icon_paintable>, :returns(N-Object), :parameters([GEnum]), ),
+  get-icon-sensitive => %(:is-symbol<gtk_entry_get_icon_sensitive>, :returns(gboolean), :parameters([GEnum]), ),
+  get-icon-storage-type => %(:is-symbol<gtk_entry_get_icon_storage_type>,  :returns(GEnum), :cnv-return(GtkImageType),:parameters([GEnum]), ),
+  get-icon-tooltip-markup => %(:is-symbol<gtk_entry_get_icon_tooltip_markup>, :returns(Str), :parameters([GEnum]), ),
+  get-icon-tooltip-text => %(:is-symbol<gtk_entry_get_icon_tooltip_text>, :returns(Str), :parameters([GEnum]), ),
   get-input-hints => %(:is-symbol<gtk_entry_get_input_hints>,  :returns(GFlag), :cnv-return(GtkInputHints)),
   get-input-purpose => %(:is-symbol<gtk_entry_get_input_purpose>,  :returns(GEnum), :cnv-return(GtkInputPurpose)),
-  get-invisible-char => %(:is-symbol<gtk_entry_get_invisible_char>,  :returns(gunichar)),
-  get-max-length => %(:is-symbol<gtk_entry_get_max_length>,  :returns(gint)),
-  get-overwrite-mode => %(:is-symbol<gtk_entry_get_overwrite_mode>,  :returns(gboolean), :cnv-return(Bool)),
-  get-placeholder-text => %(:is-symbol<gtk_entry_get_placeholder_text>,  :returns(Str)),
-  get-progress-fraction => %(:is-symbol<gtk_entry_get_progress_fraction>,  :returns(gdouble)),
-  get-progress-pulse-step => %(:is-symbol<gtk_entry_get_progress_pulse_step>,  :returns(gdouble)),
-  get-tabs => %(:is-symbol<gtk_entry_get_tabs>,  :returns(N-TabArray)),
-  get-text-length => %(:is-symbol<gtk_entry_get_text_length>,  :returns(guint16)),
-  get-visibility => %(:is-symbol<gtk_entry_get_visibility>,  :returns(gboolean), :cnv-return(Bool)),
-  grab-focus-without-selecting => %(:is-symbol<gtk_entry_grab_focus_without_selecting>,  :returns(gboolean), :cnv-return(Bool)),
+  get-invisible-char => %(:is-symbol<gtk_entry_get_invisible_char>, :returns(gunichar), ),
+  get-max-length => %(:is-symbol<gtk_entry_get_max_length>, :returns(gint), ),
+  get-overwrite-mode => %(:is-symbol<gtk_entry_get_overwrite_mode>, :returns(gboolean), ),
+  get-placeholder-text => %(:is-symbol<gtk_entry_get_placeholder_text>, :returns(Str), ),
+  get-progress-fraction => %(:is-symbol<gtk_entry_get_progress_fraction>, :returns(gdouble), ),
+  get-progress-pulse-step => %(:is-symbol<gtk_entry_get_progress_pulse_step>, :returns(gdouble), ),
+  get-tabs => %(:is-symbol<gtk_entry_get_tabs>, :returns(N-Object), ),
+  get-text-length => %(:is-symbol<gtk_entry_get_text_length>, :returns(guint16), ),
+  get-visibility => %(:is-symbol<gtk_entry_get_visibility>, :returns(gboolean), ),
+  grab-focus-without-selecting => %(:is-symbol<gtk_entry_grab_focus_without_selecting>, :returns(gboolean), ),
   progress-pulse => %(:is-symbol<gtk_entry_progress_pulse>, ),
   reset-im-context => %(:is-symbol<gtk_entry_reset_im_context>, ),
-  set-activates-default => %(:is-symbol<gtk_entry_set_activates_default>,  :parameters([gboolean])),
-  set-alignment => %(:is-symbol<gtk_entry_set_alignment>,  :parameters([gfloat])),
-  #set-attributes => %(:is-symbol<gtk_entry_set_attributes>,  :parameters([N-AttrList ])),
-  set-buffer => %(:is-symbol<gtk_entry_set_buffer>,  :parameters([N-Object])),
-  set-completion => %(:is-symbol<gtk_entry_set_completion>,  :parameters([N-Object])),
-  set-extra-menu => %(:is-symbol<gtk_entry_set_extra_menu>,  :parameters([N-Object])),
-  set-has-frame => %(:is-symbol<gtk_entry_set_has_frame>,  :parameters([gboolean])),
-  set-icon-activatable => %(:is-symbol<gtk_entry_set_icon_activatable>,  :parameters([GEnum, gboolean])),
-  set-icon-drag-source => %(:is-symbol<gtk_entry_set_icon_drag_source>,  :parameters([GEnum, N-Object, GFlag])),
-  set-icon-from-gicon => %(:is-symbol<gtk_entry_set_icon_from_gicon>,  :parameters([GEnum, N-Object])),
-  set-icon-from-icon-name => %(:is-symbol<gtk_entry_set_icon_from_icon_name>,  :parameters([GEnum, Str])),
-  set-icon-from-paintable => %(:is-symbol<gtk_entry_set_icon_from_paintable>,  :parameters([GEnum, N-Object])),
-  set-icon-sensitive => %(:is-symbol<gtk_entry_set_icon_sensitive>,  :parameters([GEnum, gboolean])),
-  set-icon-tooltip-markup => %(:is-symbol<gtk_entry_set_icon_tooltip_markup>,  :parameters([GEnum, Str])),
-  set-icon-tooltip-text => %(:is-symbol<gtk_entry_set_icon_tooltip_text>,  :parameters([GEnum, Str])),
-  set-input-hints => %(:is-symbol<gtk_entry_set_input_hints>,  :parameters([GFlag])),
-  set-input-purpose => %(:is-symbol<gtk_entry_set_input_purpose>,  :parameters([GEnum])),
-  set-invisible-char => %(:is-symbol<gtk_entry_set_invisible_char>,  :parameters([gunichar])),
-  set-max-length => %(:is-symbol<gtk_entry_set_max_length>,  :parameters([gint])),
-  set-overwrite-mode => %(:is-symbol<gtk_entry_set_overwrite_mode>,  :parameters([gboolean])),
-  set-placeholder-text => %(:is-symbol<gtk_entry_set_placeholder_text>,  :parameters([Str])),
-  set-progress-fraction => %(:is-symbol<gtk_entry_set_progress_fraction>,  :parameters([gdouble])),
-  set-progress-pulse-step => %(:is-symbol<gtk_entry_set_progress_pulse_step>,  :parameters([gdouble])),
-  set-tabs => %(:is-symbol<gtk_entry_set_tabs>,  :parameters([N-TabArray])),
-  set-visibility => %(:is-symbol<gtk_entry_set_visibility>,  :parameters([gboolean])),
+  set-activates-default => %(:is-symbol<gtk_entry_set_activates_default>, :parameters([gboolean]), ),
+  set-alignment => %(:is-symbol<gtk_entry_set_alignment>, :parameters([gfloat]), ),
+  set-attributes => %(:is-symbol<gtk_entry_set_attributes>, :parameters([N-Object]), ),
+  set-buffer => %(:is-symbol<gtk_entry_set_buffer>, :parameters([N-Object]), ),
+  set-completion => %(:is-symbol<gtk_entry_set_completion>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  set-extra-menu => %(:is-symbol<gtk_entry_set_extra_menu>, :parameters([N-Object]), ),
+  set-has-frame => %(:is-symbol<gtk_entry_set_has_frame>, :parameters([gboolean]), ),
+  set-icon-activatable => %(:is-symbol<gtk_entry_set_icon_activatable>, :parameters([GEnum, gboolean]), ),
+  set-icon-drag-source => %(:is-symbol<gtk_entry_set_icon_drag_source>, :parameters([GEnum, N-Object, GFlag]), ),
+  set-icon-from-gicon => %(:is-symbol<gtk_entry_set_icon_from_gicon>, :parameters([GEnum, N-Object]), ),
+  set-icon-from-icon-name => %(:is-symbol<gtk_entry_set_icon_from_icon_name>, :parameters([GEnum, Str]), ),
+  set-icon-from-paintable => %(:is-symbol<gtk_entry_set_icon_from_paintable>, :parameters([GEnum, N-Object]), ),
+  set-icon-sensitive => %(:is-symbol<gtk_entry_set_icon_sensitive>, :parameters([GEnum, gboolean]), ),
+  set-icon-tooltip-markup => %(:is-symbol<gtk_entry_set_icon_tooltip_markup>, :parameters([GEnum, Str]), ),
+  set-icon-tooltip-text => %(:is-symbol<gtk_entry_set_icon_tooltip_text>, :parameters([GEnum, Str]), ),
+  set-input-hints => %(:is-symbol<gtk_entry_set_input_hints>, :parameters([GFlag]), ),
+  set-input-purpose => %(:is-symbol<gtk_entry_set_input_purpose>, :parameters([GEnum]), ),
+  set-invisible-char => %(:is-symbol<gtk_entry_set_invisible_char>, :parameters([gunichar]), ),
+  set-max-length => %(:is-symbol<gtk_entry_set_max_length>, :parameters([gint]), ),
+  set-overwrite-mode => %(:is-symbol<gtk_entry_set_overwrite_mode>, :parameters([gboolean]), ),
+  set-placeholder-text => %(:is-symbol<gtk_entry_set_placeholder_text>, :parameters([Str]), ),
+  set-progress-fraction => %(:is-symbol<gtk_entry_set_progress_fraction>, :parameters([gdouble]), ),
+  set-progress-pulse-step => %(:is-symbol<gtk_entry_set_progress_pulse_step>, :parameters([gdouble]), ),
+  set-tabs => %(:is-symbol<gtk_entry_set_tabs>, :parameters([N-Object]), ),
+  set-visibility => %(:is-symbol<gtk_entry_set_visibility>, :parameters([gboolean]), ),
   unset-invisible-char => %(:is-symbol<gtk_entry_unset_invisible_char>, ),
 );
 
