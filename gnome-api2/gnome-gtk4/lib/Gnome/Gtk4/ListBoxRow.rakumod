@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::R-Actionable:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
@@ -40,6 +42,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
@@ -77,16 +80,16 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   changed => %(:is-symbol<gtk_list_box_row_changed>, ),
-  get-activatable => %(:is-symbol<gtk_list_box_row_get_activatable>,  :returns(gboolean), :cnv-return(Bool)),
-  get-child => %(:is-symbol<gtk_list_box_row_get_child>,  :returns(N-Object)),
-  get-header => %(:is-symbol<gtk_list_box_row_get_header>,  :returns(N-Object)),
-  get-index => %(:is-symbol<gtk_list_box_row_get_index>,  :returns(gint)),
-  get-selectable => %(:is-symbol<gtk_list_box_row_get_selectable>,  :returns(gboolean), :cnv-return(Bool)),
-  is-selected => %(:is-symbol<gtk_list_box_row_is_selected>,  :returns(gboolean), :cnv-return(Bool)),
-  set-activatable => %(:is-symbol<gtk_list_box_row_set_activatable>,  :parameters([gboolean])),
-  set-child => %(:is-symbol<gtk_list_box_row_set_child>,  :parameters([N-Object])),
-  set-header => %(:is-symbol<gtk_list_box_row_set_header>,  :parameters([N-Object])),
-  set-selectable => %(:is-symbol<gtk_list_box_row_set_selectable>,  :parameters([gboolean])),
+  get-activatable => %(:is-symbol<gtk_list_box_row_get_activatable>, :returns(gboolean), ),
+  get-child => %(:is-symbol<gtk_list_box_row_get_child>, :returns(N-Object), ),
+  get-header => %(:is-symbol<gtk_list_box_row_get_header>, :returns(N-Object), ),
+  get-index => %(:is-symbol<gtk_list_box_row_get_index>, :returns(gint), ),
+  get-selectable => %(:is-symbol<gtk_list_box_row_get_selectable>, :returns(gboolean), ),
+  is-selected => %(:is-symbol<gtk_list_box_row_is_selected>, :returns(gboolean), ),
+  set-activatable => %(:is-symbol<gtk_list_box_row_set_activatable>, :parameters([gboolean]), ),
+  set-child => %(:is-symbol<gtk_list_box_row_set_child>, :parameters([N-Object]), ),
+  set-header => %(:is-symbol<gtk_list_box_row_set_header>, :parameters([N-Object]), ),
+  set-selectable => %(:is-symbol<gtk_list_box_row_set_selectable>, :parameters([gboolean]), ),
 );
 
 #-------------------------------------------------------------------------------

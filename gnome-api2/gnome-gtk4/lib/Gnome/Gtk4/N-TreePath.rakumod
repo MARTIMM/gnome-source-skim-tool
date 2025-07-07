@@ -7,7 +7,11 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
 
+
+#use Gnome::Gtk4::T-treemodel:api<2>;
+#use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -17,18 +21,11 @@ use Gnome::N::X:api<2>;
 
 
 #-------------------------------------------------------------------------------
-#--[Class Declaration]----------------------------------------------------------
+#--[Structure Declaration]------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Gtk4::N-TreePath:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
-
-#-------------------------------------------------------------------------------
-#--[Record Structure]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-# This is an opaque type of which fields are not available.
-class N-TreePath:auth<github:MARTIMM>:api<2> is export is repr('CPointer') { }
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -42,6 +39,13 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
+  Gnome::N::deprecate(
+    'Gnome::Gtk4::N-TreePath', ', Str, ',
+    '4.10', Str,
+    :class, :gnome-lib(gtk4-lib())  
+  );
+
 
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
@@ -73,28 +77,28 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-treepath => %( :type(Constructor), :is-symbol<gtk_tree_path_new>, :returns(N-TreePath), ),
-  new-first => %( :type(Constructor), :is-symbol<gtk_tree_path_new_first>, :returns(N-TreePath), ),
-  new-from-indices => %( :type(Constructor), :is-symbol<gtk_tree_path_new_from_indices>, :returns(N-TreePath), :variable-list, :parameters([ gint])),
-  new-from-indicesv => %( :type(Constructor), :is-symbol<gtk_tree_path_new_from_indicesv>, :returns(N-TreePath), :parameters([ gint-ptr, gsize])),
-  new-from-string => %( :type(Constructor), :is-symbol<gtk_tree_path_new_from_string>, :returns(N-TreePath), :parameters([ Str])),
+  new-treepath => %( :type(Constructor), :is-symbol<gtk_tree_path_new>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  new-first => %( :type(Constructor), :is-symbol<gtk_tree_path_new_first>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  new-from-indices => %( :type(Constructor), :is-symbol<gtk_tree_path_new_from_indices>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :variable-list, :parameters([ gint]), ),
+  new-from-indicesv => %( :type(Constructor), :is-symbol<gtk_tree_path_new_from_indicesv>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :parameters([ gint-ptr, gsize]), ),
+  new-from-string => %( :type(Constructor), :is-symbol<gtk_tree_path_new_from_string>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :parameters([ Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  append-index => %(:is-symbol<gtk_tree_path_append_index>,  :parameters([gint])),
-  compare => %(:is-symbol<gtk_tree_path_compare>,  :returns(gint), :parameters([N-TreePath])),
-  copy => %(:is-symbol<gtk_tree_path_copy>,  :returns(N-TreePath)),
-  down => %(:is-symbol<gtk_tree_path_down>, ),
-  free => %(:is-symbol<gtk_tree_path_free>, ),
-  get-depth => %(:is-symbol<gtk_tree_path_get_depth>,  :returns(gint)),
-  get-indices => %(:is-symbol<gtk_tree_path_get_indices>,  :returns(gint-ptr)),
-  get-indices-with-depth => %(:is-symbol<gtk_tree_path_get_indices_with_depth>,  :returns(gint-ptr), :parameters([gint-ptr])),
-  is-ancestor => %(:is-symbol<gtk_tree_path_is_ancestor>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-TreePath])),
-  is-descendant => %(:is-symbol<gtk_tree_path_is_descendant>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-TreePath])),
-  next => %(:is-symbol<gtk_tree_path_next>, ),
-  prepend-index => %(:is-symbol<gtk_tree_path_prepend_index>,  :parameters([gint])),
-  prev => %(:is-symbol<gtk_tree_path_prev>,  :returns(gboolean), :cnv-return(Bool)),
-  to-string => %(:is-symbol<gtk_tree_path_to_string>,  :returns(Str)),
-  up => %(:is-symbol<gtk_tree_path_up>,  :returns(gboolean), :cnv-return(Bool)),
+  append-index => %(:is-symbol<gtk_tree_path_append_index>, :parameters([gint]), :deprecated, :deprecated-version<4.10>, ),
+  compare => %(:is-symbol<gtk_tree_path_compare>, :returns(gint), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  copy => %(:is-symbol<gtk_tree_path_copy>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  down => %(:is-symbol<gtk_tree_path_down>, :deprecated, :deprecated-version<4.10>, ),
+  free => %(:is-symbol<gtk_tree_path_free>, :deprecated, :deprecated-version<4.10>, ),
+  get-depth => %(:is-symbol<gtk_tree_path_get_depth>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
+  get-indices => %(:is-symbol<gtk_tree_path_get_indices>, :returns(gint-ptr), :deprecated, :deprecated-version<4.10>, ),
+  get-indices-with-depth => %(:is-symbol<gtk_tree_path_get_indices_with_depth>, :returns(gint-ptr), :parameters([gint-ptr]), :deprecated, :deprecated-version<4.10>, ),
+  is-ancestor => %(:is-symbol<gtk_tree_path_is_ancestor>, :returns(gboolean), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  is-descendant => %(:is-symbol<gtk_tree_path_is_descendant>, :returns(gboolean), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  next => %(:is-symbol<gtk_tree_path_next>, :deprecated, :deprecated-version<4.10>, ),
+  prepend-index => %(:is-symbol<gtk_tree_path_prepend_index>, :parameters([gint]), :deprecated, :deprecated-version<4.10>, ),
+  prev => %(:is-symbol<gtk_tree_path_prev>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  to-string => %(:is-symbol<gtk_tree_path_to_string>, :returns(Str), :deprecated, :deprecated-version<4.10>, ),
+  up => %(:is-symbol<gtk_tree_path_up>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------

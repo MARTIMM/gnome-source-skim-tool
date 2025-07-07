@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -36,6 +38,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -60,15 +63,15 @@ my Hash $methods = %(
   new-headerbar => %( :type(Constructor), :is-symbol<gtk_header_bar_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-decoration-layout => %(:is-symbol<gtk_header_bar_get_decoration_layout>,  :returns(Str)),
-  get-show-title-buttons => %(:is-symbol<gtk_header_bar_get_show_title_buttons>,  :returns(gboolean), :cnv-return(Bool)),
-  get-title-widget => %(:is-symbol<gtk_header_bar_get_title_widget>,  :returns(N-Object)),
-  pack-end => %(:is-symbol<gtk_header_bar_pack_end>,  :parameters([N-Object])),
-  pack-start => %(:is-symbol<gtk_header_bar_pack_start>,  :parameters([N-Object])),
-  remove => %(:is-symbol<gtk_header_bar_remove>,  :parameters([N-Object])),
-  set-decoration-layout => %(:is-symbol<gtk_header_bar_set_decoration_layout>,  :parameters([Str])),
-  set-show-title-buttons => %(:is-symbol<gtk_header_bar_set_show_title_buttons>,  :parameters([gboolean])),
-  set-title-widget => %(:is-symbol<gtk_header_bar_set_title_widget>,  :parameters([N-Object])),
+  get-decoration-layout => %(:is-symbol<gtk_header_bar_get_decoration_layout>, :returns(Str), ),
+  get-show-title-buttons => %(:is-symbol<gtk_header_bar_get_show_title_buttons>, :returns(gboolean), ),
+  get-title-widget => %(:is-symbol<gtk_header_bar_get_title_widget>, :returns(N-Object), ),
+  pack-end => %(:is-symbol<gtk_header_bar_pack_end>, :parameters([N-Object]), ),
+  pack-start => %(:is-symbol<gtk_header_bar_pack_start>, :parameters([N-Object]), ),
+  remove => %(:is-symbol<gtk_header_bar_remove>, :parameters([N-Object]), ),
+  set-decoration-layout => %(:is-symbol<gtk_header_bar_set_decoration_layout>, :parameters([Str]), ),
+  set-show-title-buttons => %(:is-symbol<gtk_header_bar_set_show_title_buttons>, :parameters([gboolean]), ),
+  set-title-widget => %(:is-symbol<gtk_header_bar_set_title_widget>, :parameters([N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------

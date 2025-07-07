@@ -7,9 +7,11 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
 
-use Gnome::Gtk4::N-TreeIter:api<2>;
-use Gnome::Gtk4::N-TreePath:api<2>;
+
+#use Gnome::Gtk4::T-treemodel:api<2>;
+#use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -19,18 +21,11 @@ use Gnome::N::X:api<2>;
 
 
 #-------------------------------------------------------------------------------
-#--[Class Declaration]----------------------------------------------------------
+#--[Structure Declaration]------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Gtk4::N-TreeRowReference:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
-
-#-------------------------------------------------------------------------------
-#--[Record Structure]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-# This is an opaque type of which fields are not available.
-class N-TreeRowReference:auth<github:MARTIMM>:api<2> is export is repr('CPointer') { }
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -44,6 +39,13 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
+  Gnome::N::deprecate(
+    'Gnome::Gtk4::N-TreeRowReference', ', Str, ',
+    '4.10', Str,
+    :class, :gnome-lib(gtk4-lib())  
+  );
+
 
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
@@ -75,20 +77,20 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-treerowreference => %( :type(Constructor), :is-symbol<gtk_tree_row_reference_new>, :returns(N-TreeRowReference), :parameters([ N-Object, N-TreePath])),
-  new-proxy => %( :type(Constructor), :is-symbol<gtk_tree_row_reference_new_proxy>, :returns(N-TreeRowReference), :parameters([ N-Object, N-Object, N-TreePath])),
+  new-treerowreference => %( :type(Constructor), :is-symbol<gtk_tree_row_reference_new>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :parameters([ N-Object, N-Object]), ),
+  new-proxy => %( :type(Constructor), :is-symbol<gtk_tree_row_reference_new_proxy>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :parameters([ N-Object, N-Object, N-Object]), ),
 
   #--[Methods]------------------------------------------------------------------
-  copy => %(:is-symbol<gtk_tree_row_reference_copy>,  :returns(N-TreeRowReference)),
-  free => %(:is-symbol<gtk_tree_row_reference_free>, ),
-  get-model => %(:is-symbol<gtk_tree_row_reference_get_model>,  :returns(N-Object)),
-  get-path => %(:is-symbol<gtk_tree_row_reference_get_path>,  :returns(N-TreePath)),
-  valid => %(:is-symbol<gtk_tree_row_reference_valid>,  :returns(gboolean), :cnv-return(Bool)),
+  copy => %(:is-symbol<gtk_tree_row_reference_copy>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  free => %(:is-symbol<gtk_tree_row_reference_free>, :deprecated, :deprecated-version<4.10>, ),
+  get-model => %(:is-symbol<gtk_tree_row_reference_get_model>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  get-path => %(:is-symbol<gtk_tree_row_reference_get_path>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  valid => %(:is-symbol<gtk_tree_row_reference_valid>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
 
   #--[Functions]----------------------------------------------------------------
-  deleted => %( :type(Function), :is-symbol<gtk_tree_row_reference_deleted>,  :parameters([ N-Object, N-TreePath])),
-  inserted => %( :type(Function), :is-symbol<gtk_tree_row_reference_inserted>,  :parameters([ N-Object, N-TreePath])),
-  reordered => %( :type(Function), :is-symbol<gtk_tree_row_reference_reordered>,  :parameters([ N-Object, N-TreePath, N-TreeIter, gint-ptr])),
+  deleted => %( :type(Function), :is-symbol<gtk_tree_row_reference_deleted>, :parameters([ N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  inserted => %( :type(Function), :is-symbol<gtk_tree_row_reference_inserted>, :parameters([ N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  reordered => %( :type(Function), :is-symbol<gtk_tree_row_reference_reordered>, :parameters([ N-Object, N-Object, N-Object, gint-ptr]), :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------
@@ -103,7 +105,6 @@ method _fallback-v2 (
         :library(gtk4-lib())
       );
 
-      # Check the function name. 
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)

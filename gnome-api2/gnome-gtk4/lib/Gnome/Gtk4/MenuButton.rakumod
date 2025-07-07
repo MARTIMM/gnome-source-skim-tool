@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
@@ -72,33 +74,33 @@ my Hash $methods = %(
   new-menubutton => %( :type(Constructor), :is-symbol<gtk_menu_button_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-active => %(:is-symbol<gtk_menu_button_get_active>,  :returns(gboolean), :cnv-return(Bool)),
-  get-always-show-arrow => %(:is-symbol<gtk_menu_button_get_always_show_arrow>,  :returns(gboolean), :cnv-return(Bool)),
-  get-can-shrink => %(:is-symbol<gtk_menu_button_get_can_shrink>,  :returns(gboolean), :cnv-return(Bool)),
-  get-child => %(:is-symbol<gtk_menu_button_get_child>,  :returns(N-Object)),
+  get-active => %(:is-symbol<gtk_menu_button_get_active>, :returns(gboolean), ),
+  get-always-show-arrow => %(:is-symbol<gtk_menu_button_get_always_show_arrow>, :returns(gboolean), ),
+  get-can-shrink => %(:is-symbol<gtk_menu_button_get_can_shrink>, :returns(gboolean), ),
+  get-child => %(:is-symbol<gtk_menu_button_get_child>, :returns(N-Object), ),
   get-direction => %(:is-symbol<gtk_menu_button_get_direction>,  :returns(GEnum), :cnv-return(GtkArrowType)),
-  get-has-frame => %(:is-symbol<gtk_menu_button_get_has_frame>,  :returns(gboolean), :cnv-return(Bool)),
-  get-icon-name => %(:is-symbol<gtk_menu_button_get_icon_name>,  :returns(Str)),
-  get-label => %(:is-symbol<gtk_menu_button_get_label>,  :returns(Str)),
-  get-menu-model => %(:is-symbol<gtk_menu_button_get_menu_model>,  :returns(N-Object)),
-  get-popover => %(:is-symbol<gtk_menu_button_get_popover>,  :returns(N-Object)),
-  get-primary => %(:is-symbol<gtk_menu_button_get_primary>,  :returns(gboolean), :cnv-return(Bool)),
-  get-use-underline => %(:is-symbol<gtk_menu_button_get_use_underline>,  :returns(gboolean), :cnv-return(Bool)),
+  get-has-frame => %(:is-symbol<gtk_menu_button_get_has_frame>, :returns(gboolean), ),
+  get-icon-name => %(:is-symbol<gtk_menu_button_get_icon_name>, :returns(Str), ),
+  get-label => %(:is-symbol<gtk_menu_button_get_label>, :returns(Str), ),
+  get-menu-model => %(:is-symbol<gtk_menu_button_get_menu_model>, :returns(N-Object), ),
+  get-popover => %(:is-symbol<gtk_menu_button_get_popover>, :returns(N-Object), ),
+  get-primary => %(:is-symbol<gtk_menu_button_get_primary>, :returns(gboolean), ),
+  get-use-underline => %(:is-symbol<gtk_menu_button_get_use_underline>, :returns(gboolean), ),
   popdown => %(:is-symbol<gtk_menu_button_popdown>, ),
   popup => %(:is-symbol<gtk_menu_button_popup>, ),
-  set-active => %(:is-symbol<gtk_menu_button_set_active>,  :parameters([gboolean])),
-  set-always-show-arrow => %(:is-symbol<gtk_menu_button_set_always_show_arrow>,  :parameters([gboolean])),
-  set-can-shrink => %(:is-symbol<gtk_menu_button_set_can_shrink>,  :parameters([gboolean])),
-  set-child => %(:is-symbol<gtk_menu_button_set_child>,  :parameters([N-Object])),
-  #set-create-popup-func => %(:is-symbol<gtk_menu_button_set_create_popup_func>,  :parameters([:( N-Object $menu-button, gpointer $user-data ), gpointer, ])),
-  set-direction => %(:is-symbol<gtk_menu_button_set_direction>,  :parameters([GEnum])),
-  set-has-frame => %(:is-symbol<gtk_menu_button_set_has_frame>,  :parameters([gboolean])),
-  set-icon-name => %(:is-symbol<gtk_menu_button_set_icon_name>,  :parameters([Str])),
-  set-label => %(:is-symbol<gtk_menu_button_set_label>,  :parameters([Str])),
-  set-menu-model => %(:is-symbol<gtk_menu_button_set_menu_model>,  :parameters([N-Object])),
-  set-popover => %(:is-symbol<gtk_menu_button_set_popover>,  :parameters([N-Object])),
-  set-primary => %(:is-symbol<gtk_menu_button_set_primary>,  :parameters([gboolean])),
-  set-use-underline => %(:is-symbol<gtk_menu_button_set_use_underline>,  :parameters([gboolean])),
+  set-active => %(:is-symbol<gtk_menu_button_set_active>, :parameters([gboolean]), ),
+  set-always-show-arrow => %(:is-symbol<gtk_menu_button_set_always_show_arrow>, :parameters([gboolean]), ),
+  set-can-shrink => %(:is-symbol<gtk_menu_button_set_can_shrink>, :parameters([gboolean]), ),
+  set-child => %(:is-symbol<gtk_menu_button_set_child>, :parameters([N-Object]), ),
+  set-create-popup-func => %(:is-symbol<gtk_menu_button_set_create_popup_func>, :parameters([:( N-Object $menu-button, gpointer $user-data ), gpointer, :( gpointer $data )]), ),
+  set-direction => %(:is-symbol<gtk_menu_button_set_direction>, :parameters([GEnum]), ),
+  set-has-frame => %(:is-symbol<gtk_menu_button_set_has_frame>, :parameters([gboolean]), ),
+  set-icon-name => %(:is-symbol<gtk_menu_button_set_icon_name>, :parameters([Str]), ),
+  set-label => %(:is-symbol<gtk_menu_button_set_label>, :parameters([Str]), ),
+  set-menu-model => %(:is-symbol<gtk_menu_button_set_menu_model>, :parameters([N-Object]), ),
+  set-popover => %(:is-symbol<gtk_menu_button_set_popover>, :parameters([N-Object]), ),
+  set-primary => %(:is-symbol<gtk_menu_button_set_primary>, :parameters([gboolean]), ),
+  set-use-underline => %(:is-symbol<gtk_menu_button_set_use_underline>, :parameters([gboolean]), ),
 );
 
 #-------------------------------------------------------------------------------

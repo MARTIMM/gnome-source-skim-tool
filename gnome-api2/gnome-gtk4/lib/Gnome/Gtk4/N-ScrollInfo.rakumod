@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::T-types:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -36,6 +38,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
 
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
@@ -70,11 +73,11 @@ my Hash $methods = %(
   new-scrollinfo => %( :type(Constructor), :is-symbol<gtk_scroll_info_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-enable-horizontal => %(:is-symbol<gtk_scroll_info_get_enable_horizontal>,  :returns(gboolean), :cnv-return(Bool)),
-  get-enable-vertical => %(:is-symbol<gtk_scroll_info_get_enable_vertical>,  :returns(gboolean), :cnv-return(Bool)),
-  ref => %(:is-symbol<gtk_scroll_info_ref>,  :returns(N-Object)),
-  set-enable-horizontal => %(:is-symbol<gtk_scroll_info_set_enable_horizontal>,  :parameters([gboolean])),
-  set-enable-vertical => %(:is-symbol<gtk_scroll_info_set_enable_vertical>,  :parameters([gboolean])),
+  get-enable-horizontal => %(:is-symbol<gtk_scroll_info_get_enable_horizontal>, :returns(gboolean), ),
+  get-enable-vertical => %(:is-symbol<gtk_scroll_info_get_enable_vertical>, :returns(gboolean), ),
+  ref => %(:is-symbol<gtk_scroll_info_ref>, :returns(N-Object), ),
+  set-enable-horizontal => %(:is-symbol<gtk_scroll_info_set_enable_horizontal>, :parameters([gboolean]), ),
+  set-enable-vertical => %(:is-symbol<gtk_scroll_info_set_enable_vertical>, :parameters([gboolean]), ),
   unref => %(:is-symbol<gtk_scroll_info_unref>, ),
 );
 

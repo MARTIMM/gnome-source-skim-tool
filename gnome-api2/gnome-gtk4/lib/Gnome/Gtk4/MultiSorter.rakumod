@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::R-Buildable:api<2>;
 use Gnome::Gtk4::Sorter:api<2>;
@@ -40,6 +42,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     
@@ -73,8 +76,8 @@ my Hash $methods = %(
   new-multisorter => %( :type(Constructor), :is-symbol<gtk_multi_sorter_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  append => %(:is-symbol<gtk_multi_sorter_append>,  :parameters([N-Object])),
-  remove => %(:is-symbol<gtk_multi_sorter_remove>,  :parameters([guint])),
+  append => %(:is-symbol<gtk_multi_sorter_append>, :parameters([N-Object]), ),
+  remove => %(:is-symbol<gtk_multi_sorter_remove>, :parameters([guint]), ),
 );
 
 #-------------------------------------------------------------------------------

@@ -7,7 +7,10 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
 
+
+#use Gnome::Gtk4::T-widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -17,32 +20,11 @@ use Gnome::N::X:api<2>;
 
 
 #-------------------------------------------------------------------------------
-#--[Class Declaration]----------------------------------------------------------
+#--[Structure Declaration]------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Gtk4::N-Requisition:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
-
-
-#-------------------------------------------------------------------------------
-#--[Record Structure]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-class N-Requisition:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-  has gint $.width;
-  has gint $.height;
-
-  submethod BUILD (
-    gint :$!width, gint :$!height, 
-  ) {
-  }
-
-  method COERCE ( $no --> N-Requisition ) {
-    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
-    nativecast( N-Requisition, $no)
-  }
-}
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -56,6 +38,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
 
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
@@ -87,10 +70,10 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-requisition => %( :type(Constructor), :is-symbol<gtk_requisition_new>, :returns(N-Requisition), ),
+  new-requisition => %( :type(Constructor), :is-symbol<gtk_requisition_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  copy => %(:is-symbol<gtk_requisition_copy>,  :returns(N-Requisition)),
+  copy => %(:is-symbol<gtk_requisition_copy>, :returns(N-Object), ),
   free => %(:is-symbol<gtk_requisition_free>, ),
 );
 

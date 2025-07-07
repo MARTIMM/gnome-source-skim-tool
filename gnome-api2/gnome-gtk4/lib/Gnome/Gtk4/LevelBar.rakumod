@@ -7,7 +7,10 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
 
+
+#use Gnome::Gtk4::R-AccessibleRange:api<2>;
 use Gnome::Gtk4::R-Orientable:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
@@ -24,6 +27,7 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Gtk4::LevelBar:auth<github:MARTIMM>:api<2>;
 also is Gnome::Gtk4::Widget;
+#also does Gnome::Gtk4::R-AccessibleRange;
 also does Gnome::Gtk4::R-Orientable;
 
 #-------------------------------------------------------------------------------
@@ -41,6 +45,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
@@ -48,6 +53,10 @@ submethod BUILD ( *%options ) {
     );
 
     # Signals from interfaces
+#`{{
+    self._add_gtk_accessible_range_signal_types($?CLASS.^name)
+      if self.^can('_add_gtk_accessible_range_signal_types');
+}}
     self._add_gtk_orientable_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_orientable_signal_types');
     $signals-added = True;
@@ -75,22 +84,22 @@ my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
   new-levelbar => %( :type(Constructor), :is-symbol<gtk_level_bar_new>, :returns(N-Object), ),
-  new-for-interval => %( :type(Constructor), :is-symbol<gtk_level_bar_new_for_interval>, :returns(N-Object), :parameters([ gdouble, gdouble])),
+  new-for-interval => %( :type(Constructor), :is-symbol<gtk_level_bar_new_for_interval>, :returns(N-Object), :parameters([ gdouble, gdouble]), ),
 
   #--[Methods]------------------------------------------------------------------
-  add-offset-value => %(:is-symbol<gtk_level_bar_add_offset_value>,  :parameters([Str, gdouble])),
-  get-inverted => %(:is-symbol<gtk_level_bar_get_inverted>,  :returns(gboolean), :cnv-return(Bool)),
-  get-max-value => %(:is-symbol<gtk_level_bar_get_max_value>,  :returns(gdouble)),
-  get-min-value => %(:is-symbol<gtk_level_bar_get_min_value>,  :returns(gdouble)),
+  add-offset-value => %(:is-symbol<gtk_level_bar_add_offset_value>, :parameters([Str, gdouble]), ),
+  get-inverted => %(:is-symbol<gtk_level_bar_get_inverted>, :returns(gboolean), ),
+  get-max-value => %(:is-symbol<gtk_level_bar_get_max_value>, :returns(gdouble), ),
+  get-min-value => %(:is-symbol<gtk_level_bar_get_min_value>, :returns(gdouble), ),
   get-mode => %(:is-symbol<gtk_level_bar_get_mode>,  :returns(GEnum), :cnv-return(GtkLevelBarMode)),
-  get-offset-value => %(:is-symbol<gtk_level_bar_get_offset_value>,  :returns(gboolean), :cnv-return(Bool), :parameters([Str, CArray[gdouble]])),
-  get-value => %(:is-symbol<gtk_level_bar_get_value>,  :returns(gdouble)),
-  remove-offset-value => %(:is-symbol<gtk_level_bar_remove_offset_value>,  :parameters([Str])),
-  set-inverted => %(:is-symbol<gtk_level_bar_set_inverted>,  :parameters([gboolean])),
-  set-max-value => %(:is-symbol<gtk_level_bar_set_max_value>,  :parameters([gdouble])),
-  set-min-value => %(:is-symbol<gtk_level_bar_set_min_value>,  :parameters([gdouble])),
-  set-mode => %(:is-symbol<gtk_level_bar_set_mode>,  :parameters([GEnum])),
-  set-value => %(:is-symbol<gtk_level_bar_set_value>,  :parameters([gdouble])),
+  get-offset-value => %(:is-symbol<gtk_level_bar_get_offset_value>, :returns(gboolean), :parameters([Str, CArray[gdouble]]), ),
+  get-value => %(:is-symbol<gtk_level_bar_get_value>, :returns(gdouble), ),
+  remove-offset-value => %(:is-symbol<gtk_level_bar_remove_offset_value>, :parameters([Str]), ),
+  set-inverted => %(:is-symbol<gtk_level_bar_set_inverted>, :parameters([gboolean]), ),
+  set-max-value => %(:is-symbol<gtk_level_bar_set_max_value>, :parameters([gdouble]), ),
+  set-min-value => %(:is-symbol<gtk_level_bar_set_min_value>, :parameters([gdouble]), ),
+  set-mode => %(:is-symbol<gtk_level_bar_set_mode>, :parameters([GEnum]), ),
+  set-value => %(:is-symbol<gtk_level_bar_set_value>, :parameters([gdouble]), ),
 );
 
 #-------------------------------------------------------------------------------
@@ -128,6 +137,13 @@ method _fallback-v2 (
   else {
     my $r;
     my $native-object = self.get-native-object-no-reffing;
+#`{{
+    $r = self._do_gtk_accessible_range_fallback-v2(
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
+    ) if self.^can('_do_gtk_accessible_range_fallback-v2');
+    return $r if $_fallback-v2-ok;
+
+}}
     $r = self._do_gtk_orientable_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
     ) if self.^can('_do_gtk_orientable_fallback-v2');

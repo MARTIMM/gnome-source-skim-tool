@@ -7,8 +7,13 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::ListBase:api<2>;
+use Gnome::Gtk4::N-ScrollInfo:api<2>;
+use Gnome::Gtk4::T-enums:api<2>;
+use Gnome::Gtk4::T-types:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -38,6 +43,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
@@ -67,19 +73,24 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-listview => %( :type(Constructor), :is-symbol<gtk_list_view_new>, :returns(N-Object), :parameters([ N-Object, N-Object])),
+  new-listview => %( :type(Constructor), :is-symbol<gtk_list_view_new>, :returns(N-Object), :parameters([ N-Object, N-Object]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-enable-rubberband => %(:is-symbol<gtk_list_view_get_enable_rubberband>,  :returns(gboolean), :cnv-return(Bool)),
-  get-factory => %(:is-symbol<gtk_list_view_get_factory>,  :returns(N-Object)),
-  get-model => %(:is-symbol<gtk_list_view_get_model>,  :returns(N-Object)),
-  get-show-separators => %(:is-symbol<gtk_list_view_get_show_separators>,  :returns(gboolean), :cnv-return(Bool)),
-  get-single-click-activate => %(:is-symbol<gtk_list_view_get_single_click_activate>,  :returns(gboolean), :cnv-return(Bool)),
-  set-enable-rubberband => %(:is-symbol<gtk_list_view_set_enable_rubberband>,  :parameters([gboolean])),
-  set-factory => %(:is-symbol<gtk_list_view_set_factory>,  :parameters([N-Object])),
-  set-model => %(:is-symbol<gtk_list_view_set_model>,  :parameters([N-Object])),
-  set-show-separators => %(:is-symbol<gtk_list_view_set_show_separators>,  :parameters([gboolean])),
-  set-single-click-activate => %(:is-symbol<gtk_list_view_set_single_click_activate>,  :parameters([gboolean])),
+  get-enable-rubberband => %(:is-symbol<gtk_list_view_get_enable_rubberband>, :returns(gboolean), ),
+  get-factory => %(:is-symbol<gtk_list_view_get_factory>, :returns(N-Object), ),
+  get-header-factory => %(:is-symbol<gtk_list_view_get_header_factory>, :returns(N-Object), ),
+  get-model => %(:is-symbol<gtk_list_view_get_model>, :returns(N-Object), ),
+  get-show-separators => %(:is-symbol<gtk_list_view_get_show_separators>, :returns(gboolean), ),
+  get-single-click-activate => %(:is-symbol<gtk_list_view_get_single_click_activate>, :returns(gboolean), ),
+  get-tab-behavior => %(:is-symbol<gtk_list_view_get_tab_behavior>,  :returns(GEnum), :cnv-return(GtkListTabBehavior)),
+  scroll-to => %(:is-symbol<gtk_list_view_scroll_to>, :parameters([guint, GFlag, N-Object]), ),
+  set-enable-rubberband => %(:is-symbol<gtk_list_view_set_enable_rubberband>, :parameters([gboolean]), ),
+  set-factory => %(:is-symbol<gtk_list_view_set_factory>, :parameters([N-Object]), ),
+  set-header-factory => %(:is-symbol<gtk_list_view_set_header_factory>, :parameters([N-Object]), ),
+  set-model => %(:is-symbol<gtk_list_view_set_model>, :parameters([N-Object]), ),
+  set-show-separators => %(:is-symbol<gtk_list_view_set_show_separators>, :parameters([gboolean]), ),
+  set-single-click-activate => %(:is-symbol<gtk_list_view_set_single_click_activate>, :parameters([gboolean]), ),
+  set-tab-behavior => %(:is-symbol<gtk_list_view_set_tab_behavior>, :parameters([GEnum]), ),
 );
 
 #-------------------------------------------------------------------------------

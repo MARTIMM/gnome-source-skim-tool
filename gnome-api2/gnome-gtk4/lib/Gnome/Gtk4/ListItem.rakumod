@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::GObject::Object:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -36,6 +38,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -57,15 +60,21 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-activatable => %(:is-symbol<gtk_list_item_get_activatable>,  :returns(gboolean), :cnv-return(Bool)),
-  get-child => %(:is-symbol<gtk_list_item_get_child>,  :returns(N-Object)),
-  get-item => %(:is-symbol<gtk_list_item_get_item>,  :returns(gpointer)),
-  get-position => %(:is-symbol<gtk_list_item_get_position>,  :returns(guint)),
-  get-selectable => %(:is-symbol<gtk_list_item_get_selectable>,  :returns(gboolean), :cnv-return(Bool)),
-  get-selected => %(:is-symbol<gtk_list_item_get_selected>,  :returns(gboolean), :cnv-return(Bool)),
-  set-activatable => %(:is-symbol<gtk_list_item_set_activatable>,  :parameters([gboolean])),
-  set-child => %(:is-symbol<gtk_list_item_set_child>,  :parameters([N-Object])),
-  set-selectable => %(:is-symbol<gtk_list_item_set_selectable>,  :parameters([gboolean])),
+  get-accessible-description => %(:is-symbol<gtk_list_item_get_accessible_description>, :returns(Str), ),
+  get-accessible-label => %(:is-symbol<gtk_list_item_get_accessible_label>, :returns(Str), ),
+  get-activatable => %(:is-symbol<gtk_list_item_get_activatable>, :returns(gboolean), ),
+  get-child => %(:is-symbol<gtk_list_item_get_child>, :returns(N-Object), ),
+  get-focusable => %(:is-symbol<gtk_list_item_get_focusable>, :returns(gboolean), ),
+  get-item => %(:is-symbol<gtk_list_item_get_item>, :returns(gpointer), ),
+  get-position => %(:is-symbol<gtk_list_item_get_position>, :returns(guint), ),
+  get-selectable => %(:is-symbol<gtk_list_item_get_selectable>, :returns(gboolean), ),
+  get-selected => %(:is-symbol<gtk_list_item_get_selected>, :returns(gboolean), ),
+  set-accessible-description => %(:is-symbol<gtk_list_item_set_accessible_description>, :parameters([Str]), ),
+  set-accessible-label => %(:is-symbol<gtk_list_item_set_accessible_label>, :parameters([Str]), ),
+  set-activatable => %(:is-symbol<gtk_list_item_set_activatable>, :parameters([gboolean]), ),
+  set-child => %(:is-symbol<gtk_list_item_set_child>, :parameters([N-Object]), ),
+  set-focusable => %(:is-symbol<gtk_list_item_set_focusable>, :parameters([gboolean]), ),
+  set-selectable => %(:is-symbol<gtk_list_item_set_selectable>, :parameters([gboolean]), ),
 );
 
 #-------------------------------------------------------------------------------

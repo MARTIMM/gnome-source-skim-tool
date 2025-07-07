@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::GObject::Object:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
@@ -37,6 +39,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -58,12 +61,12 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  allocate => %(:is-symbol<gtk_layout_manager_allocate>,  :parameters([N-Object, gint, gint, gint])),
-  get-layout-child => %(:is-symbol<gtk_layout_manager_get_layout_child>,  :returns(N-Object), :parameters([N-Object])),
+  allocate => %(:is-symbol<gtk_layout_manager_allocate>, :parameters([N-Object, gint, gint, gint]), ),
+  get-layout-child => %(:is-symbol<gtk_layout_manager_get_layout_child>, :returns(N-Object), :parameters([N-Object]), ),
   get-request-mode => %(:is-symbol<gtk_layout_manager_get_request_mode>,  :returns(GEnum), :cnv-return(GtkSizeRequestMode)),
-  get-widget => %(:is-symbol<gtk_layout_manager_get_widget>,  :returns(N-Object)),
+  get-widget => %(:is-symbol<gtk_layout_manager_get_widget>, :returns(N-Object), ),
   layout-changed => %(:is-symbol<gtk_layout_manager_layout_changed>, ),
-  measure => %(:is-symbol<gtk_layout_manager_measure>,  :parameters([N-Object, GEnum, gint, gint-ptr, gint-ptr, gint-ptr, gint-ptr])),
+  measure => %(:is-symbol<gtk_layout_manager_measure>, :parameters([N-Object, GEnum, gint, gint-ptr, gint-ptr, gint-ptr, gint-ptr]), ),
 );
 
 #-------------------------------------------------------------------------------

@@ -7,7 +7,11 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
 
+
+#use Gnome::Gtk4::T-treemodel:api<2>;
+#use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -17,34 +21,11 @@ use Gnome::N::X:api<2>;
 
 
 #-------------------------------------------------------------------------------
-#--[Class Declaration]----------------------------------------------------------
+#--[Structure Declaration]------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Gtk4::N-TreeIter:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
-
-
-#-------------------------------------------------------------------------------
-#--[Record Structure]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-class N-TreeIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-  has gint $.stamp;
-  has gpointer $.user-data;
-  has gpointer $.user-data2;
-  has gpointer $.user-data3;
-
-  submethod BUILD (
-    gint :$!stamp, gpointer :$!user-data, gpointer :$!user-data2, gpointer :$!user-data3, 
-  ) {
-  }
-
-  method COERCE ( $no --> N-TreeIter ) {
-    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
-    nativecast( N-TreeIter, $no)
-  }
-}
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -58,6 +39,13 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
+  Gnome::N::deprecate(
+    'Gnome::Gtk4::N-TreeIter', ', Str, ',
+    '4.10', Str,
+    :class, :gnome-lib(gtk4-lib())  
+  );
+
 
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
@@ -89,8 +77,8 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  copy => %(:is-symbol<gtk_tree_iter_copy>,  :returns(N-TreeIter)),
-  free => %(:is-symbol<gtk_tree_iter_free>, ),
+  copy => %(:is-symbol<gtk_tree_iter_copy>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  free => %(:is-symbol<gtk_tree_iter_free>, :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------

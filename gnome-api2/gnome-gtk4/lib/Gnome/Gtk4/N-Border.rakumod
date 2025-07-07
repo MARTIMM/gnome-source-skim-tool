@@ -7,7 +7,10 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
 
+
+#use Gnome::Gtk4::T-border:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -17,34 +20,11 @@ use Gnome::N::X:api<2>;
 
 
 #-------------------------------------------------------------------------------
-#--[Class Declaration]----------------------------------------------------------
+#--[Structure Declaration]------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Gtk4::N-Border:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
-
-
-#-------------------------------------------------------------------------------
-#--[Record Structure]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-class N-Border:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-  has gint16 $.left;
-  has gint16 $.right;
-  has gint16 $.top;
-  has gint16 $.bottom;
-
-  submethod BUILD (
-    gint16 :$!left, gint16 :$!right, gint16 :$!top, gint16 :$!bottom, 
-  ) {
-  }
-
-  method COERCE ( $no --> N-Border ) {
-    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
-    nativecast( N-Border, $no)
-  }
-}
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -58,6 +38,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
 
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
@@ -89,10 +70,10 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-border => %( :type(Constructor), :is-symbol<gtk_border_new>, :returns(N-Border), ),
+  new-border => %( :type(Constructor), :is-symbol<gtk_border_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  copy => %(:is-symbol<gtk_border_copy>,  :returns(N-Border)),
+  copy => %(:is-symbol<gtk_border_copy>, :returns(N-Object), ),
   free => %(:is-symbol<gtk_border_free>, ),
 );
 

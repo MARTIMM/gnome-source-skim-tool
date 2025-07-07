@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -58,11 +60,11 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-mediacontrols => %( :type(Constructor), :is-symbol<gtk_media_controls_new>, :returns(N-Object), :parameters([ N-Object])),
+  new-mediacontrols => %( :type(Constructor), :is-symbol<gtk_media_controls_new>, :returns(N-Object), :parameters([ N-Object]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-media-stream => %(:is-symbol<gtk_media_controls_get_media_stream>,  :returns(N-Object)),
-  set-media-stream => %(:is-symbol<gtk_media_controls_set_media_stream>,  :parameters([N-Object])),
+  get-media-stream => %(:is-symbol<gtk_media_controls_get_media_stream>, :returns(N-Object), ),
+  set-media-stream => %(:is-symbol<gtk_media_controls_set_media_stream>, :parameters([N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------

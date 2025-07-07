@@ -7,7 +7,10 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
 
+
+#use Gnome::Gtk4::R-AccessibleText:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -16,7 +19,10 @@ use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 #use Gnome::Pango::N-AttrList:api<2>;
+use Gnome::Pango::N-TabArray:api<2>;
+#use Gnome::Pango::T-attributes:api<2>;
 use Gnome::Pango::T-layout:api<2>;
+#use Gnome::Pango::T-tabs:api<2>;
 
 
 #-------------------------------------------------------------------------------
@@ -25,6 +31,7 @@ use Gnome::Pango::T-layout:api<2>;
 
 unit class Gnome::Gtk4::Label:auth<github:MARTIMM>:api<2>;
 also is Gnome::Gtk4::Widget;
+#also does Gnome::Gtk4::R-AccessibleText;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -41,13 +48,20 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<copy-clipboard activate-current-link>,
+      :w0<activate-current-link copy-clipboard>,
       :w1<activate-link>,
       :w3<move-cursor>,
     );
+
+    # Signals from interfaces
+#`{{
+    self._add_gtk_accessible_text_signal_types($?CLASS.^name)
+      if self.^can('_add_gtk_accessible_text_signal_types');
+}}
     $signals-added = True;
   }
 
@@ -72,57 +86,59 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-label => %( :type(Constructor), :is-symbol<gtk_label_new>, :returns(N-Object), :parameters([ Str])),
-  new-with-mnemonic => %( :type(Constructor), :is-symbol<gtk_label_new_with_mnemonic>, :returns(N-Object), :parameters([ Str])),
+  new-label => %( :type(Constructor), :is-symbol<gtk_label_new>, :returns(N-Object), :parameters([ Str]), ),
+  new-with-mnemonic => %( :type(Constructor), :is-symbol<gtk_label_new_with_mnemonic>, :returns(N-Object), :parameters([ Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  #get-attributes => %(:is-symbol<gtk_label_get_attributes>,  :returns(N-AttrList )),
-  get-current-uri => %(:is-symbol<gtk_label_get_current_uri>,  :returns(Str)),
+  get-attributes => %(:is-symbol<gtk_label_get_attributes>, :returns(N-Object), ),
+  get-current-uri => %(:is-symbol<gtk_label_get_current_uri>, :returns(Str), ),
   get-ellipsize => %(:is-symbol<gtk_label_get_ellipsize>,  :returns(GEnum), :cnv-return(PangoEllipsizeMode)),
-  get-extra-menu => %(:is-symbol<gtk_label_get_extra_menu>,  :returns(N-Object)),
+  get-extra-menu => %(:is-symbol<gtk_label_get_extra_menu>, :returns(N-Object), ),
   get-justify => %(:is-symbol<gtk_label_get_justify>,  :returns(GEnum), :cnv-return(GtkJustification)),
-  get-label => %(:is-symbol<gtk_label_get_label>,  :returns(Str)),
-  get-layout => %(:is-symbol<gtk_label_get_layout>,  :returns(N-Object)),
-  get-layout-offsets => %(:is-symbol<gtk_label_get_layout_offsets>,  :parameters([gint-ptr, gint-ptr])),
-  get-lines => %(:is-symbol<gtk_label_get_lines>,  :returns(gint)),
-  get-max-width-chars => %(:is-symbol<gtk_label_get_max_width_chars>,  :returns(gint)),
-  get-mnemonic-keyval => %(:is-symbol<gtk_label_get_mnemonic_keyval>,  :returns(guint)),
-  get-mnemonic-widget => %(:is-symbol<gtk_label_get_mnemonic_widget>,  :returns(N-Object)),
+  get-label => %(:is-symbol<gtk_label_get_label>, :returns(Str), ),
+  get-layout => %(:is-symbol<gtk_label_get_layout>, :returns(N-Object), ),
+  get-layout-offsets => %(:is-symbol<gtk_label_get_layout_offsets>, :parameters([gint-ptr, gint-ptr]), ),
+  get-lines => %(:is-symbol<gtk_label_get_lines>, :returns(gint), ),
+  get-max-width-chars => %(:is-symbol<gtk_label_get_max_width_chars>, :returns(gint), ),
+  get-mnemonic-keyval => %(:is-symbol<gtk_label_get_mnemonic_keyval>, :returns(guint), ),
+  get-mnemonic-widget => %(:is-symbol<gtk_label_get_mnemonic_widget>, :returns(N-Object), ),
   get-natural-wrap-mode => %(:is-symbol<gtk_label_get_natural_wrap_mode>,  :returns(GEnum), :cnv-return(GtkNaturalWrapMode)),
-  get-selectable => %(:is-symbol<gtk_label_get_selectable>,  :returns(gboolean), :cnv-return(Bool)),
-  get-selection-bounds => %(:is-symbol<gtk_label_get_selection_bounds>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint-ptr, gint-ptr])),
-  get-single-line-mode => %(:is-symbol<gtk_label_get_single_line_mode>,  :returns(gboolean), :cnv-return(Bool)),
-  get-text => %(:is-symbol<gtk_label_get_text>,  :returns(Str)),
-  get-use-markup => %(:is-symbol<gtk_label_get_use_markup>,  :returns(gboolean), :cnv-return(Bool)),
-  get-use-underline => %(:is-symbol<gtk_label_get_use_underline>,  :returns(gboolean), :cnv-return(Bool)),
-  get-width-chars => %(:is-symbol<gtk_label_get_width_chars>,  :returns(gint)),
-  get-wrap => %(:is-symbol<gtk_label_get_wrap>,  :returns(gboolean), :cnv-return(Bool)),
+  get-selectable => %(:is-symbol<gtk_label_get_selectable>, :returns(gboolean), ),
+  get-selection-bounds => %(:is-symbol<gtk_label_get_selection_bounds>, :returns(gboolean), :parameters([gint-ptr, gint-ptr]), ),
+  get-single-line-mode => %(:is-symbol<gtk_label_get_single_line_mode>, :returns(gboolean), ),
+  get-tabs => %(:is-symbol<gtk_label_get_tabs>, :returns(N-Object), ),
+  get-text => %(:is-symbol<gtk_label_get_text>, :returns(Str), ),
+  get-use-markup => %(:is-symbol<gtk_label_get_use_markup>, :returns(gboolean), ),
+  get-use-underline => %(:is-symbol<gtk_label_get_use_underline>, :returns(gboolean), ),
+  get-width-chars => %(:is-symbol<gtk_label_get_width_chars>, :returns(gint), ),
+  get-wrap => %(:is-symbol<gtk_label_get_wrap>, :returns(gboolean), ),
   get-wrap-mode => %(:is-symbol<gtk_label_get_wrap_mode>,  :returns(GEnum), :cnv-return(PangoWrapMode)),
-  get-xalign => %(:is-symbol<gtk_label_get_xalign>,  :returns(gfloat)),
-  get-yalign => %(:is-symbol<gtk_label_get_yalign>,  :returns(gfloat)),
-  select-region => %(:is-symbol<gtk_label_select_region>,  :parameters([gint, gint])),
-  #set-attributes => %(:is-symbol<gtk_label_set_attributes>,  :parameters([N-AttrList ])),
-  set-ellipsize => %(:is-symbol<gtk_label_set_ellipsize>,  :parameters([GEnum])),
-  set-extra-menu => %(:is-symbol<gtk_label_set_extra_menu>,  :parameters([N-Object])),
-  set-justify => %(:is-symbol<gtk_label_set_justify>,  :parameters([GEnum])),
-  set-label => %(:is-symbol<gtk_label_set_label>,  :parameters([Str])),
-  set-lines => %(:is-symbol<gtk_label_set_lines>,  :parameters([gint])),
-  set-markup => %(:is-symbol<gtk_label_set_markup>,  :parameters([Str])),
-  set-markup-with-mnemonic => %(:is-symbol<gtk_label_set_markup_with_mnemonic>,  :parameters([Str])),
-  set-max-width-chars => %(:is-symbol<gtk_label_set_max_width_chars>,  :parameters([gint])),
-  set-mnemonic-widget => %(:is-symbol<gtk_label_set_mnemonic_widget>,  :parameters([N-Object])),
-  set-natural-wrap-mode => %(:is-symbol<gtk_label_set_natural_wrap_mode>,  :parameters([GEnum])),
-  set-selectable => %(:is-symbol<gtk_label_set_selectable>,  :parameters([gboolean])),
-  set-single-line-mode => %(:is-symbol<gtk_label_set_single_line_mode>,  :parameters([gboolean])),
-  set-text => %(:is-symbol<gtk_label_set_text>,  :parameters([Str])),
-  set-text-with-mnemonic => %(:is-symbol<gtk_label_set_text_with_mnemonic>,  :parameters([Str])),
-  set-use-markup => %(:is-symbol<gtk_label_set_use_markup>,  :parameters([gboolean])),
-  set-use-underline => %(:is-symbol<gtk_label_set_use_underline>,  :parameters([gboolean])),
-  set-width-chars => %(:is-symbol<gtk_label_set_width_chars>,  :parameters([gint])),
-  set-wrap => %(:is-symbol<gtk_label_set_wrap>,  :parameters([gboolean])),
-  set-wrap-mode => %(:is-symbol<gtk_label_set_wrap_mode>,  :parameters([GEnum])),
-  set-xalign => %(:is-symbol<gtk_label_set_xalign>,  :parameters([gfloat])),
-  set-yalign => %(:is-symbol<gtk_label_set_yalign>,  :parameters([gfloat])),
+  get-xalign => %(:is-symbol<gtk_label_get_xalign>, :returns(gfloat), ),
+  get-yalign => %(:is-symbol<gtk_label_get_yalign>, :returns(gfloat), ),
+  select-region => %(:is-symbol<gtk_label_select_region>, :parameters([gint, gint]), ),
+  set-attributes => %(:is-symbol<gtk_label_set_attributes>, :parameters([N-Object]), ),
+  set-ellipsize => %(:is-symbol<gtk_label_set_ellipsize>, :parameters([GEnum]), ),
+  set-extra-menu => %(:is-symbol<gtk_label_set_extra_menu>, :parameters([N-Object]), ),
+  set-justify => %(:is-symbol<gtk_label_set_justify>, :parameters([GEnum]), ),
+  set-label => %(:is-symbol<gtk_label_set_label>, :parameters([Str]), ),
+  set-lines => %(:is-symbol<gtk_label_set_lines>, :parameters([gint]), ),
+  set-markup => %(:is-symbol<gtk_label_set_markup>, :parameters([Str]), ),
+  set-markup-with-mnemonic => %(:is-symbol<gtk_label_set_markup_with_mnemonic>, :parameters([Str]), ),
+  set-max-width-chars => %(:is-symbol<gtk_label_set_max_width_chars>, :parameters([gint]), ),
+  set-mnemonic-widget => %(:is-symbol<gtk_label_set_mnemonic_widget>, :parameters([N-Object]), ),
+  set-natural-wrap-mode => %(:is-symbol<gtk_label_set_natural_wrap_mode>, :parameters([GEnum]), ),
+  set-selectable => %(:is-symbol<gtk_label_set_selectable>, :parameters([gboolean]), ),
+  set-single-line-mode => %(:is-symbol<gtk_label_set_single_line_mode>, :parameters([gboolean]), ),
+  set-tabs => %(:is-symbol<gtk_label_set_tabs>, :parameters([N-Object]), ),
+  set-text => %(:is-symbol<gtk_label_set_text>, :parameters([Str]), ),
+  set-text-with-mnemonic => %(:is-symbol<gtk_label_set_text_with_mnemonic>, :parameters([Str]), ),
+  set-use-markup => %(:is-symbol<gtk_label_set_use_markup>, :parameters([gboolean]), ),
+  set-use-underline => %(:is-symbol<gtk_label_set_use_underline>, :parameters([gboolean]), ),
+  set-width-chars => %(:is-symbol<gtk_label_set_width_chars>, :parameters([gint]), ),
+  set-wrap => %(:is-symbol<gtk_label_set_wrap>, :parameters([gboolean]), ),
+  set-wrap-mode => %(:is-symbol<gtk_label_set_wrap_mode>, :parameters([GEnum]), ),
+  set-xalign => %(:is-symbol<gtk_label_set_xalign>, :parameters([gfloat]), ),
+  set-yalign => %(:is-symbol<gtk_label_set_yalign>, :parameters([gfloat]), ),
 );
 
 #-------------------------------------------------------------------------------
@@ -158,6 +174,15 @@ method _fallback-v2 (
   }
 
   else {
+    my $r;
+    my $native-object = self.get-native-object-no-reffing;
+#`{{
+    $r = self._do_gtk_accessible_text_fallback-v2(
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
+    ) if self.^can('_do_gtk_accessible_text_fallback-v2');
+    return $r if $_fallback-v2-ok;
+
+}}
     callsame;
   }
 }

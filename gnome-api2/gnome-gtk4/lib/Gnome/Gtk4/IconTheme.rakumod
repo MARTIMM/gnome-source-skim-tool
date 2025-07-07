@@ -7,11 +7,12 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
+
 use Gnome::GObject::Object:api<2>;
-
 use Gnome::Gtk4::T-enums:api<2>;
-use Gnome::Gtk4::T-iconpaintable:api<2>;
-
+#use Gnome::Gtk4::T-icontheme:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -41,6 +42,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
@@ -73,24 +75,24 @@ my Hash $methods = %(
   new-icontheme => %( :type(Constructor), :is-symbol<gtk_icon_theme_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  add-resource-path => %(:is-symbol<gtk_icon_theme_add_resource_path>,  :parameters([Str])),
-  add-search-path => %(:is-symbol<gtk_icon_theme_add_search_path>,  :parameters([Str])),
-  get-display => %(:is-symbol<gtk_icon_theme_get_display>,  :returns(N-Object)),
-  get-icon-names => %(:is-symbol<gtk_icon_theme_get_icon_names>,  :returns(gchar-pptr)),
-  get-icon-sizes => %(:is-symbol<gtk_icon_theme_get_icon_sizes>,  :returns(gint-ptr), :parameters([Str])),
-  get-resource-path => %(:is-symbol<gtk_icon_theme_get_resource_path>,  :returns(gchar-pptr)),
-  get-search-path => %(:is-symbol<gtk_icon_theme_get_search_path>,  :returns(gchar-pptr)),
-  get-theme-name => %(:is-symbol<gtk_icon_theme_get_theme_name>,  :returns(Str)),
-  has-gicon => %(:is-symbol<gtk_icon_theme_has_gicon>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
-  has-icon => %(:is-symbol<gtk_icon_theme_has_icon>,  :returns(gboolean), :cnv-return(Bool), :parameters([Str])),
-  lookup-by-gicon => %(:is-symbol<gtk_icon_theme_lookup_by_gicon>,  :returns(N-Object), :parameters([N-Object, gint, gint, GEnum, GFlag])),
-  lookup-icon => %(:is-symbol<gtk_icon_theme_lookup_icon>,  :returns(N-Object), :parameters([Str, gchar-pptr, gint, gint, GEnum, GFlag])),
-  set-resource-path => %(:is-symbol<gtk_icon_theme_set_resource_path>,  :parameters([gchar-pptr])),
-  set-search-path => %(:is-symbol<gtk_icon_theme_set_search_path>,  :parameters([gchar-pptr])),
-  set-theme-name => %(:is-symbol<gtk_icon_theme_set_theme_name>,  :parameters([Str])),
+  add-resource-path => %(:is-symbol<gtk_icon_theme_add_resource_path>, :parameters([Str]), ),
+  add-search-path => %(:is-symbol<gtk_icon_theme_add_search_path>, :parameters([Str]), ),
+  get-display => %(:is-symbol<gtk_icon_theme_get_display>, :returns(N-Object), ),
+  get-icon-names => %(:is-symbol<gtk_icon_theme_get_icon_names>, :returns(gchar-pptr), ),
+  get-icon-sizes => %(:is-symbol<gtk_icon_theme_get_icon_sizes>, :returns(gint-ptr), :parameters([Str]), ),
+  get-resource-path => %(:is-symbol<gtk_icon_theme_get_resource_path>, :returns(gchar-pptr), ),
+  get-search-path => %(:is-symbol<gtk_icon_theme_get_search_path>, :returns(gchar-pptr), ),
+  get-theme-name => %(:is-symbol<gtk_icon_theme_get_theme_name>, :returns(Str), ),
+  has-gicon => %(:is-symbol<gtk_icon_theme_has_gicon>, :returns(gboolean), :parameters([N-Object]), ),
+  has-icon => %(:is-symbol<gtk_icon_theme_has_icon>, :returns(gboolean), :parameters([Str]), ),
+  #lookup-by-gicon => %(:is-symbol<gtk_icon_theme_lookup_by_gicon>, :returns(N-Object), :parameters([N-Object, gint, gint, GEnum, GFlag]), ),
+  #lookup-icon => %(:is-symbol<gtk_icon_theme_lookup_icon>, :returns(N-Object), :parameters([Str, gchar-pptr, gint, gint, GEnum, GFlag]), ),
+  set-resource-path => %(:is-symbol<gtk_icon_theme_set_resource_path>, :parameters([gchar-pptr]), ),
+  set-search-path => %(:is-symbol<gtk_icon_theme_set_search_path>, :parameters([gchar-pptr]), ),
+  set-theme-name => %(:is-symbol<gtk_icon_theme_set_theme_name>, :parameters([Str]), ),
 
   #--[Functions]----------------------------------------------------------------
-  get-for-display => %( :type(Function), :is-symbol<gtk_icon_theme_get_for_display>,  :returns(N-Object), :parameters([N-Object])),
+  get-for-display => %( :type(Function), :is-symbol<gtk_icon_theme_get_for_display>, :returns(N-Object), :parameters([N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------

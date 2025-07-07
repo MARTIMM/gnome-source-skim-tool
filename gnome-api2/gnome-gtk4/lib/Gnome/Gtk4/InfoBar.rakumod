@@ -7,9 +7,12 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
+#use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -39,6 +42,13 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
+  Gnome::N::deprecate(
+    'Gnome::Gtk4::InfoBar', ', Str, ',
+    '4.10', Str,
+    :class, :gnome-lib(gtk4-lib())  
+  );
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
@@ -69,25 +79,25 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-infobar => %( :type(Constructor), :is-symbol<gtk_info_bar_new>, :returns(N-Object), ),
-  new-with-buttons => %( :type(Constructor), :is-symbol<gtk_info_bar_new_with_buttons>, :returns(N-Object), :variable-list, :parameters([ Str])),
+  new-infobar => %( :type(Constructor), :is-symbol<gtk_info_bar_new>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  new-with-buttons => %( :type(Constructor), :is-symbol<gtk_info_bar_new_with_buttons>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :variable-list, :parameters([ Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  add-action-widget => %(:is-symbol<gtk_info_bar_add_action_widget>,  :parameters([N-Object, gint])),
-  add-button => %(:is-symbol<gtk_info_bar_add_button>,  :returns(N-Object), :parameters([Str, gint])),
-  add-buttons => %(:is-symbol<gtk_info_bar_add_buttons>, :variable-list,  :parameters([Str])),
-  add-child => %(:is-symbol<gtk_info_bar_add_child>,  :parameters([N-Object])),
-  get-message-type => %(:is-symbol<gtk_info_bar_get_message_type>,  :returns(GEnum), :cnv-return(GtkMessageType)),
-  get-revealed => %(:is-symbol<gtk_info_bar_get_revealed>,  :returns(gboolean), :cnv-return(Bool)),
-  get-show-close-button => %(:is-symbol<gtk_info_bar_get_show_close_button>,  :returns(gboolean), :cnv-return(Bool)),
-  remove-action-widget => %(:is-symbol<gtk_info_bar_remove_action_widget>,  :parameters([N-Object])),
-  remove-child => %(:is-symbol<gtk_info_bar_remove_child>,  :parameters([N-Object])),
-  response => %(:is-symbol<gtk_info_bar_response>,  :parameters([gint])),
-  set-default-response => %(:is-symbol<gtk_info_bar_set_default_response>,  :parameters([gint])),
-  set-message-type => %(:is-symbol<gtk_info_bar_set_message_type>,  :parameters([GEnum])),
-  set-response-sensitive => %(:is-symbol<gtk_info_bar_set_response_sensitive>,  :parameters([gint, gboolean])),
-  set-revealed => %(:is-symbol<gtk_info_bar_set_revealed>,  :parameters([gboolean])),
-  set-show-close-button => %(:is-symbol<gtk_info_bar_set_show_close_button>,  :parameters([gboolean])),
+  add-action-widget => %(:is-symbol<gtk_info_bar_add_action_widget>, :parameters([N-Object, gint]), :deprecated, :deprecated-version<4.10>, ),
+  add-button => %(:is-symbol<gtk_info_bar_add_button>, :returns(N-Object), :parameters([Str, gint]), :deprecated, :deprecated-version<4.10>, ),
+  add-buttons => %(:is-symbol<gtk_info_bar_add_buttons>, :variable-list, :parameters([Str]), :deprecated, :deprecated-version<4.10>, ),
+  add-child => %(:is-symbol<gtk_info_bar_add_child>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  get-message-type => %(:is-symbol<gtk_info_bar_get_message_type>,  :returns(GEnum), :cnv-return(GtkMessageType),:deprecated, :deprecated-version<4.10>, ),
+  get-revealed => %(:is-symbol<gtk_info_bar_get_revealed>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-show-close-button => %(:is-symbol<gtk_info_bar_get_show_close_button>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  remove-action-widget => %(:is-symbol<gtk_info_bar_remove_action_widget>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  remove-child => %(:is-symbol<gtk_info_bar_remove_child>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  response => %(:is-symbol<gtk_info_bar_response>, :parameters([gint]), :deprecated, :deprecated-version<4.10>, ),
+  set-default-response => %(:is-symbol<gtk_info_bar_set_default_response>, :parameters([gint]), :deprecated, :deprecated-version<4.10>, ),
+  set-message-type => %(:is-symbol<gtk_info_bar_set_message_type>, :parameters([GEnum]), :deprecated, :deprecated-version<4.10>, ),
+  set-response-sensitive => %(:is-symbol<gtk_info_bar_set_response_sensitive>, :parameters([gint, gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-revealed => %(:is-symbol<gtk_info_bar_set_revealed>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-show-close-button => %(:is-symbol<gtk_info_bar_set_show_close_button>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------

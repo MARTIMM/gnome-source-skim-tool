@@ -7,8 +7,10 @@ use v6.d;
 
 use NativeCall;
 
-use Gnome::Gtk4::T-types:api<2>;
+use Cairo;
 
+
+use Gnome::Gtk4::T-types:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -36,6 +38,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
 
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
@@ -68,35 +71,35 @@ my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
   new-empty => %( :type(Constructor), :is-symbol<gtk_bitset_new_empty>, :returns(N-Object), ),
-  new-range => %( :type(Constructor), :is-symbol<gtk_bitset_new_range>, :returns(N-Object), :parameters([ guint, guint])),
+  new-range => %( :type(Constructor), :is-symbol<gtk_bitset_new_range>, :returns(N-Object), :parameters([ guint, guint]), ),
 
   #--[Methods]------------------------------------------------------------------
-  add => %(:is-symbol<gtk_bitset_add>,  :returns(gboolean), :cnv-return(Bool), :parameters([guint])),
-  add-range => %(:is-symbol<gtk_bitset_add_range>,  :parameters([guint, guint])),
-  add-range-closed => %(:is-symbol<gtk_bitset_add_range_closed>,  :parameters([guint, guint])),
-  add-rectangle => %(:is-symbol<gtk_bitset_add_rectangle>,  :parameters([guint, guint, guint, guint])),
-  contains => %(:is-symbol<gtk_bitset_contains>,  :returns(gboolean), :cnv-return(Bool), :parameters([guint])),
-  copy => %(:is-symbol<gtk_bitset_copy>,  :returns(N-Object)),
-  difference => %(:is-symbol<gtk_bitset_difference>,  :parameters([N-Object])),
-  equals => %(:is-symbol<gtk_bitset_equals>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
-  get-maximum => %(:is-symbol<gtk_bitset_get_maximum>,  :returns(guint)),
-  get-minimum => %(:is-symbol<gtk_bitset_get_minimum>,  :returns(guint)),
-  get-nth => %(:is-symbol<gtk_bitset_get_nth>,  :returns(guint), :parameters([guint])),
-  get-size => %(:is-symbol<gtk_bitset_get_size>,  :returns(guint64)),
-  get-size-in-range => %(:is-symbol<gtk_bitset_get_size_in_range>,  :returns(guint64), :parameters([guint, guint])),
-  intersect => %(:is-symbol<gtk_bitset_intersect>,  :parameters([N-Object])),
-  is-empty => %(:is-symbol<gtk_bitset_is_empty>,  :returns(gboolean), :cnv-return(Bool)),
-  ref => %(:is-symbol<gtk_bitset_ref>,  :returns(N-Object)),
-  remove => %(:is-symbol<gtk_bitset_remove>,  :returns(gboolean), :cnv-return(Bool), :parameters([guint])),
+  add => %(:is-symbol<gtk_bitset_add>, :returns(gboolean), :parameters([guint]), ),
+  add-range => %(:is-symbol<gtk_bitset_add_range>, :parameters([guint, guint]), ),
+  add-range-closed => %(:is-symbol<gtk_bitset_add_range_closed>, :parameters([guint, guint]), ),
+  add-rectangle => %(:is-symbol<gtk_bitset_add_rectangle>, :parameters([guint, guint, guint, guint]), ),
+  contains => %(:is-symbol<gtk_bitset_contains>, :returns(gboolean), :parameters([guint]), ),
+  copy => %(:is-symbol<gtk_bitset_copy>, :returns(N-Object), ),
+  difference => %(:is-symbol<gtk_bitset_difference>, :parameters([N-Object]), ),
+  equals => %(:is-symbol<gtk_bitset_equals>, :returns(gboolean), :parameters([N-Object]), ),
+  get-maximum => %(:is-symbol<gtk_bitset_get_maximum>, :returns(guint), ),
+  get-minimum => %(:is-symbol<gtk_bitset_get_minimum>, :returns(guint), ),
+  get-nth => %(:is-symbol<gtk_bitset_get_nth>, :returns(guint), :parameters([guint]), ),
+  get-size => %(:is-symbol<gtk_bitset_get_size>, :returns(guint64), ),
+  get-size-in-range => %(:is-symbol<gtk_bitset_get_size_in_range>, :returns(guint64), :parameters([guint, guint]), ),
+  intersect => %(:is-symbol<gtk_bitset_intersect>, :parameters([N-Object]), ),
+  is-empty => %(:is-symbol<gtk_bitset_is_empty>, :returns(gboolean), ),
+  ref => %(:is-symbol<gtk_bitset_ref>, :returns(N-Object), ),
+  remove => %(:is-symbol<gtk_bitset_remove>, :returns(gboolean), :parameters([guint]), ),
   remove-all => %(:is-symbol<gtk_bitset_remove_all>, ),
-  remove-range => %(:is-symbol<gtk_bitset_remove_range>,  :parameters([guint, guint])),
-  remove-range-closed => %(:is-symbol<gtk_bitset_remove_range_closed>,  :parameters([guint, guint])),
-  remove-rectangle => %(:is-symbol<gtk_bitset_remove_rectangle>,  :parameters([guint, guint, guint, guint])),
-  shift-left => %(:is-symbol<gtk_bitset_shift_left>,  :parameters([guint])),
-  shift-right => %(:is-symbol<gtk_bitset_shift_right>,  :parameters([guint])),
-  splice => %(:is-symbol<gtk_bitset_splice>,  :parameters([guint, guint, guint])),
-  subtract => %(:is-symbol<gtk_bitset_subtract>,  :parameters([N-Object])),
-  union => %(:is-symbol<gtk_bitset_union>,  :parameters([N-Object])),
+  remove-range => %(:is-symbol<gtk_bitset_remove_range>, :parameters([guint, guint]), ),
+  remove-range-closed => %(:is-symbol<gtk_bitset_remove_range_closed>, :parameters([guint, guint]), ),
+  remove-rectangle => %(:is-symbol<gtk_bitset_remove_rectangle>, :parameters([guint, guint, guint, guint]), ),
+  shift-left => %(:is-symbol<gtk_bitset_shift_left>, :parameters([guint]), ),
+  shift-right => %(:is-symbol<gtk_bitset_shift_right>, :parameters([guint]), ),
+  splice => %(:is-symbol<gtk_bitset_splice>, :parameters([guint, guint, guint]), ),
+  subtract => %(:is-symbol<gtk_bitset_subtract>, :parameters([N-Object]), ),
+  union => %(:is-symbol<gtk_bitset_union>, :parameters([N-Object]), ),
   unref => %(:is-symbol<gtk_bitset_unref>, ),
 );
 

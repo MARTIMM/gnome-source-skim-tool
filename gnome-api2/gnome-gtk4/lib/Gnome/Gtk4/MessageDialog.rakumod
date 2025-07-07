@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Dialog:api<2>;
 use Gnome::Gtk4::T-dialog:api<2>;
@@ -68,14 +70,14 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-messagedialog => %( :type(Constructor), :is-symbol<gtk_message_dialog_new>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :variable-list, :parameters([ N-Object, GFlag, GEnum, GEnum, Str])),
-  new-with-markup => %( :type(Constructor), :is-symbol<gtk_message_dialog_new_with_markup>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :variable-list, :parameters([ N-Object, GFlag, GEnum, GEnum, Str])),
+  new-messagedialog => %( :type(Constructor), :is-symbol<gtk_message_dialog_new>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :variable-list, :parameters([ N-Object, GFlag, GEnum, GEnum, Str]), ),
+  new-with-markup => %( :type(Constructor), :is-symbol<gtk_message_dialog_new_with_markup>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :variable-list, :parameters([ N-Object, GFlag, GEnum, GEnum, Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  format-secondary-markup => %(:is-symbol<gtk_message_dialog_format_secondary_markup>, :variable-list,  :parameters([Str]),:deprecated, :deprecated-version<4.10>, ),
-  format-secondary-text => %(:is-symbol<gtk_message_dialog_format_secondary_text>, :variable-list,  :parameters([Str]),:deprecated, :deprecated-version<4.10>, ),
-  get-message-area => %(:is-symbol<gtk_message_dialog_get_message_area>,  :returns(N-Object),:deprecated, :deprecated-version<4.10>, ),
-  set-markup => %(:is-symbol<gtk_message_dialog_set_markup>,  :parameters([Str]),:deprecated, :deprecated-version<4.10>, ),
+  format-secondary-markup => %(:is-symbol<gtk_message_dialog_format_secondary_markup>, :variable-list, :parameters([Str]), :deprecated, :deprecated-version<4.10>, ),
+  format-secondary-text => %(:is-symbol<gtk_message_dialog_format_secondary_text>, :variable-list, :parameters([Str]), :deprecated, :deprecated-version<4.10>, ),
+  get-message-area => %(:is-symbol<gtk_message_dialog_get_message_area>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  set-markup => %(:is-symbol<gtk_message_dialog_set_markup>, :parameters([Str]), :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------

@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::GObject::Object:api<2>;
 use Gnome::Gtk4::R-SymbolicPaintable:api<2>;
@@ -40,6 +42,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     
@@ -70,12 +73,12 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-for-file => %( :type(Constructor), :is-symbol<gtk_icon_paintable_new_for_file>, :returns(N-Object), :parameters([ N-Object, gint, gint])),
+  new-for-file => %( :type(Constructor), :is-symbol<gtk_icon_paintable_new_for_file>, :returns(N-Object), :parameters([ N-Object, gint, gint]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-file => %(:is-symbol<gtk_icon_paintable_get_file>,  :returns(N-Object)),
-  get-icon-name => %(:is-symbol<gtk_icon_paintable_get_icon_name>,  :returns(Str)),
-  is-symbolic => %(:is-symbol<gtk_icon_paintable_is_symbolic>,  :returns(gboolean), :cnv-return(Bool)),
+  get-file => %(:is-symbol<gtk_icon_paintable_get_file>, :returns(N-Object), ),
+  get-icon-name => %(:is-symbol<gtk_icon_paintable_get_icon_name>, :returns(Str), ),
+  is-symbolic => %(:is-symbol<gtk_icon_paintable_is_symbolic>, :returns(gboolean), ),
 );
 
 #-------------------------------------------------------------------------------

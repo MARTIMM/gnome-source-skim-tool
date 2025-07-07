@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Button:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -38,6 +40,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
@@ -67,14 +70,14 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-linkbutton => %( :type(Constructor), :is-symbol<gtk_link_button_new>, :returns(N-Object), :parameters([ Str])),
-  new-with-label => %( :type(Constructor), :is-symbol<gtk_link_button_new_with_label>, :returns(N-Object), :parameters([ Str, Str])),
+  new-linkbutton => %( :type(Constructor), :is-symbol<gtk_link_button_new>, :returns(N-Object), :parameters([ Str]), ),
+  new-with-label => %( :type(Constructor), :is-symbol<gtk_link_button_new_with_label>, :returns(N-Object), :parameters([ Str, Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-uri => %(:is-symbol<gtk_link_button_get_uri>,  :returns(Str)),
-  get-visited => %(:is-symbol<gtk_link_button_get_visited>,  :returns(gboolean), :cnv-return(Bool)),
-  set-uri => %(:is-symbol<gtk_link_button_set_uri>,  :parameters([Str])),
-  set-visited => %(:is-symbol<gtk_link_button_set_visited>,  :parameters([gboolean])),
+  get-uri => %(:is-symbol<gtk_link_button_get_uri>, :returns(Str), ),
+  get-visited => %(:is-symbol<gtk_link_button_get_visited>, :returns(gboolean), ),
+  set-uri => %(:is-symbol<gtk_link_button_set_uri>, :parameters([Str]), ),
+  set-visited => %(:is-symbol<gtk_link_button_set_visited>, :parameters([gboolean]), ),
 );
 
 #-------------------------------------------------------------------------------
@@ -89,7 +92,6 @@ method _fallback-v2 (
         :library(gtk4-lib())
       );
 
-      # Check the function name. 
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)
