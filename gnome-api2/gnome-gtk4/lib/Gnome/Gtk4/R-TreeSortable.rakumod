@@ -7,21 +7,23 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
 
-use Gnome::Gtk4::N-TreeIter:api<2>;
+
 use Gnome::Gtk4::T-enums:api<2>;
+#use Gnome::Gtk4::T-treemodel:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
-use Gnome::N::TopLevelClassSupport:api<2>;
 
 
 #-------------------------------------------------------------------------------
 #--[Role Declaration]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit role Gnome::Gtk4::R-TreeSortable:auth<github:MARTIMM>:api<2>;
+unit class Gnome::Gtk4::R-TreeSortable:auth<github:MARTIMM>:api<2>;
+
 
 #-------------------------------------------------------------------------------
 #--[Native Routine Definitions]-------------------------------------------------
@@ -30,12 +32,12 @@ unit role Gnome::Gtk4::R-TreeSortable:auth<github:MARTIMM>:api<2>;
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-sort-column-id => %(:is-symbol<gtk_tree_sortable_get_sort_column_id>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint-ptr, GEnum])),
-  has-default-sort-func => %(:is-symbol<gtk_tree_sortable_has_default_sort_func>,  :returns(gboolean), :cnv-return(Bool)),
-  #set-default-sort-func => %(:is-symbol<gtk_tree_sortable_set_default_sort_func>,  :parameters([:( N-Object $model, N-TreeIter $a, N-TreeIter $b, gpointer $user-data --> gint ), gpointer, ])),
-  set-sort-column-id => %(:is-symbol<gtk_tree_sortable_set_sort_column_id>,  :parameters([gint, GEnum])),
-  #set-sort-func => %(:is-symbol<gtk_tree_sortable_set_sort_func>,  :parameters([gint, :( N-Object $model, N-TreeIter $a, N-TreeIter $b, gpointer $user-data --> gint ), gpointer, ])),
-  sort-column-changed => %(:is-symbol<gtk_tree_sortable_sort_column_changed>, ),
+  get-sort-column-id => %(:is-symbol<gtk_tree_sortable_get_sort_column_id>, :returns(gboolean), :parameters([gint-ptr, GEnum]), :deprecated, :deprecated-version<4.10>, ),
+  has-default-sort-func => %(:is-symbol<gtk_tree_sortable_has_default_sort_func>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  set-default-sort-func => %(:is-symbol<gtk_tree_sortable_set_default_sort_func>, :parameters([:( N-Object $model, N-Object $a, N-Object $b, gpointer $user-data ), gpointer, :( gpointer $data )]), :deprecated, :deprecated-version<4.10>, ),
+  set-sort-column-id => %(:is-symbol<gtk_tree_sortable_set_sort_column_id>, :parameters([gint, GEnum]), :deprecated, :deprecated-version<4.10>, ),
+  set-sort-func => %(:is-symbol<gtk_tree_sortable_set_sort_func>, :parameters([gint, :( N-Object $model, N-Object $a, N-Object $b, gpointer $user-data ), gpointer, :( gpointer $data )]), :deprecated, :deprecated-version<4.10>, ),
+  sort-column-changed => %(:is-symbol<gtk_tree_sortable_sort_column_changed>, :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------

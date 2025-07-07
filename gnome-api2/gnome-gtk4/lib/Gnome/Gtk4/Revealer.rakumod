@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::T-revealer:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
@@ -62,15 +64,15 @@ my Hash $methods = %(
   new-revealer => %( :type(Constructor), :is-symbol<gtk_revealer_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-child => %(:is-symbol<gtk_revealer_get_child>,  :returns(N-Object)),
-  get-child-revealed => %(:is-symbol<gtk_revealer_get_child_revealed>,  :returns(gboolean), :cnv-return(Bool)),
-  get-reveal-child => %(:is-symbol<gtk_revealer_get_reveal_child>,  :returns(gboolean), :cnv-return(Bool)),
-  get-transition-duration => %(:is-symbol<gtk_revealer_get_transition_duration>,  :returns(guint)),
+  get-child => %(:is-symbol<gtk_revealer_get_child>, :returns(N-Object), ),
+  get-child-revealed => %(:is-symbol<gtk_revealer_get_child_revealed>, :returns(gboolean), ),
+  get-reveal-child => %(:is-symbol<gtk_revealer_get_reveal_child>, :returns(gboolean), ),
+  get-transition-duration => %(:is-symbol<gtk_revealer_get_transition_duration>, :returns(guint), ),
   get-transition-type => %(:is-symbol<gtk_revealer_get_transition_type>,  :returns(GEnum), :cnv-return(GtkRevealerTransitionType)),
-  set-child => %(:is-symbol<gtk_revealer_set_child>,  :parameters([N-Object])),
-  set-reveal-child => %(:is-symbol<gtk_revealer_set_reveal_child>,  :parameters([gboolean])),
-  set-transition-duration => %(:is-symbol<gtk_revealer_set_transition_duration>,  :parameters([guint])),
-  set-transition-type => %(:is-symbol<gtk_revealer_set_transition_type>,  :parameters([GEnum])),
+  set-child => %(:is-symbol<gtk_revealer_set_child>, :parameters([N-Object]), ),
+  set-reveal-child => %(:is-symbol<gtk_revealer_set_reveal_child>, :parameters([gboolean]), ),
+  set-transition-duration => %(:is-symbol<gtk_revealer_set_transition_duration>, :parameters([guint]), ),
+  set-transition-type => %(:is-symbol<gtk_revealer_set_transition_type>, :parameters([GEnum]), ),
 );
 
 #-------------------------------------------------------------------------------

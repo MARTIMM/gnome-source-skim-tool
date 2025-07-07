@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Range:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
@@ -37,6 +39,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -58,23 +61,23 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-scale => %( :type(Constructor), :is-symbol<gtk_scale_new>, :returns(N-Object), :parameters([ GEnum, N-Object])),
-  new-with-range => %( :type(Constructor), :is-symbol<gtk_scale_new_with_range>, :returns(N-Object), :parameters([ GEnum, gdouble, gdouble, gdouble])),
+  new-scale => %( :type(Constructor), :is-symbol<gtk_scale_new>, :returns(N-Object), :parameters([ GEnum, N-Object]), ),
+  new-with-range => %( :type(Constructor), :is-symbol<gtk_scale_new_with_range>, :returns(N-Object), :parameters([ GEnum, gdouble, gdouble, gdouble]), ),
 
   #--[Methods]------------------------------------------------------------------
-  add-mark => %(:is-symbol<gtk_scale_add_mark>,  :parameters([gdouble, GEnum, Str])),
+  add-mark => %(:is-symbol<gtk_scale_add_mark>, :parameters([gdouble, GEnum, Str]), ),
   clear-marks => %(:is-symbol<gtk_scale_clear_marks>, ),
-  get-digits => %(:is-symbol<gtk_scale_get_digits>,  :returns(gint)),
-  get-draw-value => %(:is-symbol<gtk_scale_get_draw_value>,  :returns(gboolean), :cnv-return(Bool)),
-  get-has-origin => %(:is-symbol<gtk_scale_get_has_origin>,  :returns(gboolean), :cnv-return(Bool)),
-  get-layout => %(:is-symbol<gtk_scale_get_layout>,  :returns(N-Object)),
-  get-layout-offsets => %(:is-symbol<gtk_scale_get_layout_offsets>,  :parameters([gint-ptr, gint-ptr])),
+  get-digits => %(:is-symbol<gtk_scale_get_digits>, :returns(gint), ),
+  get-draw-value => %(:is-symbol<gtk_scale_get_draw_value>, :returns(gboolean), ),
+  get-has-origin => %(:is-symbol<gtk_scale_get_has_origin>, :returns(gboolean), ),
+  get-layout => %(:is-symbol<gtk_scale_get_layout>, :returns(N-Object), ),
+  get-layout-offsets => %(:is-symbol<gtk_scale_get_layout_offsets>, :parameters([gint-ptr, gint-ptr]), ),
   get-value-pos => %(:is-symbol<gtk_scale_get_value_pos>,  :returns(GEnum), :cnv-return(GtkPositionType)),
-  set-digits => %(:is-symbol<gtk_scale_set_digits>,  :parameters([gint])),
-  set-draw-value => %(:is-symbol<gtk_scale_set_draw_value>,  :parameters([gboolean])),
-  #set-format-value-func => %(:is-symbol<gtk_scale_set_format_value_func>,  :parameters([:( N-Object $scale, gdouble $value, gpointer $user-data --> Str ), gpointer, ])),
-  set-has-origin => %(:is-symbol<gtk_scale_set_has_origin>,  :parameters([gboolean])),
-  set-value-pos => %(:is-symbol<gtk_scale_set_value_pos>,  :parameters([GEnum])),
+  set-digits => %(:is-symbol<gtk_scale_set_digits>, :parameters([gint]), ),
+  set-draw-value => %(:is-symbol<gtk_scale_set_draw_value>, :parameters([gboolean]), ),
+  set-format-value-func => %(:is-symbol<gtk_scale_set_format_value_func>, :parameters([:( N-Object $scale, gdouble $value, gpointer $user-data ), gpointer, :( gpointer $data )]), ),
+  set-has-origin => %(:is-symbol<gtk_scale_set_has_origin>, :parameters([gboolean]), ),
+  set-value-pos => %(:is-symbol<gtk_scale_set_value_pos>, :parameters([GEnum]), ),
 );
 
 #-------------------------------------------------------------------------------

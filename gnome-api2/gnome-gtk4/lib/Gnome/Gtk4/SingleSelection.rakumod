@@ -7,8 +7,11 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::GObject::Object:api<2>;
+#use Gnome::Gtk4::R-SectionModel:api<2>;
 use Gnome::Gtk4::R-SelectionModel:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -23,6 +26,7 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Gtk4::SingleSelection:auth<github:MARTIMM>:api<2>;
 also is Gnome::GObject::Object;
+#also does Gnome::Gtk4::R-SectionModel;
 also does Gnome::Gtk4::R-SelectionModel;
 
 #-------------------------------------------------------------------------------
@@ -40,10 +44,15 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     
     # Signals from interfaces
+#`{{
+    self._add_gtk_section_model_signal_types($?CLASS.^name)
+      if self.^can('_add_gtk_section_model_signal_types');
+}}
     self._add_gtk_selection_model_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_selection_model_signal_types');
     $signals-added = True;
@@ -70,18 +79,18 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-singleselection => %( :type(Constructor), :is-symbol<gtk_single_selection_new>, :returns(N-Object), :parameters([ N-Object])),
+  new-singleselection => %( :type(Constructor), :is-symbol<gtk_single_selection_new>, :returns(N-Object), :parameters([ N-Object]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-autoselect => %(:is-symbol<gtk_single_selection_get_autoselect>,  :returns(gboolean), :cnv-return(Bool)),
-  get-can-unselect => %(:is-symbol<gtk_single_selection_get_can_unselect>,  :returns(gboolean), :cnv-return(Bool)),
-  get-model => %(:is-symbol<gtk_single_selection_get_model>,  :returns(N-Object)),
-  get-selected => %(:is-symbol<gtk_single_selection_get_selected>,  :returns(guint)),
-  get-selected-item => %(:is-symbol<gtk_single_selection_get_selected_item>,  :returns(gpointer)),
-  set-autoselect => %(:is-symbol<gtk_single_selection_set_autoselect>,  :parameters([gboolean])),
-  set-can-unselect => %(:is-symbol<gtk_single_selection_set_can_unselect>,  :parameters([gboolean])),
-  set-model => %(:is-symbol<gtk_single_selection_set_model>,  :parameters([N-Object])),
-  set-selected => %(:is-symbol<gtk_single_selection_set_selected>,  :parameters([guint])),
+  get-autoselect => %(:is-symbol<gtk_single_selection_get_autoselect>, :returns(gboolean), ),
+  get-can-unselect => %(:is-symbol<gtk_single_selection_get_can_unselect>, :returns(gboolean), ),
+  get-model => %(:is-symbol<gtk_single_selection_get_model>, :returns(N-Object), ),
+  get-selected => %(:is-symbol<gtk_single_selection_get_selected>, :returns(guint), ),
+  get-selected-item => %(:is-symbol<gtk_single_selection_get_selected_item>, :returns(gpointer), ),
+  set-autoselect => %(:is-symbol<gtk_single_selection_set_autoselect>, :parameters([gboolean]), ),
+  set-can-unselect => %(:is-symbol<gtk_single_selection_set_can_unselect>, :parameters([gboolean]), ),
+  set-model => %(:is-symbol<gtk_single_selection_set_model>, :parameters([N-Object]), ),
+  set-selected => %(:is-symbol<gtk_single_selection_set_selected>, :parameters([guint]), ),
 );
 
 #-------------------------------------------------------------------------------
@@ -119,6 +128,13 @@ method _fallback-v2 (
   else {
     my $r;
     my $native-object = self.get-native-object-no-reffing;
+#`{{
+    $r = self._do_gtk_section_model_fallback-v2(
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
+    ) if self.^can('_do_gtk_section_model_fallback-v2');
+    return $r if $_fallback-v2-ok;
+
+}}
     $r = self._do_gtk_selection_model_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
     ) if self.^can('_do_gtk_selection_model_fallback-v2');

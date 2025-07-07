@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::T-stack:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
@@ -37,6 +39,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -61,29 +64,29 @@ my Hash $methods = %(
   new-stack => %( :type(Constructor), :is-symbol<gtk_stack_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  add-child => %(:is-symbol<gtk_stack_add_child>,  :returns(N-Object), :parameters([N-Object])),
-  add-named => %(:is-symbol<gtk_stack_add_named>,  :returns(N-Object), :parameters([N-Object, Str])),
-  add-titled => %(:is-symbol<gtk_stack_add_titled>,  :returns(N-Object), :parameters([N-Object, Str, Str])),
-  get-child-by-name => %(:is-symbol<gtk_stack_get_child_by_name>,  :returns(N-Object), :parameters([Str])),
-  get-hhomogeneous => %(:is-symbol<gtk_stack_get_hhomogeneous>,  :returns(gboolean), :cnv-return(Bool)),
-  get-interpolate-size => %(:is-symbol<gtk_stack_get_interpolate_size>,  :returns(gboolean), :cnv-return(Bool)),
-  get-page => %(:is-symbol<gtk_stack_get_page>,  :returns(N-Object), :parameters([N-Object])),
-  get-pages => %(:is-symbol<gtk_stack_get_pages>,  :returns(N-Object)),
-  get-transition-duration => %(:is-symbol<gtk_stack_get_transition_duration>,  :returns(guint)),
-  get-transition-running => %(:is-symbol<gtk_stack_get_transition_running>,  :returns(gboolean), :cnv-return(Bool)),
+  add-child => %(:is-symbol<gtk_stack_add_child>, :returns(N-Object), :parameters([N-Object]), ),
+  add-named => %(:is-symbol<gtk_stack_add_named>, :returns(N-Object), :parameters([N-Object, Str]), ),
+  add-titled => %(:is-symbol<gtk_stack_add_titled>, :returns(N-Object), :parameters([N-Object, Str, Str]), ),
+  get-child-by-name => %(:is-symbol<gtk_stack_get_child_by_name>, :returns(N-Object), :parameters([Str]), ),
+  get-hhomogeneous => %(:is-symbol<gtk_stack_get_hhomogeneous>, :returns(gboolean), ),
+  get-interpolate-size => %(:is-symbol<gtk_stack_get_interpolate_size>, :returns(gboolean), ),
+  get-page => %(:is-symbol<gtk_stack_get_page>, :returns(N-Object), :parameters([N-Object]), ),
+  get-pages => %(:is-symbol<gtk_stack_get_pages>, :returns(N-Object), ),
+  get-transition-duration => %(:is-symbol<gtk_stack_get_transition_duration>, :returns(guint), ),
+  get-transition-running => %(:is-symbol<gtk_stack_get_transition_running>, :returns(gboolean), ),
   get-transition-type => %(:is-symbol<gtk_stack_get_transition_type>,  :returns(GEnum), :cnv-return(GtkStackTransitionType)),
-  get-vhomogeneous => %(:is-symbol<gtk_stack_get_vhomogeneous>,  :returns(gboolean), :cnv-return(Bool)),
-  get-visible-child => %(:is-symbol<gtk_stack_get_visible_child>,  :returns(N-Object)),
-  get-visible-child-name => %(:is-symbol<gtk_stack_get_visible_child_name>,  :returns(Str)),
-  remove => %(:is-symbol<gtk_stack_remove>,  :parameters([N-Object])),
-  set-hhomogeneous => %(:is-symbol<gtk_stack_set_hhomogeneous>,  :parameters([gboolean])),
-  set-interpolate-size => %(:is-symbol<gtk_stack_set_interpolate_size>,  :parameters([gboolean])),
-  set-transition-duration => %(:is-symbol<gtk_stack_set_transition_duration>,  :parameters([guint])),
-  set-transition-type => %(:is-symbol<gtk_stack_set_transition_type>,  :parameters([GEnum])),
-  set-vhomogeneous => %(:is-symbol<gtk_stack_set_vhomogeneous>,  :parameters([gboolean])),
-  set-visible-child => %(:is-symbol<gtk_stack_set_visible_child>,  :parameters([N-Object])),
-  set-visible-child-full => %(:is-symbol<gtk_stack_set_visible_child_full>,  :parameters([Str, GEnum])),
-  set-visible-child-name => %(:is-symbol<gtk_stack_set_visible_child_name>,  :parameters([Str])),
+  get-vhomogeneous => %(:is-symbol<gtk_stack_get_vhomogeneous>, :returns(gboolean), ),
+  get-visible-child => %(:is-symbol<gtk_stack_get_visible_child>, :returns(N-Object), ),
+  get-visible-child-name => %(:is-symbol<gtk_stack_get_visible_child_name>, :returns(Str), ),
+  remove => %(:is-symbol<gtk_stack_remove>, :parameters([N-Object]), ),
+  set-hhomogeneous => %(:is-symbol<gtk_stack_set_hhomogeneous>, :parameters([gboolean]), ),
+  set-interpolate-size => %(:is-symbol<gtk_stack_set_interpolate_size>, :parameters([gboolean]), ),
+  set-transition-duration => %(:is-symbol<gtk_stack_set_transition_duration>, :parameters([guint]), ),
+  set-transition-type => %(:is-symbol<gtk_stack_set_transition_type>, :parameters([GEnum]), ),
+  set-vhomogeneous => %(:is-symbol<gtk_stack_set_vhomogeneous>, :parameters([gboolean]), ),
+  set-visible-child => %(:is-symbol<gtk_stack_set_visible_child>, :parameters([N-Object]), ),
+  set-visible-child-full => %(:is-symbol<gtk_stack_set_visible_child_full>, :parameters([Str, GEnum]), ),
+  set-visible-child-name => %(:is-symbol<gtk_stack_set_visible_child_name>, :parameters([Str]), ),
 );
 
 #-------------------------------------------------------------------------------

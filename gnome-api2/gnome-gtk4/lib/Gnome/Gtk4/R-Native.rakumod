@@ -7,19 +7,21 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
-use Gnome::N::TopLevelClassSupport:api<2>;
 
 
 #-------------------------------------------------------------------------------
 #--[Role Declaration]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit role Gnome::Gtk4::R-Native:auth<github:MARTIMM>:api<2>;
+unit class Gnome::Gtk4::R-Native:auth<github:MARTIMM>:api<2>;
+
 
 #-------------------------------------------------------------------------------
 #--[Native Routine Definitions]-------------------------------------------------
@@ -28,14 +30,14 @@ unit role Gnome::Gtk4::R-Native:auth<github:MARTIMM>:api<2>;
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-renderer => %(:is-symbol<gtk_native_get_renderer>,  :returns(N-Object)),
-  get-surface => %(:is-symbol<gtk_native_get_surface>,  :returns(N-Object)),
-  get-surface-transform => %(:is-symbol<gtk_native_get_surface_transform>,  :parameters([CArray[gdouble], CArray[gdouble]])),
+  get-renderer => %(:is-symbol<gtk_native_get_renderer>, :returns(N-Object), ),
+  get-surface => %(:is-symbol<gtk_native_get_surface>, :returns(N-Object), ),
+  get-surface-transform => %(:is-symbol<gtk_native_get_surface_transform>, :parameters([CArray[gdouble], CArray[gdouble]]), ),
   realize => %(:is-symbol<gtk_native_realize>, ),
   unrealize => %(:is-symbol<gtk_native_unrealize>, ),
 
   #--[Functions]----------------------------------------------------------------
-  get-for-surface => %( :type(Function), :is-symbol<gtk_native_get_for_surface>,  :returns(N-Object), :parameters([N-Object])),
+  get-for-surface => %( :type(Function), :is-symbol<gtk_native_get_for_surface>, :returns(N-Object), :parameters([N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------

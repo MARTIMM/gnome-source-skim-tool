@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::ShortcutAction:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -36,6 +38,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -57,10 +60,10 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-signalaction => %( :type(Constructor), :is-symbol<gtk_signal_action_new>, :returns(N-Object), :parameters([ Str])),
+  new-signalaction => %( :type(Constructor), :is-symbol<gtk_signal_action_new>, :returns(N-Object), :parameters([ Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-signal-name => %(:is-symbol<gtk_signal_action_get_signal_name>,  :returns(Str)),
+  get-signal-name => %(:is-symbol<gtk_signal_action_get_signal_name>, :returns(Str), ),
 );
 
 #-------------------------------------------------------------------------------
@@ -75,7 +78,6 @@ method _fallback-v2 (
         :library(gtk4-lib())
       );
 
-      # Check the function name. 
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)

@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::R-Orientable:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
@@ -40,6 +42,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     
@@ -73,8 +76,8 @@ my Hash $methods = %(
   new-stackswitcher => %( :type(Constructor), :is-symbol<gtk_stack_switcher_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-stack => %(:is-symbol<gtk_stack_switcher_get_stack>,  :returns(N-Object)),
-  set-stack => %(:is-symbol<gtk_stack_switcher_set_stack>,  :parameters([N-Object])),
+  get-stack => %(:is-symbol<gtk_stack_switcher_get_stack>, :returns(N-Object), ),
+  set-stack => %(:is-symbol<gtk_stack_switcher_set_stack>, :parameters([N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------

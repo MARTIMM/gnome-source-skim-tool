@@ -7,9 +7,11 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::GObject::Object:api<2>;
-#use Gnome::Glib::N-Variant:api<2>;
+use Gnome::Glib::N-Variant:api<2>;
 use Gnome::Glib::T-variant:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -38,6 +40,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -59,16 +62,16 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-shortcut => %( :type(Constructor), :is-symbol<gtk_shortcut_new>, :returns(N-Object), :parameters([ N-Object, N-Object])),
-  new-with-arguments => %( :type(Constructor), :is-symbol<gtk_shortcut_new_with_arguments>, :returns(N-Object), :variable-list, :parameters([ N-Object, N-Object, Str])),
+  new-shortcut => %( :type(Constructor), :is-symbol<gtk_shortcut_new>, :returns(N-Object), :parameters([ N-Object, N-Object]), ),
+  new-with-arguments => %( :type(Constructor), :is-symbol<gtk_shortcut_new_with_arguments>, :returns(N-Object), :variable-list, :parameters([ N-Object, N-Object, Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-action => %(:is-symbol<gtk_shortcut_get_action>,  :returns(N-Object)),
-  get-arguments => %(:is-symbol<gtk_shortcut_get_arguments>,  :returns(N-Variant)),
-  get-trigger => %(:is-symbol<gtk_shortcut_get_trigger>,  :returns(N-Object)),
-  set-action => %(:is-symbol<gtk_shortcut_set_action>,  :parameters([N-Object])),
-  set-arguments => %(:is-symbol<gtk_shortcut_set_arguments>,  :parameters([N-Variant])),
-  set-trigger => %(:is-symbol<gtk_shortcut_set_trigger>,  :parameters([N-Object])),
+  get-action => %(:is-symbol<gtk_shortcut_get_action>, :returns(N-Object), ),
+  get-arguments => %(:is-symbol<gtk_shortcut_get_arguments>, :returns(N-Object), ),
+  get-trigger => %(:is-symbol<gtk_shortcut_get_trigger>, :returns(N-Object), ),
+  set-action => %(:is-symbol<gtk_shortcut_set_action>, :parameters([N-Object]), ),
+  set-arguments => %(:is-symbol<gtk_shortcut_set_arguments>, :parameters([N-Object]), ),
+  set-trigger => %(:is-symbol<gtk_shortcut_set_trigger>, :parameters([N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------
@@ -83,7 +86,6 @@ method _fallback-v2 (
         :library(gtk4-lib())
       );
 
-      # Check the function name. 
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)

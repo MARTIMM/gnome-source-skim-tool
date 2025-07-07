@@ -7,15 +7,16 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::GObject::Object:api<2>;
 use Gnome::Gdk4::N-RGBA:api<2>;
 use Gnome::Gdk4::T-rgba:api<2>;
-
-use Gnome::Gtk4::N-Border:api<2>;
+#use Gnome::Gtk4::T-border:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::Gtk4::T-stylecontext:api<2>;
-
+#use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -43,6 +44,13 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+  Gnome::N::deprecate(
+    'Gnome::Gtk4::StyleContext', ', Str, ',
+    '4.10', Str,
+    :class, :gnome-lib(gtk4-lib())  
+  );
+
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -64,29 +72,29 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  add-class => %(:is-symbol<gtk_style_context_add_class>,  :parameters([Str])),
-  add-provider => %(:is-symbol<gtk_style_context_add_provider>,  :parameters([N-Object, guint])),
-  get-border => %(:is-symbol<gtk_style_context_get_border>,  :parameters([N-Border])),
-  get-color => %(:is-symbol<gtk_style_context_get_color>,  :parameters([N-RGBA])),
-  get-display => %(:is-symbol<gtk_style_context_get_display>,  :returns(N-Object)),
-  get-margin => %(:is-symbol<gtk_style_context_get_margin>,  :parameters([N-Border])),
-  get-padding => %(:is-symbol<gtk_style_context_get_padding>,  :parameters([N-Border])),
-  get-scale => %(:is-symbol<gtk_style_context_get_scale>,  :returns(gint)),
-  get-state => %(:is-symbol<gtk_style_context_get_state>,  :returns(GFlag), :cnv-return(GtkStateFlags)),
-  has-class => %(:is-symbol<gtk_style_context_has_class>,  :returns(gboolean), :cnv-return(Bool), :parameters([Str])),
-  lookup-color => %(:is-symbol<gtk_style_context_lookup_color>,  :returns(gboolean), :cnv-return(Bool), :parameters([Str, N-RGBA])),
-  remove-class => %(:is-symbol<gtk_style_context_remove_class>,  :parameters([Str])),
-  remove-provider => %(:is-symbol<gtk_style_context_remove_provider>,  :parameters([N-Object])),
-  restore => %(:is-symbol<gtk_style_context_restore>, ),
-  save => %(:is-symbol<gtk_style_context_save>, ),
-  set-display => %(:is-symbol<gtk_style_context_set_display>,  :parameters([N-Object])),
-  set-scale => %(:is-symbol<gtk_style_context_set_scale>,  :parameters([gint])),
-  set-state => %(:is-symbol<gtk_style_context_set_state>,  :parameters([GFlag])),
-  to-string => %(:is-symbol<gtk_style_context_to_string>,  :returns(Str), :parameters([GFlag])),
+  add-class => %(:is-symbol<gtk_style_context_add_class>, :parameters([Str]), :deprecated, :deprecated-version<4.10>, ),
+  add-provider => %(:is-symbol<gtk_style_context_add_provider>, :parameters([N-Object, guint]), :deprecated, :deprecated-version<4.10>, ),
+  get-border => %(:is-symbol<gtk_style_context_get_border>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  get-color => %(:is-symbol<gtk_style_context_get_color>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  get-display => %(:is-symbol<gtk_style_context_get_display>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  get-margin => %(:is-symbol<gtk_style_context_get_margin>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  get-padding => %(:is-symbol<gtk_style_context_get_padding>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  get-scale => %(:is-symbol<gtk_style_context_get_scale>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
+  get-state => %(:is-symbol<gtk_style_context_get_state>,  :returns(GFlag), :cnv-return(GtkStateFlags),:deprecated, :deprecated-version<4.10>, ),
+  has-class => %(:is-symbol<gtk_style_context_has_class>, :returns(gboolean), :parameters([Str]), :deprecated, :deprecated-version<4.10>, ),
+  lookup-color => %(:is-symbol<gtk_style_context_lookup_color>, :returns(gboolean), :parameters([Str, N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  remove-class => %(:is-symbol<gtk_style_context_remove_class>, :parameters([Str]), :deprecated, :deprecated-version<4.10>, ),
+  remove-provider => %(:is-symbol<gtk_style_context_remove_provider>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  restore => %(:is-symbol<gtk_style_context_restore>, :deprecated, :deprecated-version<4.10>, ),
+  save => %(:is-symbol<gtk_style_context_save>, :deprecated, :deprecated-version<4.10>, ),
+  set-display => %(:is-symbol<gtk_style_context_set_display>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  set-scale => %(:is-symbol<gtk_style_context_set_scale>, :parameters([gint]), :deprecated, :deprecated-version<4.10>, ),
+  set-state => %(:is-symbol<gtk_style_context_set_state>, :parameters([GFlag]), :deprecated, :deprecated-version<4.10>, ),
+  to-string => %(:is-symbol<gtk_style_context_to_string>, :returns(Str), :parameters([GFlag]), :deprecated, :deprecated-version<4.10>, ),
 
   #--[Functions]----------------------------------------------------------------
-  add-provider-for-display => %( :type(Function), :is-symbol<gtk_style_context_add_provider_for_display>,  :parameters([ N-Object, N-Object, guint])),
-  remove-provider-for-display => %( :type(Function), :is-symbol<gtk_style_context_remove_provider_for_display>,  :parameters([ N-Object, N-Object])),
+  add-provider-for-display => %( :type(Function), :is-symbol<gtk_style_context_add_provider_for_display>, :parameters([ N-Object, N-Object, guint]), ),
+  remove-provider-for-display => %( :type(Function), :is-symbol<gtk_style_context_remove_provider_for_display>, :parameters([ N-Object, N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------

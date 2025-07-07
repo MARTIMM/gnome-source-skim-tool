@@ -7,19 +7,21 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
-use Gnome::N::TopLevelClassSupport:api<2>;
 
 
 #-------------------------------------------------------------------------------
 #--[Role Declaration]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit role Gnome::Gtk4::R-PrintOperationPreview:auth<github:MARTIMM>:api<2>;
+unit class Gnome::Gtk4::R-PrintOperationPreview:auth<github:MARTIMM>:api<2>;
+
 
 #-------------------------------------------------------------------------------
 #--[Native Routine Definitions]-------------------------------------------------
@@ -29,8 +31,8 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   end-preview => %(:is-symbol<gtk_print_operation_preview_end_preview>, ),
-  is-selected => %(:is-symbol<gtk_print_operation_preview_is_selected>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint])),
-  render-page => %(:is-symbol<gtk_print_operation_preview_render_page>,  :parameters([gint])),
+  is-selected => %(:is-symbol<gtk_print_operation_preview_is_selected>, :returns(gboolean), :parameters([gint]), ),
+  render-page => %(:is-symbol<gtk_print_operation_preview_render_page>, :parameters([gint]), ),
 );
 
 #-------------------------------------------------------------------------------

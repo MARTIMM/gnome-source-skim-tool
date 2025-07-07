@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::GObject::Object:api<2>;
 use Gnome::Gtk4::R-Accessible:api<2>;
@@ -40,6 +42,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     
@@ -70,19 +73,19 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-child => %(:is-symbol<gtk_stack_page_get_child>,  :returns(N-Object)),
-  get-icon-name => %(:is-symbol<gtk_stack_page_get_icon_name>,  :returns(Str)),
-  get-name => %(:is-symbol<gtk_stack_page_get_name>,  :returns(Str)),
-  get-needs-attention => %(:is-symbol<gtk_stack_page_get_needs_attention>,  :returns(gboolean), :cnv-return(Bool)),
-  get-title => %(:is-symbol<gtk_stack_page_get_title>,  :returns(Str)),
-  get-use-underline => %(:is-symbol<gtk_stack_page_get_use_underline>,  :returns(gboolean), :cnv-return(Bool)),
-  get-visible => %(:is-symbol<gtk_stack_page_get_visible>,  :returns(gboolean), :cnv-return(Bool)),
-  set-icon-name => %(:is-symbol<gtk_stack_page_set_icon_name>,  :parameters([Str])),
-  set-name => %(:is-symbol<gtk_stack_page_set_name>,  :parameters([Str])),
-  set-needs-attention => %(:is-symbol<gtk_stack_page_set_needs_attention>,  :parameters([gboolean])),
-  set-title => %(:is-symbol<gtk_stack_page_set_title>,  :parameters([Str])),
-  set-use-underline => %(:is-symbol<gtk_stack_page_set_use_underline>,  :parameters([gboolean])),
-  set-visible => %(:is-symbol<gtk_stack_page_set_visible>,  :parameters([gboolean])),
+  get-child => %(:is-symbol<gtk_stack_page_get_child>, :returns(N-Object), ),
+  get-icon-name => %(:is-symbol<gtk_stack_page_get_icon_name>, :returns(Str), ),
+  get-name => %(:is-symbol<gtk_stack_page_get_name>, :returns(Str), ),
+  get-needs-attention => %(:is-symbol<gtk_stack_page_get_needs_attention>, :returns(gboolean), ),
+  get-title => %(:is-symbol<gtk_stack_page_get_title>, :returns(Str), ),
+  get-use-underline => %(:is-symbol<gtk_stack_page_get_use_underline>, :returns(gboolean), ),
+  get-visible => %(:is-symbol<gtk_stack_page_get_visible>, :returns(gboolean), ),
+  set-icon-name => %(:is-symbol<gtk_stack_page_set_icon_name>, :parameters([Str]), ),
+  set-name => %(:is-symbol<gtk_stack_page_set_name>, :parameters([Str]), ),
+  set-needs-attention => %(:is-symbol<gtk_stack_page_set_needs_attention>, :parameters([gboolean]), ),
+  set-title => %(:is-symbol<gtk_stack_page_set_title>, :parameters([Str]), ),
+  set-use-underline => %(:is-symbol<gtk_stack_page_set_use_underline>, :parameters([gboolean]), ),
+  set-visible => %(:is-symbol<gtk_stack_page_set_visible>, :parameters([gboolean]), ),
 );
 
 #-------------------------------------------------------------------------------

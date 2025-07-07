@@ -7,20 +7,23 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
 
+
+use Gnome::Gdk4::N-RGBA:api<2>;
 use Gnome::Gdk4::T-rgba:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
-use Gnome::N::TopLevelClassSupport:api<2>;
 
 
 #-------------------------------------------------------------------------------
 #--[Role Declaration]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit role Gnome::Gtk4::R-SymbolicPaintable:auth<github:MARTIMM>:api<2>;
+unit class Gnome::Gtk4::R-SymbolicPaintable:auth<github:MARTIMM>:api<2>;
+
 
 #-------------------------------------------------------------------------------
 #--[Native Routine Definitions]-------------------------------------------------
@@ -29,7 +32,7 @@ unit role Gnome::Gtk4::R-SymbolicPaintable:auth<github:MARTIMM>:api<2>;
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  snapshot-symbolic => %(:is-symbol<gtk_symbolic_paintable_snapshot_symbolic>,  :parameters([N-Object, gdouble, gdouble, N-RGBA, gsize])),
+  snapshot-symbolic => %(:is-symbol<gtk_symbolic_paintable_snapshot_symbolic>, :parameters([N-Object, gdouble, gdouble, N-Object, gsize]), ),
 );
 
 #-------------------------------------------------------------------------------

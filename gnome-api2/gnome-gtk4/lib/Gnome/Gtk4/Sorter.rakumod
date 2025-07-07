@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::GObject::Object:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
@@ -40,6 +42,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
@@ -69,8 +72,8 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  changed => %(:is-symbol<gtk_sorter_changed>,  :parameters([GEnum])),
-  compare => %(:is-symbol<gtk_sorter_compare>,  :returns(GEnum), :cnv-return(GtkOrdering), :parameters([gpointer, gpointer])),
+  changed => %(:is-symbol<gtk_sorter_changed>, :parameters([GEnum]), ),
+  compare => %(:is-symbol<gtk_sorter_compare>,  :returns(GEnum), :cnv-return(GtkOrdering),:parameters([gpointer, gpointer]), ),
   get-order => %(:is-symbol<gtk_sorter_get_order>,  :returns(GEnum), :cnv-return(GtkSorterOrder)),
 );
 

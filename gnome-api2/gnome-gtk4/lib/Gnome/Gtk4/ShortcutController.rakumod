@@ -7,13 +7,13 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gdk4::T-enums:api<2>;
-
 use Gnome::Gtk4::EventController:api<2>;
 use Gnome::Gtk4::R-Buildable:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
-
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -44,6 +44,7 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     
@@ -75,15 +76,15 @@ my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
   new-shortcutcontroller => %( :type(Constructor), :is-symbol<gtk_shortcut_controller_new>, :returns(N-Object), ),
-  new-for-model => %( :type(Constructor), :is-symbol<gtk_shortcut_controller_new_for_model>, :returns(N-Object), :parameters([ N-Object])),
+  new-for-model => %( :type(Constructor), :is-symbol<gtk_shortcut_controller_new_for_model>, :returns(N-Object), :parameters([ N-Object]), ),
 
   #--[Methods]------------------------------------------------------------------
-  add-shortcut => %(:is-symbol<gtk_shortcut_controller_add_shortcut>,  :parameters([N-Object])),
+  add-shortcut => %(:is-symbol<gtk_shortcut_controller_add_shortcut>, :parameters([N-Object]), ),
   get-mnemonics-modifiers => %(:is-symbol<gtk_shortcut_controller_get_mnemonics_modifiers>,  :returns(GFlag), :cnv-return(GdkModifierType)),
   get-scope => %(:is-symbol<gtk_shortcut_controller_get_scope>,  :returns(GEnum), :cnv-return(GtkShortcutScope)),
-  remove-shortcut => %(:is-symbol<gtk_shortcut_controller_remove_shortcut>,  :parameters([N-Object])),
-  set-mnemonics-modifiers => %(:is-symbol<gtk_shortcut_controller_set_mnemonics_modifiers>,  :parameters([GFlag])),
-  set-scope => %(:is-symbol<gtk_shortcut_controller_set_scope>,  :parameters([GEnum])),
+  remove-shortcut => %(:is-symbol<gtk_shortcut_controller_remove_shortcut>, :parameters([N-Object]), ),
+  set-mnemonics-modifiers => %(:is-symbol<gtk_shortcut_controller_set_mnemonics_modifiers>, :parameters([GFlag]), ),
+  set-scope => %(:is-symbol<gtk_shortcut_controller_set_scope>, :parameters([GEnum]), ),
 );
 
 #-------------------------------------------------------------------------------

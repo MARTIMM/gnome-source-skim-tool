@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::T-scrolledwindow:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
@@ -39,10 +41,11 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w1<move-focus-out edge-overshot edge-reached>,
+      :w1<edge-reached move-focus-out edge-overshot>,
       :w2<scroll-child>,
     );
     $signals-added = True;
@@ -72,36 +75,36 @@ my Hash $methods = %(
   new-scrolledwindow => %( :type(Constructor), :is-symbol<gtk_scrolled_window_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-child => %(:is-symbol<gtk_scrolled_window_get_child>,  :returns(N-Object)),
-  get-hadjustment => %(:is-symbol<gtk_scrolled_window_get_hadjustment>,  :returns(N-Object)),
-  get-has-frame => %(:is-symbol<gtk_scrolled_window_get_has_frame>,  :returns(gboolean), :cnv-return(Bool)),
-  get-hscrollbar => %(:is-symbol<gtk_scrolled_window_get_hscrollbar>,  :returns(N-Object)),
-  get-kinetic-scrolling => %(:is-symbol<gtk_scrolled_window_get_kinetic_scrolling>,  :returns(gboolean), :cnv-return(Bool)),
-  get-max-content-height => %(:is-symbol<gtk_scrolled_window_get_max_content_height>,  :returns(gint)),
-  get-max-content-width => %(:is-symbol<gtk_scrolled_window_get_max_content_width>,  :returns(gint)),
-  get-min-content-height => %(:is-symbol<gtk_scrolled_window_get_min_content_height>,  :returns(gint)),
-  get-min-content-width => %(:is-symbol<gtk_scrolled_window_get_min_content_width>,  :returns(gint)),
-  get-overlay-scrolling => %(:is-symbol<gtk_scrolled_window_get_overlay_scrolling>,  :returns(gboolean), :cnv-return(Bool)),
+  get-child => %(:is-symbol<gtk_scrolled_window_get_child>, :returns(N-Object), ),
+  get-hadjustment => %(:is-symbol<gtk_scrolled_window_get_hadjustment>, :returns(N-Object), ),
+  get-has-frame => %(:is-symbol<gtk_scrolled_window_get_has_frame>, :returns(gboolean), ),
+  get-hscrollbar => %(:is-symbol<gtk_scrolled_window_get_hscrollbar>, :returns(N-Object), ),
+  get-kinetic-scrolling => %(:is-symbol<gtk_scrolled_window_get_kinetic_scrolling>, :returns(gboolean), ),
+  get-max-content-height => %(:is-symbol<gtk_scrolled_window_get_max_content_height>, :returns(gint), ),
+  get-max-content-width => %(:is-symbol<gtk_scrolled_window_get_max_content_width>, :returns(gint), ),
+  get-min-content-height => %(:is-symbol<gtk_scrolled_window_get_min_content_height>, :returns(gint), ),
+  get-min-content-width => %(:is-symbol<gtk_scrolled_window_get_min_content_width>, :returns(gint), ),
+  get-overlay-scrolling => %(:is-symbol<gtk_scrolled_window_get_overlay_scrolling>, :returns(gboolean), ),
   get-placement => %(:is-symbol<gtk_scrolled_window_get_placement>,  :returns(GEnum), :cnv-return(GtkCornerType)),
-  get-policy => %(:is-symbol<gtk_scrolled_window_get_policy>,  :parameters([GEnum, GEnum])),
-  get-propagate-natural-height => %(:is-symbol<gtk_scrolled_window_get_propagate_natural_height>,  :returns(gboolean), :cnv-return(Bool)),
-  get-propagate-natural-width => %(:is-symbol<gtk_scrolled_window_get_propagate_natural_width>,  :returns(gboolean), :cnv-return(Bool)),
-  get-vadjustment => %(:is-symbol<gtk_scrolled_window_get_vadjustment>,  :returns(N-Object)),
-  get-vscrollbar => %(:is-symbol<gtk_scrolled_window_get_vscrollbar>,  :returns(N-Object)),
-  set-child => %(:is-symbol<gtk_scrolled_window_set_child>,  :parameters([N-Object])),
-  set-hadjustment => %(:is-symbol<gtk_scrolled_window_set_hadjustment>,  :parameters([N-Object])),
-  set-has-frame => %(:is-symbol<gtk_scrolled_window_set_has_frame>,  :parameters([gboolean])),
-  set-kinetic-scrolling => %(:is-symbol<gtk_scrolled_window_set_kinetic_scrolling>,  :parameters([gboolean])),
-  set-max-content-height => %(:is-symbol<gtk_scrolled_window_set_max_content_height>,  :parameters([gint])),
-  set-max-content-width => %(:is-symbol<gtk_scrolled_window_set_max_content_width>,  :parameters([gint])),
-  set-min-content-height => %(:is-symbol<gtk_scrolled_window_set_min_content_height>,  :parameters([gint])),
-  set-min-content-width => %(:is-symbol<gtk_scrolled_window_set_min_content_width>,  :parameters([gint])),
-  set-overlay-scrolling => %(:is-symbol<gtk_scrolled_window_set_overlay_scrolling>,  :parameters([gboolean])),
-  set-placement => %(:is-symbol<gtk_scrolled_window_set_placement>,  :parameters([GEnum])),
-  set-policy => %(:is-symbol<gtk_scrolled_window_set_policy>,  :parameters([GEnum, GEnum])),
-  set-propagate-natural-height => %(:is-symbol<gtk_scrolled_window_set_propagate_natural_height>,  :parameters([gboolean])),
-  set-propagate-natural-width => %(:is-symbol<gtk_scrolled_window_set_propagate_natural_width>,  :parameters([gboolean])),
-  set-vadjustment => %(:is-symbol<gtk_scrolled_window_set_vadjustment>,  :parameters([N-Object])),
+  get-policy => %(:is-symbol<gtk_scrolled_window_get_policy>, :parameters([GEnum, GEnum]), ),
+  get-propagate-natural-height => %(:is-symbol<gtk_scrolled_window_get_propagate_natural_height>, :returns(gboolean), ),
+  get-propagate-natural-width => %(:is-symbol<gtk_scrolled_window_get_propagate_natural_width>, :returns(gboolean), ),
+  get-vadjustment => %(:is-symbol<gtk_scrolled_window_get_vadjustment>, :returns(N-Object), ),
+  get-vscrollbar => %(:is-symbol<gtk_scrolled_window_get_vscrollbar>, :returns(N-Object), ),
+  set-child => %(:is-symbol<gtk_scrolled_window_set_child>, :parameters([N-Object]), ),
+  set-hadjustment => %(:is-symbol<gtk_scrolled_window_set_hadjustment>, :parameters([N-Object]), ),
+  set-has-frame => %(:is-symbol<gtk_scrolled_window_set_has_frame>, :parameters([gboolean]), ),
+  set-kinetic-scrolling => %(:is-symbol<gtk_scrolled_window_set_kinetic_scrolling>, :parameters([gboolean]), ),
+  set-max-content-height => %(:is-symbol<gtk_scrolled_window_set_max_content_height>, :parameters([gint]), ),
+  set-max-content-width => %(:is-symbol<gtk_scrolled_window_set_max_content_width>, :parameters([gint]), ),
+  set-min-content-height => %(:is-symbol<gtk_scrolled_window_set_min_content_height>, :parameters([gint]), ),
+  set-min-content-width => %(:is-symbol<gtk_scrolled_window_set_min_content_width>, :parameters([gint]), ),
+  set-overlay-scrolling => %(:is-symbol<gtk_scrolled_window_set_overlay_scrolling>, :parameters([gboolean]), ),
+  set-placement => %(:is-symbol<gtk_scrolled_window_set_placement>, :parameters([GEnum]), ),
+  set-policy => %(:is-symbol<gtk_scrolled_window_set_policy>, :parameters([GEnum, GEnum]), ),
+  set-propagate-natural-height => %(:is-symbol<gtk_scrolled_window_set_propagate_natural_height>, :parameters([gboolean]), ),
+  set-propagate-natural-width => %(:is-symbol<gtk_scrolled_window_set_propagate_natural_width>, :parameters([gboolean]), ),
+  set-vadjustment => %(:is-symbol<gtk_scrolled_window_set_vadjustment>, :parameters([N-Object]), ),
   unset-placement => %(:is-symbol<gtk_scrolled_window_unset_placement>, ),
 );
 

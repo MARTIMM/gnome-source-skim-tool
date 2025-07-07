@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -36,6 +38,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -60,15 +63,15 @@ my Hash $methods = %(
   new-searchbar => %( :type(Constructor), :is-symbol<gtk_search_bar_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  connect-entry => %(:is-symbol<gtk_search_bar_connect_entry>,  :parameters([N-Object])),
-  get-child => %(:is-symbol<gtk_search_bar_get_child>,  :returns(N-Object)),
-  get-key-capture-widget => %(:is-symbol<gtk_search_bar_get_key_capture_widget>,  :returns(N-Object)),
-  get-search-mode => %(:is-symbol<gtk_search_bar_get_search_mode>,  :returns(gboolean), :cnv-return(Bool)),
-  get-show-close-button => %(:is-symbol<gtk_search_bar_get_show_close_button>,  :returns(gboolean), :cnv-return(Bool)),
-  set-child => %(:is-symbol<gtk_search_bar_set_child>,  :parameters([N-Object])),
-  set-key-capture-widget => %(:is-symbol<gtk_search_bar_set_key_capture_widget>,  :parameters([N-Object])),
-  set-search-mode => %(:is-symbol<gtk_search_bar_set_search_mode>,  :parameters([gboolean])),
-  set-show-close-button => %(:is-symbol<gtk_search_bar_set_show_close_button>,  :parameters([gboolean])),
+  connect-entry => %(:is-symbol<gtk_search_bar_connect_entry>, :parameters([N-Object]), ),
+  get-child => %(:is-symbol<gtk_search_bar_get_child>, :returns(N-Object), ),
+  get-key-capture-widget => %(:is-symbol<gtk_search_bar_get_key_capture_widget>, :returns(N-Object), ),
+  get-search-mode => %(:is-symbol<gtk_search_bar_get_search_mode>, :returns(gboolean), ),
+  get-show-close-button => %(:is-symbol<gtk_search_bar_get_show_close_button>, :returns(gboolean), ),
+  set-child => %(:is-symbol<gtk_search_bar_set_child>, :parameters([N-Object]), ),
+  set-key-capture-widget => %(:is-symbol<gtk_search_bar_set_key_capture_widget>, :parameters([N-Object]), ),
+  set-search-mode => %(:is-symbol<gtk_search_bar_set_search_mode>, :parameters([gboolean]), ),
+  set-show-close-button => %(:is-symbol<gtk_search_bar_set_show_close_button>, :parameters([gboolean]), ),
 );
 
 #-------------------------------------------------------------------------------

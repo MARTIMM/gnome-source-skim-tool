@@ -7,19 +7,21 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
-use Gnome::N::TopLevelClassSupport:api<2>;
 
 
 #-------------------------------------------------------------------------------
 #--[Role Declaration]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit role Gnome::Gtk4::R-Root:auth<github:MARTIMM>:api<2>;
+unit class Gnome::Gtk4::R-Root:auth<github:MARTIMM>:api<2>;
+
 
 #-------------------------------------------------------------------------------
 #--[Native Routine Definitions]-------------------------------------------------
@@ -28,9 +30,9 @@ unit role Gnome::Gtk4::R-Root:auth<github:MARTIMM>:api<2>;
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-display => %(:is-symbol<gtk_root_get_display>,  :returns(N-Object)),
-  get-focus => %(:is-symbol<gtk_root_get_focus>,  :returns(N-Object)),
-  set-focus => %(:is-symbol<gtk_root_set_focus>,  :parameters([N-Object])),
+  get-display => %(:is-symbol<gtk_root_get_display>, :returns(N-Object), ),
+  get-focus => %(:is-symbol<gtk_root_get_focus>, :returns(N-Object), ),
+  set-focus => %(:is-symbol<gtk_root_set_focus>, :parameters([N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------

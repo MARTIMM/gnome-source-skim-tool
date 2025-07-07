@@ -7,8 +7,11 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Sorter:api<2>;
+#use Gnome::Gtk4::T-stringsorter:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -36,6 +39,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -57,13 +61,15 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-stringsorter => %( :type(Constructor), :is-symbol<gtk_string_sorter_new>, :returns(N-Object), :parameters([ N-Object])),
+  new-stringsorter => %( :type(Constructor), :is-symbol<gtk_string_sorter_new>, :returns(N-Object), :parameters([ N-Object]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-expression => %(:is-symbol<gtk_string_sorter_get_expression>,  :returns(N-Object)),
-  get-ignore-case => %(:is-symbol<gtk_string_sorter_get_ignore_case>,  :returns(gboolean), :cnv-return(Bool)),
-  set-expression => %(:is-symbol<gtk_string_sorter_set_expression>,  :parameters([N-Object])),
-  set-ignore-case => %(:is-symbol<gtk_string_sorter_set_ignore_case>,  :parameters([gboolean])),
+  #get-collation => %(:is-symbol<gtk_string_sorter_get_collation>,  :returns(GEnum), :cnv-return(GtkCollation )),
+  get-expression => %(:is-symbol<gtk_string_sorter_get_expression>, :returns(N-Object), ),
+  get-ignore-case => %(:is-symbol<gtk_string_sorter_get_ignore_case>, :returns(gboolean), ),
+  #set-collation => %(:is-symbol<gtk_string_sorter_set_collation>, :parameters([GEnum]), ),
+  set-expression => %(:is-symbol<gtk_string_sorter_set_expression>, :parameters([N-Object]), ),
+  set-ignore-case => %(:is-symbol<gtk_string_sorter_set_ignore_case>, :parameters([gboolean]), ),
 );
 
 #-------------------------------------------------------------------------------

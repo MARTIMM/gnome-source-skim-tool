@@ -7,7 +7,10 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
 
+
+#use Gnome::Gtk4::R-AccessibleRange:api<2>;
 use Gnome::Gtk4::R-Orientable:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
@@ -24,6 +27,7 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Gtk4::Scrollbar:auth<github:MARTIMM>:api<2>;
 also is Gnome::Gtk4::Widget;
+#also does Gnome::Gtk4::R-AccessibleRange;
 also does Gnome::Gtk4::R-Orientable;
 
 #-------------------------------------------------------------------------------
@@ -41,10 +45,15 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     
     # Signals from interfaces
+#`{{
+    self._add_gtk_accessible_range_signal_types($?CLASS.^name)
+      if self.^can('_add_gtk_accessible_range_signal_types');
+}}
     self._add_gtk_orientable_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_orientable_signal_types');
     $signals-added = True;
@@ -71,11 +80,11 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-scrollbar => %( :type(Constructor), :is-symbol<gtk_scrollbar_new>, :returns(N-Object), :parameters([ GEnum, N-Object])),
+  new-scrollbar => %( :type(Constructor), :is-symbol<gtk_scrollbar_new>, :returns(N-Object), :parameters([ GEnum, N-Object]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-adjustment => %(:is-symbol<gtk_scrollbar_get_adjustment>,  :returns(N-Object)),
-  set-adjustment => %(:is-symbol<gtk_scrollbar_set_adjustment>,  :parameters([N-Object])),
+  get-adjustment => %(:is-symbol<gtk_scrollbar_get_adjustment>, :returns(N-Object), ),
+  set-adjustment => %(:is-symbol<gtk_scrollbar_set_adjustment>, :parameters([N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------
@@ -113,6 +122,13 @@ method _fallback-v2 (
   else {
     my $r;
     my $native-object = self.get-native-object-no-reffing;
+#`{{
+    $r = self._do_gtk_accessible_range_fallback-v2(
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
+    ) if self.^can('_do_gtk_accessible_range_fallback-v2');
+    return $r if $_fallback-v2-ok;
+
+}}
     $r = self._do_gtk_orientable_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
     ) if self.^can('_do_gtk_orientable_fallback-v2');

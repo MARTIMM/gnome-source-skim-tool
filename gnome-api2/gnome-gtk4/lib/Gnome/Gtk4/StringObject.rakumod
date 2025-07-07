@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::GObject::Object:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -36,6 +38,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -57,10 +60,10 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-stringobject => %( :type(Constructor), :is-symbol<gtk_string_object_new>, :returns(N-Object), :parameters([ Str])),
+  new-stringobject => %( :type(Constructor), :is-symbol<gtk_string_object_new>, :returns(N-Object), :parameters([ Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-string => %(:is-symbol<gtk_string_object_get_string>,  :returns(Str)),
+  get-string => %(:is-symbol<gtk_string_object_get_string>, :returns(Str), ),
 );
 
 #-------------------------------------------------------------------------------

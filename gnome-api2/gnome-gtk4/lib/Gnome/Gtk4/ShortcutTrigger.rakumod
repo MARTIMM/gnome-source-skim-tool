@@ -7,10 +7,13 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::GObject::Object:api<2>;
-#use Gnome::Gdk4::T-ButtonEvent:api<2>;
+#use Gnome::Gdk4::T-events:api<2>;
 #use Gnome::Glib::N-String:api<2>;
+#use Gnome::Glib::T-string:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -38,6 +41,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -59,17 +63,17 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  parse-string => %( :type(Constructor), :is-symbol<gtk_shortcut_trigger_parse_string>, :returns(N-Object), :parameters([ Str])),
+  parse-string => %( :type(Constructor), :is-symbol<gtk_shortcut_trigger_parse_string>, :returns(N-Object), :parameters([ Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  compare => %(:is-symbol<gtk_shortcut_trigger_compare>,  :returns(gint), :parameters([gpointer])),
-  equal => %(:is-symbol<gtk_shortcut_trigger_equal>,  :returns(gboolean), :cnv-return(Bool), :parameters([gpointer])),
-  hash => %(:is-symbol<gtk_shortcut_trigger_hash>,  :returns(guint)),
-  #print => %(:is-symbol<gtk_shortcut_trigger_print>,  :parameters([N-String ])),
-  #print-label => %(:is-symbol<gtk_shortcut_trigger_print_label>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, N-String ])),
-  to-label => %(:is-symbol<gtk_shortcut_trigger_to_label>,  :returns(Str), :parameters([N-Object])),
-  to-string => %(:is-symbol<gtk_shortcut_trigger_to_string>,  :returns(Str)),
-  #trigger => %(:is-symbol<gtk_shortcut_trigger_trigger>,  :returns(GEnum), :cnv-return(GdkKeyMatch ), :parameters([N-Object, gboolean])),
+  compare => %(:is-symbol<gtk_shortcut_trigger_compare>, :returns(gint), :parameters([gpointer]), ),
+  equal => %(:is-symbol<gtk_shortcut_trigger_equal>, :returns(gboolean), :parameters([gpointer]), ),
+  hash => %(:is-symbol<gtk_shortcut_trigger_hash>, :returns(guint), ),
+  print => %(:is-symbol<gtk_shortcut_trigger_print>, :parameters([N-Object]), ),
+  print-label => %(:is-symbol<gtk_shortcut_trigger_print_label>, :returns(gboolean), :parameters([N-Object, N-Object]), ),
+  to-label => %(:is-symbol<gtk_shortcut_trigger_to_label>, :returns(Str), :parameters([N-Object]), ),
+  to-string => %(:is-symbol<gtk_shortcut_trigger_to_string>, :returns(Str), ),
+  #trigger => %(:is-symbol<gtk_shortcut_trigger_trigger>,  :returns(GEnum), :cnv-return(GdkKeyMatch ),:parameters([N-Object, gboolean]), ),
 );
 
 #-------------------------------------------------------------------------------
@@ -84,7 +88,6 @@ method _fallback-v2 (
         :library(gtk4-lib())
       );
 
-      # Check the function name. 
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)

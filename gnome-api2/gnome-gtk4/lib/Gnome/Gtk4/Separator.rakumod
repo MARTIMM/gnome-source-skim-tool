@@ -7,7 +7,10 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
 
+
+use Gnome::Gtk4::R-Orientable:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -23,6 +26,7 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Gtk4::Separator:auth<github:MARTIMM>:api<2>;
 also is Gnome::Gtk4::Widget;
+also does Gnome::Gtk4::R-Orientable;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -31,12 +35,23 @@ also is Gnome::Gtk4::Widget;
 # Define callable helper
 has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
+# Add signal registration helper
+my Bool $signals-added = False;
+
 #-------------------------------------------------------------------------------
 #--[BUILD submethod]------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
 
+  # Add signal administration info.
+  unless $signals-added {
+    
+    # Signals from interfaces
+    self._add_gtk_orientable_signal_types($?CLASS.^name)
+      if self.^can('_add_gtk_orientable_signal_types');
+    $signals-added = True;
+  }
 
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
@@ -59,7 +74,7 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-separator => %( :type(Constructor), :is-symbol<gtk_separator_new>, :returns(N-Object), :parameters([ GEnum])),
+  new-separator => %( :type(Constructor), :is-symbol<gtk_separator_new>, :returns(N-Object), :parameters([ GEnum]), ),
 );
 
 #-------------------------------------------------------------------------------
@@ -95,6 +110,13 @@ method _fallback-v2 (
   }
 
   else {
+    my $r;
+    my $native-object = self.get-native-object-no-reffing;
+    $r = self._do_gtk_orientable_fallback-v2(
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
+    ) if self.^can('_do_gtk_orientable_fallback-v2');
+    return $r if $_fallback-v2-ok;
+
     callsame;
   }
 }

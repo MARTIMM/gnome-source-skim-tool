@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Filter:api<2>;
 use Gnome::Gtk4::T-stringfilter:api<2>;
@@ -59,17 +61,17 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-stringfilter => %( :type(Constructor), :is-symbol<gtk_string_filter_new>, :returns(N-Object), :parameters([ N-Object])),
+  new-stringfilter => %( :type(Constructor), :is-symbol<gtk_string_filter_new>, :returns(N-Object), :parameters([ N-Object]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-expression => %(:is-symbol<gtk_string_filter_get_expression>,  :returns(N-Object)),
-  get-ignore-case => %(:is-symbol<gtk_string_filter_get_ignore_case>,  :returns(gboolean), :cnv-return(Bool)),
+  get-expression => %(:is-symbol<gtk_string_filter_get_expression>, :returns(N-Object), ),
+  get-ignore-case => %(:is-symbol<gtk_string_filter_get_ignore_case>, :returns(gboolean), ),
   get-match-mode => %(:is-symbol<gtk_string_filter_get_match_mode>,  :returns(GEnum), :cnv-return(GtkStringFilterMatchMode)),
-  get-search => %(:is-symbol<gtk_string_filter_get_search>,  :returns(Str)),
-  set-expression => %(:is-symbol<gtk_string_filter_set_expression>,  :parameters([N-Object])),
-  set-ignore-case => %(:is-symbol<gtk_string_filter_set_ignore_case>,  :parameters([gboolean])),
-  set-match-mode => %(:is-symbol<gtk_string_filter_set_match_mode>,  :parameters([GEnum])),
-  set-search => %(:is-symbol<gtk_string_filter_set_search>,  :parameters([Str])),
+  get-search => %(:is-symbol<gtk_string_filter_get_search>, :returns(Str), ),
+  set-expression => %(:is-symbol<gtk_string_filter_set_expression>, :parameters([N-Object]), ),
+  set-ignore-case => %(:is-symbol<gtk_string_filter_set_ignore_case>, :parameters([gboolean]), ),
+  set-match-mode => %(:is-symbol<gtk_string_filter_set_match_mode>, :parameters([GEnum]), ),
+  set-search => %(:is-symbol<gtk_string_filter_set_search>, :parameters([Str]), ),
 );
 
 #-------------------------------------------------------------------------------

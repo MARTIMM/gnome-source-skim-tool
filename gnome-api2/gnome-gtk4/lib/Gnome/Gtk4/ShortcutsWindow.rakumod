@@ -7,9 +7,12 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Window:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
@@ -37,10 +40,11 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<close search>,
+      :w0<search close>,
     );
     $signals-added = True;
   }
@@ -56,5 +60,52 @@ submethod BUILD ( *%options ) {
 
     # only after creating the native-object, the gtype is known
     self._set-class-info('GtkShortcutsWindow');
+  }
+}
+
+#-------------------------------------------------------------------------------
+#--[Native Routine Definitions]-------------------------------------------------
+#-------------------------------------------------------------------------------
+
+my Hash $methods = %(
+
+  #--[Methods]------------------------------------------------------------------
+  add-section => %(:is-symbol<gtk_shortcuts_window_add_section>, :parameters([N-Object]), ),
+);
+
+#-------------------------------------------------------------------------------
+# This method is recognized in class Gnome::N::TopLevelClassSupport.
+method _fallback-v2 (
+  Str $name, Bool $_fallback-v2-ok is rw, *@arguments, *%options
+) {
+  if $methods{$name}:exists {
+    $_fallback-v2-ok = True;
+    if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
+      my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
+        :library(gtk4-lib())
+      );
+
+      return self.bless(
+        :native-object(
+          $routine-caller.call-native-sub( $name, @arguments, $methods)
+        ),
+        |%options
+      );
+    }
+
+    elsif $methods{$name}<type>:exists and $methods{$name}<type> eq 'Function' {
+      return $!routine-caller.call-native-sub( $name, @arguments, $methods);
+    }
+
+    else {
+      my $native-object = self.get-native-object-no-reffing;
+      return $!routine-caller.call-native-sub(
+        $name, @arguments, $methods, $native-object
+      );
+    }
+  }
+
+  else {
+    callsame;
   }
 }

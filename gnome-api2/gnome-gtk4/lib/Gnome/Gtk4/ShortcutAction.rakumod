@@ -7,14 +7,15 @@ use v6.d;
 
 use NativeCall;
 
-use Gnome::GObject::Object:api<2>;
+use Cairo;
 
+
+use Gnome::GObject::Object:api<2>;
 #use Gnome::Glib::N-String:api<2>;
 use Gnome::Glib::N-Variant:api<2>;
+#use Gnome::Glib::T-string:api<2>;
 use Gnome::Glib::T-variant:api<2>;
-
-use Gnome::Gtk4::T-activateaction:api<2>;
-
+use Gnome::Gtk4::T-shortcutaction:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -42,6 +43,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -63,12 +65,12 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  parse-string => %( :type(Constructor), :is-symbol<gtk_shortcut_action_parse_string>, :returns(N-Object), :parameters([ Str])),
+  parse-string => %( :type(Constructor), :is-symbol<gtk_shortcut_action_parse_string>, :returns(N-Object), :parameters([ Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  activate => %(:is-symbol<gtk_shortcut_action_activate>,  :returns(gboolean), :cnv-return(Bool), :parameters([GFlag, N-Object, N-Variant])),
-  #print => %(:is-symbol<gtk_shortcut_action_print>,  :parameters([N-String ])),
-  to-string => %(:is-symbol<gtk_shortcut_action_to_string>,  :returns(Str)),
+  activate => %(:is-symbol<gtk_shortcut_action_activate>, :returns(gboolean), :parameters([GFlag, N-Object, N-Object]), ),
+  print => %(:is-symbol<gtk_shortcut_action_print>, :parameters([N-Object]), ),
+  to-string => %(:is-symbol<gtk_shortcut_action_to_string>, :returns(Str), ),
 );
 
 #-------------------------------------------------------------------------------
@@ -83,7 +85,6 @@ method _fallback-v2 (
         :library(gtk4-lib())
       );
 
-      # Check the function name. 
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)

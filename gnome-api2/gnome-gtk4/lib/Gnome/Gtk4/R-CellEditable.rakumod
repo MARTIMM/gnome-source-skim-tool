@@ -7,19 +7,21 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
-use Gnome::N::TopLevelClassSupport:api<2>;
 
 
 #-------------------------------------------------------------------------------
 #--[Role Declaration]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit role Gnome::Gtk4::R-CellEditable:auth<github:MARTIMM>:api<2>;
+unit class Gnome::Gtk4::R-CellEditable:auth<github:MARTIMM>:api<2>;
+
 
 #-------------------------------------------------------------------------------
 #--[Native Routine Definitions]-------------------------------------------------
@@ -28,9 +30,9 @@ unit role Gnome::Gtk4::R-CellEditable:auth<github:MARTIMM>:api<2>;
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  editing-done => %(:is-symbol<gtk_cell_editable_editing_done>, ),
-  remove-widget => %(:is-symbol<gtk_cell_editable_remove_widget>, ),
-  start-editing => %(:is-symbol<gtk_cell_editable_start_editing>,  :parameters([N-Object])),
+  editing-done => %(:is-symbol<gtk_cell_editable_editing_done>, :deprecated, :deprecated-version<4.10>, ),
+  remove-widget => %(:is-symbol<gtk_cell_editable_remove_widget>, :deprecated, :deprecated-version<4.10>, ),
+  start-editing => %(:is-symbol<gtk_cell_editable_start_editing>, :parameters([N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------

@@ -7,19 +7,21 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
-use Gnome::N::TopLevelClassSupport:api<2>;
 
 
 #-------------------------------------------------------------------------------
 #--[Role Declaration]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit role Gnome::Gtk4::R-Buildable:auth<github:MARTIMM>:api<2>;
+unit class Gnome::Gtk4::R-Buildable:auth<github:MARTIMM>:api<2>;
+
 
 #-------------------------------------------------------------------------------
 #--[Native Routine Definitions]-------------------------------------------------
@@ -28,7 +30,7 @@ unit role Gnome::Gtk4::R-Buildable:auth<github:MARTIMM>:api<2>;
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-buildable-id => %(:is-symbol<gtk_buildable_get_buildable_id>,  :returns(Str)),
+  get-buildable-id => %(:is-symbol<gtk_buildable_get_buildable_id>, :returns(Str), ),
 );
 
 #-------------------------------------------------------------------------------

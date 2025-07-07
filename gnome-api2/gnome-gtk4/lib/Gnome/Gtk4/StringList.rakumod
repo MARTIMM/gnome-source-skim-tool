@@ -7,13 +7,11 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::GObject::Object:api<2>;
-
-use Gnome::Gio::R-ListModel:api<2>;
-
 use Gnome::Gtk4::R-Buildable:api<2>;
-
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -28,7 +26,6 @@ use Gnome::N::X:api<2>;
 unit class Gnome::Gtk4::StringList:auth<github:MARTIMM>:api<2>;
 also is Gnome::GObject::Object;
 also does Gnome::Gtk4::R-Buildable;
-also does Gnome::Gio::R-ListModel;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -45,14 +42,13 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     
     # Signals from interfaces
     self._add_gtk_buildable_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_buildable_signal_types');
-    self._add_g_list_model_signal_types($?CLASS.^name)
-      if self.^can('_add_g_list_model_signal_types');
     $signals-added = True;
   }
 
@@ -77,14 +73,14 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-stringlist => %( :type(Constructor), :is-symbol<gtk_string_list_new>, :returns(N-Object), :parameters([ gchar-pptr])),
+  new-stringlist => %( :type(Constructor), :is-symbol<gtk_string_list_new>, :returns(N-Object), :parameters([ gchar-pptr]), ),
 
   #--[Methods]------------------------------------------------------------------
-  append => %(:is-symbol<gtk_string_list_append>,  :parameters([Str])),
-  get-string => %(:is-symbol<gtk_string_list_get_string>,  :returns(Str), :parameters([guint])),
-  remove => %(:is-symbol<gtk_string_list_remove>,  :parameters([guint])),
-  splice => %(:is-symbol<gtk_string_list_splice>,  :parameters([guint, guint, gchar-pptr])),
-  take => %(:is-symbol<gtk_string_list_take>,  :parameters([Str])),
+  append => %(:is-symbol<gtk_string_list_append>, :parameters([Str]), ),
+  get-string => %(:is-symbol<gtk_string_list_get_string>, :returns(Str), :parameters([guint]), ),
+  remove => %(:is-symbol<gtk_string_list_remove>, :parameters([guint]), ),
+  splice => %(:is-symbol<gtk_string_list_splice>, :parameters([guint, guint, gchar-pptr]), ),
+  take => %(:is-symbol<gtk_string_list_take>, :parameters([Str]), ),
 );
 
 #-------------------------------------------------------------------------------
@@ -125,11 +121,6 @@ method _fallback-v2 (
     $r = self._do_gtk_buildable_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
     ) if self.^can('_do_gtk_buildable_fallback-v2');
-    return $r if $_fallback-v2-ok;
-
-    $r = self._do_g_list_model_fallback-v2(
-      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
-    ) if self.^can('_do_g_list_model_fallback-v2');
     return $r if $_fallback-v2-ok;
 
     callsame;

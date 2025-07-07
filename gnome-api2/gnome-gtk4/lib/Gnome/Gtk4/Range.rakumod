@@ -7,11 +7,14 @@ use v6.d;
 
 use NativeCall;
 
-use Gnome::Gdk4::T-types:api<2>;
+use Cairo;
 
+
+use Gnome::Gdk4::N-Rectangle:api<2>;
+use Gnome::Gdk4::T-types:api<2>;
+#use Gnome::Gtk4::R-AccessibleRange:api<2>;
 use Gnome::Gtk4::R-Orientable:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
-
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -25,6 +28,7 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Gtk4::Range:auth<github:MARTIMM>:api<2>;
 also is Gnome::Gtk4::Widget;
+#also does Gnome::Gtk4::R-AccessibleRange;
 also does Gnome::Gtk4::R-Orientable;
 
 #-------------------------------------------------------------------------------
@@ -42,15 +46,20 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
       :w0<value-changed>,
-      :w1<move-slider adjust-bounds>,
+      :w1<adjust-bounds move-slider>,
       :w2<change-value>,
     );
 
     # Signals from interfaces
+#`{{
+    self._add_gtk_accessible_range_signal_types($?CLASS.^name)
+      if self.^can('_add_gtk_accessible_range_signal_types');
+}}
     self._add_gtk_orientable_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_orientable_signal_types');
     $signals-added = True;
@@ -77,28 +86,28 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-adjustment => %(:is-symbol<gtk_range_get_adjustment>,  :returns(N-Object)),
-  get-fill-level => %(:is-symbol<gtk_range_get_fill_level>,  :returns(gdouble)),
-  get-flippable => %(:is-symbol<gtk_range_get_flippable>,  :returns(gboolean), :cnv-return(Bool)),
-  get-inverted => %(:is-symbol<gtk_range_get_inverted>,  :returns(gboolean), :cnv-return(Bool)),
-  get-range-rect => %(:is-symbol<gtk_range_get_range_rect>,  :parameters([N-Rectangle])),
-  get-restrict-to-fill-level => %(:is-symbol<gtk_range_get_restrict_to_fill_level>,  :returns(gboolean), :cnv-return(Bool)),
-  get-round-digits => %(:is-symbol<gtk_range_get_round_digits>,  :returns(gint)),
-  get-show-fill-level => %(:is-symbol<gtk_range_get_show_fill_level>,  :returns(gboolean), :cnv-return(Bool)),
-  get-slider-range => %(:is-symbol<gtk_range_get_slider_range>,  :parameters([gint-ptr, gint-ptr])),
-  get-slider-size-fixed => %(:is-symbol<gtk_range_get_slider_size_fixed>,  :returns(gboolean), :cnv-return(Bool)),
-  get-value => %(:is-symbol<gtk_range_get_value>,  :returns(gdouble)),
-  set-adjustment => %(:is-symbol<gtk_range_set_adjustment>,  :parameters([N-Object])),
-  set-fill-level => %(:is-symbol<gtk_range_set_fill_level>,  :parameters([gdouble])),
-  set-flippable => %(:is-symbol<gtk_range_set_flippable>,  :parameters([gboolean])),
-  set-increments => %(:is-symbol<gtk_range_set_increments>,  :parameters([gdouble, gdouble])),
-  set-inverted => %(:is-symbol<gtk_range_set_inverted>,  :parameters([gboolean])),
-  set-range => %(:is-symbol<gtk_range_set_range>,  :parameters([gdouble, gdouble])),
-  set-restrict-to-fill-level => %(:is-symbol<gtk_range_set_restrict_to_fill_level>,  :parameters([gboolean])),
-  set-round-digits => %(:is-symbol<gtk_range_set_round_digits>,  :parameters([gint])),
-  set-show-fill-level => %(:is-symbol<gtk_range_set_show_fill_level>,  :parameters([gboolean])),
-  set-slider-size-fixed => %(:is-symbol<gtk_range_set_slider_size_fixed>,  :parameters([gboolean])),
-  set-value => %(:is-symbol<gtk_range_set_value>,  :parameters([gdouble])),
+  get-adjustment => %(:is-symbol<gtk_range_get_adjustment>, :returns(N-Object), ),
+  get-fill-level => %(:is-symbol<gtk_range_get_fill_level>, :returns(gdouble), ),
+  get-flippable => %(:is-symbol<gtk_range_get_flippable>, :returns(gboolean), ),
+  get-inverted => %(:is-symbol<gtk_range_get_inverted>, :returns(gboolean), ),
+  get-range-rect => %(:is-symbol<gtk_range_get_range_rect>, :parameters([N-Object]), ),
+  get-restrict-to-fill-level => %(:is-symbol<gtk_range_get_restrict_to_fill_level>, :returns(gboolean), ),
+  get-round-digits => %(:is-symbol<gtk_range_get_round_digits>, :returns(gint), ),
+  get-show-fill-level => %(:is-symbol<gtk_range_get_show_fill_level>, :returns(gboolean), ),
+  get-slider-range => %(:is-symbol<gtk_range_get_slider_range>, :parameters([gint-ptr, gint-ptr]), ),
+  get-slider-size-fixed => %(:is-symbol<gtk_range_get_slider_size_fixed>, :returns(gboolean), ),
+  get-value => %(:is-symbol<gtk_range_get_value>, :returns(gdouble), ),
+  set-adjustment => %(:is-symbol<gtk_range_set_adjustment>, :parameters([N-Object]), ),
+  set-fill-level => %(:is-symbol<gtk_range_set_fill_level>, :parameters([gdouble]), ),
+  set-flippable => %(:is-symbol<gtk_range_set_flippable>, :parameters([gboolean]), ),
+  set-increments => %(:is-symbol<gtk_range_set_increments>, :parameters([gdouble, gdouble]), ),
+  set-inverted => %(:is-symbol<gtk_range_set_inverted>, :parameters([gboolean]), ),
+  set-range => %(:is-symbol<gtk_range_set_range>, :parameters([gdouble, gdouble]), ),
+  set-restrict-to-fill-level => %(:is-symbol<gtk_range_set_restrict_to_fill_level>, :parameters([gboolean]), ),
+  set-round-digits => %(:is-symbol<gtk_range_set_round_digits>, :parameters([gint]), ),
+  set-show-fill-level => %(:is-symbol<gtk_range_set_show_fill_level>, :parameters([gboolean]), ),
+  set-slider-size-fixed => %(:is-symbol<gtk_range_set_slider_size_fixed>, :parameters([gboolean]), ),
+  set-value => %(:is-symbol<gtk_range_set_value>, :parameters([gdouble]), ),
 );
 
 #-------------------------------------------------------------------------------
@@ -136,6 +145,13 @@ method _fallback-v2 (
   else {
     my $r;
     my $native-object = self.get-native-object-no-reffing;
+#`{{
+    $r = self._do_gtk_accessible_range_fallback-v2(
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
+    ) if self.^can('_do_gtk_accessible_range_fallback-v2');
+    return $r if $_fallback-v2-ok;
+
+}}
     $r = self._do_gtk_orientable_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
     ) if self.^can('_do_gtk_orientable_fallback-v2');

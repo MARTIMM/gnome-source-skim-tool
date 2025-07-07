@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -36,6 +38,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -57,13 +60,13 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-shortcutlabel => %( :type(Constructor), :is-symbol<gtk_shortcut_label_new>, :returns(N-Object), :parameters([ Str])),
+  new-shortcutlabel => %( :type(Constructor), :is-symbol<gtk_shortcut_label_new>, :returns(N-Object), :parameters([ Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-accelerator => %(:is-symbol<gtk_shortcut_label_get_accelerator>,  :returns(Str)),
-  get-disabled-text => %(:is-symbol<gtk_shortcut_label_get_disabled_text>,  :returns(Str)),
-  set-accelerator => %(:is-symbol<gtk_shortcut_label_set_accelerator>,  :parameters([Str])),
-  set-disabled-text => %(:is-symbol<gtk_shortcut_label_set_disabled_text>,  :parameters([Str])),
+  get-accelerator => %(:is-symbol<gtk_shortcut_label_get_accelerator>, :returns(Str), ),
+  get-disabled-text => %(:is-symbol<gtk_shortcut_label_get_disabled_text>, :returns(Str), ),
+  set-accelerator => %(:is-symbol<gtk_shortcut_label_set_accelerator>, :parameters([Str]), ),
+  set-disabled-text => %(:is-symbol<gtk_shortcut_label_set_disabled_text>, :parameters([Str]), ),
 );
 
 #-------------------------------------------------------------------------------
@@ -78,7 +81,6 @@ method _fallback-v2 (
         :library(gtk4-lib())
       );
 
-      # Check the function name. 
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)

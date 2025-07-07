@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -36,6 +38,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -60,8 +63,8 @@ my Hash $methods = %(
   new-spinner => %( :type(Constructor), :is-symbol<gtk_spinner_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-spinning => %(:is-symbol<gtk_spinner_get_spinning>,  :returns(gboolean), :cnv-return(Bool)),
-  set-spinning => %(:is-symbol<gtk_spinner_set_spinning>,  :parameters([gboolean])),
+  get-spinning => %(:is-symbol<gtk_spinner_get_spinning>, :returns(gboolean), ),
+  set-spinning => %(:is-symbol<gtk_spinner_set_spinning>, :parameters([gboolean]), ),
   start => %(:is-symbol<gtk_spinner_start>, ),
   stop => %(:is-symbol<gtk_spinner_stop>, ),
 );

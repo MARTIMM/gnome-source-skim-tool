@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -36,6 +38,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -60,8 +63,8 @@ my Hash $methods = %(
   new-stacksidebar => %( :type(Constructor), :is-symbol<gtk_stack_sidebar_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-stack => %(:is-symbol<gtk_stack_sidebar_get_stack>,  :returns(N-Object)),
-  set-stack => %(:is-symbol<gtk_stack_sidebar_set_stack>,  :parameters([N-Object])),
+  get-stack => %(:is-symbol<gtk_stack_sidebar_get_stack>, :returns(N-Object), ),
+  set-stack => %(:is-symbol<gtk_stack_sidebar_set_stack>, :parameters([N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------

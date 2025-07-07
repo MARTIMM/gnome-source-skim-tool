@@ -7,20 +7,23 @@ use v6.d;
 
 use NativeCall;
 
-use Gnome::Glib::T-variant:api<2>;
+use Cairo;
 
+
+use Gnome::Glib::N-Variant:api<2>;
+use Gnome::Glib::T-variant:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
-use Gnome::N::TopLevelClassSupport:api<2>;
 
 
 #-------------------------------------------------------------------------------
 #--[Role Declaration]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit role Gnome::Gtk4::R-Actionable:auth<github:MARTIMM>:api<2>;
+unit class Gnome::Gtk4::R-Actionable:auth<github:MARTIMM>:api<2>;
+
 
 #-------------------------------------------------------------------------------
 #--[Native Routine Definitions]-------------------------------------------------
@@ -29,12 +32,12 @@ unit role Gnome::Gtk4::R-Actionable:auth<github:MARTIMM>:api<2>;
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-action-name => %(:is-symbol<gtk_actionable_get_action_name>,  :returns(Str)),
-  get-action-target-value => %(:is-symbol<gtk_actionable_get_action_target_value>,  :returns(N-Variant)),
-  set-action-name => %(:is-symbol<gtk_actionable_set_action_name>,  :parameters([Str])),
-  set-action-target => %(:is-symbol<gtk_actionable_set_action_target>, :variable-list,  :parameters([Str])),
-  set-action-target-value => %(:is-symbol<gtk_actionable_set_action_target_value>,  :parameters([N-Variant])),
-  set-detailed-action-name => %(:is-symbol<gtk_actionable_set_detailed_action_name>,  :parameters([Str])),
+  get-action-name => %(:is-symbol<gtk_actionable_get_action_name>, :returns(Str), ),
+  get-action-target-value => %(:is-symbol<gtk_actionable_get_action_target_value>, :returns(N-Object), ),
+  set-action-name => %(:is-symbol<gtk_actionable_set_action_name>, :parameters([Str]), ),
+  set-action-target => %(:is-symbol<gtk_actionable_set_action_target>, :variable-list, :parameters([Str]), ),
+  set-action-target-value => %(:is-symbol<gtk_actionable_set_action_target_value>, :parameters([N-Object]), ),
+  set-detailed-action-name => %(:is-symbol<gtk_actionable_set_detailed_action_name>, :parameters([Str]), ),
 );
 
 #-------------------------------------------------------------------------------

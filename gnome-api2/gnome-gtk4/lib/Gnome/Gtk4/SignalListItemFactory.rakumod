@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::ListItemFactory:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -38,10 +40,11 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w1<setup unbind bind teardown>,
+      :w1<setup bind unbind teardown>,
     );
     $signals-added = True;
   }
