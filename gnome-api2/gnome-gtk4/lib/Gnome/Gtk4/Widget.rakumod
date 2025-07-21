@@ -25,11 +25,12 @@ use Gnome::Graphene::T-point:api<2>;
 use Gnome::Graphene::T-rect:api<2>;
 use Gnome::Gsk4::N-Transform:api<2>;
 use Gnome::Gsk4::T-types:api<2>;
+use Gnome::Gtk4::N-Requisition:api<2>;
 use Gnome::Gtk4::R-Accessible:api<2>;
 use Gnome::Gtk4::R-Buildable:api<2>;
 use Gnome::Gtk4::R-ConstraintTarget:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
-#use Gnome::Gtk4::T-widget:api<2>;
+use Gnome::Gtk4::T-widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -66,8 +67,8 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<destroy show unmap map unrealize hide realize>,
-      :w1<mnemonic-activate state-flags-changed move-focus direction-changed keynav-failed>,
+      :w0<map show unmap destroy unrealize realize hide>,
+      :w1<state-flags-changed move-focus keynav-failed direction-changed mnemonic-activate>,
       :w4<query-tooltip>,
     );
 
