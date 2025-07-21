@@ -1,0 +1,195 @@
+=comment Package: Gtk4, C-Source: gesturelongpress
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=TITLE Gnome::Gtk4::GestureLongPress
+=head1 Description
+
+B<Gnome::Gtk4::GestureLongPress> is a B<Gnome::Gtk4::Gesture> for long presses.
+
+This gesture is also known as “Press and Hold”.
+
+When the timeout is exceeded, the gesture is triggering the
+I<pressed> signal.
+
+If the touchpoint is lifted before the timeout passes, or if
+it drifts too far of the initial press point, the
+I<cancelled> signal will be emitted.
+
+How long the timeout is before the I<pressed> signal gets emitted is
+determined by the I<gtk-long-press-time defined in Gnome::Gtk4::Settings> setting.
+It can be modified by the I<delay-factor>
+property.
+
+=head2 Uml Diagram
+=for image :src<asset_files/images/plantuml/GestureLongPress.png> :width<70%> :class<inline>
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::GestureLongPress
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from an object of the same type found elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object() :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-gesturelongpress
+
+Returns a newly created B<Gnome::Gtk4::Gesture> that recognizes long presses.
+
+=begin code
+method new-gesturelongpress ( --> Gnome::Gtk4::GestureLongPress )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-gesturelongpress
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-delay-factor
+
+Returns the delay factor.
+
+=begin code
+method get-delay-factor (--> Num )
+=end code
+
+Return value; the delay factor. 
+
+=begin comment
+
+=head2 Example
+# Example for get-delay-factor
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-delay-factor
+
+Applies the given delay factor.
+
+The default long press time will be multiplied by this value.
+Valid values are in the range [0.5..2.0].
+
+=begin code
+method set-delay-factor ( Num() $delay-factor )
+=end code
+
+=item $delay-factor; The delay factor to apply.
+
+=begin comment
+
+=head2 Example
+# Example for set-delay-factor
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 cancelled
+
+Emitted whenever a press moved too far, or was released
+before I<pressed> happened.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::GestureLongPress :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureLongPress> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal cancelled
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 pressed
+
+Emitted whenever a press goes unmoved/unreleased longer than
+what the GTK defaults tell.
+
+=begin code
+method handler (
+  gdouble $x,
+  gdouble $y,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::GestureLongPress :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $x; the X coordinate where the press happened, relative to the widget allocation.
+=item $y; the Y coordinate where the press happened, relative to the widget allocation.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureLongPress> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal pressed
+
+=end comment
+
+=end pod
+

@@ -1,0 +1,369 @@
+=comment Package: Gtk4, C-Source: gesturestylus
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=TITLE Gnome::Gtk4::GestureStylus
+=head1 Description
+
+B<Gnome::Gtk4::GestureStylus> is a B<Gnome::Gtk4::Gesture> specific to stylus input.
+
+The provided signals just relay the basic information of the
+stylus events.
+
+=head2 Uml Diagram
+=for image :src<asset_files/images/plantuml/GestureStylus.png> :width<70%> :class<inline>
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::GestureStylus
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from an object of the same type found elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object() :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-gesturestylus
+
+Creates a new B<Gnome::Gtk4::GestureStylus>.
+
+=begin code
+method new-gesturestylus ( --> Gnome::Gtk4::GestureStylus )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-gesturestylus
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-axes
+
+Returns the current values for the requested C<$axes>.
+
+This function must be called from the handler of one of the
+I<down>, I<motion>,
+I<up> or I<proximity>
+signals.
+
+=begin code
+method get-axes ( GdkAxisUse $axes, Num() $values --> Bool )
+=end code
+
+=item $axes; array of requested axes, terminated with C<GDK_AXIS_IGNORE>.
+=item $values; (transfer ownership: full) return location for the axis values.
+
+Return value; C<True> if there is a current value for the axes. 
+
+=begin comment
+
+=head2 Example
+# Example for get-axes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-axis
+
+Returns the current value for the requested C<$axis>.
+
+This function must be called from the handler of one of the
+I<down>, I<motion>,
+I<up> or I<proximity>
+signals.
+
+=begin code
+method get-axis ( GdkAxisUse $axis, Num() $value --> Bool )
+=end code
+
+=item $axis; requested device axis.
+=item $value; (transfer ownership: full) return location for the axis value.
+
+Return value; C<True> if there is a current value for the axis. 
+
+=begin comment
+
+=head2 Example
+# Example for get-axis
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-backlog
+
+Returns the accumulated backlog of tracking information.
+
+By default, GTK will limit rate of input events. On stylus input
+where accuracy of strokes is paramount, this function returns the
+accumulated coordinate/timing state before the emission of the
+current [Gtk.GestureStylus::motion] signal.
+
+This function may only be called within a I<motion>
+signal handler, the state given in this signal and obtainable through
+C<.get-axis()>] express the latest (most up-to-date)
+state in motion history.
+
+The C<$backlog> is provided in chronological order.
+
+=begin code
+method get-backlog ( N-Object $backlog, Array[Int] $n-elems --> Bool )
+=end code
+
+=item $backlog; (transfer ownership: full) coordinates and times for the backlog events
+=item $n-elems; (transfer ownership: full) return location for the number of elements.
+
+Return value; C<True> if there is a backlog to unfold in the current state.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-backlog
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-device-tool
+
+Returns the B<Gnome::Gdk4::DeviceTool> currently driving input through this gesture.
+
+This function must be called from the handler of one of the
+I<down>, I<motion>,
+I<up> or I<proximity>
+signals.
+
+=begin code
+method get-device-tool (--> N-Object )
+=end code
+
+Return value; The current stylus tool. 
+
+=begin comment
+
+=head2 Example
+# Example for get-device-tool
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-stylus-only
+
+Checks whether the gesture is for styluses only.
+
+Stylus-only gestures will signal events exclusively from stylus
+input devices.
+
+=begin code
+method get-stylus-only (--> Bool )
+=end code
+
+Return value; C<True> if the gesture is only for stylus events. 
+
+=begin comment
+
+=head2 Example
+# Example for get-stylus-only
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-stylus-only
+
+Sets the state of stylus-only
+
+If true, the gesture will exclusively handle events from stylus input devices,
+otherwise it'll handle events from any pointing device.
+
+=begin code
+method set-stylus-only ( Bool() $stylus-only )
+=end code
+
+=item $stylus-only; whether the gesture is used exclusively for stylus events.
+
+=begin comment
+
+=head2 Example
+# Example for set-stylus-only
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 down
+
+Emitted when the stylus touches the device.
+
+=begin code
+method handler (
+  gdouble $x,
+  gdouble $y,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::GestureStylus :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $x; the X coordinate of the stylus event.
+=item $y; the Y coordinate of the stylus event.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureStylus> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal down
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 motion
+
+Emitted when the stylus moves while touching the device.
+
+=begin code
+method handler (
+  gdouble $x,
+  gdouble $y,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::GestureStylus :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $x; the X coordinate of the stylus event.
+=item $y; the Y coordinate of the stylus event.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureStylus> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal motion
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 proximity
+
+Emitted when the stylus is in proximity of the device.
+
+=begin code
+method handler (
+  gdouble $x,
+  gdouble $y,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::GestureStylus :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $x; the X coordinate of the stylus event.
+=item $y; the Y coordinate of the stylus event.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureStylus> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal proximity
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 up
+
+Emitted when the stylus no longer touches the device.
+
+=begin code
+method handler (
+  gdouble $x,
+  gdouble $y,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::GestureStylus :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $x; the X coordinate of the stylus event.
+=item $y; the Y coordinate of the stylus event.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureStylus> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal up
+
+=end comment
+
+=end pod
+

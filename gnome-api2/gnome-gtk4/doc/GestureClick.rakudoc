@@ -1,0 +1,210 @@
+=comment Package: Gtk4, C-Source: gestureclick
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=TITLE Gnome::Gtk4::GestureClick
+=head1 Description
+
+B<Gnome::Gtk4::GestureClick> is a B<Gnome::Gtk4::Gesture> implementation for clicks.
+
+It is able to recognize multiple clicks on a nearby zone, which
+can be listened for through the I<pressed>
+signal. Whenever time or distance between clicks exceed the GTK
+defaults, I<stopped> is emitted, and the
+click counter is reset.
+
+=head2 Uml Diagram
+=for image :src<asset_files/images/plantuml/GestureClick.png> :width<70%> :class<inline>
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::GestureClick
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from an object of the same type found elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object() :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-gestureclick
+
+Returns a newly created B<Gnome::Gtk4::Gesture> that recognizes
+single and multiple presses.
+
+=begin code
+method new-gestureclick ( --> Gnome::Gtk4::GestureClick )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-gestureclick
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 pressed
+
+Emitted whenever a button or touch press happens.
+
+=begin code
+method handler (
+  gint $n-press,
+  gdouble $x,
+  gdouble $y,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::GestureClick :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $n-press; how many touch/button presses happened with this one.
+=item $x; The X coordinate, in widget allocation coordinates.
+=item $y; The Y coordinate, in widget allocation coordinates.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureClick> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal pressed
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 released
+
+Emitted when a button or touch is released.
+ C<$n-press> will report the number of press that is paired to
+this event, note that I<stopped> may
+have been emitted between the press and its release, C<$n-press>
+will only start over at the next press.
+
+=begin code
+method handler (
+  gint $n-press,
+  gdouble $x,
+  gdouble $y,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::GestureClick :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $n-press; number of press that is paired with this release.
+=item $x; The X coordinate, in widget allocation coordinates.
+=item $y; The Y coordinate, in widget allocation coordinates.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureClick> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal released
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 stopped
+
+Emitted whenever any time/distance threshold has been exceeded.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::GestureClick :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureClick> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal stopped
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 unpaired-release
+
+Emitted whenever the gesture receives a release
+event that had no previous corresponding press.
+
+Due to implicit grabs, this can only happen on situations
+where input is grabbed elsewhere mid-press or the pressed
+widget voluntarily relinquishes its implicit grab.
+
+=begin code
+method handler (
+  gdouble $x,
+  gdouble $y,
+  guint $button,
+   $sequence,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::GestureClick :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $x; X coordinate of the event.
+=item $y; Y coordinate of the event.
+=item $button; Button being released.
+=item $sequence; Sequence being released.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureClick> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal unpaired-release
+
+=end comment
+
+=end pod
+

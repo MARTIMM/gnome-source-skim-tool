@@ -1,0 +1,137 @@
+=comment Package: Gtk4, C-Source: gesturezoom
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=TITLE Gnome::Gtk4::GestureZoom
+=head1 Description
+
+B<Gnome::Gtk4::GestureZoom> is a B<Gnome::Gtk4::Gesture> for 2-finger pinch/zoom gestures.
+
+Whenever the distance between both tracked sequences changes, the
+I<scale-changed> signal is emitted to report
+the scale factor.
+
+=head2 Uml Diagram
+=for image :src<asset_files/images/plantuml/GestureZoom.png> :width<70%> :class<inline>
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::GestureZoom
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from an object of the same type found elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object() :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-gesturezoom
+
+Returns a newly created B<Gnome::Gtk4::Gesture> that recognizes
+pinch/zoom gestures.
+
+=begin code
+method new-gesturezoom ( --> Gnome::Gtk4::GestureZoom )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-gesturezoom
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-scale-delta
+
+Gets the scale delta.
+
+If C<$gesture> is active, this function returns the zooming
+difference since the gesture was recognized (hence the
+starting point is considered 1:1). If C<$gesture> is not
+active, 1 is returned.
+
+=begin code
+method get-scale-delta (--> Num )
+=end code
+
+Return value; the scale delta. 
+
+=begin comment
+
+=head2 Example
+# Example for get-scale-delta
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 scale-changed
+
+Emitted whenever the distance between both tracked sequences changes.
+
+=begin code
+method handler (
+  gdouble $scale,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::GestureZoom :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $scale; Scale delta, taking the initial state as 1:1.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureZoom> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal scale-changed
+
+=end comment
+
+=end pod
+

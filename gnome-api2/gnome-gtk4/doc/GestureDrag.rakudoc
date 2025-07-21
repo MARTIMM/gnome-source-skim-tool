@@ -1,0 +1,232 @@
+=comment Package: Gtk4, C-Source: gesturedrag
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=TITLE Gnome::Gtk4::GestureDrag
+=head1 Description
+
+B<Gnome::Gtk4::GestureDrag> is a B<Gnome::Gtk4::Gesture> implementation for drags.
+
+The drag operation itself can be tracked throughout the
+I<drag-begin>,
+I<drag-update> and
+I<drag-end> signals, and the relevant
+coordinates can be extracted through
+C<.get-offset()>] and
+C<.get-start-point()>].
+
+=head2 Uml Diagram
+=for image :src<asset_files/images/plantuml/GestureDrag.png> :width<70%> :class<inline>
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::GestureDrag
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from an object of the same type found elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object() :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-gesturedrag
+
+Returns a newly created B<Gnome::Gtk4::Gesture> that recognizes drags.
+
+=begin code
+method new-gesturedrag ( --> Gnome::Gtk4::GestureDrag )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-gesturedrag
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-offset
+
+Gets the offset from the start point.
+
+If the C<$gesture> is active, this function returns C<True> and
+fills in C<$x> and C<$y> with the coordinates of the current point,
+as an offset to the starting drag point.
+
+=begin code
+method get-offset ( Num() $x, Num() $y --> Bool )
+=end code
+
+=item $x; (transfer ownership: full) X offset for the current point.
+=item $y; (transfer ownership: full) Y offset for the current point.
+
+Return value; C<True> if the gesture is active. 
+
+=begin comment
+
+=head2 Example
+# Example for get-offset
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-start-point
+
+Gets the point where the drag started.
+
+If the C<$gesture> is active, this function returns C<True>
+and fills in C<$x> and C<$y> with the drag start coordinates,
+in widget-relative coordinates.
+
+=begin code
+method get-start-point ( Num() $x, Num() $y --> Bool )
+=end code
+
+=item $x; (transfer ownership: full) X coordinate for the drag start point.
+=item $y; (transfer ownership: full) Y coordinate for the drag start point.
+
+Return value; C<True> if the gesture is active. 
+
+=begin comment
+
+=head2 Example
+# Example for get-start-point
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 drag-begin
+
+Emitted whenever dragging starts.
+
+=begin code
+method handler (
+  gdouble $start-x,
+  gdouble $start-y,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::GestureDrag :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $start-x; X coordinate, relative to the widget allocation.
+=item $start-y; Y coordinate, relative to the widget allocation.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureDrag> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal drag-begin
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 drag-end
+
+Emitted whenever the dragging is finished.
+
+=begin code
+method handler (
+  gdouble $offset-x,
+  gdouble $offset-y,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::GestureDrag :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $offset-x; X offset, relative to the start point.
+=item $offset-y; Y offset, relative to the start point.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureDrag> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal drag-end
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 drag-update
+
+Emitted whenever the dragging point moves.
+
+=begin code
+method handler (
+  gdouble $offset-x,
+  gdouble $offset-y,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::GestureDrag :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $offset-x; X offset, relative to the start point.
+=item $offset-y; Y offset, relative to the start point.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureDrag> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal drag-update
+
+=end comment
+
+=end pod
+

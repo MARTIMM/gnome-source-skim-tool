@@ -1,0 +1,149 @@
+=comment Package: Gtk4, C-Source: gestureswipe
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=TITLE Gnome::Gtk4::GestureSwipe
+=head1 Description
+
+B<Gnome::Gtk4::GestureSwipe> is a B<Gnome::Gtk4::Gesture> for swipe gestures.
+
+After a press/move/.../move/release sequence happens, the
+I<swipe> signal will be emitted,
+providing the velocity and directionality of the sequence
+at the time it was lifted.
+
+If the velocity is desired in intermediate points,
+C<.get-velocity()>] can be called in a
+I<update defined in Gesture> handler.
+
+All velocities are reported in pixels/sec units.
+
+=head2 Uml Diagram
+=for image :src<asset_files/images/plantuml/GestureSwipe.png> :width<70%> :class<inline>
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::GestureSwipe
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from an object of the same type found elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object() :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-gestureswipe
+
+Returns a newly created B<Gnome::Gtk4::Gesture> that recognizes swipes.
+
+=begin code
+method new-gestureswipe ( --> Gnome::Gtk4::GestureSwipe )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-gestureswipe
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-velocity
+
+Gets the current velocity.
+
+If the gesture is recognized, this function returns C<True> and fills
+in C<$velocity-x> and C<$velocity-y> with the recorded velocity, as per the
+last events processed.
+
+=begin code
+method get-velocity ( Num() $velocity-x, Num() $velocity-y --> Bool )
+=end code
+
+=item $velocity-x; (transfer ownership: full) return value for the velocity in the X axis, in pixels/sec.
+=item $velocity-y; (transfer ownership: full) return value for the velocity in the Y axis, in pixels/sec.
+
+Return value; whether velocity could be calculated. 
+
+=begin comment
+
+=head2 Example
+# Example for get-velocity
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 swipe
+
+Emitted when the recognized gesture is finished.
+
+Velocity and direction are a product of previously recorded events.
+
+=begin code
+method handler (
+  gdouble $velocity-x,
+  gdouble $velocity-y,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::GestureSwipe :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $velocity-x; velocity in the X axis, in pixels/sec.
+=item $velocity-y; velocity in the Y axis, in pixels/sec.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureSwipe> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal swipe
+
+=end comment
+
+=end pod
+

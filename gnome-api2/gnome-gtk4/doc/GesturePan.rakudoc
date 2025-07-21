@@ -1,0 +1,165 @@
+=comment Package: Gtk4, C-Source: gesturepan
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=TITLE Gnome::Gtk4::GesturePan
+=head1 Description
+
+B<Gnome::Gtk4::GesturePan> is a B<Gnome::Gtk4::Gesture> for pan gestures.
+
+These are drags that are locked to happen along one axis. The axis
+that a B<Gnome::Gtk4::GesturePan> handles is defined at construct time, and
+can be changed through C<.set-orientation()>].
+
+When the gesture starts to be recognized, B<Gnome::Gtk4::GesturePan> will
+attempt to determine as early as possible whether the sequence
+is moving in the expected direction, and denying the sequence if
+this does not happen.
+
+Once a panning gesture along the expected axis is recognized,
+the I<pan> signal will be emitted as input
+events are received, containing the offset in the given axis.
+
+=head2 Uml Diagram
+=for image :src<asset_files/images/plantuml/GesturePan.png> :width<70%> :class<inline>
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::GesturePan
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from an object of the same type found elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object() :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-gesturepan
+
+Returns a newly created B<Gnome::Gtk4::Gesture> that recognizes pan gestures.
+
+=begin code
+method new-gesturepan ( GtkOrientation $orientation --> Gnome::Gtk4::GesturePan )
+=end code
+
+=item $orientation; expected orientation.
+
+=begin comment
+
+=head2 Example
+# Example for new-gesturepan
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-orientation
+
+Returns the orientation of the pan gestures that this C<$gesture> expects.
+
+=begin code
+method get-orientation (--> GtkOrientation )
+=end code
+
+Return value; the expected orientation for pan gestures. 
+
+=begin comment
+
+=head2 Example
+# Example for get-orientation
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-orientation
+
+Sets the orientation to be expected on pan gestures.
+
+=begin code
+method set-orientation ( GtkOrientation $orientation )
+=end code
+
+=item $orientation; expected orientation.
+
+=begin comment
+
+=head2 Example
+# Example for set-orientation
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 pan
+
+Emitted once a panning gesture along the expected axis is detected.
+
+=begin code
+method handler (
+   $direction,
+  gdouble $offset,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::GesturePan :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $direction; current direction of the pan gesture.
+=item $offset; Offset along the gesture orientation.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GesturePan> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal pan
+
+=end comment
+
+=end pod
+
