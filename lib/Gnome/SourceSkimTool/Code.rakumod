@@ -36,16 +36,21 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
   my Bool $available;
   my Str $also = '';
   
+  my Str $unit-header = '';
+  my Str $unit-type = '';
+
   # Try glib:type-name if c:type is missing
   my Str $ctype =
     $element.attribs<c:type> // $element.attribs<glib:type-name> // '';
   my Hash $h = $!solve.search-name($ctype) // %();
 
+note "$?LINE $h<gir-type>";
   # Parenting is only for classes
   my Bool $is-class = False;
   my Bool $is-role = False;
   if $h<gir-type> eq 'class' {
     $is-class = True;
+    $unit-type = 'class';
 
     # Check for parent class. There are never more than one. When there is
     # none, pick TopLevelClassSupport
@@ -58,7 +63,8 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
   }
 
   $is-role = (($h<gir-type> // '' ) eq 'interface') // False;
-  
+note "$?LINE role $is-role";
+
   # If the object is a class
   if $is-class {
     # Check for roles to implement
@@ -82,9 +88,6 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
 
   my Str $classname = $!solve.set-object-name( $h, :name-type(ClassnameType));
 
-  my Str $unit-header = '';
-  my Str $unit-type = '';
-
 #`{{
   # Find out if class is deprecated
   my Str $depr-msg = '';
@@ -107,6 +110,7 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
     self.add-import('Gnome::N::TopLevelClassSupport');
     $also ~= 'also is Gnome::N::TopLevelClassSupport;' ~ "\n";
     $unit-header ~= pod-header('Structure Declaration');
+    $unit-type = 'class';
   }
 
   # Classes
@@ -121,7 +125,7 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
     __MODULE__IMPORTS__
 
     $unit-header
-    unit class $classname\:auth<github:MARTIMM>:api<2>;
+    unit $unit-type $classname\:auth<github:MARTIMM>:api<2>;
     $also
     RAKUMOD
 

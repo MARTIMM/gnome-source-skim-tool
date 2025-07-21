@@ -51,6 +51,7 @@ method generate-code ( ) {
 
     next if ?@*gir-type-select and ($_ ~~ none(|@*gir-type-select));
 
+    # First check keys class, interface, record and union
     when 'class' {
       for $!filedata<class>.keys -> $class-name {
         $*gnome-class = $!filedata<class>{$class-name}<gnome-name>;
@@ -128,6 +129,7 @@ method generate-code ( ) {
   }
 
 #  my Bool $first = True;
+  # Then check other keys which all go into the T-modulename file
   my Gnome::SourceSkimTool::Prepare $t-prep; # .= new;
   for $!filedata.keys -> $gir-type {
     # Records and unions must be seen here to generate a type file when
@@ -150,7 +152,8 @@ method generate-code ( ) {
     $data<type-letter> = 'T';
     $data<package-name> = $*work-data<raku-package>;
     $filename = ?$data<source-filename>
-                 ?? [~] $data<type-letter>,
+                 ?? [~] $*work-data<result-mods>,
+                        $data<type-letter>,
                         '-', $data<source-filename>,
                         '.rakumod'
                  !! '';
