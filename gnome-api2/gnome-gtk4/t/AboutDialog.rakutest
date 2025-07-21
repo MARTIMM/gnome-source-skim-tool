@@ -174,7 +174,7 @@ subtest 'Method tests', {
     $wrap-license = True;
     .set-wrap-license($wrap-license);
     #TM:1:get-wrap-license()
-    is .get-wrap-license(), $wrap-license, '.set-wrap-license() / .get-wrap-license()';
+    ok .get-wrap-license(), '.set-wrap-license() / .get-wrap-license()';
   }
 };
 

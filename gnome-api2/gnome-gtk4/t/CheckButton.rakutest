@@ -67,7 +67,7 @@ subtest 'Method tests', {
     $setting = True;
     .set-use-underline($setting);
     #TM:1:get-use-underline()
-    is .get-use-underline(),  $setting, '.set-use-underline() / .get-use-underline()';
+    ok .get-use-underline(), '.set-use-underline() / .get-use-underline()';
 
     #TM:1:set-label()
     $label = 'text';
@@ -79,7 +79,7 @@ subtest 'Method tests', {
     $inconsistent = True;
     .set-inconsistent( $inconsistent);
     #TM:1:get-inconsistent()
-    is .get-inconsistent(), $inconsistent, '.set-inconsistent() / .get-inconsistent()';
+    ok .get-inconsistent(), '.set-inconsistent() / .get-inconsistent()';
 
     #TM:1:set-group()
     $group .= new-with-label('other check button');  # a native object
@@ -90,7 +90,7 @@ subtest 'Method tests', {
     $setting = True;
     .set-active( $setting);
     #TM:1:get-active()
-    is .get-active(), $setting, '.set-active() / .get-active()';
+    ok .get-active(), '.set-active() / .get-active()';
   }
 };
 

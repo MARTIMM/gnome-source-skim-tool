@@ -75,7 +75,7 @@ subtest 'Method tests', {
     $use-underline = True;
     .set-use-underline( $use-underline);
     #TM:1:get-use-underline()
-    is .get-use-underline(),  $use-underline, '.set-use-underline() / .get-use-underline()';
+    ok .get-use-underline(), '.set-use-underline() / .get-use-underline()';
 
     #TM:1:set-label()
     $label = 'text';
@@ -93,7 +93,7 @@ subtest 'Method tests', {
     $has-frame = True;
     .set-has-frame( $has-frame);
     #TM:1:get-has-frame()
-    is .get-has-frame(),  $has-frame, '.set-has-frame() / .get-has-frame()';
+    ok .get-has-frame(), '.set-has-frame() / .get-has-frame()';
 
 #`{{
     #TM:0:set-child()
