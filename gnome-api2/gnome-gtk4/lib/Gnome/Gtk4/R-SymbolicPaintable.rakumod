@@ -22,7 +22,7 @@ use Gnome::N::NativeLib:api<2>;
 #--[Role Declaration]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit class Gnome::Gtk4::R-SymbolicPaintable:auth<github:MARTIMM>:api<2>;
+unit role Gnome::Gtk4::R-SymbolicPaintable:auth<github:MARTIMM>:api<2>;
 
 
 #-------------------------------------------------------------------------------

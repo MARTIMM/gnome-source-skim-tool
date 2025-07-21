@@ -13,7 +13,7 @@ use Cairo;
 use Gnome::Glib::N-List:api<2>;
 use Gnome::Glib::T-list:api<2>;
 use Gnome::Gtk4::N-TreeIter:api<2>;
-#use Gnome::Gtk4::T-treemodel:api<2>;
+use Gnome::Gtk4::T-treemodel:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -24,7 +24,7 @@ use Gnome::N::NativeLib:api<2>;
 #--[Role Declaration]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit class Gnome::Gtk4::R-CellLayout:auth<github:MARTIMM>:api<2>;
+unit role Gnome::Gtk4::R-CellLayout:auth<github:MARTIMM>:api<2>;
 
 
 #-------------------------------------------------------------------------------

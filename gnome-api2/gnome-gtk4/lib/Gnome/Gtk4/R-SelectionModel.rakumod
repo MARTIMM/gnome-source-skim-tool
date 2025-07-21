@@ -10,6 +10,7 @@ use NativeCall;
 use Cairo;
 
 
+use Gnome::Gtk4::N-Bitset:api<2>;
 use Gnome::Gtk4::T-types:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -21,7 +22,7 @@ use Gnome::N::NativeLib:api<2>;
 #--[Role Declaration]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit class Gnome::Gtk4::R-SelectionModel:auth<github:MARTIMM>:api<2>;
+unit role Gnome::Gtk4::R-SelectionModel:auth<github:MARTIMM>:api<2>;
 
 
 #-------------------------------------------------------------------------------

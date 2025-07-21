@@ -10,7 +10,8 @@ use NativeCall;
 use Cairo;
 
 
-#use Gnome::Gtk4::T-border:api<2>;
+use Gnome::Gtk4::N-Border:api<2>;
+use Gnome::Gtk4::T-border:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -22,7 +23,7 @@ use Gnome::N::NativeLib:api<2>;
 #--[Role Declaration]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit class Gnome::Gtk4::R-Scrollable:auth<github:MARTIMM>:api<2>;
+unit role Gnome::Gtk4::R-Scrollable:auth<github:MARTIMM>:api<2>;
 
 
 #-------------------------------------------------------------------------------
