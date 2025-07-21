@@ -10,10 +10,11 @@ use NativeCall;
 use Cairo;
 
 
+use Gnome::Gtk4::N-TreeIter:api<2>;
 use Gnome::Gtk4::R-CellEditable:api<2>;
 use Gnome::Gtk4::R-CellLayout:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
-#use Gnome::Gtk4::T-treemodel:api<2>;
+use Gnome::Gtk4::T-treemodel:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 #use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -57,7 +58,7 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<popup changed activate popdown>,
+      :w0<popup popdown changed activate>,
       :w1<format-entry-text move-active>,
     );
 
@@ -106,7 +107,11 @@ my Hash $methods = %(
   get-id-column => %(:is-symbol<gtk_combo_box_get_id_column>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
   get-model => %(:is-symbol<gtk_combo_box_get_model>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
   get-popup-fixed-width => %(:is-symbol<gtk_combo_box_get_popup_fixed_width>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
-  get-row-separator-func => %(:is-symbol<gtk_combo_box_get_row_separator_func>,  :returns(), :cnv-return(( N-Object $model, N-Object $iter, gpointer $data )),:deprecated, :deprecated-version<4.10>, ),
+#TODO
+#  get-row-separator-func => %(
+#    :is-symbol<gtk_combo_box_get_row_separator_func>,  :returns(),
+#    :cnv-return(N-Object $model, N-Object $iter, gpointer $data ),
+#    :deprecated, :deprecated-version<4.10> ),
   popdown => %(:is-symbol<gtk_combo_box_popdown>, :deprecated, :deprecated-version<4.10>, ),
   popup => %(:is-symbol<gtk_combo_box_popup>, :deprecated, :deprecated-version<4.10>, ),
   popup-for-device => %(:is-symbol<gtk_combo_box_popup_for_device>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
