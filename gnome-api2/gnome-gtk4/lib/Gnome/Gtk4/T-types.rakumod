@@ -6,7 +6,7 @@ use v6.d;
 
 use NativeCall;
 
-use Cairo;
+
 
 
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -24,10 +24,10 @@ unit class Gnome::Gtk4::T-types:auth<github:MARTIMM>:api<2>;
 #--[Record Structure]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 # This is an opaque type of which fields are not available.
-class N-Bitset:auth<github:MARTIMM>:api<2> is export is repr('CPointer') { }
+class N-ScrollInfo:auth<github:MARTIMM>:api<2> is export is repr('CPointer') { }
 
 # This is an opaque type of which fields are not available.
-class N-ScrollInfo:auth<github:MARTIMM>:api<2> is export is repr('CPointer') { }
+class N-Bitset:auth<github:MARTIMM>:api<2> is export is repr('CPointer') { }
 
 #-------------------------------------------------------------------------------
 #--[Constants]------------------------------------------------------------------
