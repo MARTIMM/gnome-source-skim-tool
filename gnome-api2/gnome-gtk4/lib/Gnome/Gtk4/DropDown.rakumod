@@ -75,7 +75,7 @@ my Hash $methods = %(
   new-from-strings => %( :type(Constructor), :is-symbol<gtk_drop_down_new_from_strings>, :returns(N-Object), :parameters([ gchar-pptr]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-enable-search => %(:is-symbol<gtk_drop_down_get_enable_search>, :returns(gboolean), ),
+  get-enable-search => %(:is-symbol<gtk_drop_down_get_enable_search>, :returns(gboolean), :cnv-return(Bool), ),
   get-expression => %(:is-symbol<gtk_drop_down_get_expression>, :returns(N-Object), ),
   get-factory => %(:is-symbol<gtk_drop_down_get_factory>, :returns(N-Object), ),
   get-header-factory => %(:is-symbol<gtk_drop_down_get_header_factory>, :returns(N-Object), ),
@@ -84,7 +84,7 @@ my Hash $methods = %(
   get-search-match-mode => %(:is-symbol<gtk_drop_down_get_search_match_mode>,  :returns(GEnum), :cnv-return(GtkStringFilterMatchMode)),
   get-selected => %(:is-symbol<gtk_drop_down_get_selected>, :returns(guint), ),
   get-selected-item => %(:is-symbol<gtk_drop_down_get_selected_item>, :returns(gpointer), ),
-  get-show-arrow => %(:is-symbol<gtk_drop_down_get_show_arrow>, :returns(gboolean), ),
+  get-show-arrow => %(:is-symbol<gtk_drop_down_get_show_arrow>, :returns(gboolean), :cnv-return(Bool), ),
   set-enable-search => %(:is-symbol<gtk_drop_down_set_enable_search>, :parameters([gboolean]), ),
   set-expression => %(:is-symbol<gtk_drop_down_set_expression>, :parameters([N-Object]), ),
   set-factory => %(:is-symbol<gtk_drop_down_set_factory>, :parameters([N-Object]), ),
