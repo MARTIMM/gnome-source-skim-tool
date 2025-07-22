@@ -73,8 +73,8 @@ my Hash $methods = %(
   new-scrollinfo => %( :type(Constructor), :is-symbol<gtk_scroll_info_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-enable-horizontal => %(:is-symbol<gtk_scroll_info_get_enable_horizontal>, :returns(gboolean), ),
-  get-enable-vertical => %(:is-symbol<gtk_scroll_info_get_enable_vertical>, :returns(gboolean), ),
+  get-enable-horizontal => %(:is-symbol<gtk_scroll_info_get_enable_horizontal>, :returns(gboolean), :cnv-return(Bool), ),
+  get-enable-vertical => %(:is-symbol<gtk_scroll_info_get_enable_vertical>, :returns(gboolean), :cnv-return(Bool), ),
   ref => %(:is-symbol<gtk_scroll_info_ref>, :returns(N-Object), ),
   set-enable-horizontal => %(:is-symbol<gtk_scroll_info_set_enable_horizontal>, :parameters([gboolean]), ),
   set-enable-vertical => %(:is-symbol<gtk_scroll_info_set_enable_vertical>, :parameters([gboolean]), ),

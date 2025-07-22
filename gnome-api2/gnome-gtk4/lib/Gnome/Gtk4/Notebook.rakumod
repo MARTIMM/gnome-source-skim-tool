@@ -45,8 +45,8 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w1<create-window move-focus-out change-current-page select-page focus-tab>,
-      :w2<reorder-tab switch-page page-added page-removed page-reordered>,
+      :w1<focus-tab create-window move-focus-out select-page change-current-page>,
+      :w2<page-added switch-page page-removed page-reordered reorder-tab>,
     );
     $signals-added = True;
   }
@@ -87,14 +87,14 @@ my Hash $methods = %(
   get-nth-page => %(:is-symbol<gtk_notebook_get_nth_page>, :returns(N-Object), :parameters([gint]), ),
   get-page => %(:is-symbol<gtk_notebook_get_page>, :returns(N-Object), :parameters([N-Object]), ),
   get-pages => %(:is-symbol<gtk_notebook_get_pages>, :returns(N-Object), ),
-  get-scrollable => %(:is-symbol<gtk_notebook_get_scrollable>, :returns(gboolean), ),
-  get-show-border => %(:is-symbol<gtk_notebook_get_show_border>, :returns(gboolean), ),
-  get-show-tabs => %(:is-symbol<gtk_notebook_get_show_tabs>, :returns(gboolean), ),
-  get-tab-detachable => %(:is-symbol<gtk_notebook_get_tab_detachable>, :returns(gboolean), :parameters([N-Object]), ),
+  get-scrollable => %(:is-symbol<gtk_notebook_get_scrollable>, :returns(gboolean), :cnv-return(Bool), ),
+  get-show-border => %(:is-symbol<gtk_notebook_get_show_border>, :returns(gboolean), :cnv-return(Bool), ),
+  get-show-tabs => %(:is-symbol<gtk_notebook_get_show_tabs>, :returns(gboolean), :cnv-return(Bool), ),
+  get-tab-detachable => %(:is-symbol<gtk_notebook_get_tab_detachable>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object]), ),
   get-tab-label => %(:is-symbol<gtk_notebook_get_tab_label>, :returns(N-Object), :parameters([N-Object]), ),
   get-tab-label-text => %(:is-symbol<gtk_notebook_get_tab_label_text>, :returns(Str), :parameters([N-Object]), ),
   get-tab-pos => %(:is-symbol<gtk_notebook_get_tab_pos>,  :returns(GEnum), :cnv-return(GtkPositionType)),
-  get-tab-reorderable => %(:is-symbol<gtk_notebook_get_tab_reorderable>, :returns(gboolean), :parameters([N-Object]), ),
+  get-tab-reorderable => %(:is-symbol<gtk_notebook_get_tab_reorderable>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object]), ),
   insert-page => %(:is-symbol<gtk_notebook_insert_page>, :returns(gint), :parameters([N-Object, N-Object, gint]), ),
   insert-page-menu => %(:is-symbol<gtk_notebook_insert_page_menu>, :returns(gint), :parameters([N-Object, N-Object, N-Object, gint]), ),
   next-page => %(:is-symbol<gtk_notebook_next_page>, ),

@@ -10,7 +10,7 @@ use NativeCall;
 use Cairo;
 
 
-#use Gnome::Gtk4::T-treemodel:api<2>;
+use Gnome::Gtk4::T-treemodel:api<2>;
 #use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -85,7 +85,7 @@ my Hash $methods = %(
   free => %(:is-symbol<gtk_tree_row_reference_free>, :deprecated, :deprecated-version<4.10>, ),
   get-model => %(:is-symbol<gtk_tree_row_reference_get_model>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
   get-path => %(:is-symbol<gtk_tree_row_reference_get_path>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
-  valid => %(:is-symbol<gtk_tree_row_reference_valid>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  valid => %(:is-symbol<gtk_tree_row_reference_valid>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.10>, ),
 
   #--[Functions]----------------------------------------------------------------
   deleted => %( :type(Function), :is-symbol<gtk_tree_row_reference_deleted>, :parameters([ N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),

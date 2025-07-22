@@ -10,7 +10,7 @@ use NativeCall;
 use Cairo;
 
 
-#use Gnome::Gtk4::T-treemodel:api<2>;
+use Gnome::Gtk4::T-treemodel:api<2>;
 #use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -92,13 +92,13 @@ my Hash $methods = %(
   get-depth => %(:is-symbol<gtk_tree_path_get_depth>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
   get-indices => %(:is-symbol<gtk_tree_path_get_indices>, :returns(gint-ptr), :deprecated, :deprecated-version<4.10>, ),
   get-indices-with-depth => %(:is-symbol<gtk_tree_path_get_indices_with_depth>, :returns(gint-ptr), :parameters([gint-ptr]), :deprecated, :deprecated-version<4.10>, ),
-  is-ancestor => %(:is-symbol<gtk_tree_path_is_ancestor>, :returns(gboolean), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
-  is-descendant => %(:is-symbol<gtk_tree_path_is_descendant>, :returns(gboolean), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  is-ancestor => %(:is-symbol<gtk_tree_path_is_ancestor>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  is-descendant => %(:is-symbol<gtk_tree_path_is_descendant>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
   next => %(:is-symbol<gtk_tree_path_next>, :deprecated, :deprecated-version<4.10>, ),
   prepend-index => %(:is-symbol<gtk_tree_path_prepend_index>, :parameters([gint]), :deprecated, :deprecated-version<4.10>, ),
-  prev => %(:is-symbol<gtk_tree_path_prev>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  prev => %(:is-symbol<gtk_tree_path_prev>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.10>, ),
   to-string => %(:is-symbol<gtk_tree_path_to_string>, :returns(Str), :deprecated, :deprecated-version<4.10>, ),
-  up => %(:is-symbol<gtk_tree_path_up>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  up => %(:is-symbol<gtk_tree_path_up>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------
