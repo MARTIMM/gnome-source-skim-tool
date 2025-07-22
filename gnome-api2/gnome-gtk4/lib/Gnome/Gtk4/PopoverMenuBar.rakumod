@@ -63,9 +63,9 @@ my Hash $methods = %(
   new-from-model => %( :type(Constructor), :is-symbol<gtk_popover_menu_bar_new_from_model>, :returns(N-Object), :parameters([ N-Object]), ),
 
   #--[Methods]------------------------------------------------------------------
-  add-child => %(:is-symbol<gtk_popover_menu_bar_add_child>, :returns(gboolean), :parameters([N-Object, Str]), ),
+  add-child => %(:is-symbol<gtk_popover_menu_bar_add_child>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, Str]), ),
   get-menu-model => %(:is-symbol<gtk_popover_menu_bar_get_menu_model>, :returns(N-Object), ),
-  remove-child => %(:is-symbol<gtk_popover_menu_bar_remove_child>, :returns(gboolean), :parameters([N-Object]), ),
+  remove-child => %(:is-symbol<gtk_popover_menu_bar_remove_child>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object]), ),
   set-menu-model => %(:is-symbol<gtk_popover_menu_bar_set_menu_model>, :parameters([N-Object]), ),
 );
 

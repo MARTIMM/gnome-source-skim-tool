@@ -80,7 +80,7 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   get-extra-menu => %(:is-symbol<gtk_password_entry_get_extra_menu>, :returns(N-Object), ),
-  get-show-peek-icon => %(:is-symbol<gtk_password_entry_get_show_peek_icon>, :returns(gboolean), ),
+  get-show-peek-icon => %(:is-symbol<gtk_password_entry_get_show_peek_icon>, :returns(gboolean), :cnv-return(Bool), ),
   set-extra-menu => %(:is-symbol<gtk_password_entry_set_extra_menu>, :parameters([N-Object]), ),
   set-show-peek-icon => %(:is-symbol<gtk_password_entry_set_show_peek_icon>, :parameters([gboolean]), ),
 );

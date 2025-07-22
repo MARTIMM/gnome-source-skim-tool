@@ -70,10 +70,10 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   get-alternative-text => %(:is-symbol<gtk_picture_get_alternative_text>, :returns(Str), ),
-  get-can-shrink => %(:is-symbol<gtk_picture_get_can_shrink>, :returns(gboolean), ),
+  get-can-shrink => %(:is-symbol<gtk_picture_get_can_shrink>, :returns(gboolean), :cnv-return(Bool), ),
   get-content-fit => %(:is-symbol<gtk_picture_get_content_fit>,  :returns(GEnum), :cnv-return(GtkContentFit)),
   get-file => %(:is-symbol<gtk_picture_get_file>, :returns(N-Object), ),
-  get-keep-aspect-ratio => %(:is-symbol<gtk_picture_get_keep_aspect_ratio>, :returns(gboolean), :deprecated, :deprecated-version<4.8>, ),
+  get-keep-aspect-ratio => %(:is-symbol<gtk_picture_get_keep_aspect_ratio>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.8>, ),
   get-paintable => %(:is-symbol<gtk_picture_get_paintable>, :returns(N-Object), ),
   set-alternative-text => %(:is-symbol<gtk_picture_set_alternative_text>, :parameters([Str]), ),
   set-can-shrink => %(:is-symbol<gtk_picture_set_can_shrink>, :parameters([gboolean]), ),

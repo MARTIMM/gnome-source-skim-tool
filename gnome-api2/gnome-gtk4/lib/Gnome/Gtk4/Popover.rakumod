@@ -51,7 +51,7 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<activate-default closed>,
+      :w0<closed activate-default>,
     );
 
     # Signals from interfaces
@@ -86,13 +86,13 @@ my Hash $methods = %(
   new-popover => %( :type(Constructor), :is-symbol<gtk_popover_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-autohide => %(:is-symbol<gtk_popover_get_autohide>, :returns(gboolean), ),
-  get-cascade-popdown => %(:is-symbol<gtk_popover_get_cascade_popdown>, :returns(gboolean), ),
+  get-autohide => %(:is-symbol<gtk_popover_get_autohide>, :returns(gboolean), :cnv-return(Bool), ),
+  get-cascade-popdown => %(:is-symbol<gtk_popover_get_cascade_popdown>, :returns(gboolean), :cnv-return(Bool), ),
   get-child => %(:is-symbol<gtk_popover_get_child>, :returns(N-Object), ),
-  get-has-arrow => %(:is-symbol<gtk_popover_get_has_arrow>, :returns(gboolean), ),
-  get-mnemonics-visible => %(:is-symbol<gtk_popover_get_mnemonics_visible>, :returns(gboolean), ),
+  get-has-arrow => %(:is-symbol<gtk_popover_get_has_arrow>, :returns(gboolean), :cnv-return(Bool), ),
+  get-mnemonics-visible => %(:is-symbol<gtk_popover_get_mnemonics_visible>, :returns(gboolean), :cnv-return(Bool), ),
   get-offset => %(:is-symbol<gtk_popover_get_offset>, :parameters([gint-ptr, gint-ptr]), ),
-  get-pointing-to => %(:is-symbol<gtk_popover_get_pointing_to>, :returns(gboolean), :parameters([N-Object]), ),
+  get-pointing-to => %(:is-symbol<gtk_popover_get_pointing_to>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object]), ),
   get-position => %(:is-symbol<gtk_popover_get_position>,  :returns(GEnum), :cnv-return(GtkPositionType)),
   popdown => %(:is-symbol<gtk_popover_popdown>, ),
   popup => %(:is-symbol<gtk_popover_popup>, ),

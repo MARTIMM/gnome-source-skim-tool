@@ -49,8 +49,8 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<accept-position cancel-position toggle-handle-focus>,
-      :w1<cycle-child-focus move-handle cycle-handle-focus>,
+      :w0<toggle-handle-focus accept-position cancel-position>,
+      :w1<cycle-handle-focus move-handle cycle-child-focus>,
     );
 
     # Signals from interfaces
@@ -89,12 +89,12 @@ my Hash $methods = %(
   #--[Methods]------------------------------------------------------------------
   get-end-child => %(:is-symbol<gtk_paned_get_end_child>, :returns(N-Object), ),
   get-position => %(:is-symbol<gtk_paned_get_position>, :returns(gint), ),
-  get-resize-end-child => %(:is-symbol<gtk_paned_get_resize_end_child>, :returns(gboolean), ),
-  get-resize-start-child => %(:is-symbol<gtk_paned_get_resize_start_child>, :returns(gboolean), ),
-  get-shrink-end-child => %(:is-symbol<gtk_paned_get_shrink_end_child>, :returns(gboolean), ),
-  get-shrink-start-child => %(:is-symbol<gtk_paned_get_shrink_start_child>, :returns(gboolean), ),
+  get-resize-end-child => %(:is-symbol<gtk_paned_get_resize_end_child>, :returns(gboolean), :cnv-return(Bool), ),
+  get-resize-start-child => %(:is-symbol<gtk_paned_get_resize_start_child>, :returns(gboolean), :cnv-return(Bool), ),
+  get-shrink-end-child => %(:is-symbol<gtk_paned_get_shrink_end_child>, :returns(gboolean), :cnv-return(Bool), ),
+  get-shrink-start-child => %(:is-symbol<gtk_paned_get_shrink_start_child>, :returns(gboolean), :cnv-return(Bool), ),
   get-start-child => %(:is-symbol<gtk_paned_get_start_child>, :returns(N-Object), ),
-  get-wide-handle => %(:is-symbol<gtk_paned_get_wide_handle>, :returns(gboolean), ),
+  get-wide-handle => %(:is-symbol<gtk_paned_get_wide_handle>, :returns(gboolean), :cnv-return(Bool), ),
   set-end-child => %(:is-symbol<gtk_paned_set_end_child>, :parameters([N-Object]), ),
   set-position => %(:is-symbol<gtk_paned_set_position>, :parameters([gint]), ),
   set-resize-end-child => %(:is-symbol<gtk_paned_set_resize_end_child>, :parameters([gboolean]), ),

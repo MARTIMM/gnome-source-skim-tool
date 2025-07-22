@@ -65,10 +65,10 @@ my Hash $methods = %(
   new-from-model-full => %( :type(Constructor), :is-symbol<gtk_popover_menu_new_from_model_full>, :returns(N-Object), :parameters([ N-Object, GFlag]), ),
 
   #--[Methods]------------------------------------------------------------------
-  add-child => %(:is-symbol<gtk_popover_menu_add_child>, :returns(gboolean), :parameters([N-Object, Str]), ),
+  add-child => %(:is-symbol<gtk_popover_menu_add_child>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, Str]), ),
   get-flags => %(:is-symbol<gtk_popover_menu_get_flags>,  :returns(GFlag), :cnv-return(GtkPopoverMenuFlags)),
   get-menu-model => %(:is-symbol<gtk_popover_menu_get_menu_model>, :returns(N-Object), ),
-  remove-child => %(:is-symbol<gtk_popover_menu_remove_child>, :returns(gboolean), :parameters([N-Object]), ),
+  remove-child => %(:is-symbol<gtk_popover_menu_remove_child>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object]), ),
   set-flags => %(:is-symbol<gtk_popover_menu_set_flags>, :parameters([GFlag]), ),
   set-menu-model => %(:is-symbol<gtk_popover_menu_set_menu_model>, :parameters([N-Object]), ),
 );

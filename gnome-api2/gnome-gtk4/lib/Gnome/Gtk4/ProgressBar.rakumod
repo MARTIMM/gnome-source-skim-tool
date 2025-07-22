@@ -85,9 +85,9 @@ my Hash $methods = %(
   #--[Methods]------------------------------------------------------------------
   get-ellipsize => %(:is-symbol<gtk_progress_bar_get_ellipsize>,  :returns(GEnum), :cnv-return(PangoEllipsizeMode)),
   get-fraction => %(:is-symbol<gtk_progress_bar_get_fraction>, :returns(gdouble), ),
-  get-inverted => %(:is-symbol<gtk_progress_bar_get_inverted>, :returns(gboolean), ),
+  get-inverted => %(:is-symbol<gtk_progress_bar_get_inverted>, :returns(gboolean), :cnv-return(Bool), ),
   get-pulse-step => %(:is-symbol<gtk_progress_bar_get_pulse_step>, :returns(gdouble), ),
-  get-show-text => %(:is-symbol<gtk_progress_bar_get_show_text>, :returns(gboolean), ),
+  get-show-text => %(:is-symbol<gtk_progress_bar_get_show_text>, :returns(gboolean), :cnv-return(Bool), ),
   get-text => %(:is-symbol<gtk_progress_bar_get_text>, :returns(Str), ),
   pulse => %(:is-symbol<gtk_progress_bar_pulse>, ),
   set-ellipsize => %(:is-symbol<gtk_progress_bar_set_ellipsize>, :parameters([GEnum]), ),
