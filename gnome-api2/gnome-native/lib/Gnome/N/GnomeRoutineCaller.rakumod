@@ -541,8 +541,8 @@ multi method convert-return ( $v, Hash $routine ) {
     }
 
     # gboolean is an int32 so it is not visible if it should be a boolean
-    when gboolean {
-      $c = $v[0].Bool if $routine<cnv-return> ~~ Bool;
+    when int32 {
+      $c = $routine<cnv-return> ~~ Bool ?? $v[0].Bool !! $v[0].Int;
     }
 
     when N-Object {
