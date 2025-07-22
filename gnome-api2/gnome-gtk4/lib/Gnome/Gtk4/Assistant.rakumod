@@ -52,7 +52,7 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<cancel apply close escape>,
+      :w0<cancel close escape apply>,
       :w1<prepare>,
     );
     $signals-added = True;
@@ -89,7 +89,7 @@ my Hash $methods = %(
   get-n-pages => %(:is-symbol<gtk_assistant_get_n_pages>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
   get-nth-page => %(:is-symbol<gtk_assistant_get_nth_page>, :returns(N-Object), :parameters([gint]), :deprecated, :deprecated-version<4.10>, ),
   get-page => %(:is-symbol<gtk_assistant_get_page>, :returns(N-Object), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
-  get-page-complete => %(:is-symbol<gtk_assistant_get_page_complete>, :returns(gboolean), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  get-page-complete => %(:is-symbol<gtk_assistant_get_page_complete>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
   get-page-title => %(:is-symbol<gtk_assistant_get_page_title>, :returns(Str), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
   get-page-type => %(:is-symbol<gtk_assistant_get_page_type>,  :returns(GEnum), :cnv-return(GtkAssistantPageType),:parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
   get-pages => %(:is-symbol<gtk_assistant_get_pages>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),

@@ -64,7 +64,7 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   get-child => %(:is-symbol<gtk_aspect_frame_get_child>, :returns(N-Object), ),
-  get-obey-child => %(:is-symbol<gtk_aspect_frame_get_obey_child>, :returns(gboolean), ),
+  get-obey-child => %(:is-symbol<gtk_aspect_frame_get_obey_child>, :returns(gboolean), :cnv-return(Bool), ),
   get-ratio => %(:is-symbol<gtk_aspect_frame_get_ratio>, :returns(gfloat), ),
   get-xalign => %(:is-symbol<gtk_aspect_frame_get_xalign>, :returns(gfloat), ),
   get-yalign => %(:is-symbol<gtk_aspect_frame_get_yalign>, :returns(gfloat), ),

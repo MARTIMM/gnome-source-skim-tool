@@ -53,7 +53,7 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<activate changed>,
+      :w0<changed activate>,
       :w1<custom-item-activated>,
     );
 
@@ -90,9 +90,9 @@ my Hash $methods = %(
   append-custom-item => %(:is-symbol<gtk_app_chooser_button_append_custom_item>, :parameters([Str, Str, N-Object]), :deprecated, :deprecated-version<4.10>, ),
   append-separator => %(:is-symbol<gtk_app_chooser_button_append_separator>, :deprecated, :deprecated-version<4.10>, ),
   get-heading => %(:is-symbol<gtk_app_chooser_button_get_heading>, :returns(Str), :deprecated, :deprecated-version<4.10>, ),
-  get-modal => %(:is-symbol<gtk_app_chooser_button_get_modal>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
-  get-show-default-item => %(:is-symbol<gtk_app_chooser_button_get_show_default_item>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
-  get-show-dialog-item => %(:is-symbol<gtk_app_chooser_button_get_show_dialog_item>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-modal => %(:is-symbol<gtk_app_chooser_button_get_modal>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.10>, ),
+  get-show-default-item => %(:is-symbol<gtk_app_chooser_button_get_show_default_item>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.10>, ),
+  get-show-dialog-item => %(:is-symbol<gtk_app_chooser_button_get_show_dialog_item>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.10>, ),
   set-active-custom-item => %(:is-symbol<gtk_app_chooser_button_set_active_custom_item>, :parameters([Str]), :deprecated, :deprecated-version<4.10>, ),
   set-heading => %(:is-symbol<gtk_app_chooser_button_set_heading>, :parameters([Str]), :deprecated, :deprecated-version<4.10>, ),
   set-modal => %(:is-symbol<gtk_app_chooser_button_set_modal>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),

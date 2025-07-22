@@ -65,7 +65,7 @@ my Hash $methods = %(
   #--[Methods]------------------------------------------------------------------
   get-help-overlay => %(:is-symbol<gtk_application_window_get_help_overlay>, :returns(N-Object), ),
   get-id => %(:is-symbol<gtk_application_window_get_id>, :returns(guint), ),
-  get-show-menubar => %(:is-symbol<gtk_application_window_get_show_menubar>, :returns(gboolean), ),
+  get-show-menubar => %(:is-symbol<gtk_application_window_get_show_menubar>, :returns(gboolean), :cnv-return(Bool), ),
   set-help-overlay => %(:is-symbol<gtk_application_window_set_help_overlay>, :parameters([N-Object]), ),
   set-show-menubar => %(:is-symbol<gtk_application_window_set_show_menubar>, :parameters([gboolean]), ),
 );

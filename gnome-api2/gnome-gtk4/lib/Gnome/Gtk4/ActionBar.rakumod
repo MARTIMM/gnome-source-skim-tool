@@ -64,7 +64,7 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   get-center-widget => %(:is-symbol<gtk_action_bar_get_center_widget>, :returns(N-Object), ),
-  get-revealed => %(:is-symbol<gtk_action_bar_get_revealed>, :returns(gboolean), ),
+  get-revealed => %(:is-symbol<gtk_action_bar_get_revealed>, :returns(gboolean), :cnv-return(Bool), ),
   pack-end => %(:is-symbol<gtk_action_bar_pack_end>, :parameters([N-Object]), ),
   pack-start => %(:is-symbol<gtk_action_bar_pack_start>, :parameters([N-Object]), ),
   remove => %(:is-symbol<gtk_action_bar_remove>, :parameters([N-Object]), ),
