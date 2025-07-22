@@ -76,7 +76,7 @@ my Hash $methods = %(
   new-editablelabel => %( :type(Constructor), :is-symbol<gtk_editable_label_new>, :returns(N-Object), :parameters([ Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-editing => %(:is-symbol<gtk_editable_label_get_editing>, :returns(gboolean), ),
+  get-editing => %(:is-symbol<gtk_editable_label_get_editing>, :returns(gboolean), :cnv-return(Bool), ),
   start-editing => %(:is-symbol<gtk_editable_label_start_editing>, ),
   stop-editing => %(:is-symbol<gtk_editable_label_stop_editing>, :parameters([gboolean]), ),
 );

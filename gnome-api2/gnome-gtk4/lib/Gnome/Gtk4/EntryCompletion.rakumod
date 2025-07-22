@@ -11,9 +11,10 @@ use Cairo;
 
 
 use Gnome::GObject::Object:api<2>;
+use Gnome::Gtk4::N-TreeIter:api<2>;
 use Gnome::Gtk4::R-Buildable:api<2>;
 use Gnome::Gtk4::R-CellLayout:api<2>;
-#use Gnome::Gtk4::T-treemodel:api<2>;
+use Gnome::Gtk4::T-treemodel:api<2>;
 #use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -58,7 +59,7 @@ submethod BUILD ( *%options ) {
     self.add-signal-types( $?CLASS.^name,
       :w0<no-matches>,
       :w1<insert-prefix>,
-      :w2<match-selected cursor-on-match>,
+      :w2<cursor-on-match match-selected>,
     );
 
     # Signals from interfaces
@@ -98,13 +99,13 @@ my Hash $methods = %(
   compute-prefix => %(:is-symbol<gtk_entry_completion_compute_prefix>, :returns(Str), :parameters([Str]), :deprecated, :deprecated-version<4.10>, ),
   get-completion-prefix => %(:is-symbol<gtk_entry_completion_get_completion_prefix>, :returns(Str), :deprecated, :deprecated-version<4.10>, ),
   get-entry => %(:is-symbol<gtk_entry_completion_get_entry>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
-  get-inline-completion => %(:is-symbol<gtk_entry_completion_get_inline_completion>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
-  get-inline-selection => %(:is-symbol<gtk_entry_completion_get_inline_selection>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-inline-completion => %(:is-symbol<gtk_entry_completion_get_inline_completion>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.10>, ),
+  get-inline-selection => %(:is-symbol<gtk_entry_completion_get_inline_selection>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.10>, ),
   get-minimum-key-length => %(:is-symbol<gtk_entry_completion_get_minimum_key_length>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
   get-model => %(:is-symbol<gtk_entry_completion_get_model>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
-  get-popup-completion => %(:is-symbol<gtk_entry_completion_get_popup_completion>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
-  get-popup-set-width => %(:is-symbol<gtk_entry_completion_get_popup_set_width>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
-  get-popup-single-match => %(:is-symbol<gtk_entry_completion_get_popup_single_match>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-popup-completion => %(:is-symbol<gtk_entry_completion_get_popup_completion>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.10>, ),
+  get-popup-set-width => %(:is-symbol<gtk_entry_completion_get_popup_set_width>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.10>, ),
+  get-popup-single-match => %(:is-symbol<gtk_entry_completion_get_popup_single_match>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.10>, ),
   get-text-column => %(:is-symbol<gtk_entry_completion_get_text_column>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
   insert-prefix => %(:is-symbol<gtk_entry_completion_insert_prefix>, :deprecated, :deprecated-version<4.10>, ),
   set-inline-completion => %(:is-symbol<gtk_entry_completion_set_inline_completion>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),

@@ -75,12 +75,12 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   get-child => %(:is-symbol<gtk_expander_get_child>, :returns(N-Object), ),
-  get-expanded => %(:is-symbol<gtk_expander_get_expanded>, :returns(gboolean), ),
+  get-expanded => %(:is-symbol<gtk_expander_get_expanded>, :returns(gboolean), :cnv-return(Bool), ),
   get-label => %(:is-symbol<gtk_expander_get_label>, :returns(Str), ),
   get-label-widget => %(:is-symbol<gtk_expander_get_label_widget>, :returns(N-Object), ),
-  get-resize-toplevel => %(:is-symbol<gtk_expander_get_resize_toplevel>, :returns(gboolean), ),
-  get-use-markup => %(:is-symbol<gtk_expander_get_use_markup>, :returns(gboolean), ),
-  get-use-underline => %(:is-symbol<gtk_expander_get_use_underline>, :returns(gboolean), ),
+  get-resize-toplevel => %(:is-symbol<gtk_expander_get_resize_toplevel>, :returns(gboolean), :cnv-return(Bool), ),
+  get-use-markup => %(:is-symbol<gtk_expander_get_use_markup>, :returns(gboolean), :cnv-return(Bool), ),
+  get-use-underline => %(:is-symbol<gtk_expander_get_use_underline>, :returns(gboolean), :cnv-return(Bool), ),
   set-child => %(:is-symbol<gtk_expander_set_child>, :parameters([N-Object]), ),
   set-expanded => %(:is-symbol<gtk_expander_set_expanded>, :parameters([gboolean]), ),
   set-label => %(:is-symbol<gtk_expander_set_label>, :parameters([Str]), ),
