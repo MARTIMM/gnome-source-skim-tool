@@ -12,7 +12,7 @@ use Cairo;
 
 use Gnome::GObject::Object:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
-#use Gnome::Gtk4::T-icontheme:api<2>;
+use Gnome::Gtk4::T-icontheme:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -83,10 +83,10 @@ my Hash $methods = %(
   get-resource-path => %(:is-symbol<gtk_icon_theme_get_resource_path>, :returns(gchar-pptr), ),
   get-search-path => %(:is-symbol<gtk_icon_theme_get_search_path>, :returns(gchar-pptr), ),
   get-theme-name => %(:is-symbol<gtk_icon_theme_get_theme_name>, :returns(Str), ),
-  has-gicon => %(:is-symbol<gtk_icon_theme_has_gicon>, :returns(gboolean), :parameters([N-Object]), ),
-  has-icon => %(:is-symbol<gtk_icon_theme_has_icon>, :returns(gboolean), :parameters([Str]), ),
-  #lookup-by-gicon => %(:is-symbol<gtk_icon_theme_lookup_by_gicon>, :returns(N-Object), :parameters([N-Object, gint, gint, GEnum, GFlag]), ),
-  #lookup-icon => %(:is-symbol<gtk_icon_theme_lookup_icon>, :returns(N-Object), :parameters([Str, gchar-pptr, gint, gint, GEnum, GFlag]), ),
+  has-gicon => %(:is-symbol<gtk_icon_theme_has_gicon>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object]), ),
+  has-icon => %(:is-symbol<gtk_icon_theme_has_icon>, :returns(gboolean), :cnv-return(Bool), :parameters([Str]), ),
+  lookup-by-gicon => %(:is-symbol<gtk_icon_theme_lookup_by_gicon>, :returns(N-Object), :parameters([N-Object, gint, gint, GEnum, GFlag]), ),
+  lookup-icon => %(:is-symbol<gtk_icon_theme_lookup_icon>, :returns(N-Object), :parameters([Str, gchar-pptr, gint, gint, GEnum, GFlag]), ),
   set-resource-path => %(:is-symbol<gtk_icon_theme_set_resource_path>, :parameters([gchar-pptr]), ),
   set-search-path => %(:is-symbol<gtk_icon_theme_set_search_path>, :parameters([gchar-pptr]), ),
   set-theme-name => %(:is-symbol<gtk_icon_theme_set_theme_name>, :parameters([Str]), ),

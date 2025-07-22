@@ -64,7 +64,7 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   get-decoration-layout => %(:is-symbol<gtk_header_bar_get_decoration_layout>, :returns(Str), ),
-  get-show-title-buttons => %(:is-symbol<gtk_header_bar_get_show_title_buttons>, :returns(gboolean), ),
+  get-show-title-buttons => %(:is-symbol<gtk_header_bar_get_show_title_buttons>, :returns(gboolean), :cnv-return(Bool), ),
   get-title-widget => %(:is-symbol<gtk_header_bar_get_title_widget>, :returns(N-Object), ),
   pack-end => %(:is-symbol<gtk_header_bar_pack_end>, :parameters([N-Object]), ),
   pack-start => %(:is-symbol<gtk_header_bar_pack_start>, :parameters([N-Object]), ),

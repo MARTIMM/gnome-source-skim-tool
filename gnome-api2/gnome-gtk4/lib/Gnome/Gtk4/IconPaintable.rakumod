@@ -78,7 +78,7 @@ my Hash $methods = %(
   #--[Methods]------------------------------------------------------------------
   get-file => %(:is-symbol<gtk_icon_paintable_get_file>, :returns(N-Object), ),
   get-icon-name => %(:is-symbol<gtk_icon_paintable_get_icon_name>, :returns(Str), ),
-  is-symbolic => %(:is-symbol<gtk_icon_paintable_is_symbolic>, :returns(gboolean), ),
+  is-symbolic => %(:is-symbol<gtk_icon_paintable_is_symbolic>, :returns(gboolean), :cnv-return(Bool), ),
 );
 
 #-------------------------------------------------------------------------------

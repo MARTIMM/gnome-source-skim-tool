@@ -22,7 +22,7 @@ use Gnome::Gtk4::R-CellLayout:api<2>;
 use Gnome::Gtk4::R-Scrollable:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::Gtk4::T-iconview:api<2>;
-#use Gnome::Gtk4::T-treemodel:api<2>;
+use Gnome::Gtk4::T-treemodel:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 #use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -66,7 +66,7 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<select-cursor-item activate-cursor-item unselect-all selection-changed toggle-cursor-item select-all>,
+      :w0<select-all toggle-cursor-item activate-cursor-item select-cursor-item unselect-all selection-changed>,
       :w1<item-activated>,
       :w4<move-cursor>,
     );
@@ -108,14 +108,14 @@ my Hash $methods = %(
   create-drag-icon => %(:is-symbol<gtk_icon_view_create_drag_icon>, :returns(N-Object), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
   enable-model-drag-dest => %(:is-symbol<gtk_icon_view_enable_model_drag_dest>, :parameters([N-Object, GFlag]), :deprecated, :deprecated-version<4.10>, ),
   enable-model-drag-source => %(:is-symbol<gtk_icon_view_enable_model_drag_source>, :parameters([GFlag, N-Object, GFlag]), :deprecated, :deprecated-version<4.10>, ),
-  get-activate-on-single-click => %(:is-symbol<gtk_icon_view_get_activate_on_single_click>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
-  get-cell-rect => %(:is-symbol<gtk_icon_view_get_cell_rect>, :returns(gboolean), :parameters([N-Object, N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  get-activate-on-single-click => %(:is-symbol<gtk_icon_view_get_activate_on_single_click>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.10>, ),
+  get-cell-rect => %(:is-symbol<gtk_icon_view_get_cell_rect>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
   get-column-spacing => %(:is-symbol<gtk_icon_view_get_column_spacing>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
   get-columns => %(:is-symbol<gtk_icon_view_get_columns>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
-  get-cursor => %(:is-symbol<gtk_icon_view_get_cursor>, :returns(gboolean), :parameters([N-Object, CArray[N-Object]]), :deprecated, :deprecated-version<4.10>, ),
-  get-dest-item-at-pos => %(:is-symbol<gtk_icon_view_get_dest_item_at_pos>, :returns(gboolean), :parameters([gint, gint, N-Object, GEnum]), :deprecated, :deprecated-version<4.10>, ),
+  get-cursor => %(:is-symbol<gtk_icon_view_get_cursor>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, CArray[N-Object]]), :deprecated, :deprecated-version<4.10>, ),
+  get-dest-item-at-pos => %(:is-symbol<gtk_icon_view_get_dest_item_at_pos>, :returns(gboolean), :cnv-return(Bool), :parameters([gint, gint, N-Object, GEnum]), :deprecated, :deprecated-version<4.10>, ),
   get-drag-dest-item => %(:is-symbol<gtk_icon_view_get_drag_dest_item>, :parameters([N-Object, GEnum]), :deprecated, :deprecated-version<4.10>, ),
-  get-item-at-pos => %(:is-symbol<gtk_icon_view_get_item_at_pos>, :returns(gboolean), :parameters([gint, gint, N-Object, CArray[N-Object]]), :deprecated, :deprecated-version<4.10>, ),
+  get-item-at-pos => %(:is-symbol<gtk_icon_view_get_item_at_pos>, :returns(gboolean), :cnv-return(Bool), :parameters([gint, gint, N-Object, CArray[N-Object]]), :deprecated, :deprecated-version<4.10>, ),
   get-item-column => %(:is-symbol<gtk_icon_view_get_item_column>, :returns(gint), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
   get-item-orientation => %(:is-symbol<gtk_icon_view_get_item_orientation>,  :returns(GEnum), :cnv-return(GtkOrientation),:deprecated, :deprecated-version<4.10>, ),
   get-item-padding => %(:is-symbol<gtk_icon_view_get_item_padding>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
@@ -126,17 +126,17 @@ my Hash $methods = %(
   get-model => %(:is-symbol<gtk_icon_view_get_model>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
   get-path-at-pos => %(:is-symbol<gtk_icon_view_get_path_at_pos>, :returns(N-Object), :parameters([gint, gint]), :deprecated, :deprecated-version<4.10>, ),
   get-pixbuf-column => %(:is-symbol<gtk_icon_view_get_pixbuf_column>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
-  get-reorderable => %(:is-symbol<gtk_icon_view_get_reorderable>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-reorderable => %(:is-symbol<gtk_icon_view_get_reorderable>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.10>, ),
   get-row-spacing => %(:is-symbol<gtk_icon_view_get_row_spacing>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
   get-selected-items => %(:is-symbol<gtk_icon_view_get_selected_items>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
   get-selection-mode => %(:is-symbol<gtk_icon_view_get_selection_mode>,  :returns(GEnum), :cnv-return(GtkSelectionMode),:deprecated, :deprecated-version<4.10>, ),
   get-spacing => %(:is-symbol<gtk_icon_view_get_spacing>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
   get-text-column => %(:is-symbol<gtk_icon_view_get_text_column>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
   get-tooltip-column => %(:is-symbol<gtk_icon_view_get_tooltip_column>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
-  get-tooltip-context => %(:is-symbol<gtk_icon_view_get_tooltip_context>, :returns(gboolean), :parameters([gint, gint, gboolean, CArray[N-Object], N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
-  get-visible-range => %(:is-symbol<gtk_icon_view_get_visible_range>, :returns(gboolean), :parameters([N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  get-tooltip-context => %(:is-symbol<gtk_icon_view_get_tooltip_context>, :returns(gboolean), :cnv-return(Bool), :parameters([gint, gint, gboolean, CArray[N-Object], N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  get-visible-range => %(:is-symbol<gtk_icon_view_get_visible_range>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
   item-activated => %(:is-symbol<gtk_icon_view_item_activated>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
-  path-is-selected => %(:is-symbol<gtk_icon_view_path_is_selected>, :returns(gboolean), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  path-is-selected => %(:is-symbol<gtk_icon_view_path_is_selected>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
   scroll-to-path => %(:is-symbol<gtk_icon_view_scroll_to_path>, :parameters([N-Object, gboolean, gfloat, gfloat]), :deprecated, :deprecated-version<4.10>, ),
   select-all => %(:is-symbol<gtk_icon_view_select_all>, :deprecated, :deprecated-version<4.10>, ),
   select-path => %(:is-symbol<gtk_icon_view_select_path>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
