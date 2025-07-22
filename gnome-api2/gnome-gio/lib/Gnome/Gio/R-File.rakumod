@@ -7,7 +7,7 @@ use v6.d;
 
 use NativeCall;
 
-use Cairo;
+
 
 
 #use Gnome::Gio::N-FileAttributeInfoList:api<2>;

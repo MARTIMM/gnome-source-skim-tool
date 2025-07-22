@@ -6,7 +6,7 @@ use v6.d;
 
 use NativeCall;
 
-use Cairo;
+
 
 
 use Gnome::Glib::T-error:api<2>;
