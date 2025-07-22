@@ -68,7 +68,7 @@ my Hash $methods = %(
   parse-string => %( :type(Constructor), :is-symbol<gtk_shortcut_action_parse_string>, :returns(N-Object), :parameters([ Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  activate => %(:is-symbol<gtk_shortcut_action_activate>, :returns(gboolean), :parameters([GFlag, N-Object, N-Object]), ),
+  activate => %(:is-symbol<gtk_shortcut_action_activate>, :returns(gboolean), :cnv-return(Bool), :parameters([GFlag, N-Object, N-Object]), ),
   print => %(:is-symbol<gtk_shortcut_action_print>, :parameters([N-Object]), ),
   to-string => %(:is-symbol<gtk_shortcut_action_to_string>, :returns(Str), ),
 );

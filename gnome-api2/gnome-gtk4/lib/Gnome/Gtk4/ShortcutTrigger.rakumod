@@ -67,10 +67,10 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   compare => %(:is-symbol<gtk_shortcut_trigger_compare>, :returns(gint), :parameters([gpointer]), ),
-  equal => %(:is-symbol<gtk_shortcut_trigger_equal>, :returns(gboolean), :parameters([gpointer]), ),
+  equal => %(:is-symbol<gtk_shortcut_trigger_equal>, :returns(gboolean), :cnv-return(Bool), :parameters([gpointer]), ),
   hash => %(:is-symbol<gtk_shortcut_trigger_hash>, :returns(guint), ),
   print => %(:is-symbol<gtk_shortcut_trigger_print>, :parameters([N-Object]), ),
-  print-label => %(:is-symbol<gtk_shortcut_trigger_print_label>, :returns(gboolean), :parameters([N-Object, N-Object]), ),
+  print-label => %(:is-symbol<gtk_shortcut_trigger_print_label>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, N-Object]), ),
   to-label => %(:is-symbol<gtk_shortcut_trigger_to_label>, :returns(Str), :parameters([N-Object]), ),
   to-string => %(:is-symbol<gtk_shortcut_trigger_to_string>, :returns(Str), ),
   #trigger => %(:is-symbol<gtk_shortcut_trigger_trigger>,  :returns(GEnum), :cnv-return(GdkKeyMatch ),:parameters([N-Object, gboolean]), ),

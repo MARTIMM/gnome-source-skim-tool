@@ -86,9 +86,9 @@ my Hash $methods = %(
   new-scalebutton => %( :type(Constructor), :is-symbol<gtk_scale_button_new>, :returns(N-Object), :parameters([ gdouble, gdouble, gdouble, gchar-pptr]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-active => %(:is-symbol<gtk_scale_button_get_active>, :returns(gboolean), ),
+  get-active => %(:is-symbol<gtk_scale_button_get_active>, :returns(gboolean), :cnv-return(Bool), ),
   get-adjustment => %(:is-symbol<gtk_scale_button_get_adjustment>, :returns(N-Object), ),
-  get-has-frame => %(:is-symbol<gtk_scale_button_get_has_frame>, :returns(gboolean), ),
+  get-has-frame => %(:is-symbol<gtk_scale_button_get_has_frame>, :returns(gboolean), :cnv-return(Bool), ),
   get-minus-button => %(:is-symbol<gtk_scale_button_get_minus_button>, :returns(N-Object), ),
   get-plus-button => %(:is-symbol<gtk_scale_button_get_plus_button>, :returns(N-Object), ),
   get-popup => %(:is-symbol<gtk_scale_button_get_popup>, :returns(N-Object), ),
