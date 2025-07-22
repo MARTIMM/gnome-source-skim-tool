@@ -99,14 +99,14 @@ my Hash $methods = %(
   #--[Methods]------------------------------------------------------------------
   get-active => %(:is-symbol<gtk_combo_box_get_active>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
   get-active-id => %(:is-symbol<gtk_combo_box_get_active_id>, :returns(Str), :deprecated, :deprecated-version<4.10>, ),
-  get-active-iter => %(:is-symbol<gtk_combo_box_get_active_iter>, :returns(gboolean), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  get-active-iter => %(:is-symbol<gtk_combo_box_get_active_iter>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
   get-button-sensitivity => %(:is-symbol<gtk_combo_box_get_button_sensitivity>,  :returns(GEnum), :cnv-return(GtkSensitivityType),:deprecated, :deprecated-version<4.10>, ),
   get-child => %(:is-symbol<gtk_combo_box_get_child>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
   get-entry-text-column => %(:is-symbol<gtk_combo_box_get_entry_text_column>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
-  get-has-entry => %(:is-symbol<gtk_combo_box_get_has_entry>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-has-entry => %(:is-symbol<gtk_combo_box_get_has_entry>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.10>, ),
   get-id-column => %(:is-symbol<gtk_combo_box_get_id_column>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
   get-model => %(:is-symbol<gtk_combo_box_get_model>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
-  get-popup-fixed-width => %(:is-symbol<gtk_combo_box_get_popup_fixed_width>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-popup-fixed-width => %(:is-symbol<gtk_combo_box_get_popup_fixed_width>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.10>, ),
 #TODO
 #  get-row-separator-func => %(
 #    :is-symbol<gtk_combo_box_get_row_separator_func>,  :returns(),
@@ -116,7 +116,7 @@ my Hash $methods = %(
   popup => %(:is-symbol<gtk_combo_box_popup>, :deprecated, :deprecated-version<4.10>, ),
   popup-for-device => %(:is-symbol<gtk_combo_box_popup_for_device>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
   set-active => %(:is-symbol<gtk_combo_box_set_active>, :parameters([gint]), :deprecated, :deprecated-version<4.10>, ),
-  set-active-id => %(:is-symbol<gtk_combo_box_set_active_id>, :returns(gboolean), :parameters([Str]), :deprecated, :deprecated-version<4.10>, ),
+  set-active-id => %(:is-symbol<gtk_combo_box_set_active_id>, :returns(gboolean), :cnv-return(Bool), :parameters([Str]), :deprecated, :deprecated-version<4.10>, ),
   set-active-iter => %(:is-symbol<gtk_combo_box_set_active_iter>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
   set-button-sensitivity => %(:is-symbol<gtk_combo_box_set_button_sensitivity>, :parameters([GEnum]), :deprecated, :deprecated-version<4.10>, ),
   set-child => %(:is-symbol<gtk_combo_box_set_child>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),

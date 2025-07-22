@@ -10,9 +10,10 @@ use NativeCall;
 use Cairo;
 
 
+use Gnome::Gtk4::N-TreePath:api<2>;
 use Gnome::Gtk4::R-CellLayout:api<2>;
 use Gnome::Gtk4::R-Orientable:api<2>;
-#use Gnome::Gtk4::T-treemodel:api<2>;
+use Gnome::Gtk4::T-treemodel:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 #use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -93,8 +94,8 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   get-displayed-row => %(:is-symbol<gtk_cell_view_get_displayed_row>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
-  get-draw-sensitive => %(:is-symbol<gtk_cell_view_get_draw_sensitive>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
-  get-fit-model => %(:is-symbol<gtk_cell_view_get_fit_model>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-draw-sensitive => %(:is-symbol<gtk_cell_view_get_draw_sensitive>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.10>, ),
+  get-fit-model => %(:is-symbol<gtk_cell_view_get_fit_model>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.10>, ),
   get-model => %(:is-symbol<gtk_cell_view_get_model>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
   set-displayed-row => %(:is-symbol<gtk_cell_view_set_displayed_row>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
   set-draw-sensitive => %(:is-symbol<gtk_cell_view_set_draw_sensitive>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),

@@ -55,7 +55,7 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<activate color-set>,
+      :w0<color-set activate>,
     );
 
     # Signals from interfaces
@@ -89,7 +89,7 @@ my Hash $methods = %(
   new-with-rgba => %( :type(Constructor), :is-symbol<gtk_color_button_new_with_rgba>, :returns(N-Object), :parameters([ N-Object]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-modal => %(:is-symbol<gtk_color_button_get_modal>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-modal => %(:is-symbol<gtk_color_button_get_modal>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.10>, ),
   get-title => %(:is-symbol<gtk_color_button_get_title>, :returns(Str), :deprecated, :deprecated-version<4.10>, ),
   set-modal => %(:is-symbol<gtk_color_button_set_modal>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
   set-title => %(:is-symbol<gtk_color_button_set_title>, :parameters([Str]), :deprecated, :deprecated-version<4.10>, ),

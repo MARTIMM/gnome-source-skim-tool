@@ -80,9 +80,9 @@ my Hash $methods = %(
   new-cellrenderertoggle => %( :type(Constructor), :is-symbol<gtk_cell_renderer_toggle_new>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
 
   #--[Methods]------------------------------------------------------------------
-  get-activatable => %(:is-symbol<gtk_cell_renderer_toggle_get_activatable>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
-  get-active => %(:is-symbol<gtk_cell_renderer_toggle_get_active>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
-  get-radio => %(:is-symbol<gtk_cell_renderer_toggle_get_radio>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-activatable => %(:is-symbol<gtk_cell_renderer_toggle_get_activatable>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.10>, ),
+  get-active => %(:is-symbol<gtk_cell_renderer_toggle_get_active>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.10>, ),
+  get-radio => %(:is-symbol<gtk_cell_renderer_toggle_get_radio>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.10>, ),
   set-activatable => %(:is-symbol<gtk_cell_renderer_toggle_set_activatable>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
   set-active => %(:is-symbol<gtk_cell_renderer_toggle_set_active>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
   set-radio => %(:is-symbol<gtk_cell_renderer_toggle_set_radio>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),

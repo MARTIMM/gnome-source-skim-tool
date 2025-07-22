@@ -46,7 +46,7 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<next-month prev-month day-selected next-year prev-year>,
+      :w0<prev-year prev-month next-month next-year day-selected>,
     );
     $signals-added = True;
   }
@@ -78,11 +78,11 @@ my Hash $methods = %(
   clear-marks => %(:is-symbol<gtk_calendar_clear_marks>, ),
   get-date => %(:is-symbol<gtk_calendar_get_date>, :returns(N-Object), ),
   get-day => %(:is-symbol<gtk_calendar_get_day>, :returns(gint), ),
-  get-day-is-marked => %(:is-symbol<gtk_calendar_get_day_is_marked>, :returns(gboolean), :parameters([guint]), ),
+  get-day-is-marked => %(:is-symbol<gtk_calendar_get_day_is_marked>, :returns(gboolean), :cnv-return(Bool), :parameters([guint]), ),
   get-month => %(:is-symbol<gtk_calendar_get_month>, :returns(gint), ),
-  get-show-day-names => %(:is-symbol<gtk_calendar_get_show_day_names>, :returns(gboolean), ),
-  get-show-heading => %(:is-symbol<gtk_calendar_get_show_heading>, :returns(gboolean), ),
-  get-show-week-numbers => %(:is-symbol<gtk_calendar_get_show_week_numbers>, :returns(gboolean), ),
+  get-show-day-names => %(:is-symbol<gtk_calendar_get_show_day_names>, :returns(gboolean), :cnv-return(Bool), ),
+  get-show-heading => %(:is-symbol<gtk_calendar_get_show_heading>, :returns(gboolean), :cnv-return(Bool), ),
+  get-show-week-numbers => %(:is-symbol<gtk_calendar_get_show_week_numbers>, :returns(gboolean), :cnv-return(Bool), ),
   get-year => %(:is-symbol<gtk_calendar_get_year>, :returns(gint), ),
   mark-day => %(:is-symbol<gtk_calendar_mark_day>, :parameters([guint]), ),
   select-day => %(:is-symbol<gtk_calendar_select_day>, :parameters([N-Object]), ),

@@ -22,7 +22,7 @@ use Gnome::Gtk4::R-Buildable:api<2>;
 use Gnome::Gtk4::R-CellLayout:api<2>;
 use Gnome::Gtk4::T-cellrenderer:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
-#use Gnome::Gtk4::T-treemodel:api<2>;
+use Gnome::Gtk4::T-treemodel:api<2>;
 #use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -65,8 +65,8 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w2<remove-editable focus-changed>,
-      :w4<add-editable apply-attributes>,
+      :w2<focus-changed remove-editable>,
+      :w4<apply-attributes add-editable>,
     );
 
     # Signals from interfaces
@@ -98,8 +98,8 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  activate => %(:is-symbol<gtk_cell_area_activate>, :returns(gboolean), :parameters([N-Object, N-Object, N-Object, GFlag, gboolean]), :deprecated, :deprecated-version<4.10>, ),
-  activate-cell => %(:is-symbol<gtk_cell_area_activate_cell>, :returns(gboolean), :parameters([N-Object, N-Object, N-Object, N-Object, GFlag]), :deprecated, :deprecated-version<4.10>, ),
+  activate => %(:is-symbol<gtk_cell_area_activate>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, N-Object, N-Object, GFlag, gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  activate-cell => %(:is-symbol<gtk_cell_area_activate_cell>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, N-Object, N-Object, N-Object, GFlag]), :deprecated, :deprecated-version<4.10>, ),
   add => %(:is-symbol<gtk_cell_area_add>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
   add-focus-sibling => %(:is-symbol<gtk_cell_area_add_focus_sibling>, :parameters([N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
   add-with-properties => %(:is-symbol<gtk_cell_area_add_with_properties>, :variable-list, :parameters([N-Object, Str]), :deprecated, :deprecated-version<4.10>, ),
@@ -116,7 +116,7 @@ my Hash $methods = %(
   copy-context => %(:is-symbol<gtk_cell_area_copy_context>, :returns(N-Object), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
   create-context => %(:is-symbol<gtk_cell_area_create_context>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
   event => %(:is-symbol<gtk_cell_area_event>, :returns(gint), :parameters([N-Object, N-Object, N-Object, N-Object, GFlag]), :deprecated, :deprecated-version<4.10>, ),
-  focus => %(:is-symbol<gtk_cell_area_focus>, :returns(gboolean), :parameters([GEnum]), :deprecated, :deprecated-version<4.10>, ),
+  focus => %(:is-symbol<gtk_cell_area_focus>, :returns(gboolean), :cnv-return(Bool), :parameters([GEnum]), :deprecated, :deprecated-version<4.10>, ),
   foreach => %(:is-symbol<gtk_cell_area_foreach>, :parameters([:( N-Object $renderer, gpointer $data ), gpointer]), :deprecated, :deprecated-version<4.10>, ),
   foreach-alloc => %(:is-symbol<gtk_cell_area_foreach_alloc>, :parameters([N-Object, N-Object, N-Object, N-Object, :( N-Object $renderer, N-Object $cell-area, N-Object $cell-background, gpointer $data ), gpointer]), ),
   get-cell-allocation => %(:is-symbol<gtk_cell_area_get_cell_allocation>, :parameters([N-Object, N-Object, N-Object, N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
@@ -132,10 +132,10 @@ my Hash $methods = %(
   get-preferred-width => %(:is-symbol<gtk_cell_area_get_preferred_width>, :parameters([N-Object, N-Object, gint-ptr, gint-ptr]), :deprecated, :deprecated-version<4.10>, ),
   get-preferred-width-for-height => %(:is-symbol<gtk_cell_area_get_preferred_width_for_height>, :parameters([N-Object, N-Object, gint, gint-ptr, gint-ptr]), :deprecated, :deprecated-version<4.10>, ),
   get-request-mode => %(:is-symbol<gtk_cell_area_get_request_mode>,  :returns(GEnum), :cnv-return(GtkSizeRequestMode)),
-  has-renderer => %(:is-symbol<gtk_cell_area_has_renderer>, :returns(gboolean), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  has-renderer => %(:is-symbol<gtk_cell_area_has_renderer>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
   inner-cell-area => %(:is-symbol<gtk_cell_area_inner_cell_area>, :parameters([N-Object, N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
-  is-activatable => %(:is-symbol<gtk_cell_area_is_activatable>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
-  is-focus-sibling => %(:is-symbol<gtk_cell_area_is_focus_sibling>, :returns(gboolean), :parameters([N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  is-activatable => %(:is-symbol<gtk_cell_area_is_activatable>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.10>, ),
+  is-focus-sibling => %(:is-symbol<gtk_cell_area_is_focus_sibling>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
   remove => %(:is-symbol<gtk_cell_area_remove>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
   remove-focus-sibling => %(:is-symbol<gtk_cell_area_remove_focus_sibling>, :parameters([N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
   request-renderer => %(:is-symbol<gtk_cell_area_request_renderer>, :parameters([N-Object, GEnum, N-Object, gint, gint-ptr, gint-ptr]), :deprecated, :deprecated-version<4.10>, ),

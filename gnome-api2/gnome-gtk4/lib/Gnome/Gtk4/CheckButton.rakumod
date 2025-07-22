@@ -81,11 +81,11 @@ my Hash $methods = %(
   new-with-mnemonic => %( :type(Constructor), :is-symbol<gtk_check_button_new_with_mnemonic>, :returns(N-Object), :parameters([ Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-active => %(:is-symbol<gtk_check_button_get_active>, :returns(gboolean), ),
+  get-active => %(:is-symbol<gtk_check_button_get_active>, :returns(gboolean), :cnv-return(Bool), ),
   get-child => %(:is-symbol<gtk_check_button_get_child>, :returns(N-Object), ),
-  get-inconsistent => %(:is-symbol<gtk_check_button_get_inconsistent>, :returns(gboolean), ),
+  get-inconsistent => %(:is-symbol<gtk_check_button_get_inconsistent>, :returns(gboolean), :cnv-return(Bool), ),
   get-label => %(:is-symbol<gtk_check_button_get_label>, :returns(Str), ),
-  get-use-underline => %(:is-symbol<gtk_check_button_get_use_underline>, :returns(gboolean), ),
+  get-use-underline => %(:is-symbol<gtk_check_button_get_use_underline>, :returns(gboolean), :cnv-return(Bool), ),
   set-active => %(:is-symbol<gtk_check_button_set_active>, :parameters([gboolean]), ),
   set-child => %(:is-symbol<gtk_check_button_set_child>, :parameters([N-Object]), ),
   set-group => %(:is-symbol<gtk_check_button_set_group>, :parameters([N-Object]), ),

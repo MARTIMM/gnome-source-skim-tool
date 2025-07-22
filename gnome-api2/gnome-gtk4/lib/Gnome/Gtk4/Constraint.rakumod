@@ -73,9 +73,9 @@ my Hash $methods = %(
   get-strength => %(:is-symbol<gtk_constraint_get_strength>, :returns(gint), ),
   get-target => %(:is-symbol<gtk_constraint_get_target>, :returns(N-Object), ),
   get-target-attribute => %(:is-symbol<gtk_constraint_get_target_attribute>,  :returns(GEnum), :cnv-return(GtkConstraintAttribute)),
-  is-attached => %(:is-symbol<gtk_constraint_is_attached>, :returns(gboolean), ),
-  is-constant => %(:is-symbol<gtk_constraint_is_constant>, :returns(gboolean), ),
-  is-required => %(:is-symbol<gtk_constraint_is_required>, :returns(gboolean), ),
+  is-attached => %(:is-symbol<gtk_constraint_is_attached>, :returns(gboolean), :cnv-return(Bool), ),
+  is-constant => %(:is-symbol<gtk_constraint_is_constant>, :returns(gboolean), :cnv-return(Bool), ),
+  is-required => %(:is-symbol<gtk_constraint_is_required>, :returns(gboolean), :cnv-return(Bool), ),
 );
 
 #-------------------------------------------------------------------------------
