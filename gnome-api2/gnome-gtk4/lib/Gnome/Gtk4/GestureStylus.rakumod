@@ -47,7 +47,7 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w2<proximity motion down up>,
+      :w2<motion down proximity up>,
     );
     $signals-added = True;
   }
@@ -76,11 +76,11 @@ my Hash $methods = %(
   new-gesturestylus => %( :type(Constructor), :is-symbol<gtk_gesture_stylus_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-axes => %(:is-symbol<gtk_gesture_stylus_get_axes>, :returns(gboolean), :parameters([GEnum, CArray[gdouble]]), ),
-  get-axis => %(:is-symbol<gtk_gesture_stylus_get_axis>, :returns(gboolean), :parameters([GEnum, CArray[gdouble]]), ),
-  get-backlog => %(:is-symbol<gtk_gesture_stylus_get_backlog>, :returns(gboolean), :parameters([N-Object, gint-ptr]), ),
+  get-axes => %(:is-symbol<gtk_gesture_stylus_get_axes>, :returns(gboolean), :cnv-return(Bool), :parameters([GEnum, CArray[gdouble]]), ),
+  get-axis => %(:is-symbol<gtk_gesture_stylus_get_axis>, :returns(gboolean), :cnv-return(Bool), :parameters([GEnum, CArray[gdouble]]), ),
+  get-backlog => %(:is-symbol<gtk_gesture_stylus_get_backlog>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, gint-ptr]), ),
   get-device-tool => %(:is-symbol<gtk_gesture_stylus_get_device_tool>, :returns(N-Object), ),
-  get-stylus-only => %(:is-symbol<gtk_gesture_stylus_get_stylus_only>, :returns(gboolean), ),
+  get-stylus-only => %(:is-symbol<gtk_gesture_stylus_get_stylus_only>, :returns(gboolean), :cnv-return(Bool), ),
   set-stylus-only => %(:is-symbol<gtk_gesture_stylus_set_stylus_only>, :parameters([gboolean]), ),
 );
 

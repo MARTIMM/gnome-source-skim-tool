@@ -44,7 +44,7 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w2<drag-begin drag-update drag-end>,
+      :w2<drag-end drag-update drag-begin>,
     );
     $signals-added = True;
   }
@@ -73,8 +73,8 @@ my Hash $methods = %(
   new-gesturedrag => %( :type(Constructor), :is-symbol<gtk_gesture_drag_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-offset => %(:is-symbol<gtk_gesture_drag_get_offset>, :returns(gboolean), :parameters([CArray[gdouble], CArray[gdouble]]), ),
-  get-start-point => %(:is-symbol<gtk_gesture_drag_get_start_point>, :returns(gboolean), :parameters([CArray[gdouble], CArray[gdouble]]), ),
+  get-offset => %(:is-symbol<gtk_gesture_drag_get_offset>, :returns(gboolean), :cnv-return(Bool), :parameters([CArray[gdouble], CArray[gdouble]]), ),
+  get-start-point => %(:is-symbol<gtk_gesture_drag_get_start_point>, :returns(gboolean), :cnv-return(Bool), :parameters([CArray[gdouble], CArray[gdouble]]), ),
 );
 
 #-------------------------------------------------------------------------------

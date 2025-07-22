@@ -76,12 +76,12 @@ my Hash $methods = %(
   new-gridview => %( :type(Constructor), :is-symbol<gtk_grid_view_new>, :returns(N-Object), :parameters([ N-Object, N-Object]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-enable-rubberband => %(:is-symbol<gtk_grid_view_get_enable_rubberband>, :returns(gboolean), ),
+  get-enable-rubberband => %(:is-symbol<gtk_grid_view_get_enable_rubberband>, :returns(gboolean), :cnv-return(Bool), ),
   get-factory => %(:is-symbol<gtk_grid_view_get_factory>, :returns(N-Object), ),
   get-max-columns => %(:is-symbol<gtk_grid_view_get_max_columns>, :returns(guint), ),
   get-min-columns => %(:is-symbol<gtk_grid_view_get_min_columns>, :returns(guint), ),
   get-model => %(:is-symbol<gtk_grid_view_get_model>, :returns(N-Object), ),
-  get-single-click-activate => %(:is-symbol<gtk_grid_view_get_single_click_activate>, :returns(gboolean), ),
+  get-single-click-activate => %(:is-symbol<gtk_grid_view_get_single_click_activate>, :returns(gboolean), :cnv-return(Bool), ),
   get-tab-behavior => %(:is-symbol<gtk_grid_view_get_tab_behavior>,  :returns(GEnum), :cnv-return(GtkListTabBehavior)),
   scroll-to => %(:is-symbol<gtk_grid_view_scroll_to>, :parameters([guint, GFlag, N-Object]), ),
   set-enable-rubberband => %(:is-symbol<gtk_grid_view_set_enable_rubberband>, :parameters([gboolean]), ),

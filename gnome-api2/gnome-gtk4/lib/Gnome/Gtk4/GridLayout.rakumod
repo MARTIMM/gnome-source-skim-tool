@@ -65,10 +65,10 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   get-baseline-row => %(:is-symbol<gtk_grid_layout_get_baseline_row>, :returns(gint), ),
-  get-column-homogeneous => %(:is-symbol<gtk_grid_layout_get_column_homogeneous>, :returns(gboolean), ),
+  get-column-homogeneous => %(:is-symbol<gtk_grid_layout_get_column_homogeneous>, :returns(gboolean), :cnv-return(Bool), ),
   get-column-spacing => %(:is-symbol<gtk_grid_layout_get_column_spacing>, :returns(guint), ),
   get-row-baseline-position => %(:is-symbol<gtk_grid_layout_get_row_baseline_position>,  :returns(GEnum), :cnv-return(GtkBaselinePosition),:parameters([gint]), ),
-  get-row-homogeneous => %(:is-symbol<gtk_grid_layout_get_row_homogeneous>, :returns(gboolean), ),
+  get-row-homogeneous => %(:is-symbol<gtk_grid_layout_get_row_homogeneous>, :returns(gboolean), :cnv-return(Bool), ),
   get-row-spacing => %(:is-symbol<gtk_grid_layout_get_row_spacing>, :returns(guint), ),
   set-baseline-row => %(:is-symbol<gtk_grid_layout_set_baseline_row>, :parameters([gint]), ),
   set-column-homogeneous => %(:is-symbol<gtk_grid_layout_set_column_homogeneous>, :parameters([gboolean]), ),

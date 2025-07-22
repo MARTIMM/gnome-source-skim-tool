@@ -73,7 +73,7 @@ my Hash $methods = %(
   new-gestureswipe => %( :type(Constructor), :is-symbol<gtk_gesture_swipe_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-velocity => %(:is-symbol<gtk_gesture_swipe_get_velocity>, :returns(gboolean), :parameters([CArray[gdouble], CArray[gdouble]]), ),
+  get-velocity => %(:is-symbol<gtk_gesture_swipe_get_velocity>, :returns(gboolean), :cnv-return(Bool), :parameters([CArray[gdouble], CArray[gdouble]]), ),
 );
 
 #-------------------------------------------------------------------------------
