@@ -82,12 +82,12 @@ my Hash $methods = %(
   new-with-mnemonic => %( :type(Constructor), :is-symbol<gtk_button_new_with_mnemonic>, :returns(N-Object), :parameters([ Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-can-shrink => %(:is-symbol<gtk_button_get_can_shrink>, :returns(gboolean), ),
+  get-can-shrink => %(:is-symbol<gtk_button_get_can_shrink>, :returns(gboolean), :cnv-return(Bool), ),
   get-child => %(:is-symbol<gtk_button_get_child>, :returns(N-Object), ),
-  get-has-frame => %(:is-symbol<gtk_button_get_has_frame>, :returns(gboolean), ),
+  get-has-frame => %(:is-symbol<gtk_button_get_has_frame>, :returns(gboolean), :cnv-return(Bool), ),
   get-icon-name => %(:is-symbol<gtk_button_get_icon_name>, :returns(Str), ),
   get-label => %(:is-symbol<gtk_button_get_label>, :returns(Str), ),
-  get-use-underline => %(:is-symbol<gtk_button_get_use_underline>, :returns(gboolean), ),
+  get-use-underline => %(:is-symbol<gtk_button_get_use_underline>, :returns(gboolean), :cnv-return(Bool), ),
   set-can-shrink => %(:is-symbol<gtk_button_set_can_shrink>, :parameters([gboolean]), ),
   set-child => %(:is-symbol<gtk_button_set_child>, :parameters([N-Object]), ),
   set-has-frame => %(:is-symbol<gtk_button_set_has_frame>, :parameters([gboolean]), ),

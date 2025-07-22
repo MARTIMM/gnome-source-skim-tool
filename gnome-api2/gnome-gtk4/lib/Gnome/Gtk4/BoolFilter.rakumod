@@ -64,7 +64,7 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   get-expression => %(:is-symbol<gtk_bool_filter_get_expression>, :returns(N-Object), ),
-  get-invert => %(:is-symbol<gtk_bool_filter_get_invert>, :returns(gboolean), ),
+  get-invert => %(:is-symbol<gtk_bool_filter_get_invert>, :returns(gboolean), :cnv-return(Bool), ),
   set-expression => %(:is-symbol<gtk_bool_filter_set_expression>, :parameters([N-Object]), ),
   set-invert => %(:is-symbol<gtk_bool_filter_set_invert>, :parameters([gboolean]), ),
 );

@@ -79,7 +79,7 @@ my Hash $methods = %(
   #--[Methods]------------------------------------------------------------------
   get-baseline-child => %(:is-symbol<gtk_box_layout_get_baseline_child>, :returns(gint), ),
   get-baseline-position => %(:is-symbol<gtk_box_layout_get_baseline_position>,  :returns(GEnum), :cnv-return(GtkBaselinePosition)),
-  get-homogeneous => %(:is-symbol<gtk_box_layout_get_homogeneous>, :returns(gboolean), ),
+  get-homogeneous => %(:is-symbol<gtk_box_layout_get_homogeneous>, :returns(gboolean), :cnv-return(Bool), ),
   get-spacing => %(:is-symbol<gtk_box_layout_get_spacing>, :returns(guint), ),
   set-baseline-child => %(:is-symbol<gtk_box_layout_set_baseline_child>, :parameters([gint]), ),
   set-baseline-position => %(:is-symbol<gtk_box_layout_set_baseline_position>, :parameters([GEnum]), ),
