@@ -173,13 +173,13 @@ method !check-search-list ( ) {
     given $*gnome-package.Str {
       when m/^ [ Gtk | Gdk ] 3 / {
         @*map-search-list = <
-          Gtk Gdk GdkPixbuf Atk Cairo Pango Gio GObject Glib
+          Gtk Gdk GdkPixbuf Pango Gio GObject Glib
         >
       }
 
       when m/^ [ Gtk | Gdk | Gsk ] 4 / {
         @*map-search-list = <
-          Gtk Gdk Gsk Graphene GdkPixbuf Atk Cairo Pango Gio GObject Glib
+          Gtk Gdk Gsk Graphene GdkPixbuf Pango Gio GObject Glib
         >
       }
 
@@ -195,8 +195,8 @@ method !check-search-list ( ) {
         @*map-search-list = <Gdk GdkPixbuf Gio GObject Glib>
       }
 
-      when m/ Cairo | Pango / {
-        @*map-search-list = <Cairo Pango GObject Glib>
+      when m/ Pango / {
+        @*map-search-list = <Pango GObject Glib>
       }
 
       when 'GObject' {
