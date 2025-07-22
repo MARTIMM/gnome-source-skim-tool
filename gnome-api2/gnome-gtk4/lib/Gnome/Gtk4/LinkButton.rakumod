@@ -75,7 +75,7 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   get-uri => %(:is-symbol<gtk_link_button_get_uri>, :returns(Str), ),
-  get-visited => %(:is-symbol<gtk_link_button_get_visited>, :returns(gboolean), ),
+  get-visited => %(:is-symbol<gtk_link_button_get_visited>, :returns(gboolean), :cnv-return(Bool), ),
   set-uri => %(:is-symbol<gtk_link_button_set_uri>, :parameters([Str]), ),
   set-visited => %(:is-symbol<gtk_link_button_set_visited>, :parameters([gboolean]), ),
 );

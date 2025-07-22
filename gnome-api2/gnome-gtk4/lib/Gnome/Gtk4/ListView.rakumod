@@ -76,12 +76,12 @@ my Hash $methods = %(
   new-listview => %( :type(Constructor), :is-symbol<gtk_list_view_new>, :returns(N-Object), :parameters([ N-Object, N-Object]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-enable-rubberband => %(:is-symbol<gtk_list_view_get_enable_rubberband>, :returns(gboolean), ),
+  get-enable-rubberband => %(:is-symbol<gtk_list_view_get_enable_rubberband>, :returns(gboolean), :cnv-return(Bool), ),
   get-factory => %(:is-symbol<gtk_list_view_get_factory>, :returns(N-Object), ),
   get-header-factory => %(:is-symbol<gtk_list_view_get_header_factory>, :returns(N-Object), ),
   get-model => %(:is-symbol<gtk_list_view_get_model>, :returns(N-Object), ),
-  get-show-separators => %(:is-symbol<gtk_list_view_get_show_separators>, :returns(gboolean), ),
-  get-single-click-activate => %(:is-symbol<gtk_list_view_get_single_click_activate>, :returns(gboolean), ),
+  get-show-separators => %(:is-symbol<gtk_list_view_get_show_separators>, :returns(gboolean), :cnv-return(Bool), ),
+  get-single-click-activate => %(:is-symbol<gtk_list_view_get_single_click_activate>, :returns(gboolean), :cnv-return(Bool), ),
   get-tab-behavior => %(:is-symbol<gtk_list_view_get_tab_behavior>,  :returns(GEnum), :cnv-return(GtkListTabBehavior)),
   scroll-to => %(:is-symbol<gtk_list_view_scroll_to>, :parameters([guint, GFlag, N-Object]), ),
   set-enable-rubberband => %(:is-symbol<gtk_list_view_set_enable_rubberband>, :parameters([gboolean]), ),

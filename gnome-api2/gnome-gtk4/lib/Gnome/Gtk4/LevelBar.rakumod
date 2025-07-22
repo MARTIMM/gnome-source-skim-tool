@@ -88,11 +88,11 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   add-offset-value => %(:is-symbol<gtk_level_bar_add_offset_value>, :parameters([Str, gdouble]), ),
-  get-inverted => %(:is-symbol<gtk_level_bar_get_inverted>, :returns(gboolean), ),
+  get-inverted => %(:is-symbol<gtk_level_bar_get_inverted>, :returns(gboolean), :cnv-return(Bool), ),
   get-max-value => %(:is-symbol<gtk_level_bar_get_max_value>, :returns(gdouble), ),
   get-min-value => %(:is-symbol<gtk_level_bar_get_min_value>, :returns(gdouble), ),
   get-mode => %(:is-symbol<gtk_level_bar_get_mode>,  :returns(GEnum), :cnv-return(GtkLevelBarMode)),
-  get-offset-value => %(:is-symbol<gtk_level_bar_get_offset_value>, :returns(gboolean), :parameters([Str, CArray[gdouble]]), ),
+  get-offset-value => %(:is-symbol<gtk_level_bar_get_offset_value>, :returns(gboolean), :cnv-return(Bool), :parameters([Str, CArray[gdouble]]), ),
   get-value => %(:is-symbol<gtk_level_bar_get_value>, :returns(gdouble), ),
   remove-offset-value => %(:is-symbol<gtk_level_bar_remove_offset_value>, :parameters([Str]), ),
   set-inverted => %(:is-symbol<gtk_level_bar_set_inverted>, :parameters([gboolean]), ),

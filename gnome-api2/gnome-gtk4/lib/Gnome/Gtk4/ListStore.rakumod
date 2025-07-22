@@ -13,12 +13,13 @@ use Cairo;
 use Gnome::GObject::N-Value:api<2>;
 use Gnome::GObject::Object:api<2>;
 use Gnome::GObject::T-value:api<2>;
+use Gnome::Gtk4::N-TreeIter:api<2>;
 use Gnome::Gtk4::R-Buildable:api<2>;
 use Gnome::Gtk4::R-TreeDragDest:api<2>;
 use Gnome::Gtk4::R-TreeDragSource:api<2>;
 use Gnome::Gtk4::R-TreeModel:api<2>;
 use Gnome::Gtk4::R-TreeSortable:api<2>;
-#use Gnome::Gtk4::T-treemodel:api<2>;
+use Gnome::Gtk4::T-treemodel:api<2>;
 #use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -110,11 +111,11 @@ my Hash $methods = %(
   insert-before => %(:is-symbol<gtk_list_store_insert_before>, :parameters([N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
   insert-with-values => %(:is-symbol<gtk_list_store_insert_with_values>, :variable-list, :parameters([N-Object, gint]), :deprecated, :deprecated-version<4.10>, ),
   insert-with-valuesv => %(:is-symbol<gtk_list_store_insert_with_valuesv>, :parameters([N-Object, gint, gint-ptr, N-Object, gint]), :deprecated, :deprecated-version<4.10>, ),
-  iter-is-valid => %(:is-symbol<gtk_list_store_iter_is_valid>, :returns(gboolean), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  iter-is-valid => %(:is-symbol<gtk_list_store_iter_is_valid>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
   move-after => %(:is-symbol<gtk_list_store_move_after>, :parameters([N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
   move-before => %(:is-symbol<gtk_list_store_move_before>, :parameters([N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
   prepend => %(:is-symbol<gtk_list_store_prepend>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
-  remove => %(:is-symbol<gtk_list_store_remove>, :returns(gboolean), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  remove => %(:is-symbol<gtk_list_store_remove>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
   reorder => %(:is-symbol<gtk_list_store_reorder>, :parameters([gint-ptr]), :deprecated, :deprecated-version<4.10>, ),
   set => %(:is-symbol<gtk_list_store_set>, :variable-list, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
   #set-column-types => %(:is-symbol<gtk_list_store_set_column_types>, :parameters([gint, ]), :deprecated, :deprecated-version<4.10>, ),

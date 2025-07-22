@@ -80,12 +80,12 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   changed => %(:is-symbol<gtk_list_box_row_changed>, ),
-  get-activatable => %(:is-symbol<gtk_list_box_row_get_activatable>, :returns(gboolean), ),
+  get-activatable => %(:is-symbol<gtk_list_box_row_get_activatable>, :returns(gboolean), :cnv-return(Bool), ),
   get-child => %(:is-symbol<gtk_list_box_row_get_child>, :returns(N-Object), ),
   get-header => %(:is-symbol<gtk_list_box_row_get_header>, :returns(N-Object), ),
   get-index => %(:is-symbol<gtk_list_box_row_get_index>, :returns(gint), ),
-  get-selectable => %(:is-symbol<gtk_list_box_row_get_selectable>, :returns(gboolean), ),
-  is-selected => %(:is-symbol<gtk_list_box_row_is_selected>, :returns(gboolean), ),
+  get-selectable => %(:is-symbol<gtk_list_box_row_get_selectable>, :returns(gboolean), :cnv-return(Bool), ),
+  is-selected => %(:is-symbol<gtk_list_box_row_is_selected>, :returns(gboolean), :cnv-return(Bool), ),
   set-activatable => %(:is-symbol<gtk_list_box_row_set_activatable>, :parameters([gboolean]), ),
   set-child => %(:is-symbol<gtk_list_box_row_set_child>, :parameters([N-Object]), ),
   set-header => %(:is-symbol<gtk_list_box_row_set_header>, :parameters([N-Object]), ),

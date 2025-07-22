@@ -47,7 +47,7 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<selected-rows-changed toggle-cursor-row select-all activate-cursor-row unselect-all>,
+      :w0<selected-rows-changed toggle-cursor-row unselect-all select-all activate-cursor-row>,
       :w1<row-activated row-selected>,
       :w4<move-cursor>,
     );
@@ -82,14 +82,14 @@ my Hash $methods = %(
   bind-model => %(:is-symbol<gtk_list_box_bind_model>, :parameters([N-Object, :( gpointer $item, gpointer $user-data ), gpointer, :( gpointer $data )]), ),
   drag-highlight-row => %(:is-symbol<gtk_list_box_drag_highlight_row>, :parameters([N-Object]), ),
   drag-unhighlight-row => %(:is-symbol<gtk_list_box_drag_unhighlight_row>, ),
-  get-activate-on-single-click => %(:is-symbol<gtk_list_box_get_activate_on_single_click>, :returns(gboolean), ),
+  get-activate-on-single-click => %(:is-symbol<gtk_list_box_get_activate_on_single_click>, :returns(gboolean), :cnv-return(Bool), ),
   get-adjustment => %(:is-symbol<gtk_list_box_get_adjustment>, :returns(N-Object), ),
   get-row-at-index => %(:is-symbol<gtk_list_box_get_row_at_index>, :returns(N-Object), :parameters([gint]), ),
   get-row-at-y => %(:is-symbol<gtk_list_box_get_row_at_y>, :returns(N-Object), :parameters([gint]), ),
   get-selected-row => %(:is-symbol<gtk_list_box_get_selected_row>, :returns(N-Object), ),
   get-selected-rows => %(:is-symbol<gtk_list_box_get_selected_rows>, :returns(N-Object), ),
   get-selection-mode => %(:is-symbol<gtk_list_box_get_selection_mode>,  :returns(GEnum), :cnv-return(GtkSelectionMode)),
-  get-show-separators => %(:is-symbol<gtk_list_box_get_show_separators>, :returns(gboolean), ),
+  get-show-separators => %(:is-symbol<gtk_list_box_get_show_separators>, :returns(gboolean), :cnv-return(Bool), ),
   insert => %(:is-symbol<gtk_list_box_insert>, :parameters([N-Object, gint]), ),
   invalidate-filter => %(:is-symbol<gtk_list_box_invalidate_filter>, ),
   invalidate-headers => %(:is-symbol<gtk_list_box_invalidate_headers>, ),
