@@ -7,10 +7,11 @@ use v6.d;
 
 use NativeCall;
 
-use Cairo;
 
 
-#use Gnome::Gtk4::T-treemodel:api<2>;
+
+use Gnome::Gtk4::N-TreePath:api<2>;
+use Gnome::Gtk4::T-treemodel:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -31,9 +32,9 @@ unit role Gnome::Gtk4::R-TreeDragSource:auth<github:MARTIMM>:api<2>;
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  drag-data-delete => %(:is-symbol<gtk_tree_drag_source_drag_data_delete>, :returns(gboolean), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  drag-data-delete => %(:is-symbol<gtk_tree_drag_source_drag_data_delete>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
   drag-data-get => %(:is-symbol<gtk_tree_drag_source_drag_data_get>, :returns(N-Object), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
-  row-draggable => %(:is-symbol<gtk_tree_drag_source_row_draggable>, :returns(gboolean), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  row-draggable => %(:is-symbol<gtk_tree_drag_source_row_draggable>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------

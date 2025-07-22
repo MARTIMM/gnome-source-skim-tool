@@ -7,7 +7,7 @@ use v6.d;
 
 use NativeCall;
 
-use Cairo;
+
 
 
 use Gnome::Gtk4::T-fontchooser:api<2>;
@@ -43,7 +43,7 @@ my Hash $methods = %(
   get-language => %(:is-symbol<gtk_font_chooser_get_language>, :returns(Str), :deprecated, :deprecated-version<4.10>, ),
   get-level => %(:is-symbol<gtk_font_chooser_get_level>,  :returns(GFlag), :cnv-return(GtkFontChooserLevel),:deprecated, :deprecated-version<4.10>, ),
   get-preview-text => %(:is-symbol<gtk_font_chooser_get_preview_text>, :returns(Str), :deprecated, :deprecated-version<4.10>, ),
-  get-show-preview-entry => %(:is-symbol<gtk_font_chooser_get_show_preview_entry>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-show-preview-entry => %(:is-symbol<gtk_font_chooser_get_show_preview_entry>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.10>, ),
   set-filter-func => %(:is-symbol<gtk_font_chooser_set_filter_func>, :parameters([:( N-Object $family, N-Object $face, gpointer $data ), gpointer, :( gpointer $data )]), :deprecated, :deprecated-version<4.10>, ),
   set-font => %(:is-symbol<gtk_font_chooser_set_font>, :parameters([Str]), :deprecated, :deprecated-version<4.10>, ),
   set-font-desc => %(:is-symbol<gtk_font_chooser_set_font_desc>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),

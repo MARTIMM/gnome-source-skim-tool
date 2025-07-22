@@ -7,7 +7,7 @@ use v6.d;
 
 use NativeCall;
 
-use Cairo;
+
 
 
 use Gnome::Gtk4::N-Border:api<2>;
@@ -33,7 +33,7 @@ unit role Gnome::Gtk4::R-Scrollable:auth<github:MARTIMM>:api<2>;
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-border => %(:is-symbol<gtk_scrollable_get_border>, :returns(gboolean), :parameters([N-Object]), ),
+  get-border => %(:is-symbol<gtk_scrollable_get_border>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object]), ),
   get-hadjustment => %(:is-symbol<gtk_scrollable_get_hadjustment>, :returns(N-Object), ),
   get-hscroll-policy => %(:is-symbol<gtk_scrollable_get_hscroll_policy>,  :returns(GEnum), :cnv-return(GtkScrollablePolicy)),
   get-vadjustment => %(:is-symbol<gtk_scrollable_get_vadjustment>, :returns(N-Object), ),

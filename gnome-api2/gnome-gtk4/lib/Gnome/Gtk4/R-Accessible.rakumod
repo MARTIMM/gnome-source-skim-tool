@@ -7,7 +7,7 @@ use v6.d;
 
 use NativeCall;
 
-use Cairo;
+
 
 
 use Gnome::GObject::N-Value:api<2>;
@@ -38,10 +38,10 @@ my Hash $methods = %(
   get-accessible-parent => %(:is-symbol<gtk_accessible_get_accessible_parent>, :returns(N-Object), ),
   get-accessible-role => %(:is-symbol<gtk_accessible_get_accessible_role>,  :returns(GEnum), :cnv-return(GtkAccessibleRole)),
   get-at-context => %(:is-symbol<gtk_accessible_get_at_context>, :returns(N-Object), ),
-  get-bounds => %(:is-symbol<gtk_accessible_get_bounds>, :returns(gboolean), :parameters([gint-ptr, gint-ptr, gint-ptr, gint-ptr]), ),
+  get-bounds => %(:is-symbol<gtk_accessible_get_bounds>, :returns(gboolean), :cnv-return(Bool), :parameters([gint-ptr, gint-ptr, gint-ptr, gint-ptr]), ),
   get-first-accessible-child => %(:is-symbol<gtk_accessible_get_first_accessible_child>, :returns(N-Object), ),
   get-next-accessible-sibling => %(:is-symbol<gtk_accessible_get_next_accessible_sibling>, :returns(N-Object), ),
-  get-platform-state => %(:is-symbol<gtk_accessible_get_platform_state>, :returns(gboolean), :parameters([GEnum]), ),
+  get-platform-state => %(:is-symbol<gtk_accessible_get_platform_state>, :returns(gboolean), :cnv-return(Bool), :parameters([GEnum]), ),
   reset-property => %(:is-symbol<gtk_accessible_reset_property>, :parameters([GEnum]), ),
   reset-relation => %(:is-symbol<gtk_accessible_reset_relation>, :parameters([GEnum]), ),
   reset-state => %(:is-symbol<gtk_accessible_reset_state>, :parameters([GEnum]), ),

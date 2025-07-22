@@ -7,7 +7,7 @@ use v6.d;
 
 use NativeCall;
 
-use Cairo;
+
 
 
 use Gnome::GObject::N-Value:api<2>;
@@ -33,18 +33,18 @@ unit role Gnome::Gtk4::R-Editable:auth<github:MARTIMM>:api<2>;
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  delegate-get-accessible-platform-state => %(:is-symbol<gtk_editable_delegate_get_accessible_platform_state>, :returns(gboolean), :parameters([GEnum]), ),
+  delegate-get-accessible-platform-state => %(:is-symbol<gtk_editable_delegate_get_accessible_platform_state>, :returns(gboolean), :cnv-return(Bool), :parameters([GEnum]), ),
   delete-selection => %(:is-symbol<gtk_editable_delete_selection>, ),
   delete-text => %(:is-symbol<gtk_editable_delete_text>, :parameters([gint, gint]), ),
   finish-delegate => %(:is-symbol<gtk_editable_finish_delegate>, ),
   get-alignment => %(:is-symbol<gtk_editable_get_alignment>, :returns(gfloat), ),
   get-chars => %(:is-symbol<gtk_editable_get_chars>, :returns(Str), :parameters([gint, gint]), ),
   get-delegate => %(:is-symbol<gtk_editable_get_delegate>, :returns(N-Object), ),
-  get-editable => %(:is-symbol<gtk_editable_get_editable>, :returns(gboolean), ),
-  get-enable-undo => %(:is-symbol<gtk_editable_get_enable_undo>, :returns(gboolean), ),
+  get-editable => %(:is-symbol<gtk_editable_get_editable>, :returns(gboolean), :cnv-return(Bool), ),
+  get-enable-undo => %(:is-symbol<gtk_editable_get_enable_undo>, :returns(gboolean), :cnv-return(Bool), ),
   get-max-width-chars => %(:is-symbol<gtk_editable_get_max_width_chars>, :returns(gint), ),
   get-position => %(:is-symbol<gtk_editable_get_position>, :returns(gint), ),
-  get-selection-bounds => %(:is-symbol<gtk_editable_get_selection_bounds>, :returns(gboolean), :parameters([gint-ptr, gint-ptr]), ),
+  get-selection-bounds => %(:is-symbol<gtk_editable_get_selection_bounds>, :returns(gboolean), :cnv-return(Bool), :parameters([gint-ptr, gint-ptr]), ),
   get-text => %(:is-symbol<gtk_editable_get_text>, :returns(Str), ),
   get-width-chars => %(:is-symbol<gtk_editable_get_width_chars>, :returns(gint), ),
   init-delegate => %(:is-symbol<gtk_editable_init_delegate>, ),

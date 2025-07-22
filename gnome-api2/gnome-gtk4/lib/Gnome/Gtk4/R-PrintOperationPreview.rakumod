@@ -7,7 +7,7 @@ use v6.d;
 
 use NativeCall;
 
-use Cairo;
+
 
 
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -31,7 +31,7 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   end-preview => %(:is-symbol<gtk_print_operation_preview_end_preview>, ),
-  is-selected => %(:is-symbol<gtk_print_operation_preview_is_selected>, :returns(gboolean), :parameters([gint]), ),
+  is-selected => %(:is-symbol<gtk_print_operation_preview_is_selected>, :returns(gboolean), :cnv-return(Bool), :parameters([gint]), ),
   render-page => %(:is-symbol<gtk_print_operation_preview_render_page>, :parameters([gint]), ),
 );
 

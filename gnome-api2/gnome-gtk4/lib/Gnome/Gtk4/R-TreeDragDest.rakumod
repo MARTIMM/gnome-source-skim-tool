@@ -7,12 +7,13 @@ use v6.d;
 
 use NativeCall;
 
-use Cairo;
+
 
 
 use Gnome::GObject::N-Value:api<2>;
 use Gnome::GObject::T-value:api<2>;
-#use Gnome::Gtk4::T-treemodel:api<2>;
+use Gnome::Gtk4::N-TreePath:api<2>;
+use Gnome::Gtk4::T-treemodel:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -33,8 +34,8 @@ unit role Gnome::Gtk4::R-TreeDragDest:auth<github:MARTIMM>:api<2>;
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  drag-data-received => %(:is-symbol<gtk_tree_drag_dest_drag_data_received>, :returns(gboolean), :parameters([N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
-  row-drop-possible => %(:is-symbol<gtk_tree_drag_dest_row_drop_possible>, :returns(gboolean), :parameters([N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  drag-data-received => %(:is-symbol<gtk_tree_drag_dest_drag_data_received>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  row-drop-possible => %(:is-symbol<gtk_tree_drag_dest_row_drop_possible>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, N-Object]), :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------
