@@ -650,14 +650,14 @@ method !generate-methods ( Hash $hcs --> Str ) {
 
       elsif ?$rnt0 and $xtype ne 'void' {
         $returns = " :returns\($rnt0\),";
-        if $xtype eq 'gboolean' {
-          $cnv-return = ' :cnv-return(Bool),';
-        }
       }
     }
 
     elsif ?$xtype {
-      $returns = ":returns\($xtype), " unless $xtype eq 'void';
+      if $xtype ne 'void' {
+        $returns = ":returns\($xtype), ";
+        $cnv-return = ':cnv-return(Bool), ' if $xtype eq 'gboolean';
+      }
     }
 
     # Set the full native subroutine name
@@ -1636,7 +1636,10 @@ method add-import ( Str $import --> Bool ) {
   my Bool $available = False;
 
 #note "\n$?LINE $import";
-#note Backtrace.new.nice if $import ~~ m:i/layout/;
+if $import ~~ m:i/Cairo/ {
+  note Backtrace.new.nice
+#  exit;
+}
 
 #if $import eq 'Gnome::GObject::N-GValue::N-GValue' {
 #  say Backtrace.new.nice;
