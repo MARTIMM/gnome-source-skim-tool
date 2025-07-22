@@ -7,7 +7,7 @@ use v6.d;
 
 use NativeCall;
 
-use Cairo;
+
 
 use Gnome::GObject::Object:api<2>;
 
