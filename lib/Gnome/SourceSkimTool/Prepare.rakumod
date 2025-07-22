@@ -15,7 +15,7 @@ submethod BUILD ( ) {
   if $*generate-code {
     $*external-modules = %(
       :NativeCall(EMTRakudo),
-      :Cairo(EMTExtDep),
+#      :Cairo(EMTExtDep),
       'Gnome::N::NativeLib' => EMTInApi2,
       'Gnome::N::N-Object' => EMTInApi2,
       'Gnome::N::GlibToRakuTypes' => EMTInApi2,
@@ -374,9 +374,11 @@ method drop-prefix (
     $package-prefix = $*gnome-package.Str;
   }
 
+#`{{
   elsif $*gnome-package.Str ~~ 'Cairo' {
     $package-prefix = 'Cairo';
   }
+}}
 
   if $function {
     $package-prefix .= lc;
