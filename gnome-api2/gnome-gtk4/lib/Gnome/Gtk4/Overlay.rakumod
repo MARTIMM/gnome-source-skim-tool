@@ -75,8 +75,8 @@ my Hash $methods = %(
   #--[Methods]------------------------------------------------------------------
   add-overlay => %(:is-symbol<gtk_overlay_add_overlay>, :parameters([N-Object]), ),
   get-child => %(:is-symbol<gtk_overlay_get_child>, :returns(N-Object), ),
-  get-clip-overlay => %(:is-symbol<gtk_overlay_get_clip_overlay>, :returns(gboolean), :parameters([N-Object]), ),
-  get-measure-overlay => %(:is-symbol<gtk_overlay_get_measure_overlay>, :returns(gboolean), :parameters([N-Object]), ),
+  get-clip-overlay => %(:is-symbol<gtk_overlay_get_clip_overlay>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object]), ),
+  get-measure-overlay => %(:is-symbol<gtk_overlay_get_measure_overlay>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object]), ),
   remove-overlay => %(:is-symbol<gtk_overlay_remove_overlay>, :parameters([N-Object]), ),
   set-child => %(:is-symbol<gtk_overlay_set_child>, :parameters([N-Object]), ),
   set-clip-overlay => %(:is-symbol<gtk_overlay_set_clip_overlay>, :parameters([N-Object, gboolean]), ),
