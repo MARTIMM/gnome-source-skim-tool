@@ -65,8 +65,8 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   get-child => %(:is-symbol<gtk_revealer_get_child>, :returns(N-Object), ),
-  get-child-revealed => %(:is-symbol<gtk_revealer_get_child_revealed>, :returns(gboolean), ),
-  get-reveal-child => %(:is-symbol<gtk_revealer_get_reveal_child>, :returns(gboolean), ),
+  get-child-revealed => %(:is-symbol<gtk_revealer_get_child_revealed>, :returns(gboolean), :cnv-return(Bool), ),
+  get-reveal-child => %(:is-symbol<gtk_revealer_get_reveal_child>, :returns(gboolean), :cnv-return(Bool), ),
   get-transition-duration => %(:is-symbol<gtk_revealer_get_transition_duration>, :returns(guint), ),
   get-transition-type => %(:is-symbol<gtk_revealer_get_transition_type>,  :returns(GEnum), :cnv-return(GtkRevealerTransitionType)),
   set-child => %(:is-symbol<gtk_revealer_set_child>, :parameters([N-Object]), ),

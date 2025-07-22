@@ -51,7 +51,7 @@ submethod BUILD ( *%options ) {
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
       :w0<value-changed>,
-      :w1<adjust-bounds move-slider>,
+      :w1<move-slider adjust-bounds>,
       :w2<change-value>,
     );
 
@@ -88,14 +88,14 @@ my Hash $methods = %(
   #--[Methods]------------------------------------------------------------------
   get-adjustment => %(:is-symbol<gtk_range_get_adjustment>, :returns(N-Object), ),
   get-fill-level => %(:is-symbol<gtk_range_get_fill_level>, :returns(gdouble), ),
-  get-flippable => %(:is-symbol<gtk_range_get_flippable>, :returns(gboolean), ),
-  get-inverted => %(:is-symbol<gtk_range_get_inverted>, :returns(gboolean), ),
+  get-flippable => %(:is-symbol<gtk_range_get_flippable>, :returns(gboolean), :cnv-return(Bool), ),
+  get-inverted => %(:is-symbol<gtk_range_get_inverted>, :returns(gboolean), :cnv-return(Bool), ),
   get-range-rect => %(:is-symbol<gtk_range_get_range_rect>, :parameters([N-Object]), ),
-  get-restrict-to-fill-level => %(:is-symbol<gtk_range_get_restrict_to_fill_level>, :returns(gboolean), ),
+  get-restrict-to-fill-level => %(:is-symbol<gtk_range_get_restrict_to_fill_level>, :returns(gboolean), :cnv-return(Bool), ),
   get-round-digits => %(:is-symbol<gtk_range_get_round_digits>, :returns(gint), ),
-  get-show-fill-level => %(:is-symbol<gtk_range_get_show_fill_level>, :returns(gboolean), ),
+  get-show-fill-level => %(:is-symbol<gtk_range_get_show_fill_level>, :returns(gboolean), :cnv-return(Bool), ),
   get-slider-range => %(:is-symbol<gtk_range_get_slider_range>, :parameters([gint-ptr, gint-ptr]), ),
-  get-slider-size-fixed => %(:is-symbol<gtk_range_get_slider_size_fixed>, :returns(gboolean), ),
+  get-slider-size-fixed => %(:is-symbol<gtk_range_get_slider_size_fixed>, :returns(gboolean), :cnv-return(Bool), ),
   get-value => %(:is-symbol<gtk_range_get_value>, :returns(gdouble), ),
   set-adjustment => %(:is-symbol<gtk_range_set_adjustment>, :parameters([N-Object]), ),
   set-fill-level => %(:is-symbol<gtk_range_set_fill_level>, :parameters([gdouble]), ),
