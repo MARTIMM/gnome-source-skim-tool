@@ -49,7 +49,7 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<toggle-cursor-child unselect-all select-all activate-cursor-child selected-children-changed>,
+      :w0<unselect-all selected-children-changed select-all activate-cursor-child toggle-cursor-child>,
       :w1<child-activated>,
       :w4<move-cursor>,
     );
@@ -86,11 +86,11 @@ my Hash $methods = %(
   #--[Methods]------------------------------------------------------------------
   append => %(:is-symbol<gtk_flow_box_append>, :parameters([N-Object]), ),
   bind-model => %(:is-symbol<gtk_flow_box_bind_model>, :parameters([N-Object, :( gpointer $item, gpointer $user-data ), gpointer, :( gpointer $data )]), ),
-  get-activate-on-single-click => %(:is-symbol<gtk_flow_box_get_activate_on_single_click>, :returns(gboolean), ),
+  get-activate-on-single-click => %(:is-symbol<gtk_flow_box_get_activate_on_single_click>, :returns(gboolean), :cnv-return(Bool), ),
   get-child-at-index => %(:is-symbol<gtk_flow_box_get_child_at_index>, :returns(N-Object), :parameters([gint]), ),
   get-child-at-pos => %(:is-symbol<gtk_flow_box_get_child_at_pos>, :returns(N-Object), :parameters([gint, gint]), ),
   get-column-spacing => %(:is-symbol<gtk_flow_box_get_column_spacing>, :returns(guint), ),
-  get-homogeneous => %(:is-symbol<gtk_flow_box_get_homogeneous>, :returns(gboolean), ),
+  get-homogeneous => %(:is-symbol<gtk_flow_box_get_homogeneous>, :returns(gboolean), :cnv-return(Bool), ),
   get-max-children-per-line => %(:is-symbol<gtk_flow_box_get_max_children_per_line>, :returns(guint), ),
   get-min-children-per-line => %(:is-symbol<gtk_flow_box_get_min_children_per_line>, :returns(guint), ),
   get-row-spacing => %(:is-symbol<gtk_flow_box_get_row_spacing>, :returns(guint), ),

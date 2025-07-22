@@ -73,7 +73,7 @@ my Hash $methods = %(
   #--[Methods]------------------------------------------------------------------
   changed => %(:is-symbol<gtk_filter_changed>, :parameters([GEnum]), ),
   get-strictness => %(:is-symbol<gtk_filter_get_strictness>,  :returns(GEnum), :cnv-return(GtkFilterMatch)),
-  match => %(:is-symbol<gtk_filter_match>, :returns(gboolean), :parameters([gpointer]), ),
+  match => %(:is-symbol<gtk_filter_match>, :returns(gboolean), :cnv-return(Bool), :parameters([gpointer]), ),
 );
 
 #-------------------------------------------------------------------------------

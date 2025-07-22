@@ -76,7 +76,7 @@ my Hash $methods = %(
   changed => %(:is-symbol<gtk_flow_box_child_changed>, ),
   get-child => %(:is-symbol<gtk_flow_box_child_get_child>, :returns(N-Object), ),
   get-index => %(:is-symbol<gtk_flow_box_child_get_index>, :returns(gint), ),
-  is-selected => %(:is-symbol<gtk_flow_box_child_is_selected>, :returns(gboolean), ),
+  is-selected => %(:is-symbol<gtk_flow_box_child_is_selected>, :returns(gboolean), :cnv-return(Bool), ),
   set-child => %(:is-symbol<gtk_flow_box_child_set_child>, :parameters([N-Object]), ),
 );
 

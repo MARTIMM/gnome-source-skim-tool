@@ -87,10 +87,10 @@ my Hash $methods = %(
   new-with-font => %( :type(Constructor), :is-symbol<gtk_font_button_new_with_font>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :parameters([ Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-modal => %(:is-symbol<gtk_font_button_get_modal>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-modal => %(:is-symbol<gtk_font_button_get_modal>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.10>, ),
   get-title => %(:is-symbol<gtk_font_button_get_title>, :returns(Str), :deprecated, :deprecated-version<4.10>, ),
-  get-use-font => %(:is-symbol<gtk_font_button_get_use_font>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
-  get-use-size => %(:is-symbol<gtk_font_button_get_use_size>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-use-font => %(:is-symbol<gtk_font_button_get_use_font>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.10>, ),
+  get-use-size => %(:is-symbol<gtk_font_button_get_use_size>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.10>, ),
   set-modal => %(:is-symbol<gtk_font_button_set_modal>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
   set-title => %(:is-symbol<gtk_font_button_set_title>, :parameters([Str]), :deprecated, :deprecated-version<4.10>, ),
   set-use-font => %(:is-symbol<gtk_font_button_set_use_font>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
