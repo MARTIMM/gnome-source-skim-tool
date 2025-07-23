@@ -8,7 +8,6 @@ use NativeCall;
 
 
 
-
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -41,12 +40,6 @@ submethod BUILD ( ) {
 #-------------------------------------------------------------------------------
 #--[Record Structure]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
-# This is an opaque type of which fields are not available.
-class N-TreePath:auth<github:MARTIMM>:api<2> is export is repr('CPointer') { }
-
-# This is an opaque type of which fields are not available.
-class N-TreeRowReference:auth<github:MARTIMM>:api<2> is export is repr('CPointer') { }
-
 
 class N-TreeIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
 
@@ -65,6 +58,12 @@ class N-TreeIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
     nativecast( N-TreeIter, $no)
   }
 }
+
+# This is an opaque type of which fields are not available.
+class N-TreeRowReference:auth<github:MARTIMM>:api<2> is export is repr('CPointer') { }
+
+# This is an opaque type of which fields are not available.
+class N-TreePath:auth<github:MARTIMM>:api<2> is export is repr('CPointer') { }
 
 #-------------------------------------------------------------------------------
 #--[Bitfields]------------------------------------------------------------------
