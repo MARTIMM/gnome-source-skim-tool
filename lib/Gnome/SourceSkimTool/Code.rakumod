@@ -44,7 +44,7 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
     $element.attribs<c:type> // $element.attribs<glib:type-name> // '';
   my Hash $h = $!solve.search-name($ctype) // %();
 
-note "$?LINE $h<gir-type>";
+#note "$?LINE $h<gir-type>";
   # Parenting is only for classes
   my Bool $is-class = False;
   my Bool $is-role = False;
@@ -63,7 +63,7 @@ note "$?LINE $h<gir-type>";
   }
 
   $is-role = (($h<gir-type> // '' ) eq 'interface') // False;
-note "$?LINE role $is-role";
+#note "$?LINE role $is-role";
 
   # If the object is a class
   if $is-class {
@@ -1636,9 +1636,18 @@ method add-import ( Str $import --> Bool ) {
   my Bool $available = False;
 
 #note "\n$?LINE $import";
-if $import ~~ m:i/Cairo/ {
-  note Backtrace.new.nice
+#if $import ~~ m:i/Cairo/ {
+#  note Backtrace.new.nice
 #  exit;
+#}
+
+if $import ~~ m:i/Cairo/ {
+  # Add only when $import is not in the hash.
+  if $*external-modules{$import}:!exists {
+#note "\n$?LINE $*external-modules{$import}";
+    $available = True;
+    $*external-modules{$import} = EMTExtDep;
+  }
 }
 
 #if $import eq 'Gnome::GObject::N-GValue::N-GValue' {
