@@ -7,10 +7,8 @@ use v6.d;
 
 use NativeCall;
 
-
-
-
 use Gnome::Gtk4::Popover:api<2>;
+use Gnome::Gtk4::T-popovermenu:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;

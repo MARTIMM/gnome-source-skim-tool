@@ -9,6 +9,7 @@ use NativeCall;
 use Gnome::GObject::T-value:api<2>;
 
 use Gnome::Gtk4::N-TreePath:api<2>;
+use Gnome::Gtk4::T-treemodel:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
