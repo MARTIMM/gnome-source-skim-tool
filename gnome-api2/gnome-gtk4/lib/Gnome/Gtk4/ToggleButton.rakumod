@@ -9,7 +9,6 @@ use NativeCall;
 
 
 
-
 use Gnome::Gtk4::Button:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -75,7 +74,7 @@ my Hash $methods = %(
   new-with-mnemonic => %( :type(Constructor), :is-symbol<gtk_toggle_button_new_with_mnemonic>, :returns(N-Object), :parameters([ Str]), ),
 
   #--[Methods]------------------------------------------------------------------
-  get-active => %(:is-symbol<gtk_toggle_button_get_active>, :returns(gboolean), ),
+  get-active => %(:is-symbol<gtk_toggle_button_get_active>, :returns(gboolean), :cnv-return(Bool), ),
   set-active => %(:is-symbol<gtk_toggle_button_set_active>, :parameters([gboolean]), ),
   set-group => %(:is-symbol<gtk_toggle_button_set_group>, :parameters([N-Object]), ),
   toggled => %(:is-symbol<gtk_toggle_button_toggled>, :deprecated, :deprecated-version<4.10>, ),
