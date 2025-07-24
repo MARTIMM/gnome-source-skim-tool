@@ -9,7 +9,6 @@ use NativeCall;
 
 
 
-
 use Gnome::GObject::Object:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -63,11 +62,11 @@ my Hash $methods = %(
   get-child-row => %(:is-symbol<gtk_tree_list_row_get_child_row>, :returns(N-Object), :parameters([guint]), ),
   get-children => %(:is-symbol<gtk_tree_list_row_get_children>, :returns(N-Object), ),
   get-depth => %(:is-symbol<gtk_tree_list_row_get_depth>, :returns(guint), ),
-  get-expanded => %(:is-symbol<gtk_tree_list_row_get_expanded>, :returns(gboolean), ),
+  get-expanded => %(:is-symbol<gtk_tree_list_row_get_expanded>, :returns(gboolean), :cnv-return(Bool), ),
   get-item => %(:is-symbol<gtk_tree_list_row_get_item>, :returns(gpointer), ),
   get-parent => %(:is-symbol<gtk_tree_list_row_get_parent>, :returns(N-Object), ),
   get-position => %(:is-symbol<gtk_tree_list_row_get_position>, :returns(guint), ),
-  is-expandable => %(:is-symbol<gtk_tree_list_row_is_expandable>, :returns(gboolean), ),
+  is-expandable => %(:is-symbol<gtk_tree_list_row_is_expandable>, :returns(gboolean), :cnv-return(Bool), ),
   set-expanded => %(:is-symbol<gtk_tree_list_row_set_expanded>, :parameters([gboolean]), ),
 );
 
