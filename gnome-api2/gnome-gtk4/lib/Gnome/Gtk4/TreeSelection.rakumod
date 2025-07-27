@@ -15,7 +15,7 @@ use Gnome::Glib::N-List:api<2>;
 use Gnome::Glib::T-list:api<2>;
 use Gnome::Gtk4::N-TreeIter:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
-#use Gnome::Gtk4::T-treemodel:api<2>;
+use Gnome::Gtk4::T-treemodel:api<2>;
 #use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -84,7 +84,7 @@ my Hash $methods = %(
   #--[Methods]------------------------------------------------------------------
   count-selected-rows => %(:is-symbol<gtk_tree_selection_count_selected_rows>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
   get-mode => %(:is-symbol<gtk_tree_selection_get_mode>,  :returns(GEnum), :cnv-return(GtkSelectionMode),:deprecated, :deprecated-version<4.10>, ),
-  get-select-function => %(:is-symbol<gtk_tree_selection_get_select_function>,  :returns(), :cnv-return(( N-Object $selection, N-Object $model, N-Object $path, gboolean $path-currently-selected, gpointer $data )),:deprecated, :deprecated-version<4.10>, ),
+#  get-select-function => %(:is-symbol<gtk_tree_selection_get_select_function>,  :returns(), :cnv-return( N-Object $selection, N-Object $model, N-Object $path, gboolean $path-currently-selected, gpointer $data ),:deprecated, :deprecated-version<4.10>, ),
   get-selected => %(:is-symbol<gtk_tree_selection_get_selected>, :returns(gboolean), :parameters([CArray[N-Object], N-Object]), :deprecated, :deprecated-version<4.10>, ),
   get-selected-rows => %(:is-symbol<gtk_tree_selection_get_selected_rows>, :returns(N-Object), :parameters([CArray[N-Object]]), :deprecated, :deprecated-version<4.10>, ),
   get-tree-view => %(:is-symbol<gtk_tree_selection_get_tree_view>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),

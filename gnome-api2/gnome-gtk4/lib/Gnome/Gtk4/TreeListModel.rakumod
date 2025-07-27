@@ -8,7 +8,7 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::Gtk4::T-treemodel:api<2>;
+#use Gnome::Gtk4::Treemodel:api<2>;
 
 use Gnome::GObject::Object:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -60,7 +60,7 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-treelistmodel => %( :type(Constructor), :is-symbol<gtk_tree_list_model_new>, :returns(N-Object), :parameters([ N-Object, gboolean, gboolean, GtkTreeListModelCreateModelFunc, gpointer, GDestroyNotify]), ),
+  new-treelistmodel => %( :type(Constructor), :is-symbol<gtk_tree_list_model_new>, :returns(N-Object), :parameters([ N-Object, gboolean, gboolean, N-Object, gpointer, gpointer]), ),
 
   #--[Methods]------------------------------------------------------------------
   get-autoexpand => %(:is-symbol<gtk_tree_list_model_get_autoexpand>, :returns(gboolean), ),

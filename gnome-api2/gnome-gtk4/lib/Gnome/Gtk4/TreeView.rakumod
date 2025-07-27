@@ -20,6 +20,7 @@ use Gnome::Gtk4::N-TreePath:api<2>;
 use Gnome::Gtk4::R-Scrollable:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::Gtk4::T-treeview:api<2>;
+use Gnome::Gtk4::T-treemodel:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
