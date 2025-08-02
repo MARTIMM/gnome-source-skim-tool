@@ -1,0 +1,65 @@
+=comment Package: Gtk4, C-Source: buildable
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=TITLE Gnome::Gtk4::R-Buildable
+=head1 Description
+
+B<Gnome::Gtk4::R-Buildable> allows objects to extend and customize their deserialization
+from ui files.
+
+The interface includes methods for setting names and properties of objects,
+parsing custom tags and constructing child objects.
+
+The B<Gnome::Gtk4::R-Buildable> interface is implemented by all widgets and
+many of the non-widget objects that are provided by GTK. The
+main user of this interface is B<Gnome::Gtk4::Builder>. There should be
+very little need for applications to call any of these functions directly.
+
+An object only needs to implement this interface if it needs to extend the
+B<Gnome::Gtk4::Builder> XML format or run any extra routines at deserialization time.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Buildable
+
+=end comment
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-buildable-id
+
+Gets the ID of the C<$buildable> object.
+
+B<Gnome::Gtk4::Builder> sets the name based on the ID attribute
+of the `<object>` tag used to construct the C<$buildable>.
+
+=begin code
+method get-buildable-id (--> Str )
+=end code
+
+Return value; the ID of the buildable object. 
+
+=begin comment
+
+=head2 Example
+# Example for get-buildable-id
+
+=end comment
+
+=end pod
+

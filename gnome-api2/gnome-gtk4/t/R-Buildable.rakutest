@@ -1,15 +1,17 @@
-# Command to generate: generate.raku -t Gtk4 buildable
+=comment Package: Gtk4, C-Source: buildable
+use v6.d;
 
 #TL:1:Gnome::Gtk4::R-Buildable:
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use NativeCall;
 use Test;
+use NativeCall;
 
-use Gnome::Gtk4::Button:api<2>;
 
+
+#use Gnome::Gtk4::Buildable:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -25,14 +27,17 @@ unless %*ENV<raku_test_all>:exists {
 }
 
 #-------------------------------------------------------------------------------
+#`{{
 subtest 'Method tests', {
-  my Gnome::Gtk4::Button $button .= new-with-label('button text');
-  with $button {
+  with $r-buildable {
 
-    #TM:1:get-buildable-id()
-    is .get-buildable-id(), Str, '.get-buildable-id()';
+
+    #TM:0:get-buildable-id()
+     .get-buildable-id(), '…', '.get-buildable-id()';
+
   }
 };
+}}
 
 #-------------------------------------------------------------------------------
 done-testing;
@@ -89,13 +94,13 @@ subtest 'Signals …', {
     }
   }
 
-  my Gnome::Gtk4::Buildable $buildable .= new;
+  my Gnome::Gtk4::Buildable $r-buildable .= new;
 
   #my Gnome::Gtk3::Window $w .= new;
   #$w.add($m);
 
   my SignalHandlers $sh .= new;
-  $buildable.register-signal( $sh, 'method', 'signal');
+  $r-buildable.register-signal( $sh, 'method', 'signal');
 
   my Promise $p = $i.start-thread(
     $sh, 'signal-emitter',

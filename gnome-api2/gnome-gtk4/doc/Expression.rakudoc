@@ -24,13 +24,13 @@ An expression needs to be "evaluated" to obtain the value that it currently
 refers to. An evaluation always happens in the context of a current object
 called B<this> (it mirrors the behavior of object-oriented languages),
 which may or may not influence the result of the evaluation. Use
-C<.evaluate()> for evaluating an expression.
+C<.evaluate()>] for evaluating an expression.
 
 Various methods for defining expressions exist, from simple constants via
-C<.newexpression()> in class C<Gnome::Gtk4::ConstantExpression> to looking up properties in a B<Gnome::GObject::Object>
-(even recursively) via C<.newexpression()> in class C<Gnome::Gtk4::PropertyExpression> or providing
+C<.newexpression()> in class B<Gnome::Gtk4::ConstantExpression> to looking up properties in a B<Gnome::GObject::Object>
+(even recursively) via C<.newexpression()> in class B<Gnome::Gtk4::PropertyExpression> or providing
 custom functions to transform and combine expressions via
-C<.newexpression()> in class C<Gnome::Gtk4::ClosureExpression>.
+C<.newexpression()> in class B<Gnome::Gtk4::ClosureExpression>.
 
 Here is an example of a complex expression:
 
@@ -61,13 +61,13 @@ B<Gnome::Gtk4::StringFilter> is using a B<Gnome::Gtk4::Expression> for similar r
 
 By default, expressions are not paying attention to changes and evaluation is
 just a snapshot of the current state at a given time. To get informed about
-changes, an expression needs to be "watched" via a  B<Gnome::Gtk4::N-ExpressionWatch> ,
+changes, an expression needs to be "watched" via a  B<Gnome::Gtk4::T-expression> ,
 which will cause a callback to be called whenever the value of the expression may
-have changed; C<.watch()> starts watching an expression, and
-C<.unwatch()> in class C<Gnome::Gtk4::N-ExpressionWatch> stops.
+have changed; C<.watch()>] starts watching an expression, and
+C<.unwatch()> in class B<Gnome::Gtk4::T-expression>] stops.
 
 Watches can be created for automatically updating the property of an object,
-similar to GObject's B<Gnome::GObject::Binding> mechanism, by using C<.bind()>.
+similar to GObject's B<Gnome::GObject::Binding> mechanism, by using C<.bind()>].
 
 =head3 GtkExpression in GObject properties
 
@@ -210,7 +210,7 @@ You can ensure that this doesn't happen by using a fallback
 expression.
 
 Note that this function takes ownership of B<self>. If you want
-to keep it around, you should C<.ref()> it beforehand.
+to keep it around, you should C<.ref()>] it beforehand.
 
 =begin code
 method bind ( gpointer $target, Str $property, gpointer $this --> N-Object )
@@ -221,7 +221,7 @@ method bind ( gpointer $target, Str $property, gpointer $this --> N-Object )
 =item $this; the this argument for
   the evaluation of B<self>.
 
-Return value; a B<Gnome::Gtk4::N-ExpressionWatch>. 
+Return value; a B<Gnome::Gtk4::T-expression>. 
 
 =begin comment
 
@@ -240,7 +240,7 @@ Evaluates the given expression and on success stores the result
 in C<$value>.
 
 The B<Gnome::GObject::Expression> of B<value> will be the type given by
-C<.get-value-type()>.
+C<.get-value-type()>].
 
 It is possible that expressions cannot be evaluated - for example
 when the expression references objects that have been destroyed or
@@ -278,7 +278,7 @@ of this expression.
 method get-value-type (--> GType )
 =end code
 
-Return value; The type returned from C<.evaluate()>. 
+Return value; The type returned from C<.evaluate()>]. 
 
 =begin comment
 
@@ -296,9 +296,9 @@ Return value; The type returned from C<.evaluate()>.
 Checks if the expression is static.
 
 A static expression will never change its result when
-C<.evaluate()> is called on it with the same arguments.
+C<.evaluate()>] is called on it with the same arguments.
 
-That means a call to C<.watch()> is not necessary because
+That means a call to C<.watch()>] is not necessary because
 it will never trigger a notify.
 
 =begin code
@@ -385,7 +385,7 @@ method watch ( gpointer $this, GtkExpressionNotify &notify, gpointer $user-data,
 Return value; The newly installed watch. Note that the only
   reference held to the watch will be released when the watch is unwatched
   which can happen automatically, and not just via
-  C<.unwatch()> in class C<Gnome::Gtk4::N-ExpressionWatch>. You should call C<.ref()> in class C<Gnome::Gtk4::N-ExpressionWatch>
+  C<.unwatch()> in class B<Gnome::Gtk4::T-expression>]. You should call C<.ref()> in class B<Gnome::Gtk4::T-expression>]
   if you want to keep the watch around.. 
 
 =begin comment

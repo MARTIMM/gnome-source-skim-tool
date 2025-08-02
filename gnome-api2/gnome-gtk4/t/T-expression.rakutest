@@ -6,11 +6,13 @@ use v6.d;
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use NativeCall;
 use Test;
+use NativeCall;
+
 
 
 use Gnome::GObject::N-Value:api<2>;
+#use Gnome::GObject::T-param:api<2>;
 use Gnome::GObject::T-value:api<2>;
 use Gnome::Gtk4::T-expression:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -18,69 +20,44 @@ use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
-#-------------------------------------------------------------------------------
-#--[Test preparation]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
 
-#Gnome::N::debug(:on);
-my Gnome::Gtk4::T-expression $t-expression;
 
-#-------------------------------------------------------------------------------
-#--[Class init tests]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
 
-subtest 'ISA test', {
-  given $t-expression {
-
-#`{{
-}}
-  }
-};
-
+my Gnome::Gtk4::T-expression $expression .= new;
 #-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-# set environment variable 'raku-test-all' if rest must be tested too.
-unless %*ENV<raku_test_all>:exists {
-  done-testing;
-  exit;
-}
-
-#-------------------------------------------------------------------------------
-subtest 'Method tests', {
-  with $t-expression {
+subtest 'Function tests', {
+  with $expression {
+    my Str $name;
+    my Str $nick;
+    my N-Object $expression;
+    my GFlag $flags;
+    my Str $blurb;
     my N-Object $value;
 
 
 #`{{
-    #TM:0:evaluate()
-    ok .evaluate( $value), '.evaluate()';
+    #TM:0:param-spec-expression()
+    ok .param-spec-expression( $name, $nick, $blurb, $flags), '.param-spec-expression()';
 
-    #TM:0:ref()
-    ok .ref(), '.ref()';
+    #TM:0:value-dup-expression()
+    ok .value-dup-expression( $value), '.value-dup-expression()';
 
-    #TM:0:unref()
-    ok .unref(), '.unref()';
+    #TM:0:value-get-expression()
+    ok .value-get-expression( $value), '.value-get-expression()';
 
-    #TM:0:unwatch()
-    ok .unwatch(), '.unwatch()';
+    #TM:0:value-set-expression()
+    ok .value-set-expression( $value, $expression), '.value-set-expression()';
+
+    #TM:0:value-take-expression()
+    ok .value-take-expression( $value, $expression), '.value-take-expression()';
 
 }}
   }
 };
 
-#-------------------------------------------------------------------------------
-subtest 'Function tests', {
-  with $t-expression {
 
-
-#`{{
-}}
-  }
-};
 
 #-------------------------------------------------------------------------------
 done-testing;
-
 =finish
 

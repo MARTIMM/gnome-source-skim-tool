@@ -6,8 +6,9 @@ use v6.d;
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use Test;
 use NativeCall;
+use Test;
+
 
 
 use Gnome::GObject::N-Value:api<2>;
@@ -50,13 +51,13 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $expression {
-    my Str $property;
-    sub notify ( gpointer $user-data ) {}
-    my gpointer $target;
-    my N-Object $value;
-    my gpointer $this;
-    my  $user-destroy;
     my gpointer $user-data;
+    sub user-destroy ( gpointer $data ) {}
+    my gpointer $target;
+    my Str $property;
+    my N-Object $value;
+    sub notify ( gpointer $user-data ) {}
+    my gpointer $this;
 
 
 #`{{
