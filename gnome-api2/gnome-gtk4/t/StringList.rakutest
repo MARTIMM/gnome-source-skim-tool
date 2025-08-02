@@ -6,8 +6,9 @@ use v6.d;
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use NativeCall;
 use Test;
+use NativeCall;
+
 
 
 use Gnome::Gtk4::StringList:api<2>;
@@ -21,20 +22,20 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
-my Gnome::Gtk4::StringList $string-list;
+my Gnome::Gtk4::StringList $stringlist;
 
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 subtest 'ISA test', {
-  given $string-list {
+  given $stringlist {
     my gchar-pptr $strings;
 
 #`{{
     #TC:0:new-stringlist()
     $strings = '…';
-    $string-list .= new-stringlist( $strings);
+    $stringlist .= new-stringlist( $strings);
     ok .is-valid, '.new-stringlist( $strings)';
 
 }}
@@ -52,11 +53,11 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
-  with $string-list {
-    my guint $position;
-    my guint $n-removals;
-    my Str $string;
+  with $stringlist {
     my gchar-pptr $additions;
+    my guint $position;
+    my Str $string;
+    my guint $n-removals;
 
 
 #`{{
@@ -81,7 +82,7 @@ subtest 'Method tests', {
 
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
-  with $string-list {
+  with $stringlist {
 
 
 #`{{
@@ -144,13 +145,13 @@ subtest 'Signals …', {
     }
   }
 
-  my Gnome::Gtk4::StringList $string-list .= new;
+  my Gnome::Gtk4::StringList $stringlist .= new;
 
   #my Gnome::Gtk3::Window $w .= new;
   #$w.add($m);
 
   my SignalHandlers $sh .= new;
-  $string-list.register-signal( $sh, 'method', 'signal');
+  $stringlist.register-signal( $sh, 'method', 'signal');
 
   my Promise $p = $i.start-thread(
     $sh, 'signal-emitter',

@@ -6,8 +6,9 @@ use v6.d;
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use NativeCall;
 use Test;
+use NativeCall;
+
 
 
 use Gnome::Gtk4::StringObject:api<2>;
@@ -21,20 +22,20 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
-my Gnome::Gtk4::StringObject $string-object;
+my Gnome::Gtk4::StringObject $stringobject;
 
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 subtest 'ISA test', {
-  given $string-object {
+  given $stringobject {
     my Str $string;
 
 #`{{
     #TC:0:new-stringobject()
     $string = 'text';
-    $string-object .= new-stringobject( $string);
+    $stringobject .= new-stringobject( $string);
     ok .is-valid, '.new-stringobject( $string)';
 
 }}
@@ -52,7 +53,7 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
-  with $string-object {
+  with $stringobject {
 
 
 #`{{
@@ -65,7 +66,7 @@ subtest 'Method tests', {
 
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
-  with $string-object {
+  with $stringobject {
 
 
 #`{{
@@ -128,13 +129,13 @@ subtest 'Signals …', {
     }
   }
 
-  my Gnome::Gtk4::StringObject $string-object .= new;
+  my Gnome::Gtk4::StringObject $stringobject .= new;
 
   #my Gnome::Gtk3::Window $w .= new;
   #$w.add($m);
 
   my SignalHandlers $sh .= new;
-  $string-object.register-signal( $sh, 'method', 'signal');
+  $stringobject.register-signal( $sh, 'method', 'signal');
 
   my Promise $p = $i.start-thread(
     $sh, 'signal-emitter',
