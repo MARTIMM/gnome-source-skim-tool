@@ -9,8 +9,6 @@ use v6.d;
 use Test;
 use NativeCall;
 
-
-
 use Gnome::Gtk4::StringList:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -32,13 +30,14 @@ subtest 'ISA test', {
   given $stringlist {
     my gchar-pptr $strings;
 
-#`{{
-    #TC:0:new-stringlist()
-    $strings = '…';
-    $stringlist .= new-stringlist( $strings);
-    ok .is-valid, '.new-stringlist( $strings)';
+    #TC:1:new-stringlist()
+    $strings = CArray[Str].new('a string', '2nd string');
+    $stringlist .= new-stringlist($strings);
+    ok .is-valid, '.new-stringlist($strings)';
 
-}}
+    #TM:1:get-string()
+    is .get-string(0), 'a string', '.get-string(0)';
+    is .get-string(1), '2nd string', '.get-string(1)';
   }
 };
 
@@ -55,18 +54,16 @@ unless %*ENV<raku_test_all>:exists {
 subtest 'Method tests', {
   with $stringlist {
     my gchar-pptr $additions;
-    my guint $position;
-    my Str $string;
+    my guint $position = 0;
+    my Str $string = 'abc';
     my guint $n-removals;
 
+    #TM:1:append()
+    .append('abc');
+    is .get-string(2), 'abc', '.append()';
+    is .get-n-items, 3, 'GIO: g_list_model_get_n_items()';
 
 #`{{
-    #TM:0:append()
-    ok .append( $string), '.append()';
-
-    #TM:0:get-string()
-    is .get-string( $position), '…', '.get-string()';
-
     #TM:0:remove()
     ok .remove( $position), '.remove()';
 

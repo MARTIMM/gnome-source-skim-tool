@@ -10,8 +10,8 @@ use NativeCall;
 
 
 use Gnome::GObject::Object:api<2>;
-use Gnome::Gio::R-ListModel:api<2>;
 use Gnome::Gtk4::R-Buildable:api<2>;
+use Gnome::Gio::R-ListModel:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -49,6 +49,8 @@ submethod BUILD ( *%options ) {
     
     # Signals from interfaces
     self._add_gtk_buildable_signal_types($?CLASS.^name)
+      if self.^can('_add_gtk_buildable_signal_types');
+    self._add_g_list_model_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_buildable_signal_types');
     $signals-added = True;
   }
@@ -124,9 +126,9 @@ method _fallback-v2 (
     ) if self.^can('_do_gtk_buildable_fallback-v2');
     return $r if $_fallback-v2-ok;
 
-    $r = self._do_fallback-v2(
+    $r = self._do_g_list_model_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
-    ) if self.^can('_do_fallback-v2');
+    ) if self.^can('_do_g_list_model_fallback-v2');
     return $r if $_fallback-v2-ok;
 
     callsame;
