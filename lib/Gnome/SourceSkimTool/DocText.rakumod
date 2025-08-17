@@ -267,9 +267,8 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
   my token class { <-[\.\]\s]>+ }
   my token funcname { <-[\]\s]>+  }
   # in some of the source files, the closing bracket ']' is missing.
-  my regex mfunc-regex { '[method@' <package> '.' <class> '.' <funcname> ']'? <|w> }
+  my regex mfunc-regex { '[method@' <package> '.' <class> '.' <funcname> ']'? }
   while $text ~~ m/ <mfunc-regex> / {
-#note "$?LINE $/.gist()";
     $package = $/<mfunc-regex><package>.Str;
     $package = 'G' if $package ~~ any(<Gio GObject Glib>);
     $class = $/<mfunc-regex><class>.Str;
@@ -279,8 +278,8 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
     # Sometimes names of function have a digit after the underscore. Examples
     # are found in Gsk4 'gtk_snapshot_rotate_3d'. It is translated into
     # 'rotate-3d' which is not a legal Raku function name. So, need an extra
-    # test here.
-    $funcname ~~ s:g/ '-' (\d) /$0/ if $funcname ~~ m/ '-' \d /;
+    # test here and translate in e.g. 'rotate3d'.
+    $funcname ~~ s:g/ '-' (\d) /$0/;    # if $funcname ~~ m/ '-' \d /;
 
     if "$package$class".lc eq $*work-data<gnome-name>.lc {
       $text ~~ s/ <mfunc-regex> /C<.$funcname\(\)>/;
@@ -295,7 +294,6 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
 
   my regex cfunc-regex { '[ctor@' <package> '.' <class> '.' <funcname> ']' }
   while $text ~~ m/ <cfunc-regex> / {
-#note "$?LINE $/.gist()";
     $package = $/<cfunc-regex><package>.Str;
     $package = 'G' if $package ~~ any(<Gio GObject Glib>);
     $class = $/<cfunc-regex><class>.Str;
@@ -313,39 +311,6 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
       $text ~~ s/ <cfunc-regex> /C<.$funcname\(\)> in class B<$classname>/;
     }
   }
-
-
-
-#`{{
-  my Str $prefix = $*work-data<name-prefix>;
-  my Str $gname = $*work-data<gnome-name>;
-  $gname ~~ s:i/^ $prefix //;
-
-  # Methods within same module/class
-  while $text ~~ m/ '[method@' $prefix ".$gname." $<func> = <-[\]]>+ ']' / {
-    my Str $func = $/<func>.Str;
-    $func ~~ s:g/ '_' /-/;
-    $text ~~ s/ '[method@' $prefix ".$gname." <-[\]]>+ ']' /C<.$func\(\)>/;
-  }
-
-  # Constructors within same module/class
-  while $text ~~ m/ '[ctor@' $prefix ".$gname." $<func> = <-[\]]>+ ']' / {
-    my Str $func = $/<func>.Str;
-    $func ~~ s:g/ '_' /-/;
-    $func = 'new' ~ $gname.lc if $func eq 'new';
-    $text ~~ s/ '[ctor@' $prefix ".$gname." <-[\]]>+ ']' /C<.$func\(\)>/;
-  }
-
-  # Methods defined elsewhere
-  while $text ~~ m/ '[method@' $prefix '.' $<class> = <-[\.]>+ 
-                                         '.' $<func> = <-[\]]>+ ']' / {
-    my Str $class = $/<class>.Str;
-    my Str $func = $/<func>.Str;
-    $func ~~ s:g/ '_' /-/;
-    $text ~~ s/ '[method@' $prefix '.' <-[\.]>+ '.' <-[\]]>+ ']'
-              /C<.$func\(\) defined in $class>/;
-  }
-}}
 
   $text
 }
@@ -370,7 +335,7 @@ method !modify-v4functions ( Str $text is copy --> Str ) {
 #note "$?LINE $funcname, $package";
     if ?$h {
       my $classname = $!solve.set-object-name($h);
-      $text ~~ s/ <func-regex> /C<.$funcname\(\) in class $classname>/;
+      $text ~~ s/ <func-regex> /C<.$funcname\(\)> in class B<$classname>/;
     }
 
     else {
