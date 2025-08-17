@@ -22,7 +22,7 @@ option from the B<Help> menu. All parts of the dialog are optional.
 =for image :src<asset_files/images/aboutdialog.png> :width<30%> :class<inline>
 
 About dialogs often contain links and email addresses. B<Gnome::Gtk4::AboutDialog>
-displays these as clickable links. By default, it calls C<.launch()> in class C<Gnome::Gtk4::FileLauncher>
+displays these as clickable links. By default, it calls C<.launch()> in class B<Gnome::Gtk4::FileLauncher>
 when a user clicks one. The behaviour can be overridden with the
 I<activate-link> signal.
 
@@ -877,7 +877,7 @@ method set-wrap-license ( Bool() $wrap-license )
 Emitted every time a URL is activated.
 
 Applications may connect to it to override the default behaviour,
-which is to call C<.launch()> in class C<Gnome::Gtk4::FileLauncher>.
+which is to call C<.launch()> in class B<Gnome::Gtk4::FileLauncher>.
 
 =begin code
 method handler (
