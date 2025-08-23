@@ -780,6 +780,15 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 
         EOSIG
 
+note "$?LINE ", qq:to/EOSIG/;
+          Int :\$_handle_id,
+          N-GObject :\$_native-object,
+          $*work-data<raku-class-name> :\$_widget,
+          *\%user-options$rv-method
+        )
+        =end code
+        EOSIG
+
       for @($curr-signal<parameters>) -> $parameter {
         my Str $own = ( ?$parameter<transfer-ownership> and
                         $parameter<transfer-ownership> ne 'none'
