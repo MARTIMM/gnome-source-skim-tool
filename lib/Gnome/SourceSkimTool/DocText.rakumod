@@ -493,7 +493,7 @@ method !modify-word ( Str $text is copy --> Str ) {
 }}
 
 #-------------------------------------------------------------------------------
-# Convert '::sig-name'
+# Convert '#classname::sig-name' or '::sig-name'
 method !modify-signals ( Str $text is copy --> Str ) {
 
   my Str $gnome-name = $*work-data<gnome-name>;
@@ -559,7 +559,7 @@ note "$?LINE $funcname, $classname, $h.gist()";
 #              /C<.new(:\${ S:g/'_'/-/ with $0 })>/;
 
   # Other functions local to this module, remove the sub-prefix and place
-  # a '.' at front. E.g in module Label and package Gtk3 converting
+  # a '.' at front. E.g in module Label and package Gtk* converting
   # 'gtk_label_set_line_wrap()' becomes '.set-line-wrap()'.
   $text ~~ s:g/ $sub-prefix (\w+) '()' /C<.{S:g/'_'/-/ with $0}\(\)>/;
 
@@ -715,7 +715,7 @@ method !modify-rest ( Str $text is copy --> Str ) {
   }
 
   # Other types found like %GTK_ACCESSIBLE_ROLE_LABEL
-  $text ~~ s:g/ '%' (<alpha>+) <|w> /C<$0>/;
+#!!!!!!!!!!!!!!!  $text ~~ s:g/ '%' (<alpha>+) <|w> /C<$0>/;
 
   # Markdown Sections
   $text ~~ s:g/^^ '###' \s+ (\w) /=head4 $0/;
