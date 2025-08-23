@@ -701,7 +701,7 @@ filters the original list to only show the matching rows.
 
 The C<$filter-func> will be called for each row after the call, and
 it will continue to be called each time a row changes (via
-C<.changed()> in class C<Gnome::Gtk4::ListBoxRow>) or when C<.invalidate-filter()>
+C<.changed()> in class B<Gnome::Gtk4::ListBoxRow>) or when C<.invalidate-filter()>
 is called.
 
 Note that using a filter function is incompatible with using a model
@@ -738,8 +738,8 @@ For instance, one could use it to add headers in front of the first item
 of a new kind, in a list sorted by the kind.
 
 The C<$update-header> can look at the current header widget using
-C<.get-header()> in class C<Gnome::Gtk4::ListBoxRow> and either update the state of the widget
-as needed, or set a new one using C<.set-header()> in class C<Gnome::Gtk4::ListBoxRow>. If no
+C<.get-header()> in class B<Gnome::Gtk4::ListBoxRow> and either update the state of the widget
+as needed, or set a new one using C<.set-header()> in class B<Gnome::Gtk4::ListBoxRow>. If no
 header is needed, set the header to undefined.
 
 Note that you may get many calls C<$update-header> to this for a particular
@@ -749,8 +749,8 @@ with an identical one.
 
 The C<$update-header> function will be called for each row after the call,
 and it will continue to be called each time a row changes (via
-C<.changed()> in class C<Gnome::Gtk4::ListBoxRow>) and when the row before changes (either
-by C<.changed()> in class C<Gnome::Gtk4::ListBoxRow> on the previous row, or when the previous
+C<.changed()> in class B<Gnome::Gtk4::ListBoxRow>) and when the row before changes (either
+by C<.changed()> in class B<Gnome::Gtk4::ListBoxRow> on the previous row, or when the previous
 row becomes a different row). It is also called for all rows when
 C<.invalidate-headers()> is called.
 
@@ -847,7 +847,7 @@ the rows of the list, based on the contents of the rows.
 
 The C<$sort-func> will be called for each row after the call, and will
 continue to be called each time a row changes (via
-C<.changed()> in class C<Gnome::Gtk4::ListBoxRow>) and when C<.invalidate-sort()>
+C<.changed()> in class B<Gnome::Gtk4::ListBoxRow>) and when C<.invalidate-sort()>
 is called.
 
 Note that using a sort function is incompatible with using a model
