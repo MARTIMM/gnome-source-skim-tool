@@ -715,7 +715,7 @@ method !modify-rest ( Str $text is copy --> Str ) {
   }
 
   # Other types found like %GTK_ACCESSIBLE_ROLE_LABEL
-#!!!!!!!!!!!!!!!  $text ~~ s:g/ '%' (<alpha>+) <|w> /C<$0>/;
+  $text ~~ s:g/ '%' (<[A..Z_]>) <|w> /C<$0>/;
 
   # Markdown Sections
   $text ~~ s:g/^^ '###' \s+ (\w) /=head4 $0/;
