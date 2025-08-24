@@ -55,8 +55,8 @@ the style of [list presentation](section-list-widget.html#list-styles):
 
 =head2 Accessibility
 
-B<Gnome::Gtk4::ListBox> uses the C<GTK_ACCESSIBLE_ROLE_LIST> role and B<Gnome::Gtk4::ListBoxRow> uses
-the C<GTK_ACCESSIBLE_ROLE_LIST_ITEM> role.
+B<Gnome::Gtk4::ListBox> uses the %GTK_ACCESSIBLE_ROLE_LIST role and B<Gnome::Gtk4::ListBoxRow> uses
+the %GTK_ACCESSIBLE_ROLE_LIST_ITEM role.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/ListBox.png> :width<70%> :class<inline>
@@ -185,7 +185,7 @@ Add a drag highlight to a row.
 
 This is a helper function for implementing DnD onto a B<Gnome::Gtk4::ListBox>.
 The passed in C<$row> will be highlighted by setting the
-C<GTK_STATE_FLAG_DROP_ACTIVE> state and any previously highlighted
+%GTK_STATE_FLAG_DROP_ACTIVE state and any previously highlighted
 row will be unhighlighted.
 
 The row will also be unhighlighted when the widget gets
@@ -925,14 +925,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::ListBox :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListBox> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =begin comment
 
@@ -953,7 +953,7 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::ListBox :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
@@ -964,7 +964,7 @@ method handler (
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListBox> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =begin comment
 
@@ -984,7 +984,7 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::ListBox :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
@@ -992,7 +992,7 @@ method handler (
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListBox> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =begin comment
 
@@ -1007,7 +1007,7 @@ method handler (
 Emitted when a new row is selected, or (with a undefined C<$row>)
 when the selection is cleared.
 
-When the C<$box> is using C<GTK_SELECTION_MULTIPLE>, this signal will not
+When the C<$box> is using %GTK_SELECTION_MULTIPLE, this signal will not
 give you the full picture of selection changes, and you should use
 the I<selected-rows-changed> signal instead.
 
@@ -1017,7 +1017,7 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::ListBox :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
@@ -1025,7 +1025,7 @@ method handler (
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListBox> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =begin comment
 
@@ -1049,14 +1049,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::ListBox :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListBox> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =begin comment
 
@@ -1075,14 +1075,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::ListBox :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListBox> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =begin comment
 
@@ -1099,14 +1099,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::ListBox :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListBox> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =begin comment
 
@@ -1131,14 +1131,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::ListBox :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListBox> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =begin comment
 <!-- language="plain" -->
