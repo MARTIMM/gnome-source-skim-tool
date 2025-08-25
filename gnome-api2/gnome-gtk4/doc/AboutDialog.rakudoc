@@ -34,8 +34,8 @@ To make constructing a B<Gnome::Gtk4::AboutDialog> as convenient as possible, yo
 use the function C<.show-about-dialog()> which constructs and shows
 a dialog and keeps it around so that it can be shown again.
 
-Note that GTK sets a default title of B<_>("About C<s>")` on the dialog
-window (where B<C><s>` is replaced by the name of the application, but in
+Note that GTK sets a default title of B<_>("About %s")` on the dialog
+window (where `%s` is replaced by the name of the application, but in
 order to ensure proper translation of the title, applications should
 set the title property explicitly when constructing a B<Gnome::Gtk4::AboutDialog>,
 as shown in the following example:
@@ -304,7 +304,7 @@ method get-logo (--> N-Object )
 
 Return value; the paintable displayed as
   logo or undefined if the logo is unset or has been set via
-  C<.set-logo-icon-name()>. 
+  B<L<.launch()> in class FileLauncher|/content-docs/api2/reference/Gtk/FileLauncher.html#launch>>. 
 
 =begin comment
 
@@ -885,7 +885,7 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::AboutDialog :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
@@ -894,7 +894,7 @@ method handler (
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::AboutDialog> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 Return value; C<True> if the link has been activated
 

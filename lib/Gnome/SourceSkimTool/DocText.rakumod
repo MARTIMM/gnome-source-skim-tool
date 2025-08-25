@@ -268,6 +268,7 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
   my token funcname { <-[\]\s]>+  }
   # in some of the source files, the closing bracket ']' is missing.
   my regex mfunc-regex { '[method@' <package> '.' <class> '.' <funcname> ']'? }
+
   while $text ~~ m/ <mfunc-regex> / {
     $package = $/<mfunc-regex><package>.Str;
     $package = 'G' if $package ~~ any(<Gio GObject Glib>);
@@ -289,6 +290,7 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
       my Hash $h = $!solve.search-name($package ~ $class);
       my $classname = $!solve.set-object-name($h);
       $text ~~ s/ <mfunc-regex> /C<.$funcname\(\)> in class B<$classname>/;
+$text = self.change-routine-text( $text, &mfunc-regex, $funcname, $class, $package, $classname)
     }
   }
 
@@ -314,6 +316,66 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
 
   $text
 }
+
+#-------------------------------------------------------------------------------
+method change-routine-text (
+  Str $text is copy, Regex $x,
+  Str $routine, Str $class, Str $package, Str $classname
+  --> Str
+) {
+  my Str $file-target =
+    [~] '../MARTIMM.github.io/content-docs/api2/reference/',
+        $package, '/', $class;
+  my Str $url-target =
+    [~] '/content-docs/api2/reference/', $package, '/', $class, '.html';
+
+  # Check if document does not exist
+#  if ".$file-target.html".IO !~~ :r {
+#    $text ~~ s/ $x /C<.$routine\(\)> in class B<$class>/;
+#  }
+
+  # Check if the target points to this doc
+  if $file-target ~~ m/ $class '.rakudoc' $/ {
+    $text ~~ s/ $x 
+              /B<L<.$routine\(\)> in class $class|#$routine>>/;
+#    $contents ~~ s/ 'B<' 'Gnome::' $package '::' $class '>'
+#                  /____\<$classname\>/;
+  }
+
+  else {
+#$text ~~ s/ <mfunc-regex> /C<.$funcname\(\)> in class B<$classname>/;
+    $text ~~ s/ $x 
+              /B<L<.$routine\(\)> in class $class|$url-target#$routine>>/;
+#    $contents ~~ s/ 'B<' 'Gnome::' $package '::' $class '>'
+#                  /U<L<$class|$target>>/;
+  }
+
+  $text
+}
+#`{{
+    while $contents ~~ m/ 'B<' $<class> = ['Gnome::' <-[\>]>* ] '>' / {
+note "$?LINE $/<class>.Str()";
+      my $classname = $/<class>.Str;
+      my Str ( $, $pack, $class ) = $classname.split('::');
+      my Str $target =
+        [~] '/content-docs/api2/reference/', $pack, '/', $class;
+
+note "$?LINE $pack, $class, $target";
+      # Check if document exists or the target points to this doc
+      if ".$target.html".IO !~~ :r or $file ~~ m/ $class '.rakudoc' $/ {
+        $contents ~~ s/ 'B<' 'Gnome::' $pack '::' $class '>'
+                      /____\<$classname\>/;
+      }
+
+      else {
+        $contents ~~ s/ 'B<' 'Gnome::' $pack '::' $class '>'
+                      /U<L<$class|$target>>/;
+      }
+    }
+
+    # Translate back any unreferenced urls
+    $contents ~~ s:g/ '____<' /B\</;
+}}
 
 #-------------------------------------------------------------------------------
 # Convert [func@Gtk.show_uri]
