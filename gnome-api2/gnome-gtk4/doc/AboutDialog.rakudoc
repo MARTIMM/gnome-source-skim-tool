@@ -22,7 +22,7 @@ option from the B<Help> menu. All parts of the dialog are optional.
 =for image :src<asset_files/images/aboutdialog.png> :width<30%> :class<inline>
 
 About dialogs often contain links and email addresses. B<Gnome::Gtk4::AboutDialog>
-displays these as clickable links. By default, it calls C<.launch()> in class B<Gnome::Gtk4::FileLauncher>
+displays these as clickable links. By default, it calls L<.launch() in class FileLauncher|/content-docs/api2/reference/Gtk/FileLauncher#$routine>
 when a user clicks one. The behaviour can be overridden with the
 I<activate-link> signal.
 
@@ -304,7 +304,7 @@ method get-logo (--> N-Object )
 
 Return value; the paintable displayed as
   logo or undefined if the logo is unset or has been set via
-  B<L<.launch()> in class FileLauncher|/content-docs/api2/reference/Gtk/FileLauncher.html#launch>>. 
+  L<.set-logo-icon-name()|#set-logo-icon-name>. 
 
 =begin comment
 
@@ -326,7 +326,7 @@ method get-logo-icon-name (--> Str )
 =end code
 
 Return value; the icon name displayed as logo,
-  or undefined if the logo has been set via C<.set-logo()>. 
+  or undefined if the logo has been set via L<.set-logo()|#set-logo>. 
 
 =begin comment
 
@@ -632,7 +632,7 @@ Sets the license of the application showing the about dialog from a
 list of known licenses.
 
 This function overrides the license set using
-C<.set-license()>.
+L<.set-license()|#set-license>.
 
 =begin code
 method set-license-type ( GtkLicense $license-type )
@@ -877,7 +877,7 @@ method set-wrap-license ( Bool() $wrap-license )
 Emitted every time a URL is activated.
 
 Applications may connect to it to override the default behaviour,
-which is to call C<.launch()> in class B<Gnome::Gtk4::FileLauncher>.
+which is to call L<.launch() in class FileLauncher|/content-docs/api2/reference/Gtk/FileLauncher#$routine>.
 
 =begin code
 method handler (
@@ -892,9 +892,8 @@ method handler (
 
 =item $uri; the URI that is activated.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::AboutDialog> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::AboutDialog> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/G/Object#$routine>.
 
 Return value; C<True> if the link has been activated
 
