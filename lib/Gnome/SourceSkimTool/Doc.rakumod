@@ -780,6 +780,7 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 
         EOSIG
 
+#`{{
 note "$?LINE ", qq:to/EOSIG/;
           Int :\$_handle_id,
           N-GObject :\$_native-object,
@@ -788,7 +789,7 @@ note "$?LINE ", qq:to/EOSIG/;
         )
         =end code
         EOSIG
-
+}}
       for @($curr-signal<parameters>) -> $parameter {
         my Str $own = ( ?$parameter<transfer-ownership> and
                         $parameter<transfer-ownership> ne 'none'
@@ -799,9 +800,8 @@ note "$?LINE ", qq:to/EOSIG/;
 
       $doc ~= qq:to/EOSIG/;
         =item \$_handle_id; The registered event handler id.
-        =item \$_native-object; The native object provided by the Raku object which registered this event. This a native B<$*work-data<raku-class-name>> object.
-        =item \$_widget; The object which registered the signal. User code may have left the object going out of scope.
-        =item \%user-options; A list of named arguments provided at the C<.register-signal\()> method from B<Gnome::GObject::Object>.
+        =item \$_native-object; The native object provided by the Raku object which registered this event. This is a native B<$*work-data<raku-class-name>> object.
+        =item \%user-options; A list of named arguments provided by [method@GObject.Object.register-signal].
         EOSIG
       $doc ~= $returns-doc;
       $doc ~= "\n$ex-key\n";
