@@ -1,4 +1,4 @@
-=comment Package: Gio, C-Source: io
+=comment Package: Gio, C-Source: menu
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -6,6 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 use NativeCall;
+
 
 
 use Gnome::Gio::MenuModel:api<2>;
@@ -36,6 +37,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gio-lib()));
 
@@ -60,26 +62,28 @@ my Hash $methods = %(
   new-menu => %( :type(Constructor), :is-symbol<g_menu_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  append => %(:is-symbol<g_menu_append>,  :parameters([Str, Str])),
-  append-item => %(:is-symbol<g_menu_append_item>,  :parameters([N-Object])),
-  append-section => %(:is-symbol<g_menu_append_section>,  :parameters([Str, N-Object])),
-  append-submenu => %(:is-symbol<g_menu_append_submenu>,  :parameters([Str, N-Object])),
+  append => %(:is-symbol<g_menu_append>, :parameters([Str, Str]), ),
+  append-item => %(:is-symbol<g_menu_append_item>, :parameters([N-Object]), ),
+  append-section => %(:is-symbol<g_menu_append_section>, :parameters([Str, N-Object]), ),
+  append-submenu => %(:is-symbol<g_menu_append_submenu>, :parameters([Str, N-Object]), ),
   freeze => %(:is-symbol<g_menu_freeze>, ),
-  insert => %(:is-symbol<g_menu_insert>,  :parameters([gint, Str, Str])),
-  insert-item => %(:is-symbol<g_menu_insert_item>,  :parameters([gint, N-Object])),
-  insert-section => %(:is-symbol<g_menu_insert_section>,  :parameters([gint, Str, N-Object])),
-  insert-submenu => %(:is-symbol<g_menu_insert_submenu>,  :parameters([gint, Str, N-Object])),
-  prepend => %(:is-symbol<g_menu_prepend>,  :parameters([Str, Str])),
-  prepend-item => %(:is-symbol<g_menu_prepend_item>,  :parameters([N-Object])),
-  prepend-section => %(:is-symbol<g_menu_prepend_section>,  :parameters([Str, N-Object])),
-  prepend-submenu => %(:is-symbol<g_menu_prepend_submenu>,  :parameters([Str, N-Object])),
-  remove => %(:is-symbol<g_menu_remove>,  :parameters([gint])),
+  insert => %(:is-symbol<g_menu_insert>, :parameters([gint, Str, Str]), ),
+  insert-item => %(:is-symbol<g_menu_insert_item>, :parameters([gint, N-Object]), ),
+  insert-section => %(:is-symbol<g_menu_insert_section>, :parameters([gint, Str, N-Object]), ),
+  insert-submenu => %(:is-symbol<g_menu_insert_submenu>, :parameters([gint, Str, N-Object]), ),
+  prepend => %(:is-symbol<g_menu_prepend>, :parameters([Str, Str]), ),
+  prepend-item => %(:is-symbol<g_menu_prepend_item>, :parameters([N-Object]), ),
+  prepend-section => %(:is-symbol<g_menu_prepend_section>, :parameters([Str, N-Object]), ),
+  prepend-submenu => %(:is-symbol<g_menu_prepend_submenu>, :parameters([Str, N-Object]), ),
+  remove => %(:is-symbol<g_menu_remove>, :parameters([gint]), ),
   remove-all => %(:is-symbol<g_menu_remove_all>, ),
 );
 
 #-------------------------------------------------------------------------------
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
-method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
+method _fallback-v2 (
+  Str $name, Bool $_fallback-v2-ok is rw, *@arguments, *%options
+) {
   if $methods{$name}:exists {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
@@ -87,11 +91,11 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
         :library(gio-lib())
       );
 
-      # Check the function name. 
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)
-        )
+        ),
+        |%options
       );
     }
 

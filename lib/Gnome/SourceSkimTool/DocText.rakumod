@@ -668,10 +668,10 @@ method !modify-markdown-links ( Str $text is copy --> Str ) {
 method !modify-classes ( Str $text is copy --> Str ) {
 
 # single letter is matched too easily with many words
-# | [ G <!before [ 'nome' | 'TK' ] > ]
+# | [ G <!before [ 'nome' | 'tk' ] > ]
   my token package {
     <!after ['Gnome::' | '%'] >
-    [ Atk | Gtk | Gdk | Gsk | PangoCairo | Pango | Cairo | G | graphene_
+    [ Atk | Gtk | Gdk | Gsk | PangoCairo | Pango | G | graphene_
     ]
   }
 
