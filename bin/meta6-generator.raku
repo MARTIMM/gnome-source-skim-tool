@@ -7,32 +7,52 @@ use META6;
 # Also make Gui for it to combine this program and lib-content-lister.
 #my @changed = ();
 #my @created = ();
+my Hash $repolib = %(
+  :Gtk4</gnome-gtk4/lib>,
+  :Gdk4</gnome-gdk4/lib>,
+  :Gsk4</gnome-gsk4/lib>,
+  :Graphene</gnome-graphene/lib>,
 
-my Str $api2 = $*HOME ~ '/Languages/Raku/Projects/gnome-source-skim-tool/gnome-api2/';
+  :Glib</gnome-glib/lib>,
+  :Gio</gnome-gio/lib>,
+  :GObject</gnome-gobject/lib>,
 
-check-modules( 'Gtk4',      "$api2/gnome-gtk4/lib");
-check-modules( 'Gdk4',      "$api2/gnome-gdk4/lib");
-check-modules( 'Gsk4',      "$api2/gnome-gsk4/lib");
+  :Pango</gnome-pango/lib>,
+  :GdkPixbuf</gnome-gdkpixbuf/lib>,
 
-check-modules( 'Glib',      "$api2/gnome-glib/lib");
-check-modules( 'Gio',       "$api2/gnome-gio/lib");
-check-modules( 'GObject',   "$api2/gnome-gobject/lib");
+  :N</gnome-native/lib>,
+);
 
-check-modules( 'Pango',     "$api2/gnome-pango/lib");
-check-modules( 'GdkPixbuf', "$api2/gnome-gdkpixbuf/lib");
+sub MAIN ( Str $repo ) {
+  my Str $api2 =
+    $*HOME ~ '/Languages/Raku/Projects/gnome-source-skim-tool/gnome-api2/';
 
-check-modules( 'N',         "$api2/gnome-native/lib");
-check-modules( 'Graphene',  "$api2/gnome-graphene/lib");
+  check-modules( $repo, $api2 ~ $repolib{$repo});
 
-#`{{
-check-modules( 'Cairo',     "$api2/gnome-cairo/lib");
+  #`{{
+  check-modules( 'Gtk4',      "$api2/gnome-gtk4/lib");
+  check-modules( 'Gdk4',      "$api2/gnome-gdk4/lib");
+  check-modules( 'Gsk4',      "$api2/gnome-gsk4/lib");
 
-check-modules( "$api2/gnome-gtk3/lib");
-check-modules( "$api2/gnome-gdk3/lib");
+  check-modules( 'Glib',      "$api2/gnome-glib/lib");
+  check-modules( 'Gio',       "$api2/gnome-gio/lib");
+  check-modules( 'GObject',   "$api2/gnome-gobject/lib");
+
+  check-modules( 'Pango',     "$api2/gnome-pango/lib");
+  check-modules( 'GdkPixbuf', "$api2/gnome-gdkpixbuf/lib");
+
+  check-modules( 'N',         "$api2/gnome-native/lib");
+  check-modules( 'Graphene',  "$api2/gnome-graphene/lib");
+
+  check-modules( 'Cairo',     "$api2/gnome-cairo/lib");
+
+  check-modules( "$api2/gnome-gtk3/lib");
+  check-modules( "$api2/gnome-gdk3/lib");
 
 
-check-modules( "$api2/gnome-atk/lib");
-}}
+  check-modules( "$api2/gnome-atk/lib");
+  }}
+}
 
 #-------------------------------------------------------------------------------
 sub check-modules ( Str $name, Str $cdir ) {
@@ -214,7 +234,7 @@ sub check-module-files ( Str $cdir ) {
 sub check-other-files ( Str $cdir ) {
 
   # Skip all hidden directories like .precomp
-  return if $cdir ~~ m/^ '.' /;
+  return if $cdir ~~ m/ [^ '.' | '/.'] /;
   return unless $cdir.IO.d;
 
   for dir($cdir) -> $f {
