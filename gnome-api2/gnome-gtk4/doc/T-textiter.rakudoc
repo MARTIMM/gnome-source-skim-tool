@@ -12,38 +12,15 @@ use v6.d;
 =begin pod
 =head1 Record N-TextIter
 
-  class N-TextIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+  unit class N-Object is repr('CPointer') is export;
 
-    has gpointer $.dummy1;
-    has gpointer $.dummy2;
-    has gint $.dummy3;
-    has gint $.dummy4;
-    has gint $.dummy5;
-    has gint $.dummy6;
-    has gint $.dummy7;
-    has gint $.dummy8;
-    has gpointer $.dummy9;
-    has gpointer $.dummy10;
-    has gint $.dummy11;
-    has gint $.dummy12;
-    has gint $.dummy13;
-    has gpointer $.dummy14;
-  }
+To initialize just call C<new()> on it before use. For example;
 
-=item dummy1; 
-=item dummy2; 
-=item dummy3; 
-=item dummy4; 
-=item dummy5; 
-=item dummy6; 
-=item dummy7; 
-=item dummy8; 
-=item dummy9; 
-=item dummy10; 
-=item dummy11; 
-=item dummy12; 
-=item dummy13; 
-=item dummy14; 
+  my Gnome::Gtk4::TextBuffer() $tb = $my-text-view-widget.get-buffer;
+  my N-TextIter $t0 .= new;
+  my N-TextIter $te .= new;
+  $tb.get-bounds( $t0, $te);
+  my Str $my-text = $tb.get-text( $t0, $te, False);
 
 =end pod
 
@@ -58,7 +35,7 @@ use v6.d;
 
 Flags affecting how a search is done.
 
-If neither C<GTK_TEXT_SEARCH_VISIBLE_ONLY> nor C<GTK_TEXT_SEARCH_TEXT_ONLY> are
+If neither %GTK_TEXT_SEARCH_VISIBLE_ONLY nor %GTK_TEXT_SEARCH_TEXT_ONLY are
 enabled, the match must be exact; the special 0xFFFC character will match
 embedded paintables or child widgets.
 

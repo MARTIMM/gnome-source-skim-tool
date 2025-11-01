@@ -6,9 +6,6 @@ use v6.d;
 
 use NativeCall;
 
-
-
-
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -40,16 +37,6 @@ class N-TextIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
   has gint $.dummy12;
   has gint $.dummy13;
   has gpointer $.dummy14;
-
-  submethod BUILD (
-    gpointer :$!dummy1, gpointer :$!dummy2, gint :$!dummy3, gint :$!dummy4, gint :$!dummy5, gint :$!dummy6, gint :$!dummy7, gint :$!dummy8, gpointer :$!dummy9, gpointer :$!dummy10, gint :$!dummy11, gint :$!dummy12, gint :$!dummy13, gpointer :$!dummy14, 
-  ) {
-  }
-
-  method COERCE ( $no --> N-TextIter ) {
-    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
-    nativecast( N-TextIter, $no)
-  }
 }
 
 #-------------------------------------------------------------------------------
