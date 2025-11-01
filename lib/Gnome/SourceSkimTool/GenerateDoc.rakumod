@@ -1,3 +1,4 @@
+use v6.d;
 
 =begin pod
 
@@ -49,6 +50,7 @@ method generate-doc ( ) {
 
     next if ?@*gir-type-select and ($_ ~~ none(|@*gir-type-select));
 
+    # First check keys class, interface, record and union
     when 'class' {
       for $!filedata<class>.keys -> $class-name {
         say "\nGenerate documentation for Raku class ", $*work-data<raku-class-name>;
@@ -76,6 +78,7 @@ method generate-doc ( ) {
     }
 
     when 'record' {
+note "$?LINE doc $!filedata<record>.keys()";
       for $!filedata<record>.keys -> $record-name {
         $*gnome-class = $record-name;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
