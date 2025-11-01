@@ -47,17 +47,16 @@ method generate-code ( ) {
 
   for $!filedata.keys {
     # -> $type-name
-#note "$?LINE $_";
 
     next if ?@*gir-type-select and ($_ ~~ none(|@*gir-type-select));
 
     # First check keys class, interface, record and union
     when 'class' {
       for $!filedata<class>.keys -> $class-name {
+        say "\nGenerate code for Raku class ", $*work-data<raku-class-name>;
+
         $*gnome-class = $!filedata<class>{$class-name}<gnome-name>;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
-
-        say "\nGenerate class ", $*work-data<raku-class-name>;
 
         require ::('Gnome::SourceSkimTool::Class');
         my $raku-module = ::('Gnome::SourceSkimTool::Class').new;
@@ -70,7 +69,7 @@ method generate-code ( ) {
         $*gnome-class = $!filedata<interface>{$interface-name}<gnome-name>;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
-        say "\nGenerate role ", $*work-data<raku-class-name>;
+        say "\nGenerate code for Raku role ", $*work-data<raku-class-name>;
 
         require ::('Gnome::SourceSkimTool::Interface');
         my $raku-module = ::('Gnome::SourceSkimTool::Interface').new;
@@ -79,6 +78,7 @@ method generate-code ( ) {
     }
 
     when 'record' {
+note "$?LINE code $!filedata<record>.keys()";
       for $!filedata<record>.keys -> $record-name {
         $*gnome-class = $record-name;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
@@ -94,7 +94,7 @@ method generate-code ( ) {
           )
         );
 }}
-        say "Generate record ", $*work-data<raku-class-name>;
+        say "Generate code for Raku record ", $*work-data<raku-class-name>;
 
         # Generate code using the structure into a 'package-path/*.rakumod' file
         require ::('Gnome::SourceSkimTool::Record');
