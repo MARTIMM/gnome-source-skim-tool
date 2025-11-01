@@ -271,7 +271,7 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
 
   while $text ~~ m/ <mfunc-regex> / {
     $package = $/<mfunc-regex><package>.Str;
-    $package = 'G' if $package ~~ any(<Gio GObject Glib>);
+#    $package = 'G' if $package ~~ any(<Gio GObject Glib>);
     $class = $/<mfunc-regex><class>.Str;
     $funcname = $/<mfunc-regex><funcname>.Str;
     $funcname ~~ s:g/ '_' /-/;
@@ -301,7 +301,7 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
   my regex cfunc-regex { '[ctor@' <package> '.' <class> '.' <funcname> ']' }
   while $text ~~ m/ <cfunc-regex> / {
     $package = $/<cfunc-regex><package>.Str;
-    $package = 'G' if $package ~~ any(<Gio GObject Glib>);
+#    $package = 'G' if $package ~~ any(<Gio GObject Glib>);
     $class = $/<cfunc-regex><class>.Str;
     $funcname = $/<cfunc-regex><funcname>.Str;
     $funcname ~~ s:g/ '_' /-/;
@@ -340,7 +340,7 @@ method change-routine-text (
   
   if ?$class and ?$routine {
     $url-target = [~] '/content-docs/api2/reference/',
-                  $package, '/', $class, '#$routine';
+                  $package, '/', $class, '#', $routine;
     $description = ".$routine\(\) in class $class";
   }
 
@@ -404,6 +404,9 @@ method !modify-v4functions ( Str $text is copy --> Str ) {
 # and interfaces [iface@Gtk.TreeSortable]
 method !modify-v4classes ( Str $text is copy --> Str ) {
 
+  my Str ( $description, $url-target) = ( '', '');
+    my Str ( $package, $class);
+
   # Exception [class@Gsk.CairoNode]. This must be changed in B<Cairo::cairo_t>
   my regex exception { '[' class \@ Gsk \. CairoNode ']' }
   while $text ~~ m/ <exception> / {
@@ -415,25 +418,48 @@ method !modify-v4classes ( Str $text is copy --> Str ) {
   my token prefix { <-[\.\]]>+ }
   my token classname { <-[\]]>+ }
   my regex class1 { '[class@' <prefix> '.' <classname> ']' }
+$text ~~ m/ <class1> /;
+note "$?LINE ", $/.Str;
   while $text ~~ m/ <class1> / {
     my Str $prefix = $/<class1><prefix>.Str;
     my Str $classname = $/<class1><classname>.Str;
     my Hash $h = $!solve.search-name($prefix ~ $classname);
     $classname = $!solve.set-object-name($h);
-    $text ~~ s/ <class1> /B<$classname>/;
+    #$text ~~ s/ <class1> /B<$classname>/;
+note "$?LINE $/.gist()";
+
+    $package = $prefix;
+    $package = 'G' if $package ~~ any(<Gio GObject Glib>);
+
+    $description = $classname;
+    $classname ~~ s/ 'Gnome::' //;
+    $classname ~~ s/ '::'/\//;
+    $url-target = [~] '/content-docs/api2/reference/', $classname;
+    $text ~~ s/ <class1> /L<$description|$url-target>/;
+note "$?LINE $package, $classname, $url-target";
   }
 
   # [class@Button]
   my regex class2 { '[class@' <classname> ']' }
   while $text ~~ m/ <class2> / {
-#note "$?LINE $/.gist()";
+note "$?LINE $/.gist()";
     my Str $classname = $/<class2><classname>.Str;
     my Str $prefix = $*gnome-package.Str;
     $prefix ~~ s/ \d+ $//;
     my Hash $h = $!solve.search-name($prefix ~ $classname);
     $classname = $!solve.set-object-name($h) if ?$h;
 #note "$?LINE $h.gist(), $prefix, $classname";
-    $text ~~ s/ <class2> /B<$classname>/;
+    #$text ~~ s/ <class2> /B<$classname>/;
+
+    $package = $*work-data<name-prefix>;
+#    $package = 'G' if $package ~~ any(<Gio GObject Glib>);
+
+    $description = $classname;
+    $classname ~~ s/ 'Gnome::'//;
+    $classname ~~ s/ '::'/\//;
+    $url-target = [~] '/content-docs/api2/reference/', $classname;
+note "$?LINE $package, $classname, $url-target";
+    $text ~~ s/ <class2> /L<$description|$url-target>/;
   }
 
   # [iface@Gtk.Buildable]
@@ -679,12 +705,12 @@ method !modify-classes ( Str $text is copy --> Str ) {
   my regex class-regex { '#' <package> <classname> }
 
   while $text ~~ m/ <class-regex> / {
-#note "$?LINE $/.gist()\n\n";
+note "$?LINE $/.gist()\n\n";
     my Str $package = $/<class-regex><package>.Str;
     my Str $classname = $/<class-regex><classname>.Str;
 
     my Hash $h = $!solve.search-name($package ~ $classname);
-#note "$?LINE $h.gist()";
+note "$?LINE $h.gist()";
     $classname = ?$h ?? $!solve.set-object-name($h) !! $package ~ $classname;
     $text ~~ s/ <class-regex> /B<$classname>/;
   }
