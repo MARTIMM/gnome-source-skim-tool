@@ -20,17 +20,17 @@ desktop shell integration by exporting actions and menus and manages a
 list of toplevel windows whose life-cycle is automatically tied to the
 life-cycle of your application.
 
-While B<Gnome::Gtk4::Application> works fine with plain B<Gnome::Gtk4::Window>s, it is
-recommended to use it together with B<Gnome::Gtk4::ApplicationWindow>.
+While B<Gnome::Gtk4::Application> works fine with plain L<Gnome::Gtk4::Window|/content-docs/api2/reference/Gtk4/Window>s, it is
+recommended to use it together with L<Gnome::Gtk4::ApplicationWindow|/content-docs/api2/reference/Gtk4/ApplicationWindow>.
 
 =head3 Automatic resources
 
 B<Gnome::Gtk4::Application> will automatically load menus from the B<Gnome::Gtk4::Builder>
 resource located at "gtk/menus.ui", relative to the application's
-resource base path (see C<.set-resource-base-path()> in class C<Gnome::Gio::Application>).
+resource base path (see L<.set-resource-base-path() in class Application|/content-docs/api2/reference/Gio/Application#set-resource-base-path>).
 The menu with the ID "menubar" is taken as the application's
 menubar. Additional menus (most interesting submenus) can be named
-and accessed via C<.get-menu-by-id()> which allows for
+and accessed via L<.get-menu-by-id()|#get-menu-by-id> which allows for
 dynamic population of a part of the menu structure.
 
 Note that automatic resource loading uses the resource base path
@@ -38,18 +38,18 @@ that is set at construction time and will not work if the resource
 base path is changed at a later time.
 
 It is also possible to provide the menubar manually using
-C<.set-menubar()>.
+L<.set-menubar()|#set-menubar>.
 
 B<Gnome::Gtk4::Application> will also automatically setup an icon search path for
 the default icon theme by appending "icons" to the resource base
 path. This allows your application to easily store its icons as
-resources. See C<.add-resource-path()> in class C<Gnome::Gtk4::IconTheme> for more
+resources. See L<.add-resource-path() in class IconTheme|/content-docs/api2/reference/Gtk/IconTheme#add-resource-path> for more
 information.
 
 If there is a resource located at B<gtk>/help-overlay.ui` which
-defines a B<Gnome::Gtk4::ShortcutsWindow> with ID B<help_overlay> then
+defines a L<Gnome::Gtk4::ShortcutsWindow|/content-docs/api2/reference/Gtk4/ShortcutsWindow> with ID B<help_overlay> then
 B<Gnome::Gtk4::Application> associates an instance of this shortcuts window with
-each B<Gnome::Gtk4::ApplicationWindow> and sets up the keyboard accelerator
+each L<Gnome::Gtk4::ApplicationWindow|/content-docs/api2/reference/Gtk4/ApplicationWindow> and sets up the keyboard accelerator
 <kbd>Control</kbd>+<kbd>?</kbd> to open it. To create a menu item that
 displays the shortcuts window, associate the item with the action
 B<win>.show-help-overlay`.
@@ -65,7 +65,7 @@ property) and offers various functionality related to the session
 life-cycle.
 
 An application can block various ways to end the session with
-the C<.inhibit()> function. Typical use cases for
+the L<.inhibit()|#inhibit> function. Typical use cases for
 this kind of inhibiting are long-running, uninterruptible operations,
 such as burning a CD or performing a disk backup. The session
 manager may not honor the inhibitor, but it can be expected to
@@ -168,7 +168,7 @@ property of B<window> to B<application>.
 
 Normally, the connection between the application and the window
 will remain until the window is destroyed, but you can explicitly
-remove it with C<.remove-window()>.
+remove it with L<.remove-window()|#remove-window>.
 
 GTK will keep the B<application> running as long as it has
 any windows.
@@ -311,7 +311,7 @@ Return value; Gets the menu with the
 =head2 get-menubar
 
 Returns the menu model that has been set with
-C<.set-menubar()>.
+L<.set-menubar()|#set-menubar>.
 
 =begin code
 method get-menubar (--> N-Object )
@@ -332,10 +332,10 @@ Return value; the menubar for windows of B<application>.
 =begin pod
 =head2 get-window-by-id
 
-Returns the B<Gnome::Gtk4::ApplicationWindow> with the given ID.
+Returns the L<Gnome::Gtk4::ApplicationWindow|/content-docs/api2/reference/Gtk4/ApplicationWindow> with the given ID.
 
 The ID of a B<Gnome::Gtk4::ApplicationWindow> can be retrieved with
-C<.get-id()> in class C<Gnome::Gtk4::ApplicationWindow>.
+L<.get-id() in class ApplicationWindow|/content-docs/api2/reference/Gtk/ApplicationWindow#get-id>.
 
 =begin code
 method get-window-by-id ( UInt() $id --> N-Object )
@@ -358,7 +358,7 @@ Return value; the window for the given B<id>.
 =begin pod
 =head2 get-windows
 
-Gets a list of the B<Gnome::Gtk4::Window> instances associated with B<application>.
+Gets a list of the L<Gnome::Gtk4::Window|/content-docs/api2/reference/Gtk4/Window> instances associated with B<application>.
 
 The list is sorted by most recently focused window, such that the first
 element is the currently focused window. (Useful for choosing a parent
@@ -398,7 +398,7 @@ Applications should invoke this method when they begin an operation
 that should not be interrupted, such as creating a CD or DVD. The
 types of actions that may be blocked are specified by the B<flags>
 parameter. When the application completes the operation it should
-call C<.uninhibit()> to remove the inhibitor. Note
+call L<.uninhibit()|#uninhibit> to remove the inhibitor. Note
 that an application can have multiple inhibitors, and all of them must
 be individually removed. Inhibitors are also cleared when the
 application exits.
@@ -422,7 +422,7 @@ method inhibit ( N-Object() $window, UInt $flags, Str $reason --> UInt )
   why these operations are inhibited.
 
 Return value; A non-zero cookie that is used to uniquely identify this
-  request. It should be used as an argument to C<.uninhibit()>
+  request. It should be used as an argument to L<.uninhibit()|#uninhibit>
   in order to remove the request. If the platform does not support
   inhibiting or the request failed for some reason, 0 is returned.. 
 
@@ -441,7 +441,7 @@ Return value; A non-zero cookie that is used to uniquely identify this
 
 Lists the detailed action names which have associated accelerators.
 
-See C<.set-accels-for-action()>.
+See L<.set-accels-for-action()|#set-accels-for-action>.
 
 =begin code
 method list-action-descriptions (--> Array[Str] )
@@ -564,7 +564,7 @@ method set-menubar ( N-Object() $menubar )
 
 Removes an inhibitor that has been previously established.
 
-See C<.inhibit()>.
+See L<.inhibit()|#inhibit>.
 
 Inhibitors are also cleared when the application exits.
 
@@ -572,7 +572,7 @@ Inhibitors are also cleared when the application exits.
 method uninhibit ( UInt() $cookie )
 =end code
 
-=item $cookie; a cookie that was returned by C<.inhibit()>.
+=item $cookie; a cookie that was returned by L<.inhibit()|#inhibit>.
 
 =begin comment
 
@@ -597,7 +597,7 @@ Emitted when the session manager is about to end the session.
 
 This signal is only emitted if I<register-session>
 is C<True>. Applications can connect to this signal and call
-C<.inhibit()> with B<GTK_APPLICATION_INHIBIT_LOGOUT>
+L<.inhibit()|#inhibit> with B<GTK_APPLICATION_INHIBIT_LOGOUT>
 to delay the end of the session until state has been saved.
 
 =begin code
@@ -605,14 +605,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Application :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Application> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Application> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -624,8 +623,8 @@ method handler (
 =comment -----------------------------------------------------------------------
 =head3 window-added
 
-Emitted when a B<Gnome::Gtk4::Window> is added to B<application> through
-C<.add-window()>.
+Emitted when a L<Gnome::Gtk4::Window|/content-docs/api2/reference/Gtk4/Window> is added to B<application> through
+L<.add-window()|#add-window>.
 
 =begin code
 method handler (
@@ -633,15 +632,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Application :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
-=item $window; the newly-added B<Gnome::Gtk4::Window>.
+=item $window; the newly-added L<Gnome::Gtk4::Window|/content-docs/api2/reference/Gtk4/Window>.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Application> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Application> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -653,10 +651,10 @@ method handler (
 =comment -----------------------------------------------------------------------
 =head3 window-removed
 
-Emitted when a B<Gnome::Gtk4::Window> is removed from B<application>.
+Emitted when a L<Gnome::Gtk4::Window|/content-docs/api2/reference/Gtk4/Window> is removed from B<application>.
 
 This can happen as a side-effect of the window being destroyed
-or explicitly through C<.remove-window()>.
+or explicitly through L<.remove-window()|#remove-window>.
 
 =begin code
 method handler (
@@ -664,15 +662,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Application :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
-=item $window; the B<Gnome::Gtk4::Window> that is being removed.
+=item $window; the L<Gnome::Gtk4::Window|/content-docs/api2/reference/Gtk4/Window> that is being removed.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Application> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Application> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
