@@ -6,9 +6,9 @@ use Gnome::SourceSkimTool::Code;
 use Gnome::SourceSkimTool::Resolve;
 use Gnome::SourceSkimTool::DocText;
 
+use META6;
 use XML;
 use XML::XPath;
-use META6;
 
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::Doc:auth<github:MARTIMM>;
