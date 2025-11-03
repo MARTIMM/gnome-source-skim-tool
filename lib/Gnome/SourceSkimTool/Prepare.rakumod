@@ -87,7 +87,7 @@ submethod BUILD ( ) {
     }
  }
 
-  self.display-hash( $*work-data, :label<work-data>) if $*verbose;
+  $*work-data<finit>( $*work-data, :label<work-data>) if $*verbose;
 
   note "Prepare for work" if $*verbose;
 }
@@ -339,6 +339,46 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
 
   $work-data<result-code-sections> = $work-data<result-docs> ~ 'code-sections/';
 
+  # Add some usefule functions
+  $work-data<fhelper> =
+      sub ( Int $indent-level is copy, Hash $info ) {
+        for $info.keys.sort -> $k {
+          if $info{$k} ~~ Hash {
+            say '  ' x $indent-level, $k, ':';
+            $indent-level++;
+            $work-data<fhelper>( $indent-level, $info{$k});
+            $indent-level--;
+          }
+
+          elsif $info{$k} ~~ Array {
+            $work-data<fhelper>( $indent-level, %($info.kv));
+          }
+
+          else {
+            say '  ' x $indent-level, $k, ': ', $info{$k}.gist;
+          }
+        }
+      }
+
+  $work-data<finit> =
+      sub ( $info, Str :$label ) {
+        my Int $indent-level = 0;
+        say '';
+        if $info ~~ Array {
+          $work-data<fhelper>( $indent-level, %($info.kv));
+        }
+
+        elsif ?$label {
+          $work-data<fhelper>( $indent-level, %($label => $info));
+        }
+
+        else {
+          $work-data<fhelper>( $indent-level, %(:gen-item($info)));
+        }
+      }
+
+
+
   mkdir $work-data<result-mods>, 0o700 unless $work-data<result-mods>.IO.e;
   mkdir $work-data<result-tests>, 0o700 unless $work-data<result-tests>.IO.e;
 #  mkdir $work-data<result-docs>, 0o700 unless $work-data<result-docs>.IO.e;
@@ -395,6 +435,9 @@ method drop-prefix (
 }
 
 
+
+
+=finish
 #-------------------------------------------------------------------------------
 method display-hash ( $info, :label($label-list) ) {
   my Str $label = $label-list ~~ List ?? $label-list.join(' ') !! $label-list;
