@@ -85,7 +85,7 @@ submethod BUILD ( ) {
       $c ~~ s:g/ (<[A..Z]>) /_$0.lc()/;
       $*work-data<sub-prefix> = [~] $*work-data<name-prefix>, '_', $c, '_';
     }
- }
+  }
 
   $*work-data<finit>( $*work-data, :label<work-data>) if $*verbose;
 
