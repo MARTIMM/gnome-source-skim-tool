@@ -130,7 +130,7 @@ note "$?LINE code $!filedata<record>.keys()";
 
 #  my Bool $first = True;
   # Then check other keys which all go into the T-modulename file
-  my Gnome::SourceSkimTool::Prepare $t-prep; # .= new;
+  #my Gnome::SourceSkimTool::Prepare $t-prep; # .= new;
   for $!filedata.keys -> $gir-type {
     # Records and unions must be seen here to generate a type file when
     # only one of those are available
@@ -159,7 +159,7 @@ note "$?LINE code $!filedata<record>.keys()";
                  !! '';
 
     $*gnome-class = $data<type-name>;
-    $t-prep .= new unless ?$t-prep;
+    #$t-prep .= new unless ?$t-prep;
 #      $t-prep.display-hash( $*work-data, :label('type file data'));
 
 #    my Str $type-name = $data<type-name>;

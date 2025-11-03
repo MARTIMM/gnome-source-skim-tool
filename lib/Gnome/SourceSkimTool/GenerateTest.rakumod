@@ -140,7 +140,7 @@ method generate-test ( ) {
   }
 
   # Other types than handled above are gathered into one test file
-  my Gnome::SourceSkimTool::Prepare $t-prep;  # .= new;
+#  my Gnome::SourceSkimTool::Prepare $t-prep;  # .= new;
   for $!filedata.keys -> $gir-type {
 
     # Records and unions must be seen here to generate a type file when
@@ -152,7 +152,7 @@ method generate-test ( ) {
     # commandline or just do it when there is no preference
     next if ?@*gir-type-select and ($gir-type ~~ none(|@*gir-type-select));
 
-    $t-prep .= new unless ?$t-prep;
+#    $t-prep .= new unless ?$t-prep;
 
     my Hash $data = $!filedata{$gir-type}.values[0];
 #note "$?LINE $gir-type, $*work-data<raku-package>, ", $data.gist;

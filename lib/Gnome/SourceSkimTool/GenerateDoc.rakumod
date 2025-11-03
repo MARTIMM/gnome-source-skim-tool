@@ -128,7 +128,7 @@ note "$?LINE doc $!filedata<record>.keys()";
 
 #  my Bool $first = True;
   my Hash $types-doc = %();
-  my Gnome::SourceSkimTool::Prepare $t-prep; # .= new;
+#  my Gnome::SourceSkimTool::Prepare $t-prep; # .= new;
   for $!filedata.keys.sort -> $gir-type {
     # Records and unions must be seen here to generate a type file when
     # only one of those are available
@@ -149,10 +149,10 @@ note "$?LINE doc $!filedata<record>.keys()";
     $data<package-name> = $*work-data<raku-package>;
 
     $*gnome-class = $data<type-name>;
-    $t-prep .= new unless ?$t-prep;
+#    $t-prep .= new unless ?$t-prep;
 
     $data<package-name> = $*work-data<raku-package>;
-$t-prep.display-hash( $data, :label('type file data'));
+#$t-prep.display-hash( $data, :label('type file data'));
 #note "$?LINE $gir-type, $*work-data<raku-package>";
 
 #    my Str $type-name = $data<type-name>;

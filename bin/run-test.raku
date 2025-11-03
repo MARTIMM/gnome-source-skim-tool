@@ -9,7 +9,7 @@ constant $API2MODS is export = '/home/marcel/Languages/Raku/Projects/gnome-sourc
 
 my Hash $test-location = %(
 #  :Atk<gnome-atk>,
-  :Cairo<gnome-cairo>,
+#  :Cairo<gnome-cairo>,
   :Gtk3<gnome-gtk3>, :Gdk3<gnome-gdk3>,
   :Gtk4<gnome-gtk4>, :Gsk4<gnome-gsk4>, :Gdk4<gnome-gdk4>,
   :GdkPixbuf<gnome-gdkpixbuf>, :Pango<gnome-pango>,
@@ -36,9 +36,11 @@ multi sub MAIN ( Str $distro, Str $t, Bool :$y! ) {
   my Str $test-file;
   $test-file = "$API2MODS/$test-location{$distro}/doc/code-sections/$t.yaml";
   my Hash $h = load-yaml($test-file.IO.slurp);
-  Gnome::SourceSkimTool::Prepare.display-hash(
-    $h, :label<List of example data>
-  );
+  my Gnome::SourceSkimTool::Prepare $p .= new;
+  $*work-data<finit>( $h, :label<List of example data>);
+#  $p.display-hash(
+#    $h, :label<List of example data>
+#  );
 }
 
 #-------------------------------------------------------------------------------
