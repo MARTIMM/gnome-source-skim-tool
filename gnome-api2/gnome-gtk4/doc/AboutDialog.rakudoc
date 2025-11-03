@@ -22,7 +22,7 @@ option from the B<Help> menu. All parts of the dialog are optional.
 =for image :src<asset_files/images/aboutdialog.png> :width<30%> :class<inline>
 
 About dialogs often contain links and email addresses. B<Gnome::Gtk4::AboutDialog>
-displays these as clickable links. By default, it calls L<.launch() in class FileLauncher|/content-docs/api2/reference/Gtk/FileLauncher#launch>
+displays these as clickable links. By default, it calls L<.launch() in class FileLauncher|/content-docs/api2/reference/Gtk4/FileLauncher#launch>
 when a user clicks one. The behaviour can be overridden with the
 I<activate-link> signal.
 
@@ -31,7 +31,7 @@ B<Edgar> Allan Poe <edgar C<$poe>.com>`. To specify a website with a title,
 use a string like B<GTK> team https://www.gtk.org`.
 
 To make constructing a B<Gnome::Gtk4::AboutDialog> as convenient as possible, you can
-use the function C<.show-about-dialog()> which constructs and shows
+use the function L<.show-about-dialog().show-about-dialog() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-aboutdialog#show-about-dialog> which constructs and shows
 a dialog and keeps it around so that it can be shown again.
 
 Note that GTK sets a default title of B<_>("About %s")` on the dialog
@@ -877,7 +877,7 @@ method set-wrap-license ( Bool() $wrap-license )
 Emitted every time a URL is activated.
 
 Applications may connect to it to override the default behaviour,
-which is to call L<.launch() in class FileLauncher|/content-docs/api2/reference/Gtk/FileLauncher#launch>.
+which is to call L<.launch() in class FileLauncher|/content-docs/api2/reference/Gtk4/FileLauncher#launch>.
 
 =begin code
 method handler (
