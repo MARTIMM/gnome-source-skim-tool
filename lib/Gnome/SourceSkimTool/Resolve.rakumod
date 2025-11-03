@@ -129,7 +129,7 @@ method search-name ( Str $name is copy --> Hash ) {
 
   my Hash $h = %();
   for @*map-search-list -> $map-name {
-#note "$?LINE $map-name";
+#note "\n$?LINE $map-name";
     self!check-map($map-name);
 
 #note "$?LINE: Search for $name in map $map-name";
