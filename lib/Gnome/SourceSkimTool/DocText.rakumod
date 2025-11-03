@@ -329,9 +329,11 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
 #-------------------------------------------------------------------------------
 method change-routine-text (
   Str $text is copy, Regex $x, Str :$routine = '',
-  Str :$class = '', Str :$package = '', Str :$classname = ''
+  Str :$class = '', Str :$package is copy = '', Str :$classname = ''
   --> Str
 ) {
+  $package ~= '4' if $package ~~ any(<Gtk Gsk Gdk>);
+
   my Str $file-target =
     [~] '../MARTIMM.github.io/content-docs/api2/reference/',
         $package, '/', $class;
@@ -373,25 +375,39 @@ method !modify-v4functions ( Str $text is copy --> Str ) {
   my token funcname { <-[\]]>+  }
   my regex func-regex { <prelude> <package> '.' <funcname> ']' }
 
+  my Str ( $description, $url-target) = ( '', '');
+
   while $text ~~ m/ <func-regex> / {
-#note $/.gist;
+#note "$?LINE ", $/.gist;
     $package = $/<func-regex><package>.Str;
     $funcname = $/<func-regex><funcname>.Str;
     my Hash $h = $!solve.search-name($funcname);
     $funcname ~~ s:g/ '_' /-/;
-#note "$?LINE $funcname, $package";
+#note "$?LINE $funcname\n", $*work-data<finit>( $*work-data, :label<funcname>);
     if ?$h {
+#note "$?LINE $package\n$h.gist()";
       my $classname = $!solve.set-object-name($h);
-      $text ~~ s/ <func-regex> /C<.$funcname\(\)> in class B<$classname>/;
+      $description = ".$funcname\(\) in class $classname";
+      $url-target = [~] '/content-docs/api2/reference/',
+                    $package, '/T-', $*work-data<raku-name>.lc, '#', $funcname;
+#note "$?LINE $url-target";
+#      $text ~~ s/ <func-regex> /C<.$funcname\(\)> in class B<$classname>/;
+      $text ~~ s/ <func-regex> /L<$description|$url-target>/;
     }
 
     else {
+      $package ~= '4' if $package ~~ any(<Gtk Gsk Gdk>);
+      $description = ".$funcname\(\)";
+      $url-target = [~] '/content-docs/api2/reference/',
+                    $package, '/T-', $*work-data<raku-name>.lc, '#', $funcname;
+#note "$?LINE $url-target";
       if $package.lc eq $*work-data<name-prefix> {
-        $text ~~ s/ <func-regex> /C<.$funcname\(\)>/;
+        $text ~~ s/ <func-regex> /L<$description|$url-target>/;
       }
 
       else {
-        $text ~~ s/ <func-regex> /C<.$funcname\(\) in package Gnome::$package>/;
+        $description ~= ".$funcname\(\) in package Gnome::$package";
+        $text ~~ s/ <func-regex> /L<$description|$url-target>/;
       }
     }
   }
@@ -418,15 +434,15 @@ method !modify-v4classes ( Str $text is copy --> Str ) {
   my token prefix { <-[\.\]]>+ }
   my token classname { <-[\]]>+ }
   my regex class1 { '[class@' <prefix> '.' <classname> ']' }
-$text ~~ m/ <class1> /;
-note "$?LINE ", $/.Str;
+#$text ~~ m/ <class1> /;
+#note "$?LINE ", $/.Str;
   while $text ~~ m/ <class1> / {
     my Str $prefix = $/<class1><prefix>.Str;
     my Str $classname = $/<class1><classname>.Str;
     my Hash $h = $!solve.search-name($prefix ~ $classname);
     $classname = $!solve.set-object-name($h);
     #$text ~~ s/ <class1> /B<$classname>/;
-note "$?LINE $/.gist()";
+#note "$?LINE $/.gist()";
 
     $package = $prefix;
     $package = 'G' if $package ~~ any(<Gio GObject Glib>);
@@ -436,7 +452,7 @@ note "$?LINE $/.gist()";
     $classname ~~ s/ '::'/\//;
     $url-target = [~] '/content-docs/api2/reference/', $classname;
     $text ~~ s/ <class1> /L<$description|$url-target>/;
-note "$?LINE $package, $classname, $url-target";
+#note "$?LINE $package, $classname, $url-target";
   }
 
   # [class@Button]
