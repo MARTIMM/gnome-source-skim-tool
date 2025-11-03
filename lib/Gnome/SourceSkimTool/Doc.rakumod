@@ -344,7 +344,8 @@ method _document-native-subs ( Hash $hcs, Str :$routine-type --> Str ) {
     # test here.
     $native-sub ~~ s:g/ '-' (\d) /$0/ if $native-sub ~~ m/ '-' \d /;
 
-note "$?LINE $curr-function<missing-type>, {$curr-function<missing-type> ?? "\n#`\{\{\n" !! ''}";
+#note "$?LINE $curr-function<missing-type>, {$curr-function<missing-type> ?? "\n#`\{\{\n" !! ''}";
+
     # add-example-code() returns a key
     my Str $ex-key = $!dtxt.add-example-code(qq:to/EOEX/);
 
@@ -520,6 +521,8 @@ method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
   my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>//'';
   my Str ( $rv-doc, $rv-type, $return-raku-type) =
     self.get-doc-type( $rvalue, $xpath, :user-side);
+#note "$?LINE $function-name, $rvalue, $xpath, $rv-type, $return-raku-type";
+
   $missing-type = True if !$return-raku-type or $return-raku-type ~~ /_UA_ $/;
   $return-raku-type ~~ s/ _UA_ $//;
   $return-raku-type ~~ s/ '()' //;
@@ -536,10 +539,15 @@ method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
   for @prmtrs -> $p {
     my Str ( $doc, $type, $raku-type) =
       self.get-doc-type( $p, $xpath, :user-side);
-    $missing-type = True if !$raku-type or $raku-type ~~ /_UA_ $/;
+
+      # Variable lists have a $type of '…' at the end and
+      # $raku-type will be undefined.
+#note "  $?LINE $xpath, $type, $raku-type, ", $type eq '…';
+    $missing-type = True
+      if $type ne '…' and !$raku-type and $raku-type ~~ /_UA_ $/;
     $raku-type //= '';
     $raku-type ~~ s/ _UA_ $//;
-#note "$?LINE $doc, $type, $raku-type, $missing-type" if $function-name eq 'set-draw-func';
+#note "$?LINE $type, $raku-type, $missing-type";
 
     my Hash $attribs = $p.attribs;
     my Str $parameter-name = $!mod.cleanup-id($attribs<name>);
