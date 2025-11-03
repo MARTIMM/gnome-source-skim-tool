@@ -247,7 +247,8 @@ method document-constructors (
 #-------------------------------------------------------------------------------
 method document-native-subs (
   XML::Element $element, XML::XPath $xpath, Str :$routine-type = 'method' 
-  --> Str ) {
+  --> Str
+) {
 
   my Str $ctype = $element.attribs<c:type>//'';
 
@@ -272,7 +273,7 @@ method document-native-subs (
 #-------------------------------------------------------------------------------
 method _document-native-subs ( Hash $hcs, Str :$routine-type --> Str ) {
   my Str $doc = '';
-  
+
   for $hcs.keys.sort -> $native-sub is copy {
     my Hash $curr-function := $hcs{$native-sub};
 
@@ -343,7 +344,7 @@ method _document-native-subs ( Hash $hcs, Str :$routine-type --> Str ) {
     # test here.
     $native-sub ~~ s:g/ '-' (\d) /$0/ if $native-sub ~~ m/ '-' \d /;
 
-#note "$?LINE $curr-function<missing-type>, {$curr-function<missing-type> ?? "\n#`\{\{\n" !! ''}";
+note "$?LINE $curr-function<missing-type>, {$curr-function<missing-type> ?? "\n#`\{\{\n" !! ''}";
     # add-example-code() returns a key
     my Str $ex-key = $!dtxt.add-example-code(qq:to/EOEX/);
 
@@ -504,8 +505,8 @@ method get-native-subs (
 #TODO copied from ::Code. Make this method search for documentation only
 method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
 
-  # Get function name. Sometimes it ends in '-1' which is not a raku id.
-  # This must be converted.
+  # Get function name. Sometimes it ends in '-1' which cannot be a raku id.
+  # That name must be converted.
   my Str $function-name = $!mod.cleanup-id( $e.attribs<name>, :is-function);
 
   # Skip emptied function names. Assumed that those are for internal use.
