@@ -53,13 +53,15 @@ method generate-doc ( ) {
     # First check keys class, interface, record and union
     when 'class' {
       for $!filedata<class>.keys -> $class-name {
-        say "\nGenerate documentation for Raku class ", $*work-data<raku-class-name>;
 
         $*gnome-class = $!filedata<class>{$class-name}<gnome-name>;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
         require ::('Gnome::SourceSkimTool::Class');
         my $raku-module = ::('Gnome::SourceSkimTool::Class').new;
+        
+        say "\nGenerate documentation for Raku class ", 
+            $*work-data<raku-class-name>;
         $raku-module.generate-doc;
       }
     }
@@ -69,10 +71,11 @@ method generate-doc ( ) {
         $*gnome-class = $!filedata<interface>{$interface-name}<gnome-name>;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
-        say "\nGenerate documentation for Raku role ", $*work-data<raku-class-name>;
-
         require ::('Gnome::SourceSkimTool::Interface');
         my $raku-module = ::('Gnome::SourceSkimTool::Interface').new;
+
+        say "\nGenerate documentation for Raku role ", 
+            $*work-data<raku-class-name>;
         $raku-module.generate-doc;
       }
     }
@@ -92,11 +95,12 @@ note "$?LINE doc $!filedata<record>.keys()";
           )
         );
 }}
-        say "\nGenerate documentation for Raku record ", $*work-data<raku-class-name>;
-
         require ::('Gnome::SourceSkimTool::Record');
         my $raku-module = ::('Gnome::SourceSkimTool::Record').new;
         $raku-module.generate-doc;
+
+        say "\nGenerate documentation for Raku record ",
+            $*work-data<raku-class-name>;
         $types-code<record> ~= $raku-module.generate-structure-doc;
       }
     }
