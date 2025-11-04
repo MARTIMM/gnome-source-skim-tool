@@ -447,9 +447,9 @@ method !modify-v4classes ( Str $text is copy --> Str ) {
     $package = $prefix;
     $package = 'G' if $package ~~ any(<Gio GObject Glib>);
 
-    $description = $classname;
     $classname ~~ s/ 'Gnome::' //;
     $classname ~~ s/ '::'/\//;
+    $description = $classname;
     $url-target = [~] '/content-docs/api2/reference/', $classname;
     $text ~~ s/ <class1> /L<$description|$url-target>/;
 #note "$?LINE $package, $classname, $url-target";
@@ -458,7 +458,7 @@ method !modify-v4classes ( Str $text is copy --> Str ) {
   # [class@Button]
   my regex class2 { '[class@' <classname> ']' }
   while $text ~~ m/ <class2> / {
-note "$?LINE $/.gist()";
+#note "$?LINE $/.gist()";
     my Str $classname = $/<class2><classname>.Str;
     my Str $prefix = $*gnome-package.Str;
     $prefix ~~ s/ \d+ $//;
@@ -470,11 +470,11 @@ note "$?LINE $/.gist()";
     $package = $*work-data<name-prefix>;
 #    $package = 'G' if $package ~~ any(<Gio GObject Glib>);
 
-    $description = $classname;
     $classname ~~ s/ 'Gnome::'//;
     $classname ~~ s/ '::'/\//;
+    $description = $classname;
     $url-target = [~] '/content-docs/api2/reference/', $classname;
-note "$?LINE $package, $classname, $url-target";
+#note "$?LINE $package, $classname, $url-target";
     $text ~~ s/ <class2> /L<$description|$url-target>/;
   }
 
@@ -485,7 +485,10 @@ note "$?LINE $package, $classname, $url-target";
     my Str $classname = $/<iface1><classname>.Str;
     my Hash $h = $!solve.search-name($prefix ~ $classname);
     $classname = $!solve.set-object-name($h);
-    $text ~~ s/ <iface1> /B<$classname>/;
+    $description = $classname;
+    $url-target = [~] '/content-docs/api2/reference/', $classname;
+note "$?LINE $package, $classname, $url-target";
+    $text ~~ s/ <iface1> /L<$description|$url-target>/;
   }
 
   $text
