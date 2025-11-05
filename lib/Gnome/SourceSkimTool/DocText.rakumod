@@ -45,9 +45,6 @@ method add-example-code ( Str $example --> Str ) {
 
 #-------------------------------------------------------------------------------
 method modify-text ( Str $file-basename, Str $text is copy --> Str ) {
-#  $ex-counter = 0;
-#  $examples = %();
-
   # Gtk version 4 docs have specifications which differ from previous versions.
   # It uses a spec like e.g. '[enum@Gtk.License]'. GtkLicense is defined with
   # AboutDialog and stored in T-AboutDialog.rakumod. Types being enum, method,
@@ -68,22 +65,15 @@ method modify-text ( Str $file-basename, Str $text is copy --> Str ) {
   
   #   iface     interface name
 
-
   # Then there is;
-  #   `prefix classname`, e.g. `GtkCssSection` (with backticks)
+  #   `prefix classname`, e.g. `GtkCssSection` and `GdkPaintable`
+  #                       (with backticks)
   #   @parameter, e.g. @orientable and @section.
   #   Sometimes the prefix is missing e.g. [method@CssSection.get_parent]
 
-#  my Bool $version4 = ($*gnome-package.Str ~~ m/ 4 || Pango /).Bool;
-
-  # Do not modify text whithin example code. C code is to be changed
-  # later anyway and on other places like in XML examples it must be kept as is.
-#  my Int $ex-counter = 0;
-#  my Hash $examples = %();
-
   # Some types are better specified in version 4 and can be translated better.
   # Properties are not documented but can be referenced from other docs.
-#  if $version4 {
+
 # Seem needed here to ignore error: `Use of Nil in string context`
 CONTROL {
   when CX::Warn {
@@ -421,7 +411,7 @@ method !modify-v4functions ( Str $text is copy --> Str ) {
 method !modify-v4classes ( Str $text is copy --> Str ) {
 
   my Str ( $description, $url-target) = ( '', '');
-    my Str ( $package, $class);
+  my Str ( $package, $class);
 
   # Exception [class@Gsk.CairoNode]. This must be changed in B<Cairo::cairo_t>
   my regex exception { '[' class \@ Gsk \. CairoNode ']' }
@@ -447,9 +437,9 @@ method !modify-v4classes ( Str $text is copy --> Str ) {
     $package = $prefix;
     $package = 'G' if $package ~~ any(<Gio GObject Glib>);
 
+    $description = $classname;
     $classname ~~ s/ 'Gnome::' //;
     $classname ~~ s/ '::'/\//;
-    $description = $classname;
     $url-target = [~] '/content-docs/api2/reference/', $classname;
     $text ~~ s/ <class1> /L<$description|$url-target>/;
 #note "$?LINE $package, $classname, $url-target";
@@ -470,9 +460,9 @@ method !modify-v4classes ( Str $text is copy --> Str ) {
     $package = $*work-data<name-prefix>;
 #    $package = 'G' if $package ~~ any(<Gio GObject Glib>);
 
+    $description = $classname;
     $classname ~~ s/ 'Gnome::'//;
     $classname ~~ s/ '::'/\//;
-    $description = $classname;
     $url-target = [~] '/content-docs/api2/reference/', $classname;
 #note "$?LINE $package, $classname, $url-target";
     $text ~~ s/ <class2> /L<$description|$url-target>/;
@@ -483,9 +473,9 @@ method !modify-v4classes ( Str $text is copy --> Str ) {
   while $text ~~ m/ <iface1> / {
     my Str $prefix = $/<iface1><prefix>.Str;
     my Str $classname = $/<iface1><classname>.Str;
+    $description = $classname;
     my Hash $h = $!solve.search-name($prefix ~ $classname);
     $classname = $!solve.set-object-name($h);
-    $description = $classname;
     $url-target = [~] '/content-docs/api2/reference/', $classname;
 note "$?LINE $package, $classname, $url-target";
     $text ~~ s/ <iface1> /L<$description|$url-target>/;
@@ -807,7 +797,7 @@ method !modify-rest ( Str $text is copy --> Str ) {
   }
 
   # Other types found like %GTK_ACCESSIBLE_ROLE_LABEL
-  $text ~~ s:g/ '%' (<[A..Z_]>) <|w> /C<$0>/;
+  $text ~~ s:g/ '%' (<[A..Z_]>+) <|w> /C<$0>/;
 
   # Markdown Sections
   $text ~~ s:g/^^ '###' \s+ (\w) /=head4 $0/;
@@ -818,10 +808,12 @@ method !modify-rest ( Str $text is copy --> Str ) {
   # Gnome seems to use markdown directly too to say it is a class like
   # `GtkShortcutTrigger` or an enumeration like `PangoEllipsizeMode` and
   # maybe more of that mumbo jumbo.
+  my Str ( $description, $url-target) = ( '', '');
+
   my token name { [<alnum> | '_' ]+ }
   my regex name-regex { '`' <name> '`'? }
   while $text ~~ m/ <name-regex> / {
-#note "$?LINE $/.gist()" if $text ~~ /NULL/;
+note "$?LINE $/.gist()";
     my Str $name = $/<name-regex><name>.Str;
     # Exception when external like cairo_t is used
     if $name ~~ m/ cairo [ '_' <alnum>+ ]? '_t' '*'? / {
@@ -830,12 +822,26 @@ method !modify-rest ( Str $text is copy --> Str ) {
 
     else {
       my Hash $h = $!solve.search-name($name);
-  #note "$?LINE $name, $h.gist()";
+note "$?LINE $name, gir-type: ", $h<gir-type>//'-';
       if ?$h {
         my Str $classname = $!solve.set-object-name($h);
         given $h<gir-type> {
           when 'class' {
-            $text ~~ s/ <name-regex> /B<$classname>/;
+            $description = $classname;
+            $classname ~~ s/ 'Gnome::'//;
+            $classname ~~ s/ '::'/\//;
+            $url-target = [~] '/content-docs/api2/reference/', $classname;
+            $text ~~ s/ <name-regex> /L<$description|$url-target>/;
+#            $text ~~ s/ <name-regex> /B<$classname>/;
+          }
+
+          when 'interface' {
+            $description = $classname;
+            $classname ~~ s/ 'Gnome::'//;
+            $classname ~~ s/ '::'/\//;
+            $url-target = [~] '/content-docs/api2/reference/', $classname;
+            $text ~~ s/ <name-regex> /L<$description|$url-target>/;
+#            $text ~~ s/ <name-regex> /B<$classname>/;
           }
 
           when 'enumeration' {
