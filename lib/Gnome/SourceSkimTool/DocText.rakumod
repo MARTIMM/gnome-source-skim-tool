@@ -330,27 +330,43 @@ method change-routine-text (
 
   my Str ( $description, $url-target) = ( '', '');
   
+  # Routine is in a different class
   if ?$class and ?$routine {
     $url-target = [~] '/content-docs/api2/reference/',
                   $package, '/', $class, '#', $routine;
     $description = ".$routine\(\) in class $class";
   }
 
+  # Routine is in same class
   elsif !$class and ?$routine {
     $url-target = "#$routine";
     $description = ".$routine\(\)";
   }
 
+  # This is only about a class
   elsif ?$class and ?$classname {
-    $url-target = [~] '/content-docs/api2/reference/', $package, '/', $class;
-    $description = $classname;
+    if $classname eq $*work-data<raku-class-name> {
+      $description = $classname;
+    }
+
+    else {
+      $url-target = [~] '/content-docs/api2/reference/', $package, '/', $class;
+      $description = $classname;
+    }
   }
 
 #  !$class and !$routine - should not happen!
 #  else {
 #  }
 
-  $text ~~ s/ $x /L<$description|$url-target>/;
+  if ?$url-target {
+    $text ~~ s/ $x /L<$description|$url-target>/;
+  }
+
+  else {
+    $text ~~ s/ $x /B<$description>/;
+  }
+
   $text
 }
 
@@ -813,7 +829,7 @@ method !modify-rest ( Str $text is copy --> Str ) {
   my token name { [<alnum> | '_' ]+ }
   my regex name-regex { '`' <name> '`'? }
   while $text ~~ m/ <name-regex> / {
-note "$?LINE $/.gist()";
+#note "$?LINE $/.gist()";
     my Str $name = $/<name-regex><name>.Str;
     # Exception when external like cairo_t is used
     if $name ~~ m/ cairo [ '_' <alnum>+ ]? '_t' '*'? / {
@@ -825,23 +841,34 @@ note "$?LINE $/.gist()";
 note "$?LINE $name, gir-type: ", $h<gir-type>//'-';
       if ?$h {
         my Str $classname = $!solve.set-object-name($h);
+note "$?LINE $classname";
         given $h<gir-type> {
           when 'class' {
-            $description = $classname;
-            $classname ~~ s/ 'Gnome::'//;
-            $classname ~~ s/ '::'/\//;
-            $url-target = [~] '/content-docs/api2/reference/', $classname;
-            $text ~~ s/ <name-regex> /L<$description|$url-target>/;
-#            $text ~~ s/ <name-regex> /B<$classname>/;
+            if $classname eq $*work-data<raku-class-name> {
+              $text ~~ s/ <name-regex> /B<$classname>/;
+            }
+
+            else {
+              $description = $classname;
+              $classname ~~ s/ 'Gnome::'//;
+              $classname ~~ s/ '::'/\//;
+              $url-target = [~] '/content-docs/api2/reference/', $classname;
+              $text ~~ s/ <name-regex> /L<$description|$url-target>/;
+            }
           }
 
           when 'interface' {
-            $description = $classname;
-            $classname ~~ s/ 'Gnome::'//;
-            $classname ~~ s/ '::'/\//;
-            $url-target = [~] '/content-docs/api2/reference/', $classname;
-            $text ~~ s/ <name-regex> /L<$description|$url-target>/;
-#            $text ~~ s/ <name-regex> /B<$classname>/;
+            if $classname eq $*work-data<raku-class-name> {
+              $text ~~ s/ <name-regex> /B<$classname>/;
+            }
+
+            else {
+              $description = $classname;
+              $classname ~~ s/ 'Gnome::'//;
+              $classname ~~ s/ '::'/\//;
+              $url-target = [~] '/content-docs/api2/reference/', $classname;
+              $text ~~ s/ <name-regex> /L<$description|$url-target>/;
+            }
           }
 
           when 'enumeration' {
