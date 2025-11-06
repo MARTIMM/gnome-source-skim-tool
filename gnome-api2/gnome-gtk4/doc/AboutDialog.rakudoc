@@ -9,7 +9,7 @@ use v6.d;
 =TITLE Gnome::Gtk4::AboutDialog
 =head1 Description
 
-The L<Gnome::Gtk4::AboutDialog|/content-docs/api2/reference/Gtk4/AboutDialog> offers a simple way to display information about
+The B<Gnome::Gtk4::AboutDialog> offers a simple way to display information about
 a program.
 
 The shown information includes the programs' logo, name, copyright,
@@ -21,7 +21,7 @@ option from the B<Help> menu. All parts of the dialog are optional.
 
 =for image :src<asset_files/images/aboutdialog.png> :width<30%> :class<inline>
 
-About dialogs often contain links and email addresses. L<Gnome::Gtk4::AboutDialog|/content-docs/api2/reference/Gtk4/AboutDialog>
+About dialogs often contain links and email addresses. B<Gnome::Gtk4::AboutDialog>
 displays these as clickable links. By default, it calls L<.launch() in class FileLauncher|/content-docs/api2/reference/Gtk4/FileLauncher#launch>
 when a user clicks one. The behaviour can be overridden with the
 I<activate-link> signal.
@@ -30,14 +30,14 @@ To specify a person with an email address, use a string like
 B<Edgar> Allan Poe <edgar C<$poe>.com>`. To specify a website with a title,
 use a string like B<GTK> team https://www.gtk.org`.
 
-To make constructing a L<Gnome::Gtk4::AboutDialog|/content-docs/api2/reference/Gtk4/AboutDialog> as convenient as possible, you can
+To make constructing a B<Gnome::Gtk4::AboutDialog> as convenient as possible, you can
 use the function L<.show-about-dialog().show-about-dialog() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-aboutdialog#show-about-dialog> which constructs and shows
 a dialog and keeps it around so that it can be shown again.
 
 Note that GTK sets a default title of B<_>("About %s")` on the dialog
 window (where `%s` is replaced by the name of the application, but in
 order to ensure proper translation of the title, applications should
-set the title property explicitly when constructing a L<Gnome::Gtk4::AboutDialog|/content-docs/api2/reference/Gtk4/AboutDialog>,
+set the title property explicitly when constructing a B<Gnome::Gtk4::AboutDialog>,
 as shown in the following example:
 
 =begin code
@@ -60,7 +60,7 @@ $about.hide;  # application returns here when buttons
 
 =head3 CSS nodes
 
-L<Gnome::Gtk4::AboutDialog|/content-docs/api2/reference/Gtk4/AboutDialog> has a single CSS node with the name B<window> and style
+B<Gnome::Gtk4::AboutDialog> has a single CSS node with the name B<window> and style
 class `.aboutdialog`.
 
 =head2 Uml Diagram
@@ -94,7 +94,7 @@ Create an object using a native object from an object of the same type found els
 =begin pod
 =head2 new-aboutdialog
 
-Creates a new L<Gnome::Gtk4::AboutDialog|/content-docs/api2/reference/Gtk4/AboutDialog>.
+Creates a new B<Gnome::Gtk4::AboutDialog>.
 
 =begin code
 method new-aboutdialog ( --> Gnome::Gtk4::AboutDialog )
@@ -761,7 +761,7 @@ $about.set-translator-credits("translator-credits"));
 
 It is a good idea to use the customary B<msgid> “translator-credits”
 for this purpose, since translators will already know the purpose of
-that B<msgid>, and since L<Gnome::Gtk4::AboutDialog|/content-docs/api2/reference/Gtk4/AboutDialog> will detect if “translator-credits”
+that B<msgid>, and since B<Gnome::Gtk4::AboutDialog> will detect if “translator-credits”
 is untranslated and omit translator credits.
 
 =begin code
