@@ -11,7 +11,7 @@ use v6.d;
 
 B<Gnome::Gtk4::AppChooserWidget> is a widget for selecting applications.
 
-It is the main building block for B<Gnome::Gtk4::AppChooserDialog>.
+It is the main building block for L<Gnome::Gtk4::AppChooserDialog|/content-docs/api2/reference/Gtk4/AppChooserDialog>.
 Most applications only need to use the latter; but you can use
 this widget as part of a larger widget if you have special needs.
 
@@ -22,7 +22,7 @@ I<show-recommended>,
 I<show-fallback>,
 I<show-other> and
 I<show-all> properties. See the
-B<Gnome::Gtk4::R-AppChooser> documentation for more information about these
+L<Gnome::Gtk4::AppChooserDialog|/content-docs/api2/reference/Gnome::Gtk4::R-AppChooser> documentation for more information about these
 groups of applications.
 
 To keep track of the selected application, use the
@@ -406,15 +406,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::AppChooserWidget :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
-=item $application; the activated B<Gnome::Gio::R-AppInfo>.
+=item $application; the activated L<Gnome::Gio::R-AppInfo|/content-docs/api2/reference/Gio/R-AppInfo>.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::AppChooserWidget> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::AppChooserWidget> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -434,15 +433,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::AppChooserWidget :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
-=item $application; the selected B<Gnome::Gio::R-AppInfo>.
+=item $application; the selected L<Gnome::Gio::R-AppInfo|/content-docs/api2/reference/Gio/R-AppInfo>.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::AppChooserWidget> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::AppChooserWidget> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

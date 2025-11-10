@@ -9,7 +9,7 @@ use v6.d;
 =TITLE Gnome::Gtk4::AlternativeTrigger
 =head1 Description
 
-A B<Gnome::Gtk4::ShortcutTrigger> that combines two triggers.
+A L<Gnome::Gtk4::ShortcutTrigger|/content-docs/api2/reference/Gtk4/ShortcutTrigger> that combines two triggers.
 
 The B<Gnome::Gtk4::AlternativeTrigger> triggers when either of two trigger.
 
@@ -48,7 +48,7 @@ Create an object using a native object from an object of the same type found els
 =begin pod
 =head2 new-alternativetrigger
 
-Creates a B<Gnome::Gtk4::ShortcutTrigger> that will trigger whenever
+Creates a L<Gnome::Gtk4::ShortcutTrigger|/content-docs/api2/reference/Gtk4/ShortcutTrigger> that will trigger whenever
 either of the two given triggers gets triggered.
 
 Note that nesting is allowed, so if you want more than two
@@ -85,7 +85,7 @@ method new-alternativetrigger ( N-Object() $first, N-Object() $second --> Gnome:
 Gets the first of the two alternative triggers that may
 trigger C<$self>.
 
-C<.get-second()>] will return
+L<.get-second()|#get-second> will return
 the other one.
 
 =begin code
@@ -110,7 +110,7 @@ Return value; the first alternative trigger.
 Gets the second of the two alternative triggers that may
 trigger C<$self>.
 
-C<.get-first()>] will return
+L<.get-first()|#get-first> will return
 the other one.
 
 =begin code

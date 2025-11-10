@@ -15,8 +15,8 @@ The B<Gnome::Gtk4::Adjustment> has an associated lower and upper bound.
 It also contains step and page increments, and a page size.
 
 Adjustments are used within several GTK widgets, including
-B<Gnome::Gtk4::SpinButton>, B<Gnome::Gtk4::Viewport>, B<Gnome::Gtk4::Scrollbar>
-and B<Gnome::Gtk4::Scale>.
+L<Gnome::Gtk4::SpinButton|/content-docs/api2/reference/Gtk4/SpinButton>, L<Gnome::Gtk4::Viewport|/content-docs/api2/reference/Gtk4/Viewport>, L<Gnome::Gtk4::Scrollbar|/content-docs/api2/reference/Gtk4/Scrollbar>
+and L<Gnome::Gtk4::Scale|/content-docs/api2/reference/Gtk4/Scale>.
 
 The B<Gnome::Gtk4::Adjustment> object does not update the value itself. Instead
 it is left up to the owner of the B<Gnome::Gtk4::Adjustment> to control the value.
@@ -122,7 +122,7 @@ Sets all properties of the adjustment at once.
 
 Use this function to avoid multiple emissions of the
 I<changed> signal. See
-C<.set-lower()> for an alternative
+L<.set-lower()|#set-lower> for an alternative
 way of compressing multiple emissions of
 I<changed> into one.
 
@@ -309,7 +309,7 @@ by calling g_object_freeze_notify() and g_object_thaw_notify()
 around the calls to the individual setters.
 
 Alternatively, using a single g_object_set() for all the properties
-to change, or using C<.configure()> has the same effect.
+to change, or using L<.configure()|#configure> has the same effect.
 
 =begin code
 method set-lower ( Num() $lower )
@@ -332,7 +332,7 @@ method set-lower ( Num() $lower )
 
 Sets the page increment of the adjustment.
 
-See C<.set-lower()> about how to compress
+See L<.set-lower()|#set-lower> about how to compress
 multiple emissions of the I<changed>
 signal when setting multiple adjustment properties.
 
@@ -357,7 +357,7 @@ method set-page-increment ( Num() $page-increment )
 
 Sets the page size of the adjustment.
 
-See C<.set-lower()> about how to compress
+See L<.set-lower()|#set-lower> about how to compress
 multiple emissions of the I<changed>
 signal when setting multiple adjustment properties.
 
@@ -382,7 +382,7 @@ method set-page-size ( Num() $page-size )
 
 Sets the step increment of the adjustment.
 
-See C<.set-lower()> about how to compress
+See L<.set-lower()|#set-lower> about how to compress
 multiple emissions of the I<changed>
 signal when setting multiple adjustment properties.
 
@@ -410,7 +410,7 @@ Sets the maximum value of the adjustment.
 Note that values will be restricted by B<upper> - page-size`
 if the page-size property is nonzero.
 
-See C<.set-lower()> about how to compress
+See L<.set-lower()|#set-lower> about how to compress
 multiple emissions of the I<changed>
 signal when setting multiple adjustment properties.
 
@@ -438,7 +438,7 @@ Sets the B<Gnome::Gtk4::Adjustment> value.
 The value is clamped to lie between I<lower>
 and I<upper>.
 
-Note that for adjustments which are used in a B<Gnome::Gtk4::Scrollbar>,
+Note that for adjustments which are used in a L<Gnome::Gtk4::Scrollbar|/content-docs/api2/reference/Gtk4/Scrollbar>,
 the effective range of allowed values goes from
 I<lower> to
 I<upper> - I<page-size>.
@@ -479,14 +479,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Adjustment :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Adjustment> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Adjustment> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -505,14 +504,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Adjustment :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Adjustment> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Adjustment> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

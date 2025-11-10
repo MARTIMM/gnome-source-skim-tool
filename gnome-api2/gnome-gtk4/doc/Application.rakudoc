@@ -25,7 +25,7 @@ recommended to use it together with L<Gnome::Gtk4::ApplicationWindow|/content-do
 
 =head3 Automatic resources
 
-B<Gnome::Gtk4::Application> will automatically load menus from the B<Gnome::Gtk4::Builder>
+B<Gnome::Gtk4::Application> will automatically load menus from the L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder>
 resource located at "gtk/menus.ui", relative to the application's
 resource base path (see L<.set-resource-base-path() in class Application|/content-docs/api2/reference/Gio/Application#set-resource-base-path>).
 The menu with the ID "menubar" is taken as the application's
@@ -43,7 +43,7 @@ L<.set-menubar()|#set-menubar>.
 B<Gnome::Gtk4::Application> will also automatically setup an icon search path for
 the default icon theme by appending "icons" to the resource base
 path. This allows your application to easily store its icons as
-resources. See L<.add-resource-path() in class IconTheme|/content-docs/api2/reference/Gtk/IconTheme#add-resource-path> for more
+resources. See L<.add-resource-path() in class IconTheme|/content-docs/api2/reference/Gtk4/IconTheme#add-resource-path> for more
 information.
 
 If there is a resource located at B<gtk>/help-overlay.ui` which
@@ -112,16 +112,16 @@ Create an object using a native object from an object of the same type found els
 
 Creates a new B<Gnome::Gtk4::Application> instance.
 
-When using B<Gnome::Gtk4::Application>, it is not necessary to call C<.init()>
+When using B<Gnome::Gtk4::Application>, it is not necessary to call L<.init().init() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-application#init>
 manually. It is called as soon as the application gets registered as
 the primary instance.
 
-Concretely, C<.init()> is called in the default handler for the
-B<Gnome::Gio::Application>::startup` signal. Therefore, B<Gnome::Gtk4::Application> subclasses should
-always chain up in their B<Gnome::Gio::Application>::startup` handler before using any GTK
+Concretely, L<.init().init() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-application#init> is called in the default handler for the
+L<Gnome::Gio::Application|/content-docs/api2/reference/Gio/Application>::startup` signal. Therefore, B<Gnome::Gtk4::Application> subclasses should
+always chain up in their L<Gnome::Gio::Application|/content-docs/api2/reference/Gio/Application>::startup` handler before using any GTK
 API.
 
-Note that commandline arguments are not passed to C<.init()>.
+Note that commandline arguments are not passed to L<.init().init() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-application#init>.
 
 If B<application_id> is defined, then it must be valid. See
 B<g_application_id_is_valid>()`.
@@ -161,7 +161,7 @@ Adds a window to B<application>.
 
 This call can only happen after the B<application> has started;
 typically, you should add new application windows in response
-to the emission of the B<Gnome::Gio::Application>::activate` signal.
+to the emission of the L<Gnome::Gio::Application|/content-docs/api2/reference/Gio/Application>::activate` signal.
 
 This call is equivalent to setting the I<application defined in Gnome::Gtk4::Window>
 property of B<window> to B<application>.
@@ -177,7 +177,7 @@ any windows.
 method add-window ( N-Object() $window )
 =end code
 
-=item $window; a B<Gnome::Gtk4::Window>.
+=item $window; a L<Gnome::Gtk4::Window|/content-docs/api2/reference/Gtk4/Window>.
 
 =begin comment
 
@@ -234,13 +234,13 @@ is returned. undefined is never returned.
 
 It is a programmer error to pass an invalid accelerator string.
 
-If you are unsure, check it with C<.accelerator-parse()> first.
+If you are unsure, check it with L<.accelerator-parse().accelerator-parse() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-application#accelerator-parse> first.
 
 =begin code
 method get-actions-for-accel ( Str $accel --> Array[Str] )
 =end code
 
-=item $accel; an accelerator that can be parsed by C<.accelerator-parse()>.
+=item $accel; an accelerator that can be parsed by L<.accelerator-parse().accelerator-parse() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-application#accelerator-parse>.
 
 Return value; a actions array for B<accel>. 
 
@@ -334,8 +334,8 @@ Return value; the menubar for windows of B<application>.
 
 Returns the L<Gnome::Gtk4::ApplicationWindow|/content-docs/api2/reference/Gtk4/ApplicationWindow> with the given ID.
 
-The ID of a B<Gnome::Gtk4::ApplicationWindow> can be retrieved with
-L<.get-id() in class ApplicationWindow|/content-docs/api2/reference/Gtk/ApplicationWindow#get-id>.
+The ID of a L<Gnome::Gtk4::ApplicationWindow|/content-docs/api2/reference/Gtk4/ApplicationWindow> can be retrieved with
+L<.get-id() in class ApplicationWindow|/content-docs/api2/reference/Gtk4/ApplicationWindow#get-id>.
 
 =begin code
 method get-window-by-id ( UInt() $id --> N-Object )
@@ -372,7 +372,7 @@ deletion.
 method get-windows (--> N-List )
 =end code
 
-Return value; a B<Gnome::Glib::N-List> of B<Gnome::Gtk4::Window>
+Return value; a B<Gnome::Glib::N-List> of L<Gnome::Gtk4::Window|/content-docs/api2/reference/Gtk4/Window>
   instances. 
 
 =begin comment
@@ -416,7 +416,7 @@ this window to find out more about why the action is inhibited.
 method inhibit ( N-Object() $window, UInt $flags, Str $reason --> UInt )
 =end code
 
-=item $window; a B<Gnome::Gtk4::Window>.
+=item $window; a L<Gnome::Gtk4::Window|/content-docs/api2/reference/Gtk4/Window>.
 =item $flags; what types of actions should be inhibited.
 =item $reason; a short, human-readable string that explains
   why these operations are inhibited.
@@ -475,7 +475,7 @@ function, if B<window> was the last window of the B<application>.
 method remove-window ( N-Object() $window )
 =end code
 
-=item $window; a B<Gnome::Gtk4::Window>.
+=item $window; a L<Gnome::Gtk4::Window|/content-docs/api2/reference/Gtk4/Window>.
 
 =begin comment
 
@@ -509,7 +509,7 @@ method set-accels-for-action ( Str $detailed-action-name, Array[Str] $accels )
 =item $detailed-action-name; a detailed action name, specifying an action
   and target to associate accelerators with.
 =item $accels; a list of accelerators in the format
-  understood by C<.accelerator-parse()>.
+  understood by L<.accelerator-parse().accelerator-parse() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-application#accelerator-parse>.
 
 =begin comment
 
@@ -529,7 +529,7 @@ Sets or unsets the menubar for windows of B<application>.
 This is a menubar in the traditional sense.
 
 This can only be done in the primary instance of the application,
-after it has been registered. B<Gnome::Gio::Application>::startup` is a good place
+after it has been registered. L<Gnome::Gio::Application|/content-docs/api2/reference/Gio/Application>::startup` is a good place
 to call this.
 
 Depending on the desktop environment, this may appear at the top of
@@ -540,14 +540,14 @@ Other environments treat the two as completely separate — for example,
 the application menu may be rendered by the desktop shell while the
 menubar (if set) remains in each individual window.
 
-Use the base B<Gnome::Gio::R-ActionMap> interface to add actions, to respond to the
+Use the base L<Gnome::Gio::R-ActionMap|/content-docs/api2/reference/Gio/R-ActionMap> interface to add actions, to respond to the
 user selecting these menu items.
 
 =begin code
 method set-menubar ( N-Object() $menubar )
 =end code
 
-=item $menubar; a B<Gnome::Gio::MenuModel>.
+=item $menubar; a L<Gnome::Gio::MenuModel|/content-docs/api2/reference/Gio/MenuModel>.
 
 =begin comment
 

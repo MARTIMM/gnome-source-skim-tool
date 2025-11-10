@@ -9,18 +9,18 @@ use v6.d;
 =TITLE Gnome::Gtk4::AppChooserDialog
 =head1 Description
 
-B<Gnome::Gtk4::AppChooserDialog> shows a B<Gnome::Gtk4::AppChooserWidget> inside a B<Gnome::Gtk4::Dialog>.
+B<Gnome::Gtk4::AppChooserDialog> shows a L<Gnome::Gtk4::AppChooserWidget|/content-docs/api2/reference/Gtk4/AppChooserWidget> inside a L<Gnome::Gtk4::Dialog|/content-docs/api2/reference/Gtk4/Dialog>.
 
 =for image :src<asset_files/images/appchooserdialog.png> :width<30%> :class<inline>
 
 Note that B<Gnome::Gtk4::AppChooserDialog> does not have any interesting methods
-of its own. Instead, you should get the embedded B<Gnome::Gtk4::AppChooserWidget>
-using C<.get-widget()> and call its methods if
-the generic B<Gnome::Gtk4::R-AppChooser> interface is not sufficient for
+of its own. Instead, you should get the embedded L<Gnome::Gtk4::AppChooserWidget|/content-docs/api2/reference/Gtk4/AppChooserWidget>
+using L<.get-widget()|#get-widget> and call its methods if
+the generic L<|/content-docs/api2/reference/Gnome::Gtk4::R-AppChooser> interface is not sufficient for
 your needs.
 
-To set the heading that is shown above the B<Gnome::Gtk4::AppChooserWidget>,
-use C<.set-heading()>.
+To set the heading that is shown above the L<Gnome::Gtk4::AppChooserWidget|/content-docs/api2/reference/Gtk4/AppChooserWidget>,
+use L<.set-heading()|#set-heading>.
 
 =head3 CSS nodes
 
@@ -64,7 +64,7 @@ Create an object using a native object from an object of the same type found els
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Creates a new B<Gnome::Gtk4::AppChooserDialog> for the provided B<Gnome::Gio::R-File>.
+Creates a new B<Gnome::Gtk4::AppChooserDialog> for the provided L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File>.
 
 The dialog will show applications that can open the file.
 
@@ -72,9 +72,9 @@ The dialog will show applications that can open the file.
 method new-appchooserdialog ( N-Object() $parent, UInt $flags, N-Object() $file --> Gnome::Gtk4::AppChooserDialog )
 =end code
 
-=item $parent; a B<Gnome::Gtk4::Window>.
+=item $parent; a L<Gnome::Gtk4::Window|/content-docs/api2/reference/Gtk4/Window>.
 =item $flags; flags for this dialog.
-=item $file; a B<Gnome::Gio::R-File>.
+=item $file; a L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File>.
 
 =begin comment
 
@@ -99,7 +99,7 @@ The dialog will show applications that can open the content type.
 method new-for-content-type ( N-Object() $parent, UInt $flags, Str $content-type --> Gnome::Gtk4::AppChooserDialog )
 =end code
 
-=item $parent; a B<Gnome::Gtk4::Window>.
+=item $parent; a L<Gnome::Gtk4::Window|/content-docs/api2/reference/Gtk4/Window>.
 =item $flags; flags for this dialog.
 =item $content-type; a content type string.
 
@@ -150,13 +150,13 @@ Return value; the text to display at the top of the dialog,
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Returns the B<Gnome::Gtk4::AppChooserWidget> of this dialog.
+Returns the L<Gnome::Gtk4::AppChooserWidget|/content-docs/api2/reference/Gtk4/AppChooserWidget> of this dialog.
 
 =begin code
 method get-widget (--> N-Object )
 =end code
 
-Return value; the B<Gnome::Gtk4::AppChooserWidget> of C<$self>. 
+Return value; the L<Gnome::Gtk4::AppChooserWidget|/content-docs/api2/reference/Gtk4/AppChooserWidget> of C<$self>. 
 
 =begin comment
 

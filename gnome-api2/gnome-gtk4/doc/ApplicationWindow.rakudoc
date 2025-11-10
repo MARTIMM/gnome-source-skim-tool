@@ -9,22 +9,22 @@ use v6.d;
 =TITLE Gnome::Gtk4::ApplicationWindow
 =head1 Description
 
-B<Gnome::Gtk4::ApplicationWindow> is a B<Gnome::Gtk4::Window> subclass that integrates with
-B<Gnome::Gtk4::Application>.
+B<Gnome::Gtk4::ApplicationWindow> is a L<Gnome::Gtk4::Window|/content-docs/api2/reference/Gtk4/Window> subclass that integrates with
+L<Gnome::Gtk4::Application|/content-docs/api2/reference/Gtk4/Application>.
 
 Notably, B<Gnome::Gtk4::ApplicationWindow> can handle an application menubar.
 
-This class implements the B<Gnome::Gio::R-ActionGroup> and B<Gnome::Gio::R-ActionMap> interfaces,
+This class implements the L<Gnome::Gio::R-ActionGroup|/content-docs/api2/reference/Gio/R-ActionGroup> and L<Gnome::Gio::R-ActionMap|/content-docs/api2/reference/Gio/R-ActionMap> interfaces,
 to let you add window-specific actions that will be exported by the
-associated B<Gnome::Gtk4::Application>, together with its application-wide
+associated L<Gnome::Gtk4::Application|/content-docs/api2/reference/Gtk4/Application>, together with its application-wide
 actions. Window-specific actions are prefixed with the “win.”
 prefix and application-wide actions are prefixed with the “app.”
 prefix. Actions must be addressed with the prefixed name when
-referring to them from a B<Gnome::Gio::MenuModel>.
+referring to them from a L<Gnome::Gio::MenuModel|/content-docs/api2/reference/Gio/MenuModel>.
 
 Note that widgets that are placed inside a B<Gnome::Gtk4::ApplicationWindow>
 can also activate these actions, if they implement the
-B<Gnome::Gtk4::R-Actionable> interface.
+L<Gnome::Gtk4::Application|/content-docs/api2/reference/Gnome::Gtk4::R-Actionable> interface.
 
 The settings I<gtk-shell-shows-app-menu defined in Gnome::Gtk4::Settings> and
 I<gtk-shell-shows-menubar defined in Gnome::Gtk4::Settings> tell GTK whether the
@@ -41,15 +41,15 @@ desktop environment does not display the application menu, then
 it will automatically be included in the menubar or in the windows
 client-side decorations.
 
-See B<Gnome::Gtk4::PopoverMenu> for information about the XML language
-used by B<Gnome::Gtk4::Builder> for menu models.
+See L<Gnome::Gtk4::PopoverMenu|/content-docs/api2/reference/Gtk4/PopoverMenu> for information about the XML language
+used by L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder> for menu models.
 
-See also: C<.set-menubar()> in class C<Gnome::Gtk4::Application>.
+See also: L<.set-menubar() in class Application|/content-docs/api2/reference/Gtk4/Application#set-menubar>.
 
 =head3 A GtkApplicationWindow with a menubar
 
 The code sample below shows how to set up a B<Gnome::Gtk4::ApplicationWindow>
-with a menu bar defined on the B<Gnome::Gtk4::Application>:
+with a menu bar defined on the L<Gnome::Gtk4::Application|/content-docs/api2/reference/Gtk4/Application>:
 
 =begin code
 my Gnome::Gtk4::Application $app .= new-application( "org.gtk.test", 0);
@@ -118,7 +118,7 @@ Creates a new B<Gnome::Gtk4::ApplicationWindow>.
 method new-applicationwindow ( N-Object() $application --> Gnome::Gtk4::ApplicationWindow )
 =end code
 
-=item $application; a B<Gnome::Gtk4::Application>.
+=item $application; a L<Gnome::Gtk4::Application|/content-docs/api2/reference/Gtk4/Application>.
 
 =begin comment
 
@@ -141,9 +141,9 @@ method new-applicationwindow ( N-Object() $application --> Gnome::Gtk4::Applicat
 =begin pod
 =head2 get-help-overlay
 
-Gets the B<Gnome::Gtk4::ShortcutsWindow> that is associated with C<$window>.
+Gets the L<Gnome::Gtk4::ShortcutsWindow|/content-docs/api2/reference/Gtk4/ShortcutsWindow> that is associated with C<$window>.
 
-See C<.set-help-overlay()>.
+See L<.set-help-overlay()|#set-help-overlay>.
 
 =begin code
 method get-help-overlay (--> N-Object )
@@ -167,14 +167,14 @@ Return value; the help overlay associated
 
 Returns the unique ID of the window.
 
- If the window has not yet been added to a B<Gnome::Gtk4::Application>, returns B<0>.
+ If the window has not yet been added to a L<Gnome::Gtk4::Application|/content-docs/api2/reference/Gtk4/Application>, returns B<0>.
 
 =begin code
 method get-id (--> UInt )
 =end code
 
 Return value; the unique ID for C<$window>, or B<0> if the window
-  has not yet been added to a B<Gnome::Gtk4::Application>. 
+  has not yet been added to a L<Gnome::Gtk4::Application|/content-docs/api2/reference/Gtk4/Application>. 
 
 =begin comment
 
@@ -221,7 +221,7 @@ B<win>.show-help-overlay` to present it.
 method set-help-overlay ( N-Object() $help-overlay )
 =end code
 
-=item $help-overlay; a B<Gnome::Gtk4::ShortcutsWindow>.
+=item $help-overlay; a L<Gnome::Gtk4::ShortcutsWindow|/content-docs/api2/reference/Gtk4/ShortcutsWindow>.
 
 =begin comment
 

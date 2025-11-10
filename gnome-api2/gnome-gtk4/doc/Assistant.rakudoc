@@ -26,19 +26,19 @@ If you have a case that doesn’t quite fit in B<Gnome::Gtk4::Assistant>s way of
 handling buttons, you can use the C<GTK_ASSISTANT_PAGE_CUSTOM> page
 type and handle buttons yourself.
 
-B<Gnome::Gtk4::Assistant> maintains a B<Gnome::Gtk4::AssistantPage> object for each added
+B<Gnome::Gtk4::Assistant> maintains a L<Gnome::Gtk4::AssistantPage|/content-docs/api2/reference/Gtk4/AssistantPage> object for each added
 child, which holds additional per-child properties. You
-obtain the B<Gnome::Gtk4::AssistantPage> for a child with C<.get-page()>.
+obtain the L<Gnome::Gtk4::AssistantPage|/content-docs/api2/reference/Gtk4/AssistantPage> for a child with L<.get-page()|#get-page>.
 
 =head2 GtkAssistant as GtkBuildable
 
-The B<Gnome::Gtk4::Assistant> implementation of the B<Gnome::Gtk4::R-Buildable> interface
+The B<Gnome::Gtk4::Assistant> implementation of the L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/Gtk4/R-Buildable> interface
 exposes the C<$action-area> as internal children with the name
 “action_area”.
 
-To add pages to an assistant in B<Gnome::Gtk4::Builder>, simply add it as a
+To add pages to an assistant in L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder>, simply add it as a
 child to the B<Gnome::Gtk4::Assistant> object. If you need to set per-object
-properties, create a B<Gnome::Gtk4::AssistantPage> object explicitly, and
+properties, create a L<Gnome::Gtk4::AssistantPage|/content-docs/api2/reference/Gtk4/AssistantPage> object explicitly, and
 set the child widget as a property on it.
 
 =head2 CSS nodes
@@ -118,7 +118,7 @@ Adds a widget to the action area of a B<Gnome::Gtk4::Assistant>.
 method add-action-widget ( N-Object() $child )
 =end code
 
-=item $child; a B<Gnome::Gtk4::Widget>.
+=item $child; a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>.
 
 =begin comment
 
@@ -141,7 +141,7 @@ Appends a page to the C<$assistant>.
 method append-page ( N-Object() $page --> Int )
 =end code
 
-=item $page; a B<Gnome::Gtk4::Widget>.
+=item $page; a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>.
 
 Return value; the index (starting at 0) of the inserted page. 
 
@@ -265,7 +265,7 @@ Return value; the child widget, or undefined
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Returns the B<Gnome::Gtk4::AssistantPage> object for C<$child>.
+Returns the L<Gnome::Gtk4::AssistantPage|/content-docs/api2/reference/Gtk4/AssistantPage> object for C<$child>.
 
 =begin code
 method get-page ( N-Object() $child --> N-Object )
@@ -273,7 +273,7 @@ method get-page ( N-Object() $child --> N-Object )
 
 =item $child; a child of C<$assistant>.
 
-Return value; the B<Gnome::Gtk4::AssistantPage> for C<$child>. 
+Return value; the L<Gnome::Gtk4::AssistantPage|/content-docs/api2/reference/Gtk4/AssistantPage> for C<$child>. 
 
 =begin comment
 
@@ -394,7 +394,7 @@ Inserts a page in the C<$assistant> at a given position.
 method insert-page ( N-Object() $page, Int() $position --> Int )
 =end code
 
-=item $page; a B<Gnome::Gtk4::Widget>.
+=item $page; a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>.
 =item $position; the index (starting at 0) at which to insert the page,
   or -1 to append the page to the C<$assistant>.
 
@@ -448,7 +448,7 @@ Prepends a page to the C<$assistant>.
 method prepend-page ( N-Object() $page --> Int )
 =end code
 
-=item $page; a B<Gnome::Gtk4::Widget>.
+=item $page; a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>.
 
 Return value; the index (starting at 0) of the inserted page. 
 
@@ -500,7 +500,7 @@ Removes a widget from the action area of a B<Gnome::Gtk4::Assistant>.
 method remove-action-widget ( N-Object() $child )
 =end code
 
-=item $child; a B<Gnome::Gtk4::Widget>.
+=item $child; a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>.
 
 =begin comment
 
@@ -733,14 +733,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Assistant :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Assistant> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Assistant> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -759,14 +758,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Assistant :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Assistant> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Assistant> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -787,14 +785,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Assistant :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Assistant> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Assistant> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -813,14 +810,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Assistant :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Assistant> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Assistant> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -844,15 +840,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Assistant :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $page; the current page.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Assistant> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Assistant> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

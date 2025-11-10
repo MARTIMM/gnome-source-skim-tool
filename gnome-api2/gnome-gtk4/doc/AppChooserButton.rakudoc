@@ -23,10 +23,10 @@ the recommended applications for the given content type. When
 I<show-default-item> is set, the default
 application is also included. To let the user chooser other applications,
 you can set the I<show-dialog-item> property,
-which allows to open a full B<Gnome::Gtk4::AppChooserDialog>.
+which allows to open a full L<Gnome::Gtk4::AppChooserDialog|/content-docs/api2/reference/Gtk4/AppChooserDialog>.
 
 It is possible to add custom items to the list, using
-C<.append-custom-item()>. These items cause
+L<.append-custom-item()|#append-custom-item>. These items cause
 the I<custom-item-activated> signal to be
 emitted when they are selected.
 
@@ -114,7 +114,7 @@ provided name as a detail for the
 I<custom-item-activated> signal, to add a
 callback for the activation of a particular custom item in the list.
 
-See also C<.append-separator()>.
+See also L<.append-separator()|#append-separator>.
 
 =begin code
 method append-custom-item ( Str $name, Str $label, N-Object() $icon )
@@ -233,7 +233,7 @@ Return value; the value of I<show-default-item>.
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns whether the dropdown menu shows an item
-for a B<Gnome::Gtk4::AppChooserDialog>.
+for a L<Gnome::Gtk4::AppChooserDialog|/content-docs/api2/reference/Gtk4/AppChooserDialog>.
 
 =begin code
 method get-show-dialog-item (--> Bool )
@@ -258,9 +258,9 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 
 Selects a custom item.
 
-See C<.append-custom-item()>.
+See L<.append-custom-item()|#append-custom-item>.
 
-Use C<.refresh()> in class C<Gnome::Gtk4::R-AppChooser> to bring the selection
+Use L<.refresh() in class AppChooser|/content-docs/api2/reference/Gtk4/AppChooser#refresh> to bring the selection
 to its initial state.
 
 =begin code
@@ -357,7 +357,7 @@ method set-show-default-item ( Bool() $setting )
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets whether the dropdown menu of this button should show an
-entry to trigger a B<Gnome::Gtk4::AppChooserDialog>.
+entry to trigger a L<Gnome::Gtk4::AppChooserDialog|/content-docs/api2/reference/Gtk4/AppChooserDialog>.
 
 =begin code
 method set-show-dialog-item ( Bool() $setting )
@@ -394,14 +394,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::AppChooserButton :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::AppChooserButton> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::AppChooserButton> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -420,14 +419,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::AppChooserButton :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::AppChooserButton> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::AppChooserButton> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -441,7 +439,7 @@ method handler (
 
 Emitted when a custom item is activated.
 
-Use C<.append-custom-item()>,
+Use L<.append-custom-item()|#append-custom-item>,
 to add custom items.
 
 =begin code
@@ -450,15 +448,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::AppChooserButton :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $item-name; the name of the activated item.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::AppChooserButton> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::AppChooserButton> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
