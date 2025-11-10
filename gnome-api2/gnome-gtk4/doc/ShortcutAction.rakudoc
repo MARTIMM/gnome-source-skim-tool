@@ -18,24 +18,24 @@ to end users as well as being printed for debugging.
 All B<GtkShortcutActions> are immutable, you can only specify their
 properties during construction. If you want to change a action, you
 have to replace it with a new one. If you need to pass arguments to
-an action, these are specified by the higher-level B<Gnome::Gtk4::Shortcut> object.
+an action, these are specified by the higher-level L<Gnome::Gtk4::Shortcut|/content-docs/api2/reference/Gtk4/Shortcut> object.
 
-To activate a B<Gnome::Gtk4::ShortcutAction> manually, C<.activate()>]
+To activate a B<Gnome::Gtk4::ShortcutAction> manually, L<.activate()|#activate>
 can be called.
 
 GTK provides various actions:
 
-=item B<Gnome::Gtk4::MnemonicAction>: a shortcut action that calls
+=item L<Gnome::Gtk4::MnemonicAction|/content-docs/api2/reference/Gtk4/MnemonicAction>: a shortcut action that calls
    gtk_widget_mnemonic_activate()
-=item B<Gnome::Gtk4::CallbackAction>: a shortcut action that invokes
+=item L<Gnome::Gtk4::CallbackAction|/content-docs/api2/reference/Gtk4/CallbackAction>: a shortcut action that invokes
    a given callback
-=item B<Gnome::Gtk4::SignalAction>: a shortcut action that emits a
+=item L<Gnome::Gtk4::SignalAction|/content-docs/api2/reference/Gtk4/SignalAction>: a shortcut action that emits a
    given signal
-=item B<Gnome::Gtk4::ActivateAction>: a shortcut action that calls
+=item L<Gnome::Gtk4::ActivateAction|/content-docs/api2/reference/Gtk4/ActivateAction>: a shortcut action that calls
    gtk_widget_activate()
-=item B<Gnome::Gtk4::NamedAction>: a shortcut action that calls
+=item L<Gnome::Gtk4::NamedAction|/content-docs/api2/reference/Gtk4/NamedAction>: a shortcut action that calls
    gtk_widget_activate_action()
-=item B<Gnome::Gtk4::NothingAction>: a shortcut action that does nothing
+=item L<Gnome::Gtk4::NothingAction|/content-docs/api2/reference/Gtk4/NothingAction>: a shortcut action that does nothing
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/ShortcutAction.png> :width<70%> :class<inline>
@@ -77,11 +77,11 @@ failed, undefined is returned.
 
 The accepted strings are:
 
-=item B<nothing>, for B<Gnome::Gtk4::NothingAction>
-=item B<activate>, for B<Gnome::Gtk4::ActivateAction>
-=item B<mnemonic>-activate`, for B<Gnome::Gtk4::MnemonicAction>
-=item B<action>(NAME)`, for a B<Gnome::Gtk4::NamedAction> for the action named B<NAME>
-=item B<signal>(NAME)`, for a B<Gnome::Gtk4::SignalAction> for the signal B<NAME>
+=item B<nothing>, for L<Gnome::Gtk4::NothingAction|/content-docs/api2/reference/Gtk4/NothingAction>
+=item B<activate>, for L<Gnome::Gtk4::ActivateAction|/content-docs/api2/reference/Gtk4/ActivateAction>
+=item B<mnemonic>-activate`, for L<Gnome::Gtk4::MnemonicAction|/content-docs/api2/reference/Gtk4/MnemonicAction>
+=item B<action>(NAME)`, for a L<Gnome::Gtk4::NamedAction|/content-docs/api2/reference/Gtk4/NamedAction> for the action named B<NAME>
+=item B<signal>(NAME)`, for a L<Gnome::Gtk4::SignalAction|/content-docs/api2/reference/Gtk4/SignalAction> for the signal B<NAME>
 
 =begin code
 method parse-string ( Str $string --> Gnome::Gtk4::ShortcutAction )
@@ -169,7 +169,7 @@ method print ( N-Object $string )
 
 Prints the given action into a human-readable string.
 
-This is a small wrapper around C<.print()>]
+This is a small wrapper around L<.print()|#print>
 to help when debugging.
 
 =begin code
