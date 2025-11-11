@@ -12,10 +12,10 @@ use v6.d;
 B<Gnome::Gtk4::DropControllerMotion> is an event controller tracking
 the pointer during Drag-and-Drop operations.
 
-It is modeled after B<Gnome::Gtk4::EventControllerMotion> so if you
+It is modeled after L<Gnome::Gtk4::EventControllerMotion|/content-docs/api2/reference/Gtk4/EventControllerMotion> so if you
 have used that, this should feel really familiar.
 
-This controller is not able to accept drops, use B<Gnome::Gtk4::DropTarget>
+This controller is not able to accept drops, use L<Gnome::Gtk4::DropTarget|/content-docs/api2/reference/Gtk4/DropTarget>
 for that purpose.
 
 =head2 Uml Diagram
@@ -100,14 +100,14 @@ Return value; C<True> if a dragging pointer is within C<$self> or one of its chi
 =begin pod
 =head2 get-drop
 
-Returns the B<Gnome::Gdk4::Drop> of a current Drag-and-Drop operation
+Returns the L<Gnome::Gdk4::Drop|/content-docs/api2/reference/Gdk4/Drop> of a current Drag-and-Drop operation
 over the widget of C<$self>.
 
 =begin code
 method get-drop (--> N-Object )
 =end code
 
-Return value; The B<Gnome::Gdk4::Drop> currently
+Return value; The L<Gnome::Gdk4::Drop|/content-docs/api2/reference/Gdk4/Drop> currently
   happening within C<$self>. 
 
 =begin comment
@@ -160,16 +160,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::DropControllerMotion :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $x; coordinates of pointer location.
 =item $y; coordinates of pointer location.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DropControllerMotion> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::DropControllerMotion> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -188,14 +187,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::DropControllerMotion :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DropControllerMotion> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::DropControllerMotion> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -216,16 +214,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::DropControllerMotion :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $x; the x coordinate.
 =item $y; the y coordinate.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DropControllerMotion> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::DropControllerMotion> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

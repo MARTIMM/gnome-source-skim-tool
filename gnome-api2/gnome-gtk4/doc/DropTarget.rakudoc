@@ -12,7 +12,7 @@ use v6.d;
 B<Gnome::Gtk4::DropTarget> is an event controller to receive Drag-and-Drop operations.
 
 The most basic way to use a B<Gnome::Gtk4::DropTarget> to receive drops on a
-widget is to create it via C<.newdroptarget()>, passing in the
+widget is to create it via L<.newdroptarget()|#newdroptarget>, passing in the
 B<Gnome::GObject::DropTarget> of the data you want to receive and connect to the
 I<drop> signal to receive the data:
 
@@ -60,7 +60,7 @@ my_widget_init (MyWidget *self)
 B<Gnome::Gtk4::DropTarget> supports more options, such as:
 
  * rejecting potential drops via the I<accept> signal
-   and the C<.reject()> function to let other drop
+   and the L<.reject()|#reject> function to let other drop
    targets handle the drop
  * tracking an ongoing drag operation before the drop via the
    I<enter>, I<motion> and
@@ -71,7 +71,7 @@ B<Gnome::Gtk4::DropTarget> supports more options, such as:
 
 However, B<Gnome::Gtk4::DropTarget> is ultimately modeled in a synchronous way
 and only supports data transferred via B<Gnome::GObject::DropTarget>. If you want full control
-over an ongoing drop, the B<Gnome::Gtk4::DropTargetAsync> object gives you
+over an ongoing drop, the L<Gnome::Gtk4::DropTargetAsync|/content-docs/api2/reference/Gtk4/DropTargetAsync> object gives you
 this ability.
 
 While a pointer is dragged over the drop target's widget and the drop
@@ -80,7 +80,7 @@ C<GTK_STATE_FLAG_DROP_ACTIVE> state, which can be used to style the widget.
 
 If you are not interested in receiving the drop, but just want to update
 UI state during a Drag-and-Drop operation (e.g. switching tabs), you can
-use B<Gnome::Gtk4::DropControllerMotion>.
+use L<Gnome::Gtk4::DropControllerMotion|/content-docs/api2/reference/Gtk4/DropControllerMotion>.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/DropTarget.png> :width<70%> :class<inline>
@@ -119,7 +119,7 @@ Creates a new B<Gnome::Gtk4::DropTarget> object.
 
 If the drop target should support more than 1 type, pass
 C<G_TYPE_INVALID> for C<$type> and then call
-C<.set-gtypes()>.
+L<.set-gtypes()|#set-gtypes>.
 
 =begin code
 method new-droptarget ( GType $type, UInt $actions --> Gnome::Gtk4::DropTarget )
@@ -354,7 +354,6 @@ method set-actions ( UInt $actions )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-gtypes
-This function is not yet available
 
 Sets the supported B<Gnome::GObject::DropTarget>s for this drop target.
 
@@ -410,7 +409,7 @@ Emitted on the drop site when a drop operation is about to begin.
 
 If the drop is not accepted, C<False> will be returned and the drop target
 will ignore the drop. If C<True> is returned, the drop is accepted for now
-but may be rejected later via a call to C<.reject()>
+but may be rejected later via a call to L<.reject()|#reject>
 or ultimately by returning C<False> from a I<drop>
 handler.
 
@@ -421,7 +420,7 @@ If the decision whether the drop will be accepted or rejected depends
 on the data, this function should return C<True>, the
 I<preload> property should be set and the value
 should be inspected via the I<notify>:value signal, calling
-C<.reject()> if required.
+L<.reject()|#reject> if required.
 
 =begin code
 method handler (
@@ -429,16 +428,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::DropTarget :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
-=item $drop; the B<Gnome::Gdk4::Drop>.
+=item $drop; the L<Gnome::Gdk4::Drop|/content-docs/api2/reference/Gdk4/Drop>.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DropTarget> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::DropTarget> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; C<True> if C<$drop> is accepted
 
@@ -470,7 +468,7 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::DropTarget :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
@@ -479,9 +477,8 @@ method handler (
 =item $x; the x coordinate of the current pointer position.
 =item $y; the y coordinate of the current pointer position.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DropTarget> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::DropTarget> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; whether the drop was accepted at the given pointer position
 
@@ -506,16 +503,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::DropTarget :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $x; the x coordinate of the current pointer position.
 =item $y; the y coordinate of the current pointer position.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DropTarget> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::DropTarget> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -537,14 +533,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::DropTarget :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DropTarget> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::DropTarget> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -565,16 +560,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::DropTarget :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $x; the x coordinate of the current pointer position.
 =item $y; the y coordinate of the current pointer position.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DropTarget> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::DropTarget> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

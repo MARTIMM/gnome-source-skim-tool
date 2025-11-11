@@ -18,16 +18,16 @@ Typical uses are to display a message, ask a question, or anything else
 that does not require extensive effort on the user’s part.
 
 The main area of a B<Gnome::Gtk4::Dialog> is called the "content area", and is yours
-to populate with widgets such a B<Gnome::Gtk4::Label> or B<Gnome::Gtk4::Entry>, to present
+to populate with widgets such a L<Gnome::Gtk4::Label|/content-docs/api2/reference/Gtk4/Label> or L<Gnome::Gtk4::Entry|/content-docs/api2/reference/Gtk4/Entry>, to present
 your information, questions, or tasks to the user.
 
 In addition, dialogs allow you to add "action widgets". Most commonly,
 action widgets are buttons. Depending on the platform, action widgets may
 be presented in the header bar at the top of the window, or at the bottom
 of the window. To add action widgets, create your B<Gnome::Gtk4::Dialog> using
-C<.new-with-buttons()>, or use
-C<.add-button()>, C<.add-buttons()>,
-or C<.add-action-widget()>.
+L<.new-with-buttons()|#new-with-buttons>, or use
+L<.add-button()|#add-button>, L<.add-buttons()|#add-buttons>,
+or L<.add-action-widget()|#add-action-widget>.
 
 B<GtkDialogs> uses some heuristics to decide whether to add a close
 button to the window decorations. If any of the action buttons use
@@ -43,16 +43,16 @@ less than zero). If a dialog receives a delete event, the
 I<response> signal will be emitted with the
 C<GTK_RESPONSE_DELETE_EVENT> response ID.
 
-Dialogs are created with a call to C<.newdialog()> or
-C<.new-with-buttons()>. The latter is recommended; it allows
+Dialogs are created with a call to L<.newdialog()|#newdialog> or
+L<.new-with-buttons()|#new-with-buttons>. The latter is recommended; it allows
 you to set the dialog title, some convenient flags, and add buttons.
 
 A “modal” dialog (that is, one which freezes the rest of the application
-from user input), can be created by calling C<.set-modal()> in class C<Gnome::Gtk4::Window>
-on the dialog. When using C<.new-with-buttons()>, you can also
+from user input), can be created by calling L<.set-modal() in class Window|/content-docs/api2/reference/Gtk4/Window#set-modal>
+on the dialog. When using L<.new-with-buttons()|#new-with-buttons>, you can also
 pass the C<GTK_DIALOG_MODAL> flag to make a dialog modal.
 
-For the simple dialog in the following example, a B<Gnome::Gtk4::MessageDialog>
+For the simple dialog in the following example, a L<Gnome::Gtk4::MessageDialog|/content-docs/api2/reference/Gtk4/MessageDialog>
 would save some effort. But you’d need to create the dialog contents manually
 if you had more than a simple message in the dialog.
 
@@ -94,7 +94,7 @@ quick_message (GtkWindow *parent, char *message)
 
 =head2 GtkDialog as GtkBuildable
 
-The B<Gnome::Gtk4::Dialog> implementation of the B<Gnome::Gtk4::R-Buildable> interface exposes the C<$content-area> as an internal child with the name “content_area”.
+The B<Gnome::Gtk4::Dialog> implementation of the L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/Gtk4/R-Buildable> interface exposes the C<$content-area> as an internal child with the name “content_area”.
 
 B<Gnome::Gtk4::Dialog> supports a custom `<action-widgets>` element, which can contain
 multiple `<action-widget>` elements. The “response” attribute specifies a
@@ -171,7 +171,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 
 Creates a new dialog box.
 
-Widgets should not be packed into the B<Gnome::Gtk4::Window>
+Widgets should not be packed into the L<Gnome::Gtk4::Window|/content-docs/api2/reference/Gtk4/Window>
 directly, but into the C<$content-area> and C<$action-area>,
 as described above.
 
@@ -191,7 +191,6 @@ method new-dialog ( --> Gnome::Gtk4::Dialog )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-with-buttons
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -309,7 +308,7 @@ method add-button ( Str $button-text, Int() $response-id --> N-Object )
 =item $button-text; text of button.
 =item $response-id; response ID for the button.
 
-Return value; the B<Gnome::Gtk4::Button> widget that was added. 
+Return value; the L<Gnome::Gtk4::Button|/content-docs/api2/reference/Gtk4/Button> widget that was added. 
 
 =begin comment
 
@@ -323,15 +322,14 @@ Return value; the B<Gnome::Gtk4::Button> widget that was added.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 add-buttons
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Adds multiple buttons.
 
-This is the same as calling C<.add-button()>
+This is the same as calling L<.add-button()|#add-button>
 repeatedly. The variable argument list should be undefined-terminated
-as with C<.new-with-buttons()>. Each button must have both
+as with L<.new-with-buttons()|#new-with-buttons>. Each button must have both
 text and response ID.
 
 =begin code
@@ -362,7 +360,7 @@ Returns the content area of C<$dialog>.
 method get-content-area (--> N-Object )
 =end code
 
-Return value; the content area B<Gnome::Gtk4::Box>.. 
+Return value; the content area L<Gnome::Gtk4::Box|/content-docs/api2/reference/Gtk4/Box>.. 
 
 =begin comment
 
@@ -551,14 +549,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Dialog :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Dialog> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Dialog> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -573,7 +570,7 @@ method handler (
 Emitted when an action widget is clicked.
 
 The signal is also emitted when the dialog receives a
-delete event, and when C<.response()> is called.
+delete event, and when L<.response()|#response> is called.
 On a delete event, the response ID is C<GTK_RESPONSE_DELETE_EVENT>.
 Otherwise, it depends on which action widget was clicked.
 
@@ -583,15 +580,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Dialog :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $response-id; the response ID.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Dialog> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Dialog> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

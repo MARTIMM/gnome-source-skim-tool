@@ -23,7 +23,7 @@ creating a drawing area, the application may want to connect to:
 =item The I<resize> signal to take any necessary
   actions when the widget changes size.
 
-=item Call C<.set-draw-func()> to handle redrawing the
+=item Call L<.set-draw-func()|#set-draw-func> to handle redrawing the
   contents of the widget.
 
 The following code portion demonstrates using a drawing
@@ -76,13 +76,13 @@ main (int argc, char **argv)
 The draw function is normally called when a drawing area first comes
 onscreen, or when it’s covered by another window and then uncovered.
 You can also force a redraw by adding to the “damage region” of the
-drawing area’s window using C<.queue-draw()> in class C<Gnome::Gtk4::Widget>.
+drawing area’s window using L<.queue-draw() in class Widget|/content-docs/api2/reference/Gtk4/Widget#queue-draw>.
 This will cause the drawing area to call the draw function again.
 
 The available routines for drawing are documented in the
 [Cairo documentation](https://www.cairographics.org/manual/); GDK
-offers additional API to integrate with Cairo, like C<.cairo-set-source-rgba() in package Gnome::Gdk>
-or C<.cairo-set-source-pixbuf() in package Gnome::Gdk>.
+offers additional API to integrate with Cairo, like L<.cairo-set-source-rgba().cairo-set-source-rgba() in package Gnome::Gdk4|/content-docs/api2/reference/Gdk4/T-drawingarea#cairo-set-source-rgba>
+or L<.cairo-set-source-pixbuf().cairo-set-source-pixbuf() in package Gnome::Gdk4|/content-docs/api2/reference/Gdk4/T-drawingarea#cairo-set-source-pixbuf>.
 
 To receive mouse events on a drawing area, you will need to use
 event controllers. To receive keyboard events, you will need to set
@@ -90,7 +90,7 @@ the “can-focus” property on the drawing area, and you should probably
 draw some user-visible indication that the drawing area is focused.
 
 If you need more complex control over your widget, you should consider
-creating your own B<Gnome::Gtk4::Widget> subclass.
+creating your own L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> subclass.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/DrawingArea.png> :width<70%> :class<inline>
@@ -199,7 +199,7 @@ Sets the desired height of the contents of the drawing area.
 Note that because widgets may be allocated larger sizes than they
 requested, it is possible that the actual height passed to your draw
 function is larger than the height set here. You can use
-C<.set-valign()> in class C<Gnome::Gtk4::Widget> to avoid that.
+L<.set-valign() in class Widget|/content-docs/api2/reference/Gtk4/Widget#set-valign> to avoid that.
 
 If the height is set to 0 (the default), the drawing area may disappear.
 
@@ -227,7 +227,7 @@ Sets the desired width of the contents of the drawing area.
 Note that because widgets may be allocated larger sizes than they
 requested, it is possible that the actual width passed to your draw
 function is larger than the width set here. You can use
-C<.set-halign()> in class C<Gnome::Gtk4::Widget> to avoid that.
+L<.set-halign() in class Widget|/content-docs/api2/reference/Gtk4/Widget#set-halign> to avoid that.
 
 If the width is set to 0 (the default), the drawing area may disappear.
 
@@ -262,7 +262,7 @@ GTK widgets or call any functions that would cause any properties
 to be changed. You should restrict yourself exclusively to drawing
 your contents in the draw function.
 
-If what you are drawing does change, call C<.queue-draw()> in class C<Gnome::Gtk4::Widget>
+If what you are drawing does change, call L<.queue-draw() in class Widget|/content-docs/api2/reference/Gtk4/Widget#queue-draw>
 on the drawing area. This will cause a redraw and will call C<$draw-func> again.
 
 =begin code
@@ -306,16 +306,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::DrawingArea :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $width; the width of the viewport.
 =item $height; the height of the viewport.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DrawingArea> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::DrawingArea> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

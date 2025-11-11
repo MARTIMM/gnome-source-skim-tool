@@ -14,10 +14,10 @@ B<Gnome::Gtk4::DragSource> is an event controller to initiate Drag-And-Drop oper
 B<Gnome::Gtk4::DragSource> can be set up with the necessary
 ingredients for a DND operation ahead of time. This includes
 the source for the data that is being transferred, in the form
-of a B<Gnome::Gdk4::ContentProvider>, the desired action, and the icon to
+of a L<Gnome::Gdk4::ContentProvider|/content-docs/api2/reference/Gdk4/ContentProvider>, the desired action, and the icon to
 use during the drag operation. After setting it up, the drag
 source must be added to a widget as an event controller, using
-C<.add-controller()> in class C<Gnome::Gtk4::Widget>.
+L<.add-controller() in class Widget|/content-docs/api2/reference/Gtk4/Widget#add-controller>.
 
 =begin comment
 static void
@@ -64,7 +64,7 @@ on_drag_prepare (GtkDragSource *source,
 
 =end comment
 
-The I<drag-begin> signal is emitted after the B<Gnome::Gdk4::Drag> object has
+The I<drag-begin> signal is emitted after the L<Gnome::Gdk4::Drag|/content-docs/api2/reference/Gdk4/Drag> object has
 been created, and can be used to set up the drag icon.
 
 =begin comment
@@ -195,7 +195,7 @@ Gets the current content provider of a B<Gnome::Gtk4::DragSource>.
 method get-content (--> N-Object )
 =end code
 
-Return value; the B<Gnome::Gdk4::ContentProvider> of C<$source>. 
+Return value; the L<Gnome::Gdk4::ContentProvider|/content-docs/api2/reference/Gdk4/ContentProvider> of C<$source>. 
 
 =begin comment
 
@@ -210,13 +210,13 @@ Return value; the B<Gnome::Gdk4::ContentProvider> of C<$source>.
 =begin pod
 =head2 get-drag
 
-Returns the underlying B<Gnome::Gdk4::Drag> object for an ongoing drag.
+Returns the underlying L<Gnome::Gdk4::Drag|/content-docs/api2/reference/Gdk4/Drag> object for an ongoing drag.
 
 =begin code
 method get-drag (--> N-Object )
 =end code
 
-Return value; the B<Gnome::Gdk4::Drag> of the current
+Return value; the L<Gnome::Gdk4::Drag|/content-docs/api2/reference/Gdk4/Drag> of the current
   drag operation. 
 
 =begin comment
@@ -276,7 +276,7 @@ undefined in a I<drag-end> signal handler.
 method set-content ( N-Object() $content )
 =end code
 
-=item $content; a B<Gnome::Gdk4::ContentProvider>.
+=item $content; a L<Gnome::Gdk4::ContentProvider|/content-docs/api2/reference/Gdk4/ContentProvider>.
 
 =begin comment
 
@@ -306,7 +306,7 @@ I<drag-begin> signal handler.
 method set-icon ( N-Object() $paintable, Int() $hot-x, Int() $hot-y )
 =end code
 
-=item $paintable; the B<Gnome::Gdk4::R-Paintable> to use as icon.
+=item $paintable; the L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable> to use as icon.
 =item $hot-x; the hotspot X coordinate on the icon.
 =item $hot-y; the hotspot Y coordinate on the icon.
 
@@ -332,7 +332,7 @@ method set-icon ( N-Object() $paintable, Int() $hot-x, Int() $hot-y )
 Emitted on the drag source when a drag is started.
 
 It can be used to e.g. set a custom drag icon with
-C<.set-icon()>.
+L<.set-icon()|#set-icon>.
 
 =begin code
 method handler (
@@ -340,15 +340,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::DragSource :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
-=item $drag; the B<Gnome::Gdk4::Drag> object.
+=item $drag; the L<Gnome::Gdk4::Drag|/content-docs/api2/reference/Gdk4/Drag> object.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DragSource> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::DragSource> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -373,17 +372,16 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::DragSource :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
-=item $drag; the B<Gnome::Gdk4::Drag> object.
+=item $drag; the L<Gnome::Gdk4::Drag|/content-docs/api2/reference/Gdk4/Drag> object.
 =item $reason; information on why the drag failed.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DragSource> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::DragSource> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; C<True> if the failed drag operation has been already handled
 
@@ -410,17 +408,16 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::DragSource :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
-=item $drag; the B<Gnome::Gdk4::Drag> object.
+=item $drag; the L<Gnome::Gdk4::Drag|/content-docs/api2/reference/Gdk4/Drag> object.
 =item $delete-data; C<True> if the drag was performing C<GDK_ACTION_MOVE>,
    and the data should be deleted.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DragSource> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::DragSource> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -434,7 +431,7 @@ method handler (
 
 Emitted when a drag is about to be initiated.
 
-It returns the B<Gnome::Gdk4::ContentProvider> to use for the drag that is about
+It returns the L<Gnome::Gdk4::ContentProvider|/content-docs/api2/reference/Gdk4/ContentProvider> to use for the drag that is about
 to start. The default handler for this signal returns the value of
 the I<content> property, so if you set up that
 property ahead of time, you don't need to connect to this signal.
@@ -446,16 +443,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::DragSource :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $x; the X coordinate of the drag starting point.
 =item $y; the Y coordinate of the drag starting point.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DragSource> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::DragSource> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

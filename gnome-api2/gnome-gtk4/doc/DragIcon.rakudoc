@@ -9,14 +9,14 @@ use v6.d;
 =TITLE Gnome::Gtk4::DragIcon
 =head1 Description
 
-B<Gnome::Gtk4::DragIcon> is a B<Gnome::Gtk4::R-Root> implementation for drag icons.
+B<Gnome::Gtk4::DragIcon> is a L<Gnome::Gtk4::R-Root|/content-docs/api2/reference/Gtk4/R-Root> implementation for drag icons.
 
 A drag icon moves with the pointer during a Drag-and-Drop operation
 and is destroyed when the drag ends.
 
 To set up a drag icon and associate it with an ongoing drag operation,
-use C<.DragIcon.get-for-drag()> to get the icon for a drag. You can
-then use it like any other widget and use C<.set-child()>
+use L<.DragIcon.get-for-drag().DragIcon.get-for-drag() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-dragicon#DragIcon.get-for-drag> to get the icon for a drag. You can
+then use it like any other widget and use L<.set-child()|#set-child>
 to set whatever widget should be used for the drag icon.
 
 Keep in mind that drag icons do not allow user input.
@@ -89,7 +89,7 @@ Sets the widget to display as the drag icon.
 method set-child ( N-Object() $child )
 =end code
 
-=item $child; a B<Gnome::Gtk4::Widget>.
+=item $child; a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>.
 
 =begin comment
 
@@ -114,12 +114,12 @@ method set-child ( N-Object() $child )
 
 Creates a widget that can be used as a drag icon for the given C<$value>.
 
-Supported types include strings, B<Gnome::Gdk4::N-RGBA> and B<Gnome::Gtk4::TextBuffer>.
+Supported types include strings, B<Gnome::Gdk4::N-RGBA> and L<Gnome::Gtk4::TextBuffer|/content-docs/api2/reference/Gtk4/TextBuffer>.
 If GTK does not know how to create a widget for a given value,
 it will return undefined.
 
 This method is used to set the default drag icon on drag-and-drop
-operations started by B<Gnome::Gtk4::DragSource>, so you don't need to set
+operations started by L<Gnome::Gtk4::DragSource|/content-docs/api2/reference/Gtk4/DragSource>, so you don't need to set
 a drag icon using this function there.
 
 =begin code
@@ -128,7 +128,7 @@ method create-widget-for-value ( N-Object $value --> N-Object )
 
 =item $value; a B<Gnome::GObject::N-Value>
 
-Return value; A new B<Gnome::Gtk4::Widget>
+Return value; A new L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>
   for displaying C<$value> as a drag icon.. 
 
 =begin comment
@@ -153,7 +153,7 @@ and shown.
 method get-for-drag ( N-Object() $drag --> N-Object )
 =end code
 
-=item $drag; a B<Gnome::Gdk4::Drag>.
+=item $drag; a L<Gnome::Gdk4::Drag|/content-docs/api2/reference/Gdk4/Drag>.
 
 Return value; the B<Gnome::Gtk4::DragIcon>. 
 
@@ -180,8 +180,8 @@ hotspot of the cursor.
 method set-from-paintable ( N-Object() $drag, N-Object() $paintable, Int() $hot-x, Int() $hot-y )
 =end code
 
-=item $drag; a B<Gnome::Gdk4::Drag>.
-=item $paintable; a B<Gnome::Gdk4::R-Paintable> to display.
+=item $drag; a L<Gnome::Gdk4::Drag|/content-docs/api2/reference/Gdk4/Drag>.
+=item $paintable; a L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable> to display.
 =item $hot-x; X coordinate of the hotspot.
 =item $hot-y; Y coordinate of the hotspot.
 

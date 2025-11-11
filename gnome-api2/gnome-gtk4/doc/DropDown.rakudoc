@@ -17,28 +17,28 @@ from a list of options.
 The B<Gnome::Gtk4::DropDown> displays the [selected]I<selected>
 choice.
 
-The options are given to B<Gnome::Gtk4::DropDown> in the form of B<Gnome::Gio::R-ListModel>
+The options are given to B<Gnome::Gtk4::DropDown> in the form of L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel>
 and how the individual options are represented is determined by
-a B<Gnome::Gtk4::ListItemFactory>. The default factory displays simple strings,
+a L<Gnome::Gtk4::ListItemFactory|/content-docs/api2/reference/Gtk4/ListItemFactory>. The default factory displays simple strings,
 and adds a checkmark to the selected item in the popup.
 
-To set your own factory, use C<.set-factory()>. It is
+To set your own factory, use L<.set-factory()|#set-factory>. It is
 possible to use a separate factory for the items in the popup, with
-C<.set-list-factory()>.
+L<.set-list-factory()|#set-list-factory>.
 
 B<Gnome::Gtk4::DropDown> knows how to obtain strings from the items in a
-B<Gnome::Gtk4::StringList>; for other models, you have to provide an expression
-to find the strings via C<.set-expression()>.
+L<Gnome::Gtk4::StringList|/content-docs/api2/reference/Gtk4/StringList>; for other models, you have to provide an expression
+to find the strings via L<.set-expression()|#set-expression>.
 
 B<Gnome::Gtk4::DropDown> can optionally allow search in the popup, which is
 useful if the list of options is long. To enable the search entry,
-use C<.set-enable-search()>.
+use L<.set-enable-search()|#set-enable-search>.
 
 Here is a UI definition example for B<Gnome::Gtk4::DropDown> with a simple model:
 
 If a B<Gnome::Gtk4::DropDown> is created in this manner, or with
-C<.new-from-strings()>, for instance, the object returned from
-C<.get-selected-item()> will be a B<Gnome::Gtk4::StringObject>.
+L<.new-from-strings()|#new-from-strings>, for instance, the object returned from
+L<.get-selected-item()|#get-selected-item> will be a L<Gnome::Gtk4::StringObject|/content-docs/api2/reference/Gtk4/StringObject>.
 
 To learn more about the list widget framework, see the
 [overview](section-list-widget.html).
@@ -87,7 +87,7 @@ Create an object using a native object from an object of the same type found els
 
 Creates a new B<Gnome::Gtk4::DropDown>.
 
-You may want to call C<.set-factory()>
+You may want to call L<.set-factory()|#set-factory>
 to set up a way to map its items to widgets.
 
 =begin code
@@ -163,13 +163,13 @@ Return value; C<True> if the popup includes a search entry.
 
 Gets the expression set that is used to obtain strings from items.
 
-See C<.set-expression()>.
+See L<.set-expression()|#set-expression>.
 
 =begin code
 method get-expression (--> N-Object )
 =end code
 
-Return value; a B<Gnome::Gtk4::Expression>. 
+Return value; a L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression>. 
 
 =begin comment
 
@@ -391,7 +391,7 @@ a value type of C<G_TYPE_STRING>.
 method set-expression ( N-Object() $expression )
 =end code
 
-=item $expression; a B<Gnome::Gtk4::Expression>.
+=item $expression; a L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression>.
 
 =begin comment
 
@@ -406,7 +406,7 @@ method set-expression ( N-Object() $expression )
 =begin pod
 =head2 set-factory
 
-Sets the B<Gnome::Gtk4::ListItemFactory> to use for populating list items.
+Sets the L<Gnome::Gtk4::ListItemFactory|/content-docs/api2/reference/Gtk4/ListItemFactory> to use for populating list items.
 
 =begin code
 method set-factory ( N-Object() $factory )
@@ -427,7 +427,7 @@ method set-factory ( N-Object() $factory )
 =begin pod
 =head2 set-header-factory
 
-Sets the B<Gnome::Gtk4::ListItemFactory> to use for creating header widgets for the popup.
+Sets the L<Gnome::Gtk4::ListItemFactory|/content-docs/api2/reference/Gtk4/ListItemFactory> to use for creating header widgets for the popup.
 
 =begin code
 method set-header-factory ( N-Object() $factory )
@@ -448,7 +448,7 @@ method set-header-factory ( N-Object() $factory )
 =begin pod
 =head2 set-list-factory
 
-Sets the B<Gnome::Gtk4::ListItemFactory> to use for populating list items in the popup.
+Sets the L<Gnome::Gtk4::ListItemFactory|/content-docs/api2/reference/Gtk4/ListItemFactory> to use for populating list items in the popup.
 
 =begin code
 method set-list-factory ( N-Object() $factory )
@@ -469,7 +469,7 @@ method set-list-factory ( N-Object() $factory )
 =begin pod
 =head2 set-model
 
-Sets the B<Gnome::Gio::R-ListModel> to use.
+Sets the L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> to use.
 
 =begin code
 method set-model ( N-List() $model )
@@ -548,14 +548,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::DropDown :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DropDown> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::DropDown> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =end pod
 
