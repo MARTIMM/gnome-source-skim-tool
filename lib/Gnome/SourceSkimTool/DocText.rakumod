@@ -260,6 +260,7 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
   my regex mfunc-regex { '[method@' <package> '.' <class> '.' <funcname> ']'? }
 
   while $text ~~ m/ <mfunc-regex> / {
+#note "$?LINE ", $/.gist;
     $package = $/<mfunc-regex><package>.Str;
 #    $package = 'G' if $package ~~ any(<Gio GObject Glib>);
     $class = $/<mfunc-regex><class>.Str;
@@ -290,6 +291,7 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
 
   my regex cfunc-regex { '[ctor@' <package> '.' <class> '.' <funcname> ']' }
   while $text ~~ m/ <cfunc-regex> / {
+#note "$?LINE ", $/.gist;
     $package = $/<cfunc-regex><package>.Str;
 #    $package = 'G' if $package ~~ any(<Gio GObject Glib>);
     $class = $/<cfunc-regex><class>.Str;
@@ -299,7 +301,7 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
 
     if "$package$class".lc eq $*work-data<gnome-name>.lc {
       $text = self.change-routine-text(
-        $text, &mfunc-regex, :routine($funcname)
+        $text, &cfunc-regex, :routine($funcname)
       );
     }
 
@@ -307,7 +309,7 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
       my Hash $h = $!solve.search-name($package ~ $class);
       my $classname = $!solve.set-object-name($h);
       $text = self.change-routine-text(
-        $text, &mfunc-regex,
+        $text, &cfunc-regex,
         :routine($funcname), :$class, :$package, :$classname
       );
     }
@@ -489,7 +491,8 @@ method !modify-v4classes ( Str $text is copy --> Str ) {
   while $text ~~ m/ <iface1> / {
     my Str $prefix = $/<iface1><prefix>.Str;
     my Str $classname = $/<iface1><classname>.Str;
-    $description = $classname;
+    $package = $*work-data<name-prefix>;
+#    $description = $classname;
     my Hash $h = $!solve.search-name($prefix ~ $classname);
     $classname = $!solve.set-object-name($h);
     $url-target = [~] '/content-docs/api2/reference/', $classname;
@@ -838,10 +841,10 @@ method !modify-rest ( Str $text is copy --> Str ) {
 
     else {
       my Hash $h = $!solve.search-name($name);
-note "$?LINE $name, gir-type: ", $h<gir-type>//'-';
+#note "$?LINE $name, gir-type: ", $h<gir-type>//'-';
       if ?$h {
         my Str $classname = $!solve.set-object-name($h);
-note "$?LINE $classname";
+#note "$?LINE $classname";
         given $h<gir-type> {
           when 'class' {
             if $classname eq $*work-data<raku-class-name> {
