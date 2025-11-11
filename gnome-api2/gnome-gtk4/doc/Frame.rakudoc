@@ -16,14 +16,14 @@ frame and an optional label.
 
 If present, the label is drawn inside the top edge of the frame.
 The horizontal position of the label can be controlled with
-C<.set-label-align()>.
+L<.set-label-align()|#set-label-align>.
 
 B<Gnome::Gtk4::Frame> clips its child. You can use this to add rounded corners
 to widgets, but be aware that it also cuts off shadows.
 
 =head2 GtkFrame as GtkBuildable
 
-The B<Gnome::Gtk4::Frame> implementation of the B<Gnome::Gtk4::R-Buildable> interface supports
+The B<Gnome::Gtk4::Frame> implementation of the L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/Gtk4/R-Buildable> interface supports
 placing a child in the label position by specifying “label” as the
 “type” attribute of a `<child>` element. A normal content child can
 be specified without specifying a `<child>` type attribute.
@@ -145,7 +145,7 @@ Return value; the child widget of C<$frame>.
 
 Returns the frame labels text.
 
-If the frame's label widget is not a B<Gnome::Gtk4::Label>, undefined
+If the frame's label widget is not a L<Gnome::Gtk4::Label|/content-docs/api2/reference/Gtk4/Label>, undefined
 is returned.
 
 =begin code
@@ -153,7 +153,7 @@ method get-label (--> Str )
 =end code
 
 Return value; the text in the label, or undefined if there
-   was no label widget or the label widget was not a B<Gnome::Gtk4::Label>.
+   was no label widget or the label widget was not a L<Gnome::Gtk4::Label|/content-docs/api2/reference/Gtk4/Label>.
    This string is owned by GTK and must not be modified or freed.. 
 
 =begin comment
@@ -232,7 +232,7 @@ method set-child ( N-Object() $child )
 =begin pod
 =head2 set-label
 
-Creates a new B<Gnome::Gtk4::Label> with the C<$label> and sets it as the frame's
+Creates a new L<Gnome::Gtk4::Label|/content-docs/api2/reference/Gtk4/Label> with the C<$label> and sets it as the frame's
 label widget.
 
 =begin code

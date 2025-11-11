@@ -14,17 +14,17 @@ B<Gnome::Gtk4::FileChooserDialog> is a dialog suitable for use with
 
 =for image :src<asset_files/images/filechooser.png> :width<30%> :class<inline>
 
-This widget works by putting a B<Gnome::Gtk4::FileChooserWidget>
-inside a B<Gnome::Gtk4::Dialog>. It exposes the B<Gnome::Gtk4::R-FileChooser>
-interface, so you can use all of the B<Gnome::Gtk4::R-FileChooser> functions
-on the file chooser dialog as well as those for B<Gnome::Gtk4::Dialog>.
+This widget works by putting a L<Gnome::Gtk4::FileChooserWidget|/content-docs/api2/reference/Gtk4/FileChooserWidget>
+inside a L<Gnome::Gtk4::Dialog|/content-docs/api2/reference/Gtk4/Dialog>. It exposes the L<Gnome::Gtk4::Dialog|/content-docs/api2/reference/Gnome::Gtk4::R-FileChooser>
+interface, so you can use all of the L<Gnome::Gtk4::Dialog|/content-docs/api2/reference/Gnome::Gtk4::R-FileChooser> functions
+on the file chooser dialog as well as those for L<Gnome::Gtk4::Dialog|/content-docs/api2/reference/Gtk4/Dialog>.
 
 Note that B<Gnome::Gtk4::FileChooserDialog> does not have any methods of its
 own. Instead, you should use the functions that work on a
-B<Gnome::Gtk4::R-FileChooser>.
+L<Gnome::Gtk4::Dialog|/content-docs/api2/reference/Gnome::Gtk4::R-FileChooser>.
 
 If you want to integrate well with the platform you should use the
-B<Gnome::Gtk4::FileChooserNative> API, which will use a platform-specific
+L<Gnome::Gtk4::FileChooserNative|/content-docs/api2/reference/Gtk4/FileChooserNative> API, which will use a platform-specific
 dialog if available and fall back to B<Gnome::Gtk4::FileChooserDialog>
 otherwise.
 
@@ -126,24 +126,24 @@ There are various cases in which you may need to use a B<Gnome::Gtk4::FileChoose
 
 =item To save a file for the first time, use C<GTK_FILE_CHOOSER_ACTION_SAVE>,
   and suggest a name such as “Untitled” with
-  C<.set-current-name()> in class C<Gnome::Gtk4::R-FileChooser>.
+  L<.set-current-name() in class FileChooser|/content-docs/api2/reference/Gtk4/FileChooser#set-current-name>.
 
 =item To save a file under a different name, use C<GTK_FILE_CHOOSER_ACTION_SAVE>,
-  and set the existing file with C<.set-file()> in class C<Gnome::Gtk4::R-FileChooser>.
+  and set the existing file with L<.set-file() in class FileChooser|/content-docs/api2/reference/Gtk4/FileChooser#set-file>.
 
 =item To choose a folder instead of a filem use C<GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER>.
 
 In general, you should only cause the file chooser to show a specific
-folder when it is appropriate to use C<.set-file()> in class C<Gnome::Gtk4::R-FileChooser>,
+folder when it is appropriate to use L<.set-file() in class FileChooser|/content-docs/api2/reference/Gtk4/FileChooser#set-file>,
 i.e. when you are doing a “Save As” command and you already have a file
 saved somewhere.
 
 =head3 Response Codes
 
-B<Gnome::Gtk4::FileChooserDialog> inherits from B<Gnome::Gtk4::Dialog>, so buttons that
+B<Gnome::Gtk4::FileChooserDialog> inherits from L<Gnome::Gtk4::Dialog|/content-docs/api2/reference/Gtk4/Dialog>, so buttons that
 go in its action area have response codes such as C<GTK_RESPONSE_ACCEPT> and
 C<GTK_RESPONSE_CANCEL>. For example, you could call
-C<.newfilechooserdialog()> as follows:
+L<.newfilechooserdialog()|#newfilechooserdialog> as follows:
 
 =begin comment
 GtkWidget *dialog;
@@ -219,13 +219,12 @@ Create an object using a native object from an object of the same type found els
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-filechooserdialog
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new B<Gnome::Gtk4::FileChooserDialog>.
 
-This function is analogous to C<.new-with-buttons()> in class C<Gnome::Gtk4::Dialog>.
+This function is analogous to L<.new-with-buttons() in class Dialog|/content-docs/api2/reference/Gtk4/Dialog#new-with-buttons>.
 
 =begin code
 method new-filechooserdialog ( Str $title, N-Object() $parent, GtkFileChooserAction $action, Str $first-button-text, … --> Gnome::Gtk4::FileChooserDialog )

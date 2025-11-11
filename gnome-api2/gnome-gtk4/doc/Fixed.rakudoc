@@ -108,9 +108,9 @@ method new-fixed ( --> Gnome::Gtk4::Fixed )
 =head2 get-child-position
 
 Retrieves the translation transformation of the
-given child B<Gnome::Gtk4::Widget> in the B<Gnome::Gtk4::Fixed>.
+given child L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> in the B<Gnome::Gtk4::Fixed>.
 
-See also: C<.get-child-transform()>.
+See also: L<.get-child-transform()|#get-child-transform>.
 
 =begin code
 method get-child-position ( N-Object() $widget, Num() $x, Num() $y )
@@ -140,7 +140,7 @@ C<.set-child-transform()>.
 method get-child-transform ( N-Object() $widget --> N-Object )
 =end code
 
-=item $widget; a B<Gnome::Gtk4::Widget>, child of C<$fixed>.
+=item $widget; a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>, child of C<$fixed>.
 
 Return value; a B<Gnome::Gsk4::N-Transform>. 
 
@@ -228,13 +228,13 @@ method remove ( N-Object() $widget )
 Sets the transformation for C<$widget>.
 
 This is a convenience function that retrieves the
-B<Gnome::Gtk4::FixedLayoutChild> instance associated to C<$widget> and calls C<.set-transform()> in class C<Gnome::Gtk4::FixedLayoutChild>.
+L<Gnome::Gtk4::FixedLayoutChild|/content-docs/api2/reference/Gtk4/FixedLayoutChild> instance associated to C<$widget> and calls L<.set-transform() in class FixedLayoutChild|/content-docs/api2/reference/Gtk4/FixedLayoutChild#set-transform>.
 
 =begin code
 method set-child-transform ( N-Object() $widget, N-Object $transform )
 =end code
 
-=item $widget; a B<Gnome::Gtk4::Widget>, child of C<$fixed>.
+=item $widget; a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>, child of C<$fixed>.
 =item $transform; the transformation assigned to C<$widget>
   to reset C<$widget>'s transform
 

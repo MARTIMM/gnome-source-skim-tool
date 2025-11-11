@@ -10,16 +10,16 @@ use v6.d;
 =head1 Description
 
 A B<Gnome::Gtk4::Filter> object describes the filtering to be performed by a
-B<Gnome::Gtk4::FilterListModel>.
+L<Gnome::Gtk4::FilterListModel|/content-docs/api2/reference/Gtk4/FilterListModel>.
 
 The model will use the filter to determine if it should include items
-or not by calling C<.match()> for each item and only
+or not by calling L<.match()|#match> for each item and only
 keeping the ones that the function returns C<True> for.
 
 Filters may change what items they match through their lifetime. In that
 case, they will emit the I<changed> signal to notify
 that previous filter results are no longer valid and that items should
-be checked again via C<.match()>.
+be checked again via L<.match()|#match>.
 
 GTK provides various pre-made filter implementations for common filtering
 operations. These filters often include properties that can be linked to
@@ -73,7 +73,7 @@ Notifies all users of the filter that it has changed.
 
 This emits the I<changed> signal. Users
 of the filter should then check items again via
-C<.match()>.
+L<.match()|#match>.
 
 Depending on the C<$change> parameter, not all items need to
 be changed, but only some. Refer to the  enumeration C<FilterChange> from C<Gnome::Gtk4::T-filter> 
@@ -109,7 +109,7 @@ This value may change after emission of the I<changed>
 signal.
 
 This function is meant purely for optimization purposes, filters can
-choose to omit implementing it, but B<Gnome::Gtk4::FilterListModel> uses it.
+choose to omit implementing it, but L<Gnome::Gtk4::FilterListModel|/content-docs/api2/reference/Gtk4/FilterListModel> uses it.
 
 =begin code
 method get-strictness (--> GtkFilterMatch )
@@ -163,9 +163,9 @@ Return value; C<True> if the filter matches the item and a filter model should
 Emitted whenever the filter changed.
 
 Users of the filter should then check items again via
-C<.match()>.
+L<.match()|#match>.
 
-B<Gnome::Gtk4::FilterListModel> handles this signal automatically.
+L<Gnome::Gtk4::FilterListModel|/content-docs/api2/reference/Gtk4/FilterListModel> handles this signal automatically.
 
 Depending on the C<$change> parameter, not all items need
 to be checked, but only some. Refer to the  enumeration C<FilterChange> from C<Gnome::Gtk4::T-filter> 
@@ -177,15 +177,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Filter :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $change; how the filter changed.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Filter> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Filter> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

@@ -9,7 +9,7 @@ use v6.d;
 =TITLE Gnome::Gtk4::FlowBoxChild
 =head1 Description
 
-B<Gnome::Gtk4::FlowBoxChild> is the kind of widget that can be added to a B<Gnome::Gtk4::FlowBox>.
+B<Gnome::Gtk4::FlowBoxChild> is the kind of widget that can be added to a L<Gnome::Gtk4::FlowBox|/content-docs/api2/reference/Gtk4/FlowBox>.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/FlowBoxChild.png> :width<70%> :class<inline>
@@ -46,7 +46,7 @@ Create an object using a native object from an object of the same type found els
 
 Creates a new B<Gnome::Gtk4::FlowBoxChild>.
 
-This should only be used as a child of a B<Gnome::Gtk4::FlowBox>.
+This should only be used as a child of a L<Gnome::Gtk4::FlowBox|/content-docs/api2/reference/Gtk4/FlowBox>.
 
 =begin code
 method new-flowboxchild ( --> Gnome::Gtk4::FlowBoxChild )
@@ -90,7 +90,7 @@ This generally means that if you don’t fully control the data
 model, you have to duplicate the data that affects the sorting
 and filtering functions into the widgets themselves.
 
-Another alternative is to call C<.invalidate-sort()> in class C<Gnome::Gtk4::FlowBox>
+Another alternative is to call L<.invalidate-sort() in class FlowBox|/content-docs/api2/reference/Gtk4/FlowBox#invalidate-sort>
 on any model change, but that is more expensive.
 
 =begin code
@@ -131,7 +131,7 @@ Return value; the child widget of C<$self>.
 =begin pod
 =head2 get-index
 
-Gets the current index of the C<$child> in its B<Gnome::Gtk4::FlowBox> container.
+Gets the current index of the C<$child> in its L<Gnome::Gtk4::FlowBox|/content-docs/api2/reference/Gtk4/FlowBox> container.
 
 =begin code
 method get-index (--> Int )
@@ -154,7 +154,7 @@ Return value; the index of the C<$child>, or -1 if the C<$child> is not
 =head2 is-selected
 
 Returns whether the C<$child> is currently selected in its
-B<Gnome::Gtk4::FlowBox> container.
+L<Gnome::Gtk4::FlowBox|/content-docs/api2/reference/Gtk4/FlowBox> container.
 
 =begin code
 method is-selected (--> Bool )
@@ -202,7 +202,7 @@ method set-child ( N-Object() $child )
 =comment -----------------------------------------------------------------------
 =head3 activate
 
-Emitted when the user activates a child widget in a B<Gnome::Gtk4::FlowBox>.
+Emitted when the user activates a child widget in a L<Gnome::Gtk4::FlowBox|/content-docs/api2/reference/Gtk4/FlowBox>.
 
 This can happen either by clicking or double-clicking,
 or via a keybinding.
@@ -217,14 +217,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::FlowBoxChild :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::FlowBoxChild> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::FlowBoxChild> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

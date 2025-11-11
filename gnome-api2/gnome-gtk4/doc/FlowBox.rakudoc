@@ -23,17 +23,17 @@ be requested.
 
 The size request of a B<Gnome::Gtk4::FlowBox> alone may not be what you expect;
 if you need to be able to shrink it along both axes and dynamically
-reflow its children, you may have to wrap it in a B<Gnome::Gtk4::ScrolledWindow>
+reflow its children, you may have to wrap it in a L<Gnome::Gtk4::ScrolledWindow|/content-docs/api2/reference/Gtk4/ScrolledWindow>
 to enable that.
 
 The children of a B<Gnome::Gtk4::FlowBox> can be dynamically sorted and filtered.
 
-Although a B<Gnome::Gtk4::FlowBox> must have only B<Gnome::Gtk4::FlowBoxChild> children, you
-can add any kind of widget to it via C<.insert()>, and a
-B<Gnome::Gtk4::FlowBoxChild> widget will automatically be inserted between the box
+Although a B<Gnome::Gtk4::FlowBox> must have only L<Gnome::Gtk4::FlowBoxChild|/content-docs/api2/reference/Gtk4/FlowBoxChild> children, you
+can add any kind of widget to it via L<.insert()|#insert>, and a
+L<Gnome::Gtk4::FlowBoxChild|/content-docs/api2/reference/Gtk4/FlowBoxChild> widget will automatically be inserted between the box
 and the widget.
 
-Also see B<Gnome::Gtk4::ListBox>.
+Also see L<Gnome::Gtk4::ListBox|/content-docs/api2/reference/Gtk4/ListBox>.
 
 =head2 CSS nodes
 
@@ -48,13 +48,13 @@ flowbox
 
 =end comment
 
-B<Gnome::Gtk4::FlowBox> uses a single CSS node with name flowbox. B<Gnome::Gtk4::FlowBoxChild>
+B<Gnome::Gtk4::FlowBox> uses a single CSS node with name flowbox. L<Gnome::Gtk4::FlowBoxChild|/content-docs/api2/reference/Gtk4/FlowBoxChild>
 uses a single CSS node with name flowboxchild. For rubberband selection,
 a subnode with name rubberband is used.
 
 =head2 Accessibility
 
-B<Gnome::Gtk4::FlowBox> uses the C<GTK_ACCESSIBLE_ROLE_GRID> role, and B<Gnome::Gtk4::FlowBoxChild>
+B<Gnome::Gtk4::FlowBox> uses the C<GTK_ACCESSIBLE_ROLE_GRID> role, and L<Gnome::Gtk4::FlowBoxChild|/content-docs/api2/reference/Gtk4/FlowBoxChild>
 uses the C<GTK_ACCESSIBLE_ROLE_GRID_CELL> role.
 
 =head2 Uml Diagram
@@ -122,13 +122,13 @@ Adds C<$child> to the end of C<$self>.
 If a sort function is set, the widget will
 actually be inserted at the calculated position.
 
-See also: C<.insert()>.
+See also: L<.insert()|#insert>.
 
 =begin code
 method append ( N-Object() $child )
 =end code
 
-=item $child; the B<Gnome::Gtk4::Widget> to add.
+=item $child; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to add.
 
 =begin comment
 
@@ -153,7 +153,7 @@ represent items from C<$model>. C<$box> is updated whenever C<$model> changes.
 If C<$model> is undefined, C<$box> is left empty.
 
 It is undefined to add or remove widgets directly (for example, with
-C<.insert()>) while C<$box> is bound to a model.
+L<.insert()|#insert>) while C<$box> is bound to a model.
 
 Note that using a model is incompatible with the filtering and sorting
 functionality in B<Gnome::Gtk4::FlowBox>. When using a model, filtering and sorting
@@ -163,7 +163,7 @@ should be implemented by the model.
 method bind-model ( N-List() $model, GtkFlowBoxCreateWidgetFunc &create-widget-func, gpointer $user-data, GDestroyNotify &user-data-free-func )
 =end code
 
-=item $model; the B<Gnome::Gio::R-ListModel> to be bound to C<$box>.
+=item $model; the L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> to be bound to C<$box>.
 =item GtkFlowBoxCreateWidgetFunc &create-widget-func; a function that creates widgets for items. The function must be specified with the following signature; C<:( gpointer $item, gpointer $user-data )>.
 =item $user-data; user data passed to C<$create-widget-func>.
 =item GDestroyNotify &user-data-free-func; function for freeing C<$user-data>. The function must be specified with the following signature; C<:( gpointer $data )>.
@@ -212,7 +212,7 @@ method get-child-at-index ( Int() $idx --> N-Object )
 =item $idx; the position of the child.
 
 Return value; the child widget, which will
-  always be a B<Gnome::Gtk4::FlowBoxChild> or undefined in case no child widget
+  always be a L<Gnome::Gtk4::FlowBoxChild|/content-docs/api2/reference/Gtk4/FlowBoxChild> or undefined in case no child widget
   with the given index exists.. 
 
 =begin comment
@@ -240,7 +240,7 @@ method get-child-at-pos ( Int() $x, Int() $y --> N-Object )
 =item $y; the y coordinate of the child.
 
 Return value; the child widget, which will
-  always be a B<Gnome::Gtk4::FlowBoxChild> or undefined in case no child widget
+  always be a L<Gnome::Gtk4::FlowBoxChild|/content-docs/api2/reference/Gtk4/FlowBoxChild> or undefined in case no child widget
   exists for the given x and y coordinates.. 
 
 =begin comment
@@ -368,7 +368,7 @@ method get-selected-children (--> N-List )
 =end code
 
 Return value; 
-  A B<Gnome::Glib::N-List> containing the B<Gnome::Gtk4::Widget> for each selected child.
+  A B<Gnome::Glib::N-List> containing the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> for each selected child.
   Free with g_list_free() when done.. 
 
 =begin comment
@@ -417,7 +417,7 @@ in the C<$box>, then the C<$widget> will be appended to the end.
 method insert ( N-Object() $widget, Int() $position )
 =end code
 
-=item $widget; the B<Gnome::Gtk4::Widget> to add.
+=item $widget; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to add.
 =item $position; the position to insert C<$child> in.
 
 =begin comment
@@ -484,13 +484,13 @@ Adds C<$child> to the start of C<$self>.
 If a sort function is set, the widget will
 actually be inserted at the calculated position.
 
-See also: C<.insert()>.
+See also: L<.insert()|#insert>.
 
 =begin code
 method prepend ( N-Object() $child )
 =end code
 
-=item $child; the B<Gnome::Gtk4::Widget> to add.
+=item $child; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to add.
 
 =begin comment
 
@@ -665,11 +665,11 @@ children matching the search terms.
 
 The C<$filter-func> will be called for each child after the call, and
 it will continue to be called each time a child changes (via
-C<.changed()> in class C<Gnome::Gtk4::FlowBoxChild>) or when
-C<.invalidate-filter()> is called.
+L<.changed() in class FlowBoxChild|/content-docs/api2/reference/Gtk4/FlowBoxChild#changed>) or when
+L<.invalidate-filter()|#invalidate-filter> is called.
 
 Note that using a filter function is incompatible with using a model
-(see C<.bind-model()>).
+(see L<.bind-model()|#bind-model>).
 
 =begin code
 method set-filter-func ( GtkFlowBoxFilterFunc &filter-func, gpointer $user-data, GDestroyNotify &destroy )
@@ -696,9 +696,9 @@ method set-filter-func ( GtkFlowBoxFilterFunc &filter-func, gpointer $user-data,
 Hooks up an adjustment to focus handling in C<$box>.
 
 The adjustment is also used for autoscrolling during
-rubberband selection. See C<.get-hadjustment()> in class C<Gnome::Gtk4::ScrolledWindow>
+rubberband selection. See L<.get-hadjustment() in class ScrolledWindow|/content-docs/api2/reference/Gtk4/ScrolledWindow#get-hadjustment>
 for a typical way of obtaining the adjustment, and
-C<.set-vadjustment()> for setting the vertical
+L<.set-vadjustment()|#set-vadjustment> for setting the vertical
 adjustment.
 
 The adjustments have to be in pixel units and in the same
@@ -844,11 +844,11 @@ the children.
 
 The C<$sort-func> will be called for each child after the call,
 and will continue to be called each time a child changes (via
-C<.changed()> in class C<Gnome::Gtk4::FlowBoxChild>) and when
-C<.invalidate-sort()> is called.
+L<.changed() in class FlowBoxChild|/content-docs/api2/reference/Gtk4/FlowBoxChild#changed>) and when
+L<.invalidate-sort()|#invalidate-sort> is called.
 
 Note that using a sort function is incompatible with using a model
-(see C<.bind-model()>).
+(see L<.bind-model()|#bind-model>).
 
 =begin code
 method set-sort-func ( GtkFlowBoxSortFunc &sort-func, gpointer $user-data, GDestroyNotify &destroy )
@@ -874,9 +874,9 @@ method set-sort-func ( GtkFlowBoxSortFunc &sort-func, gpointer $user-data, GDest
 Hooks up an adjustment to focus handling in C<$box>.
 
 The adjustment is also used for autoscrolling during
-rubberband selection. See C<.get-vadjustment()> in class C<Gnome::Gtk4::ScrolledWindow>
+rubberband selection. See L<.get-vadjustment() in class ScrolledWindow|/content-docs/api2/reference/Gtk4/ScrolledWindow#get-vadjustment>
 for a typical way of obtaining the adjustment, and
-C<.set-hadjustment()> for setting the horizontal
+L<.set-hadjustment()|#set-hadjustment> for setting the horizontal
 adjustment.
 
 The adjustments have to be in pixel units and in the same
@@ -960,14 +960,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::FlowBox :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::FlowBox> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::FlowBox> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -987,15 +986,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::FlowBox :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $child; the child that is activated.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::FlowBox> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::FlowBox> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1033,7 +1031,7 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::FlowBox :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
@@ -1043,9 +1041,8 @@ method handler (
 =item $extend; whether to extend the selection.
 =item $modify; whether to modify the selection.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::FlowBox> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::FlowBox> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; C<True> to stop other handlers from being invoked for the event.
 C<False> to propagate the event further.
@@ -1072,14 +1069,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::FlowBox :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::FlowBox> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::FlowBox> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1093,8 +1089,8 @@ method handler (
 
 Emitted when the set of selected children changes.
 
-Use C<.selected-foreach()> or
-C<.get-selected-children()> to obtain the
+Use L<.selected-foreach()|#selected-foreach> or
+L<.get-selected-children()|#get-selected-children> to obtain the
 selected children.
 
 =begin code
@@ -1102,14 +1098,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::FlowBox :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::FlowBox> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::FlowBox> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1132,14 +1127,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::FlowBox :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::FlowBox> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::FlowBox> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1163,14 +1157,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::FlowBox :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::FlowBox> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::FlowBox> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
