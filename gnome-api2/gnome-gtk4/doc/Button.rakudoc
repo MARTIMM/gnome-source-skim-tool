@@ -15,8 +15,8 @@ called when the button is pressed.
 =for image :src<asset_files/images/button.png> :width<30%> :class<inline>
 
 The B<Gnome::Gtk4::Button> widget can hold any valid child widget. That is, it can hold
-almost any other standard B<Gnome::Gtk4::Widget>. The most commonly used child is the
-B<Gnome::Gtk4::Label>.
+almost any other standard L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>. The most commonly used child is the
+L<Gnome::Gtk4::Label|/content-docs/api2/reference/Gtk4/Label>.
 
 =head2 CSS nodes
 
@@ -30,9 +30,9 @@ Other style classes that are commonly used with B<Gnome::Gtk4::Button> include
 .suggested-action and .destructive-action. In special cases, buttons
 can be made round by adding the .circular style class.
 
-Button-like widgets like B<Gnome::Gtk4::ToggleButton>, B<Gnome::Gtk4::MenuButton>,
-B<Gnome::Gtk4::VolumeButton>, B<Gnome::Gtk4::LockButton>, B<Gnome::Gtk4::ColorButton>
-or B<Gnome::Gtk4::FontButton> use style classes such as .toggle, .popup, .scale,
+Button-like widgets like L<Gnome::Gtk4::ToggleButton|/content-docs/api2/reference/Gtk4/ToggleButton>, L<Gnome::Gtk4::MenuButton|/content-docs/api2/reference/Gtk4/MenuButton>,
+L<Gnome::Gtk4::VolumeButton|/content-docs/api2/reference/Gtk4/VolumeButton>, L<Gnome::Gtk4::LockButton|/content-docs/api2/reference/Gtk4/LockButton>, L<Gnome::Gtk4::ColorButton|/content-docs/api2/reference/Gtk4/ColorButton>
+or L<Gnome::Gtk4::FontButton|/content-docs/api2/reference/Gtk4/FontButton> use style classes such as .toggle, .popup, .scale,
 .lock, .color on the button node to differentiate themselves from a plain
 B<Gnome::Gtk4::Button>.
 
@@ -75,7 +75,7 @@ Create an object using a native object from an object of the same type found els
 
 Creates a new B<Gnome::Gtk4::Button> widget.
 
-To add a child widget to the button, use C<.set-child()>.
+To add a child widget to the button, use L<.set-child()|#set-child>.
 
 =begin code
 method new-button ( --> Gnome::Gtk4::Button )
@@ -119,13 +119,13 @@ method new-from-icon-name ( Str $icon-name --> Gnome::Gtk4::Button )
 =begin pod
 =head2 new-with-label
 
-Creates a B<Gnome::Gtk4::Button> widget with a B<Gnome::Gtk4::Label> child.
+Creates a B<Gnome::Gtk4::Button> widget with a L<Gnome::Gtk4::Label|/content-docs/api2/reference/Gtk4/Label> child.
 
 =begin code
 method new-with-label ( Str $label --> Gnome::Gtk4::Button )
 =end code
 
-=item $label; The text you want the B<Gnome::Gtk4::Label> to hold.
+=item $label; The text you want the L<Gnome::Gtk4::Label|/content-docs/api2/reference/Gtk4/Label> to hold.
 
 =begin comment
 
@@ -242,15 +242,15 @@ Return value; C<True> if the button has a frame.
 
 Returns the icon name of the button.
 
-If the icon name has not been set with C<.set-icon-name()>
+If the icon name has not been set with L<.set-icon-name()|#set-icon-name>
 the return value will be undefined. This will be the case if you create
-an empty button with C<.newbutton()> to use as a container.
+an empty button with L<.newbutton()|#newbutton> to use as a container.
 
 =begin code
 method get-icon-name (--> Str )
 =end code
 
-Return value; The icon name set via C<.set-icon-name()>. 
+Return value; The icon name set via L<.set-icon-name()|#set-icon-name>. 
 
 =begin comment
 
@@ -267,9 +267,9 @@ Return value; The icon name set via C<.set-icon-name()>.
 
 Fetches the text from the label of the button.
 
-If the label text has not been set with C<.set-label()>
+If the label text has not been set with L<.set-label()|#set-label>
 the return value will be undefined. This will be the case if you create
-an empty button with C<.newbutton()> to use as a container.
+an empty button with L<.newbutton()|#newbutton> to use as a container.
 
 =begin code
 method get-label (--> Str )
@@ -293,7 +293,7 @@ by the widget and must not be modified or freed..
 
 gets whether underlines are interpreted as mnemonics.
 
-See C<.set-use-underline()>.
+See L<.set-use-underline()|#set-use-underline>.
 
 =begin code
 method get-use-underline (--> Bool )
@@ -391,7 +391,7 @@ method set-has-frame ( Bool() $has-frame )
 =begin pod
 =head2 set-icon-name
 
-Adds a B<Gnome::Gtk4::Image> with the given icon name as a child.
+Adds a L<Gnome::Gtk4::Image|/content-docs/api2/reference/Gtk4/Image> with the given icon name as a child.
 
 If C<$button> already contains a child widget, that child widget will
 be removed and replaced with the image.
@@ -481,14 +481,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Button :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Button> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Button> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =comment -----------------------------------------------------------------------
 =head3 clicked
@@ -500,14 +499,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Button :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Button> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Button> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =end pod
 

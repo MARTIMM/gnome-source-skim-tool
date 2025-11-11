@@ -9,11 +9,11 @@ use v6.d;
 =TITLE Gnome::Gtk4::BuilderListItemFactory
 =head1 Description
 
-B<Gnome::Gtk4::BuilderListItemFactory> is a B<Gnome::Gtk4::ListItemFactory> that creates
-widgets by instantiating B<Gnome::Gtk4::Builder> UI templates.
+B<Gnome::Gtk4::BuilderListItemFactory> is a L<Gnome::Gtk4::ListItemFactory|/content-docs/api2/reference/Gtk4/ListItemFactory> that creates
+widgets by instantiating L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder> UI templates.
 
-The templates must be extending B<Gnome::Gtk4::ListItem>, and typically use
-B<Gnome::Gtk4::Expression>s to obtain data from the items in the model.
+The templates must be extending L<Gnome::Gtk4::ListItem|/content-docs/api2/reference/Gtk4/ListItem>, and typically use
+L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression>s to obtain data from the items in the model.
 
 Example:
 =begin comment
@@ -68,7 +68,7 @@ Create an object using a native object from an object of the same type found els
 =head2 new-from-bytes
 
 Creates a new B<Gnome::Gtk4::BuilderListItemFactory> that instantiates widgets
-using C<$bytes> as the data to pass to B<Gnome::Gtk4::Builder>.
+using C<$bytes> as the data to pass to L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder>.
 
 =begin code
 method new-from-bytes ( N-Object() $scope, N-Object $bytes --> Gnome::Gtk4::BuilderListItemFactory )
@@ -91,7 +91,7 @@ method new-from-bytes ( N-Object() $scope, N-Object $bytes --> Gnome::Gtk4::Buil
 =head2 new-from-resource
 
 Creates a new B<Gnome::Gtk4::BuilderListItemFactory> that instantiates widgets
-using data read from the given C<$resource-path> to pass to B<Gnome::Gtk4::Builder>.
+using data read from the given C<$resource-path> to pass to L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder>.
 
 =begin code
 method new-from-resource ( N-Object() $scope, Str $resource-path --> Gnome::Gtk4::BuilderListItemFactory )
@@ -121,14 +121,14 @@ method new-from-resource ( N-Object() $scope, Str $resource-path --> Gnome::Gtk4
 =begin pod
 =head2 get-bytes
 
-Gets the data used as the B<Gnome::Gtk4::Builder> UI template for constructing
+Gets the data used as the L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder> UI template for constructing
 listitems.
 
 =begin code
 method get-bytes (--> N-Object )
 =end code
 
-Return value; The B<Gnome::Gtk4::Builder> data. 
+Return value; The L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder> data. 
 
 =begin comment
 

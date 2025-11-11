@@ -13,29 +13,29 @@ A B<Gnome::Gtk4::Builder> reads XML descriptions of a user interface and
 instantiates the described objects.
 
 To create a B<Gnome::Gtk4::Builder> from a user interface description, call
-C<.new-from-file()>, C<.new-from-resource()>
-or C<.new-from-string()>.
+L<.new-from-file()|#new-from-file>, L<.new-from-resource()|#new-from-resource>
+or L<.new-from-string()|#new-from-string>.
 
 In the (unusual) case that you want to add user interface
 descriptions from multiple sources to the same B<Gnome::Gtk4::Builder> you can
-call C<.newbuilder()> to get an empty builder and populate it by
-(multiple) calls to C<.add-from-file()>,
-C<.add-from-resource()> or
-C<.add-from-string()>.
+call L<.newbuilder()|#newbuilder> to get an empty builder and populate it by
+(multiple) calls to L<.add-from-file()|#add-from-file>,
+L<.add-from-resource()|#add-from-resource> or
+L<.add-from-string()|#add-from-string>.
 
 A B<Gnome::Gtk4::Builder> holds a reference to all objects that it has constructed
 and drops these references when it is finalized. This finalization can
 cause the destruction of non-widget objects or widgets which are not
 contained in a toplevel window. For toplevel windows constructed by a
 builder, it is the responsibility of the user to call
-C<.destroy()> in class C<Gnome::Gtk4::Window> to get rid of them and all the widgets
+L<.destroy() in class Window|/content-docs/api2/reference/Gtk4/Window#destroy> to get rid of them and all the widgets
 they contain.
 
-The functions C<.get-object()> and
-C<.get-objects()> can be used to access the widgets in
+The functions L<.get-object()|#get-object> and
+L<.get-objects()|#get-objects> can be used to access the widgets in
 the interface by the names assigned to them inside the UI description.
 Toplevel windows returned by these functions will stay around until the
-user explicitly destroys them with C<.destroy()> in class C<Gnome::Gtk4::Window>. Other
+user explicitly destroys them with L<.destroy() in class Window|/content-docs/api2/reference/Gtk4/Window#destroy>. Other
 widgets will either be part of a larger hierarchy constructed by the
 builder (in which case you should not have to worry about their lifecycle),
 or without a parent, in which case they have to be added to some container
@@ -55,7 +55,7 @@ UI definition files are always encoded in UTF-8.
 The toplevel element is `<interface>`. It optionally takes a “domain”
 attribute, which will make the builder look for translated strings
 using B<dgettext>()` in the domain specified. This can also be done by
-calling C<.set-translation-domain()> on the builder.
+calling L<.set-translation-domain()|#set-translation-domain> on the builder.
 For example:
 
 =begin comment
@@ -109,7 +109,7 @@ B<Gnome::GObject::T-type>()` for each object type before parsing the UI definiti
 
 Objects may be given a name with the “id” attribute, which allows the
 application to retrieve them from the builder with
-C<.get-object()>. An id is also necessary to use the
+L<.get-object()|#get-object>. An id is also necessary to use the
 object as property value in other parts of the UI definition. GTK
 reserves ids starting and ending with B<___> (three consecutive
 underscores) for its own purposes.
@@ -143,14 +143,14 @@ property types:
 =item flag types (can be specified by their C identifier, short name, integer
   value, and optionally combined with “|” for bitwise OR, e.g.
   “GTK_INPUT_HINT_EMOJI|GTK_INPUT_HINT_LOWERCASE”, or “emoji|lowercase”)
-=item colors (in a format understood by C<.parse()> in class C<Gnome::Gdk4::N-RGBA>)
+=item colors (in a format understood by L<.parse() in class RGBA|/content-docs/api2/reference/Gdk4/RGBA#parse>)
 =item B<Gnome::Glib::N-Variant> (can be specified in the format understood by
-   C<.Variant.parse() in package Gnome::GLib>)
+   L<.Variant.parse().Variant.parse() in package Gnome::GLib|/content-docs/api2/reference/GLib/T-builder#Variant.parse>)
 =item pixbufs (can be specified as a filename of an image file to load)
 
 Objects can be referred to by their name and by default refer to
 objects declared in the local XML fragment and objects exposed via
-C<.expose-object()>. In general, B<Gnome::Gtk4::Builder> allows
+L<.expose-object()|#expose-object>. In general, B<Gnome::Gtk4::Builder> allows
 forward references to objects declared in the local XML; an object
 doesn’t have to be constructed before it can be referred to. The
 exception to this rule is that an object has to be constructed before
@@ -163,25 +163,25 @@ I<child defined in Gnome::Gtk4::Expander>. In this case, the preferred way to
 specify the child widget in a ui file is to simply set the property:
 
 Generic containers that can contain an arbitrary number of children,
-such as B<Gnome::Gtk4::Box> instead use the `<child>` element. A `<child>`
+such as L<Gnome::Gtk4::Box|/content-docs/api2/reference/Gtk4/Box> instead use the `<child>` element. A `<child>`
 element contains an `<object>` element which describes the child object.
 Most often, child objects are widgets inside a container, but they can
 also be, e.g., actions in an action group, or columns in a tree model.
 
-Any object type that implements the B<Gnome::Gtk4::R-Buildable> interface can
+Any object type that implements the L<Gnome::Gtk4::BuilderCScope|/content-docs/api2/reference/Gnome::Gtk4::R-Buildable> interface can
 specify how children may be added to it. Since many objects and widgets that
-are included with GTK already implement the B<Gnome::Gtk4::R-Buildable> interface,
+are included with GTK already implement the L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/Gtk4/R-Buildable> interface,
 typically child objects can be added using the `<child>` element without
 having to be concerned about the underlying implementation.
 
-See the [B<Gnome::Gtk4::Widget> documentation](class.Widget.html#gtkwidget-as-gtkbuildable)
+See the [L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> documentation](class.Widget.html#gtkwidget-as-gtkbuildable)
 for many examples of using B<Gnome::Gtk4::Builder> with widgets, including setting
 child objects using the `<child>` element.
 
 A noteworthy special case to the general rule that only objects implementing
-B<Gnome::Gtk4::R-Buildable> may specify how to handle the `<child>` element is that
+L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/Gtk4/R-Buildable> may specify how to handle the `<child>` element is that
 B<Gnome::Gtk4::Builder> provides special support for adding objects to a
-B<Gnome::Gtk4::Builder> by using the `<child>` element. For instance:
+L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder> by using the `<child>` element. For instance:
 
 =head4 Property bindings
 
@@ -190,18 +190,18 @@ property value using the attributes "bind-source" to specify the
 source object of the binding, and optionally, "bind-property" and
 "bind-flags" to specify the source property and source binding flags
 respectively. Internally, B<Gnome::Gtk4::Builder> implements this using
-B<Gnome::Gtk4::Builder> objects.
+L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder> objects.
 
 For instance, in the example below the “label” property of the
 B<bottom_label> widget is bound to the “label” property of the
 B<top_button> widget:
 
 For more information, see the documentation of the
-C<.bind-property()> in class C<Gnome::GObject::Object> method.
+L<.bind-property() in class Object|/content-docs/api2/reference/GObject/Object#bind-property> method.
 
 Please note that another way to set up bindings between objects in .ui files
-is to use the B<Gnome::Gtk4::Expression> methodology. See the
-[B<Gnome::Gtk4::Expression> documentation](class.Expression.html#gtkexpression-in-ui-files)
+is to use the L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression> methodology. See the
+[L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression> documentation](class.Expression.html#gtkexpression-in-ui-files)
 for more information.
 
 =head4 Internal children
@@ -209,7 +209,7 @@ for more information.
 Sometimes it is necessary to refer to widgets which have implicitly
 been constructed by GTK as part of a composite widget, to set
 properties on them or to add further children (e.g. the content area
-of a B<Gnome::Gtk4::Dialog>). This can be achieved by setting the “internal-child”
+of a L<Gnome::Gtk4::Dialog|/content-docs/api2/reference/Gtk4/Dialog>). This can be achieved by setting the “internal-child”
 property of the `<child>` element to a true value. Note that B<Gnome::Gtk4::Builder>
 still requires an `<object>` element for the internal child, even if it
 has already been constructed.
@@ -230,7 +230,7 @@ specifies the function to connect to the signal.
 
 The remaining attributes, “after”, “swapped” and “object”, have the
 same meaning as the corresponding parameters of the
-C<.signal-connect-object() in package Gnome::GObject> or C<.signal-connect-data() in package Gnome::GObject>
+L<.signal-connect-object().signal-connect-object() in package Gnome::GObject|/content-docs/api2/reference/GObject/T-builder#signal-connect-object> or L<.signal-connect-data().signal-connect-data() in package Gnome::GObject|/content-docs/api2/reference/GObject/T-builder#signal-connect-data>
 functions:
 
 =item “after” matches the B<G_CONNECT_AFTER> flag, and will ensure that the
@@ -256,18 +256,18 @@ flags, and linked against B<gmodule>-export-2.0`.
 
 =head3 Using GtkBuildable for extending UI definitions
 
-Objects can implement the B<Gnome::Gtk4::R-Buildable> interface to add custom
+Objects can implement the L<Gnome::Gtk4::BuilderCScope|/content-docs/api2/reference/Gnome::Gtk4::R-Buildable> interface to add custom
 elements and attributes to the XML. Typically, any extension will be
 documented in each type that implements the interface.
 
 =head3 Templates
 
-When describing a B<Gnome::Gtk4::Widget>, you can use the `<template>` tag to
+When describing a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>, you can use the `<template>` tag to
 describe a UI bound to a specific widget type. GTK will automatically load
 the UI definition when instantiating the type, and bind children and
 signal handlers to instance fields and function symbols.
 
-For more information, see the [B<Gnome::Gtk4::Widget> documentation](class.Widget.html#building-composite-widgets-from-template-xml)
+For more information, see the [L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> documentation](class.Widget.html#building-composite-widgets-from-template-xml)
 for details.
 
 =head2 Uml Diagram
@@ -306,8 +306,8 @@ Create an object using a native object from an object of the same type found els
 Creates a new empty builder object.
 
 This function is only useful if you intend to make multiple calls
-to C<.add-from-file()>, C<.add-from-resource()>
-or C<.add-from-string()> in order to merge multiple UI
+to L<.add-from-file()|#add-from-file>, L<.add-from-resource()|#add-from-resource>
+or L<.add-from-string()|#add-from-string> in order to merge multiple UI
 descriptions into a single builder.
 
 =begin code
@@ -417,9 +417,9 @@ Parses a file containing a UI definition and merges it with
 the current contents of C<$builder>.
 
 This function is useful if you need to call
-C<.set-current-object()>) to add user data to
+L<.set-current-object()|#set-current-object>) to add user data to
 callbacks before loading GtkBuilder UI. Otherwise, you probably
-want C<.new-from-file()> instead.
+want L<.new-from-file()|#new-from-file> instead.
 
 If an error occurs, 0 will be returned and C<$error> will be assigned a
 B<Gnome::Glib::N-Error> from the B<GTK_BUILDER_ERROR>, B<G_MARKUP_ERROR> or B<G_FILE_ERROR>
@@ -460,9 +460,9 @@ Parses a resource file containing a UI definition
 and merges it with the current contents of C<$builder>.
 
 This function is useful if you need to call
-C<.set-current-object()> to add user data to
+L<.set-current-object()|#set-current-object> to add user data to
 callbacks before loading GtkBuilder UI. Otherwise, you probably
-want C<.new-from-resource()> instead.
+want L<.new-from-resource()|#new-from-resource> instead.
 
 If an error occurs, 0 will be returned and C<$error> will be assigned a
 B<Gnome::Glib::N-Error> from the C<GTK_BUILDER_ERROR>, C<G_MARKUP_ERROR> or C<G_RESOURCE_ERROR>
@@ -500,9 +500,9 @@ Parses a string containing a UI definition and merges it
 with the current contents of C<$builder>.
 
 This function is useful if you need to call
-C<.set-current-object()> to add user data to
+L<.set-current-object()|#set-current-object> to add user data to
 callbacks before loading B<Gnome::Gtk4::Builder> UI. Otherwise, you probably
-want C<.new-from-string()> instead.
+want L<.new-from-string()|#new-from-string> instead.
 
 Upon errors C<False> will be returned and C<$error> will be assigned a
 B<Gnome::Glib::N-Error> from the C<GTK_BUILDER_ERROR>, C<G_MARKUP_ERROR> or
@@ -546,8 +546,8 @@ B<Gnome::Glib::N-Error> from the C<GTK_BUILDER_ERROR>, C<G_MARKUP_ERROR> or C<G_
 domain.
 
 If you are adding an object that depends on an object that is not
-its child (for instance a B<Gnome::Gtk4::TreeView> that depends on its
-B<Gnome::Gtk4::R-TreeModel>), you have to explicitly list all of them in C<$object-ids>.
+its child (for instance a L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView> that depends on its
+L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>), you have to explicitly list all of them in C<$object-ids>.
 
 =begin code
 method add-objects-from-file ( Str $filename, Array[Str] $object-ids, CArray[N-Error] $err --> Bool )
@@ -583,8 +583,8 @@ B<Gnome::Glib::N-Error> from the C<GTK_BUILDER_ERROR>, C<G_MARKUP_ERROR> or C<G_
 domain.
 
 If you are adding an object that depends on an object that is not
-its child (for instance a B<Gnome::Gtk4::TreeView> that depends on its
-B<Gnome::Gtk4::R-TreeModel>), you have to explicitly list all of them in C<$object-ids>.
+its child (for instance a L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView> that depends on its
+L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>), you have to explicitly list all of them in C<$object-ids>.
 
 =begin code
 method add-objects-from-resource ( Str $resource-path, Array[Str] $object-ids, CArray[N-Error] $err --> Bool )
@@ -618,8 +618,8 @@ Upon errors C<False> will be returned and C<$error> will be assigned a
 B<Gnome::Glib::N-Error> from the C<GTK_BUILDER_ERROR> or C<G_MARKUP_ERROR> domain.
 
 If you are adding an object that depends on an object that is not
-its child (for instance a B<Gnome::Gtk4::TreeView> that depends on its
-B<Gnome::Gtk4::R-TreeModel>), you have to explicitly list all of them in C<$object-ids>.
+its child (for instance a L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView> that depends on its
+L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>), you have to explicitly list all of them in C<$object-ids>.
 
 =begin code
 method add-objects-from-string ( Str $buffer, Int() $length, Array[Str] $object-ids, CArray[N-Error] $err --> Bool )
@@ -650,7 +650,7 @@ Return value; C<True> on success, C<False> if an error occurred.
 Creates a closure to invoke the function called C<$function-name>.
 
 This is using the create_closure() implementation of C<$builder>'s
-B<Gnome::Gtk4::R-BuilderScope>.
+L<Gnome::Gtk4::BuilderCScope|/content-docs/api2/reference/Gnome::Gtk4::R-BuilderScope>.
 
 If no closure could be created, undefined will be returned and C<$error>
 will be set.
@@ -713,7 +713,7 @@ Main private entry point for building composite components
 from template XML.
 
 Most likely you do not need to call this function in applications as
-templates are handled by B<Gnome::Gtk4::Widget>.
+templates are handled by L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>.
 
 =begin code
 method extend-with-template ( N-Object() $object, GType $template-type, Str $buffer, Int() $length, CArray[N-Error] $err --> Bool )
@@ -862,7 +862,7 @@ Looks up a type by name.
 
 This is using the virtual function that B<Gnome::Gtk4::Builder> has
 for that purpose. This is mainly used when implementing
-the B<Gnome::Gtk4::R-Buildable> interface on a type.
+the L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/Gtk4/R-Buildable> interface on a type.
 
 =begin code
 method get-type-from-name ( Str $type-name --> GType )
@@ -892,9 +892,9 @@ The current object can be thought of as the B<this> object that the
 builder is working for and will often be used as the default object
 when an object is optional.
 
-C<.init-template()> in class C<Gnome::Gtk4::Widget> for example will set the current
+L<.init-template() in class Widget|/content-docs/api2/reference/Gtk4/Widget#init-template> for example will set the current
 object to the widget the template is inited for. For functions like
-C<.new-from-resource()>, the current object will be undefined.
+L<.new-from-resource()|#new-from-resource>, the current object will be undefined.
 
 =begin code
 method set-current-object ( N-Object() $current-object )
@@ -917,7 +917,7 @@ method set-current-object ( N-Object() $current-object )
 
 Sets the scope the builder should operate in.
 
-If C<$scope> is undefined, a new B<Gnome::Gtk4::BuilderCScope> will be created.
+If C<$scope> is undefined, a new L<Gnome::Gtk4::BuilderCScope|/content-docs/api2/reference/Gtk4/BuilderCScope> will be created.
 
 =begin code
 method set-scope ( N-Object() $scope )
@@ -966,7 +966,7 @@ so it need not be initialised beforehand.
 
 Can handle char, uchar, boolean, int, uint, long,
 ulong, enum, flags, float, double, string, B<Gnome::Gdk4::N-RGBA> and
-B<Gnome::Gtk4::Adjustment> type values.
+L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment> type values.
 
 Upon errors C<False> will be returned and C<$error> will be
 assigned a B<Gnome::Glib::N-Error> from the C<GTK_BUILDER_ERROR> domain.
@@ -975,7 +975,7 @@ assigned a B<Gnome::Glib::N-Error> from the C<GTK_BUILDER_ERROR> domain.
 method value-from-string ( N-Object() $pspec, Str $string, N-Object $value, CArray[N-Error] $err --> Bool )
 =end code
 
-=item $pspec; the B<Gnome::GObject::ParamSpec> for the property.
+=item $pspec; the L<Gnome::GObject::ParamSpec|/content-docs/api2/reference/GObject/ParamSpec> for the property.
 =item $string; the string representation of the value.
 =item $value; the B<Gnome::GObject::N-Value> to store the result in
 =item $err; Error object. When defined, an error can be returned when there is one.
@@ -999,8 +999,8 @@ Return value; C<True> on success.
 
 Demarshals a value from a string.
 
-Unlike C<.value-from-string()>, this function
-takes a B<Gnome::GObject::Builder> instead of B<Gnome::GObject::ParamSpec>.
+Unlike L<.value-from-string()|#value-from-string>, this function
+takes a B<Gnome::GObject::Builder> instead of L<Gnome::GObject::ParamSpec|/content-docs/api2/reference/GObject/ParamSpec>.
 
 Calls g_value_init() on the C<$value> argument, so it
 need not be initialised beforehand.

@@ -19,19 +19,19 @@ dimension, all children are allocated the same size. Of course, the
 I<halign defined in Gnome::Gtk4::Widget> and I<valign defined in Gnome::Gtk4::Widget> properties
 can be used on the children to influence their allocation.
 
-Use repeated calls to C<.append()> to pack widgets into a
-B<Gnome::Gtk4::Box> from start to end. Use C<.remove()> to remove widgets
-from the B<Gnome::Gtk4::Box>. C<.insert-child-after()> can be used to add
+Use repeated calls to L<.append()|#append> to pack widgets into a
+B<Gnome::Gtk4::Box> from start to end. Use L<.remove()|#remove> to remove widgets
+from the B<Gnome::Gtk4::Box>. L<.insert-child-after()|#insert-child-after> can be used to add
 a child at a particular position.
 
-Use C<.set-homogeneous()> to specify whether or not all children
+Use L<.set-homogeneous()|#set-homogeneous> to specify whether or not all children
 of the B<Gnome::Gtk4::Box> are forced to get the same amount of space.
 
-Use C<.set-spacing()> to determine how much space will be minimally
+Use L<.set-spacing()|#set-spacing> to determine how much space will be minimally
 placed between all children in the B<Gnome::Gtk4::Box>. Note that spacing is added
 *between* the children.
 
-Use C<.reorder-child-after()> to move a child to a different
+Use L<.reorder-child-after()|#reorder-child-after> to move a child to a different
 place in the box.
 
 =head2 CSS nodes
@@ -113,7 +113,7 @@ Adds C<$child> as the last child to C<$box>.
 method append ( N-Object() $child )
 =end code
 
-=item $child; the B<Gnome::Gtk4::Widget> to append.
+=item $child; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to append.
 
 =begin comment
 
@@ -222,7 +222,7 @@ If C<$sibling> is undefined, insert C<$child> at the first position.
 method insert-child-after ( N-Object() $child, N-Object() $sibling )
 =end code
 
-=item $child; the B<Gnome::Gtk4::Widget> to insert.
+=item $child; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to insert.
 =item $sibling; the sibling after which to insert C<$child>.
 
 =begin comment
@@ -244,7 +244,7 @@ Adds C<$child> as the first child to C<$box>.
 method prepend ( N-Object() $child )
 =end code
 
-=item $child; the B<Gnome::Gtk4::Widget> to prepend.
+=item $child; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to prepend.
 
 =begin comment
 
@@ -262,8 +262,8 @@ method prepend ( N-Object() $child )
 Removes a child widget from C<$box>.
 
 The child must have been added before with
-C<.append()>, C<.prepend()>, or
-C<.insert-child-after()>.
+L<.append()|#append>, L<.prepend()|#prepend>, or
+L<.insert-child-after()|#insert-child-after>.
 
 =begin code
 method remove ( N-Object() $child )
@@ -293,7 +293,7 @@ If C<$sibling> is undefined, move C<$child> to the first position.
 method reorder-child-after ( N-Object() $child, N-Object() $sibling )
 =end code
 
-=item $child; the B<Gnome::Gtk4::Widget> to move, must be a child of C<$box>.
+=item $child; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to move, must be a child of C<$box>.
 =item $sibling; the sibling to move C<$child> after.
 
 =begin comment
