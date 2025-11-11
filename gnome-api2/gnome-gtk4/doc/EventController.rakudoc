@@ -15,8 +15,8 @@ These are ancillary objects associated to widgets, which react
 to B<GdkEvents>, and possibly trigger actions as a consequence.
 
 Event controllers are added to a widget with
-C<.add-controller()> in class C<Gnome::Gtk4::Widget>. It is rarely necessary to
-explicitly remove a controller with C<.remove-controller()> in class C<Gnome::Gtk4::Widget>.
+L<.add-controller() in class Widget|/content-docs/api2/reference/Gtk4/Widget#add-controller>. It is rarely necessary to
+explicitly remove a controller with L<.remove-controller() in class Widget|/content-docs/api2/reference/Gtk4/Widget#remove-controller>.
 
 See the chapter on [input handling](input-handling.html) for
 an overview of the basic concepts, such as the capture and bubble
@@ -223,13 +223,13 @@ Return value; the propagation phase.
 =begin pod
 =head2 get-widget
 
-Returns the B<Gnome::Gtk4::Widget> this controller relates to.
+Returns the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> this controller relates to.
 
 =begin code
 method get-widget (--> N-Object )
 =end code
 
-Return value; a B<Gnome::Gtk4::Widget>. 
+Return value; a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>. 
 
 =begin comment
 

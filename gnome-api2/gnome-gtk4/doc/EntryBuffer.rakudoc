@@ -9,7 +9,7 @@ use v6.d;
 =TITLE Gnome::Gtk4::EntryBuffer
 =head1 Description
 
-A B<Gnome::Gtk4::EntryBuffer> hold the text displayed in a B<Gnome::Gtk4::Text> widget.
+A B<Gnome::Gtk4::EntryBuffer> hold the text displayed in a L<Gnome::Gtk4::Text|/content-docs/api2/reference/Gtk4/Text> widget.
 
 A single B<Gnome::Gtk4::EntryBuffer> object can be shared by multiple widgets
 which will then share the same text content, but not the cursor
@@ -165,7 +165,7 @@ method emit-inserted-text ( UInt() $position, Str $chars, UInt() $n-chars )
 
 Retrieves the length in bytes of the buffer.
 
-See C<.get-length()>.
+See L<.get-length()|#get-length>.
 
 =begin code
 method get-bytes (--> Int )
@@ -317,8 +317,8 @@ method set-max-length ( Int() $max-length )
 Sets the text in the buffer.
 
 This is roughly equivalent to calling
-C<.delete-text()> and
-C<.insert-text()>.
+L<.delete-text()|#delete-text> and
+L<.insert-text()|#insert-text>.
 
 Note that C<$n-chars> is in characters, not in bytes.
 
@@ -360,16 +360,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::EntryBuffer :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $position; the position the text was deleted at..
 =item $n-chars; The number of characters that were deleted..
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::EntryBuffer> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::EntryBuffer> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -391,7 +390,7 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::EntryBuffer :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
@@ -399,9 +398,8 @@ method handler (
 =item $chars; The text that was inserted..
 =item $n-chars; The number of characters that were inserted..
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::EntryBuffer> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::EntryBuffer> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

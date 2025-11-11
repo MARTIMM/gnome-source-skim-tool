@@ -18,26 +18,26 @@ entered text is longer than the allocation of the widget, the widget
 will scroll so that the cursor position is visible.
 
 When using an entry for passwords and other sensitive information, it
-can be put into “password mode” using C<.set-visibility()>.
+can be put into “password mode” using L<.set-visibility()|#set-visibility>.
 In this mode, entered text is displayed using a “invisible” character.
 By default, GTK picks the best invisible character that is available
 in the current font, but it can be changed with
-C<.set-invisible-char()>.
+L<.set-invisible-char()|#set-invisible-char>.
 
 B<Gnome::Gtk4::Entry> has the ability to display progress or activity
 information behind the text. To make an entry display such information,
-use C<.set-progress-fraction()> or
-C<.set-progress-pulse-step()>.
+use L<.set-progress-fraction()|#set-progress-fraction> or
+L<.set-progress-pulse-step()|#set-progress-pulse-step>.
 
 Additionally, B<Gnome::Gtk4::Entry> can show icons at either side of the entry.
 These icons can be activatable by clicking, can be set up as drag source
 and can have tooltips. To add an icon, use
-C<.set-icon-from-gicon()> or one of the various other functions
+L<.set-icon-from-gicon()|#set-icon-from-gicon> or one of the various other functions
 that set an icon from an icon name or a paintable. To trigger an action when
 the user clicks an icon, connect to the I<icon-press> signal.
 To allow DND operations from an icon, use
-C<.set-icon-drag-source()>. To set a tooltip on an icon, use
-C<.set-icon-tooltip-text()> or the corresponding function
+L<.set-icon-drag-source()|#set-icon-drag-source>. To set a tooltip on an icon, use
+L<.set-icon-tooltip-text()|#set-icon-tooltip-text> or the corresponding function
 for markup.
 
 Note that functionality or information that is only available by clicking
@@ -68,11 +68,11 @@ When the entry shows progress, it adds a subnode with the name progress.
 The node has the style class .pulse when the shown progress is pulsing.
 
 For all the subnodes added to the text node in various situations,
-see B<Gnome::Gtk4::Text>.
+see L<Gnome::Gtk4::Text|/content-docs/api2/reference/Gtk4/Text>.
 
 =head2 GtkEntry as GtkBuildable
 
-The B<Gnome::Gtk4::Entry> implementation of the B<Gnome::Gtk4::R-Buildable> interface supports a
+The B<Gnome::Gtk4::Entry> implementation of the L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/Gtk4/R-Buildable> interface supports a
 custom `<attributes>` element, which supports any number of `<attribute>`
 elements. The `<attribute>` element has attributes named “name“, “value“,
 “start“ and “end“ and allows you to specify B<Gnome::Pango::N-Attribute> values for
@@ -226,7 +226,7 @@ Return value; the alignment.
 
 Gets the attribute list of the B<Gnome::Gtk4::Entry>.
 
-See C<.set-attributes()>.
+See L<.set-attributes()|#set-attributes>.
 
 =begin code
 method get-attributes (--> N-Object )
@@ -247,14 +247,14 @@ Return value; the attribute list.
 =begin pod
 =head2 get-buffer
 
-Get the B<Gnome::Gtk4::EntryBuffer> object which holds the text for
+Get the L<Gnome::Gtk4::EntryBuffer|/content-docs/api2/reference/Gtk4/EntryBuffer> object which holds the text for
 this widget.
 
 =begin code
 method get-buffer (--> N-Object )
 =end code
 
-Return value; A B<Gnome::Gtk4::EntryBuffer> object.. 
+Return value; A L<Gnome::Gtk4::EntryBuffer|/content-docs/api2/reference/Gtk4/EntryBuffer> object.. 
 
 =begin comment
 
@@ -440,10 +440,10 @@ Return value; the index of the icon at the given position, or -1.
 =begin pod
 =head2 get-icon-gicon
 
-Retrieves the B<Gnome::Gio::R-Icon> used for the icon.
+Retrieves the L<Gnome::Gio::R-Icon|/content-docs/api2/reference/Gio/R-Icon> used for the icon.
 
 undefined will be returned if there is no icon or if the icon was
-set by some other method (e.g., by B<Gnome::Gdk4::R-Paintable> or icon name).
+set by some other method (e.g., by L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable> or icon name).
 
 =begin code
 method get-icon-gicon ( GtkEntryIconPosition $icon-pos --> N-Object )
@@ -451,7 +451,7 @@ method get-icon-gicon ( GtkEntryIconPosition $icon-pos --> N-Object )
 
 =item $icon-pos; Icon position.
 
-Return value; A B<Gnome::Gio::R-Icon>. 
+Return value; A L<Gnome::Gio::R-Icon|/content-docs/api2/reference/Gio/R-Icon>. 
 
 =begin comment
 
@@ -469,7 +469,7 @@ Return value; A B<Gnome::Gio::R-Icon>.
 Retrieves the icon name used for the icon.
 
 undefined is returned if there is no icon or if the icon was set
-by some other method (e.g., by B<Gnome::Gdk4::R-Paintable> or gicon).
+by some other method (e.g., by L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable> or gicon).
 
 =begin code
 method get-icon-name ( GtkEntryIconPosition $icon-pos --> Str )
@@ -492,9 +492,9 @@ Return value; An icon name.
 =begin pod
 =head2 get-icon-paintable
 
-Retrieves the B<Gnome::Gdk4::R-Paintable> used for the icon.
+Retrieves the L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable> used for the icon.
 
-If no B<Gnome::Gdk4::R-Paintable> was used for the icon, undefined is returned.
+If no L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable> was used for the icon, undefined is returned.
 
 =begin code
 method get-icon-paintable ( GtkEntryIconPosition $icon-pos --> N-Object )
@@ -502,9 +502,9 @@ method get-icon-paintable ( GtkEntryIconPosition $icon-pos --> N-Object )
 
 =item $icon-pos; Icon position.
 
-Return value; A B<Gnome::Gdk4::R-Paintable>
+Return value; A L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable>
   if no icon is set for this position or the icon set is not
-  a B<Gnome::Gdk4::R-Paintable>.. 
+  a L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable>.. 
 
 =begin comment
 
@@ -684,7 +684,7 @@ Return value; the current invisible char, or 0, if the entry does not
 
 Retrieves the maximum allowed length of the text in C<$entry>.
 
-See C<.set-max-length()>.
+See L<.set-max-length()|#set-max-length>.
 
 =begin code
 method get-max-length (--> Int )
@@ -755,7 +755,7 @@ Return value; a pointer to the
 
 Returns the current fraction of the task that’s been completed.
 
-See C<.set-progress-fraction()>.
+See L<.set-progress-fraction()|#set-progress-fraction>.
 
 =begin code
 method get-progress-fraction (--> Num )
@@ -800,7 +800,7 @@ Return value; a fraction from 0.0 to 1.0.
 
 Gets the tabstops of the B<Gnome::Gtk4::Entry>.
 
-See C<.set-tabs()>.
+See L<.set-tabs()|#set-tabs>.
 
 =begin code
 method get-tabs (--> N-Object )
@@ -823,8 +823,8 @@ Return value; the tabstops.
 
 Retrieves the current length of the text in C<$entry>.
 
-This is equivalent to getting C<$entry>'s B<Gnome::Gtk4::EntryBuffer>
-and calling C<.get-length()> in class C<Gnome::Gtk4::EntryBuffer> on it.
+This is equivalent to getting C<$entry>'s L<Gnome::Gtk4::EntryBuffer|/content-docs/api2/reference/Gtk4/EntryBuffer>
+and calling L<.get-length() in class EntryBuffer|/content-docs/api2/reference/Gtk4/EntryBuffer#get-length> on it.
 
 =begin code
 method get-text-length (--> UInt )
@@ -848,7 +848,7 @@ Return value; the current number of characters
 
 Retrieves whether the text in C<$entry> is visible.
 
-See C<.set-visibility()>.
+See L<.set-visibility()|#set-visibility>.
 
 =begin code
 method get-visibility (--> Bool )
@@ -871,7 +871,7 @@ Return value; C<True> if the text is currently visible.
 
 Causes C<$entry> to have keyboard focus.
 
-It behaves like C<.grab-focus()> in class C<Gnome::Gtk4::Widget>, except that it doesn't
+It behaves like L<.grab-focus() in class Widget|/content-docs/api2/reference/Gtk4/Widget#grab-focus>, except that it doesn't
 select the contents of the entry. You only want to call this on some
 special entries which the user usually doesn't want to replace all text
 in, such as search-as-you-type entries.
@@ -902,7 +902,7 @@ Causes the entry’s progress indicator to enter “activity
 mode”, where a block bounces back and forth. Each call to
 C<.progress-pulse()> causes the block to move by a
 little bit (the amount of movement per pulse is determined
-by C<.set-progress-pulse-step()>).
+by L<.set-progress-pulse-step()|#set-progress-pulse-step>).
 
 =begin code
 method progress-pulse ( )
@@ -1022,14 +1022,14 @@ method set-attributes ( N-Object $attrs )
 =begin pod
 =head2 set-buffer
 
-Set the B<Gnome::Gtk4::EntryBuffer> object which holds the text for
+Set the L<Gnome::Gtk4::EntryBuffer|/content-docs/api2/reference/Gtk4/EntryBuffer> object which holds the text for
 this widget.
 
 =begin code
 method set-buffer ( N-Object() $buffer )
 =end code
 
-=item $buffer; a B<Gnome::Gtk4::EntryBuffer>.
+=item $buffer; a L<Gnome::Gtk4::EntryBuffer|/content-docs/api2/reference/Gtk4/EntryBuffer>.
 
 =begin comment
 
@@ -1050,14 +1050,14 @@ Sets C<$completion> to be the auxiliary completion object
 to use with C<$entry>.
 
 All further configuration of the completion mechanism is
-done on C<$completion> using the B<Gnome::Gtk4::EntryCompletion> API.
+done on C<$completion> using the L<Gnome::Gtk4::EntryCompletion|/content-docs/api2/reference/Gtk4/EntryCompletion> API.
 Completion is disabled if C<$completion> is set to undefined.
 
 =begin code
 method set-completion ( N-Object() $completion )
 =end code
 
-=item $completion; The B<Gnome::Gtk4::EntryCompletion>.
+=item $completion; The L<Gnome::Gtk4::EntryCompletion|/content-docs/api2/reference/Gtk4/EntryCompletion>.
 
 =begin comment
 
@@ -1079,7 +1079,7 @@ the context menu for C<$entry>.
 method set-extra-menu ( N-Object() $model )
 =end code
 
-=item $model; a B<Gnome::Gio::MenuModel>.
+=item $model; a L<Gnome::Gio::MenuModel|/content-docs/api2/reference/Gio/MenuModel>.
 
 =begin comment
 
@@ -1147,7 +1147,7 @@ method set-icon-drag-source ( GtkEntryIconPosition $icon-pos, N-Object() $provid
 =end code
 
 =item $icon-pos; icon position.
-=item $provider; a B<Gnome::Gdk4::ContentProvider>.
+=item $provider; a L<Gnome::Gdk4::ContentProvider|/content-docs/api2/reference/Gdk4/ContentProvider>.
 =item $actions; a bitmask of the allowed drag actions.
 
 =begin comment
@@ -1221,7 +1221,7 @@ method set-icon-from-icon-name ( GtkEntryIconPosition $icon-pos, Str $icon-name 
 =begin pod
 =head2 set-icon-from-paintable
 
-Sets the icon shown in the specified position using a B<Gnome::Gdk4::R-Paintable>.
+Sets the icon shown in the specified position using a L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable>.
 
 If C<$paintable> is undefined, no icon will be shown in the specified position.
 
@@ -1230,7 +1230,7 @@ method set-icon-from-paintable ( GtkEntryIconPosition $icon-pos, N-Object() $pai
 =end code
 
 =item $icon-pos; Icon position.
-=item $paintable; A B<Gnome::Gdk4::R-Paintable>.
+=item $paintable; A L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable>.
 
 =begin comment
 
@@ -1274,8 +1274,8 @@ the specified position.
 
 Use undefined for C<$tooltip> to remove an existing tooltip.
 
-See also C<.set-tooltip-markup()> in class C<Gnome::Gtk4::Widget> and
-C<.set-icon-tooltip-text()>.
+See also L<.set-tooltip-markup() in class Widget|/content-docs/api2/reference/Gtk4/Widget#set-tooltip-markup> and
+L<.set-icon-tooltip-text()|#set-icon-tooltip-text>.
 
 =begin code
 method set-icon-tooltip-markup ( GtkEntryIconPosition $icon-pos, Str $tooltip )
@@ -1302,15 +1302,15 @@ at the specified position.
 
 Use undefined for C<$tooltip> to remove an existing tooltip.
 
-See also C<.set-tooltip-text()> in class C<Gnome::Gtk4::Widget> and
-C<.set-icon-tooltip-markup()>.
+See also L<.set-tooltip-text() in class Widget|/content-docs/api2/reference/Gtk4/Widget#set-tooltip-text> and
+L<.set-icon-tooltip-markup()|#set-icon-tooltip-markup>.
 
 If you unset the widget tooltip via
-C<.set-tooltip-text()> in class C<Gnome::Gtk4::Widget> or
-C<.set-tooltip-markup()> in class C<Gnome::Gtk4::Widget>, this sets
+L<.set-tooltip-text() in class Widget|/content-docs/api2/reference/Gtk4/Widget#set-tooltip-text> or
+L<.set-tooltip-markup() in class Widget|/content-docs/api2/reference/Gtk4/Widget#set-tooltip-markup>, this sets
 I<has-tooltip defined in Gnome::Gtk4::Widget> to C<False>, which suppresses
 icon tooltips too. You can resolve this by then calling
-C<.set-has-tooltip()> in class C<Gnome::Gtk4::Widget> to set
+L<.set-has-tooltip() in class Widget|/content-docs/api2/reference/Gtk4/Widget#set-has-tooltip> to set
 I<has-tooltip defined in Gnome::Gtk4::Widget> back to C<True>, or
 setting at least one non-empty tooltip on any icon
 achieves the same result.
@@ -1382,7 +1382,7 @@ method set-input-purpose ( GtkInputPurpose $purpose )
 Sets the character to use in place of the actual text
 in “password mode”.
 
-See C<.set-visibility()> for how to enable
+See L<.set-visibility()|#set-visibility> for how to enable
 “password mode”.
 
 By default, GTK picks the best invisible char available in
@@ -1414,8 +1414,8 @@ Sets the maximum allowed length of the contents of the widget.
 If the current contents are longer than the given length, then
 they will be truncated to fit. The length is in characters.
 
-This is equivalent to getting C<$entry>'s B<Gnome::Gtk4::EntryBuffer> and
-calling C<.set-max-length()> in class C<Gnome::Gtk4::EntryBuffer> on it.
+This is equivalent to getting C<$entry>'s L<Gnome::Gtk4::EntryBuffer|/content-docs/api2/reference/Gtk4/EntryBuffer> and
+calling L<.set-max-length() in class EntryBuffer|/content-docs/api2/reference/Gtk4/EntryBuffer#set-max-length> on it.
 
 =begin code
 method set-max-length ( Int() $max )
@@ -1510,7 +1510,7 @@ method set-progress-fraction ( Num() $fraction )
 Sets the fraction of total entry width to move the progress
 bouncing block for each pulse.
 
-Use C<.progress-pulse()> to pulse
+Use L<.progress-pulse()|#progress-pulse> to pulse
 the progress.
 
 =begin code
@@ -1563,7 +1563,7 @@ the text in the entry widget is copied elsewhere.
 
 By default, GTK picks the best invisible character available
 in the current font, but it can be changed with
-C<.set-invisible-char()>.
+L<.set-invisible-char()|#set-invisible-char>.
 
 Note that you probably want to set I<input-purpose>
 to C<GTK_INPUT_PURPOSE_PASSWORD> or C<GTK_INPUT_PURPOSE_PIN> to
@@ -1590,7 +1590,7 @@ method set-visibility ( Bool() $visible )
 =head2 unset-invisible-char
 
 Unsets the invisible char, so that the default invisible char
-is used again. See C<.set-invisible-char()>.
+is used again. See L<.set-invisible-char()|#set-invisible-char>.
 
 =begin code
 method unset-invisible-char ( )
@@ -1624,14 +1624,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Entry :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Entry> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Entry> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1651,15 +1650,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Entry :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $icon-pos; The position of the clicked icon.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Entry> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Entry> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1680,15 +1678,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Entry :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $icon-pos; The position of the clicked icon.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Entry> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Entry> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

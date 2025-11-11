@@ -14,10 +14,10 @@ on an expander triangle.
 
 =for image :src<asset_files/images/expander.png> :width<30%> :class<inline>
 
-This is similar to the triangles used in a B<Gnome::Gtk4::TreeView>.
+This is similar to the triangles used in a L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView>.
 
 Normally you use an expander as you would use a frame; you create
-the child widget and use C<.set-child()> to add it
+the child widget and use L<.set-child()|#set-child> to add it
 to the expander. When the expander is toggled, it will take care of
 showing and hiding the child automatically.
 
@@ -65,7 +65,7 @@ create_expander (void)
 
 =head2 GtkExpander as GtkBuildable
 
-The B<Gnome::Gtk4::Expander> implementation of the B<Gnome::Gtk4::R-Buildable> interface supports
+The B<Gnome::Gtk4::Expander> implementation of the L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/Gtk4/R-Buildable> interface supports
 placing a child in the label position by specifying “label” as the
 “type” attribute of a `<child>` element. A normal content child can be
 specified without specifying a `<child>` type attribute.
@@ -243,7 +243,7 @@ Return value; the current state of the expander.
 Fetches the text from a label widget.
 
 This is including any embedded underlines indicating mnemonics and
-Pango markup, as set by C<.set-label()>. If the label
+Pango markup, as set by L<.set-label()|#set-label>. If the label
 text has not been set the return value will be undefined. This will be the
 case if you create an empty button with gtk_button_new() to use as a
 container.
@@ -523,14 +523,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Expander :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Expander> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Expander> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

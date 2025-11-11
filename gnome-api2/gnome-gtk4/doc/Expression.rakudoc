@@ -15,7 +15,7 @@ An important aspect of expressions is that the value can be obtained
 from a source that is several steps away. For example, an expression
 may describe ‘the value of property A of B<object1>, which is itself the
 value of a property of B<object2>’. And B<object1> may not even exist yet
-at the time that the expression is created. This is contrast to B<Gnome::GObject::Object>
+at the time that the expression is created. This is contrast to L<Gnome::GObject::Object|/content-docs/api2/reference/GObject/Object>
 property bindings, which can only create direct connections between
 the properties of two objects that must both exist for the duration
 of the binding.
@@ -24,13 +24,13 @@ An expression needs to be "evaluated" to obtain the value that it currently
 refers to. An evaluation always happens in the context of a current object
 called B<this> (it mirrors the behavior of object-oriented languages),
 which may or may not influence the result of the evaluation. Use
-C<.evaluate()>] for evaluating an expression.
+L<.evaluate()|#evaluate> for evaluating an expression.
 
 Various methods for defining expressions exist, from simple constants via
-C<.newexpression()> in class B<Gnome::Gtk4::ConstantExpression> to looking up properties in a B<Gnome::GObject::Object>
-(even recursively) via C<.newexpression()> in class B<Gnome::Gtk4::PropertyExpression> or providing
+L<.newexpression() in class ConstantExpression|/content-docs/api2/reference/Gtk4/ConstantExpression#newexpression> to looking up properties in a L<Gnome::GObject::Object|/content-docs/api2/reference/GObject/Object>
+(even recursively) via L<.newexpression() in class PropertyExpression|/content-docs/api2/reference/Gtk4/PropertyExpression#newexpression> or providing
 custom functions to transform and combine expressions via
-C<.newexpression()> in class B<Gnome::Gtk4::ClosureExpression>.
+L<.newexpression() in class ClosureExpression|/content-docs/api2/reference/Gtk4/ClosureExpression#newexpression>.
 
 Here is an example of a complex expression:
 
@@ -42,8 +42,8 @@ Here is an example of a complex expression:
 
 =end comment
 
-when evaluated with B<this> being a B<Gnome::Gtk4::ListItem>, it will obtain the
-"item" property from the B<Gnome::Gtk4::ListItem>, and then obtain the "name" property
+when evaluated with B<this> being a L<Gnome::Gtk4::ListItem|/content-docs/api2/reference/Gtk4/ListItem>, it will obtain the
+"item" property from the L<Gnome::Gtk4::ListItem|/content-docs/api2/reference/Gtk4/ListItem>, and then obtain the "name" property
 from the resulting object (which is assumed to be of type B<GTK_TYPE_COLOR>).
 
 A more concise way to describe this would be
@@ -54,26 +54,26 @@ A more concise way to describe this would be
 =end comment
 
 The most likely place where you will encounter expressions is in the context
-of list models and list widgets using them. For example, B<Gnome::Gtk4::DropDown> is
+of list models and list widgets using them. For example, L<Gnome::Gtk4::DropDown|/content-docs/api2/reference/Gtk4/DropDown> is
 evaluating a B<Gnome::Gtk4::Expression> to obtain strings from the items in its model
 that it can then use to match against the contents of its search entry.
-B<Gnome::Gtk4::StringFilter> is using a B<Gnome::Gtk4::Expression> for similar reasons.
+L<Gnome::Gtk4::StringFilter|/content-docs/api2/reference/Gtk4/StringFilter> is using a B<Gnome::Gtk4::Expression> for similar reasons.
 
 By default, expressions are not paying attention to changes and evaluation is
 just a snapshot of the current state at a given time. To get informed about
-changes, an expression needs to be "watched" via a  B<Gnome::Gtk4::T-expression> ,
+changes, an expression needs to be "watched" via a  B<Gnome::Gtk4::N-ExpressionWatch> ,
 which will cause a callback to be called whenever the value of the expression may
-have changed; C<.watch()>] starts watching an expression, and
-C<.unwatch()> in class B<Gnome::Gtk4::T-expression>] stops.
+have changed; L<.watch()|#watch> starts watching an expression, and
+L<.unwatch() in class ExpressionWatch|/content-docs/api2/reference/Gtk4/ExpressionWatch#unwatch> stops.
 
 Watches can be created for automatically updating the property of an object,
-similar to GObject's B<Gnome::GObject::Binding> mechanism, by using C<.bind()>].
+similar to GObject's L<Gnome::GObject::Binding|/content-docs/api2/reference/GObject/Binding> mechanism, by using L<.bind()|#bind>.
 
 =head3 GtkExpression in GObject properties
 
-In order to use a B<Gnome::Gtk4::Expression> as a B<Gnome::GObject::Object> property, you must use the
-C<.param-spec-expression()> when creating a B<Gnome::GObject::ParamSpec> to install in the
-B<Gnome::GObject::Object> class being defined; for instance:
+In order to use a B<Gnome::Gtk4::Expression> as a L<Gnome::GObject::Object|/content-docs/api2/reference/GObject/Object> property, you must use the
+L<.param-spec-expression().param-spec-expression() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-expression#param-spec-expression> when creating a L<Gnome::GObject::ParamSpec|/content-docs/api2/reference/GObject/ParamSpec> to install in the
+L<Gnome::GObject::Object|/content-docs/api2/reference/GObject/Object> class being defined; for instance:
 
 =begin comment
 obj_props[PROP_EXPRESSION] =
@@ -87,8 +87,8 @@ obj_props[PROP_EXPRESSION] =
 =end comment
 
 When implementing the B<GObjectClass>.set_property` and B<GObjectClass>.get_property`
-virtual functions, you must use C<.value-get-expression()>, to retrieve the
-stored B<Gnome::Gtk4::Expression> from the B<Gnome::GObject::N-Value> container, and C<.value-set-expression()>,
+virtual functions, you must use L<.value-get-expression().value-get-expression() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-expression#value-get-expression>, to retrieve the
+stored B<Gnome::Gtk4::Expression> from the B<Gnome::GObject::N-Value> container, and L<.value-set-expression().value-set-expression() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-expression#value-set-expression>,
 to store the B<Gnome::Gtk4::Expression> into the B<Gnome::GObject::N-Value>; for instance:
 
 =begin comment
@@ -106,7 +106,7 @@ to store the B<Gnome::Gtk4::Expression> into the B<Gnome::GObject::N-Value>; for
 
 =head3 GtkExpression in .ui files
 
-B<Gnome::Gtk4::Builder> has support for creating expressions. The syntax here can be used where
+L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder> has support for creating expressions. The syntax here can be used where
 a B<Gnome::Gtk4::Expression> object is needed like in a `<property>` tag for an expression
 property, or in a `<binding name="property">` tag to bind a property to an expression.
 
@@ -124,8 +124,8 @@ Example:
 
 Since the `<lookup>` element creates an expression and its element content can
 itself be an expression, this means that `<lookup>` tags can also be nested.
-This is a common idiom when dealing with B<Gnome::Gtk4::ListItem>s. See
-B<Gnome::Gtk4::BuilderListItemFactory> for an example of this technique.
+This is a common idiom when dealing with L<Gnome::Gtk4::ListItem|/content-docs/api2/reference/Gtk4/ListItem>s. See
+L<Gnome::Gtk4::BuilderListItemFactory|/content-docs/api2/reference/Gtk4/BuilderListItemFactory> for an example of this technique.
 
 To create a constant expression, use the `<constant>` element. If the type attribute
 is specified, the element content is interpreted as a value of that type. Otherwise,
@@ -155,7 +155,7 @@ To create a property binding, use the `<binding>` element in place of where a
 supported. The B<name> attribute is required, and pertains to the applicable property
 name. The B<object> attribute is optional. If provided, it will use the specified object
 as the B<this> object when the expression is evaluated. Here is an example in which the
-B<label> property of a B<Gnome::Gtk4::Label> is bound to the B<string> property of another arbitrary
+B<label> property of a L<Gnome::Gtk4::Label|/content-docs/api2/reference/Gtk4/Label> is bound to the B<string> property of another arbitrary
 object:
 
 =head2 Uml Diagram
@@ -210,7 +210,7 @@ You can ensure that this doesn't happen by using a fallback
 expression.
 
 Note that this function takes ownership of B<self>. If you want
-to keep it around, you should C<.ref()>] it beforehand.
+to keep it around, you should L<.ref()|#ref> it beforehand.
 
 =begin code
 method bind ( gpointer $target, Str $property, gpointer $this --> N-Object )
@@ -221,7 +221,7 @@ method bind ( gpointer $target, Str $property, gpointer $this --> N-Object )
 =item $this; the this argument for
   the evaluation of B<self>.
 
-Return value; a B<Gnome::Gtk4::T-expression>. 
+Return value; a B<Gnome::Gtk4::N-ExpressionWatch>. 
 
 =begin comment
 
@@ -240,7 +240,7 @@ Evaluates the given expression and on success stores the result
 in C<$value>.
 
 The B<Gnome::GObject::Expression> of B<value> will be the type given by
-C<.get-value-type()>].
+L<.get-value-type()|#get-value-type>.
 
 It is possible that expressions cannot be evaluated - for example
 when the expression references objects that have been destroyed or
@@ -278,7 +278,7 @@ of this expression.
 method get-value-type (--> GType )
 =end code
 
-Return value; The type returned from C<.evaluate()>]. 
+Return value; The type returned from L<.evaluate()|#evaluate>. 
 
 =begin comment
 
@@ -296,9 +296,9 @@ Return value; The type returned from C<.evaluate()>].
 Checks if the expression is static.
 
 A static expression will never change its result when
-C<.evaluate()>] is called on it with the same arguments.
+L<.evaluate()|#evaluate> is called on it with the same arguments.
 
-That means a call to C<.watch()>] is not necessary because
+That means a call to L<.watch()|#watch> is not necessary because
 it will never trigger a notify.
 
 =begin code
@@ -385,7 +385,7 @@ method watch ( gpointer $this, GtkExpressionNotify &notify, gpointer $user-data,
 Return value; The newly installed watch. Note that the only
   reference held to the watch will be released when the watch is unwatched
   which can happen automatically, and not just via
-  C<.unwatch()> in class B<Gnome::Gtk4::T-expression>]. You should call C<.ref()> in class B<Gnome::Gtk4::T-expression>]
+  L<.unwatch() in class ExpressionWatch|/content-docs/api2/reference/Gtk4/ExpressionWatch#unwatch>. You should call L<.ref() in class ExpressionWatch|/content-docs/api2/reference/Gtk4/ExpressionWatch#ref>
   if you want to keep the watch around.. 
 
 =begin comment

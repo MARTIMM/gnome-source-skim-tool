@@ -10,18 +10,18 @@ use v6.d;
 =head1 Description
 
 B<Gnome::Gtk4::EntryCompletion> is an auxiliary object to provide completion functionality
-for B<Gnome::Gtk4::Entry>.
+for L<Gnome::Gtk4::Entry|/content-docs/api2/reference/Gtk4/Entry>.
 
-It implements the B<Gnome::Gtk4::R-CellLayout> interface, to allow the user
-to add extra cells to the B<Gnome::Gtk4::TreeView> with completion matches.
+It implements the L<Gnome::Gtk4::TreeModelFilter|/content-docs/api2/reference/Gnome::Gtk4::R-CellLayout> interface, to allow the user
+to add extra cells to the L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView> with completion matches.
 
 “Completion functionality” means that when the user modifies the text
 in the entry, B<Gnome::Gtk4::EntryCompletion> checks which rows in the model match
 the current content of the entry, and displays a list of matches.
 By default, the matching is done by comparing the entry text
 case-insensitively against the text column of the model (see
-C<.set-text-column()>), but this can be overridden
-with a custom match function (see C<.set-match-func()>).
+L<.set-text-column()|#set-text-column>), but this can be overridden
+with a custom match function (see L<.set-match-func()|#set-match-func>).
 
 When the user selects a completion, the content of the entry is
 updated. By default, the content of the entry is replaced by the
@@ -31,9 +31,9 @@ entry in the signal handler. Note that you should return C<True> from
 the signal handler to suppress the default behaviour.
 
 To add completion functionality to an entry, use
-C<.set-completion()> in class C<Gnome::Gtk4::Entry>.
+L<.set-completion() in class Entry|/content-docs/api2/reference/Gtk4/Entry#set-completion>.
 
-B<Gnome::Gtk4::EntryCompletion> uses a B<Gnome::Gtk4::TreeModelFilter> model to
+B<Gnome::Gtk4::EntryCompletion> uses a L<Gnome::Gtk4::TreeModelFilter|/content-docs/api2/reference/Gtk4/TreeModelFilter> model to
 represent the subset of the entire model that is currently matching.
 While the B<Gnome::Gtk4::EntryCompletion> signals
 I<match-selected> and
@@ -42,10 +42,10 @@ and an iter pointing to that model as arguments, other callbacks and
 signals (such as B<Gnome::Gtk4::T-celllayout> or
 I<apply-attributes) defined in CellArea>
 will generally take the filter model as argument. As long as you are
-only calling C<.get()> in class C<Gnome::Gtk4::R-TreeModel>, this will make no difference to
+only calling L<.get() in class TreeModel|/content-docs/api2/reference/Gtk4/TreeModel#get>, this will make no difference to
 you. If for some reason, you need the original model, use
-C<.get-model()> in class C<Gnome::Gtk4::TreeModelFilter>. Don’t forget to use
-C<.convert-iter-to-child-iter()> in class C<Gnome::Gtk4::TreeModelFilter> to obtain a
+L<.get-model() in class TreeModelFilter|/content-docs/api2/reference/Gtk4/TreeModelFilter#get-model>. Don’t forget to use
+L<.convert-iter-to-child-iter() in class TreeModelFilter|/content-docs/api2/reference/Gtk4/TreeModelFilter#convert-iter-to-child-iter> to obtain a
 matching iter.
 
 =head2 Uml Diagram
@@ -109,14 +109,14 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Creates a new B<Gnome::Gtk4::EntryCompletion> object using the
 specified C<$area>.
 
-The B<Gnome::Gtk4::CellArea> is used to layout cells in the underlying
-B<Gnome::Gtk4::TreeViewColumn> for the drop-down menu.
+The L<Gnome::Gtk4::CellArea|/content-docs/api2/reference/Gtk4/CellArea> is used to layout cells in the underlying
+L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn> for the drop-down menu.
 
 =begin code
 method new-with-area ( N-Object() $area --> Gnome::Gtk4::EntryCompletion )
 =end code
 
-=item $area; the B<Gnome::Gtk4::CellArea> used to layout cells.
+=item $area; the L<Gnome::Gtk4::CellArea|/content-docs/api2/reference/Gtk4/CellArea> used to layout cells.
 
 =begin comment
 
@@ -170,7 +170,7 @@ that start with C<$key>.
 
 If no row matches C<$key>, undefined will be returned.
 Note that a text column must have been set for this function to work,
-see C<.set-text-column()> for details.
+see L<.set-text-column()|#set-text-column> for details.
 
 =begin code
 method compute-prefix ( Str $key --> Str )
@@ -321,7 +321,7 @@ Returns undefined if the model is unset.
 method get-model (--> N-Object )
 =end code
 
-Return value; A B<Gnome::Gtk4::R-TreeModel>. 
+Return value; A L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>. 
 
 =begin comment
 
@@ -568,7 +568,7 @@ will unset the model.
 method set-model ( N-Object() $model )
 =end code
 
-=item $model; the B<Gnome::Gtk4::R-TreeModel>.
+=item $model; the L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>.
 
 =begin comment
 
@@ -666,7 +666,7 @@ This function will set up C<$completion>
 to have a list displaying all (and just) strings in the completion list,
 and to get those strings from C<$column> in the model of C<$completion>.
 
-This functions creates and adds a B<Gnome::Gtk4::CellRendererText> for the selected
+This functions creates and adds a L<Gnome::Gtk4::CellRendererText|/content-docs/api2/reference/Gtk4/CellRendererText> for the selected
 column. If you need to set the text column, but don't want the cell
 renderer, use g_object_set() to set the
 I<text-column> property directly.
@@ -703,7 +703,7 @@ of the entry with the contents of the text column in the row
 pointed to by C<$iter>.
 
 Note that C<$model> is the model that was passed to
-C<.set-model()>.
+L<.set-model()|#set-model>.
 
 =begin code
 method handler (
@@ -712,17 +712,16 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::EntryCompletion :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
-=item $model; the B<Gnome::Gtk4::R-TreeModel> containing the matches.
+=item $model; the L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel> containing the matches.
 =item $iter; a B<Gnome::Gtk4::N-TreeIter> positioned at the selected match.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::EntryCompletion> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::EntryCompletion> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; C<True> if the signal has been handled
 
@@ -743,7 +742,7 @@ whole prefix and select the newly inserted part.
 
 Applications may connect to this signal in order to insert only a
 smaller part of the C<$prefix> into the entry - e.g. the entry used in
-the B<Gnome::Gtk4::R-FileChooser> inserts only the part of the prefix up to the
+the L<Gnome::Gtk4::R-FileChooser|/content-docs/api2/reference/Gtk4/R-FileChooser> inserts only the part of the prefix up to the
 next '/'.
 
 =begin code
@@ -752,16 +751,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::EntryCompletion :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
 =item $prefix; the common prefix of all possible completions.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::EntryCompletion> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::EntryCompletion> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; C<True> if the signal has been handled
 
@@ -782,7 +780,7 @@ entry with the contents of the text column in the row
 pointed to by C<$iter>.
 
 Note that C<$model> is the model that was passed to
-C<.set-model()>.
+L<.set-model()|#set-model>.
 
 =begin code
 method handler (
@@ -791,17 +789,16 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::EntryCompletion :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
-=item $model; the B<Gnome::Gtk4::R-TreeModel> containing the matches.
+=item $model; the L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel> containing the matches.
 =item $iter; a B<Gnome::Gtk4::N-TreeIter> positioned at the selected match.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::EntryCompletion> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::EntryCompletion> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; C<True> if the signal has been handled
 
@@ -825,14 +822,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::EntryCompletion :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::EntryCompletion> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::EntryCompletion> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
