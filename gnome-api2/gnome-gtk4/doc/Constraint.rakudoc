@@ -20,7 +20,7 @@ The typical equation for a constraint is:
 =end comment
 
 Each B<Gnome::Gtk4::Constraint> is part of a system that will be solved by a
-B<Gnome::Gtk4::ConstraintLayout> in order to allocate and position each
+L<Gnome::Gtk4::ConstraintLayout|/content-docs/api2/reference/Gtk4/ConstraintLayout> in order to allocate and position each
 child widget or guide.
 
 The source and target, as well as their attributes, of a B<Gnome::Gtk4::Constraint>
@@ -186,11 +186,11 @@ Return value; a relation type.
 =begin pod
 =head2 get-source
 
-Retrieves the B<Gnome::Gtk4::R-ConstraintTarget> used as the source for the
+Retrieves the L<Gnome::Gtk4::ConstraintLayout|/content-docs/api2/reference/Gnome::Gtk4::R-ConstraintTarget> used as the source for the
 constraint.
 
 If the source is set to undefined at creation, the constraint will use
-the widget using the B<Gnome::Gtk4::ConstraintLayout> as the source.
+the widget using the L<Gnome::Gtk4::ConstraintLayout|/content-docs/api2/reference/Gtk4/ConstraintLayout> as the source.
 
 =begin code
 method get-source (--> N-Object )
@@ -253,17 +253,17 @@ Return value; the strength value.
 =begin pod
 =head2 get-target
 
-Retrieves the B<Gnome::Gtk4::R-ConstraintTarget> used as the target for
+Retrieves the L<Gnome::Gtk4::ConstraintLayout|/content-docs/api2/reference/Gnome::Gtk4::R-ConstraintTarget> used as the target for
 the constraint.
 
 If the targe is set to undefined at creation, the constraint will use
-the widget using the B<Gnome::Gtk4::ConstraintLayout> as the target.
+the widget using the L<Gnome::Gtk4::ConstraintLayout|/content-docs/api2/reference/Gtk4/ConstraintLayout> as the target.
 
 =begin code
 method get-target (--> N-Object )
 =end code
 
-Return value; a B<Gnome::Gtk4::R-ConstraintTarget>. 
+Return value; a L<Gnome::Gtk4::R-ConstraintTarget|/content-docs/api2/reference/Gtk4/R-ConstraintTarget>. 
 
 =begin comment
 
@@ -299,7 +299,7 @@ Return value; the target's attribute.
 =begin pod
 =head2 is-attached
 
-Checks whether the constraint is attached to a B<Gnome::Gtk4::ConstraintLayout>,
+Checks whether the constraint is attached to a L<Gnome::Gtk4::ConstraintLayout|/content-docs/api2/reference/Gtk4/ConstraintLayout>,
 and it is contributing to the layout.
 
 =begin code

@@ -11,17 +11,17 @@ use v6.d;
 
 Renders a spin button in a cell
 
-B<Gnome::Gtk4::CellRendererSpin> renders text in a cell like B<Gnome::Gtk4::CellRendererText> from
-which it is derived. But while B<Gnome::Gtk4::CellRendererText> offers a simple entry to
-edit the text, B<Gnome::Gtk4::CellRendererSpin> offers a B<Gnome::Gtk4::SpinButton> widget. Of course,
+B<Gnome::Gtk4::CellRendererSpin> renders text in a cell like L<Gnome::Gtk4::CellRendererText|/content-docs/api2/reference/Gtk4/CellRendererText> from
+which it is derived. But while L<Gnome::Gtk4::CellRendererText|/content-docs/api2/reference/Gtk4/CellRendererText> offers a simple entry to
+edit the text, B<Gnome::Gtk4::CellRendererSpin> offers a L<Gnome::Gtk4::SpinButton|/content-docs/api2/reference/Gtk4/SpinButton> widget. Of course,
 that means that the text has to be parseable as a floating point number.
 
 The range of the spinbutton is taken from the adjustment property of the
 cell renderer, which can be set explicitly or mapped to a column in the
 tree model, like all properties of cell renders. B<Gnome::Gtk4::CellRendererSpin>
 also has properties for the B<Gnome::Gtk4::CellRendererSpin>:climb-rate` and the number
-of B<Gnome::Gtk4::CellRendererSpin>:digits` to display. Other B<Gnome::Gtk4::SpinButton> properties
-can be set in a handler for the B<Gnome::Gtk4::CellRenderer>::editing-started` signal.
+of B<Gnome::Gtk4::CellRendererSpin>:digits` to display. Other L<Gnome::Gtk4::SpinButton|/content-docs/api2/reference/Gtk4/SpinButton> properties
+can be set in a handler for the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>::editing-started` signal.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/CellRendererSpin.png> :width<70%> :class<inline>

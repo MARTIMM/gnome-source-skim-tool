@@ -13,15 +13,15 @@ An object for rendering a single cell
 
 The B<Gnome::Gtk4::CellRenderer> is a base class of a set of objects used for
 rendering a cell to a B<Cairo::cairo_t>.  These objects are used primarily by
-the B<Gnome::Gtk4::TreeView> widget, though they aren’t tied to them in any
+the L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView> widget, though they aren’t tied to them in any
 specific way.  It is worth noting that B<Gnome::Gtk4::CellRenderer> is not a
-B<Gnome::Gtk4::Widget> and cannot be treated as such.
+L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> and cannot be treated as such.
 
 The primary use of a B<Gnome::Gtk4::CellRenderer> is for drawing a certain graphical
 elements on a B<Cairo::cairo_t>. Typically, one cell renderer is used to
 draw many cells on the screen.  To this extent, it isn’t expected that a
 CellRenderer keep any permanent state around.  Instead, any state is set
-just prior to use using B<Gnome::GObject::Object>s property system.  Then, the
+just prior to use using L<Gnome::GObject::Object|/content-docs/api2/reference/GObject/Object>s property system.  Then, the
 cell is measured using C<.get-preferred-size()>. Finally, the cell
 is rendered in the correct location using C<.snapshot()>.
 
@@ -37,7 +37,7 @@ provide active user interface elements. A cell renderer can be
 which toggles when it gets activated by a mouse click, or it can be
 “editable” like B<Gnome::Gtk4::CellRenderer>Text, which
 allows the user to edit the text using a widget implementing the
-B<Gnome::Gtk4::R-CellEditable> interface, e.g. B<Gnome::Gtk4::Entry>.
+L<Gnome::Gtk4::R-CellEditable|/content-docs/api2/reference/Gtk4/R-CellEditable> interface, e.g. L<Gnome::Gtk4::Entry|/content-docs/api2/reference/Gtk4/Entry>.
 To make a cell renderer activatable or editable, you have to
 implement the B<Gnome::Gtk4::CellRenderer>Class.activate or
 B<Gnome::Gtk4::CellRenderer>Class.start_editing virtual functions, respectively.
@@ -93,17 +93,17 @@ Create an object using a native object from an object of the same type found els
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Passes an activate event to the cell renderer for possible processing.
-Some cell renderers may use events; for example, B<Gnome::Gtk4::CellRendererToggle>
+Some cell renderers may use events; for example, L<Gnome::Gtk4::CellRendererToggle|/content-docs/api2/reference/Gtk4/CellRendererToggle>
 toggles when it gets a mouse click.
 
 =begin code
 method activate ( N-Object() $event, N-Object() $widget, Str $path, N-Object $background-area, N-Object $cell-area, UInt $flags --> Bool )
 =end code
 
-=item $event; a B<Gnome::Gdk4::Event>.
+=item $event; a L<Gnome::Gdk4::Event|/content-docs/api2/reference/Gdk4/Event>.
 =item $widget; widget that received the event.
 =item $path; widget-dependent string representation of the event location;
-   e.g. for B<Gnome::Gtk4::TreeView>, a string representation of B<Gnome::Gtk4::N-TreePath>.
+   e.g. for L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView>, a string representation of B<Gnome::Gtk4::N-TreePath>.
 =item $background-area; background area as passed to C<.render()>
 =item $cell-area; cell area as passed to C<.render()>
 =item $flags; render flags.
@@ -132,7 +132,7 @@ the appropriate edit and focus rectangle.
 method get-aligned-area ( N-Object() $widget, UInt $flags, N-Object $cell-area, N-Object $aligned-area )
 =end code
 
-=item $widget; the B<Gnome::Gtk4::Widget> this cell will be rendering to.
+=item $widget; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> this cell will be rendering to.
 =item $flags; render flags.
 =item $cell-area; cell area which would be passed to C<.render()>
 =item $aligned-area; the return location for the space inside C<$cell-area>
@@ -277,7 +277,7 @@ Retrieves a renderer’s natural size when rendered to C<$widget>.
 method get-preferred-height ( N-Object() $widget, Array[Int] $minimum-size, Array[Int] $natural-size )
 =end code
 
-=item $widget; the B<Gnome::Gtk4::Widget> this cell will be rendering to.
+=item $widget; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> this cell will be rendering to.
 =item $minimum-size; (transfer ownership: full) location to store the minimum size.
 =item $natural-size; (transfer ownership: full) location to store the natural size.
 
@@ -302,7 +302,7 @@ Retrieves a cell renderers’s minimum and natural height if it were rendered to
 method get-preferred-height-for-width ( N-Object() $widget, Int() $width, Array[Int] $minimum-height, Array[Int] $natural-height )
 =end code
 
-=item $widget; the B<Gnome::Gtk4::Widget> this cell will be rendering to.
+=item $widget; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> this cell will be rendering to.
 =item $width; the size which is available for allocation.
 =item $minimum-height; (transfer ownership: full) location for storing the minimum size.
 =item $natural-height; (transfer ownership: full) location for storing the preferred size.
@@ -329,7 +329,7 @@ into account the widget’s preference for height-for-width management.
 method get-preferred-size ( N-Object() $widget, N-Object $minimum-size, N-Object $natural-size )
 =end code
 
-=item $widget; the B<Gnome::Gtk4::Widget> this cell will be rendering to.
+=item $widget; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> this cell will be rendering to.
 =item $minimum-size; location for storing the minimum size
 =item $natural-size; location for storing the natural size
 
@@ -354,7 +354,7 @@ Retrieves a renderer’s natural size when rendered to C<$widget>.
 method get-preferred-width ( N-Object() $widget, Array[Int] $minimum-size, Array[Int] $natural-size )
 =end code
 
-=item $widget; the B<Gnome::Gtk4::Widget> this cell will be rendering to.
+=item $widget; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> this cell will be rendering to.
 =item $minimum-size; (transfer ownership: full) location to store the minimum size.
 =item $natural-size; (transfer ownership: full) location to store the natural size.
 
@@ -379,7 +379,7 @@ Retrieves a cell renderers’s minimum and natural width if it were rendered to 
 method get-preferred-width-for-height ( N-Object() $widget, Int() $height, Array[Int] $minimum-width, Array[Int] $natural-width )
 =end code
 
-=item $widget; the B<Gnome::Gtk4::Widget> this cell will be rendering to.
+=item $widget; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> this cell will be rendering to.
 =item $height; the size which is available for allocation.
 =item $minimum-width; (transfer ownership: full) location for storing the minimum size.
 =item $natural-width; (transfer ownership: full) location for storing the preferred size.
@@ -454,7 +454,7 @@ the given B<Gnome::Gtk4::CellRenderer>State.
 method get-state ( N-Object() $widget, UInt $cell-state --> UInt )
 =end code
 
-=item $widget; a B<Gnome::Gtk4::Widget>.
+=item $widget; a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>.
 =item $cell-state; cell renderer state.
 
 Return value; the widget state flags applying to C<$cell>. 
@@ -694,7 +694,7 @@ so the C<$background-area> rectangles for all cells tile to cover the entire C<$
 method snapshot ( N-Object() $snapshot, N-Object() $widget, N-Object $background-area, N-Object $cell-area, UInt $flags )
 =end code
 
-=item $snapshot; a B<Gnome::Gtk4::Snapshot> to draw to.
+=item $snapshot; a L<Gnome::Gtk4::Snapshot|/content-docs/api2/reference/Gtk4/Snapshot> to draw to.
 =item $widget; the widget owning C<$window>.
 =item $background-area; entire cell area (including tree expanders and maybe
    padding on the sides)
@@ -716,22 +716,22 @@ method snapshot ( N-Object() $snapshot, N-Object() $widget, N-Object $background
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Starts editing the contents of this C<$cell>, through a new B<Gnome::Gtk4::R-CellEditable>
+Starts editing the contents of this C<$cell>, through a new L<Gnome::Gtk4::R-CellEditable|/content-docs/api2/reference/Gtk4/R-CellEditable>
 widget created by the B<Gnome::Gtk4::CellRenderer>Class.start_editing virtual function.
 
 =begin code
 method start-editing ( N-Object() $event, N-Object() $widget, Str $path, N-Object $background-area, N-Object $cell-area, UInt $flags --> N-Object )
 =end code
 
-=item $event; a B<Gnome::Gdk4::Event>.
+=item $event; a L<Gnome::Gdk4::Event|/content-docs/api2/reference/Gdk4/Event>.
 =item $widget; widget that received the event.
 =item $path; widget-dependent string representation of the event location;
-   e.g. for B<Gnome::Gtk4::TreeView>, a string representation of B<Gnome::Gtk4::N-TreePath>.
+   e.g. for L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView>, a string representation of B<Gnome::Gtk4::N-TreePath>.
 =item $background-area; background area as passed to C<.render()>
 =item $cell-area; cell area as passed to C<.render()>
 =item $flags; render flags.
 
-Return value; A new B<Gnome::Gtk4::R-CellEditable> for editing this
+Return value; A new L<Gnome::Gtk4::R-CellEditable|/content-docs/api2/reference/Gtk4/R-CellEditable> for editing this
   C<$cell>, or undefined if editing is not possible. 
 
 =begin comment
@@ -754,8 +754,8 @@ If C<$canceled> is C<True>, the cell renderer will emit the
 B<Gnome::Gtk4::CellRenderer>::editing-canceled signal.
 
 This function should be called by cell renderer implementations
-in response to the B<Gnome::Gtk4::R-CellEditable>::editing-done` signal of
-B<Gnome::Gtk4::R-CellEditable>.
+in response to the L<Gnome::Gtk4::R-CellEditable|/content-docs/api2/reference/Gtk4/R-CellEditable>::editing-done` signal of
+L<Gnome::Gtk4::R-CellEditable|/content-docs/api2/reference/Gtk4/R-CellEditable>.
 
 =begin code
 method stop-editing ( Bool() $canceled )
@@ -793,14 +793,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::CellRenderer :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::CellRenderer> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::CellRenderer> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -814,8 +813,8 @@ method handler (
 
 This signal gets emitted when a cell starts to be edited.
 The intended use of this signal is to do special setup
-on C<$editable>, e.g. adding a B<Gnome::Gtk4::EntryCompletion> or setting
-up additional columns in a B<Gnome::Gtk4::ComboBox>.
+on C<$editable>, e.g. adding a L<Gnome::Gtk4::EntryCompletion|/content-docs/api2/reference/Gtk4/EntryCompletion> or setting
+up additional columns in a L<Gnome::Gtk4::ComboBox|/content-docs/api2/reference/Gtk4/ComboBox>.
 
 See gtk_cell_editable_start_editing() for information on the lifecycle of
 the C<$editable> and a way to do setup that doesn’t depend on the C<$renderer>.
@@ -851,16 +850,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::CellRenderer :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
-=item $editable; the B<Gnome::Gtk4::R-CellEditable>.
+=item $editable; the L<Gnome::Gtk4::R-CellEditable|/content-docs/api2/reference/Gtk4/R-CellEditable>.
 =item $path; the path identifying the edited cell.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::CellRenderer> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::CellRenderer> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

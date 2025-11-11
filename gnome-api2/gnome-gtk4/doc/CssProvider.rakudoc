@@ -9,16 +9,16 @@ use v6.d;
 =TITLE Gnome::Gtk4::CssProvider
 =head1 Description
 
-B<Gnome::Gtk4::CssProvider> is an object implementing the B<Gnome::Gtk4::R-StyleProvider> interface
+B<Gnome::Gtk4::CssProvider> is an object implementing the L<Gnome::Gtk4::R-StyleProvider|/content-docs/api2/reference/Gtk4/R-StyleProvider> interface
 for CSS.
 
 It is able to parse CSS-like input in order to style widgets.
 
 An application can make GTK parse a specific CSS style sheet by calling
-C<.load-from-file()> or
-C<.load-from-resource()>
-and adding the provider with C<.add-provider()> in class C<Gnome::Gtk4::StyleContext> or
-C<.StyleContext.add-provider-for-display()>.
+L<.load-from-file()|#load-from-file> or
+L<.load-from-resource()|#load-from-resource>
+and adding the provider with L<.add-provider() in class StyleContext|/content-docs/api2/reference/Gtk4/StyleContext#add-provider> or
+L<.StyleContext.add-provider-for-display().StyleContext.add-provider-for-display() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-cssprovider#StyleContext.add-provider-for-display>.
 
 In addition, certain files will be read when GTK is initialized.
 First, the file `$XDG_CONFIG_HOME/gtk-4.0/gtk.css` is loaded if it
@@ -156,7 +156,7 @@ This clears any previously loaded information.
 method load-from-file ( N-Object() $file )
 =end code
 
-=item $file; B<Gnome::Gio::R-File> pointing to a file to load.
+=item $file; L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File> pointing to a file to load.
 
 =begin comment
 
@@ -271,9 +271,9 @@ method load-named ( Str $name, Str $variant )
 Converts the C<$provider> into a string representation in CSS
 format.
 
-Using C<.load-from-string()> with the return
+Using L<.load-from-string()|#load-from-string> with the return
 value from this function on a new provider created with
-C<.newcssprovider()> will basically create a duplicate
+L<.newcssprovider()|#newcssprovider> will basically create a duplicate
 of this C<$provider>.
 
 =begin code
@@ -315,16 +315,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::CssProvider :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $section; section the error happened in.
 =item $error; The parsing error.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::CssProvider> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::CssProvider> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =end pod
 

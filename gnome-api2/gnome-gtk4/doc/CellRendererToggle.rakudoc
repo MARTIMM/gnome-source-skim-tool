@@ -55,8 +55,8 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 
 Creates a new B<Gnome::Gtk4::CellRendererToggle>. Adjust rendering
 parameters using object properties. Object properties can be set
-globally (with g_object_set()). Also, with B<Gnome::Gtk4::TreeViewColumn>, you
-can bind a property to a value in a B<Gnome::Gtk4::R-TreeModel>. For example, you
+globally (with g_object_set()). Also, with L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn>, you
+can bind a property to a value in a L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>. For example, you
 can bind the “active” property on the cell renderer to a boolean value
 in the model, thus causing the check button to reflect the state of
 the model.
@@ -209,8 +209,8 @@ If C<$radio> is C<True>, the cell renderer renders a radio toggle
 (i.e. a toggle in a group of mutually-exclusive toggles).
 If C<False>, it renders a check toggle (a standalone boolean option).
 This can be set globally for the cell renderer, or changed just
-before rendering each cell in the model (for B<Gnome::Gtk4::TreeView>, you set
-up a per-row setting using B<Gnome::Gtk4::TreeViewColumn> to associate model
+before rendering each cell in the model (for L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView>, you set
+up a per-row setting using L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn> to associate model
 columns with cell renderer properties).
 
 =begin code
@@ -250,16 +250,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::CellRendererToggle :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $path; string representation of B<Gnome::Gtk4::N-TreePath> describing the
        event location.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::CellRendererToggle> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::CellRendererToggle> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

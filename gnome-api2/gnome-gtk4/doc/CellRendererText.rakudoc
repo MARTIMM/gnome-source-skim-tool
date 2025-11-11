@@ -15,7 +15,7 @@ A B<Gnome::Gtk4::CellRendererText> renders a given text in its cell, using the f
 style information provided by its properties. The text will be ellipsized if it is
 too long and the B<Gnome::Gtk4::CellRendererText>:ellipsize` property allows it.
 
-If the B<Gnome::Gtk4::CellRenderer>:mode` is C<GTK_CELL_RENDERER_MODE_EDITABLE>,
+If the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>:mode` is C<GTK_CELL_RENDERER_MODE_EDITABLE>,
 the B<Gnome::Gtk4::CellRendererText> allows to edit its text using an entry.
 
 =head2 Uml Diagram
@@ -57,11 +57,11 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 
 Creates a new B<Gnome::Gtk4::CellRendererText>. Adjust how text is drawn using
 object properties. Object properties can be
-set globally (with g_object_set()). Also, with B<Gnome::Gtk4::TreeViewColumn>,
-you can bind a property to a value in a B<Gnome::Gtk4::R-TreeModel>. For example,
+set globally (with g_object_set()). Also, with L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn>,
+you can bind a property to a value in a L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>. For example,
 you can bind the “text” property on the cell renderer to a string
 value in the model, thus rendering a different string in each row
-of the B<Gnome::Gtk4::TreeView>.
+of the L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView>.
 
 =begin code
 method new-cellrenderertext ( --> Gnome::Gtk4::CellRendererText )
@@ -135,16 +135,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::CellRendererText :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $path; the path identifying the edited cell.
 =item $new-text; the new text.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::CellRendererText> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::CellRendererText> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

@@ -9,32 +9,32 @@ use v6.d;
 =TITLE Gnome::Gtk4::ComboBoxText
 =head1 Description
 
-A B<Gnome::Gtk4::ComboBoxText> is a simple variant of B<Gnome::Gtk4::ComboBox> for text-only
+A B<Gnome::Gtk4::ComboBoxText> is a simple variant of L<Gnome::Gtk4::ComboBox|/content-docs/api2/reference/Gtk4/ComboBox> for text-only
 use cases.
 
 =for image :src<asset_files/images/combo-box-text.png> :width<30%> :class<inline>
 
-B<Gnome::Gtk4::ComboBoxText> hides the model-view complexity of B<Gnome::Gtk4::ComboBox>.
+B<Gnome::Gtk4::ComboBoxText> hides the model-view complexity of L<Gnome::Gtk4::ComboBox|/content-docs/api2/reference/Gtk4/ComboBox>.
 
-To create a B<Gnome::Gtk4::ComboBoxText>, use C<.newcomboboxtext()> or
-C<.new-with-entry()>.
+To create a B<Gnome::Gtk4::ComboBoxText>, use L<.newcomboboxtext()|#newcomboboxtext> or
+L<.new-with-entry()|#new-with-entry>.
 
 You can add items to a B<Gnome::Gtk4::ComboBoxText> with
-C<.append-text()>,
-C<.insert-text()> or
-C<.prepend-text()> and remove options with
-C<.remove()>.
+L<.append-text()|#append-text>,
+L<.insert-text()|#insert-text> or
+L<.prepend-text()|#prepend-text> and remove options with
+L<.remove()|#remove>.
 
 If the B<Gnome::Gtk4::ComboBoxText> contains an entry (via the
 I<has-entry defined in Gnome::Gtk4::ComboBox> property), its contents can be retrieved
-using C<.get-active-text()>.
+using L<.get-active-text()|#get-active-text>.
 
-You should not call C<.set-model()> in class C<Gnome::Gtk4::ComboBox> or attempt to pack more
-cells into this combo box via its B<Gnome::Gtk4::R-CellLayout> interface.
+You should not call L<.set-model() in class ComboBox|/content-docs/api2/reference/Gtk4/ComboBox#set-model> or attempt to pack more
+cells into this combo box via its L<|/content-docs/api2/reference/Gnome::Gtk4::R-CellLayout> interface.
 
 =head3 GtkComboBoxText as GtkBuildable
 
-The B<Gnome::Gtk4::ComboBoxText> implementation of the B<Gnome::Gtk4::R-Buildable> interface supports
+The B<Gnome::Gtk4::ComboBoxText> implementation of the L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/Gtk4/R-Buildable> interface supports
 adding items directly using the `<items>` element and specifying `<item>`
 elements for each item. Each `<item>` element can specify the “id”
 corresponding to the appended text and also supports the regular
@@ -158,7 +158,7 @@ Appends C<$text> to the list of strings stored in C<$combo-box>.
 
 If C<$id> is non-undefined then it is used as the ID of the row.
 
-This is the same as calling C<.insert()>
+This is the same as calling L<.insert()|#insert>
 with a position of -1.
 
 =begin code
@@ -185,7 +185,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 
 Appends C<$text> to the list of strings stored in C<$combo-box>.
 
-This is the same as calling C<.insert-text()>
+This is the same as calling L<.insert-text()|#insert-text>
 with a position of -1.
 
 =begin code
@@ -273,7 +273,7 @@ Inserts C<$text> at C<$position> in the list of strings stored in C<$combo-box>.
 
 If C<$position> is negative then C<$text> is appended.
 
-This is the same as calling C<.insert()>
+This is the same as calling L<.insert()|#insert>
 with a undefined ID string.
 
 =begin code
@@ -302,7 +302,7 @@ Prepends C<$text> to the list of strings stored in C<$combo-box>.
 
 If C<$id> is non-undefined then it is used as the ID of the row.
 
-This is the same as calling C<.insert()>
+This is the same as calling L<.insert()|#insert>
 with a position of 0.
 
 =begin code
@@ -329,7 +329,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 
 Prepends C<$text> to the list of strings stored in C<$combo-box>.
 
-This is the same as calling C<.insert-text()>
+This is the same as calling L<.insert-text()|#insert-text>
 with a position of 0.
 
 =begin code

@@ -13,12 +13,12 @@ A B<Gnome::Gtk4::CheckButton> places a label next to an indicator.
 
 =for image :src<asset_files/images/check-button.png> :width<30%> :class<inline>
 
-A B<Gnome::Gtk4::CheckButton> is created by calling either C<.newcheckbutton()>
-or C<.new-with-label()>.
+A B<Gnome::Gtk4::CheckButton> is created by calling either L<.newcheckbutton()|#newcheckbutton>
+or L<.new-with-label()|#new-with-label>.
 
 The state of a B<Gnome::Gtk4::CheckButton> can be set specifically using
-C<.set-active()>, and retrieved using
-C<.get-active()>.
+L<.set-active()|#set-active>, and retrieved using
+L<.get-active()|#get-active>.
 
 =head2 Inconsistent state
 
@@ -29,7 +29,7 @@ text or spreadsheet cells) that are affected by a check button,
 and the current values in that range are inconsistent.
 
 To set a B<Gnome::Gtk4::CheckButton> to inconsistent state, use
-C<.set-inconsistent()>.
+L<.set-inconsistent()|#set-inconsistent>.
 
 =head2 Grouping
 
@@ -42,11 +42,11 @@ to as *radio buttons*.
 
 =for image :src<asset_files/images/radio-button.png> :width<30%> :class<inline>
 
-To add a B<Gnome::Gtk4::CheckButton> to a group, use C<.set-group()>.
+To add a B<Gnome::Gtk4::CheckButton> to a group, use L<.set-group()|#set-group>.
 
 When the code must keep track of the state of a group of radio buttons, it
 is recommended to keep track of such state through a stateful
-B<Gnome::Gio::R-Action> with a target for each button. Using the B<toggled> signals to keep
+L<Gnome::Gio::R-Action|/content-docs/api2/reference/Gio/R-Action> with a target for each button. Using the B<toggled> signals to keep
 track of the group changes and state is discouraged.
 
 =head2 CSS nodes
@@ -256,7 +256,7 @@ method get-use-underline (--> Bool )
 =end code
 
 Return value; The value of the I<use-underline> property.
-  See C<.set-use-underline()> for details on how to set
+  See L<.set-use-underline()|#set-use-underline> for details on how to set
   a new value.. 
 
 =begin comment
@@ -331,7 +331,7 @@ indicator widget's CSS node to 'radio'.
 
 Setting up groups in a cycle leads to undefined behavior.
 
-Note that the same effect can be achieved via the B<Gnome::Gtk4::R-Actionable>
+Note that the same effect can be achieved via the L<|/content-docs/api2/reference/Gnome::Gtk4::R-Actionable>
 API, by using the same action with parameter type and state type 's'
 for all buttons in the group, and giving each button its own target
 value.
@@ -384,7 +384,7 @@ Sets the text of C<$self>.
 
 If I<use-underline> is C<True>, an underscore
 in C<$label> is interpreted as mnemonic indicator, see
-C<.set-use-underline()> for details on this behavior.
+L<.set-use-underline()|#set-use-underline> for details on this behavior.
 
 =begin code
 method set-label ( Str $label )
@@ -453,14 +453,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::CheckButton :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::CheckButton> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::CheckButton> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 checkbutton[.text-button]
@@ -480,14 +479,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::CheckButton :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::CheckButton> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::CheckButton> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =end pod
 

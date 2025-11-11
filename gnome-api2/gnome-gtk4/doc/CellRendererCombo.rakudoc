@@ -11,16 +11,16 @@ use v6.d;
 
 Renders a combobox in a cell
 
-B<Gnome::Gtk4::CellRendererCombo> renders text in a cell like B<Gnome::Gtk4::CellRendererText> from
-which it is derived. But while B<Gnome::Gtk4::CellRendererText> offers a simple entry to
-edit the text, B<Gnome::Gtk4::CellRendererCombo> offers a B<Gnome::Gtk4::ComboBox>
+B<Gnome::Gtk4::CellRendererCombo> renders text in a cell like L<Gnome::Gtk4::CellRendererText|/content-docs/api2/reference/Gtk4/CellRendererText> from
+which it is derived. But while L<Gnome::Gtk4::CellRendererText|/content-docs/api2/reference/Gtk4/CellRendererText> offers a simple entry to
+edit the text, B<Gnome::Gtk4::CellRendererCombo> offers a L<Gnome::Gtk4::ComboBox|/content-docs/api2/reference/Gtk4/ComboBox>
 widget to edit the text. The values to display in the combo box are taken from
 the tree model specified in the B<Gnome::Gtk4::CellRendererCombo>:model property.
 
 The combo cell renderer takes care of adding a text cell renderer to the combo
 box and sets it to display the column specified by its
 B<Gnome::Gtk4::CellRendererCombo>:text-column property. Further properties of the combo box
-can be set in a handler for the B<Gnome::Gtk4::CellRenderer>::editing-started` signal.
+can be set in a handler for the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>::editing-started` signal.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/CellRendererCombo.png> :width<70%> :class<inline>
@@ -62,10 +62,10 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Creates a new B<Gnome::Gtk4::CellRendererCombo>.
 Adjust how text is drawn using object properties.
 Object properties can be set globally (with g_object_set()).
-Also, with B<Gnome::Gtk4::TreeViewColumn>, you can bind a property to a value
-in a B<Gnome::Gtk4::R-TreeModel>. For example, you can bind the “text” property
+Also, with L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn>, you can bind a property to a value
+in a L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>. For example, you can bind the “text” property
 on the cell renderer to a string value in the model, thus rendering
-a different string in each row of the B<Gnome::Gtk4::TreeView>.
+a different string in each row of the L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView>.
 
 =begin code
 method new-cellrenderercombo ( --> Gnome::Gtk4::CellRendererCombo )
@@ -109,7 +109,7 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::CellRendererCombo :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
@@ -118,9 +118,8 @@ method handler (
 =item $new-iter; the new iter selected in the combo box
            (relative to the combo box model).
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::CellRendererCombo> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::CellRendererCombo> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

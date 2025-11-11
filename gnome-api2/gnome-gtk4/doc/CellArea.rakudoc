@@ -9,12 +9,12 @@ use v6.d;
 =TITLE Gnome::Gtk4::CellArea
 =head1 Description
 
-An abstract class for laying out B<Gnome::Gtk4::CellRenderer>s
+An abstract class for laying out L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>s
 
-The B<Gnome::Gtk4::CellArea> is an abstract class for B<Gnome::Gtk4::R-CellLayout>
+The B<Gnome::Gtk4::CellArea> is an abstract class for L<Gnome::Gtk4::CellAreaBox|/content-docs/api2/reference/Gnome::Gtk4::R-CellLayout>
 widgets (also referred to as "layouting widgets") to interface with
-an arbitrary number of B<Gnome::Gtk4::CellRenderer>s and interact with the user
-for a given B<Gnome::Gtk4::R-TreeModel> row.
+an arbitrary number of L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>s and interact with the user
+for a given L<Gnome::Gtk4::CellAreaBox|/content-docs/api2/reference/Gnome::Gtk4::R-TreeModel> row.
 
 The cell area handles events, focus navigation, drawing and
 size requests and allocations for a given row of data.
@@ -29,12 +29,12 @@ As outlined in
 GTK uses a height-for-width
 geometry management system to compute the sizes of widgets and user
 interfaces. B<Gnome::Gtk4::CellArea> uses the same semantics to calculate the
-size of an area for an arbitrary number of B<Gnome::Gtk4::R-TreeModel> rows.
+size of an area for an arbitrary number of L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel> rows.
 
 When requesting the size of a cell area one needs to calculate
 the size for a handful of rows, and this will be done differently by
-different layouting widgets. For instance a B<Gnome::Gtk4::TreeViewColumn>
-always lines up the areas from top to bottom while a B<Gnome::Gtk4::IconView>
+different layouting widgets. For instance a L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn>
+always lines up the areas from top to bottom while a L<Gnome::Gtk4::IconView|/content-docs/api2/reference/Gtk4/IconView>
 on the other hand might enforce that all areas received the same
 width and wrap the areas around, requesting height for more cell
 areas when allocated less width.
@@ -43,23 +43,23 @@ It’s also important for areas to maintain some cell
 alignments with areas rendered for adjacent rows (cells can
 appear “columnized” inside an area even when the size of
 cells are different in each row). For this reason the B<Gnome::Gtk4::CellArea>
-uses a B<Gnome::Gtk4::CellAreaContext> object to store the alignments
+uses a L<Gnome::Gtk4::CellAreaContext|/content-docs/api2/reference/Gtk4/CellAreaContext> object to store the alignments
 and sizes along the way (as well as the overall largest minimum
 and natural size for all the rows which have been calculated
 with the said context).
 
-The B<Gnome::Gtk4::CellAreaContext> is an opaque object specific to the
-B<Gnome::Gtk4::CellArea> which created it (see C<.create-context()>).
+The L<Gnome::Gtk4::CellAreaContext|/content-docs/api2/reference/Gtk4/CellAreaContext> is an opaque object specific to the
+B<Gnome::Gtk4::CellArea> which created it (see L<.create-context()|#create-context>).
 
 The owning cell-layouting widget can create as many contexts as
 it wishes to calculate sizes of rows which should receive the
 same size in at least one orientation (horizontally or vertically),
-However, it’s important that the same B<Gnome::Gtk4::CellAreaContext> which
-was used to request the sizes for a given B<Gnome::Gtk4::R-TreeModel> row be
+However, it’s important that the same L<Gnome::Gtk4::CellAreaContext|/content-docs/api2/reference/Gtk4/CellAreaContext> which
+was used to request the sizes for a given L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel> row be
 used when rendering or processing events for that row.
 
 In order to request the width of all the rows at the root level
-of a B<Gnome::Gtk4::R-TreeModel> one would do the following:
+of a L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel> one would do the following:
 
 =begin comment
 GtkTreeIter iter;
@@ -83,17 +83,17 @@ Note that in this example it’s not important to observe the
 returned minimum and natural width of the area for each row
 unless the cell-layouting object is actually interested in the
 widths of individual rows. The overall width is however stored
-in the accompanying B<Gnome::Gtk4::CellAreaContext> object and can be consulted
+in the accompanying L<Gnome::Gtk4::CellAreaContext|/content-docs/api2/reference/Gtk4/CellAreaContext> object and can be consulted
 at any time.
 
-This can be useful since B<Gnome::Gtk4::R-CellLayout> widgets usually have to
+This can be useful since L<Gnome::Gtk4::R-CellLayout|/content-docs/api2/reference/Gtk4/R-CellLayout> widgets usually have to
 support requesting and rendering rows in treemodels with an
-exceedingly large amount of rows. The B<Gnome::Gtk4::R-CellLayout> widget in
+exceedingly large amount of rows. The L<Gnome::Gtk4::R-CellLayout|/content-docs/api2/reference/Gtk4/R-CellLayout> widget in
 that case would calculate the required width of the rows in an
-idle or timeout source (see C<.timeout-add() in package Gnome::GLib>) and when the widget
+idle or timeout source (see L<.timeout-add().timeout-add() in package Gnome::GLib|/content-docs/api2/reference/GLib/T-cellarea#timeout-add>) and when the widget
 is requested its actual width in [vfunc C<$Gtk>.Widget.measure]
 it can simply consult the width accumulated so far in the
-B<Gnome::Gtk4::CellAreaContext> object.
+L<Gnome::Gtk4::CellAreaContext|/content-docs/api2/reference/Gtk4/CellAreaContext> object.
 
 A simple example where rows are rendered from top to bottom and
 take up the full width of the layouting widget would look like:
@@ -118,17 +118,17 @@ In the above example the B<Foo> widget has to make sure that some
 row sizes have been calculated (the amount of rows that B<Foo> judged
 was appropriate to request space for in a single timeout iteration)
 before simply returning the amount of space required by the area via
-the B<Gnome::Gtk4::CellAreaContext>.
+the L<Gnome::Gtk4::CellAreaContext|/content-docs/api2/reference/Gtk4/CellAreaContext>.
 
 Requesting the height for width (or width for height) of an area is
-a similar task except in this case the B<Gnome::Gtk4::CellAreaContext> does not
+a similar task except in this case the L<Gnome::Gtk4::CellAreaContext|/content-docs/api2/reference/Gtk4/CellAreaContext> does not
 store the data (actually, it does not know how much space the layouting
 widget plans to allocate it for every row. It’s up to the layouting
 widget to render each row of data with the appropriate height and
 width which was requested by the B<Gnome::Gtk4::CellArea>).
 
 In order to request the height for width of all the rows at the
-root level of a B<Gnome::Gtk4::R-TreeModel> one would do the following:
+root level of a L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel> one would do the following:
 
 =begin comment
 GtkTreeIter iter;
@@ -216,30 +216,30 @@ the layouting widget works. The layouting widget might decide to
 give every row its minimum or natural height or, if the model content
 is expected to fit inside the layouting widget without scrolling, it
 would make sense to calculate the allocation for each row at
-the time the widget is allocated using C<.distribute-natural-allocation()>.
+the time the widget is allocated using L<.distribute-natural-allocation().distribute-natural-allocation() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-cellarea#distribute-natural-allocation>.
 
 =head3 Handling Events and Driving Keyboard Focus
 
 Passing events to the area is as simple as handling events on any
-normal widget and then passing them to the C<.event()>
+normal widget and then passing them to the L<.event()|#event>
 API as they come in. Usually B<Gnome::Gtk4::CellArea> is only interested in
 button events, however some customized derived areas can be implemented
 who are interested in handling other events. Handling an event can
 trigger the I<focus-changed> signal to fire; as well
 as I<add-editable> in the case that an editable cell
 was clicked and needs to start editing. You can call
-C<.stop-editing()> at any time to cancel any cell editing
+L<.stop-editing()|#stop-editing> at any time to cancel any cell editing
 that is currently in progress.
 
 The B<Gnome::Gtk4::CellArea> drives keyboard focus from cell to cell in a way
-similar to B<Gnome::Gtk4::Widget>. For layouting widgets that support giving
+similar to L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>. For layouting widgets that support giving
 focus to cells it’s important to remember to pass B<GTK_CELL_RENDERER_FOCUSED>
 to the area functions for the row that has focus and to tell the
 area to paint the focus at render time.
 
 Layouting widgets that accept focus on cells should implement the
 [vfunc C<$Gtk>.Widget.focus] virtual method. The layouting widget is always
-responsible for knowing where B<Gnome::Gtk4::R-TreeModel> rows are rendered inside
+responsible for knowing where L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel> rows are rendered inside
 the widget, so at [vfunc C<$Gtk>.Widget.focus] time the layouting widget
 should use the B<Gnome::Gtk4::CellArea> methods to navigate focus inside the area
 and then observe the  enumeration C<DirectionType> from C<Gnome::Gtk4::T-enums>  to pass the focus to adjacent
@@ -310,23 +310,23 @@ C<enumeration GtkDirectionType defined in Gnome::Gtk4::T-enums> values to the wa
 
 =head3 Cell Properties
 
-The B<Gnome::Gtk4::CellArea> introduces cell properties for B<Gnome::Gtk4::CellRenderer>s.
+The B<Gnome::Gtk4::CellArea> introduces cell properties for L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>s.
 This provides some general interfaces for defining the relationship
-cell areas have with their cells. For instance in a B<Gnome::Gtk4::CellAreaBox>
+cell areas have with their cells. For instance in a L<Gnome::Gtk4::CellAreaBox|/content-docs/api2/reference/Gtk4/CellAreaBox>
 a cell might “expand” and receive extra space when the area is allocated
 more than its full natural request, or a cell might be configured to “align”
 with adjacent rows which were requested and rendered with the same
-B<Gnome::Gtk4::CellAreaContext>.
+L<Gnome::Gtk4::CellAreaContext|/content-docs/api2/reference/Gtk4/CellAreaContext>.
 
-Use C<.install-cell-property()> in class C<Gnome::Gtk4::CellArea> to install cell
-properties for a cell area class and C<.find-cell-property()> in class C<Gnome::Gtk4::CellArea>
-or C<.list-cell-properties()> in class C<Gnome::Gtk4::CellArea> to get information about
+Use L<.install-cell-property() in class CellAreaClass|/content-docs/api2/reference/Gtk4/CellAreaClass#install-cell-property> to install cell
+properties for a cell area class and L<.find-cell-property() in class CellAreaClass|/content-docs/api2/reference/Gtk4/CellAreaClass#find-cell-property>
+or L<.list-cell-properties() in class CellAreaClass|/content-docs/api2/reference/Gtk4/CellAreaClass#list-cell-properties> to get information about
 existing cell properties.
 
-To set the value of a cell property, use C<.cell-set-property()>,
-C<.cell-set()> or C<.cell-set-valist()>. To obtain
-the value of a cell property, use C<.cell-get-property()>
-C<.cell-get()> or C<.cell-get-valist()>.
+To set the value of a cell property, use L<.cell-set-property()|#cell-set-property>,
+L<.cell-set()|#cell-set> or L<.cell-set-valist()|#cell-set-valist>. To obtain
+the value of a cell property, use L<.cell-get-property()|#cell-get-property>
+L<.cell-get()|#cell-get> or L<.cell-get-valist()|#cell-get-valist>.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/CellArea.png> :width<70%> :class<inline>
@@ -382,9 +382,9 @@ method activate ( N-Object() $context, N-Object() $widget, N-Object $cell-area, 
 =end code
 
 =item $context; the B<Gnome::Gtk4::CellArea>Context in context with the current row data.
-=item $widget; the B<Gnome::Gtk4::Widget> that C<$area> is rendering on.
+=item $widget; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> that C<$area> is rendering on.
 =item $cell-area; the size and location of C<$area> relative to C<$widget>’s allocation
-=item $flags; the B<Gnome::Gtk4::CellRenderer>State flags for C<$area> for this row of data..
+=item $flags; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>State flags for C<$area> for this row of data..
 =item $edit-only; if C<True> then only cell renderers that are C<GTK_CELL_RENDERER_MODE_EDITABLE>
             will be activated..
 
@@ -414,12 +414,12 @@ implementation.
 method activate-cell ( N-Object() $widget, N-Object() $renderer, N-Object() $event, N-Object $cell-area, UInt $flags --> Bool )
 =end code
 
-=item $widget; the B<Gnome::Gtk4::Widget> that C<$area> is rendering onto.
-=item $renderer; the B<Gnome::Gtk4::CellRenderer> in C<$area> to activate.
-=item $event; the B<Gnome::Gdk4::Event> for which cell activation should occur.
+=item $widget; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> that C<$area> is rendering onto.
+=item $renderer; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> in C<$area> to activate.
+=item $event; the L<Gnome::Gdk4::Event|/content-docs/api2/reference/Gdk4/Event> for which cell activation should occur.
 =item $cell-area; the B<Gnome::Gdk4::N-Rectangle> in C<$widget> relative coordinates
             of C<$renderer> for the current row.
-=item $flags; the B<Gnome::Gtk4::CellRenderer>State for C<$renderer>.
+=item $flags; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>State for C<$renderer>.
 
 Return value; whether cell activation was successful. 
 
@@ -444,7 +444,7 @@ Adds C<$renderer> to C<$area> with the default child cell properties.
 method add ( N-Object() $renderer )
 =end code
 
-=item $renderer; the B<Gnome::Gtk4::CellRenderer> to add to C<$area>.
+=item $renderer; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> to add to C<$area>.
 
 =begin comment
 
@@ -472,8 +472,8 @@ focusable C<$renderer>.
 method add-focus-sibling ( N-Object() $renderer, N-Object() $sibling )
 =end code
 
-=item $renderer; the B<Gnome::Gtk4::CellRenderer> expected to have focus.
-=item $sibling; the B<Gnome::Gtk4::CellRenderer> to add to C<$renderer>’s focus area.
+=item $renderer; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> expected to have focus.
+=item $sibling; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> to add to C<$renderer>’s focus area.
 
 =begin comment
 
@@ -487,7 +487,6 @@ method add-focus-sibling ( N-Object() $renderer, N-Object() $sibling )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 add-with-properties
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -498,7 +497,7 @@ See C<.add()> and C<.cell-set()> for more details.
 method add-with-properties ( N-Object() $renderer, Str $first-prop-name, … )
 =end code
 
-=item $renderer; a B<Gnome::Gtk4::CellRenderer> to be placed inside C<$area>.
+=item $renderer; a L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> to be placed inside C<$area>.
 =item $first-prop-name; the name of the first cell property to set.
 =item …; …. Note that each argument must be specified as a type followed by its value!
 
@@ -523,7 +522,7 @@ Applies any connected attributes to the renderers in C<$area> by pulling the val
 method apply-attributes ( N-Object() $tree-model, N-Object $iter, Bool() $is-expander, Bool() $is-expanded )
 =end code
 
-=item $tree-model; the B<Gnome::Gtk4::R-TreeModel> to pull values from.
+=item $tree-model; the L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel> to pull values from.
 =item $iter; the B<Gnome::Gtk4::N-TreeIter> in C<$tree-model> to apply values for
 =item $is-expander; whether C<$iter> has children.
 =item $is-expanded; whether C<$iter> is expanded in the view and
@@ -545,15 +544,15 @@ method apply-attributes ( N-Object() $tree-model, N-Object $iter, Bool() $is-exp
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Connects an C<$attribute> to apply values from C<$column> for the
-B<Gnome::Gtk4::R-TreeModel> in use.
+L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel> in use.
 
 =begin code
 method attribute-connect ( N-Object() $renderer, Str $attribute, Int() $column )
 =end code
 
-=item $renderer; the B<Gnome::Gtk4::CellRenderer> to connect an attribute for.
+=item $renderer; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> to connect an attribute for.
 =item $attribute; the attribute name.
-=item $column; the B<Gnome::Gtk4::R-TreeModel> column to fetch attribute values from.
+=item $column; the L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel> column to fetch attribute values from.
 
 =begin comment
 
@@ -578,7 +577,7 @@ model.
 method attribute-disconnect ( N-Object() $renderer, Str $attribute )
 =end code
 
-=item $renderer; the B<Gnome::Gtk4::CellRenderer> to disconnect an attribute for.
+=item $renderer; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> to disconnect an attribute for.
 =item $attribute; the attribute name.
 
 =begin comment
@@ -603,7 +602,7 @@ or -1 if the attribute is not mapped.
 method attribute-get-column ( N-Object() $renderer, Str $attribute --> Int )
 =end code
 
-=item $renderer; a B<Gnome::Gtk4::CellRenderer>.
+=item $renderer; a L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>.
 =item $attribute; an attribute on the renderer.
 
 Return value; the model column, or -1. 
@@ -620,7 +619,6 @@ Return value; the model column, or -1.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 cell-get
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -630,7 +628,7 @@ Gets the values of one or more cell properties for C<$renderer> in C<$area>.
 method cell-get ( N-Object() $renderer, Str $first-prop-name, … )
 =end code
 
-=item $renderer; a B<Gnome::Gtk4::CellRenderer> which is inside C<$area>.
+=item $renderer; a L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> which is inside C<$area>.
 =item $first-prop-name; the name of the first cell property to get.
 =item …; …. Note that each argument must be specified as a type followed by its value!
 
@@ -655,7 +653,7 @@ Gets the value of a cell property for C<$renderer> in C<$area>.
 method cell-get-property ( N-Object() $renderer, Str $property-name, N-Object $value )
 =end code
 
-=item $renderer; a B<Gnome::Gtk4::CellRenderer> inside C<$area>.
+=item $renderer; a L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> inside C<$area>.
 =item $property-name; the name of the property to get.
 =item $value; a location to return the value
 
@@ -671,7 +669,6 @@ method cell-get-property ( N-Object() $renderer, Str $property-name, N-Object $v
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 cell-get-valist
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -681,7 +678,7 @@ Gets the values of one or more cell properties for C<$renderer> in C<$area>.
 method cell-get-valist ( N-Object() $renderer, Str $first-property-name, … )
 =end code
 
-=item $renderer; a B<Gnome::Gtk4::CellRenderer> inside C<$area>.
+=item $renderer; a L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> inside C<$area>.
 =item $first-property-name; the name of the first property to get.
 =item var-args; return location for the first property, followed
     optionally by more name/return location pairs, followed by undefined. Note that each argument must be specified as a type followed by its value!
@@ -698,7 +695,6 @@ method cell-get-valist ( N-Object() $renderer, Str $first-property-name, … )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 cell-set
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -708,7 +704,7 @@ Sets one or more cell properties for C<$cell> in C<$area>.
 method cell-set ( N-Object() $renderer, Str $first-prop-name, … )
 =end code
 
-=item $renderer; a B<Gnome::Gtk4::CellRenderer> which is a cell inside C<$area>.
+=item $renderer; a L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> which is a cell inside C<$area>.
 =item $first-prop-name; the name of the first cell property to set.
 =item …; …. Note that each argument must be specified as a type followed by its value!
 
@@ -733,7 +729,7 @@ Sets a cell property for C<$renderer> in C<$area>.
 method cell-set-property ( N-Object() $renderer, Str $property-name, N-Object $value )
 =end code
 
-=item $renderer; a B<Gnome::Gtk4::CellRenderer> inside C<$area>.
+=item $renderer; a L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> inside C<$area>.
 =item $property-name; the name of the cell property to set.
 =item $value; the value to set the cell property to
 
@@ -749,7 +745,6 @@ method cell-set-property ( N-Object() $renderer, Str $property-name, N-Object $v
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 cell-set-valist
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -759,7 +754,7 @@ Sets one or more cell properties for C<$renderer> in C<$area>.
 method cell-set-valist ( N-Object() $renderer, Str $first-property-name, … )
 =end code
 
-=item $renderer; a B<Gnome::Gtk4::CellRenderer> which inside C<$area>.
+=item $renderer; a L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> which inside C<$area>.
 =item $first-property-name; the name of the first cell property to set.
 =item var-args; a undefined-terminated list of property names and values, starting
           with C<$first-prop-name>. Note that each argument must be specified as a type followed by its value!
@@ -783,10 +778,10 @@ This is sometimes needed for cases where rows need to share
 alignments in one orientation but may be separately grouped
 in the opposing orientation.
 
-For instance, B<Gnome::Gtk4::IconView> creates all icons (rows) to have
+For instance, L<Gnome::Gtk4::IconView|/content-docs/api2/reference/Gtk4/IconView> creates all icons (rows) to have
 the same width and the cells theirin to have the same
 horizontal alignments. However each row of icons may have
-a separate collective height. B<Gnome::Gtk4::IconView> uses this to
+a separate collective height. L<Gnome::Gtk4::IconView|/content-docs/api2/reference/Gtk4/IconView> uses this to
 request the heights of each row based on a context which
 was already used to request all the row widths that are
 to be displayed.
@@ -849,10 +844,10 @@ method event ( N-Object() $context, N-Object() $widget, N-Object() $event, N-Obj
 =end code
 
 =item $context; the B<Gnome::Gtk4::CellArea>Context for this row of data..
-=item $widget; the B<Gnome::Gtk4::Widget> that C<$area> is rendering to.
-=item $event; the B<Gnome::Gdk4::Event> to handle.
+=item $widget; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> that C<$area> is rendering to.
+=item $event; the L<Gnome::Gdk4::Event|/content-docs/api2/reference/Gdk4/Event> to handle.
 =item $cell-area; the C<$widget> relative coordinates for C<$area>
-=item $flags; the B<Gnome::Gtk4::CellRenderer>State for C<$area> in this row..
+=item $flags; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>State for C<$area> in this row..
 
 Return value; C<True> if the event was handled by C<$area>.. 
 
@@ -902,7 +897,7 @@ Return value; C<True> if focus remains inside C<$area> as a result of this call.
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Calls C<$callback> for every B<Gnome::Gtk4::CellRenderer> in C<$area>.
+Calls C<$callback> for every L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> in C<$area>.
 
 =begin code
 method foreach ( GtkCellCallback &callback, gpointer $callback-data )
@@ -924,7 +919,7 @@ method foreach ( GtkCellCallback &callback, gpointer $callback-data )
 =begin pod
 =head2 foreach-alloc
 
-Calls C<$callback> for every B<Gnome::Gtk4::CellRenderer> in C<$area> with the
+Calls C<$callback> for every L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> in C<$area> with the
 allocated rectangle inside C<$cell-area>.
 
 =begin code
@@ -932,7 +927,7 @@ method foreach-alloc ( N-Object() $context, N-Object() $widget, N-Object $cell-a
 =end code
 
 =item $context; the B<Gnome::Gtk4::CellArea>Context for this row of data..
-=item $widget; the B<Gnome::Gtk4::Widget> that C<$area> is rendering to.
+=item $widget; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> that C<$area> is rendering to.
 =item $cell-area; the C<$widget> relative coordinates and size for C<$area>
 =item $background-area; the C<$widget> relative coordinates of the background area
 =item GtkCellAllocCallback &callback; the B<Gnome::Gtk4::T-cellarea> to call. The function must be specified with the following signature; C<:( N-Object $renderer, N-Object $cell-area, N-Object $cell-background, gpointer $data )>.
@@ -961,8 +956,8 @@ method get-cell-allocation ( N-Object() $context, N-Object() $widget, N-Object()
 =end code
 
 =item $context; the B<Gnome::Gtk4::CellArea>Context used to hold sizes for C<$area>..
-=item $widget; the B<Gnome::Gtk4::Widget> that C<$area> is rendering on.
-=item $renderer; the B<Gnome::Gtk4::CellRenderer> to get the allocation for.
+=item $widget; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> that C<$area> is rendering on.
+=item $renderer; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> to get the allocation for.
 =item $cell-area; the whole allocated area for C<$area> in C<$widget>
             for this row
 =item $allocation; where to store the allocation for C<$renderer>
@@ -982,7 +977,7 @@ method get-cell-allocation ( N-Object() $context, N-Object() $widget, N-Object()
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Gets the B<Gnome::Gtk4::CellRenderer> at C<$x> and C<$y> coordinates inside C<$area> and optionally
+Gets the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> at C<$x> and C<$y> coordinates inside C<$area> and optionally
 returns the full cell allocation for it inside C<$cell-area>.
 
 =begin code
@@ -990,7 +985,7 @@ method get-cell-at-position ( N-Object() $context, N-Object() $widget, N-Object 
 =end code
 
 =item $context; the B<Gnome::Gtk4::CellArea>Context used to hold sizes for C<$area>..
-=item $widget; the B<Gnome::Gtk4::Widget> that C<$area> is rendering on.
+=item $widget; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> that C<$area> is rendering on.
 =item $cell-area; the whole allocated area for C<$area> in C<$widget>
   for this row
 =item $x; the x position.
@@ -998,7 +993,7 @@ method get-cell-at-position ( N-Object() $context, N-Object() $widget, N-Object 
 =item $alloc-area; where to store the inner allocated area of the
   returned cell renderer
 
-Return value; the B<Gnome::Gtk4::CellRenderer> at C<$x> and C<$y>.. 
+Return value; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> at C<$x> and C<$y>.. 
 
 =begin comment
 
@@ -1042,14 +1037,14 @@ should not be freed..
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Gets the B<Gnome::Gtk4::R-CellEditable> widget currently used
+Gets the L<Gnome::Gtk4::R-CellEditable|/content-docs/api2/reference/Gtk4/R-CellEditable> widget currently used
 to edit the currently edited cell.
 
 =begin code
 method get-edit-widget (--> N-Object )
 =end code
 
-Return value; The currently active B<Gnome::Gtk4::R-CellEditable> widget. 
+Return value; The currently active L<Gnome::Gtk4::R-CellEditable|/content-docs/api2/reference/Gtk4/R-CellEditable> widget. 
 
 =begin comment
 
@@ -1066,14 +1061,14 @@ Return value; The currently active B<Gnome::Gtk4::R-CellEditable> widget.
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Gets the B<Gnome::Gtk4::CellRenderer> in C<$area> that is currently
+Gets the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> in C<$area> that is currently
 being edited.
 
 =begin code
 method get-edited-cell (--> N-Object )
 =end code
 
-Return value; The currently edited B<Gnome::Gtk4::CellRenderer>. 
+Return value; The currently edited L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>. 
 
 =begin comment
 
@@ -1113,7 +1108,7 @@ Return value; the currently focused cell in C<$area>..
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Gets the B<Gnome::Gtk4::CellRenderer> which is expected to be focusable
+Gets the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> which is expected to be focusable
 for which C<$renderer> is, or may be a sibling.
 
 This is handy for B<Gnome::Gtk4::CellArea> subclasses when handling events,
@@ -1125,9 +1120,9 @@ cell may have been a sibling.
 method get-focus-from-sibling ( N-Object() $renderer --> N-Object )
 =end code
 
-=item $renderer; the B<Gnome::Gtk4::CellRenderer>.
+=item $renderer; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>.
 
-Return value; the B<Gnome::Gtk4::CellRenderer>
+Return value; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>
   for which C<$renderer> is a sibling. 
 
 =begin comment
@@ -1151,9 +1146,9 @@ Gets the focus sibling cell renderers for C<$renderer>.
 method get-focus-siblings ( N-Object() $renderer --> N-List )
 =end code
 
-=item $renderer; the B<Gnome::Gtk4::CellRenderer> expected to have focus.
+=item $renderer; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> expected to have focus.
 
-Return value; A B<Gnome::Glib::N-List> of B<Gnome::Gtk4::CellRenderer>s.
+Return value; A B<Gnome::Glib::N-List> of L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>s.
       The returned list is internal and should not be freed.. 
 
 =begin comment
@@ -1183,7 +1178,7 @@ method get-preferred-height ( N-Object() $context, N-Object() $widget, Array[Int
 =end code
 
 =item $context; the B<Gnome::Gtk4::CellArea>Context to perform this request with.
-=item $widget; the B<Gnome::Gtk4::Widget> where C<$area> will be rendering.
+=item $widget; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> where C<$area> will be rendering.
 =item $minimum-height; (transfer ownership: full) location to store the minimum height.
 =item $natural-height; (transfer ownership: full) location to store the natural height.
 
@@ -1220,7 +1215,7 @@ method get-preferred-height-for-width ( N-Object() $context, N-Object() $widget,
 =end code
 
 =item $context; the B<Gnome::Gtk4::CellArea>Context which has already been requested for widths..
-=item $widget; the B<Gnome::Gtk4::Widget> where C<$area> will be rendering.
+=item $widget; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> where C<$area> will be rendering.
 =item $width; the width for which to check the height of this area.
 =item $minimum-height; (transfer ownership: full) location to store the minimum height.
 =item $natural-height; (transfer ownership: full) location to store the natural height.
@@ -1252,7 +1247,7 @@ method get-preferred-width ( N-Object() $context, N-Object() $widget, Array[Int]
 =end code
 
 =item $context; the B<Gnome::Gtk4::CellArea>Context to perform this request with.
-=item $widget; the B<Gnome::Gtk4::Widget> where C<$area> will be rendering.
+=item $widget; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> where C<$area> will be rendering.
 =item $minimum-width; (transfer ownership: full) location to store the minimum width.
 =item $natural-width; (transfer ownership: full) location to store the natural width.
 
@@ -1289,7 +1284,7 @@ method get-preferred-width-for-height ( N-Object() $context, N-Object() $widget,
 =end code
 
 =item $context; the B<Gnome::Gtk4::CellArea>Context which has already been requested for widths..
-=item $widget; the B<Gnome::Gtk4::Widget> where C<$area> will be rendering.
+=item $widget; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> where C<$area> will be rendering.
 =item $height; the height for which to check the width of this area.
 =item $minimum-width; (transfer ownership: full) location to store the minimum width.
 =item $natural-width; (transfer ownership: full) location to store the natural width.
@@ -1337,7 +1332,7 @@ Checks if C<$area> contains C<$renderer>.
 method has-renderer ( N-Object() $renderer --> Bool )
 =end code
 
-=item $renderer; the B<Gnome::Gtk4::CellRenderer> to check.
+=item $renderer; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> to check.
 
 Return value; C<True> if C<$renderer> is in the C<$area>.. 
 
@@ -1357,14 +1352,14 @@ Return value; C<True> if C<$renderer> is in the C<$area>..
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 This is a convenience function for B<Gnome::Gtk4::CellArea> implementations
-to get the inner area where a given B<Gnome::Gtk4::CellRenderer> will be
+to get the inner area where a given L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> will be
 rendered. It removes any padding previously added by C<.request-renderer()>.
 
 =begin code
 method inner-cell-area ( N-Object() $widget, N-Object $cell-area, N-Object $inner-area )
 =end code
 
-=item $widget; the B<Gnome::Gtk4::Widget> that C<$area> is rendering onto.
+=item $widget; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> that C<$area> is rendering onto.
 =item $cell-area; the C<$widget> relative coordinates where one of C<$area>’s cells
             is to be placed
 =item $inner-area; the return location for the inner cell area
@@ -1415,8 +1410,8 @@ Returns whether C<$sibling> is one of C<$renderer>’s focus siblings
 method is-focus-sibling ( N-Object() $renderer, N-Object() $sibling --> Bool )
 =end code
 
-=item $renderer; the B<Gnome::Gtk4::CellRenderer> expected to have focus.
-=item $sibling; the B<Gnome::Gtk4::CellRenderer> to check against C<$renderer>’s sibling list.
+=item $renderer; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> expected to have focus.
+=item $sibling; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> to check against C<$renderer>’s sibling list.
 
 Return value; C<True> if C<$sibling> is a focus sibling of C<$renderer>. 
 
@@ -1441,7 +1436,7 @@ Removes C<$renderer> from C<$area>.
 method remove ( N-Object() $renderer )
 =end code
 
-=item $renderer; the B<Gnome::Gtk4::CellRenderer> to remove from C<$area>.
+=item $renderer; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> to remove from C<$area>.
 
 =begin comment
 
@@ -1465,8 +1460,8 @@ Removes C<$sibling> from C<$renderer>’s focus sibling list
 method remove-focus-sibling ( N-Object() $renderer, N-Object() $sibling )
 =end code
 
-=item $renderer; the B<Gnome::Gtk4::CellRenderer> expected to have focus.
-=item $sibling; the B<Gnome::Gtk4::CellRenderer> to remove from C<$renderer>’s focus area.
+=item $renderer; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> expected to have focus.
+=item $sibling; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> to remove from C<$renderer>’s focus area.
 
 =begin comment
 
@@ -1493,9 +1488,9 @@ around the cell for focus painting.
 method request-renderer ( N-Object() $renderer, GtkOrientation $orientation, N-Object() $widget, Int() $for-size, Array[Int] $minimum-size, Array[Int] $natural-size )
 =end code
 
-=item $renderer; the B<Gnome::Gtk4::CellRenderer> to request size for.
+=item $renderer; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> to request size for.
 =item $orientation; the C<enumeration GtkOrientation defined in Gnome::Gtk4::T-enums> in which to request size.
-=item $widget; the B<Gnome::Gtk4::Widget> that C<$area> is rendering onto.
+=item $widget; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> that C<$area> is rendering onto.
 =item $for-size; the allocation contextual size to request for, or -1 if
 the base request for the orientation is to be returned..
 =item $minimum-size; (transfer ownership: full) location to store the minimum size.
@@ -1527,7 +1522,7 @@ as gtk_tree_view_set_cursor_on_cell().
 method set-focus-cell ( N-Object() $renderer )
 =end code
 
-=item $renderer; the B<Gnome::Gtk4::CellRenderer> to give focus to.
+=item $renderer; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> to give focus to.
 
 =begin comment
 
@@ -1552,11 +1547,11 @@ method snapshot ( N-Object() $context, N-Object() $widget, N-Object() $snapshot,
 =end code
 
 =item $context; the B<Gnome::Gtk4::CellArea>Context for this row of data..
-=item $widget; the B<Gnome::Gtk4::Widget> that C<$area> is rendering to.
-=item $snapshot; the B<Gnome::Gtk4::Snapshot> to draw to.
+=item $widget; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> that C<$area> is rendering to.
+=item $snapshot; the L<Gnome::Gtk4::Snapshot|/content-docs/api2/reference/Gtk4/Snapshot> to draw to.
 =item $background-area; the C<$widget> relative coordinates for C<$area>’s background
 =item $cell-area; the C<$widget> relative coordinates for C<$area>
-=item $flags; the B<Gnome::Gtk4::CellRenderer>State for C<$area> in this row..
+=item $flags; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>State for C<$area> in this row..
 =item $paint-focus; whether C<$area> should paint focus on focused cells for focused rows or not..
 
 =begin comment
@@ -1620,19 +1615,18 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::CellArea :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
-=item $renderer; the B<Gnome::Gtk4::CellRenderer> that started the edited.
-=item $editable; the B<Gnome::Gtk4::R-CellEditable> widget to add.
-=item $cell-area; the B<Gnome::Gtk4::Widget> relative B<Gnome::Gdk4::N-Rectangle> coordinates
+=item $renderer; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> that started the edited.
+=item $editable; the L<Gnome::Gtk4::R-CellEditable|/content-docs/api2/reference/Gtk4/R-CellEditable> widget to add.
+=item $cell-area; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> relative B<Gnome::Gdk4::N-Rectangle> coordinates
             where C<$editable> should be added.
 =item $path; the B<Gnome::Gtk4::N-TreePath> string this edit was initiated for.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::CellArea> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::CellArea> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1655,18 +1649,17 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::CellArea :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
-=item $model; the B<Gnome::Gtk4::R-TreeModel> to apply the attributes from.
+=item $model; the L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel> to apply the attributes from.
 =item $iter; the B<Gnome::Gtk4::N-TreeIter> indicating which row to apply the attributes of.
 =item $is-expander; whether the view shows children for this row.
 =item $is-expanded; whether the view is currently showing the children of this row.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::CellArea> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::CellArea> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1694,16 +1687,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::CellArea :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
-=item $renderer; the B<Gnome::Gtk4::CellRenderer> that has focus.
+=item $renderer; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> that has focus.
 =item $path; the current B<Gnome::Gtk4::N-TreePath> string set for C<$area>.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::CellArea> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::CellArea> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1725,16 +1717,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::CellArea :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
-=item $renderer; the B<Gnome::Gtk4::CellRenderer> that finished editeding.
-=item $editable; the B<Gnome::Gtk4::R-CellEditable> widget to remove.
+=item $renderer; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> that finished editeding.
+=item $editable; the L<Gnome::Gtk4::R-CellEditable|/content-docs/api2/reference/Gtk4/R-CellEditable> widget to remove.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::CellArea> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::CellArea> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

@@ -24,7 +24,7 @@ defined as the bottom. In the C<GTK_ORIENTATION_HORIZONTAL> orientation
 start is defined as the left side and the end is defined as the right
 side.
 
-Alignments of B<Gnome::Gtk4::CellRenderer>s rendered in adjacent rows can be
+Alignments of L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>s rendered in adjacent rows can be
 configured by configuring the B<Gnome::Gtk4::CellAreaBox> align child cell property
 with gtk_cell_area_cell_set_property() or by specifying the "align"
 argument to C<.pack-start()> and C<.pack-end()>.
@@ -121,13 +121,13 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Adds C<$renderer> to C<$box>, packed with reference to the end of C<$box>.
 
 The C<$renderer> is packed after (away from end of) any other
-B<Gnome::Gtk4::CellRenderer> packed with reference to the end of C<$box>.
+L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> packed with reference to the end of C<$box>.
 
 =begin code
 method pack-end ( N-Object() $renderer, Bool() $expand, Bool() $align, Bool() $fixed )
 =end code
 
-=item $renderer; the B<Gnome::Gtk4::CellRenderer> to add.
+=item $renderer; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> to add.
 =item $expand; whether C<$renderer> should receive extra space when the area receives
 more than its natural size.
 =item $align; whether C<$renderer> should be aligned in adjacent rows.
@@ -150,14 +150,14 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 
 Adds C<$renderer> to C<$box>, packed with reference to the start of C<$box>.
 
-The C<$renderer> is packed after any other B<Gnome::Gtk4::CellRenderer> packed
+The C<$renderer> is packed after any other L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> packed
 with reference to the start of C<$box>.
 
 =begin code
 method pack-start ( N-Object() $renderer, Bool() $expand, Bool() $align, Bool() $fixed )
 =end code
 
-=item $renderer; the B<Gnome::Gtk4::CellRenderer> to add.
+=item $renderer; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> to add.
 =item $expand; whether C<$renderer> should receive extra space when the area receives
 more than its natural size.
 =item $align; whether C<$renderer> should be aligned in adjacent rows.
@@ -184,7 +184,7 @@ Sets the spacing to add between cell renderers in C<$box>.
 method set-spacing ( Int() $spacing )
 =end code
 
-=item $spacing; the space to add between B<Gnome::Gtk4::CellRenderer>s.
+=item $spacing; the space to add between L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>s.
 
 =begin comment
 

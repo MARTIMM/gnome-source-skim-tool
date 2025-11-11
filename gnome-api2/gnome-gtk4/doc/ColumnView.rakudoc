@@ -26,11 +26,11 @@ it is possible to turn on *rubberband selection*, using
 I<enable-rubberband>.
 
 The column view supports sorting that can be customized by the user by
-clicking on column headers. To set this up, the B<Gnome::Gtk4::Sorter> returned by
-C<.get-sorter()> must be attached to a sort model for the
+clicking on column headers. To set this up, the L<Gnome::Gtk4::Sorter|/content-docs/api2/reference/Gtk4/Sorter> returned by
+L<.get-sorter()|#get-sorter> must be attached to a sort model for the
 data that the view is showing, and the columns must have sorters attached to
-them by calling C<.set-sorter()> in class C<Gnome::Gtk4::ColumnViewColumn>. The initial sort
-order can be set with C<.sort-by-column()>.
+them by calling L<.set-sorter() in class ColumnViewColumn|/content-docs/api2/reference/Gtk4/ColumnViewColumn#set-sorter>. The initial sort
+order can be set with L<.sort-by-column()|#sort-by-column>.
 
 The column view also supports interactive resizing and reordering of
 columns, via Drag-and-Drop of the column headers. This can be enabled or
@@ -45,8 +45,8 @@ To learn more about the list widget framework, see the
 B<Gnome::Gtk4::ColumnView> uses a single CSS node named columnview. It may carry the
 .column-separators style class, when I<show-column-separators>
 property is set. Header widgets appear below a node with name header.
-The rows are contained in a B<Gnome::Gtk4::ListView> widget, so there is a listview
-node with the same structure as for a standalone B<Gnome::Gtk4::ListView> widget.
+The rows are contained in a L<Gnome::Gtk4::ListView|/content-docs/api2/reference/Gtk4/ListView> widget, so there is a listview
+node with the same structure as for a standalone L<Gnome::Gtk4::ListView|/content-docs/api2/reference/Gtk4/ListView> widget.
 If I<show-row-separators> is set, it will be passed
 on to the list view, causing its CSS node to carry the .separators style class.
 For rubberband selection, a node with name rubberband is used.
@@ -97,7 +97,7 @@ Create an object using a native object from an object of the same type found els
 
 Creates a new B<Gnome::Gtk4::ColumnView>.
 
-You most likely want to call C<.append-column()>
+You most likely want to call L<.append-column()|#append-column>
 to add columns next.
 
 =begin code
@@ -133,7 +133,7 @@ Appends the C<$column> to the end of the columns in C<$self>.
 method append-column ( N-Object() $column )
 =end code
 
-=item $column; a B<Gnome::Gtk4::ColumnViewColumn> that hasn't been added to a
+=item $column; a L<Gnome::Gtk4::ColumnViewColumn|/content-docs/api2/reference/Gtk4/ColumnViewColumn> that hasn't been added to a
   B<Gnome::Gtk4::ColumnView> yet.
 
 =begin comment
@@ -257,7 +257,7 @@ Return value; C<True> if columns are reorderable.
 =begin pod
 =head2 get-row-factory
 
-Gets the factory set via C<.set-row-factory()>.
+Gets the factory set via L<.set-row-factory()|#set-row-factory>.
 
 =begin code
 method get-row-factory (--> N-Object )
@@ -351,7 +351,7 @@ To allow users to customizable sorting by clicking on column
 headers, this sorter needs to be set on the sort model underneath
 the model that is displayed by the view.
 
-See C<.set-sorter()> in class C<Gnome::Gtk4::ColumnViewColumn> for setting up
+See L<.set-sorter() in class ColumnViewColumn|/content-docs/api2/reference/Gtk4/ColumnViewColumn#set-sorter> for setting up
 per-column sorting.
 
 Here is an example:
@@ -360,7 +360,7 @@ Here is an example:
 method get-sorter (--> N-Object )
 =end code
 
-Return value; the B<Gnome::Gtk4::Sorter> of C<$self>. 
+Return value; the L<Gnome::Gtk4::Sorter|/content-docs/api2/reference/Gtk4/Sorter> of C<$self>. 
 
 =begin comment
 
@@ -405,7 +405,7 @@ method insert-column ( UInt() $position, N-Object() $column )
 =end code
 
 =item $position; the position to insert C<$column> at.
-=item $column; the B<Gnome::Gtk4::ColumnViewColumn> to insert.
+=item $column; the L<Gnome::Gtk4::ColumnViewColumn|/content-docs/api2/reference/Gtk4/ColumnViewColumn> to insert.
 
 =begin comment
 
@@ -426,7 +426,7 @@ Removes the C<$column> from the list of columns of C<$self>.
 method remove-column ( N-Object() $column )
 =end code
 
-=item $column; a B<Gnome::Gtk4::ColumnViewColumn> that's part of C<$self>.
+=item $column; a L<Gnome::Gtk4::ColumnViewColumn|/content-docs/api2/reference/Gtk4/ColumnViewColumn> that's part of C<$self>.
 
 =begin comment
 
@@ -493,8 +493,8 @@ method set-enable-rubberband ( Bool() $enable-rubberband )
 =begin pod
 =head2 set-header-factory
 
-Sets the B<Gnome::Gtk4::ListItemFactory> to use for populating the
-B<Gnome::Gtk4::ListHeader> objects used in section headers.
+Sets the L<Gnome::Gtk4::ListItemFactory|/content-docs/api2/reference/Gtk4/ListItemFactory> to use for populating the
+L<Gnome::Gtk4::ListHeader|/content-docs/api2/reference/Gtk4/ListHeader> objects used in section headers.
 
 If this factory is set to undefined, the list will not show
 section headers.
@@ -520,7 +520,7 @@ method set-header-factory ( N-Object() $factory )
 
 Sets the model to use.
 
-This must be a B<Gnome::Gtk4::R-SelectionModel>.
+This must be a L<GtkColumnViewCell|/content-docs/api2/reference/Gnome::Gtk4::R-SelectionModel>.
 
 =begin code
 method set-model ( N-Object() $model )
@@ -563,12 +563,12 @@ method set-reorderable ( Bool() $reorderable )
 =head2 set-row-factory
 
 Sets the factory used for configuring rows. The factory must be for configuring
-B<Gnome::Gtk4::ColumnViewRow> objects.
+L<Gnome::Gtk4::ColumnViewRow|/content-docs/api2/reference/Gtk4/ColumnViewRow> objects.
 
 If this factory is not set - which is the default - then the defaults will be used.
 
 This factory is not used to set the widgets displayed in the individual cells. For
-that see [method C<$GtkColumnViewColumn>.set_factory] and B<GtkColumnViewCell>.
+that see [method C<$GtkColumnViewColumn>.set_factory] and L<GtkColumnViewCell|/content-docs/api2/reference/GtkColumnViewCell>.
 
 =begin code
 method set-row-factory ( N-Object() $factory )
@@ -672,8 +672,8 @@ At runtime, users can change the sorting of a column view
 by clicking on the list headers.
 
 This call only has an effect if the sorter returned by
-C<.get-sorter()> is set on a sort model,
-and C<.set-sorter()> in class C<Gnome::Gtk4::ColumnViewColumn> has been called
+L<.get-sorter()|#get-sorter> is set on a sort model,
+and L<.set-sorter() in class ColumnViewColumn|/content-docs/api2/reference/Gtk4/ColumnViewColumn#set-sorter> has been called
 on C<$column> to associate a sorter with the column.
 
 If C<$column> is undefined, the view will be unsorted.
@@ -682,7 +682,7 @@ If C<$column> is undefined, the view will be unsorted.
 method sort-by-column ( N-Object() $column, GtkSortType $direction )
 =end code
 
-=item $column; the B<Gnome::Gtk4::ColumnViewColumn> to sort by.
+=item $column; the L<Gnome::Gtk4::ColumnViewColumn|/content-docs/api2/reference/Gtk4/ColumnViewColumn> to sort by.
 =item $direction; the direction to sort in.
 
 =end pod
@@ -701,7 +701,7 @@ Emitted when a row has been activated by the user, usually via activating
 the GtkListBase|list.activate-item action.
 
 This allows for a convenient way to handle activation in a columnview.
-See C<.set-activatable()> in class C<Gnome::Gtk4::ListItem> for details on how to use this
+See L<.set-activatable() in class ListItem|/content-docs/api2/reference/Gtk4/ListItem#set-activatable> for details on how to use this
 signal.
 
 =begin code
@@ -710,15 +710,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::ColumnView :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $position; position of item to activate.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ColumnView> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::ColumnView> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =end pod
 

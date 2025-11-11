@@ -26,7 +26,7 @@ colorbutton
 =end comment
 
 B<Gnome::Gtk4::ColorButton> has a single CSS node with name colorbutton which
-contains a button node. To differentiate it from a plain B<Gnome::Gtk4::Button>,
+contains a button node. To differentiate it from a plain L<Gnome::Gtk4::Button|/content-docs/api2/reference/Gtk4/Button>,
 it gets the .color style class.
 
 =head2 Uml Diagram
@@ -220,7 +220,7 @@ method set-title ( Str $title )
 
 Emitted to when the color button is activated.
 
-The `::activate` signal on B<Gnome::Gtk4::MenuButton> is an action signal and
+The `::activate` signal on L<Gnome::Gtk4::MenuButton|/content-docs/api2/reference/Gtk4/MenuButton> is an action signal and
 emitting it causes the button to pop up its dialog.
 
 =begin code
@@ -228,14 +228,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::ColorButton :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ColorButton> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::ColorButton> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -249,7 +248,7 @@ method handler (
 
 Emitted when the user selects a color.
 
-When handling this signal, use C<.get-rgba()> in class C<Gnome::Gtk4::R-ColorChooser>
+When handling this signal, use L<.get-rgba() in class ColorChooser|/content-docs/api2/reference/Gtk4/ColorChooser#get-rgba>
 to find out which color was just selected.
 
 Note that this signal is only emitted when the user changes the color.
@@ -261,14 +260,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::ColorButton :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ColorButton> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::ColorButton> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

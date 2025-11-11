@@ -12,13 +12,13 @@ use v6.d;
 A layout manager using constraints to describe relations between widgets.
 
 B<Gnome::Gtk4::ConstraintLayout> is a layout manager that uses relations between
-widget attributes, expressed via B<Gnome::Gtk4::Constraint> instances, to
+widget attributes, expressed via L<Gnome::Gtk4::Constraint|/content-docs/api2/reference/Gtk4/Constraint> instances, to
 measure and allocate widgets.
 
 =head4 How do constraints work
 
 Constraints are objects defining the relationship between attributes
-of a widget; you can read the description of the B<Gnome::Gtk4::Constraint>
+of a widget; you can read the description of the L<Gnome::Gtk4::Constraint|/content-docs/api2/reference/Gtk4/Constraint>
 class to have a more in depth definition.
 
 By taking multiple constraints and applying them to the children of
@@ -43,13 +43,13 @@ is undefined.
 
 A constraint-based layout with conflicting constraints may be unsolvable,
 and lead to an unstable layout. You can use the I<strength defined in Gnome::Gtk4::Constraint>
-property of B<Gnome::Gtk4::Constraint> to "nudge" the layout towards a solution.
+property of L<Gnome::Gtk4::Constraint|/content-docs/api2/reference/Gtk4/Constraint> to "nudge" the layout towards a solution.
 
 =head4 GtkConstraintLayout as GtkBuildable
 
-B<Gnome::Gtk4::ConstraintLayout> implements the B<Gnome::Gtk4::R-Buildable> interface and
+B<Gnome::Gtk4::ConstraintLayout> implements the L<Gnome::Gtk4::ConstraintGuide|/content-docs/api2/reference/Gnome::Gtk4::R-Buildable> interface and
 has a custom "constraints" element which allows describing constraints in
-a B<Gnome::Gtk4::Builder> UI file.
+a L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder> UI file.
 
 An example of a UI definition fragment specifying a constraint:
 
@@ -125,7 +125,7 @@ or *Visual Format Language*.
 The Visual Format Language describes all the constraints on a row or
 column, typically starting from the leading edge towards the trailing
 one. Each element of the layout is composed by "views", which identify
-a B<Gnome::Gtk4::R-ConstraintTarget>.
+a L<Gnome::Gtk4::ConstraintGuide|/content-docs/api2/reference/Gnome::Gtk4::R-ConstraintTarget>.
 
 For instance:
 
@@ -247,9 +247,9 @@ properties of B<constraint> can be:
 
 =item set to undefined to indicate that the constraint refers to the
    widget using B<layout>
-=item set to the B<Gnome::Gtk4::Widget> using B<layout>
-=item set to a child of the B<Gnome::Gtk4::Widget> using B<layout>
-=item set to a B<Gnome::Gtk4::ConstraintGuide> that is part of B<layout>
+=item set to the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> using B<layout>
+=item set to a child of the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> using B<layout>
+=item set to a L<Gnome::Gtk4::ConstraintGuide|/content-docs/api2/reference/Gtk4/ConstraintGuide> that is part of B<layout>
 
 The C<$layout> acquires the ownership of C<$constraint> after calling
 this function.
@@ -258,7 +258,7 @@ this function.
 method add-constraint ( Array[Int] $constraint )
 =end code
 
-=item $constraint; (transfer ownership: full) a B<Gnome::Gtk4::Constraint>.
+=item $constraint; (transfer ownership: full) a L<Gnome::Gtk4::Constraint|/content-docs/api2/reference/Gtk4/Constraint>.
 
 =begin comment
 
@@ -272,12 +272,11 @@ method add-constraint ( Array[Int] $constraint )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 add-constraints-from-description
-This function is not yet available
 
 Creates a list of constraints from a VFL description.
 
 This function is a convenience wrapper around
-C<.add-constraints-from-descriptionv()>, using
+L<.add-constraints-from-descriptionv()|#add-constraints-from-descriptionv>, using
 variadic arguments to populate the view/target map.
 
 =begin code
@@ -291,11 +290,11 @@ method add-constraints-from-description ( Array[Str] $lines, Int() $n-lines, Int
 =item $vspacing; default vertical spacing value, or -1 for the fallback value.
 =item $error; return location for a B<Gnome::Glib::N-Error>
 =item $first-view; the name of a view in the VFL description, followed by the
-  B<Gnome::Gtk4::R-ConstraintTarget> to which it maps.
+  L<Gnome::Gtk4::ConstraintGuide|/content-docs/api2/reference/Gnome::Gtk4::R-ConstraintTarget> to which it maps.
 =item …; …. Note that each argument must be specified as a type followed by its value!
 
 Return value; the list of
-  B<Gnome::Gtk4::Constraint>s that were added to the layout. 
+  L<Gnome::Gtk4::Constraint|/content-docs/api2/reference/Gtk4/Constraint>s that were added to the layout. 
 
 =begin comment
 
@@ -314,7 +313,7 @@ Creates a list of constraints from a VFL description.
 
 The Visual Format Language, VFL, is based on Apple's AutoLayout [VFL](https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage.html).
 
-The B<views> dictionary is used to match B<Gnome::Gtk4::R-ConstraintTarget>
+The B<views> dictionary is used to match L<Gnome::Gtk4::ConstraintGuide|/content-docs/api2/reference/Gnome::Gtk4::R-ConstraintTarget>
 instances to the symbolic view name inside the VFL.
 
 The VFL grammar is:
@@ -408,7 +407,7 @@ Use C<Pointer> when you want to ignore the error.
 .
 
 Return value; the list of
-  B<Gnome::Gtk4::Constraint> instances that were added to the layout. 
+  L<Gnome::Gtk4::Constraint|/content-docs/api2/reference/Gtk4/Constraint> instances that were added to the layout. 
 
 =begin comment
 
@@ -435,7 +434,7 @@ this function.
 method add-guide ( N-Object() $guide )
 =end code
 
-=item $guide; (transfer ownership: full) a B<Gnome::Gtk4::ConstraintGuide> object.
+=item $guide; (transfer ownership: full) a L<Gnome::Gtk4::ConstraintGuide|/content-docs/api2/reference/Gtk4/ConstraintGuide> object.
 
 =begin comment
 
@@ -450,7 +449,7 @@ method add-guide ( N-Object() $guide )
 =begin pod
 =head2 observe-constraints
 
-Returns a B<Gnome::Gio::R-ListModel> to track the constraints that are
+Returns a L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> to track the constraints that are
 part of the layout.
 
 Calling this function will enable extra internal bookkeeping
@@ -465,7 +464,7 @@ method observe-constraints (--> N-List )
 =end code
 
 Return value; a
-  B<Gnome::Gio::R-ListModel> tracking the layout's constraints. 
+  L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> tracking the layout's constraints. 
 
 =begin comment
 
@@ -480,7 +479,7 @@ Return value; a
 =begin pod
 =head2 observe-guides
 
-Returns a B<Gnome::Gio::R-ListModel> to track the guides that are
+Returns a L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> to track the guides that are
 part of the layout.
 
 Calling this function will enable extra internal bookkeeping
@@ -495,7 +494,7 @@ method observe-guides (--> N-List )
 =end code
 
 Return value; a
-  B<Gnome::Gio::R-ListModel> tracking the layout's guides. 
+  L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> tracking the layout's guides. 
 
 =begin comment
 
@@ -536,7 +535,7 @@ so that it no longer influences the layout.
 method remove-constraint ( Array[Int] $constraint )
 =end code
 
-=item $constraint; a B<Gnome::Gtk4::Constraint>.
+=item $constraint; a L<Gnome::Gtk4::Constraint|/content-docs/api2/reference/Gtk4/Constraint>.
 
 =begin comment
 
@@ -558,7 +557,7 @@ so that it no longer influences the layout.
 method remove-guide ( N-Object() $guide )
 =end code
 
-=item $guide; a B<Gnome::Gtk4::ConstraintGuide> object.
+=item $guide; a L<Gnome::Gtk4::ConstraintGuide|/content-docs/api2/reference/Gtk4/ConstraintGuide> object.
 
 =begin comment
 
