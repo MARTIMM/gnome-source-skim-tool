@@ -9,7 +9,7 @@ use v6.d;
 =TITLE Gnome::Gtk4::GestureSwipe
 =head1 Description
 
-B<Gnome::Gtk4::GestureSwipe> is a B<Gnome::Gtk4::Gesture> for swipe gestures.
+B<Gnome::Gtk4::GestureSwipe> is a L<Gnome::Gtk4::Gesture|/content-docs/api2/reference/Gtk4/Gesture> for swipe gestures.
 
 After a press/move/.../move/release sequence happens, the
 I<swipe> signal will be emitted,
@@ -17,7 +17,7 @@ providing the velocity and directionality of the sequence
 at the time it was lifted.
 
 If the velocity is desired in intermediate points,
-C<.get-velocity()>] can be called in a
+L<.get-velocity()|#get-velocity> can be called in a
 I<update defined in Gesture> handler.
 
 All velocities are reported in pixels/sec units.
@@ -55,7 +55,7 @@ Create an object using a native object from an object of the same type found els
 =begin pod
 =head2 new-gestureswipe
 
-Returns a newly created B<Gnome::Gtk4::Gesture> that recognizes swipes.
+Returns a newly created L<Gnome::Gtk4::Gesture|/content-docs/api2/reference/Gtk4/Gesture> that recognizes swipes.
 
 =begin code
 method new-gestureswipe ( --> Gnome::Gtk4::GestureSwipe )
@@ -127,16 +127,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::GestureSwipe :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $velocity-x; velocity in the X axis, in pixels/sec.
 =item $velocity-y; velocity in the Y axis, in pixels/sec.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureSwipe> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::GestureSwipe> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

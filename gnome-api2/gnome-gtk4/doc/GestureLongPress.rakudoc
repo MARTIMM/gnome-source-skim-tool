@@ -9,7 +9,7 @@ use v6.d;
 =TITLE Gnome::Gtk4::GestureLongPress
 =head1 Description
 
-B<Gnome::Gtk4::GestureLongPress> is a B<Gnome::Gtk4::Gesture> for long presses.
+B<Gnome::Gtk4::GestureLongPress> is a L<Gnome::Gtk4::Gesture|/content-docs/api2/reference/Gtk4/Gesture> for long presses.
 
 This gesture is also known as “Press and Hold”.
 
@@ -58,7 +58,7 @@ Create an object using a native object from an object of the same type found els
 =begin pod
 =head2 new-gesturelongpress
 
-Returns a newly created B<Gnome::Gtk4::Gesture> that recognizes long presses.
+Returns a newly created L<Gnome::Gtk4::Gesture|/content-docs/api2/reference/Gtk4/Gesture> that recognizes long presses.
 
 =begin code
 method new-gesturelongpress ( --> Gnome::Gtk4::GestureLongPress )
@@ -144,14 +144,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::GestureLongPress :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureLongPress> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::GestureLongPress> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -173,16 +172,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::GestureLongPress :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $x; the X coordinate where the press happened, relative to the widget allocation.
 =item $y; the Y coordinate where the press happened, relative to the widget allocation.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureLongPress> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::GestureLongPress> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

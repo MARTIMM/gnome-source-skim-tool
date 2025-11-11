@@ -13,16 +13,16 @@ B<Gnome::Gtk4::GestureSingle> is a B<GtkGestures> subclass optimized for singe-t
 and mouse gestures.
 
 Under interaction, these gestures stick to the first interacting sequence,
-which is accessible through C<.get-current-sequence()>
+which is accessible through L<.get-current-sequence()|#get-current-sequence>
 while the gesture is being interacted with.
 
 By default gestures react to both C<GDK_BUTTON_PRIMARY> and touch events.
-C<.set-touch-only()> can be used to change the
+L<.set-touch-only()|#set-touch-only> can be used to change the
 touch behavior. Callers may also specify a different mouse button number
-to interact with through C<.set-button()>, or react
+to interact with through L<.set-button()|#set-button>, or react
 to any mouse button by setting it to 0. While the gesture is active, the
 button being currently pressed can be known through
-C<.get-current-button()>.
+L<.get-current-button()|#get-current-button>.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/GestureSingle.png> :width<70%> :class<inline>
@@ -112,7 +112,7 @@ Return value; The current button number.
 
 Returns the event sequence currently interacting with C<$gesture>.
 
-This is only meaningful if C<.is-active()> in class C<Gnome::Gtk4::Gesture>
+This is only meaningful if L<.is-active() in class Gesture|/content-docs/api2/reference/Gtk4/Gesture#is-active>
 returns C<True>.
 
 =begin code
@@ -136,7 +136,7 @@ Return value; the current sequence.
 
 Gets whether a gesture is exclusive.
 
-For more information, see C<.set-exclusive()>.
+For more information, see L<.set-exclusive()|#set-exclusive>.
 
 =begin code
 method get-exclusive (--> Bool )

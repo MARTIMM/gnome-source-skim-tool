@@ -9,11 +9,11 @@ use v6.d;
 =TITLE Gnome::Gtk4::GesturePan
 =head1 Description
 
-B<Gnome::Gtk4::GesturePan> is a B<Gnome::Gtk4::Gesture> for pan gestures.
+B<Gnome::Gtk4::GesturePan> is a L<Gnome::Gtk4::Gesture|/content-docs/api2/reference/Gtk4/Gesture> for pan gestures.
 
 These are drags that are locked to happen along one axis. The axis
 that a B<Gnome::Gtk4::GesturePan> handles is defined at construct time, and
-can be changed through C<.set-orientation()>].
+can be changed through L<.set-orientation()|#set-orientation>.
 
 When the gesture starts to be recognized, B<Gnome::Gtk4::GesturePan> will
 attempt to determine as early as possible whether the sequence
@@ -57,7 +57,7 @@ Create an object using a native object from an object of the same type found els
 =begin pod
 =head2 new-gesturepan
 
-Returns a newly created B<Gnome::Gtk4::Gesture> that recognizes pan gestures.
+Returns a newly created L<Gnome::Gtk4::Gesture|/content-docs/api2/reference/Gtk4/Gesture> that recognizes pan gestures.
 
 =begin code
 method new-gesturepan ( GtkOrientation $orientation --> Gnome::Gtk4::GesturePan )
@@ -143,16 +143,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::GesturePan :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $direction; current direction of the pan gesture.
 =item $offset; Offset along the gesture orientation.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GesturePan> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::GesturePan> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

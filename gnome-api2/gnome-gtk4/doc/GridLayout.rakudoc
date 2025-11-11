@@ -15,14 +15,14 @@ rows and columns.
 Children have an "attach point" defined by the horizontal and vertical
 index of the cell they occupy; children can span multiple rows or columns.
 The layout properties for setting the attach points and spans are set
-using the B<Gnome::Gtk4::GridLayoutChild> associated to each child widget.
+using the L<Gnome::Gtk4::GridLayoutChild|/content-docs/api2/reference/Gtk4/GridLayoutChild> associated to each child widget.
 
 The behaviour of B<Gnome::Gtk4::GridLayout> when several children occupy the same
 grid cell is undefined.
 
-B<Gnome::Gtk4::GridLayout> can be used like a B<Gnome::Gtk4::BoxLayout> if all children are
+B<Gnome::Gtk4::GridLayout> can be used like a L<Gnome::Gtk4::BoxLayout|/content-docs/api2/reference/Gtk4/BoxLayout> if all children are
 attached to the same row or column; however, if you only ever need a
-single row or column, you should consider using B<Gnome::Gtk4::BoxLayout>.
+single row or column, you should consider using L<Gnome::Gtk4::BoxLayout|/content-docs/api2/reference/Gtk4/BoxLayout>.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/GridLayout.png> :width<70%> :class<inline>
@@ -150,7 +150,7 @@ Return value; the spacing between consecutive columns.
 Returns the baseline position of C<$row>.
 
 If no value has been set with
-C<.set-row-baseline-position()>,
+L<.set-row-baseline-position()|#set-row-baseline-position>,
 the default value of C<GTK_BASELINE_POSITION_CENTER>
 is returned.
 

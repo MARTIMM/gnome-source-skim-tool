@@ -9,15 +9,15 @@ use v6.d;
 =TITLE Gnome::Gtk4::GestureDrag
 =head1 Description
 
-B<Gnome::Gtk4::GestureDrag> is a B<Gnome::Gtk4::Gesture> implementation for drags.
+B<Gnome::Gtk4::GestureDrag> is a L<Gnome::Gtk4::Gesture|/content-docs/api2/reference/Gtk4/Gesture> implementation for drags.
 
 The drag operation itself can be tracked throughout the
 I<drag-begin>,
 I<drag-update> and
 I<drag-end> signals, and the relevant
 coordinates can be extracted through
-C<.get-offset()>] and
-C<.get-start-point()>].
+L<.get-offset()|#get-offset> and
+L<.get-start-point()|#get-start-point>.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/GestureDrag.png> :width<70%> :class<inline>
@@ -52,7 +52,7 @@ Create an object using a native object from an object of the same type found els
 =begin pod
 =head2 new-gesturedrag
 
-Returns a newly created B<Gnome::Gtk4::Gesture> that recognizes drags.
+Returns a newly created L<Gnome::Gtk4::Gesture|/content-docs/api2/reference/Gtk4/Gesture> that recognizes drags.
 
 =begin code
 method new-gesturedrag ( --> Gnome::Gtk4::GestureDrag )
@@ -150,16 +150,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::GestureDrag :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $start-x; X coordinate, relative to the widget allocation.
 =item $start-y; Y coordinate, relative to the widget allocation.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureDrag> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::GestureDrag> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -180,16 +179,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::GestureDrag :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $offset-x; X offset, relative to the start point.
 =item $offset-y; Y offset, relative to the start point.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureDrag> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::GestureDrag> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -210,16 +208,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::GestureDrag :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $offset-x; X offset, relative to the start point.
 =item $offset-y; Y offset, relative to the start point.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureDrag> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::GestureDrag> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

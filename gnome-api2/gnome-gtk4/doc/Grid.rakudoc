@@ -16,22 +16,22 @@ rows and columns.
 
 It supports arbitrary positions and horizontal/vertical spans.
 
-Children are added using C<.attach()>. They can span multiple
+Children are added using L<.attach()|#attach>. They can span multiple
 rows or columns. It is also possible to add a child next to an existing
-child, using C<.attach-next-to()>. To remove a child from the
-grid, use C<.remove()>.
+child, using L<.attach-next-to()|#attach-next-to>. To remove a child from the
+grid, use L<.remove()|#remove>.
 
 The behaviour of B<Gnome::Gtk4::Grid> when several children occupy the same grid
 cell is undefined.
 
 =head2 GtkGrid as GtkBuildable
 
-Every child in a B<Gnome::Gtk4::Grid> has access to a custom B<Gnome::Gtk4::R-Buildable>
+Every child in a B<Gnome::Gtk4::Grid> has access to a custom L<Gnome::Gtk4::LayoutManager|/content-docs/api2/reference/Gnome::Gtk4::R-Buildable>
 element, called `<layout>`. It can by used to specify a position in the
 grid and optionally spans. All properties that can be used in the `<layout>`
-element are implemented by B<Gnome::Gtk4::GridLayoutChild>.
+element are implemented by L<Gnome::Gtk4::GridLayoutChild|/content-docs/api2/reference/Gtk4/GridLayoutChild>.
 
-It is implemented by B<Gnome::Gtk4::Widget> using B<Gnome::Gtk4::LayoutManager>.
+It is implemented by L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> using L<Gnome::Gtk4::LayoutManager|/content-docs/api2/reference/Gtk4/LayoutManager>.
 
 To showcase it, here is a simple example:
 
@@ -307,7 +307,7 @@ Return value; the column spacing of C<$grid>.
 
 Returns the baseline position of C<$row>.
 
-See C<.set-row-baseline-position()>.
+See L<.set-row-baseline-position()|#set-row-baseline-position>.
 
 =begin code
 method get-row-baseline-position ( Int() $row --> GtkBaselinePosition )
@@ -456,7 +456,7 @@ Queries the attach points and spans of C<$child> inside the given B<Gnome::Gtk4:
 method query-child ( N-Object() $child, Array[Int] $column, Array[Int] $row, Array[Int] $width, Array[Int] $height )
 =end code
 
-=item $child; a B<Gnome::Gtk4::Widget> child of C<$grid>.
+=item $child; a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> child of C<$grid>.
 =item $column; (transfer ownership: full) the column used to attach the left side of C<$child>.
 =item $row; (transfer ownership: full) the row used to attach the top side of C<$child>.
 =item $width; (transfer ownership: full) the number of columns C<$child> spans.
@@ -478,7 +478,7 @@ method query-child ( N-Object() $child, Array[Int] $column, Array[Int] $row, Arr
 Removes a child from C<$grid>.
 
 The child must have been added with
-C<.attach()> or C<.attach-next-to()>.
+L<.attach()|#attach> or L<.attach-next-to()|#attach-next-to>.
 
 =begin code
 method remove ( N-Object() $child )

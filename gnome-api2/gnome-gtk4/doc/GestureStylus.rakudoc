@@ -9,7 +9,7 @@ use v6.d;
 =TITLE Gnome::Gtk4::GestureStylus
 =head1 Description
 
-B<Gnome::Gtk4::GestureStylus> is a B<Gnome::Gtk4::Gesture> specific to stylus input.
+B<Gnome::Gtk4::GestureStylus> is a L<Gnome::Gtk4::Gesture|/content-docs/api2/reference/Gtk4/Gesture> specific to stylus input.
 
 The provided signals just relay the basic information of the
 stylus events.
@@ -141,7 +141,7 @@ current [Gtk.GestureStylus::motion] signal.
 
 This function may only be called within a I<motion>
 signal handler, the state given in this signal and obtainable through
-C<.get-axis()>] express the latest (most up-to-date)
+L<.get-axis()|#get-axis> express the latest (most up-to-date)
 state in motion history.
 
 The C<$backlog> is provided in chronological order.
@@ -168,7 +168,7 @@ Return value; C<True> if there is a backlog to unfold in the current state..
 =begin pod
 =head2 get-device-tool
 
-Returns the B<Gnome::Gdk4::DeviceTool> currently driving input through this gesture.
+Returns the L<Gnome::Gdk4::DeviceTool|/content-docs/api2/reference/Gdk4/DeviceTool> currently driving input through this gesture.
 
 This function must be called from the handler of one of the
 I<down>, I<motion>,
@@ -257,16 +257,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::GestureStylus :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $x; the X coordinate of the stylus event.
 =item $y; the Y coordinate of the stylus event.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureStylus> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::GestureStylus> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -287,16 +286,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::GestureStylus :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $x; the X coordinate of the stylus event.
 =item $y; the Y coordinate of the stylus event.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureStylus> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::GestureStylus> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -317,16 +315,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::GestureStylus :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $x; the X coordinate of the stylus event.
 =item $y; the Y coordinate of the stylus event.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureStylus> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::GestureStylus> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -347,16 +344,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::GestureStylus :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $x; the X coordinate of the stylus event.
 =item $y; the Y coordinate of the stylus event.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureStylus> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::GestureStylus> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

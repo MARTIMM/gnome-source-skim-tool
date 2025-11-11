@@ -300,7 +300,7 @@ method set-enable-rubberband ( Bool() $enable-rubberband )
 =begin pod
 =head2 set-factory
 
-Sets the B<Gnome::Gtk4::ListItemFactory> to use for populating list items.
+Sets the L<Gnome::Gtk4::ListItemFactory|/content-docs/api2/reference/Gtk4/ListItemFactory> to use for populating list items.
 
 =begin code
 method set-factory ( N-Object() $factory )
@@ -326,7 +326,7 @@ Sets the maximum number of columns to use.
 This number must be at least 1.
 
 If C<$max-columns> is smaller than the minimum set via
-C<.set-min-columns()>, that value is used instead.
+L<.set-min-columns()|#set-min-columns>, that value is used instead.
 
 =begin code
 method set-max-columns ( UInt() $max-columns )
@@ -352,7 +352,7 @@ Sets the minimum number of columns to use.
 This number must be at least 1.
 
 If C<$min-columns> is smaller than the minimum set via
-C<.set-max-columns()>, that value is ignored.
+L<.set-max-columns()|#set-max-columns>, that value is ignored.
 
 =begin code
 method set-min-columns ( UInt() $min-columns )
@@ -375,7 +375,7 @@ method set-min-columns ( UInt() $min-columns )
 
 Sets the model to use.
 
-This must be a B<Gnome::Gtk4::R-SelectionModel>.
+This must be a L<|/content-docs/api2/reference/Gnome::Gtk4::R-SelectionModel>.
 
 =begin code
 method set-model ( N-Object() $model )
@@ -461,15 +461,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::GridView :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $position; position of item to activate.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GridView> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::GridView> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =end pod
 

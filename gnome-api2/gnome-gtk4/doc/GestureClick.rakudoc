@@ -9,7 +9,7 @@ use v6.d;
 =TITLE Gnome::Gtk4::GestureClick
 =head1 Description
 
-B<Gnome::Gtk4::GestureClick> is a B<Gnome::Gtk4::Gesture> implementation for clicks.
+B<Gnome::Gtk4::GestureClick> is a L<Gnome::Gtk4::Gesture|/content-docs/api2/reference/Gtk4/Gesture> implementation for clicks.
 
 It is able to recognize multiple clicks on a nearby zone, which
 can be listened for through the I<pressed>
@@ -50,7 +50,7 @@ Create an object using a native object from an object of the same type found els
 =begin pod
 =head2 new-gestureclick
 
-Returns a newly created B<Gnome::Gtk4::Gesture> that recognizes
+Returns a newly created L<Gnome::Gtk4::Gesture|/content-docs/api2/reference/Gtk4/Gesture> that recognizes
 single and multiple presses.
 
 =begin code
@@ -86,7 +86,7 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::GestureClick :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
@@ -94,9 +94,8 @@ method handler (
 =item $x; The X coordinate, in widget allocation coordinates.
 =item $y; The Y coordinate, in widget allocation coordinates.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureClick> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::GestureClick> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -122,7 +121,7 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::GestureClick :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
@@ -130,9 +129,8 @@ method handler (
 =item $x; The X coordinate, in widget allocation coordinates.
 =item $y; The Y coordinate, in widget allocation coordinates.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureClick> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::GestureClick> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -151,14 +149,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::GestureClick :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureClick> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::GestureClick> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -186,7 +183,7 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::GestureClick :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
@@ -195,9 +192,8 @@ method handler (
 =item $button; Button being released.
 =item $sequence; Sequence being released.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureClick> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::GestureClick> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

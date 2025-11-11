@@ -34,7 +34,7 @@ A recognized gesture will then emit the following signals:
 =head3 Event propagation
 
 In order to receive events, a gesture needs to set a propagation phase
-through C<.set-propagation-phase()> in class C<Gnome::Gtk4::EventController>.
+through L<.set-propagation-phase() in class EventController|/content-docs/api2/reference/Gtk4/EventController#set-propagation-phase>.
 
 In the capture phase, events are propagated from the toplevel down
 to the target widget, and gestures that are attached to containers
@@ -55,9 +55,9 @@ of the widgets using those gestures to set the state of touch sequences
 accordingly in order to enable cooperation of gestures around the
 B<Gnome::Gdk4::N-EventSequence>s triggering those.
 
-Within a widget, gestures can be grouped through C<.group()>.
+Within a widget, gestures can be grouped through L<.group()|#group>.
 Grouped gestures synchronize the state of sequences, so calling
-C<.set-state()> on one will effectively propagate
+L<.set-state()|#set-state> on one will effectively propagate
 the state throughout the group.
 
 By default, all sequences start out in the C<GTK_EVENT_SEQUENCE_NONE> state,
@@ -87,7 +87,7 @@ This way event coherence is preserved before event propagation is unstopped
 again.
 
 Sequence states can't be changed freely.
-See C<.set-state()> to know about the possible
+See L<.set-state()|#set-state> to know about the possible
 lifetimes of a B<Gnome::Gdk4::N-EventSequence>.
 
 =head3 Touchpad gestures
@@ -201,7 +201,7 @@ Return value; C<False> if no active touches are present, C<True> otherwise.
 =begin pod
 =head2 get-device
 
-Returns the logical B<Gnome::Gdk4::Device> that is currently operating
+Returns the logical L<Gnome::Gdk4::Device|/content-docs/api2/reference/Gdk4/Device> that is currently operating
 on C<$gesture>.
 
 This returns undefined if the gesture is not being interacted.
@@ -210,7 +210,7 @@ This returns undefined if the gesture is not being interacted.
 method get-device (--> N-Object )
 =end code
 
-Return value; a B<Gnome::Gdk4::Device>. 
+Return value; a L<Gnome::Gdk4::Device|/content-docs/api2/reference/Gdk4/Device>. 
 
 =begin comment
 
@@ -380,13 +380,13 @@ they can be grouped.
 
 When gestures are grouped, the state of B<GdkEventSequences>
 is kept in sync for all of those, so calling
-C<.set-sequence-state()>, on one will transfer
+L<.set-sequence-state()|#set-sequence-state>, on one will transfer
 the same value to the others.
 
 Groups also perform an "implicit grabbing" of sequences, if a
 B<Gnome::Gdk4::N-EventSequence> state is set to C<GTK_EVENT_SEQUENCE_CLAIMED>
 on one group, every other gesture group attached to the same
-B<Gnome::Gtk4::Widget> will switch the state for that sequence to
+L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> will switch the state for that sequence to
 C<GTK_EVENT_SEQUENCE_DENIED>.
 
 =begin code
@@ -680,16 +680,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Gesture :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $sequence; the B<Gnome::Gdk4::N-EventSequence> that made the gesture
   to be recognized.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Gesture> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Gesture> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -704,10 +703,10 @@ method handler (
 Emitted whenever a sequence is cancelled.
 
 This usually happens on active touches when
-C<.reset()> in class C<Gnome::Gtk4::EventController> is called on C<$gesture>
+L<.reset() in class EventController|/content-docs/api2/reference/Gtk4/EventController#reset> is called on C<$gesture>
 (manually, due to grabs...), or the individual C<$sequence>
 was claimed by parent widgets' controllers (see
-C<.set-sequence-state()>).
+L<.set-sequence-state()|#set-sequence-state>).
  C<$gesture> must forget everything about C<$sequence> as in
 response to this signal.
 
@@ -717,15 +716,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Gesture :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $sequence; the B<Gnome::Gdk4::N-EventSequence> that was cancelled.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Gesture> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Gesture> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -745,7 +743,7 @@ Note: C<$sequence> might not pertain to the group of sequences that
 were previously triggering recognition on C<$gesture> (ie. a just
 pressed touch sequence that exceeds I<n-points>).
 This situation may be detected by checking through
-C<.handles-sequence()>.
+L<.handles-sequence()|#handles-sequence>.
 
 =begin code
 method handler (
@@ -753,16 +751,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Gesture :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $sequence; the B<Gnome::Gdk4::N-EventSequence> that made gesture
   recognition to finish.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Gesture> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Gesture> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -776,7 +773,7 @@ method handler (
 
 Emitted whenever a sequence state changes.
 
-See C<.set-sequence-state()> to know
+See L<.set-sequence-state()|#set-sequence-state> to know
 more about the expectable sequence lifetimes.
 
 =begin code
@@ -786,16 +783,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Gesture :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $sequence; the B<Gnome::Gdk4::N-EventSequence> that was cancelled.
 =item $state; the new sequence state.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Gesture> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Gesture> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -816,15 +812,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Gesture :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $sequence; the B<Gnome::Gdk4::N-EventSequence> that was updated.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Gesture> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Gesture> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

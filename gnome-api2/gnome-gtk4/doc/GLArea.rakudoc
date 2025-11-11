@@ -13,7 +13,7 @@ B<Gnome::Gtk4::GLArea> is a widget that allows drawing with OpenGL.
 
 =for image :src<asset_files/images/glarea.png> :width<30%> :class<inline>
 
-B<Gnome::Gtk4::GLArea> sets up its own B<Gnome::Gdk4::GLContext>, and creates a custom
+B<Gnome::Gtk4::GLArea> sets up its own L<Gnome::Gdk4::GLContext|/content-docs/api2/reference/Gdk4/GLContext>, and creates a custom
 GL framebuffer that the widget will do GL rendering onto. It also ensures
 that this framebuffer is the default GL rendering target when rendering.
 The completed rendering is integrated into the larger GTK scene graph as
@@ -23,7 +23,7 @@ In order to draw, you have to connect to the I<render>
 signal, or subclass B<Gnome::Gtk4::GLArea> and override the GtkGLAreaClass.render
 virtual function.
 
-The B<Gnome::Gtk4::GLArea> widget ensures that the B<Gnome::Gdk4::GLContext> is associated with
+The B<Gnome::Gtk4::GLArea> widget ensures that the L<Gnome::Gdk4::GLContext|/content-docs/api2/reference/Gdk4/GLContext> is associated with
 the widget's drawing area, and it is kept updated when the size and
 position of the drawing area changes.
 
@@ -72,8 +72,8 @@ void setup_glarea (void)
 If you need to initialize OpenGL state, e.g. buffer objects or
 shaders, you should use the I<realize defined in Widget> signal;
 you can use the I<unrealize defined in Widget> signal to clean up.
-Since the B<Gnome::Gdk4::GLContext> creation and initialization may fail, you
-will need to check for errors, using C<.get-error()>.
+Since the L<Gnome::Gdk4::GLContext|/content-docs/api2/reference/Gdk4/GLContext> creation and initialization may fail, you
+will need to check for errors, using L<.get-error()|#get-error>.
 
 An example of how to safely initialize the GL state is:
 
@@ -114,7 +114,7 @@ on_realize (GtkGLarea *area)
 
 =end comment
 
-If you need to change the options for creating the B<Gnome::Gdk4::GLContext>
+If you need to change the options for creating the L<Gnome::Gdk4::GLContext|/content-docs/api2/reference/Gdk4/GLContext>
 you should use the I<create-context> signal.
 
 =head2 Uml Diagram
@@ -207,7 +207,7 @@ This function is not yet available
 
 Gets the allowed APIs.
 
-See C<.set-allowed-apis()>.
+See L<.set-allowed-apis()|#set-allowed-apis>.
 
 =begin code
 method get-allowed-apis (--> UInt )
@@ -273,13 +273,13 @@ Return value; C<True> if the C<$area> is auto rendering, C<False> otherwise.
 =begin pod
 =head2 get-context
 
-Retrieves the B<Gnome::Gdk4::GLContext> used by C<$area>.
+Retrieves the L<Gnome::Gdk4::GLContext|/content-docs/api2/reference/Gdk4/GLContext> used by C<$area>.
 
 =begin code
 method get-context (--> N-Object )
 =end code
 
-Return value; the B<Gnome::Gdk4::GLContext>. 
+Return value; the L<Gnome::Gdk4::GLContext|/content-docs/api2/reference/Gdk4/GLContext>. 
 
 =begin comment
 
@@ -359,7 +359,7 @@ Return value; C<True> if the C<$area> has a stencil buffer, C<False> otherwise.
 
 Retrieves the required version of OpenGL.
 
-See C<.set-required-version()>.
+See L<.set-required-version()|#set-required-version>.
 
 =begin code
 method get-required-version ( Array[Int] $major, Array[Int] $minor )
@@ -385,7 +385,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 
 Returns whether the B<Gnome::Gtk4::GLArea> should use OpenGL ES.
 
-See C<.set-use-es()>.
+See L<.set-use-es()|#set-use-es>.
 
 =begin code
 method get-use-es (--> Bool )
@@ -407,7 +407,7 @@ Return value; C<True> if the B<Gnome::Gtk4::GLArea> should create an OpenGL ES c
 =begin pod
 =head2 make-current
 
-Ensures that the B<Gnome::Gdk4::GLContext> used by C<$area> is associated with
+Ensures that the L<Gnome::Gdk4::GLContext|/content-docs/api2/reference/Gdk4/GLContext> used by C<$area> is associated with
 the B<Gnome::Gtk4::GLArea>.
 
 This function is automatically called before emitting the
@@ -437,7 +437,7 @@ a redraw of the widget.
 This ensures that the I<render> signal
 is emitted during the draw.
 
-This is only needed when C<.set-auto-render()> has
+This is only needed when L<.set-auto-render()|#set-auto-render> has
 been called with a C<False> value. The default behaviour is to
 emit I<render> on each draw.
 
@@ -457,7 +457,6 @@ method queue-render ( )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-allowed-apis
-This function is not yet available
 
 Sets the allowed APIs to create a context with.
 
@@ -494,7 +493,7 @@ useful if drawing the widget is faster.
 If C<$auto-render> is C<False> the data from previous rendering is kept
 around and will be used for drawing the widget the next time,
 unless the window is resized. In order to force a rendering
-C<.queue-render()> must be called. This mode is
+L<.queue-render()|#queue-render> must be called. This mode is
 useful when the scene changes seldom, but takes a long time to redraw.
 
 =begin code
@@ -620,7 +619,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 
 Sets whether the C<$area> should create an OpenGL or an OpenGL ES context.
 
-You should check the capabilities of the B<Gnome::Gdk4::GLContext> before drawing
+You should check the capabilities of the L<Gnome::Gdk4::GLContext|/content-docs/api2/reference/Gdk4/GLContext> before drawing
 with either API.
 
 =begin code
@@ -655,7 +654,7 @@ This is useful when you want to reuse an existing GL context,
 or if you want to try creating different kinds of GL options.
 
 If context creation fails then the signal handler can use
-C<.set-error()> to register a more detailed error
+L<.set-error()|#set-error> to register a more detailed error
 of how the construction failed.
 
 =begin code
@@ -663,14 +662,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::GLArea :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GLArea> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::GLArea> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -693,16 +691,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::GLArea :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
-=item $context; the B<Gnome::Gdk4::GLContext> used by C<$area>.
+=item $context; the L<Gnome::Gdk4::GLContext|/content-docs/api2/reference/Gdk4/GLContext> used by C<$area>.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GLArea> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::GLArea> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; C<True> to stop other handlers from being invoked for the event.
   C<False> to propagate the event further.
@@ -736,16 +733,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::GLArea :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $width; the width of the viewport.
 =item $height; the height of the viewport.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GLArea> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::GLArea> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

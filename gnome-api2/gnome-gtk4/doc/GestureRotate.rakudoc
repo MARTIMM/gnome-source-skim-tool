@@ -9,7 +9,7 @@ use v6.d;
 =TITLE Gnome::Gtk4::GestureRotate
 =head1 Description
 
-B<Gnome::Gtk4::GestureRotate> is a B<Gnome::Gtk4::Gesture> for 2-finger rotations.
+B<Gnome::Gtk4::GestureRotate> is a L<Gnome::Gtk4::Gesture|/content-docs/api2/reference/Gtk4/Gesture> for 2-finger rotations.
 
 Whenever the angle between both handled sequences changes, the
 I<angle-changed> signal is emitted.
@@ -47,7 +47,7 @@ Create an object using a native object from an object of the same type found els
 =begin pod
 =head2 new-gesturerotate
 
-Returns a newly created B<Gnome::Gtk4::Gesture> that recognizes 2-touch
+Returns a newly created L<Gnome::Gtk4::Gesture|/content-docs/api2/reference/Gtk4/Gesture> that recognizes 2-touch
 rotation gestures.
 
 =begin code
@@ -115,16 +115,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::GestureRotate :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $angle; Current angle in radians.
 =item $angle-delta; Difference with the starting angle, in radians.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GestureRotate> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::GestureRotate> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
