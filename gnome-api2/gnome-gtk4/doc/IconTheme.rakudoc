@@ -19,11 +19,11 @@ There is a fallback icon theme, named B<hicolor>, where applications
 should install their icons, but additional icon themes can be installed
 as operating system vendors and users choose.
 
-In many cases, named themes are used indirectly, via B<Gnome::Gtk4::Image>
+In many cases, named themes are used indirectly, via L<Gnome::Gtk4::Image|/content-docs/api2/reference/Gtk4/Image>
 rather than directly, but looking up icons directly is also simple. The
 B<Gnome::Gtk4::IconTheme> object acts as a database of all the icons in the current
 theme. You can create new B<Gnome::Gtk4::IconTheme> objects, but it’s much more
-efficient to use the standard icon theme of the B<Gnome::Gtk4::Widget> so that the
+efficient to use the standard icon theme of the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> so that the
 icon information is shared with other people looking up icons.
 
 =begin comment
@@ -80,7 +80,7 @@ Creates a new icon theme object.
 
 Icon theme objects are used to lookup up an icon by name
 in a particular icon theme. Usually, you’ll want to use
-C<.IconTheme.get-for-display()> rather than creating
+L<.IconTheme.get-for-display().IconTheme.get-for-display() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-icontheme#IconTheme.get-for-display> rather than creating
 a new icon theme object for scratch.
 
 =begin code
@@ -111,7 +111,7 @@ method new-icontheme ( --> Gnome::Gtk4::IconTheme )
 Adds a resource path that will be looked at when looking
 for icons, similar to search paths.
 
-See C<.set-resource-path()>.
+See L<.set-resource-path()|#set-resource-path>.
 
 This function should be used to make application-specific icons
 available as part of the icon theme.
@@ -137,7 +137,7 @@ method add-resource-path ( Str $path )
 
 Appends a directory to the search path.
 
-See C<.set-search-path()>.
+See L<.set-search-path()|#set-search-path>.
 
 =begin code
 method add-search-path ( Str $path )
@@ -235,7 +235,7 @@ Return value; A newly
 
 Gets the current resource path.
 
-See C<.set-resource-path()>.
+See L<.set-resource-path()|#set-resource-path>.
 
 =begin code
 method get-resource-path (--> Array[Str] )
@@ -259,7 +259,7 @@ Return value;
 
 Gets the current search path.
 
-See C<.set-search-path()>.
+See L<.set-search-path()|#set-search-path>.
 
 =begin code
 method get-search-path (--> Array[Str] )
@@ -305,13 +305,13 @@ Return value; No documentation about its value and use.
 =head2 has-gicon
 
 Checks whether an icon theme includes an icon
-for a particular B<Gnome::Gio::R-Icon>.
+for a particular L<Gnome::Gio::R-Icon|/content-docs/api2/reference/Gio/R-Icon>.
 
 =begin code
 method has-gicon ( N-Object() $gicon --> Bool )
 =end code
 
-=item $gicon; a B<Gnome::Gio::R-Icon>.
+=item $gicon; a L<Gnome::Gio::R-Icon|/content-docs/api2/reference/Gio/R-Icon>.
 
 Return value; C<True> if C<$self> includes an icon for C<$gicon>. 
 
@@ -352,24 +352,23 @@ Return value; C<True> if C<$self> includes an
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 lookup-by-gicon
-This function is not yet available
 
 Looks up a icon for a desired size and window scale.
 
-The icon can then be rendered by using it as a B<Gnome::Gdk4::R-Paintable>,
+The icon can then be rendered by using it as a L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable>,
 or you can get information such as the filename and size.
 
 =begin code
 method lookup-by-gicon ( N-Object() $icon, Int() $size, Int() $scale, GtkTextDirection $direction, UInt $flags --> N-Object )
 =end code
 
-=item $icon; the B<Gnome::Gio::R-Icon> to look up.
+=item $icon; the L<Gnome::Gio::R-Icon|/content-docs/api2/reference/Gio/R-Icon> to look up.
 =item $size; desired icon size.
 =item $scale; the desired scale.
 =item $direction; text direction the icon will be displayed in.
 =item $flags; flags modifying the behavior of the icon lookup.
 
-Return value; a B<Gnome::Gtk4::IconPaintable> containing
+Return value; a L<Gnome::Gtk4::IconPaintable|/content-docs/api2/reference/Gtk4/IconPaintable> containing
   information about the icon. Unref with g_object_unref(). 
 
 =begin comment
@@ -384,12 +383,11 @@ Return value; a B<Gnome::Gtk4::IconPaintable> containing
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 lookup-icon
-This function is not yet available
 
 Looks up a named icon for a desired size and window scale,
-returning a B<Gnome::Gtk4::IconPaintable>.
+returning a L<Gnome::Gtk4::IconPaintable|/content-docs/api2/reference/Gtk4/IconPaintable>.
 
-The icon can then be rendered by using it as a B<Gnome::Gdk4::R-Paintable>,
+The icon can then be rendered by using it as a L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable>,
 or you can get information such as the filename and size.
 
 If the available C<$icon-name> is not available and C<$fallbacks> are
@@ -397,7 +395,7 @@ provided, they will be tried in order.
 
 If no matching icon is found, then a paintable that renders the
 "missing icon" icon is returned. If you need to do something else
-for missing icons you need to use C<.has-icon()>.
+for missing icons you need to use L<.has-icon()|#has-icon>.
 
 Note that you probably want to listen for icon theme changes and
 update the icon. This is usually done by overriding the
@@ -414,7 +412,7 @@ method lookup-icon ( Str $icon-name, Array[Str] $fallbacks, Int() $size, Int() $
 =item $direction; text direction the icon will be displayed in.
 =item $flags; flags modifying the behavior of the icon lookup.
 
-Return value; a B<Gnome::Gtk4::IconPaintable> object
+Return value; a L<Gnome::Gtk4::IconPaintable|/content-docs/api2/reference/Gtk4/IconPaintable> object
   containing the icon.. 
 
 =begin comment
@@ -502,7 +500,7 @@ Sets the name of the icon theme that the B<Gnome::Gtk4::IconTheme> object uses
 overriding system configuration.
 
 This function cannot be called on the icon theme objects returned
-from C<.IconTheme.get-for-display()>.
+from L<.IconTheme.get-for-display().IconTheme.get-for-display() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-icontheme#IconTheme.get-for-display>.
 
 =begin code
 method set-theme-name ( Str $theme-name )
@@ -538,14 +536,14 @@ If this function has not previously been called for the given
 display, a new icon theme object will be created and associated
 with the display. Icon theme objects are fairly expensive to create,
 so using this function is usually a better choice than calling
-C<.newicontheme()> and setting the display yourself; by using
+L<.newicontheme()|#newicontheme> and setting the display yourself; by using
 this function a single icon theme object will be shared between users.
 
 =begin code
 method get-for-display ( N-Object() $display --> N-Object )
 =end code
 
-=item $display; a B<Gnome::Gdk4::Display>.
+=item $display; a L<Gnome::Gdk4::Display|/content-docs/api2/reference/Gdk4/Display>.
 
 Return value; A unique B<Gnome::Gtk4::IconTheme> associated with
   the given display. This icon theme is associated with the display
@@ -581,14 +579,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::IconTheme :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::IconTheme> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::IconTheme> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

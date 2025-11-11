@@ -9,9 +9,9 @@ use v6.d;
 =TITLE Gnome::Gtk4::IconPaintable
 =head1 Description
 
-Contains information found when looking up an icon in B<Gnome::Gtk4::IconTheme>.
+Contains information found when looking up an icon in L<Gnome::Gtk4::IconTheme|/content-docs/api2/reference/Gtk4/IconTheme>.
 
-B<Gnome::Gtk4::IconPaintable> implements B<Gnome::Gdk4::R-Paintable>.
+B<Gnome::Gtk4::IconPaintable> implements L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable>.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/IconPaintable.png> :width<70%> :class<inline>
@@ -48,13 +48,13 @@ Create an object using a native object from an object of the same type found els
 
 Creates a B<Gnome::Gtk4::IconPaintable> for a file with a given size and scale.
 
-The icon can then be rendered by using it as a B<Gnome::Gdk4::R-Paintable>.
+The icon can then be rendered by using it as a L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable>.
 
 =begin code
 method new-for-file ( N-Object() $file, Int() $size, Int() $scale --> Gnome::Gtk4::IconPaintable )
 =end code
 
-=item $file; a B<Gnome::Gio::R-File>.
+=item $file; a L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File>.
 =item $size; desired icon size.
 =item $scale; the desired scale.
 
@@ -79,7 +79,7 @@ method new-for-file ( N-Object() $file, Int() $size, Int() $scale --> Gnome::Gtk
 =begin pod
 =head2 get-file
 
-Gets the B<Gnome::Gio::R-File> that was used to load the icon.
+Gets the L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File> that was used to load the icon.
 
 Returns undefined if the icon was not loaded from a file.
 
@@ -87,7 +87,7 @@ Returns undefined if the icon was not loaded from a file.
 method get-file (--> N-Object )
 =end code
 
-Return value; the B<Gnome::Gio::R-File> for the icon. 
+Return value; the L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File> for the icon. 
 
 =begin comment
 
@@ -138,7 +138,7 @@ This currently uses only the file name and not the file contents
 for determining this. This behaviour may change in the future.
 
 Note that to render a symbolic B<Gnome::Gtk4::IconPaintable> properly (with
-recoloring), you have to set its icon name on a B<Gnome::Gtk4::Image>.
+recoloring), you have to set its icon name on a L<Gnome::Gtk4::Image|/content-docs/api2/reference/Gtk4/Image>.
 
 =begin code
 method is-symbolic (--> Bool )

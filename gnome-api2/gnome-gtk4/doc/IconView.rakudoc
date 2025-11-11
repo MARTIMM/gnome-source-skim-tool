@@ -11,10 +11,10 @@ use v6.d;
 
 B<Gnome::Gtk4::IconView> is a widget which displays data in a grid of icons.
 
-B<Gnome::Gtk4::IconView> provides an alternative view on a B<Gnome::Gtk4::R-TreeModel>.
+B<Gnome::Gtk4::IconView> provides an alternative view on a L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>.
 It displays the model as a grid of icons with labels. Like
-B<Gnome::Gtk4::TreeView>, it allows to select one or multiple items
-(depending on the selection mode, see C<.set-selection-mode()>).
+L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView>, it allows to select one or multiple items
+(depending on the selection mode, see L<.set-selection-mode()|#set-selection-mode>).
 In addition to selection with the arrow keys, B<Gnome::Gtk4::IconView> supports
 rubberband selection, which is controlled by dragging the pointer.
 
@@ -99,7 +99,7 @@ specified C<$area> to layout cells inside the icons.
 method new-with-area ( N-Object() $area --> Gnome::Gtk4::IconView )
 =end code
 
-=item $area; the B<Gnome::Gtk4::CellArea> to use to layout cells.
+=item $area; the L<Gnome::Gtk4::CellArea|/content-docs/api2/reference/Gtk4/CellArea> to use to layout cells.
 
 =begin comment
 
@@ -147,7 +147,7 @@ method new-with-model ( N-Object() $model --> Gnome::Gtk4::IconView )
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Creates a B<Gnome::Gdk4::R-Paintable> representation of the item at C<$path>.
+Creates a L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable> representation of the item at C<$path>.
 This image is used for a drag icon.
 
 =begin code
@@ -156,7 +156,7 @@ method create-drag-icon ( N-Object $path --> N-Object )
 
 =item $path; a B<Gnome::Gtk4::N-TreePath> in C<$icon-view>
 
-Return value; a newly-allocated B<Gnome::Gdk4::R-Paintable> of the drag icon.. 
+Return value; a newly-allocated L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable> of the drag icon.. 
 
 =begin comment
 
@@ -258,7 +258,7 @@ method get-cell-rect ( N-Object $path, N-Object() $cell, N-Object $rect --> Bool
 =end code
 
 =item $path; a B<Gnome::Gtk4::N-TreePath>
-=item $cell; a B<Gnome::Gtk4::CellRenderer>.
+=item $cell; a L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>.
 =item $rect; rectangle to fill with cell rect
 
 Return value; C<False> if there is no such item, C<True> otherwise. 
@@ -613,7 +613,7 @@ model is unset.
 method get-model (--> N-Object )
 =end code
 
-Return value; The currently used B<Gnome::Gtk4::R-TreeModel>. 
+Return value; The currently used L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>. 
 
 =begin comment
 
@@ -861,7 +861,7 @@ used, or -1 if this is disabled..
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-This function is supposed to be used in a B<Gnome::Gtk4::Widget>::query-tooltip`
+This function is supposed to be used in a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>::query-tooltip`
 signal handler for B<Gnome::Gtk4::IconView>. The C<$x>, C<$y> and C<$keyboard-tip> values
 which are received in the signal handler, should be passed to this
 function without modification.
@@ -878,7 +878,7 @@ method get-tooltip-context ( Int() $x, Int() $y, Bool() $keyboard-tip, N-Object(
 =item $x; the x coordinate (relative to widget coordinates).
 =item $y; the y coordinate (relative to widget coordinates).
 =item $keyboard-tip; whether this is a keyboard tooltip or not.
-=item $model; a pointer to receive a B<Gnome::Gtk4::R-TreeModel>.
+=item $model; a pointer to receive a L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>.
 =item $path; (transfer ownership: full) a pointer to receive a B<Gnome::Gtk4::N-TreePath>
 =item $iter; a pointer to receive a B<Gnome::Gtk4::N-TreeIter>
 
@@ -1391,7 +1391,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 
 This function is a convenience function to allow you to reorder models that
 support the B<GtkTreeDragSourceIface> and the B<GtkTreeDragDestIface>. Both
-B<Gnome::Gtk4::TreeStore> and B<Gnome::Gtk4::ListStore> support these. If C<$reorderable> is C<True>, then
+L<Gnome::Gtk4::TreeStore|/content-docs/api2/reference/Gtk4/TreeStore> and L<Gnome::Gtk4::ListStore|/content-docs/api2/reference/Gtk4/ListStore> support these. If C<$reorderable> is C<True>, then
 the user can reorder the model by dragging and dropping rows.  The
 developer can listen to these changes by connecting to the model's
 row_inserted and row_deleted signals. The reordering is implemented by setting up
@@ -1528,9 +1528,9 @@ See also C<.set-tooltip-column()> for a simpler alternative.
 method set-tooltip-cell ( N-Object() $tooltip, N-Object $path, N-Object() $cell )
 =end code
 
-=item $tooltip; a B<Gnome::Gtk4::Tooltip>.
+=item $tooltip; a L<Gnome::Gtk4::Tooltip|/content-docs/api2/reference/Gtk4/Tooltip>.
 =item $path; a B<Gnome::Gtk4::N-TreePath>
-=item $cell; a B<Gnome::Gtk4::CellRenderer>.
+=item $cell; a L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>.
 
 =begin comment
 
@@ -1552,7 +1552,7 @@ can use this function to have B<Gnome::Gtk4::IconView> handle these automaticall
 for you. C<$column> should be set to the column in C<$icon-view>’s model
 containing the tooltip texts, or -1 to disable this feature.
 
-When enabled, B<Gnome::Gtk4::Widget>:has-tooltip` will be set to C<True> and C<$icon-view> will connect a B<Gnome::Gtk4::Widget>::query-tooltip` signal handler.
+When enabled, L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>:has-tooltip` will be set to C<True> and C<$icon-view> will connect a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>::query-tooltip` signal handler.
 
 Note that the signal handler sets the text with gtk_tooltip_set_markup(),
 so &, <, etc have to be escaped in the text.
@@ -1586,7 +1586,7 @@ See also gtk_tooltip_set_tip_area().
 method set-tooltip-item ( N-Object() $tooltip, N-Object $path )
 =end code
 
-=item $tooltip; a B<Gnome::Gtk4::Tooltip>.
+=item $tooltip; a L<Gnome::Gtk4::Tooltip|/content-docs/api2/reference/Gtk4/Tooltip>.
 =item $path; a B<Gnome::Gtk4::N-TreePath>
 
 =begin comment
@@ -1696,7 +1696,7 @@ method unset-model-drag-source ( )
 =comment -----------------------------------------------------------------------
 =head3 activate-cursor-item
 
-A [keybinding signal]B<Gnome::Gtk4::SignalAction>
+A [keybinding signal]L<Gnome::Gtk4::SignalAction|/content-docs/api2/reference/Gtk4/SignalAction>
 which gets emitted when the user activates the currently
 focused item.
 
@@ -1711,15 +1711,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::IconView :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::IconView> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::IconView> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; 
 
@@ -1747,15 +1746,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::IconView :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $path; the B<Gnome::Gtk4::N-TreePath> for the activated item.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::IconView> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::IconView> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1768,7 +1766,7 @@ method handler (
 =head3 move-cursor
 
 The I<move-cursor> signal is a
-[keybinding signal]B<Gnome::Gtk4::SignalAction>
+[keybinding signal]L<Gnome::Gtk4::SignalAction|/content-docs/api2/reference/Gtk4/SignalAction>
 which gets emitted when the user initiates a cursor movement.
 
 Applications should not connect to it, but may emit it with
@@ -1791,7 +1789,7 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::IconView :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
@@ -1801,9 +1799,8 @@ method handler (
 =item $extend; whether to extend the selection.
 =item $modify; whether to modify the selection.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::IconView> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::IconView> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; 
 
@@ -1817,7 +1814,7 @@ Return value;
 =comment -----------------------------------------------------------------------
 =head3 select-all
 
-A [keybinding signal]B<Gnome::Gtk4::SignalAction>
+A [keybinding signal]L<Gnome::Gtk4::SignalAction|/content-docs/api2/reference/Gtk4/SignalAction>
 which gets emitted when the user selects all items.
 
 Applications should not connect to it, but may emit it with
@@ -1831,14 +1828,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::IconView :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::IconView> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::IconView> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1850,7 +1846,7 @@ method handler (
 =comment -----------------------------------------------------------------------
 =head3 select-cursor-item
 
-A [keybinding signal]B<Gnome::Gtk4::SignalAction>
+A [keybinding signal]L<Gnome::Gtk4::SignalAction|/content-docs/api2/reference/Gtk4/SignalAction>
 which gets emitted when the user selects the item that is currently
 focused.
 
@@ -1865,14 +1861,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::IconView :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::IconView> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::IconView> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1892,14 +1887,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::IconView :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::IconView> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::IconView> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1911,7 +1905,7 @@ method handler (
 =comment -----------------------------------------------------------------------
 =head3 toggle-cursor-item
 
-A [keybinding signal]B<Gnome::Gtk4::SignalAction>
+A [keybinding signal]L<Gnome::Gtk4::SignalAction|/content-docs/api2/reference/Gtk4/SignalAction>
 which gets emitted when the user toggles whether the currently
 focused item is selected or not. The exact effect of this
 depend on the selection mode.
@@ -1927,14 +1921,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::IconView :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::IconView> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::IconView> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1946,7 +1939,7 @@ method handler (
 =comment -----------------------------------------------------------------------
 =head3 unselect-all
 
-A [keybinding signal]B<Gnome::Gtk4::SignalAction>
+A [keybinding signal]L<Gnome::Gtk4::SignalAction|/content-docs/api2/reference/Gtk4/SignalAction>
 which gets emitted when the user unselects all items.
 
 Applications should not connect to it, but may emit it with
@@ -1960,14 +1953,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::IconView :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::IconView> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::IconView> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

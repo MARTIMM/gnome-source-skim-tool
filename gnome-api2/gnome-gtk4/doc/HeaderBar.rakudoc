@@ -13,7 +13,7 @@ B<Gnome::Gtk4::HeaderBar> is a widget for creating custom title bars for windows
 
 =for image :src<asset_files/images/headerbar.png> :width<30%> :class<inline>
 
-B<Gnome::Gtk4::HeaderBar> is similar to a horizontal B<Gnome::Gtk4::CenterBox>. It allows
+B<Gnome::Gtk4::HeaderBar> is similar to a horizontal L<Gnome::Gtk4::CenterBox|/content-docs/api2/reference/Gtk4/CenterBox>. It allows
 children to be placed at the start or the end. In addition, it allows
 the window title to be displayed. The title will be centered with respect
 to the width of the box, even if the children at either side take up
@@ -23,18 +23,18 @@ B<Gnome::Gtk4::HeaderBar> can add typical window frame controls, such as minimiz
 maximize and close buttons, or the window icon.
 
 For these reasons, B<Gnome::Gtk4::HeaderBar> is the natural choice for use as the
-custom titlebar widget of a B<Gnome::Gtk4::Window> (see C<.set-titlebar()> in class C<Gnome::Gtk4::Window>),
+custom titlebar widget of a L<Gnome::Gtk4::Window|/content-docs/api2/reference/Gtk4/Window> (see L<.set-titlebar() in class Window|/content-docs/api2/reference/Gtk4/Window#set-titlebar>),
 as it gives features typical of titlebars while allowing the addition of
 child widgets.
 
 =head3 GtkHeaderBar as GtkBuildable
 
-The B<Gnome::Gtk4::HeaderBar> implementation of the B<Gnome::Gtk4::R-Buildable> interface supports
+The B<Gnome::Gtk4::HeaderBar> implementation of the L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/Gtk4/R-Buildable> interface supports
 adding children at the start or end sides by specifying “start” or “end” as
 the “type” attribute of a `<child>` element, or setting the title widget by
 specifying “title” value.
 
-By default the B<Gnome::Gtk4::HeaderBar> uses a B<Gnome::Gtk4::Label> displaying the title of the
+By default the B<Gnome::Gtk4::HeaderBar> uses a L<Gnome::Gtk4::Label|/content-docs/api2/reference/Gtk4/Label> displaying the title of the
 window it is contained in as the title widget, equivalent to the following
 UI definition:
 
@@ -77,7 +77,7 @@ the start and end of the header bar, as well as a center node that represents
 the title.
 
 Each of the boxes contains a B<windowcontrols> subnode, see
-B<Gnome::Gtk4::WindowControls> for details, as well as other children.
+L<Gnome::Gtk4::WindowControls|/content-docs/api2/reference/Gtk4/WindowControls> for details, as well as other children.
 
 =head2 Accessibility
 
@@ -188,7 +188,7 @@ Return value; C<True> if title buttons are shown.
 
 Retrieves the title widget of the header.
 
-See C<.set-title-widget()>.
+See L<.set-title-widget()|#set-title-widget>.
 
 =begin code
 method get-title-widget (--> N-Object )
@@ -216,7 +216,7 @@ end of the C<$bar>.
 method pack-end ( N-Object() $child )
 =end code
 
-=item $child; the B<Gnome::Gtk4::Widget> to be added to C<$bar>.
+=item $child; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to be added to C<$bar>.
 
 =begin comment
 
@@ -238,7 +238,7 @@ start of the C<$bar>.
 method pack-start ( N-Object() $child )
 =end code
 
-=item $child; the B<Gnome::Gtk4::Widget> to be added to C<$bar>.
+=item $child; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to be added to C<$bar>.
 
 =begin comment
 
@@ -256,9 +256,9 @@ method pack-start ( N-Object() $child )
 Removes a child from the B<Gnome::Gtk4::HeaderBar>.
 
 The child must have been added with
-C<.pack-start()>,
-C<.pack-end()> or
-C<.set-title-widget()>.
+L<.pack-start()|#pack-start>,
+L<.pack-end()|#pack-end> or
+L<.set-title-widget()|#set-title-widget>.
 
 =begin code
 method remove ( N-Object() $child )
