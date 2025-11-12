@@ -76,8 +76,9 @@ for $repo-object.kv -> Str $gnome-name, Hash $gnome-object {
       my Str $filename = $gnome-object<source-filename>;
 
       # Must use =comment because '#' is translated in =head2 later on.
-      # This line shows up at the top of eache generated file.
-      $*command-line = "=comment Package: $*gnome-package.Str(), C-Source: $filename";
+      # This line shows up at the top of each generated file.
+      $*command-line =
+        "=comment Package: $*gnome-package.Str(), C-Source: $filename";
       $*verbose = $v;
 
       @*gir-type-select = ($gnome-object<gir-type>,);
