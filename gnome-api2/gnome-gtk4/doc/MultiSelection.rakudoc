@@ -9,7 +9,7 @@ use v6.d;
 =TITLE Gnome::Gtk4::MultiSelection
 =head1 Description
 
-B<Gnome::Gtk4::MultiSelection> is a B<Gnome::Gtk4::R-SelectionModel> that allows selecting multiple
+B<Gnome::Gtk4::MultiSelection> is a L<Gnome::Gtk4::R-SelectionModel|/content-docs/api2/reference/Gtk4/R-SelectionModel> that allows selecting multiple
 elements.
 
 =head2 Uml Diagram
@@ -51,7 +51,7 @@ Creates a new selection to handle C<$model>.
 method new-multiselection ( N-List() $model --> Gnome::Gtk4::MultiSelection )
 =end code
 
-=item $model; (transfer ownership: full) the B<Gnome::Gio::R-ListModel> to manage.
+=item $model; (transfer ownership: full) the L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> to manage.
 
 =begin comment
 
@@ -103,7 +103,7 @@ If C<$model> is undefined, C<$self> will be empty.
 method set-model ( N-List() $model )
 =end code
 
-=item $model; A B<Gnome::Gio::R-ListModel> to wrap.
+=item $model; A L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> to wrap.
 
 =begin comment
 

@@ -14,11 +14,11 @@ B<Gnome::Gtk4::MessageDialog> presents a dialog with some message text.
 =for image :src<asset_files/images/messagedialog.png> :width<30%> :class<inline>
 
 It’s simply a convenience widget; you could construct the equivalent of
-B<Gnome::Gtk4::MessageDialog> from B<Gnome::Gtk4::Dialog> without too much effort, but
+B<Gnome::Gtk4::MessageDialog> from L<Gnome::Gtk4::Dialog|/content-docs/api2/reference/Gtk4/Dialog> without too much effort, but
 B<Gnome::Gtk4::MessageDialog> saves typing.
 
 The easiest way to do a modal message dialog is to use the C<GTK_DIALOG_MODAL>
-flag, which will call C<.set-modal()> in class C<Gnome::Gtk4::Window> internally. The dialog will
+flag, which will call L<.set-modal() in class Window|/content-docs/api2/reference/Gtk4/Window#set-modal> internally. The dialog will
 prevent interaction with the parent window until it's hidden or destroyed.
 You can use the I<response defined in Dialog> signal to know when the user
 dismissed the dialog.
@@ -65,7 +65,7 @@ g_signal_connect (dialog, "response",
 
 =head2 GtkMessageDialog as GtkBuildable
 
-The B<Gnome::Gtk4::MessageDialog> implementation of the B<Gnome::Gtk4::R-Buildable> interface exposes
+The B<Gnome::Gtk4::MessageDialog> implementation of the L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/Gtk4/R-Buildable> interface exposes
 the message area as an internal child with the name “message_area”.
 
 =head2 Uml Diagram
@@ -102,7 +102,6 @@ Create an object using a native object from an object of the same type found els
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-messagedialog
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -110,7 +109,7 @@ Creates a new message dialog.
 
 This is a simple dialog with some text the user may want to see.
 When the user clicks a button a “response” signal is emitted with
-response IDs from  enumeration C<ResponseType> from C<Gnome::Gtk4::T-dialog> . See B<Gnome::Gtk4::Dialog>
+response IDs from  enumeration C<ResponseType> from C<Gnome::Gtk4::T-dialog> . See L<Gnome::Gtk4::Dialog|/content-docs/api2/reference/Gtk4/Dialog>
 for more details.
 
 =begin code
@@ -136,7 +135,6 @@ method new-messagedialog ( N-Object() $parent, UInt $flags, GtkMessageType $type
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-with-markup
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -145,14 +143,14 @@ Creates a new message dialog.
 This is a simple dialog with some text that is marked up with
 Pango markup. When the user clicks a button a “response” signal
 is emitted with response IDs from  enumeration C<ResponseType> from C<Gnome::Gtk4::T-dialog> . See
-B<Gnome::Gtk4::Dialog> for more details.
+L<Gnome::Gtk4::Dialog|/content-docs/api2/reference/Gtk4/Dialog> for more details.
 
 Special XML characters in the printf() arguments passed to this
 function will automatically be escaped as necessary.
 (See g_markup_printf_escaped() for how this is implemented.)
 Usually this is what you want, but if you have an existing
 Pango markup string that you want to use literally as the
-label, then you need to use C<.set-markup()>
+label, then you need to use L<.set-markup()|#set-markup>
 instead, since you can’t pass the markup string either
 as the format (it might contain “%” characters) or as a string
 argument.
@@ -201,7 +199,6 @@ method new-with-markup ( N-Object() $parent, UInt $flags, GtkMessageType $type, 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 format-secondary-markup
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -210,7 +207,7 @@ Sets the secondary text of the message dialog.
 The C<$message-format> is assumed to contain Pango markup.
 
 Due to an oversight, this function does not escape special
-XML characters like C<.new-with-markup()>
+XML characters like L<.new-with-markup()|#new-with-markup>
 does. Thus, if the arguments may contain special XML characters,
 you should use g_markup_printf_escaped() to escape it.
 
@@ -243,7 +240,6 @@ method format-secondary-markup ( Str $message-format, … )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 format-secondary-text
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -275,14 +271,14 @@ Returns the message area of the dialog.
 
 This is the box where the dialog’s primary and secondary labels
 are packed. You can add your own extra content to that box and it
-will appear below those labels. See C<.get-content-area()> in class C<Gnome::Gtk4::Dialog>
-for the corresponding function in the parent B<Gnome::Gtk4::Dialog>.
+will appear below those labels. See L<.get-content-area() in class Dialog|/content-docs/api2/reference/Gtk4/Dialog#get-content-area>
+for the corresponding function in the parent L<Gnome::Gtk4::Dialog|/content-docs/api2/reference/Gtk4/Dialog>.
 
 =begin code
 method get-message-area (--> N-Object )
 =end code
 
-Return value; A B<Gnome::Gtk4::Box> corresponding to the
+Return value; A L<Gnome::Gtk4::Box|/content-docs/api2/reference/Gtk4/Box> corresponding to the
   “message area” in the C<$message-dialog>. 
 
 =begin comment

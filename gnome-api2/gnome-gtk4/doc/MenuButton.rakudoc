@@ -13,13 +13,13 @@ The B<Gnome::Gtk4::MenuButton> widget is used to display a popup when clicked.
 
 =for image :src<asset_files/images/menu-button.png> :width<30%> :class<inline>
 
-This popup can be provided either as a B<Gnome::Gtk4::Popover> or as an abstract
-B<Gnome::Gio::MenuModel>.
+This popup can be provided either as a L<Gnome::Gtk4::Popover|/content-docs/api2/reference/Gtk4/Popover> or as an abstract
+L<Gnome::Gio::MenuModel|/content-docs/api2/reference/Gio/MenuModel>.
 
 The B<Gnome::Gtk4::MenuButton> widget can show either an icon (set with the
 I<icon-name> property) or a label (set with the
 I<label> property). If neither is explicitly set,
-a B<Gnome::Gtk4::Image> is automatically created, using an arrow image oriented
+a L<Gnome::Gtk4::Image|/content-docs/api2/reference/Gtk4/Image> is automatically created, using an arrow image oriented
 according to I<direction> or the generic
 “open-menu-symbolic” icon if the direction is not set.
 
@@ -109,7 +109,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::MenuButton> widget with downwards-pointing
 arrow as the only child.
 
-You can replace the child widget with another B<Gnome::Gtk4::Widget>
+You can replace the child widget with another L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>
 should you wish to.
 
 =begin code
@@ -308,13 +308,13 @@ Return value; the label shown in the button.
 =begin pod
 =head2 get-menu-model
 
-Returns the B<Gnome::Gio::MenuModel> used to generate the popup.
+Returns the L<Gnome::Gio::MenuModel|/content-docs/api2/reference/Gio/MenuModel> used to generate the popup.
 
 =begin code
 method get-menu-model (--> N-Object )
 =end code
 
-Return value; a B<Gnome::Gio::MenuModel>. 
+Return value; a L<Gnome::Gio::MenuModel|/content-docs/api2/reference/Gio/MenuModel>. 
 
 =begin comment
 
@@ -329,16 +329,16 @@ Return value; a B<Gnome::Gio::MenuModel>.
 =begin pod
 =head2 get-popover
 
-Returns the B<Gnome::Gtk4::Popover> that pops out of the button.
+Returns the L<Gnome::Gtk4::Popover|/content-docs/api2/reference/Gtk4/Popover> that pops out of the button.
 
-If the button is not using a B<Gnome::Gtk4::Popover>, this function
+If the button is not using a L<Gnome::Gtk4::Popover|/content-docs/api2/reference/Gtk4/Popover>, this function
 returns undefined.
 
 =begin code
 method get-popover (--> N-Object )
 =end code
 
-Return value; a B<Gnome::Gtk4::Popover> or undefined. 
+Return value; a L<Gnome::Gtk4::Popover|/content-docs/api2/reference/Gtk4/Popover> or undefined. 
 
 =begin comment
 
@@ -536,8 +536,8 @@ method set-child ( N-Object() $child )
 Sets C<$func> to be called when a popup is about to be shown.
  C<$func> should use one of
 
-=item C<.set-popover()>
-=item C<.set-menu-model()>
+=item L<.set-popover()|#set-popover>
+=item L<.set-menu-model()|#set-menu-model>
 
 to set a popup for C<$menu-button>.
 If C<$func> is non-undefined, C<$menu-button> will always be sensitive.
@@ -673,12 +673,12 @@ method set-label ( Str $label )
 =begin pod
 =head2 set-menu-model
 
-Sets the B<Gnome::Gio::MenuModel> from which the popup will be constructed.
+Sets the L<Gnome::Gio::MenuModel|/content-docs/api2/reference/Gio/MenuModel> from which the popup will be constructed.
 
 If C<$menu-model> is undefined, the button is disabled.
 
-A B<Gnome::Gtk4::Popover> will be created from the menu model with
-C<.new-from-model()> in class C<Gnome::Gtk4::PopoverMenu>. Actions will be connected
+A L<Gnome::Gtk4::Popover|/content-docs/api2/reference/Gtk4/Popover> will be created from the menu model with
+L<.new-from-model() in class PopoverMenu|/content-docs/api2/reference/Gtk4/PopoverMenu#new-from-model>. Actions will be connected
 as documented for this function.
 
 If I<popover> is already set, it will be
@@ -688,7 +688,7 @@ dissociated from the C<$menu-button>, and the property is set to undefined.
 method set-menu-model ( N-Object() $menu-model )
 =end code
 
-=item $menu-model; a B<Gnome::Gio::MenuModel>, or undefined to unset and disable the
+=item $menu-model; a L<Gnome::Gio::MenuModel|/content-docs/api2/reference/Gio/MenuModel>, or undefined to unset and disable the
   button.
 
 =begin comment
@@ -704,7 +704,7 @@ method set-menu-model ( N-Object() $menu-model )
 =begin pod
 =head2 set-popover
 
-Sets the B<Gnome::Gtk4::Popover> that will be popped up when the C<$menu-button> is clicked.
+Sets the L<Gnome::Gtk4::Popover|/content-docs/api2/reference/Gtk4/Popover> that will be popped up when the C<$menu-button> is clicked.
 
 If C<$popover> is undefined, the button is disabled.
 
@@ -715,7 +715,7 @@ from the C<$menu-button>, and the property is set to undefined.
 method set-popover ( N-Object() $popover )
 =end code
 
-=item $popover; a B<Gnome::Gtk4::Popover>, or undefined to unset and disable the button.
+=item $popover; a L<Gnome::Gtk4::Popover|/content-docs/api2/reference/Gtk4/Popover>, or undefined to unset and disable the button.
 
 =begin comment
 
@@ -790,14 +790,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::MenuButton :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::MenuButton> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::MenuButton> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
