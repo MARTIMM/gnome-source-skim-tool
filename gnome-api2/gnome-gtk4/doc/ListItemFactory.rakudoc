@@ -9,10 +9,10 @@ use v6.d;
 =TITLE Gnome::Gtk4::ListItemFactory
 =head1 Description
 
-A B<Gnome::Gtk4::ListItemFactory> creates widgets for the items taken from a B<Gnome::Gio::R-ListModel>.
+A B<Gnome::Gtk4::ListItemFactory> creates widgets for the items taken from a L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel>.
 
 This is one of the core concepts of handling list widgets such
-as B<Gnome::Gtk4::ListView> or B<Gnome::Gtk4::GridView>.
+as L<Gnome::Gtk4::ListView|/content-docs/api2/reference/Gtk4/ListView> or L<Gnome::Gtk4::GridView|/content-docs/api2/reference/Gtk4/GridView>.
 
 The B<Gnome::Gtk4::ListItemFactory> is tasked with creating widgets for items
 taken from the model when the views need them and updating them as
@@ -33,17 +33,17 @@ new items.
 
 The actual widgets used for displaying those widgets is provided by you.
 
-When the factory needs widgets created, it will create a B<Gnome::Gtk4::ListItem>
+When the factory needs widgets created, it will create a L<Gnome::Gtk4::ListItem|/content-docs/api2/reference/Gtk4/ListItem>
 and hand it to your code to set up a widget for. This list item will provide
 various properties with information about what item to display and provide
 you with some opportunities to configure its behavior. See the
-B<Gnome::Gtk4::ListItem> documentation for further details.
+L<Gnome::Gtk4::ListItem|/content-docs/api2/reference/Gtk4/ListItem> documentation for further details.
 
 Various implementations of B<Gnome::Gtk4::ListItemFactory> exist to allow you different
 ways to provide those widgets. The most common implementations are
-B<Gnome::Gtk4::BuilderListItemFactory> which takes a B<Gnome::Gtk4::Builder> .ui file
+L<Gnome::Gtk4::BuilderListItemFactory|/content-docs/api2/reference/Gtk4/BuilderListItemFactory> which takes a L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder> .ui file
 and then creates widgets and manages everything automatically from the
-information in that file and B<Gnome::Gtk4::SignalListItemFactory> which allows
+information in that file and L<Gnome::Gtk4::SignalListItemFactory|/content-docs/api2/reference/Gtk4/SignalListItemFactory> which allows
 you to connect to signals with your own code and retain full control over
 how the widgets are setup and managed.
 
@@ -55,7 +55,7 @@ a new B<Gnome::Gtk4::ListItemFactory> which will allow the views to recreate its
 
 Once you have chosen your factory and created it, you need to set it
 on the view widget you want to use it with, such as via
-C<.set-factory()> in class C<Gnome::Gtk4::ListView>. Reusing factories across different
+L<.set-factory() in class ListView|/content-docs/api2/reference/Gtk4/ListView#set-factory>. Reusing factories across different
 views is allowed, but very uncommon.
 
 =head2 Uml Diagram

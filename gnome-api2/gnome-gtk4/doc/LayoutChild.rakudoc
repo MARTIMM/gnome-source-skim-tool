@@ -12,7 +12,7 @@ use v6.d;
 B<Gnome::Gtk4::LayoutChild> is the base class for objects that are meant to hold
 layout properties.
 
-If a B<Gnome::Gtk4::LayoutManager> has per-child properties, like their packing type,
+If a L<Gnome::Gtk4::LayoutManager|/content-docs/api2/reference/Gtk4/LayoutManager> has per-child properties, like their packing type,
 or the horizontal and vertical span, or the icon name, then the layout
 manager should use a B<Gnome::Gtk4::LayoutChild> implementation to store those properties.
 
@@ -60,13 +60,13 @@ Create an object using a native object from an object of the same type found els
 =begin pod
 =head2 get-child-widget
 
-Retrieves the B<Gnome::Gtk4::Widget> associated to the given C<$layout-child>.
+Retrieves the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> associated to the given C<$layout-child>.
 
 =begin code
 method get-child-widget (--> N-Object )
 =end code
 
-Return value; a B<Gnome::Gtk4::Widget>. 
+Return value; a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>. 
 
 =begin comment
 
@@ -81,14 +81,14 @@ Return value; a B<Gnome::Gtk4::Widget>.
 =begin pod
 =head2 get-layout-manager
 
-Retrieves the B<Gnome::Gtk4::LayoutManager> instance that created the
+Retrieves the L<Gnome::Gtk4::LayoutManager|/content-docs/api2/reference/Gtk4/LayoutManager> instance that created the
 given C<$layout-child>.
 
 =begin code
 method get-layout-manager (--> N-Object )
 =end code
 
-Return value; a B<Gnome::Gtk4::LayoutManager>. 
+Return value; a L<Gnome::Gtk4::LayoutManager|/content-docs/api2/reference/Gtk4/LayoutManager>. 
 
 =begin comment
 

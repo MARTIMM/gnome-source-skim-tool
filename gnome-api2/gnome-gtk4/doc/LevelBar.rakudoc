@@ -16,8 +16,8 @@ showing the charge level of a battery.
 
 =for image :src<asset_files/images/levelbar.png> :width<30%> :class<inline>
 
-Use C<.set-value()> to set the current value, and
-C<.add-offset-value()> to set the value offsets at which
+Use L<.set-value()|#set-value> to set the current value, and
+L<.add-offset-value()|#add-offset-value> to set the value offsets at which
 the bar will be considered in a different state. GTK will add a few
 offsets by default on the level bar: C<GTK_LEVEL_BAR_OFFSET_LOW>,
 C<GTK_LEVEL_BAR_OFFSET_HIGH> and C<GTK_LEVEL_BAR_OFFSET_FULL>, with
@@ -63,8 +63,8 @@ create_level_bar (void)
 =end comment
 
 The default interval of values is between zero and one, but it’s possible
-to modify the interval using C<.set-min-value()> and
-C<.set-max-value()>. The value will be always drawn in
+to modify the interval using L<.set-min-value()|#set-min-value> and
+L<.set-max-value()|#set-max-value>. The value will be always drawn in
 proportion to the admissible interval, i.e. a value of 15 with a specified
 interval between 10 and 20 is equivalent to a value of 0.5 with an interval
 between 0 and 1. When C<GTK_LEVEL_BAR_MODE_DISCRETE> is used, the bar level
@@ -78,7 +78,7 @@ indicator mode to discrete.
 
 =head2 GtkLevelBar as GtkBuildable
 
-The B<Gnome::Gtk4::LevelBar> implementation of the B<Gnome::Gtk4::R-Buildable> interface supports a
+The B<Gnome::Gtk4::LevelBar> implementation of the L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/Gtk4/R-Buildable> interface supports a
 custom `<offsets>` element, which can contain any number of `<offset>` elements,
 each of which must have "name" and "value" attributes.
 
@@ -354,7 +354,7 @@ Return value; a value in the interval between
 Removes an offset marker from a B<Gnome::Gtk4::LevelBar>.
 
 The marker must have been previously added with
-C<.add-offset-value()>.
+L<.add-offset-value()|#add-offset-value>.
 
 =begin code
 method remove-offset-value ( Str $name )
@@ -495,7 +495,7 @@ method set-value ( Num() $value )
 
 Emitted when an offset specified on the bar changes value.
 
-This typically is the result of a C<.add-offset-value()>
+This typically is the result of a L<.add-offset-value()|#add-offset-value>
 call.
 
 The signal supports detailed connections; you can connect to the
@@ -508,15 +508,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::LevelBar :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $name; the name of the offset that changed value.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::LevelBar> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::LevelBar> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

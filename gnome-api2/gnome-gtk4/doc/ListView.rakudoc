@@ -22,7 +22,7 @@ characteristics of the model. For models that allow multiple selected items,
 it is possible to turn on _rubberband selection_, using
 I<enable-rubberband>.
 
-If you need multiple columns with headers, see B<Gnome::Gtk4::ColumnView>.
+If you need multiple columns with headers, see L<Gnome::Gtk4::ColumnView|/content-docs/api2/reference/Gtk4/ColumnView>.
 
 To learn more about the list widget framework, see the
 [overview](section-list-widget.html).
@@ -313,7 +313,7 @@ method set-enable-rubberband ( Bool() $enable-rubberband )
 =begin pod
 =head2 set-factory
 
-Sets the B<Gnome::Gtk4::ListItemFactory> to use for populating list items.
+Sets the L<Gnome::Gtk4::ListItemFactory|/content-docs/api2/reference/Gtk4/ListItemFactory> to use for populating list items.
 
 =begin code
 method set-factory ( N-Object() $factory )
@@ -334,8 +334,8 @@ method set-factory ( N-Object() $factory )
 =begin pod
 =head2 set-header-factory
 
-Sets the B<Gnome::Gtk4::ListItemFactory> to use for populating the
-B<Gnome::Gtk4::ListHeader> objects used in section headers.
+Sets the L<Gnome::Gtk4::ListItemFactory|/content-docs/api2/reference/Gtk4/ListItemFactory> to use for populating the
+L<Gnome::Gtk4::ListHeader|/content-docs/api2/reference/Gtk4/ListHeader> objects used in section headers.
 
 If this factory is set to undefined, the list will not show section headers.
 
@@ -360,7 +360,7 @@ method set-header-factory ( N-Object() $factory )
 
 Sets the model to use.
 
-This must be a B<Gnome::Gtk4::R-SelectionModel> to use.
+This must be a L<Gnome::Gtk4::ListHeader|/content-docs/api2/reference/Gnome::Gtk4::R-SelectionModel> to use.
 
 =begin code
 method set-model ( N-Object() $model )
@@ -497,7 +497,7 @@ Emitted when a row has been activated by the user,
 usually via activating the GtkListView|list.activate-item action.
 
 This allows for a convenient way to handle activation in a listview.
-See C<.set-activatable()> in class C<Gnome::Gtk4::ListItem> for details on how to use
+See L<.set-activatable() in class ListItem|/content-docs/api2/reference/Gtk4/ListItem#set-activatable> for details on how to use
 this signal.
 
 =begin code
@@ -506,15 +506,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::ListView :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $position; position of item to activate.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListView> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::ListView> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =end pod
 

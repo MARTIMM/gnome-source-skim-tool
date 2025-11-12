@@ -11,20 +11,20 @@ use v6.d;
 
 B<Gnome::Gtk4::ListBox> is a vertical list.
 
-A B<Gnome::Gtk4::ListBox> only contains B<Gnome::Gtk4::ListBoxRow> children. These rows can
+A B<Gnome::Gtk4::ListBox> only contains L<Gnome::Gtk4::ListBoxRow|/content-docs/api2/reference/Gtk4/ListBoxRow> children. These rows can
 by dynamically sorted and filtered, and headers can be added dynamically
 depending on the row content. It also allows keyboard and mouse navigation
 and selection like a typical list.
 
-Using B<Gnome::Gtk4::ListBox> is often an alternative to B<Gnome::Gtk4::TreeView>, especially
+Using B<Gnome::Gtk4::ListBox> is often an alternative to L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView>, especially
 when the list contents has a more complicated layout than what is allowed
-by a B<Gnome::Gtk4::CellRenderer>, or when the contents is interactive (i.e. has a
+by a L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>, or when the contents is interactive (i.e. has a
 button in it).
 
-Although a B<Gnome::Gtk4::ListBox> must have only B<Gnome::Gtk4::ListBoxRow> children, you can
-add any kind of widget to it via C<.prepend()>,
-C<.append()> and C<.insert()> and a
-B<Gnome::Gtk4::ListBoxRow> widget will automatically be inserted between the list
+Although a B<Gnome::Gtk4::ListBox> must have only L<Gnome::Gtk4::ListBoxRow|/content-docs/api2/reference/Gtk4/ListBoxRow> children, you can
+add any kind of widget to it via L<.prepend()|#prepend>,
+L<.append()|#append> and L<.insert()|#insert> and a
+L<Gnome::Gtk4::ListBoxRow|/content-docs/api2/reference/Gtk4/ListBoxRow> widget will automatically be inserted between the list
 and the widget.
 
 B<GtkListBoxRows> can be marked as activatable or selectable. If a row is
@@ -34,16 +34,16 @@ as selected when the user tries to select it.
 
 =head2 GtkListBox as GtkBuildable
 
-The B<Gnome::Gtk4::ListBox> implementation of the B<Gnome::Gtk4::R-Buildable> interface supports
+The B<Gnome::Gtk4::ListBox> implementation of the L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/Gtk4/R-Buildable> interface supports
 setting a child as the placeholder by specifying “placeholder” as the “type”
-attribute of a `<child>` element. See C<.set-placeholder()>
+attribute of a `<child>` element. See L<.set-placeholder()|#set-placeholder>
 for info.
 
 =head2 CSS nodes
 
 B<Gnome::Gtk4::ListBox> uses a single CSS node named list. It may carry the .separators
 style class, when the I<show-separators> property is set.
-Each B<Gnome::Gtk4::ListBoxRow> uses a single CSS node named row. The row nodes get the
+Each L<Gnome::Gtk4::ListBoxRow|/content-docs/api2/reference/Gtk4/ListBoxRow> uses a single CSS node named row. The row nodes get the
 .activatable style class added when appropriate.
 
 It may also carry the .boxed-list style class. In this case, the list will be
@@ -55,8 +55,8 @@ the style of [list presentation](section-list-widget.html#list-styles):
 
 =head2 Accessibility
 
-B<Gnome::Gtk4::ListBox> uses the %GTK_ACCESSIBLE_ROLE_LIST role and B<Gnome::Gtk4::ListBoxRow> uses
-the %GTK_ACCESSIBLE_ROLE_LIST_ITEM role.
+B<Gnome::Gtk4::ListBox> uses the C<GTK_ACCESSIBLE_ROLE_LIST> role and L<Gnome::Gtk4::ListBoxRow|/content-docs/api2/reference/Gtk4/ListBoxRow> uses
+the C<GTK_ACCESSIBLE_ROLE_LIST_ITEM> role.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/ListBox.png> :width<70%> :class<inline>
@@ -127,7 +127,7 @@ actually be inserted at the calculated position.
 method append ( N-Object() $child )
 =end code
 
-=item $child; the B<Gnome::Gtk4::Widget> to add.
+=item $child; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to add.
 
 =begin comment
 
@@ -152,7 +152,7 @@ represent items from C<$model>. C<$box> is updated whenever C<$model> changes.
 If C<$model> is undefined, C<$box> is left empty.
 
 It is undefined to add or remove widgets directly (for example, with
-C<.insert()>) while C<$box> is bound to a model.
+L<.insert()|#insert>) while C<$box> is bound to a model.
 
 Note that using a model is incompatible with the filtering and sorting
 functionality in B<Gnome::Gtk4::ListBox>. When using a model, filtering and sorting
@@ -162,7 +162,7 @@ should be implemented by the model.
 method bind-model ( N-List() $model, GtkListBoxCreateWidgetFunc &create-widget-func, gpointer $user-data, GDestroyNotify &user-data-free-func )
 =end code
 
-=item $model; the B<Gnome::Gio::R-ListModel> to be bound to C<$box>.
+=item $model; the L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> to be bound to C<$box>.
 =item GtkListBoxCreateWidgetFunc &create-widget-func; a function that creates widgets for items
   or undefined in case you also passed undefined as C<$model>. The function must be specified with the following signature; C<:( gpointer $item, gpointer $user-data )>.
 =item $user-data; user data passed to C<$create-widget-func>.
@@ -185,7 +185,7 @@ Add a drag highlight to a row.
 
 This is a helper function for implementing DnD onto a B<Gnome::Gtk4::ListBox>.
 The passed in C<$row> will be highlighted by setting the
-%GTK_STATE_FLAG_DROP_ACTIVE state and any previously highlighted
+C<GTK_STATE_FLAG_DROP_ACTIVE> state and any previously highlighted
 row will be unhighlighted.
 
 The row will also be unhighlighted when the widget gets
@@ -195,7 +195,7 @@ a drag leave event.
 method drag-highlight-row ( N-Object() $row )
 =end code
 
-=item $row; a B<Gnome::Gtk4::ListBoxRow>.
+=item $row; a L<Gnome::Gtk4::ListBoxRow|/content-docs/api2/reference/Gtk4/ListBoxRow>.
 
 =begin comment
 
@@ -284,7 +284,7 @@ method get-row-at-index ( Int() $index --> N-Object )
 
 =item $index; the index of the row.
 
-Return value; the child B<Gnome::Gtk4::Widget>. 
+Return value; the child L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>. 
 
 =begin comment
 
@@ -325,7 +325,7 @@ Return value; the row.
 Gets the selected row, or undefined if no rows are selected.
 
 Note that the box may allow multiple selection, in which
-case you should use C<.selected-foreach()> to
+case you should use L<.selected-foreach()|#selected-foreach> to
 find all selected rows.
 
 =begin code
@@ -354,7 +354,7 @@ method get-selected-rows (--> N-List )
 =end code
 
 Return value; 
-  A B<Gnome::Glib::N-List> containing the B<Gnome::Gtk4::Widget> for each selected child.
+  A B<Gnome::Glib::N-List> containing the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> for each selected child.
   Free with g_list_free() when done.. 
 
 =begin comment
@@ -424,7 +424,7 @@ If C<$position> is -1, or larger than the total number of items in the C<$box>, 
 method insert ( N-Object() $child, Int() $position )
 =end code
 
-=item $child; the B<Gnome::Gtk4::Widget> to add.
+=item $child; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to add.
 =item $position; the position to insert C<$child> in.
 
 =begin comment
@@ -520,7 +520,7 @@ actually be inserted at the calculated position.
 method prepend ( N-Object() $child )
 =end code
 
-=item $child; the B<Gnome::Gtk4::Widget> to add.
+=item $child; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to add.
 
 =begin comment
 
@@ -670,7 +670,7 @@ For instance, this is used to get the page size for
 PageUp/Down key handling.
 
 In the normal case when the C<$box> is packed inside
-a B<Gnome::Gtk4::ScrolledWindow> the adjustment from that will
+a L<Gnome::Gtk4::ScrolledWindow|/content-docs/api2/reference/Gtk4/ScrolledWindow> the adjustment from that will
 be picked up automatically, so there is no need
 to manually do that.
 
@@ -701,11 +701,11 @@ filters the original list to only show the matching rows.
 
 The C<$filter-func> will be called for each row after the call, and
 it will continue to be called each time a row changes (via
-C<.changed()> in class B<Gnome::Gtk4::ListBoxRow>) or when C<.invalidate-filter()>
+L<.changed() in class ListBoxRow|/content-docs/api2/reference/Gtk4/ListBoxRow#changed>) or when L<.invalidate-filter()|#invalidate-filter>
 is called.
 
 Note that using a filter function is incompatible with using a model
-(see C<.bind-model()>).
+(see L<.bind-model()|#bind-model>).
 
 =begin code
 method set-filter-func ( GtkListBoxFilterFunc &filter-func, gpointer $user-data, GDestroyNotify &destroy )
@@ -738,8 +738,8 @@ For instance, one could use it to add headers in front of the first item
 of a new kind, in a list sorted by the kind.
 
 The C<$update-header> can look at the current header widget using
-C<.get-header()> in class B<Gnome::Gtk4::ListBoxRow> and either update the state of the widget
-as needed, or set a new one using C<.set-header()> in class B<Gnome::Gtk4::ListBoxRow>. If no
+L<.get-header() in class ListBoxRow|/content-docs/api2/reference/Gtk4/ListBoxRow#get-header> and either update the state of the widget
+as needed, or set a new one using L<.set-header() in class ListBoxRow|/content-docs/api2/reference/Gtk4/ListBoxRow#set-header>. If no
 header is needed, set the header to undefined.
 
 Note that you may get many calls C<$update-header> to this for a particular
@@ -749,10 +749,10 @@ with an identical one.
 
 The C<$update-header> function will be called for each row after the call,
 and it will continue to be called each time a row changes (via
-C<.changed()> in class B<Gnome::Gtk4::ListBoxRow>) and when the row before changes (either
-by C<.changed()> in class B<Gnome::Gtk4::ListBoxRow> on the previous row, or when the previous
+L<.changed() in class ListBoxRow|/content-docs/api2/reference/Gtk4/ListBoxRow#changed>) and when the row before changes (either
+by L<.changed() in class ListBoxRow|/content-docs/api2/reference/Gtk4/ListBoxRow#changed> on the previous row, or when the previous
 row becomes a different row). It is also called for all rows when
-C<.invalidate-headers()> is called.
+L<.invalidate-headers()|#invalidate-headers> is called.
 
 =begin code
 method set-header-func ( GtkListBoxUpdateHeaderFunc &update-header, gpointer $user-data, GDestroyNotify &destroy )
@@ -782,7 +782,7 @@ it doesn't display any visible children.
 method set-placeholder ( N-Object() $placeholder )
 =end code
 
-=item $placeholder; a B<Gnome::Gtk4::Widget>.
+=item $placeholder; a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>.
 
 =begin comment
 
@@ -847,11 +847,11 @@ the rows of the list, based on the contents of the rows.
 
 The C<$sort-func> will be called for each row after the call, and will
 continue to be called each time a row changes (via
-C<.changed()> in class B<Gnome::Gtk4::ListBoxRow>) and when C<.invalidate-sort()>
+L<.changed() in class ListBoxRow|/content-docs/api2/reference/Gtk4/ListBoxRow#changed>) and when L<.invalidate-sort()|#invalidate-sort>
 is called.
 
 Note that using a sort function is incompatible with using a model
-(see C<.bind-model()>).
+(see L<.bind-model()|#bind-model>).
 
 =begin code
 method set-sort-func ( GtkListBoxSortFunc &sort-func, gpointer $user-data, GDestroyNotify &destroy )
@@ -930,9 +930,8 @@ method handler (
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListBox> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::ListBox> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -962,9 +961,8 @@ method handler (
 =item $p1; .
 =item $p2; .
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListBox> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::ListBox> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -990,9 +988,8 @@ method handler (
 
 =item $row; the activated row.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListBox> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::ListBox> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1007,7 +1004,7 @@ method handler (
 Emitted when a new row is selected, or (with a undefined C<$row>)
 when the selection is cleared.
 
-When the C<$box> is using %GTK_SELECTION_MULTIPLE, this signal will not
+When the C<$box> is using C<GTK_SELECTION_MULTIPLE>, this signal will not
 give you the full picture of selection changes, and you should use
 the I<selected-rows-changed> signal instead.
 
@@ -1023,9 +1020,8 @@ method handler (
 
 =item $row; the selected row.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListBox> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::ListBox> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1054,9 +1050,8 @@ method handler (
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListBox> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::ListBox> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1080,9 +1075,8 @@ method handler (
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListBox> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::ListBox> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1104,9 +1098,8 @@ method handler (
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListBox> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::ListBox> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1136,9 +1129,8 @@ method handler (
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListBox> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::ListBox> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 <!-- language="plain" -->

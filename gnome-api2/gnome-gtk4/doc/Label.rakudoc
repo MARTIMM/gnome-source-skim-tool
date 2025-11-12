@@ -12,7 +12,7 @@ use v6.d;
 The B<Gnome::Gtk4::Label> widget displays a small amount of text.
 
 As the name implies, most labels are used to label another widget
-such as a B<Gnome::Gtk4::Button>.
+such as a L<Gnome::Gtk4::Button|/content-docs/api2/reference/Gtk4/Button>.
 
 =for image :src<asset_files/images/label.png> :width<30%> :class<inline>
 
@@ -27,7 +27,7 @@ $button.set-child($label);
 
 B<Gnome::Gtk4::Label> has a single CSS node with the name label. A wide variety
 of style classes may be applied to labels, such as .title, .subtitle,
-.dim-label, etc. In the B<Gnome::Gtk4::ShortcutsWindow>, labels are used with the
+.dim-label, etc. In the L<Gnome::Gtk4::ShortcutsWindow|/content-docs/api2/reference/Gtk4/ShortcutsWindow>, labels are used with the
 .keycap style class.
 
 If the label has a selection, it gets a subnode with name selection.
@@ -66,13 +66,13 @@ B<Gnome::Gtk4::Label> uses the C<GTK_ACCESSIBLE_ROLE_LABEL> role.
 Labels may contain “mnemonics”. Mnemonics are underlined characters in the
 label, used for keyboard navigation. Mnemonics are created by providing a
 string with an underscore before the mnemonic character, such as `"_File"`,
-to the functions C<.new-with-mnemonic()> or
-C<.set-text-with-mnemonic()>.
+to the functions L<.new-with-mnemonic()|#new-with-mnemonic> or
+L<.set-text-with-mnemonic()|#set-text-with-mnemonic>.
 
 Mnemonics automatically activate any activatable widget the label is
-inside, such as a B<Gnome::Gtk4::Button>; if the label is not inside the
+inside, such as a L<Gnome::Gtk4::Button|/content-docs/api2/reference/Gtk4/Button>; if the label is not inside the
 mnemonic’s target widget, you have to tell the label about the target
-using C<.set-mnemonic-widget()>.
+using L<.set-mnemonic-widget()|#set-mnemonic-widget>.
 
 Here’s a simple example where the label is inside a button:
 
@@ -92,8 +92,8 @@ $label.set-markup("<small>Small text</small>");
 =end code
 
 To create a mnemonic for a widget alongside the label, such as a
-B<Gnome::Gtk4::Entry>, you have to point the label at the entry with
-C<.set-mnemonic-widget()>:
+L<Gnome::Gtk4::Entry|/content-docs/api2/reference/Gtk4/Entry>, you have to point the label at the entry with
+L<.set-mnemonic-widget()|#set-mnemonic-widget>:
 
 =begin code
 my Str $text = [~] 'Go to the ',
@@ -121,16 +121,16 @@ $markup.free;
 =end comment
 
 (See the Pango manual for complete documentation] of available
-tags, C<.parse-markup() in package Gnome::Pango>)
+tags, L<.parse-markup().parse-markup() in package Gnome::Pango|/content-docs/api2/reference/Pango/T-label#parse-markup>)
 
-The markup passed to C<.set-markup()> must be valid; for example,
+The markup passed to L<.set-markup()|#set-markup> must be valid; for example,
 literal `<`, `>` and `&` characters must be escaped as `&lt;`, `&gt;`, and `&amp;`.
 If you pass text obtained from the user, file, or a network to
-C<.set-markup()>, you’ll want to escape it with
-C<.markup-escape-text() in package Gnome::GLib> or C<.markup-printf-escaped() in package Gnome::GLib>.
+L<.set-markup()|#set-markup>, you’ll want to escape it with
+L<.markup-escape-text().markup-escape-text() in package Gnome::GLib|/content-docs/api2/reference/GLib/T-label#markup-escape-text> or L<.markup-printf-escaped().markup-printf-escaped() in package Gnome::GLib|/content-docs/api2/reference/GLib/T-label#markup-printf-escaped>.
 
 Markup strings are just a convenient way to set the  B<Gnome::Pango::N-AttrList> 
-on a label; C<.set-attributes()> may be a simpler way to set
+on a label; L<.set-attributes()|#set-attributes> may be a simpler way to set
 attributes in some cases. Be careful though;  B<Gnome::Pango::N-AttrList>  tends
 to cause internationalization problems, unless you’re applying attributes
 to the entire string (i.e. unless you set the range of each attribute
@@ -140,7 +140,7 @@ string being displayed, so translations will cause problems.
 
 =head3 Selectable labels
 
-Labels can be made selectable with C<.set-selectable()>.
+Labels can be made selectable with L<.set-selectable()|#set-selectable>.
 Selectable labels allow the user to copy the label contents to
 the clipboard. Only labels that contain useful-to-copy information—such
 as error messages—should be made selectable.
@@ -152,9 +152,9 @@ performance problems if it contains more than a small number.
 Paragraphs are separated by newlines or other paragraph separators
 understood by Pango.
 
-Labels can automatically wrap text if you call C<.set-wrap()>.
+Labels can automatically wrap text if you call L<.set-wrap()|#set-wrap>.
 
-C<.set-justify()> sets how the lines in a label align
+L<.set-justify()|#set-justify> sets how the lines in a label align
 with one another. If you want to set how the label as a whole aligns
 in its available space, see the I<halign defined in Gnome::Gtk4::Widget> and
 I<valign defined in Gnome::Gtk4::Widget> properties.
@@ -181,7 +181,7 @@ An example of inline links looks like this:
 
 It is possible to implement custom handling for links and their tooltips
 with the I<activate-link> signal and the
-C<.get-current-uri()> function.
+L<.get-current-uri()|#get-current-uri> function.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/Label.png> :width<70%> :class<inline>
@@ -244,9 +244,9 @@ underlined. If you need a literal underscore character in a label, use
 '__' (two underscores). The first underlined character represents a
 keyboard accelerator called a mnemonic. The mnemonic key can be used
 to activate another widget, chosen automatically, or explicitly using
-C<.set-mnemonic-widget()>.
+L<.set-mnemonic-widget()|#set-mnemonic-widget>.
 
-If C<.set-mnemonic-widget()> is not called, then the first
+If L<.set-mnemonic-widget()|#set-mnemonic-widget> is not called, then the first
 activatable ancestor of the B<Gnome::Gtk4::Label> will be chosen as the mnemonic
 widget. For instance, if the label is inside a button or menu item,
 the button or menu item will automatically become the mnemonic widget
@@ -283,9 +283,9 @@ method new-with-mnemonic ( Str $str --> Gnome::Gtk4::Label )
 Gets the label's attribute list.
 
 This is the  B<Gnome::Pango::N-AttrList>  that was set on the label using
-C<.set-attributes()>, if any. This function does not
+L<.set-attributes()|#set-attributes>, if any. This function does not
 reflect attributes that come from the label's markup (see
-C<.set-markup()>). If you want to get the effective
+L<.set-markup()|#set-markup>). If you want to get the effective
 attributes for the label, use
 B<pango_layout_get_attributes> (gtk_label_get_layout (self))`.
 
@@ -338,7 +338,7 @@ Return value; the currently active URI.
 
 Returns the ellipsizing position of the label.
 
-See C<.set-ellipsize()>.
+See L<.set-ellipsize()|#set-ellipsize>.
 
 =begin code
 method get-ellipsize (--> PangoEllipsizeMode )
@@ -361,7 +361,7 @@ Return value; C<enumeration PangoEllipsizeMode defined in Gnome::Pango::T-layout
 
 Gets the extra menu model of C<$label>.
 
-See C<.set-extra-menu()>.
+See L<.set-extra-menu()|#set-extra-menu>.
 
 =begin code
 method get-extra-menu (--> N-Object )
@@ -384,7 +384,7 @@ Return value; the menu model.
 
 Returns the justification of the label.
 
-See C<.set-justify()>.
+See L<.set-justify()|#set-justify>.
 
 =begin code
 method get-justify (--> GtkJustification )
@@ -408,7 +408,7 @@ Return value; C<enumeration GtkJustification defined in Gnome::Gtk4::T-enums>.
 Fetches the text from a label.
 
 The returned text includes any embedded underlines indicating
-mnemonics and Pango markup. (See C<.get-text()>).
+mnemonics and Pango markup. (See L<.get-text()|#get-text>).
 
 =begin code
 method get-label (--> Str )
@@ -430,10 +430,10 @@ Return value; the text of the label widget. This string is
 =begin pod
 =head2 get-layout
 
-Gets the B<Gnome::Pango::Layout> used to display the label.
+Gets the L<Gnome::Pango::Layout|/content-docs/api2/reference/Pango/Layout> used to display the label.
 
 The layout is useful to e.g. convert text positions to pixel
-positions, in combination with C<.get-layout-offsets()>.
+positions, in combination with L<.get-layout-offsets()|#get-layout-offsets>.
 The returned layout is owned by the C<$label> so need not be
 freed by the caller. The C<$label> is free to recreate its layout
 at any time, so it should be considered read-only.
@@ -442,7 +442,7 @@ at any time, so it should be considered read-only.
 method get-layout (--> N-Object )
 =end code
 
-Return value; the B<Gnome::Pango::Layout> for this label. 
+Return value; the L<Gnome::Pango::Layout|/content-docs/api2/reference/Pango/Layout> for this label. 
 
 =begin comment
 
@@ -457,11 +457,11 @@ Return value; the B<Gnome::Pango::Layout> for this label.
 =begin pod
 =head2 get-layout-offsets
 
-Obtains the coordinates where the label will draw its B<Gnome::Pango::Layout>.
+Obtains the coordinates where the label will draw its L<Gnome::Pango::Layout|/content-docs/api2/reference/Pango/Layout>.
 
 The coordinates are useful to convert mouse events into coordinates
-inside the B<Gnome::Pango::Layout>, e.g. to take some action if some part
-of the label is clicked. Remember when using the B<Gnome::Pango::Layout>
+inside the L<Gnome::Pango::Layout|/content-docs/api2/reference/Pango/Layout>, e.g. to take some action if some part
+of the label is clicked. Remember when using the L<Gnome::Pango::Layout|/content-docs/api2/reference/Pango/Layout>
 functions you need to convert to and from pixels using PANGO_PIXELS()
 or [const C<$Pango>.SCALE].
 
@@ -488,7 +488,7 @@ method get-layout-offsets ( Array[Int] $x, Array[Int] $y )
 Gets the number of lines to which an ellipsized, wrapping
 label should be limited.
 
-See C<.set-lines()>.
+See L<.set-lines()|#set-lines>.
 
 =begin code
 method get-lines (--> Int )
@@ -511,7 +511,7 @@ Return value; The number of lines.
 
 Retrieves the desired maximum width of C<$label>, in characters.
 
-See C<.set-width-chars()>.
+See L<.set-width-chars()|#set-width-chars>.
 
 =begin code
 method get-max-width-chars (--> Int )
@@ -560,7 +560,7 @@ Return value; GDK keyval usable for accelerators, or B<Gnome::Gdk4::T-keysyms>.
 Retrieves the target of the mnemonic (keyboard shortcut) of this
 label.
 
-See C<.set-mnemonic-widget()>.
+See L<.set-mnemonic-widget()|#set-mnemonic-widget>.
 
 =begin code
 method get-mnemonic-widget (--> N-Object )
@@ -584,7 +584,7 @@ Return value; the target of the label’s mnemonic,
 
 Returns line wrap mode used by the label.
 
-See C<.set-natural-wrap-mode()>.
+See L<.set-natural-wrap-mode()|#set-natural-wrap-mode>.
 
 =begin code
 method get-natural-wrap-mode (--> GtkNaturalWrapMode )
@@ -674,7 +674,7 @@ Return value; C<True> when the label is in single line mode..
 Gets the tabs for C<$self>.
 
 The returned array will be undefined if “standard” (8-space) tabs are used.
-Free the return value with C<.free()> in class C<Gnome::Pango::N-TabArray>.
+Free the return value with L<.free() in class TabArray|/content-docs/api2/reference/Pango/TabArray#free>.
 
 =begin code
 method get-tabs (--> N-Object )
@@ -682,7 +682,7 @@ method get-tabs (--> N-Object )
 
 Return value; copy of default tab array,
   or undefined if standard tabs are used; must be freed with
-  C<.free()> in class C<Gnome::Pango::N-TabArray>.. 
+  L<.free() in class TabArray|/content-docs/api2/reference/Pango/TabArray#free>.. 
 
 =begin comment
 
@@ -701,7 +701,7 @@ Fetches the text from a label.
 
 The returned text is as it appears on screen. This does not include
 any embedded underlines indicating mnemonics or Pango markup. (See
-C<.get-label()>)
+L<.get-label()|#get-label>)
 
 =begin code
 method get-text (--> Str )
@@ -725,7 +725,7 @@ Return value; the text in the label widget. This is the internal
 
 Returns whether the label’s text is interpreted as Pango markup.
 
-See C<.set-use-markup()>.
+See L<.set-use-markup()|#set-use-markup>.
 
 =begin code
 method get-use-markup (--> Bool )
@@ -748,7 +748,7 @@ Return value; C<True> if the label’s text will be parsed for markup..
 
 Returns whether an embedded underlines in the label indicate mnemonics.
 
-See C<.set-use-underline()>.
+See L<.set-use-underline()|#set-use-underline>.
 
 =begin code
 method get-use-underline (--> Bool )
@@ -772,7 +772,7 @@ Return value; C<True> whether an embedded underline in the label indicates
 
 Retrieves the desired width of C<$label>, in characters.
 
-See C<.set-width-chars()>.
+See L<.set-width-chars()|#set-width-chars>.
 
 =begin code
 method get-width-chars (--> Int )
@@ -795,7 +795,7 @@ Return value; the width of the label in characters..
 
 Returns whether lines in the label are automatically wrapped.
 
-See C<.set-wrap()>.
+See L<.set-wrap()|#set-wrap>.
 
 =begin code
 method get-wrap (--> Bool )
@@ -818,7 +818,7 @@ Return value; C<True> if the lines of the label are automatically wrapped..
 
 Returns line wrap mode used by the label.
 
-See C<.set-wrap-mode()>.
+See L<.set-wrap-mode()|#set-wrap-mode>.
 
 =begin code
 method get-wrap-mode (--> PangoWrapMode )
@@ -887,7 +887,7 @@ Return value; the yalign property.
 
 Selects a range of characters in the label, if the label is selectable.
 
-See C<.set-selectable()>. If the label is not selectable,
+See L<.set-selectable()|#set-selectable>. If the label is not selectable,
 this function has no effect. If C<$start-offset> or C<$end-offset> are -1, then the end of the label will be substituted.
 
 =begin code
@@ -969,7 +969,7 @@ the context menu for C<$label>.
 method set-extra-menu ( N-Object() $model )
 =end code
 
-=item $model; a B<Gnome::Gio::MenuModel>.
+=item $model; a L<Gnome::Gio::MenuModel|/content-docs/api2/reference/Gio/MenuModel>.
 
 =begin comment
 
@@ -988,9 +988,9 @@ Sets the alignment of the lines in the text of the label relative to
 each other.
 
 C<GTK_JUSTIFY_LEFT> is the default value when the widget is first created
-with C<.newlabel()>. If you instead want to set the alignment of
-the label as a whole, use C<.set-halign()> in class C<Gnome::Gtk4::Widget> instead.
-C<.set-justify()> has no effect on labels containing
+with L<.newlabel()|#newlabel>. If you instead want to set the alignment of
+the label as a whole, use L<.set-halign() in class Widget|/content-docs/api2/reference/Gtk4/Widget#set-halign> instead.
+L<.set-justify()|#set-justify> has no effect on labels containing
 only a single line.
 
 =begin code
@@ -1065,7 +1065,7 @@ method set-lines ( Int() $lines )
 Sets the labels text and attributes from markup.
 
 The string must be marked up with Pango markup
-(see C<.parse-markup() in package Gnome::Pango>).
+(see L<.parse-markup().parse-markup() in package Gnome::Pango|/content-docs/api2/reference/Pango/T-label#parse-markup>).
 
 If the C<$str> is external data, you may need to escape it
 with g_markup_escape_text() or g_markup_printf_escaped():
@@ -1077,7 +1077,7 @@ If you set the label contents using the I<label>
 property you should also ensure that you set the
 I<use-markup> property accordingly.
 
-See also: C<.set-text()>
+See also: L<.set-text()|#set-text>
 
 =begin code
 method set-markup ( Str $str )
@@ -1100,13 +1100,13 @@ method set-markup ( Str $str )
 
 Sets the labels text, attributes and mnemonic from markup.
 
-Parses C<$str> which is marked up with Pango markup (see C<.parse-markup() in package Gnome::Pango>),
+Parses C<$str> which is marked up with Pango markup (see L<.parse-markup().parse-markup() in package Gnome::Pango|/content-docs/api2/reference/Pango/T-label#parse-markup>),
 setting the label’s text and attribute list based on the parse results.
 If characters in C<$str> are preceded by an underscore, they are underlined
 indicating that they represent a keyboard accelerator called a mnemonic.
 
 The mnemonic key can be used to activate another widget, chosen
-automatically, or explicitly using C<.set-mnemonic-widget()>.
+automatically, or explicitly using L<.set-mnemonic-widget()|#set-mnemonic-widget>.
 
 =begin code
 method set-markup-with-mnemonic ( Str $str )
@@ -1151,14 +1151,14 @@ method set-max-width-chars ( Int() $n-chars )
 Associate the label with its mnemonic target.
 
 If the label has been set so that it has a mnemonic key (using
-i.e. C<.set-markup-with-mnemonic()>,
-C<.set-text-with-mnemonic()>,
-C<.new-with-mnemonic()>
+i.e. L<.set-markup-with-mnemonic()|#set-markup-with-mnemonic>,
+L<.set-text-with-mnemonic()|#set-text-with-mnemonic>,
+L<.new-with-mnemonic()|#new-with-mnemonic>
 or the I<use_underline> property) the label can be
 associated with a widget that is the target of the mnemonic. When the
-label is inside a widget (like a B<Gnome::Gtk4::Button> or a
-B<Gnome::Gtk4::Notebook> tab) it is automatically associated with the correct
-widget, but sometimes (i.e. when the target is a B<Gnome::Gtk4::Entry> next to
+label is inside a widget (like a L<Gnome::Gtk4::Button|/content-docs/api2/reference/Gtk4/Button> or a
+L<Gnome::Gtk4::Notebook|/content-docs/api2/reference/Gtk4/Notebook> tab) it is automatically associated with the correct
+widget, but sometimes (i.e. when the target is a L<Gnome::Gtk4::Entry|/content-docs/api2/reference/Gtk4/Entry> next to
 the label) you need to set it explicitly using this function.
 
 The target widget will be accelerated by emitting the
@@ -1170,7 +1170,7 @@ and toggle focus between the colliding widgets otherwise.
 method set-mnemonic-widget ( N-Object() $widget )
 =end code
 
-=item $widget; the target B<Gnome::Gtk4::Widget>, or undefined to unset.
+=item $widget; the target L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>, or undefined to unset.
 
 =begin comment
 
@@ -1286,7 +1286,7 @@ a side effect.
 This function will set the I<use-markup> property
 to C<False> as a side effect.
 
-See also: C<.set-markup()>
+See also: L<.set-markup()|#set-markup>
 
 =begin code
 method set-text ( Str $str )
@@ -1312,7 +1312,7 @@ Sets the label’s text from the string C<$str>.
 If characters in C<$str> are preceded by an underscore, they are underlined
 indicating that they represent a keyboard accelerator called a mnemonic.
 The mnemonic key can be used to activate another widget, chosen
-automatically, or explicitly using C<.set-mnemonic-widget()>.
+automatically, or explicitly using L<.set-mnemonic-widget()|#set-mnemonic-widget>.
 
 =begin code
 method set-text-with-mnemonic ( Str $str )
@@ -1335,7 +1335,7 @@ method set-text-with-mnemonic ( Str $str )
 
 Sets whether the text of the label contains markup.
 
-See C<.set-markup()>.
+See L<.set-markup()|#set-markup>.
 
 =begin code
 method set-use-markup ( Bool() $setting )
@@ -1408,7 +1408,7 @@ Note that setting line wrapping to C<True> does not make the label
 wrap at its parent container’s width, because GTK widgets
 conceptually can’t make their requisition depend on the parent
 container’s size. For a label that wraps at a specific position,
-set the label’s width using C<.set-size-request()> in class C<Gnome::Gtk4::Widget>.
+set the label’s width using L<.set-size-request() in class Widget|/content-docs/api2/reference/Gtk4/Widget#set-size-request>.
 
 =begin code
 method set-wrap ( Bool() $wrap )
@@ -1432,7 +1432,7 @@ method set-wrap ( Bool() $wrap )
 Controls how line wrapping is done.
 
 This only affects the label if line wrapping is on. (See
-C<.set-wrap()>) The default is C<PANGO_WRAP_WORD>
+L<.set-wrap()|#set-wrap>) The default is C<PANGO_WRAP_WORD>
 which means wrap on word boundaries.
 
 For sizing behavior, also consider the I<natural-wrap-mode>
@@ -1523,14 +1523,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Label :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Label> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Label> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1545,7 +1544,7 @@ method handler (
 Gets emitted to activate a URI.
 
 Applications may connect to it to override the default behaviour,
-which is to call C<.launch()> in class C<Gnome::Gtk4::FileLauncher>.
+which is to call L<.launch() in class FileLauncher|/content-docs/api2/reference/Gtk4/FileLauncher#launch>.
 
 =begin code
 method handler (
@@ -1553,16 +1552,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Label :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
 =item $uri; the URI that is activated.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Label> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Label> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; C<True> if the link has been activated
 
@@ -1587,14 +1585,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Label :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Label> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Label> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin code
 label
@@ -1635,7 +1632,7 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Label :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
@@ -1643,9 +1640,8 @@ method handler (
 =item $count; the number of C<$step> units to move.
 =item $extend-selection; C<True> if the move should extend the selection.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Label> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Label> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin code
 <object class="GtkLabel">

@@ -15,14 +15,14 @@ A B<Gnome::Gtk4::LinkButton> is a button with a hyperlink.
 
 It is useful to show quick links to resources.
 
-A link button is created by calling either C<.newlinkbutton()> or
-C<.new-with-label()>. If using the former, the URI you
+A link button is created by calling either L<.newlinkbutton()|#newlinkbutton> or
+L<.new-with-label()|#new-with-label>. If using the former, the URI you
 pass to the constructor is used as a label for the widget.
 
 The URI bound to a B<Gnome::Gtk4::LinkButton> can be set specifically using
-C<.set-uri()>.
+L<.set-uri()|#set-uri>.
 
-By default, B<Gnome::Gtk4::LinkButton> calls C<.launch()> in class C<Gnome::Gtk4::FileLauncher> when the button
+By default, B<Gnome::Gtk4::LinkButton> calls L<.launch() in class FileLauncher|/content-docs/api2/reference/Gtk4/FileLauncher#launch> when the button
 is clicked. This behaviour can be overridden by connecting to the
 I<activate-link> signal and returning C<True> from
 the signal handler.
@@ -30,7 +30,7 @@ the signal handler.
 =head2 CSS nodes
 
 B<Gnome::Gtk4::LinkButton> has a single CSS node with name button. To differentiate
-it from a plain B<Gnome::Gtk4::Button>, it gets the .link style class.
+it from a plain L<Gnome::Gtk4::Button|/content-docs/api2/reference/Gtk4/Button>, it gets the .link style class.
 
 =head2 Accessibility
 
@@ -147,7 +147,7 @@ Retrieves the “visited” state of the B<Gnome::Gtk4::LinkButton>.
 The button becomes visited when it is clicked. If the URI
 is changed on the button, the “visited” state is unset again.
 
-The state may also be changed using C<.set-visited()>.
+The state may also be changed using L<.set-visited()|#set-visited>.
 
 =begin code
 method get-visited (--> Bool )
@@ -193,7 +193,7 @@ method set-uri ( Str $uri )
 
 Sets the “visited” state of the B<Gnome::Gtk4::LinkButton>.
 
-See C<.get-visited()> for more details.
+See L<.get-visited()|#get-visited> for more details.
 
 =begin code
 method set-visited ( Bool() $visited )
@@ -222,7 +222,7 @@ method set-visited ( Bool() $visited )
 
 Emitted each time the B<Gnome::Gtk4::LinkButton> is clicked.
 
-The default handler will call C<.launch()> in class C<Gnome::Gtk4::FileLauncher> with the URI
+The default handler will call L<.launch() in class FileLauncher|/content-docs/api2/reference/Gtk4/FileLauncher#launch> with the URI
 stored inside the I<uri> property.
 
 To override the default behavior, you can connect to the I<activate-link> signal and stop the propagation of the signal
@@ -233,15 +233,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::LinkButton :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::LinkButton> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::LinkButton> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; C<True> if the signal has been handled
 

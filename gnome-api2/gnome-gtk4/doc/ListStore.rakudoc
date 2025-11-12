@@ -9,12 +9,12 @@ use v6.d;
 =TITLE Gnome::Gtk4::ListStore
 =head1 Description
 
-A list-like data structure that can be used with the B<Gnome::Gtk4::TreeView>.
+A list-like data structure that can be used with the L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView>.
 
-The B<Gnome::Gtk4::ListStore> object is a list model for use with a B<Gnome::Gtk4::TreeView>
-widget.  It implements the B<Gnome::Gtk4::R-TreeModel> interface, and consequentialy,
+The B<Gnome::Gtk4::ListStore> object is a list model for use with a L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView>
+widget.  It implements the L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel> interface, and consequentialy,
 can use all of the methods available there.  It also implements the
-B<Gnome::Gtk4::R-TreeSortable> interface so it can be sorted by the view.
+L<Gnome::Gtk4::R-TreeSortable|/content-docs/api2/reference/Gtk4/R-TreeSortable> interface so it can be sorted by the view.
 Finally, it also implements the tree
 [drag](iface.TreeDragSource.html) and [drop](iface.TreeDragDest.html)
 interfaces.
@@ -22,12 +22,12 @@ interfaces.
 The B<Gnome::Gtk4::ListStore> can accept most B<Gnome::GObject::ListStore>s as a column type, though
 it can’t accept all custom types.  Internally, it will keep a copy of
 data passed in (such as a string or a boxed pointer).  Columns that
-accept B<Gnome::GObject::Object>s are handled a little differently.  The
+accept L<Gnome::GObject::Object|/content-docs/api2/reference/GObject/Object>s are handled a little differently.  The
 B<Gnome::Gtk4::ListStore> will keep a reference to the object instead of copying the
 value.  As a result, if the object is modified, it is up to the
-application writer to call C<.row-changed()> in class C<Gnome::Gtk4::R-TreeModel> to emit the
+application writer to call L<.row-changed() in class TreeModel|/content-docs/api2/reference/Gtk4/TreeModel#row-changed> to emit the
 I<row_changed defined in TreeModel> signal. This most commonly affects lists
-with B<Gnome::Gdk4::Texture>s stored.
+with L<Gnome::Gdk4::Texture|/content-docs/api2/reference/Gdk4/Texture>s stored.
 
 An example for creating a simple list store:
 
@@ -83,7 +83,7 @@ enum {
 =end comment
 
 B<Gnome::Gtk4::ListStore> is deprecated since GTK 4.10, and should not be used in newly
-written code. You should use B<Gnome::Gtk4::ListStore> instead, and the various
+written code. You should use L<Gnome::Gtk4::ListStore|/content-docs/api2/reference/Gtk4/ListStore> instead, and the various
 list models provided by GTK.
 
 =head3 Performance Considerations
@@ -101,21 +101,21 @@ keeping the iter around.
 It is important to note that only the methods
 C<.insert-with-values()> and C<.insert-with-valuesv()>
 are atomic, in the sense that the row is being appended to the store and the
-values filled in in a single operation with regard to B<Gnome::Gtk4::R-TreeModel> signaling.
+values filled in in a single operation with regard to L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel> signaling.
 In contrast, using e.g. C<.append()> and then C<.set()>
-will first create a row, which triggers the B<Gnome::Gtk4::R-TreeModel>::row-inserted` signal
+will first create a row, which triggers the L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>::row-inserted` signal
 on B<Gnome::Gtk4::ListStore>. The row, however, is still empty, and any signal handler
-connecting to B<Gnome::Gtk4::R-TreeModel>::row-inserted` on this particular store should be prepared
+connecting to L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>::row-inserted` on this particular store should be prepared
 for the situation that the row might be empty. This is especially important
-if you are wrapping the B<Gnome::Gtk4::ListStore> inside a B<Gnome::Gtk4::R-TreeModel>Filter and are
-using a B<Gnome::Gtk4::R-TreeModel>FilterVisibleFunc. Using any of the non-atomic operations
+if you are wrapping the B<Gnome::Gtk4::ListStore> inside a L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>Filter and are
+using a L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>FilterVisibleFunc. Using any of the non-atomic operations
 to append rows to the B<Gnome::Gtk4::ListStore> will cause the
-B<Gnome::Gtk4::R-TreeModel>FilterVisibleFunc to be visited with an empty row first; the
+L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>FilterVisibleFunc to be visited with an empty row first; the
 function must be prepared for that.
 
 =head3 GtkListStore as GtkBuildable
 
-The GtkListStore implementation of the B<Gnome::Gtk4::R-Buildable> interface allows
+The GtkListStore implementation of the L<Gnome::Gtk4::ListStore|/content-docs/api2/reference/Gnome::Gtk4::R-Buildable> interface allows
 to specify the model columns with a `<columns>` element that may contain
 multiple `<column>` elements, each specifying one model column. The “type”
 attribute specifies the data type for the column.
@@ -189,7 +189,6 @@ Create an object using a native object from an object of the same type found els
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-liststore
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -220,7 +219,7 @@ insert_value (GtkListStore *list_store,
 =end comment
 
 will create a new B<Gnome::Gtk4::ListStore> with three columns, of type B<int>,
-B<gchararray> and B<Gnome::Gdk4::Texture>, respectively.
+B<gchararray> and L<Gnome::Gdk4::Texture|/content-docs/api2/reference/Gdk4/Texture>, respectively.
 
 =begin code
 method new-liststore ( Int() $n-columns, … --> Gnome::Gtk4::ListStore )
@@ -241,7 +240,6 @@ method new-liststore ( Int() $n-columns, … --> Gnome::Gtk4::ListStore )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 newv
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -404,7 +402,6 @@ method insert-before ( N-Object $iter, N-Object $sibling )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 insert-with-values
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -417,12 +414,12 @@ Calling
 B<gtk_list_store_insert_with_values> (list_store, iter, position...)`
 has the same effect as calling:
 
-with the difference that the former will only emit B<Gnome::Gtk4::R-TreeModel>::row-inserted
-once, while the latter will emit B<Gnome::Gtk4::R-TreeModel>::row-inserted,
-B<Gnome::Gtk4::R-TreeModel>::row-changed and, if the list store is sorted,
-B<Gnome::Gtk4::R-TreeModel>::rows-reordered for every inserted value.
+with the difference that the former will only emit L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>::row-inserted
+once, while the latter will emit L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>::row-inserted,
+L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>::row-changed and, if the list store is sorted,
+L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>::rows-reordered for every inserted value.
 
-Since emitting the B<Gnome::Gtk4::R-TreeModel>::rows-reordered` signal repeatedly can
+Since emitting the L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>::rows-reordered` signal repeatedly can
 affect the performance of the program, C<.insert-with-values()>
 should generally be preferred when inserting rows in a sorted list store.
 
@@ -636,7 +633,6 @@ method reorder ( Array[Int] $new-order )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -669,7 +665,6 @@ method set ( N-Object $iter, … )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-column-types
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -680,7 +675,7 @@ from B<Gnome::Gtk4::ListStore>, and should only be used when constructing
 a new instance.
 
 This function cannot be called after a row has been added, or
-a method on the B<Gnome::Gtk4::R-TreeModel> interface is called.
+a method on the L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel> interface is called.
 
 =begin code
 method set-column-types ( Int() $n-columns, … )
@@ -701,7 +696,6 @@ method set-column-types ( Int() $n-columns, … )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-valist
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 

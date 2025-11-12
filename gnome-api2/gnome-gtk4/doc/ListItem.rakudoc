@@ -10,11 +10,11 @@ use v6.d;
 =head1 Description
 
 B<Gnome::Gtk4::ListItem> is used by list widgets to represent items in a
-B<Gnome::Gtk4::ListItem>.
+L<|/content-docs/api2/reference/Gnome::Gtk4::ListItem>.
 
 B<Gnome::Gtk4::ListItem> objects are managed by the list widget (with its factory)
 and cannot be created by applications, but they need to be populated
-by application code. This is done by calling C<.set-child()>.
+by application code. This is done by calling L<.set-child()|#set-child>.
 
 B<Gnome::Gtk4::ListItem> objects exist in 2 stages:
 
@@ -223,7 +223,7 @@ Return value; The position of this item.
 Checks if a list item has been set to be selectable via
 C<.set-selectable()>.
 
-Do not confuse this function with C<.get-selected()>.
+Do not confuse this function with L<.get-selected()|#get-selected>.
 
 =begin code
 method get-selectable (--> Bool )
@@ -303,7 +303,7 @@ Sets C<$self> to be activatable.
 If an item is activatable, double-clicking on the item, using
 the Return key or calling gtk_widget_activate() will activate
 the item. Activating instructs the containing view to handle
-activation. B<Gnome::Gtk4::ListView> for example will be emitting the
+activation. L<Gnome::Gtk4::ListView|/content-docs/api2/reference/Gtk4/ListView> for example will be emitting the
 I<activate defined in ListView> signal.
 
 By default, list items are activatable.
@@ -341,7 +341,7 @@ method set-child ( N-Object() $child )
 Sets C<$self> to be focusable.
 
 If an item is focusable, it can be focused using the keyboard.
-This works similar to C<.set-focusable()> in class C<Gnome::Gtk4::Widget>.
+This works similar to L<.set-focusable() in class Widget|/content-docs/api2/reference/Gtk4/Widget#set-focusable>.
 
 Note that if items are not focusable, the keyboard cannot be used to activate
 them and selecting only works if one of the listitem's children is focusable.

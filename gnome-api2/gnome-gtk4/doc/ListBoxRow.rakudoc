@@ -9,7 +9,7 @@ use v6.d;
 =TITLE Gnome::Gtk4::ListBoxRow
 =head1 Description
 
-B<Gnome::Gtk4::ListBoxRow> is the kind of widget that can be added to a B<Gnome::Gtk4::ListBox>.
+B<Gnome::Gtk4::ListBoxRow> is the kind of widget that can be added to a L<Gnome::Gtk4::ListBox|/content-docs/api2/reference/Gtk4/ListBox>.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/ListBoxRow.png> :width<70%> :class<inline>
@@ -87,7 +87,7 @@ of the rows will be wrong.
 This generally means that if you don’t fully control the data
 model you have to duplicate the data that affects the listbox
 row functions into the row widgets themselves. Another alternative
-is to call C<.invalidate-sort()> in class B<Gnome::Gtk4::ListBox> on any model change,
+is to call L<.invalidate-sort() in class ListBox|/content-docs/api2/reference/Gtk4/ListBox#invalidate-sort> on any model change,
 but that is more expensive.
 
 =begin code
@@ -175,7 +175,7 @@ Return value; the current header.
 =begin pod
 =head2 get-index
 
-Gets the current index of the C<$row> in its B<Gnome::Gtk4::ListBox> container.
+Gets the current index of the C<$row> in its L<Gnome::Gtk4::ListBox|/content-docs/api2/reference/Gtk4/ListBox> container.
 
 =begin code
 method get-index (--> Int )
@@ -218,7 +218,7 @@ Return value; C<True> if the row is selectable.
 =head2 is-selected
 
 Returns whether the child is currently selected in its
-B<Gnome::Gtk4::ListBox> container.
+L<Gnome::Gtk4::ListBox|/content-docs/api2/reference/Gtk4/ListBox> container.
 
 =begin code
 method is-selected (--> Bool )
@@ -338,7 +338,7 @@ This is a keybinding signal, which will cause this row to be activated.
 
 If you want to be notified when the user activates a row (by key or not),
 use the I<row-activated defined in ListBox> signal on the row’s parent
-B<Gnome::Gtk4::ListBox>.
+L<Gnome::Gtk4::ListBox|/content-docs/api2/reference/Gtk4/ListBox>.
 
 =begin code
 method handler (
@@ -350,9 +350,8 @@ method handler (
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListBoxRow> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::ListBoxRow> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
