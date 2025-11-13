@@ -32,7 +32,7 @@ preferred sizes.
 
 =head2 GtkOverlay as GtkBuildable
 
-The B<Gnome::Gtk4::Overlay> implementation of the B<Gnome::Gtk4::R-Buildable> interface
+The B<Gnome::Gtk4::Overlay> implementation of the L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/Gtk4/R-Buildable> interface
 supports placing a child as an overlay by specifying “overlay” as
 the “type” attribute of a `<child>` element.
 
@@ -105,7 +105,7 @@ method new-overlay ( --> Gnome::Gtk4::Overlay )
 Adds C<$widget> to C<$overlay>.
 
 The widget will be stacked on top of the main widget
-added with C<.set-child()>.
+added with L<.set-child()|#set-child>.
 
 The position at which C<$widget> is placed is determined
 from its I<halign defined in Gnome::Gtk4::Widget> and
@@ -115,7 +115,7 @@ I<valign defined in Gnome::Gtk4::Widget> properties.
 method add-overlay ( N-Object() $widget )
 =end code
 
-=item $widget; a B<Gnome::Gtk4::Widget> to be added to the container.
+=item $widget; a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to be added to the container.
 
 =begin comment
 
@@ -203,7 +203,7 @@ Removes an overlay that was added with C<.add-overlay()>.
 method remove-overlay ( N-Object() $widget )
 =end code
 
-=item $widget; a B<Gnome::Gtk4::Widget> to be removed.
+=item $widget; a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to be removed.
 
 =begin comment
 
@@ -305,7 +305,7 @@ halign and valign properties to determine the position
 and gives the widget its natural size (except that an
 alignment of C<GTK_ALIGN_FILL> will cause the overlay to
 be full-width/height). If the main child is a
-B<Gnome::Gtk4::ScrolledWindow>, the overlays are placed relative
+L<Gnome::Gtk4::ScrolledWindow|/content-docs/api2/reference/Gtk4/ScrolledWindow>, the overlays are placed relative
 to its contents.
 
 =begin code
@@ -315,7 +315,7 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Overlay :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
@@ -324,9 +324,8 @@ method handler (
 =item $allocation; return
   location for the allocation.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Overlay> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Overlay> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; C<True> if the C<$allocation> has been filled
 

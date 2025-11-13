@@ -9,7 +9,7 @@ use v6.d;
 =TITLE Gnome::Gtk4::ObjectExpression
 =head1 Description
 
-A B<Gnome::GObject::Object> value in a B<Gnome::Gtk4::Expression>.
+A L<Gnome::GObject::Object|/content-docs/api2/reference/GObject/Object> value in a L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression>.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/ObjectExpression.png> :width<70%> :class<inline>
@@ -50,7 +50,7 @@ Once the B<object> is disposed, it will fail to evaluate.
 
 This expression is meant to break reference cycles.
 
-If you want to keep a reference to B<object>, use C<.newobjectexpression()> in class C<Gnome::Gtk4::ConstantExpression>.
+If you want to keep a reference to B<object>, use L<.newobjectexpression() in class ConstantExpression|/content-docs/api2/reference/Gtk4/ConstantExpression#newobjectexpression>.
 
 =begin code
 method new-objectexpression ( N-Object() $object --> Gnome::Gtk4::ObjectExpression )
