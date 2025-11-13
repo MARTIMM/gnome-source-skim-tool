@@ -1,0 +1,112 @@
+=comment Package: Gtk4, C-Source: accessible
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=TITLE Gnome::Gtk4::N-AccessibleList
+=head1 Description
+
+A boxed type which wraps a list of references to GtkAccessible objects.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::AccessibleList
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from an object of the same type found elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object() :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-from-array
+
+Allocates a new list of accessible instances.
+
+=begin code
+method new-from-array ( N-Object() $accessibles, Int() $n-accessibles --> Gnome::Gtk4::AccessibleList )
+=end code
+
+=item $accessibles; array of GtkAccessible.
+=item $n-accessibles; length of C<$accessibles> array.
+
+=begin comment
+
+=head2 Example
+# Example for new-from-array
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-from-list
+
+Allocates a new B<Gnome::Gtk4::N-AccessibleList>, doing a shallow copy of the
+passed list of L<Gnome::Gtk4::R-Accessible|/content-docs/api2/reference/Gtk4/R-Accessible> instances.
+
+=begin code
+method new-from-list ( N-List() $list --> Gnome::Gtk4::AccessibleList )
+=end code
+
+=item $list; a reference to a B<Gnome::Glib::N-List> containing a list of accessible values.
+
+=begin comment
+
+=head2 Example
+# Example for new-from-list
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-objects
+
+Gets the list of objects this boxed type holds
+
+=begin code
+method get-objects (--> N-List )
+=end code
+
+Return value; a shallow copy of the objects. 
+
+=begin comment
+
+=head2 Example
+# Example for get-objects
+
+=end comment
+
+=end pod
+
