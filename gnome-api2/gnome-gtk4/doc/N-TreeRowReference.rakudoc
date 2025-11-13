@@ -15,13 +15,6 @@ new GtkTreeRowReference with C<.new-treerowreference()>.
 
 =begin comment
 
-=head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
-
-=begin comment
-
 =head2 Example
 # Example use of module Gnome::Gtk4::TreeRowReference
 
@@ -61,10 +54,10 @@ by C<$path>, so long as it exists. Any changes that occur on C<$model> are
 propagated, and the path is updated appropriately. If C<$path> isn’t a valid path in C<$model>, then undefined is returned.
 
 =begin code
-method new-treerowreference ( N-Object() $model, N-Object $path --> Gnome::Gtk4::TreeRowReference \)
+method new-treerowreference ( N-Object() $model, N-Object $path --> Gnome::Gtk4::TreeRowReference )
 =end code
 
-=item $model; a B<Gnome::Gtk4::R-TreeModel>.
+=item $model; a L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>.
 =item $path; a valid B<Gnome::Gtk4::N-TreePath> to monitor
 
 =begin comment
@@ -98,7 +91,7 @@ C<.reordered()>.
 These functions must be called exactly once per proxy when the
 corresponding signal on the model is emitted. This single call
 updates all row references for that proxy. Since built-in GTK
-objects like B<Gnome::Gtk4::TreeView> already use this mechanism internally,
+objects like L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView> already use this mechanism internally,
 using them as the proxy object will produce unpredictable results.
 Further more, passing the same object as C<$model> and C<$proxy>
 doesn’t work for reasons of internal implementation.
@@ -108,11 +101,11 @@ need to carefully monitor exactly when a row reference updates
 itself, and is not generally needed by most applications.
 
 =begin code
-method new-proxy ( N-Object() $proxy, N-Object() $model, N-Object $path --> Gnome::Gtk4::TreeRowReference \)
+method new-proxy ( N-Object() $proxy, N-Object() $model, N-Object $path --> Gnome::Gtk4::TreeRowReference )
 =end code
 
-=item $proxy; a proxy B<Gnome::GObject::Object>.
-=item $model; a B<Gnome::Gtk4::R-TreeModel>.
+=item $proxy; a proxy L<Gnome::GObject::Object|/content-docs/api2/reference/GObject/Object>.
+=item $model; a L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>.
 =item $path; a valid B<Gnome::Gtk4::N-TreePath> to monitor
 
 =begin comment
@@ -269,7 +262,7 @@ model emitted the I<row-deleted> signal.
 method deleted ( N-Object() $proxy, N-Object $path )
 =end code
 
-=item $proxy; a B<Gnome::GObject::Object>.
+=item $proxy; a L<Gnome::GObject::Object|/content-docs/api2/reference/GObject/Object>.
 =item $path; the path position that was deleted
 
 =begin comment
@@ -295,7 +288,7 @@ model emitted the I<row-inserted> signal.
 method inserted ( N-Object() $proxy, N-Object $path )
 =end code
 
-=item $proxy; a B<Gnome::GObject::Object>.
+=item $proxy; a L<Gnome::GObject::Object|/content-docs/api2/reference/GObject/Object>.
 =item $path; the row position that was inserted
 
 =begin comment
@@ -321,7 +314,7 @@ model emitted the I<rows-reordered> signal.
 method reordered ( N-Object() $proxy, N-Object $path, N-Object $iter, Array[Int] $new-order )
 =end code
 
-=item $proxy; a B<Gnome::GObject::Object>.
+=item $proxy; a L<Gnome::GObject::Object|/content-docs/api2/reference/GObject/Object>.
 =item $path; the parent path of the reordered signal
 =item $iter; the iter pointing to the parent of the reordered
 =item $new-order; the new order of rows.

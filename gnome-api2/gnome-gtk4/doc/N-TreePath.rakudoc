@@ -13,13 +13,6 @@ An opaque structure representing a path to a row in a model.
 
 =begin comment
 
-=head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
-
-=begin comment
-
 =head2 Example
 # Example use of module Gnome::Gtk4::TreePath
 
@@ -56,7 +49,7 @@ Creates a new B<Gnome::Gtk4::N-TreePath>
 This refers to a row.
 
 =begin code
-method new-treepath ( --> Gnome::Gtk4::TreePath \)
+method new-treepath ( --> Gnome::Gtk4::TreePath )
 =end code
 
 =begin comment
@@ -79,7 +72,7 @@ Creates a new B<Gnome::Gtk4::N-TreePath>.
 The string representation of this path is “0”.
 
 =begin code
-method new-first ( --> Gnome::Gtk4::TreePath \)
+method new-first ( --> Gnome::Gtk4::TreePath )
 =end code
 
 =begin comment
@@ -94,14 +87,13 @@ method new-first ( --> Gnome::Gtk4::TreePath \)
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-from-indices
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new path with C<$first-index> and C<$varargs> as indices.
 
 =begin code
-method new-from-indices ( Int() $first-index, … --> Gnome::Gtk4::TreePath \)
+method new-from-indices ( Int() $first-index, … --> Gnome::Gtk4::TreePath )
 =end code
 
 =item $first-index; first integer.
@@ -125,7 +117,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Creates a new path with the given C<$indices> array of C<$length>.
 
 =begin code
-method new-from-indicesv ( Array[Int] $indices, Int() $length --> Gnome::Gtk4::TreePath \)
+method new-from-indicesv ( Array[Int] $indices, Int() $length --> Gnome::Gtk4::TreePath )
 =end code
 
 =item $indices; array of indices.
@@ -154,7 +146,7 @@ child of that 11th child, and the 1st child of that 5th child.
 If an invalid path string is passed in, undefined is returned.
 
 =begin code
-method new-from-string ( Str $path --> Gnome::Gtk4::TreePath \)
+method new-from-string ( Str $path --> Gnome::Gtk4::TreePath )
 =end code
 
 =item $path; The string representation of a path.

@@ -9,7 +9,7 @@ use v6.d;
 =TITLE Gnome::Gtk4::N-ExpressionWatch
 =head1 Description
 
-An opaque structure representing a watched B<Gnome::Gtk4::Expression>.
+An opaque structure representing a watched L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression>.
 
 The contents of B<Gnome::Gtk4::N-ExpressionWatch> should only be accessed through the
 provided API.
@@ -55,7 +55,7 @@ Create an object using a native object from an object of the same type found els
 Evaluates the watched expression and on success stores the result
 in B<value>.
 
-This is equivalent to calling C<.evaluate()> in class C<Gnome::Gtk4::Expression> with the
+This is equivalent to calling L<.evaluate() in class Expression|/content-docs/api2/reference/Gtk4/Expression#evaluate> with the
 expression and this pointer originally used to create B<watch>.
 
 =begin code
@@ -124,7 +124,7 @@ method unref ( )
 
 Stops watching an expression.
 
-See C<.watch()> in class C<Gnome::Gtk4::Expression> for how the watch
+See L<.watch() in class Expression|/content-docs/api2/reference/Gtk4/Expression#watch> for how the watch
 was established.
 
 =begin code

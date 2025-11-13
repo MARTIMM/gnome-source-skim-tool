@@ -23,14 +23,7 @@ the bitset, such as the minimum or maximum values or its size.
 The fastest way to iterate values in a bitset is  B<Gnome::Gtk4::N-BitsetIter> .
 
 The main use case for B<Gnome::Gtk4::N-Bitset> is implementing complex selections for
-B<Gnome::Gtk4::R-SelectionModel>.
-
-=begin comment
-
-=head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+L<|/content-docs/api2/reference/Gnome::Gtk4::R-SelectionModel>.
 
 =begin comment
 
@@ -65,7 +58,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new empty bitset.
 
 =begin code
-method new-empty ( --> Gnome::Gtk4::Bitset \)
+method new-empty ( --> Gnome::Gtk4::Bitset )
 =end code
 
 =begin comment
@@ -84,7 +77,7 @@ method new-empty ( --> Gnome::Gtk4::Bitset \)
 Creates a bitset with the given range set.
 
 =begin code
-method new-range ( UInt() $start, UInt() $n-items --> Gnome::Gtk4::Bitset \)
+method new-range ( UInt() $start, UInt() $n-items --> Gnome::Gtk4::Bitset )
 =end code
 
 =item $start; first value to add.
@@ -379,7 +372,7 @@ For example, if the set is empty, 0 is returned.
 
 Note that this function returns a B<guint64>, because when all
 values are set, the return value is B<G_MAXUINT> + 1`. Unless you
-are sure this cannot happen (it can't with B<Gnome::Gio::R-ListModel>), be sure
+are sure this cannot happen (it can't with L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel>), be sure
 to use a 64bit type.
 
 =begin code
@@ -406,7 +399,7 @@ Gets the number of values that are part of the set from C<$first> to C<$last>
 
 Note that this function returns a B<guint64>, because when all values are
 set, the return value is B<G_MAXUINT> + 1`. Unless you are sure this cannot
-happen (it can't with B<Gnome::Gio::R-ListModel>), be sure to use a 64bit type.
+happen (it can't with L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel>), be sure to use a 64bit type.
 
 =begin code
 method get-size-in-range ( UInt() $first, UInt() $last --> UInt )
@@ -658,7 +651,7 @@ method shift-right ( UInt() $amount )
 =begin pod
 =head2 splice
 
-This is a support function for B<Gnome::Gio::R-ListModel> handling, by mirroring
+This is a support function for L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> handling, by mirroring
 the B<GlistModel>::items-changed` signal.
 
 First, it "cuts" the values from C<$position> to C<$removed> from

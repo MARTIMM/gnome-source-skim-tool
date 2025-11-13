@@ -9,7 +9,7 @@ use v6.d;
 =TITLE Gnome::Gtk4::N-TextIter
 =head1 Description
 
-An iterator for the contents of a B<Gnome::Gtk4::TextBuffer>.
+An iterator for the contents of a L<Gnome::Gtk4::TextBuffer|/content-docs/api2/reference/Gtk4/TextBuffer>.
 
 You may wish to begin by reading the
 [text widget conceptual overview](section-text-widget.html),
@@ -136,7 +136,7 @@ Return value; whether C<$iter> moved and is dereferenceable.
 =begin pod
 =head2 backward-cursor-position
 
-Like C<.forward-cursor-position()>], but moves backward.
+Like L<.forward-cursor-position()|#forward-cursor-position>, but moves backward.
 
 =begin code
 method backward-cursor-position (--> Bool )
@@ -159,7 +159,7 @@ Return value; C<True> if we moved.
 
 Moves up to C<$count> cursor positions.
 
-See C<.forward-cursor-position()>] for details.
+See L<.forward-cursor-position()|#forward-cursor-position> for details.
 
 =begin code
 method backward-cursor-positions ( Int() $count --> Bool )
@@ -182,7 +182,7 @@ Return value; C<True> if we moved and the new position is dereferenceable.
 =begin pod
 =head2 backward-find-char
 
-Same as C<.forward-find-char()>],
+Same as L<.forward-find-char()|#forward-find-char>,
 but goes backward from C<$iter>.
 
 =begin code
@@ -268,7 +268,7 @@ Return value; whether C<$iter> moved and is dereferenceable.
 =begin pod
 =head2 backward-search
 
-Same as C<.forward-search()>], but moves backward.
+Same as L<.forward-search()|#forward-search>, but moves backward.
  C<$match-end> will never be set to a B<Gnome::Gtk4::N-TextIter> located after C<$iter>,
 even if there is a possible C<$match-start> before or at C<$iter>.
 
@@ -324,7 +324,7 @@ Return value; C<True> if C<$iter> moved and is not the end iterator.
 =begin pod
 =head2 backward-sentence-starts
 
-Calls C<.backward-sentence-start()>] up to C<$count> times.
+Calls L<.backward-sentence-start()|#backward-sentence-start> up to C<$count> times.
 
 If C<$count> is negative, moves forward instead of backward.
 
@@ -361,7 +361,7 @@ if no toggle is found.
 method backward-to-tag-toggle ( N-Object() $tag --> Bool )
 =end code
 
-=item $tag; a B<Gnome::Gtk4::TextTag>.
+=item $tag; a L<Gnome::Gtk4::TextTag|/content-docs/api2/reference/Gtk4/TextTag>.
 
 Return value; whether we found a tag toggle before C<$iter>. 
 
@@ -380,7 +380,7 @@ Return value; whether we found a tag toggle before C<$iter>.
 
 Moves C<$iter> backward to the previous visible cursor position.
 
-See C<.backward-cursor-position()>] for details.
+See L<.backward-cursor-position()|#backward-cursor-position> for details.
 
 =begin code
 method backward-visible-cursor-position (--> Bool )
@@ -403,7 +403,7 @@ Return value; C<True> if we moved and the new position is dereferenceable.
 
 Moves up to C<$count> visible cursor positions.
 
-See C<.backward-cursor-position()>] for details.
+See L<.backward-cursor-position()|#backward-cursor-position> for details.
 
 =begin code
 method backward-visible-cursor-positions ( Int() $count --> Bool )
@@ -513,7 +513,7 @@ Return value; C<True> if C<$iter> moved and is not the end iterator.
 =begin pod
 =head2 backward-visible-word-starts
 
-Calls C<.backward-visible-word-start()>] up to C<$count> times.
+Calls L<.backward-visible-word-start()|#backward-visible-word-start> up to C<$count> times.
 
 =begin code
 method backward-visible-word-starts ( Int() $count --> Bool )
@@ -563,7 +563,7 @@ Return value; C<True> if C<$iter> moved and is not the end iterator.
 =begin pod
 =head2 backward-word-starts
 
-Calls C<.backward-word-start()>] up to C<$count> times.
+Calls L<.backward-word-start()|#backward-word-start> up to C<$count> times.
 
 =begin code
 method backward-word-starts ( Int() $count --> Bool )
@@ -592,7 +592,7 @@ be editable.
 
 If text inserted at C<$iter> would be editable then the
 user should be allowed to insert text at C<$iter>.
-C<.insert-interactive()> in class B<Gnome::Gtk4::TextBuffer>] uses this function
+L<.insert-interactive() in class TextBuffer|/content-docs/api2/reference/Gtk4/TextBuffer#insert-interactive> uses this function
 to decide whether insertions are allowed at a given position.
 
 =begin code
@@ -654,7 +654,7 @@ The function is used by language bindings.
 method copy (--> N-Object )
 =end code
 
-Return value; a copy of the C<$iter>, free with C<.free()>]. 
+Return value; a copy of the C<$iter>, free with L<.free()|#free>. 
 
 =begin comment
 
@@ -673,14 +673,14 @@ Returns whether the character at C<$iter> is within an editable region
 of text.
 
 Non-editable text is “locked” and can’t be changed by the
-user via B<Gnome::Gtk4::TextView>. If no tags applied to this text affect
+user via L<Gnome::Gtk4::TextView|/content-docs/api2/reference/Gtk4/TextView>. If no tags applied to this text affect
 editability, C<$default-setting> will be returned.
 
 You don’t want to use this function to decide whether text can be
 inserted at C<$iter>, because for insertion you don’t want to know
 whether the char at C<$iter> is inside an editable range, you want to
 know whether a new character inserted at C<$iter> would be inside an
-editable range. Use C<.can-insert()>] to handle this
+editable range. Use L<.can-insert()|#can-insert> to handle this
 case.
 
 =begin code
@@ -765,15 +765,15 @@ If C<$tag> is undefined, returns C<True> if any tag is toggled off at this point
 
 Note that if this function returns C<True>, it means that C<$iter> is at the end of the tagged range, but that the character
 at C<$iter> is outside the tagged range. In other words,
-unlike C<.starts-tag()>], if this function
-returns C<True>, C<.has-tag()>] will return
+unlike L<.starts-tag()|#starts-tag>, if this function
+returns C<True>, L<.has-tag()|#has-tag> will return
 C<False> for the same parameters.
 
 =begin code
 method ends-tag ( N-Object() $tag --> Bool )
 =end code
 
-=item $tag; a B<Gnome::Gtk4::TextTag>.
+=item $tag; a L<Gnome::Gtk4::TextTag|/content-docs/api2/reference/Gtk4/TextTag>.
 
 Return value; whether C<$iter> is the end of a range tagged with C<$tag>. 
 
@@ -820,7 +820,7 @@ mechanism.
 This function is very fast; you can expect it to perform
 better than e.g. getting the character offset for each
 iterator and comparing the offsets yourself. Also, it’s a
-bit faster than C<.compare()>].
+bit faster than L<.compare()|#compare>.
 
 =begin code
 method equal ( N-Object $rhs --> Bool )
@@ -913,7 +913,7 @@ with an accent mark will be represented as two characters, first
 the letter then a "combining mark" that causes the accent to be
 rendered; so the cursor can’t go between those two characters.
 
-See also the  B<Gnome::Pango::N-LogAttr>  struct and the C<.break() in package Gnome::Pango>
+See also the  B<Gnome::Pango::N-LogAttr>  struct and the L<.break().break() in package Gnome::Pango|/content-docs/api2/reference/Pango/T-textiter#break>
 function.
 
 =begin code
@@ -937,7 +937,7 @@ Return value; C<True> if we moved and the new position is dereferenceable.
 
 Moves up to C<$count> cursor positions.
 
-See C<.forward-cursor-position()>] for details.
+See L<.forward-cursor-position()|#forward-cursor-position> for details.
 
 =begin code
 method forward-cursor-positions ( Int() $count --> Bool )
@@ -1108,7 +1108,7 @@ Return value; C<True> if C<$iter> moved and is not the end iterator.
 =begin pod
 =head2 forward-sentence-ends
 
-Calls C<.forward-sentence-end()>] C<$count> times.
+Calls L<.forward-sentence-end()|#forward-sentence-end> C<$count> times.
 
 If C<$count> is negative, moves backward instead of forward.
 
@@ -1136,7 +1136,7 @@ Return value; C<True> if C<$iter> moved and is not the end iterator.
 Moves C<$iter> forward to the “end iterator”, which points
 one past the last valid character in the buffer.
 
-C<.get-char()>] called on the end iterator
+L<.get-char()|#get-char> called on the end iterator
 returns 0, which is convenient for writing loops.
 
 =begin code
@@ -1199,7 +1199,7 @@ if no toggle is found.
 method forward-to-tag-toggle ( N-Object() $tag --> Bool )
 =end code
 
-=item $tag; a B<Gnome::Gtk4::TextTag>.
+=item $tag; a L<Gnome::Gtk4::TextTag|/content-docs/api2/reference/Gtk4/TextTag>.
 
 Return value; whether we found a tag toggle after C<$iter>. 
 
@@ -1218,7 +1218,7 @@ Return value; whether we found a tag toggle after C<$iter>.
 
 Moves C<$iter> forward to the next visible cursor position.
 
-See C<.forward-cursor-position()>] for details.
+See L<.forward-cursor-position()|#forward-cursor-position> for details.
 
 =begin code
 method forward-visible-cursor-position (--> Bool )
@@ -1241,7 +1241,7 @@ Return value; C<True> if we moved and the new position is dereferenceable.
 
 Moves up to C<$count> visible cursor positions.
 
-See C<.forward-cursor-position()>] for details.
+See L<.forward-cursor-position()|#forward-cursor-position> for details.
 
 =begin code
 method forward-visible-cursor-positions ( Int() $count --> Bool )
@@ -1349,7 +1349,7 @@ Return value; C<True> if C<$iter> moved and is not the end iterator.
 =begin pod
 =head2 forward-visible-word-ends
 
-Calls C<.forward-visible-word-end()>] up to C<$count> times.
+Calls L<.forward-visible-word-end()|#forward-visible-word-end> up to C<$count> times.
 
 =begin code
 method forward-visible-word-ends ( Int() $count --> Bool )
@@ -1399,7 +1399,7 @@ Return value; C<True> if C<$iter> moved and is not the end iterator.
 =begin pod
 =head2 forward-word-ends
 
-Calls C<.forward-word-end()>] up to C<$count> times.
+Calls L<.forward-word-end()|#forward-word-end> up to C<$count> times.
 
 =begin code
 method forward-word-ends ( Int() $count --> Bool )
@@ -1445,7 +1445,7 @@ method free ( )
 =begin pod
 =head2 get-buffer
 
-Returns the B<Gnome::Gtk4::TextBuffer> this iterator is associated with.
+Returns the L<Gnome::Gtk4::TextBuffer|/content-docs/api2/reference/Gtk4/TextBuffer> this iterator is associated with.
 
 =begin code
 method get-buffer (--> N-Object )
@@ -1566,7 +1566,7 @@ Return value; the anchor at C<$iter>.
 Returns the language in effect at C<$iter>.
 
 If no tags affecting language apply to C<$iter>, the return
-value is identical to that of C<.get-default-language()>.
+value is identical to that of L<.get-default-language().get-default-language() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-textiter#get-default-language>.
 
 =begin code
 method get-language (--> N-Object )
@@ -1589,7 +1589,7 @@ Return value; language in effect at C<$iter>.
 
 Returns the line number containing the iterator.
 
-Lines in a B<Gnome::Gtk4::TextBuffer> are numbered beginning
+Lines in a L<Gnome::Gtk4::TextBuffer|/content-docs/api2/reference/Gtk4/TextBuffer> are numbered beginning
 with 0 for the first line in the buffer.
 
 =begin code
@@ -1614,7 +1614,7 @@ Return value; a line number.
 Returns the byte index of the iterator, counting
 from the start of a newline-terminated line.
 
-Remember that B<Gnome::Gtk4::TextBuffer> encodes text in
+Remember that L<Gnome::Gtk4::TextBuffer|/content-docs/api2/reference/Gtk4/TextBuffer> encodes text in
 UTF-8, and that characters can require a variable
 number of bytes to represent.
 
@@ -1661,7 +1661,7 @@ Return value; offset from start of line.
 =begin pod
 =head2 get-marks
 
-Returns a list of all B<Gnome::Gtk4::TextMark> at this location.
+Returns a list of all L<Gnome::Gtk4::TextMark|/content-docs/api2/reference/Gtk4/TextMark> at this location.
 
 Because marks are not iterable (they don’t take up any "space"
 in the buffer, they are just marks in between iterable locations),
@@ -1674,7 +1674,7 @@ method get-marks (--> N-SList )
 =end code
 
 Return value; 
-  list of B<Gnome::Gtk4::TextMark>. 
+  list of L<Gnome::Gtk4::TextMark|/content-docs/api2/reference/Gtk4/TextMark>. 
 
 =begin comment
 
@@ -1691,9 +1691,9 @@ Return value;
 
 Returns the character offset of an iterator.
 
-Each character in a B<Gnome::Gtk4::TextBuffer> has an offset,
+Each character in a L<Gnome::Gtk4::TextBuffer|/content-docs/api2/reference/Gtk4/TextBuffer> has an offset,
 starting with 0 for the first character in the buffer.
-Use C<.get-iter-at-offset()> in class B<Gnome::Gtk4::TextBuffer>] to convert
+Use L<.get-iter-at-offset() in class TextBuffer|/content-docs/api2/reference/Gtk4/TextBuffer#get-iter-at-offset> to convert
 an offset back into an iterator.
 
 =begin code
@@ -1775,7 +1775,7 @@ priority.
 
 The highest-priority tags are last.
 
-The B<Gnome::Gtk4::TextTag>s in the list don’t have a reference added,
+The L<Gnome::Gtk4::TextTag|/content-docs/api2/reference/Gtk4/TextTag>s in the list don’t have a reference added,
 but you have to free the list itself.
 
 =begin code
@@ -1783,7 +1783,7 @@ method get-tags (--> N-SList )
 =end code
 
 Return value; list of
-  B<Gnome::Gtk4::TextTag>. 
+  L<Gnome::Gtk4::TextTag|/content-docs/api2/reference/Gtk4/TextTag>. 
 
 =begin comment
 
@@ -1804,7 +1804,7 @@ If the range
 contains non-text elements such as images, the character and byte
 offsets in the returned string will not correspond to character and
 byte offsets in the buffer. If you want offsets to correspond, see
-C<.get-slice()>].
+L<.get-slice()|#get-slice>.
 
 =begin code
 method get-text ( N-Object $end --> Str )
@@ -1827,7 +1827,7 @@ Return value; array of characters from the buffer.
 =begin pod
 =head2 get-toggled-tags
 
-Returns a list of B<Gnome::Gtk4::TextTag> that are toggled on or off at this
+Returns a list of L<Gnome::Gtk4::TextTag|/content-docs/api2/reference/Gtk4/TextTag> that are toggled on or off at this
 point.
 
 If C<$toggled-on> is C<True>, the list contains tags that are
@@ -1908,9 +1908,9 @@ Return value; offset in visible characters from the start of the line.
 
 Returns visible text in the given range.
 
-Like C<.get-slice()>], but invisible text
+Like L<.get-slice()|#get-slice>, but invisible text
 is not included. Invisible text is usually invisible because
-a B<Gnome::Gtk4::TextTag> with the “invisible” attribute turned on has
+a L<Gnome::Gtk4::TextTag|/content-docs/api2/reference/Gtk4/TextTag> with the “invisible” attribute turned on has
 been applied to it.
 
 =begin code
@@ -1936,9 +1936,9 @@ Return value; slice of text from the buffer.
 
 Returns visible text in the given range.
 
-Like C<.get-text()>], but invisible text
+Like L<.get-text()|#get-text>, but invisible text
 is not included. Invisible text is usually invisible because
-a B<Gnome::Gtk4::TextTag> with the “invisible” attribute turned on has
+a L<Gnome::Gtk4::TextTag|/content-docs/api2/reference/Gtk4/TextTag> with the “invisible” attribute turned on has
 been applied to it.
 
 =begin code
@@ -1966,14 +1966,14 @@ range.
 Returns C<True> if C<$iter> points to a character that is part
 of a range tagged with C<$tag>.
 
-See also C<.starts-tag()>] and
-C<.ends-tag()>].
+See also L<.starts-tag()|#starts-tag> and
+L<.ends-tag()|#ends-tag>.
 
 =begin code
 method has-tag ( N-Object() $tag --> Bool )
 =end code
 
-=item $tag; a B<Gnome::Gtk4::TextTag>.
+=item $tag; a L<Gnome::Gtk4::TextTag|/content-docs/api2/reference/Gtk4/TextTag>.
 
 Return value; whether C<$iter> is tagged with C<$tag>. 
 
@@ -2047,7 +2047,7 @@ natural-language word (as opposed to say inside some whitespace).
 Word breaks are determined by Pango and should be correct
 for nearly any language.
 
-Note that if C<.starts-word()>] returns C<True>,
+Note that if L<.starts-word()|#starts-word> returns C<True>,
 then this function returns C<True> too, since C<$iter> points to
 the first character of the word.
 
@@ -2072,8 +2072,8 @@ Return value; C<True> if C<$iter> is inside a word.
 
 Determine if C<$iter> is at a cursor position.
 
-See C<.forward-cursor-position()>] or
- B<Gnome::Pango::N-LogAttr>  or C<.break() in package Gnome::Pango> for details
+See L<.forward-cursor-position()|#forward-cursor-position> or
+ B<Gnome::Pango::N-LogAttr>  or L<.break().break() in package Gnome::Pango|/content-docs/api2/reference/Pango/T-textiter#break> for details
 on what a cursor position is.
 
 =begin code
@@ -2098,7 +2098,7 @@ Return value; C<True> if the cursor can be placed at C<$iter>.
 Returns C<True> if C<$iter> is the end iterator.
 
 This means it is one past the last dereferenceable iterator
-in the buffer. C<.is-end()>] is the most efficient
+in the buffer. L<.is-end()|#is-end> is the most efficient
 way to check whether an iterator is the end iterator.
 
 =begin code
@@ -2147,7 +2147,7 @@ That is, ensures that C<$first> and C<$second> are in sequence.
 Most text buffer functions that take a range call this
 automatically on your behalf, so there’s no real reason to
 call it yourself in those cases. There are some exceptions,
-such as C<.in-range()>], that expect a
+such as L<.in-range()|#in-range>, that expect a
 pre-sorted range.
 
 =begin code
@@ -2193,7 +2193,7 @@ method set-line ( Int() $line-number )
 =begin pod
 =head2 set-line-index
 
-Same as C<.set-line-offset()>], but works with a
+Same as L<.set-line-offset()|#set-line-offset>, but works with a
 byte index. The given byte index must be at
 the start of a character, it can’t be in the middle of a UTF-8
 encoded character.
@@ -2221,7 +2221,7 @@ Moves C<$iter> within a line, to a new character (not byte) offset.
 
 The given character offset must be less than or equal to the number
 of characters in the line; if equal, C<$iter> moves to the start of the
-next line. See C<.set-line-index()>] if you have a byte
+next line. See L<.set-line-index()|#set-line-index> if you have a byte
 index rather than a character offset.
 
 =begin code
@@ -2266,7 +2266,7 @@ method set-offset ( Int() $char-offset )
 =begin pod
 =head2 set-visible-line-index
 
-Like C<.set-line-index()>], but the index is in visible
+Like L<.set-line-index()|#set-line-index>, but the index is in visible
 bytes, i.e. text with a tag making it invisible is not counted
 in the index.
 
@@ -2289,7 +2289,7 @@ method set-visible-line-index ( Int() $byte-on-line )
 =begin pod
 =head2 set-visible-line-offset
 
-Like C<.set-line-offset()>], but the offset is in visible
+Like L<.set-line-offset()|#set-line-offset>, but the offset is in visible
 characters, i.e. text with a tag making it invisible is not
 counted in the offset.
 
@@ -2314,9 +2314,9 @@ method set-visible-line-offset ( Int() $char-on-line )
 
 Returns C<True> if C<$iter> begins a paragraph.
 
-This is the case if C<.get-line-offset()>]
+This is the case if L<.get-line-offset()|#get-line-offset>
 would return 0. However this function is potentially more
-efficient than C<.get-line-offset()>], because
+efficient than L<.get-line-offset()|#get-line-offset>, because
 it doesn’t have to compute the offset, it just has to see
 whether it’s 0.
 
@@ -2369,15 +2369,15 @@ If C<$tag> is undefined, returns C<True> if any tag is toggled on at this point.
 
 Note that if this function returns C<True>, it means that C<$iter> is at the beginning of the tagged range, and that the
 character at C<$iter> is inside the tagged range. In other
-words, unlike C<.ends-tag()>], if
-this function returns C<True>, C<.has-tag()>]
+words, unlike L<.ends-tag()|#ends-tag>, if
+this function returns C<True>, L<.has-tag()|#has-tag>
 will also return C<True> for the same parameters.
 
 =begin code
 method starts-tag ( N-Object() $tag --> Bool )
 =end code
 
-=item $tag; a B<Gnome::Gtk4::TextTag>.
+=item $tag; a L<Gnome::Gtk4::TextTag|/content-docs/api2/reference/Gtk4/TextTag>.
 
 Return value; whether C<$iter> is the start of a range tagged with C<$tag>. 
 
@@ -2428,7 +2428,7 @@ C<.ends-tag()>)
 method toggles-tag ( N-Object() $tag --> Bool )
 =end code
 
-=item $tag; a B<Gnome::Gtk4::TextTag>.
+=item $tag; a L<Gnome::Gtk4::TextTag|/content-docs/api2/reference/Gtk4/TextTag>.
 
 Return value; whether C<$tag> is toggled on or off at C<$iter>. 
 
