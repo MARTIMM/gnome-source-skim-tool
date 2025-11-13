@@ -9,12 +9,12 @@ use v6.d;
 use NativeCall;
 use Test;
 
+
+
 use Gnome::GObject::N-Value:api<2>;
 use Gnome::GObject::T-value:api<2>;
-
 use Gnome::Gtk4::T-accessible:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
-
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -40,10 +40,10 @@ my Gnome::Gtk4::T-accessible $accessible .= new;
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
   with $accessible {
-    my GtkAccessibleProperty $property;
-    my GtkAccessibleRelation $relation;
-    my GtkAccessibleState $state;
     my N-Object $value;
+    my GtkAccessibleRelation $relation;
+    my GtkAccessibleProperty $property;
+    my GtkAccessibleState $state;
 
 
 #`{{
