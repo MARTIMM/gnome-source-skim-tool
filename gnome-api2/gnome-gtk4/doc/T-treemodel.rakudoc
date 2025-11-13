@@ -19,18 +19,6 @@ Initialization of a type class is simple and only needed when the standalone fun
   method new ( )
 
 =end pod
-#-------------------------------------------------------------------------------
-#--[Record Structure]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-=begin pod
-=head1 Record N-TreePath
-
-This is an opaque type of which fields are not available.
-
-  class N-TreePath:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
-
-=end pod
 
 #-------------------------------------------------------------------------------
 #--[Record Structure Documentation]---------------------------------------------
@@ -59,6 +47,19 @@ This is an opaque type of which fields are not available.
 #-------------------------------------------------------------------------------
 
 =begin pod
+=head1 Record N-TreePath
+
+This is an opaque type of which fields are not available.
+
+  class N-TreePath:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
 =head1 Record N-TreeRowReference
 
 This is an opaque type of which fields are not available.
@@ -76,9 +77,9 @@ This is an opaque type of which fields are not available.
 
 =head2 GtkTreeModelFlags
 
-These flags indicate various properties of a B<Gnome::Gtk4::R-TreeModel>.
+These flags indicate various properties of a L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>.
 
-They are returned by C<.get-flags()>, and must be
+They are returned by L<.get-flags() in class TreeModel|/content-docs/api2/reference/Gtk4/TreeModel#get-flags>, and must be
 static for the lifetime of the object. A more complete description
 of C<GTK_TREE_MODEL_ITERS_PERSIST> can be found in the overview of
 this section.
@@ -102,10 +103,10 @@ this section.
 :(  N-Object() $model, N-Object $path, N-Object $iter, gpointer $data  )
 =end code
 
-=item model; the B<Gnome::Gtk4::R-TreeModel> being iterated
-=item path; the current B<Gnome::Gtk4::T-treemodel>
-=item iter; the current B<Gnome::Gtk4::N-TreeIter>
-=item data; The user data passed to gtk_tree_model_foreach()
+=item $model; the L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel> being iterated
+=item $path; the current B<Gnome::Gtk4::N-TreePath>
+=item $iter; the current B<Gnome::Gtk4::T-treemodel>
+=item $data; The user data passed to gtk_tree_model_foreach()
 
 =end pod
 #-------------------------------------------------------------------------------
@@ -121,14 +122,14 @@ this section.
 =head2 tree-row-reference-deleted
 
 Lets a set of row reference created by
-gtk_tree_row_reference_new_proxy() know that the
+C<.new-proxy()> know that the
 model emitted the I<row-deleted> signal.
 
 =begin code
 method tree-row-reference-deleted ( N-Object() $proxy, N-Object $path )
 =end code
 
-=item $proxy; a B<Gnome::GObject::Object>.
+=item $proxy; a L<Gnome::GObject::Object|/content-docs/api2/reference/GObject/Object>.
 =item $path; the path position that was deleted
 
 =begin comment
@@ -145,14 +146,14 @@ method tree-row-reference-deleted ( N-Object() $proxy, N-Object $path )
 =head2 tree-row-reference-inserted
 
 Lets a set of row reference created by
-gtk_tree_row_reference_new_proxy() know that the
+C<.new-proxy()> know that the
 model emitted the I<row-inserted> signal.
 
 =begin code
 method tree-row-reference-inserted ( N-Object() $proxy, N-Object $path )
 =end code
 
-=item $proxy; a B<Gnome::GObject::Object>.
+=item $proxy; a L<Gnome::GObject::Object|/content-docs/api2/reference/GObject/Object>.
 =item $path; the row position that was inserted
 
 =begin comment
@@ -169,14 +170,14 @@ method tree-row-reference-inserted ( N-Object() $proxy, N-Object $path )
 =head2 tree-row-reference-reordered
 
 Lets a set of row reference created by
-gtk_tree_row_reference_new_proxy() know that the
+C<.new-proxy()> know that the
 model emitted the I<rows-reordered> signal.
 
 =begin code
 method tree-row-reference-reordered ( N-Object() $proxy, N-Object $path, N-Object $iter, Array[Int] $new-order )
 =end code
 
-=item $proxy; a B<Gnome::GObject::Object>.
+=item $proxy; a L<Gnome::GObject::Object|/content-docs/api2/reference/GObject/Object>.
 =item $path; the parent path of the reordered signal
 =item $iter; the iter pointing to the parent of the reordered
 =item $new-order; the new order of rows.

@@ -11,21 +11,6 @@ use v6.d;
 
 =begin pod
 =head1 Callback Functions
-=head2 CustomMeasureFunc
-
-=head3 Signature
-=begin code
-:(  N-Object() $widget, GEnum $orientation, Int() $for-size, Array[Int] $minimum, Array[Int] $natural, Array[Int] $minimum-baseline, Array[Int] $natural-baseline  )
-=end code
-
-=item $widget; the widget to be measured
-=item $orientation; the direction to be measured
-=item $for-size; the size to be measured for
-=item $minimum; the measured minimum size of the widget
-=item $natural; the measured natural size of the widget
-=item $minimum-baseline; the measured minimum baseline of the widget
-=item $natural-baseline; the measured natural baseline of the widget
-
 =head2 CustomAllocateFunc
 
 =head3 Signature
@@ -46,5 +31,20 @@ use v6.d;
 =end code
 
 =item $widget; the widget to be queried
+
+=head2 CustomMeasureFunc
+
+=head3 Signature
+=begin code
+:(  N-Object() $widget, GEnum $orientation, Int() $for-size, Array[Int] $minimum, Array[Int] $natural, Array[Int] $minimum-baseline, Array[Int] $natural-baseline  )
+=end code
+
+=item $widget; the widget to be measured
+=item $orientation; the direction to be measured
+=item $for-size; the size to be measured for
+=item $minimum; the measured minimum size of the widget
+=item $natural; the measured natural size of the widget
+=item $minimum-baseline; the measured minimum baseline of the widget
+=item $natural-baseline; the measured natural baseline of the widget
 
 =end pod

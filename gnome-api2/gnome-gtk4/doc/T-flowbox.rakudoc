@@ -18,19 +18,18 @@ use v6.d;
 :(  N-Object() $child, gpointer $user-data  )
 =end code
 
-=item $child; a B<Gnome::Gtk4::FlowBoxChild> that may be filtered
+=item $child; a L<Gnome::Gtk4::FlowBoxChild|/content-docs/api2/reference/Gtk4/FlowBoxChild> that may be filtered
 =item $user-data; user data
 
-=head2 FlowBoxForeachFunc
+=head2 FlowBoxCreateWidgetFunc
 
 =head3 Signature
 =begin code
-:(  N-Object() $box, N-Object() $child, gpointer $user-data  )
+:(  gpointer $item, gpointer $user-data  )
 =end code
 
-=item $box; a B<Gnome::Gtk4::FlowBox>
-=item $child; a B<Gnome::Gtk4::FlowBoxChild>
-=item $user-data; user data
+=item $item; the item from the model for which to create a widget for
+=item $user-data; user data from C<.bind-model()>
 
 =head2 FlowBoxSortFunc
 
@@ -43,14 +42,15 @@ use v6.d;
 =item $child2; the second child
 =item $user-data; user data
 
-=head2 FlowBoxCreateWidgetFunc
+=head2 FlowBoxForeachFunc
 
 =head3 Signature
 =begin code
-:(  gpointer $item, gpointer $user-data  )
+:(  N-Object() $box, N-Object() $child, gpointer $user-data  )
 =end code
 
-=item $item; the item from the model for which to create a widget for
-=item $user-data; user data from gtk_flow_box_bind_model()
+=item $box; a B<Gnome::Gtk4::FlowBox>
+=item $child; a L<Gnome::Gtk4::FlowBoxChild|/content-docs/api2/reference/Gtk4/FlowBoxChild>
+=item $user-data; user data
 
 =end pod

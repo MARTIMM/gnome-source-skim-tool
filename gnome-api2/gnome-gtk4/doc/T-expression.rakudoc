@@ -45,7 +45,7 @@ This is an opaque type of which fields are not available.
 :(  gpointer $user-data  )
 =end code
 
-=item $user-data; data passed to C<.watch()>
+=item $user-data; data passed to gtk_expression_watch()
 
 =end pod
 #-------------------------------------------------------------------------------
@@ -59,9 +59,8 @@ This is an opaque type of which fields are not available.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 param-spec-expression
-This function is not yet available
 
-Creates a new B<Gnome::GObject::ParamSpec> instance for a property holding a B<Gnome::Gtk4::Expression>.
+Creates a new L<Gnome::GObject::ParamSpec|/content-docs/api2/reference/GObject/ParamSpec> instance for a property holding a L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression>.
 
 See B<g_param_spec_internal>()` for details on the property strings.
 
@@ -89,7 +88,7 @@ Return value; a newly created property specification.
 =begin pod
 =head2 value-dup-expression
 
-Retrieves the B<Gnome::Gtk4::Expression> stored inside the given B<value>, and acquires
+Retrieves the L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression> stored inside the given B<value>, and acquires
 a reference to it.
 
 =begin code
@@ -98,7 +97,7 @@ method value-dup-expression ( N-Object $value --> N-Object )
 
 =item $value; a B<Gnome::GObject::N-Value> initialized with type B<GTK_TYPE_EXPRESSION>
 
-Return value; a B<Gnome::Gtk4::Expression>. 
+Return value; a L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression>. 
 
 =begin comment
 
@@ -113,7 +112,7 @@ Return value; a B<Gnome::Gtk4::Expression>.
 =begin pod
 =head2 value-get-expression
 
-Retrieves the B<Gnome::Gtk4::Expression> stored inside the given B<value>.
+Retrieves the L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression> stored inside the given B<value>.
 
 =begin code
 method value-get-expression ( N-Object $value --> N-Object )
@@ -121,7 +120,7 @@ method value-get-expression ( N-Object $value --> N-Object )
 
 =item $value; a B<Gnome::GObject::N-Value> initialized with type B<GTK_TYPE_EXPRESSION>
 
-Return value; a B<Gnome::Gtk4::Expression>. 
+Return value; a L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression>. 
 
 =begin comment
 
@@ -136,7 +135,7 @@ Return value; a B<Gnome::Gtk4::Expression>.
 =begin pod
 =head2 value-set-expression
 
-Stores the given B<Gnome::Gtk4::Expression> inside B<value>.
+Stores the given L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression> inside B<value>.
 
 The B<Gnome::GObject::N-Value> will acquire a reference to the B<expression>.
 
@@ -145,7 +144,7 @@ method value-set-expression ( N-Object $value, N-Object() $expression )
 =end code
 
 =item $value; a B<Gnome::GObject::N-Value> initialized with type B<GTK_TYPE_EXPRESSION>
-=item $expression; a B<Gnome::Gtk4::Expression>.
+=item $expression; a L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression>.
 
 =begin comment
 
@@ -160,7 +159,7 @@ method value-set-expression ( N-Object $value, N-Object() $expression )
 =begin pod
 =head2 value-take-expression
 
-Stores the given B<Gnome::Gtk4::Expression> inside B<value>.
+Stores the given L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression> inside B<value>.
 
 This function transfers the ownership of the B<expression> to the B<Gnome::GObject::N-Value>.
 
@@ -169,7 +168,7 @@ method value-take-expression ( N-Object $value, N-Object() $expression )
 =end code
 
 =item $value; a B<Gnome::GObject::N-Value> initialized with type B<GTK_TYPE_EXPRESSION>
-=item $expression; (transfer ownership: full) a B<Gnome::Gtk4::Expression>.
+=item $expression; (transfer ownership: full) a L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression>.
 
 =begin comment
 

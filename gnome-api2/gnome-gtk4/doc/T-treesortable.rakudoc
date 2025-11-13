@@ -14,15 +14,15 @@ use v6.d;
 
 =head2 GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID
 
-Uses the default sort function in a B<Gnome::Gtk4::R-TreeSortable>.
+Uses the default sort function in a L<|/content-docs/api2/reference/Gnome::Gtk4::R-TreeSortable>.
 
-See also: C<.set-sort-column-id()>
+See also: L<.set-sort-column-id()|#set-sort-column-id>
 
 =head2 GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID
 
-Disables sorting in a B<Gnome::Gtk4::R-TreeSortable>.
+Disables sorting in a L<|/content-docs/api2/reference/Gnome::Gtk4::R-TreeSortable>.
 
-See also: C<.set-sort-column-id()>
+See also: L<.set-sort-column-id()|#set-sort-column-id>
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -38,10 +38,10 @@ See also: C<.set-sort-column-id()>
 :(  N-Object() $model, N-Object $a, N-Object $b, gpointer $user-data  )
 =end code
 
-=item model; The B<Gnome::Gtk4::R-TreeModel> the comparison is within
-=item a; A B<Gnome::Gtk4::N-TreeIter> in C<$model>
-=item b; Another B<Gnome::Gtk4::N-TreeIter> in C<$model>
-=item user-data; Data passed when the compare func is assigned e.g. by
- gtk_tree_sortable_set_sort_func()
+=item $model; The L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel> the comparison is within
+=item $a; A B<Gnome::Gtk4::N-TreeIter> in C<$model>
+=item $b; Another B<Gnome::Gtk4::N-TreeIter> in C<$model>
+=item $user-data; Data passed when the compare func is assigned e.g. by
+ C<.set-sort-func()>
 
 =end pod

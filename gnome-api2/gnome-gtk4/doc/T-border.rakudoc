@@ -1,0 +1,29 @@
+=comment Package: Gtk4, C-Source: border
+use v6.d;
+
+=begin pod
+=TITLE Gnome::Gtk4::T-border
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-Border
+
+  class N-Border:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has gint16 $.left;
+    has gint16 $.right;
+    has gint16 $.top;
+    has gint16 $.bottom;
+  }
+
+=item left; The width of the left border
+=item right; The width of the right border
+=item top; The width of the top border
+=item bottom; The width of the bottom border
+
+=end pod
+

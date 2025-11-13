@@ -37,10 +37,10 @@ Creates a content provider for dragging C<$path> from C<$tree-model>.
 method tree-create-row-drag-content ( N-Object() $tree-model, N-Object $path --> N-Object )
 =end code
 
-=item $tree-model; a B<Gnome::Gtk4::R-TreeModel>.
+=item $tree-model; a L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>.
 =item $path; a row in C<$tree-model>
 
-Return value; a new B<Gnome::Gdk4::ContentProvider>. 
+Return value; a new L<Gnome::Gdk4::ContentProvider|/content-docs/api2/reference/Gdk4/ContentProvider>. 
 
 =begin comment
 
@@ -65,7 +65,7 @@ method tree-get-row-drag-data ( N-Object $value, N-Object() $tree-model, N-Objec
 =end code
 
 =item $value; a B<Gnome::GObject::N-Value>
-=item $tree-model; a B<Gnome::Gtk4::R-TreeModel>.
+=item $tree-model; a L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>.
 =item $path; (transfer ownership: full) row in C<$tree-model>
 
 Return value; C<True> if C<$selection-data> had target type C<GTK_TYPE_TREE_ROW_DATA>

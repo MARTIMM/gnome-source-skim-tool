@@ -17,7 +17,7 @@ use v6.d;
 Constant to return from a signal handler for the I<input>
 signal in case of conversion failure.
 
-See I<input defined in SpinButton>.
+See I<input>.
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -32,7 +32,7 @@ See I<input defined in SpinButton>.
 Determines whether the spin button displays values outside the adjustment
 bounds.
 
-See C<.set-update-policy()>].
+See L<.set-update-policy()|#set-update-policy>.
 =item C<GTK_UPDATE_ALWAYS>; When refreshing your B<Gnome::Gtk4::SpinButton>, the value is
   always displayed
 =item C<GTK_UPDATE_IF_VALID>; When refreshing your B<Gnome::Gtk4::SpinButton>, the value is
@@ -42,7 +42,7 @@ See C<.set-update-policy()>].
 =head2 GtkSpinType
 
 The values of the GtkSpinType enumeration are used to specify the
-change to make in gtk_spin_button_spin().
+change to make in C<.spin()>.
 =item C<GTK_SPIN_STEP_FORWARD>; Increment by the adjustments step increment.
 =item C<GTK_SPIN_STEP_BACKWARD>; Decrement by the adjustments step increment.
 =item C<GTK_SPIN_PAGE_FORWARD>; Increment by the adjustments page increment.

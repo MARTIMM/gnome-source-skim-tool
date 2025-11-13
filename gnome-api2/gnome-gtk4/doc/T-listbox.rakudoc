@@ -11,6 +11,16 @@ use v6.d;
 
 =begin pod
 =head1 Callback Functions
+=head2 ListBoxCreateWidgetFunc
+
+=head3 Signature
+=begin code
+:(  gpointer $item, gpointer $user-data  )
+=end code
+
+=item $item; the item from the model for which to create a widget for
+=item $user-data; user data
+
 =head2 ListBoxForeachFunc
 
 =head3 Signature
@@ -19,7 +29,17 @@ use v6.d;
 =end code
 
 =item $box; a B<Gnome::Gtk4::ListBox>
-=item $row; a B<Gnome::Gtk4::ListBoxRow>
+=item $row; a L<Gnome::Gtk4::ListBoxRow|/content-docs/api2/reference/Gtk4/ListBoxRow>
+=item $user-data; user data
+
+=head2 ListBoxFilterFunc
+
+=head3 Signature
+=begin code
+:(  N-Object() $row, gpointer $user-data  )
+=end code
+
+=item $row; the row that may be filtered
 =item $user-data; user data
 
 =head2 ListBoxUpdateHeaderFunc
@@ -42,26 +62,6 @@ use v6.d;
 
 =item $row1; the first row
 =item $row2; the second row
-=item $user-data; user data
-
-=head2 ListBoxFilterFunc
-
-=head3 Signature
-=begin code
-:(  N-Object() $row, gpointer $user-data  )
-=end code
-
-=item $row; the row that may be filtered
-=item $user-data; user data
-
-=head2 ListBoxCreateWidgetFunc
-
-=head3 Signature
-=begin code
-:(  gpointer $item, gpointer $user-data  )
-=end code
-
-=item $item; the item from the model for which to create a widget for
 =item $user-data; user data
 
 =end pod

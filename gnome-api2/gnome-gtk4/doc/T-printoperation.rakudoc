@@ -40,7 +40,7 @@ using the GTK printing support.
 
 Determines what action the print operation should perform.
 
-A parameter of this typs is passed to C<.run()>].
+A parameter of this typs is passed to L<.run()|#run>.
 =item C<GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG>; Show the print dialog.
 =item C<GTK_PRINT_OPERATION_ACTION_PRINT>; Start to print without showing
   the print dialog, based on the current print settings.
@@ -52,7 +52,7 @@ A parameter of this typs is passed to C<.run()>].
 
 The result of a print operation.
 
-A value of this type is returned by C<.run()>].
+A value of this type is returned by L<.run()|#run>.
 =item C<GTK_PRINT_OPERATION_RESULT_ERROR>; An error has occurred.
 =item C<GTK_PRINT_OPERATION_RESULT_APPLY>; The print settings should be stored.
 =item C<GTK_PRINT_OPERATION_RESULT_CANCEL>; The print operation has been canceled,
@@ -94,7 +94,7 @@ print operation.
 :(  N-Object() $page-setup, gpointer $data  )
 =end code
 
-=item $page-setup; the B<Gnome::Gtk4::PageSetup> that has been passed to
+=item $page-setup; the L<Gnome::Gtk4::PageSetup|/content-docs/api2/reference/Gtk4/PageSetup> that has been passed to
   gtk_print_run_page_setup_dialog_async()
 =item $data; user data that has been passed to
   gtk_print_run_page_setup_dialog_async()
@@ -133,7 +133,7 @@ Return value; The error quark used for B<Gnome::Gtk4::PrintOperation> errors..
 =begin pod
 =head2 print-run-page-setup-dialog
 
-Runs a page setup dialog, letting the user modify the values from C<$page-setup>. If the user cancels the dialog, the returned B<Gnome::Gtk4::PageSetup>
+Runs a page setup dialog, letting the user modify the values from C<$page-setup>. If the user cancels the dialog, the returned L<Gnome::Gtk4::PageSetup|/content-docs/api2/reference/Gtk4/PageSetup>
 is identical to the passed in C<$page-setup>, otherwise it contains the
 modifications done in the dialog.
 
@@ -146,10 +146,10 @@ method print-run-page-setup-dialog ( N-Object() $parent, N-Object() $page-setup,
 =end code
 
 =item $parent; transient parent.
-=item $page-setup; an existing B<Gnome::Gtk4::PageSetup>.
-=item $settings; a B<Gnome::Gtk4::PrintSettings>.
+=item $page-setup; an existing L<Gnome::Gtk4::PageSetup|/content-docs/api2/reference/Gtk4/PageSetup>.
+=item $settings; a L<Gnome::Gtk4::PrintSettings|/content-docs/api2/reference/Gtk4/PrintSettings>.
 
-Return value; a new B<Gnome::Gtk4::PageSetup>. 
+Return value; a new L<Gnome::Gtk4::PageSetup|/content-docs/api2/reference/Gtk4/PageSetup>. 
 
 =begin comment
 
@@ -175,8 +175,8 @@ method print-run-page-setup-dialog-async ( N-Object() $parent, N-Object() $page-
 =end code
 
 =item $parent; transient parent.
-=item $page-setup; an existing B<Gnome::Gtk4::PageSetup>.
-=item $settings; a B<Gnome::Gtk4::PrintSettings>.
+=item $page-setup; an existing L<Gnome::Gtk4::PageSetup|/content-docs/api2/reference/Gtk4/PageSetup>.
+=item $settings; a L<Gnome::Gtk4::PrintSettings|/content-docs/api2/reference/Gtk4/PrintSettings>.
 =item GtkPageSetupDoneFunc &done-cb; a function to call when the user saves
    the modified page setup. The function must be specified with the following signature; C<:( N-Object $page-setup, gpointer $data )>.
 =item $data; user data to pass to C<$done-cb>.

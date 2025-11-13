@@ -15,7 +15,7 @@ use v6.d;
 =head2 GtkFontChooserLevel
 
 Specifies the granularity of font selection
-that is desired in a B<Gnome::Gtk4::R-FontChooser>.
+that is desired in a L<Gnome::Gtk4::R-FontChooser|/content-docs/api2/reference/Gtk4/R-FontChooser>.
 
 This enumeration may be extended in the future; applications should
 ignore unknown values.
@@ -40,8 +40,8 @@ ignore unknown values.
 :(  N-Object() $family, N-Object() $face, gpointer $data  )
 =end code
 
-=item family; a B<Gnome::Pango::FontFamily>
-=item face; a B<Gnome::Pango::FontFace> belonging to C<$family>
-=item data; user data passed to gtk_font_chooser_set_filter_func()
+=item $family; a L<Gnome::Pango::FontFamily|/content-docs/api2/reference/Pango/FontFamily>
+=item $face; a L<Gnome::Pango::FontFace|/content-docs/api2/reference/Pango/FontFace> belonging to C<$family>
+=item $data; user data passed to C<.set-filter-func()>
 
 =end pod
