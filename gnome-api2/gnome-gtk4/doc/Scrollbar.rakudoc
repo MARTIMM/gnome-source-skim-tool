@@ -14,7 +14,7 @@ The B<Gnome::Gtk4::Scrollbar> widget is a horizontal or vertical scrollbar.
 =for image :src<asset_files/images/scrollbar.png> :width<30%> :class<inline>
 
 Its position and movement are controlled by the adjustment that is passed to
-or created by C<.newscrollbar()>. See B<Gnome::Gtk4::Adjustment> for more
+or created by L<.newscrollbar()|#newscrollbar>. See L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment> for more
 details. The I<value defined in Gnome::Gtk4::Adjustment> field sets the position of the
 thumb and must be between I<lower defined in Gnome::Gtk4::Adjustment> and
 I<upper defined in Gnome::Gtk4::Adjustment> - I<page-size defined in Gnome::Gtk4::Adjustment>.
@@ -45,7 +45,7 @@ The range node gets the style class .fine-tune added when the scrollbar is
 in 'fine-tuning' mode.
 
 Other style classes that may be added to scrollbars inside
-B<Gnome::Gtk4::ScrolledWindow> include the positional classes (.left, .right,
+L<Gnome::Gtk4::ScrolledWindow|/content-docs/api2/reference/Gtk4/ScrolledWindow> include the positional classes (.left, .right,
 .top, .bottom) and style classes related to overlay scrolling (.overlay-indicator,
 .dragging, .hovering).
 
@@ -93,7 +93,7 @@ method new-scrollbar ( GtkOrientation $orientation, N-Object() $adjustment --> G
 =end code
 
 =item $orientation; the scrollbar’s orientation..
-=item $adjustment; the B<Gnome::Gtk4::Adjustment> to use, or undefined
+=item $adjustment; the L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment> to use, or undefined
   to create a new adjustment..
 
 =begin comment

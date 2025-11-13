@@ -12,16 +12,16 @@ use v6.d;
 B<Gnome::Gtk4::StringFilter> determines whether to include items by comparing
 strings to a fixed search term.
 
-The strings are obtained from the items by evaluating a B<Gnome::Gtk4::Expression>
-set with C<.set-expression()>], and they are
-compared against a search term set with C<.set-search()>].
+The strings are obtained from the items by evaluating a L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression>
+set with L<.set-expression()|#set-expression>, and they are
+compared against a search term set with L<.set-search()|#set-search>.
 
 B<Gnome::Gtk4::StringFilter> has several different modes of comparison - it
 can match the whole string, just a prefix, or any substring. Use
-C<.set-match-mode()>] choose a mode.
+L<.set-match-mode()|#set-match-mode> choose a mode.
 
 It is also possible to make case-insensitive comparisons, with
-C<.set-ignore-case()>].
+L<.set-ignore-case()|#set-ignore-case>.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/StringFilter.png> :width<70%> :class<inline>
@@ -95,7 +95,7 @@ obtain strings from items.
 method get-expression (--> N-Object )
 =end code
 
-Return value; a B<Gnome::Gtk4::Expression>. 
+Return value; a L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression>. 
 
 =begin comment
 
@@ -182,7 +182,7 @@ The expression must have a value type of C<G_TYPE_STRING>.
 method set-expression ( N-Object() $expression )
 =end code
 
-=item $expression; a B<Gnome::Gtk4::Expression>.
+=item $expression; a L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression>.
 
 =begin comment
 

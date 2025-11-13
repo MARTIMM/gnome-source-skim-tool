@@ -9,10 +9,10 @@ use v6.d;
 =TITLE Gnome::Gtk4::ShortcutTrigger
 =head1 Description
 
-B<Gnome::Gtk4::ShortcutTrigger> tracks how a B<Gnome::Gtk4::Shortcut> should be activated.
+B<Gnome::Gtk4::ShortcutTrigger> tracks how a L<Gnome::Gtk4::Shortcut|/content-docs/api2/reference/Gtk4/Shortcut> should be activated.
 
 To find out if a B<Gnome::Gtk4::ShortcutTrigger> triggers, you can call
-C<.trigger()>] on a B<Gnome::Gdk4::Event>.
+L<.trigger()|#trigger> on a L<Gnome::Gdk4::Event|/content-docs/api2/reference/Gdk4/Event>.
 
 B<GtkShortcutTriggers> contain functions that allow easy presentation
 to end users as well as being printed for debugging.
@@ -61,11 +61,11 @@ When parsing failed, undefined is returned.
 
 The accepted strings are:
 
-=item B<never>, for B<Gnome::Gtk4::NeverTrigger>
-=item a string parsed by gtk_accelerator_parse(), for a B<Gnome::Gtk4::KeyvalTrigger>, e.g. `<Control>C`
-=item underscore, followed by a single character, for B<Gnome::Gtk4::MnemonicTrigger>, e.g. B<_l>
+=item B<never>, for L<Gnome::Gtk4::NeverTrigger|/content-docs/api2/reference/Gtk4/NeverTrigger>
+=item a string parsed by gtk_accelerator_parse(), for a L<Gnome::Gtk4::KeyvalTrigger|/content-docs/api2/reference/Gtk4/KeyvalTrigger>, e.g. `<Control>C`
+=item underscore, followed by a single character, for L<Gnome::Gtk4::MnemonicTrigger|/content-docs/api2/reference/Gtk4/MnemonicTrigger>, e.g. B<_l>
 =item two valid trigger strings, separated by a `|` character, for a
-    B<Gnome::Gtk4::AlternativeTrigger>: `<Control>q|<Control>w`
+    L<Gnome::Gtk4::AlternativeTrigger|/content-docs/api2/reference/Gtk4/AlternativeTrigger>: `<Control>q|<Control>w`
 
 Note that you will have to escape the `<` and `>` characters when specifying
 triggers in XML files, such as GtkBuilder ui files. Use `&lt;` instead of
@@ -222,7 +222,7 @@ not guaranteed to stay identical.
 method print-label ( N-Object() $display, N-Object $string --> Bool )
 =end code
 
-=item $display; B<Gnome::Gdk4::Display> to print for.
+=item $display; L<Gnome::Gdk4::Display|/content-docs/api2/reference/Gdk4/Display> to print for.
 =item $string; a B<Gnome::Glib::N-String> to print into
 
 Return value; C<True> if something was printed or C<False> if the
@@ -259,7 +259,7 @@ not guaranteed to stay identical.
 method to-label ( N-Object() $display --> Str )
 =end code
 
-=item $display; B<Gnome::Gdk4::Display> to print for.
+=item $display; L<Gnome::Gdk4::Display|/content-docs/api2/reference/Gdk4/Display> to print for.
 
 Return value; a new string. 
 
@@ -278,7 +278,7 @@ Return value; a new string.
 
 Prints the given trigger into a human-readable string.
 
-This is a small wrapper around C<.print()>]
+This is a small wrapper around L<.print()|#print>
 to help when debugging.
 
 =begin code

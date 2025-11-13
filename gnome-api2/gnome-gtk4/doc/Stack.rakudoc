@@ -12,25 +12,25 @@ use v6.d;
 B<Gnome::Gtk4::Stack> is a container which only shows one of its children
 at a time.
 
-In contrast to B<Gnome::Gtk4::Notebook>, B<Gnome::Gtk4::Stack> does not provide a means
+In contrast to L<Gnome::Gtk4::Notebook|/content-docs/api2/reference/Gtk4/Notebook>, B<Gnome::Gtk4::Stack> does not provide a means
 for users to change the visible child. Instead, a separate widget
-such as B<Gnome::Gtk4::StackSwitcher> or B<Gnome::Gtk4::StackSidebar> can
+such as L<Gnome::Gtk4::StackSwitcher|/content-docs/api2/reference/Gtk4/StackSwitcher> or L<Gnome::Gtk4::StackSidebar|/content-docs/api2/reference/Gtk4/StackSidebar> can
 be used with B<Gnome::Gtk4::Stack> to provide this functionality.
 
 Transitions between pages can be animated as slides or fades. This
-can be controlled with C<.set-transition-type()>].
+can be controlled with L<.set-transition-type()|#set-transition-type>.
 These animations respect the I<gtk-enable-animations defined in Gnome::Gtk4::Settings>
 setting.
 
-B<Gnome::Gtk4::Stack> maintains a B<Gnome::Gtk4::StackPage> object for each added
+B<Gnome::Gtk4::Stack> maintains a L<Gnome::Gtk4::StackPage|/content-docs/api2/reference/Gtk4/StackPage> object for each added
 child, which holds additional per-child properties. You
-obtain the B<Gnome::Gtk4::StackPage> for a child with C<.get-page()>]
-and you can obtain a B<Gnome::Gtk4::R-SelectionModel> containing all the pages
-with C<.get-pages()>].
+obtain the L<Gnome::Gtk4::StackPage|/content-docs/api2/reference/Gtk4/StackPage> for a child with L<.get-page()|#get-page>
+and you can obtain a L<Gnome::Gtk4::R-SelectionModel|/content-docs/api2/reference/Gtk4/R-SelectionModel> containing all the pages
+with L<.get-pages()|#get-pages>.
 
 =head2 GtkStack as GtkBuildable
 
-To set child-specific properties in a .ui file, create B<Gnome::Gtk4::StackPage>
+To set child-specific properties in a .ui file, create L<Gnome::Gtk4::StackPage|/content-docs/api2/reference/Gtk4/StackPage>
 objects explicitly, and set the child widget as a property on it:
 
 =begin comment
@@ -126,7 +126,7 @@ method add-child ( N-Object() $child --> N-Object )
 
 =item $child; the widget to add.
 
-Return value; the B<Gnome::Gtk4::StackPage> for C<$child>. 
+Return value; the L<Gnome::Gtk4::StackPage|/content-docs/api2/reference/Gtk4/StackPage> for C<$child>. 
 
 =begin comment
 
@@ -152,7 +152,7 @@ method add-named ( N-Object() $child, Str $name --> N-Object )
 =item $child; the widget to add.
 =item $name; the name for C<$child>.
 
-Return value; the B<Gnome::Gtk4::StackPage> for C<$child>. 
+Return value; the L<Gnome::Gtk4::StackPage|/content-docs/api2/reference/Gtk4/StackPage> for C<$child>. 
 
 =begin comment
 
@@ -170,7 +170,7 @@ Return value; the B<Gnome::Gtk4::StackPage> for C<$child>.
 Adds a child to C<$stack>.
 
 The child is identified by the C<$name>. The C<$title>
-will be used by B<Gnome::Gtk4::StackSwitcher> to represent C<$child> in a tab bar, so it should be short.
+will be used by L<Gnome::Gtk4::StackSwitcher|/content-docs/api2/reference/Gtk4/StackSwitcher> to represent C<$child> in a tab bar, so it should be short.
 
 =begin code
 method add-titled ( N-Object() $child, Str $name, Str $title --> N-Object )
@@ -180,7 +180,7 @@ method add-titled ( N-Object() $child, Str $name, Str $title --> N-Object )
 =item $name; the name for C<$child>.
 =item $title; a human-readable title for C<$child>.
 
-Return value; the B<Gnome::Gtk4::StackPage> for C<$child>. 
+Return value; the L<Gnome::Gtk4::StackPage|/content-docs/api2/reference/Gtk4/StackPage> for C<$child>. 
 
 =begin comment
 
@@ -264,7 +264,7 @@ Return value; C<True> if child sizes are interpolated.
 =begin pod
 =head2 get-page
 
-Returns the B<Gnome::Gtk4::StackPage> object for C<$child>.
+Returns the L<Gnome::Gtk4::StackPage|/content-docs/api2/reference/Gtk4/StackPage> object for C<$child>.
 
 =begin code
 method get-page ( N-Object() $child --> N-Object )
@@ -272,7 +272,7 @@ method get-page ( N-Object() $child --> N-Object )
 
 =item $child; a child of C<$stack>.
 
-Return value; the B<Gnome::Gtk4::StackPage> for C<$child>. 
+Return value; the L<Gnome::Gtk4::StackPage|/content-docs/api2/reference/Gtk4/StackPage> for C<$child>. 
 
 =begin comment
 
@@ -287,17 +287,17 @@ Return value; the B<Gnome::Gtk4::StackPage> for C<$child>.
 =begin pod
 =head2 get-pages
 
-Returns a B<Gnome::Gio::R-ListModel> that contains the pages of the stack.
+Returns a L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> that contains the pages of the stack.
 
 This can be used to keep an up-to-date view. The model also
-implements B<Gnome::Gtk4::R-SelectionModel> and can be used to track
+implements L<Gnome::Gtk4::StackPage|/content-docs/api2/reference/Gnome::Gtk4::R-SelectionModel> and can be used to track
 and modify the visible page.
 
 =begin code
 method get-pages (--> N-Object )
 =end code
 
-Return value; a B<Gnome::Gtk4::R-SelectionModel> for the stack's children. 
+Return value; a L<Gnome::Gtk4::R-SelectionModel|/content-docs/api2/reference/Gtk4/R-SelectionModel> for the stack's children. 
 
 =begin comment
 
@@ -601,7 +601,7 @@ the transition between the two will be animated with the
 current transition type of C<$stack>.
 
 Note that the C<$child> widget has to be visible itself
-(see C<.show()> in class B<Gnome::Gtk4::Widget>]) in order to become the visible
+(see L<.show() in class Widget|/content-docs/api2/reference/Gtk4/Widget#show>) in order to become the visible
 child of C<$stack>.
 
 =begin code
@@ -626,7 +626,7 @@ method set-visible-child ( N-Object() $child )
 Makes the child with the given name visible.
 
 Note that the child widget has to be visible itself
-(see C<.show()> in class B<Gnome::Gtk4::Widget>]) in order to become the visible
+(see L<.show() in class Widget|/content-docs/api2/reference/Gtk4/Widget#show>) in order to become the visible
 child of C<$stack>.
 
 =begin code
@@ -656,7 +656,7 @@ the transition between the two will be animated with the
 current transition type of C<$stack>.
 
 Note that the child widget has to be visible itself
-(see C<.show()> in class B<Gnome::Gtk4::Widget>]) in order to become the visible
+(see L<.show() in class Widget|/content-docs/api2/reference/Gtk4/Widget#show>) in order to become the visible
 child of C<$stack>.
 
 =begin code

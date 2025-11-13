@@ -9,12 +9,12 @@ use v6.d;
 =TITLE Gnome::Gtk4::StackSidebar
 =head1 Description
 
-A B<Gnome::Gtk4::StackSidebar> uses a sidebar to switch between B<Gnome::Gtk4::Stack> pages.
+A B<Gnome::Gtk4::StackSidebar> uses a sidebar to switch between L<Gnome::Gtk4::Stack|/content-docs/api2/reference/Gtk4/Stack> pages.
 
-In order to use a B<Gnome::Gtk4::StackSidebar>, you simply use a B<Gnome::Gtk4::Stack> to
+In order to use a B<Gnome::Gtk4::StackSidebar>, you simply use a L<Gnome::Gtk4::Stack|/content-docs/api2/reference/Gtk4/Stack> to
 organize your UI flow, and add the sidebar to your sidebar area. You
-can use C<.set-stack()>] to connect the B<Gnome::Gtk4::StackSidebar>
-to the B<Gnome::Gtk4::Stack>.
+can use L<.set-stack()|#set-stack> to connect the B<Gnome::Gtk4::StackSidebar>
+to the L<Gnome::Gtk4::Stack|/content-docs/api2/reference/Gtk4/Stack>.
 
 =head2 CSS nodes
 
@@ -91,7 +91,7 @@ Retrieves the stack.
 method get-stack (--> N-Object )
 =end code
 
-Return value; the associated B<Gnome::Gtk4::Stack> or
+Return value; the associated L<Gnome::Gtk4::Stack|/content-docs/api2/reference/Gtk4/Stack> or
   undefined if none has been set explicitly. 
 
 =begin comment
@@ -107,16 +107,16 @@ Return value; the associated B<Gnome::Gtk4::Stack> or
 =begin pod
 =head2 set-stack
 
-Set the B<Gnome::Gtk4::Stack> associated with this B<Gnome::Gtk4::StackSidebar>.
+Set the L<Gnome::Gtk4::Stack|/content-docs/api2/reference/Gtk4/Stack> associated with this B<Gnome::Gtk4::StackSidebar>.
 
 The sidebar widget will automatically update according to
-the order and items within the given B<Gnome::Gtk4::Stack>.
+the order and items within the given L<Gnome::Gtk4::Stack|/content-docs/api2/reference/Gtk4/Stack>.
 
 =begin code
 method set-stack ( N-Object() $stack )
 =end code
 
-=item $stack; a B<Gnome::Gtk4::Stack>.
+=item $stack; a L<Gnome::Gtk4::Stack|/content-docs/api2/reference/Gtk4/Stack>.
 
 =begin comment
 

@@ -12,13 +12,13 @@ use v6.d;
 A B<Gnome::Gtk4::Shortcut> describes a keyboard shortcut.
 
 It contains a description of how to trigger the shortcut via a
-B<Gnome::Gtk4::ShortcutTrigger> and a way to activate the shortcut
-on a widget via a B<Gnome::Gtk4::ShortcutAction>.
+L<Gnome::Gtk4::ShortcutTrigger|/content-docs/api2/reference/Gtk4/ShortcutTrigger> and a way to activate the shortcut
+on a widget via a L<Gnome::Gtk4::ShortcutAction|/content-docs/api2/reference/Gtk4/ShortcutAction>.
 
-The actual work is usually done via B<Gnome::Gtk4::ShortcutController>,
+The actual work is usually done via L<Gnome::Gtk4::ShortcutController|/content-docs/api2/reference/Gtk4/ShortcutController>,
 which decides if and when to activate a shortcut. Using that controller
 directly however is rarely necessary as various higher level
-convenience APIs exist on B<Gnome::Gtk4::Widget>s that make it easier to use
+convenience APIs exist on L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>s that make it easier to use
 shortcuts in GTK.
 
 B<Gnome::Gtk4::Shortcut> does provide functionality to make it easy for users
@@ -80,7 +80,6 @@ method new-shortcut ( N-Object() $trigger, N-Object() $action --> Gnome::Gtk4::S
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-with-arguments
-This function is not yet available
 
 Creates a new B<Gnome::Gtk4::Shortcut> that is triggered by C<$trigger> and then activates C<$action> with arguments given by C<$format-string>.
 

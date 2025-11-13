@@ -11,7 +11,7 @@ use v6.d;
 
 B<Gnome::Gtk4::StringList> is a list model that wraps an array of strings.
 
-The objects in the model are of type B<Gnome::Gtk4::StringObject> and have
+The objects in the model are of type L<Gnome::Gtk4::StringObject|/content-docs/api2/reference/Gtk4/StringObject> and have
 a "string" property that can be used inside expressions.
 
 B<Gnome::Gtk4::StringList> is well-suited for any place where you would
@@ -19,7 +19,7 @@ typically use a B<char>*[]`, but need a list model.
 
 =head3 GtkStringList as GtkBuildable
 
-The B<Gnome::Gtk4::StringList> implementation of the B<Gnome::Gtk4::R-Buildable> interface
+The B<Gnome::Gtk4::StringList> implementation of the L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/Gtk4/R-Buildable> interface
 supports adding items directly using the `<items>` element and
 specifying `<item>` elements for each item. Each `<item>` element
 supports the regular translation attributes “translatable”,
@@ -103,7 +103,7 @@ method new-stringlist ( Array[Str] $strings --> Gnome::Gtk4::StringList )
 Appends C<$string> to C<$self>.
 
 The C<$string> will be copied. See
-C<.take()>] for a way to avoid that.
+L<.take()|#take> for a way to avoid that.
 
 =begin code
 method append ( Str $string )
@@ -178,8 +178,8 @@ method remove ( UInt() $position )
 Changes C<$self> by removing C<$n-removals> strings and adding C<$additions>
 to it.
 
-This function is more efficient than C<.append()>]
-and C<.remove()>], because it only emits the I<items-changed> signal once for the change.
+This function is more efficient than L<.append()|#append>
+and L<.remove()|#remove>, because it only emits the I<items-changed> signal once for the change.
 
 This function copies the strings in C<$additions>.
 
@@ -210,7 +210,7 @@ method splice ( UInt() $position, UInt() $n-removals, Array[Str] $additions )
 Adds C<$string> to self at the end, and takes
 ownership of it.
 
-This variant of C<.append()>]
+This variant of L<.append()|#append>
 is convenient for formatting strings:
 
 =begin comment

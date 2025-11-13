@@ -12,19 +12,19 @@ use v6.d;
 B<Gnome::Gtk4::ShortcutController> is an event controller that manages shortcuts.
 
 Most common shortcuts are using this controller implicitly, e.g. by
-adding a mnemonic underline to a B<Gnome::Gtk4::Label>, or by installing a key
-binding using C<.add-binding()> in class B<Gnome::Gtk4::ShortcutController>], or by adding accelerators
-to global actions using C<.set-accels-for-action()> in class B<Gnome::Gtk4::Application>].
+adding a mnemonic underline to a L<Gnome::Gtk4::Label|/content-docs/api2/reference/Gtk4/Label>, or by installing a key
+binding using L<.add-binding() in class WidgetClass|/content-docs/api2/reference/Gtk4/WidgetClass#add-binding>, or by adding accelerators
+to global actions using L<.set-accels-for-action() in class Application|/content-docs/api2/reference/Gtk4/Application#set-accels-for-action>.
 
 But it is possible to create your own shortcut controller, and add
 shortcuts to it.
 
-B<Gnome::Gtk4::ShortcutController> implements B<Gnome::Gtk4::ShortcutController> for querying the
+B<Gnome::Gtk4::ShortcutController> implements L<Gnome::Gtk4::ShortcutAction|/content-docs/api2/reference/Gnome::Gtk4::ShortcutController> for querying the
 shortcuts that have been added to it.
 
 =head2 GtkShortcutController as GtkBuildable
 
-B<Gnome::Gtk4::ShortcutController>s can be created in B<Gnome::Gtk4::Builder> ui files, to set up
+B<Gnome::Gtk4::ShortcutController>s can be created in L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder> ui files, to set up
 shortcuts in the same place as the widgets.
 
 An example of a UI definition fragment with B<Gnome::Gtk4::ShortcutController>:
@@ -45,10 +45,10 @@ An example of a UI definition fragment with B<Gnome::Gtk4::ShortcutController>:
 
 =end comment
 
-This example creates a B<Gnome::Gtk4::ActivateAction> for triggering the
-B<activate> signal of the B<Gnome::Gtk4::Button>. See C<.parse-string()> in class B<Gnome::Gtk4::ShortcutAction>
-for the syntax for other kinds of B<Gnome::Gtk4::ShortcutAction>. See
-C<.parse-string()> in class B<Gnome::Gtk4::ShortcutTrigger> to learn more about the syntax
+This example creates a L<Gnome::Gtk4::ActivateAction|/content-docs/api2/reference/Gtk4/ActivateAction> for triggering the
+B<activate> signal of the L<Gnome::Gtk4::Button|/content-docs/api2/reference/Gtk4/Button>. See L<.parse-string() in class ShortcutAction|/content-docs/api2/reference/Gtk4/ShortcutAction#parse-string>
+for the syntax for other kinds of L<Gnome::Gtk4::ShortcutAction|/content-docs/api2/reference/Gtk4/ShortcutAction>. See
+L<.parse-string() in class ShortcutTrigger|/content-docs/api2/reference/Gtk4/ShortcutTrigger#parse-string> to learn more about the syntax
 for triggers.
 
 =head2 Uml Diagram
@@ -114,7 +114,7 @@ but you can change the contents of the model.
 method new-for-model ( N-List() $model --> Gnome::Gtk4::ShortcutController )
 =end code
 
-=item $model; a B<Gnome::Gio::R-ListModel> containing shortcuts.
+=item $model; a L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> containing shortcuts.
 
 =begin comment
 
@@ -146,7 +146,7 @@ function does nothing.
 method add-shortcut ( N-Object() $shortcut )
 =end code
 
-=item $shortcut; (transfer ownership: full) a B<Gnome::Gtk4::Shortcut>.
+=item $shortcut; (transfer ownership: full) a L<Gnome::Gtk4::Shortcut|/content-docs/api2/reference/Gtk4/Shortcut>.
 
 =begin comment
 
@@ -184,7 +184,7 @@ Return value; the controller's mnemonics modifiers.
 
 Gets the scope for when this controller activates its shortcuts.
 
-See C<.set-scope()>] for details.
+See L<.set-scope()|#set-scope> for details.
 
 =begin code
 method get-scope (--> GtkShortcutScope )
@@ -214,7 +214,7 @@ uses an external shortcut list, this function does nothing.
 method remove-shortcut ( N-Object() $shortcut )
 =end code
 
-=item $shortcut; a B<Gnome::Gtk4::Shortcut>.
+=item $shortcut; a L<Gnome::Gtk4::Shortcut|/content-docs/api2/reference/Gtk4/Shortcut>.
 
 =begin comment
 
@@ -234,7 +234,7 @@ Sets the controller to use the given modifier for mnemonics.
 The mnemonics modifiers determines which modifiers need to be pressed to allow
 activation of shortcuts with mnemonics triggers.
 
-GTK normally uses the Alt modifier for mnemonics, except in B<Gnome::Gtk4::PopoverMenu>s,
+GTK normally uses the Alt modifier for mnemonics, except in L<Gnome::Gtk4::PopoverMenu|/content-docs/api2/reference/Gtk4/PopoverMenu>s,
 where mnemonics can be triggered without any modifiers. It should be very
 rarely necessary to change this, and doing so is likely to interfere with
 other shortcuts.

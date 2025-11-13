@@ -9,14 +9,14 @@ use v6.d;
 =TITLE Gnome::Gtk4::StringSorter
 =head1 Description
 
-B<Gnome::Gtk4::StringSorter> is a B<Gnome::Gtk4::Sorter> that compares strings.
+B<Gnome::Gtk4::StringSorter> is a L<Gnome::Gtk4::Sorter|/content-docs/api2/reference/Gtk4/Sorter> that compares strings.
 
 It does the comparison in a linguistically correct way using the
 current locale by normalizing Unicode strings and possibly case-folding
 them before performing the comparison.
 
 To obtain the strings to compare, this sorter evaluates a
-B<Gnome::Gtk4::Expression>.
+L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression>.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/StringSorter.png> :width<70%> :class<inline>
@@ -111,7 +111,7 @@ Gets the expression that is evaluated to obtain strings from items.
 method get-expression (--> N-Object )
 =end code
 
-Return value; a B<Gnome::Gtk4::Expression>. 
+Return value; a L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression>. 
 
 =begin comment
 
@@ -146,7 +146,6 @@ Return value; C<True> if C<$self> is ignoring case differences.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-collation
-This function is not yet available
 
 Sets the collation method to use for sorting.
 
@@ -177,7 +176,7 @@ The expression must have the type C<G_TYPE_STRING>.
 method set-expression ( N-Object() $expression )
 =end code
 
-=item $expression; a B<Gnome::Gtk4::Expression>.
+=item $expression; a L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression>.
 
 =end pod
 

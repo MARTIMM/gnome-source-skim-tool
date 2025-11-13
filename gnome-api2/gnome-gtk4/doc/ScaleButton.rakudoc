@@ -12,7 +12,7 @@ use v6.d;
 B<Gnome::Gtk4::ScaleButton> provides a button which pops up a scale widget.
 
 This kind of widget is commonly used for volume controls in multimedia
-applications, and GTK provides a B<Gnome::Gtk4::VolumeButton> subclass that
+applications, and GTK provides a L<Gnome::Gtk4::VolumeButton|/content-docs/api2/reference/Gtk4/VolumeButton> subclass that
 is tailored for this use case.
 
 =head2 CSS nodes
@@ -114,9 +114,9 @@ Return value; whether the button is pressed.
 =begin pod
 =head2 get-adjustment
 
-Gets the B<Gnome::Gtk4::Adjustment> associated with the B<Gnome::Gtk4::ScaleButton>’s scale.
+Gets the L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment> associated with the B<Gnome::Gtk4::ScaleButton>’s scale.
 
-See C<.get-adjustment()> in class B<Gnome::Gtk4::Range>] for details.
+See L<.get-adjustment() in class Range|/content-docs/api2/reference/Gtk4/Range#get-adjustment> for details.
 
 =begin code
 method get-adjustment (--> N-Object )
@@ -244,16 +244,16 @@ Return value; current value of the scale button.
 =begin pod
 =head2 set-adjustment
 
-Sets the B<Gnome::Gtk4::Adjustment> to be used as a model
+Sets the L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment> to be used as a model
 for the B<Gnome::Gtk4::ScaleButton>’s scale.
 
-See C<.set-adjustment()> in class B<Gnome::Gtk4::Range>] for details.
+See L<.set-adjustment() in class Range|/content-docs/api2/reference/Gtk4/Range#set-adjustment> for details.
 
 =begin code
 method set-adjustment ( N-Object() $adjustment )
 =end code
 
-=item $adjustment; a B<Gnome::Gtk4::Adjustment>.
+=item $adjustment; a L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment>.
 
 =begin comment
 
@@ -354,14 +354,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::ScaleButton :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ScaleButton> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::ScaleButton> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -385,14 +384,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::ScaleButton :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ScaleButton> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::ScaleButton> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 scalebutton.scale
@@ -412,15 +410,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::ScaleButton :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $value; the new value.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ScaleButton> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::ScaleButton> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =end pod
 

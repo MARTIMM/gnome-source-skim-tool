@@ -15,28 +15,28 @@ It does so using either internally added scrollbars or externally
 associated adjustments, and optionally draws a frame around the child.
 
 Widgets with native scrolling support, i.e. those whose classes implement
-the B<Gnome::Gtk4::R-Scrollable> interface, are added directly. For other types
-of widget, the class B<Gnome::Gtk4::Viewport> acts as an adaptor, giving
-scrollability to other widgets. C<.set-child()>]
-intelligently accounts for whether or not the added child is a B<Gnome::Gtk4::R-Scrollable>.
-If it isn’t, then it wraps the child in a B<Gnome::Gtk4::Viewport>. Therefore, you can
+the L<Gnome::Gtk4::Viewport|/content-docs/api2/reference/Gnome::Gtk4::R-Scrollable> interface, are added directly. For other types
+of widget, the class L<Gnome::Gtk4::Viewport|/content-docs/api2/reference/Gtk4/Viewport> acts as an adaptor, giving
+scrollability to other widgets. L<.set-child()|#set-child>
+intelligently accounts for whether or not the added child is a L<Gnome::Gtk4::R-Scrollable|/content-docs/api2/reference/Gtk4/R-Scrollable>.
+If it isn’t, then it wraps the child in a L<Gnome::Gtk4::Viewport|/content-docs/api2/reference/Gtk4/Viewport>. Therefore, you can
 just add any child widget and not worry about the details.
 
-If C<.set-child()>] has added a B<Gnome::Gtk4::Viewport> for you,
+If L<.set-child()|#set-child> has added a L<Gnome::Gtk4::Viewport|/content-docs/api2/reference/Gtk4/Viewport> for you,
 it will be automatically removed when you unset the child.
 Unless I<hscrollbar-policy> and
 I<vscrollbar-policy> are C<GTK_POLICY_NEVER> or
-C<GTK_POLICY_EXTERNAL>, B<Gnome::Gtk4::ScrolledWindow> adds internal B<Gnome::Gtk4::Scrollbar> widgets
+C<GTK_POLICY_EXTERNAL>, B<Gnome::Gtk4::ScrolledWindow> adds internal L<Gnome::Gtk4::Scrollbar|/content-docs/api2/reference/Gtk4/Scrollbar> widgets
 around its child. The scroll position of the child, and if applicable the
 scrollbars, is controlled by the I<hadjustment>
 and I<vadjustment> that are associated with the
-B<Gnome::Gtk4::ScrolledWindow>. See the docs on B<Gnome::Gtk4::Scrollbar> for the details,
+B<Gnome::Gtk4::ScrolledWindow>. See the docs on L<Gnome::Gtk4::Scrollbar|/content-docs/api2/reference/Gtk4/Scrollbar> for the details,
 but note that the “step_increment” and “page_increment” fields are only
 effective if the policy causes scrollbars to be present.
 
 If a B<Gnome::Gtk4::ScrolledWindow> doesn’t behave quite as you would like, or
 doesn’t have exactly the right layout, it’s very possible to set up
-your own scrolling with B<Gnome::Gtk4::Scrollbar> and for example a B<Gnome::Gtk4::Grid>.
+your own scrolling with L<Gnome::Gtk4::Scrollbar|/content-docs/api2/reference/Gtk4/Scrollbar> and for example a L<Gnome::Gtk4::Grid|/content-docs/api2/reference/Gtk4/Grid>.
 
 =head2 Touch support
 
@@ -140,9 +140,9 @@ method new-scrolledwindow ( --> Gnome::Gtk4::ScrolledWindow )
 
 Gets the child widget of C<$scrolled-window>.
 
-If the scrolled window automatically added a B<Gnome::Gtk4::Viewport>, this
+If the scrolled window automatically added a L<Gnome::Gtk4::Viewport|/content-docs/api2/reference/Gtk4/Viewport>, this
 function will return the viewport widget, and you can retrieve its child
-using C<.get-child()> in class B<Gnome::Gtk4::Viewport>].
+using L<.get-child() in class Viewport|/content-docs/api2/reference/Gtk4/Viewport#get-child>.
 
 =begin code
 method get-child (--> N-Object )
@@ -172,7 +172,7 @@ to the child widget’s horizontal scroll functionality.
 method get-hadjustment (--> N-Object )
 =end code
 
-Return value; the horizontal B<Gnome::Gtk4::Adjustment>. 
+Return value; the horizontal L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment>. 
 
 =begin comment
 
@@ -379,7 +379,7 @@ Return value; the current placement value..
 Retrieves the current policy values for the horizontal and vertical
 scrollbars.
 
-See C<.set-policy()>].
+See L<.set-policy()|#set-policy>.
 
 =begin code
 method get-policy ( GtkPolicyType $hscrollbar-policy, GtkPolicyType $vscrollbar-policy )
@@ -456,7 +456,7 @@ scrollbar to the child widget’s vertical scroll functionality.
 method get-vadjustment (--> N-Object )
 =end code
 
-Return value; the vertical B<Gnome::Gtk4::Adjustment>. 
+Return value; the vertical L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment>. 
 
 =begin comment
 
@@ -494,8 +494,8 @@ Return value; the vertical scrollbar of the scrolled window..
 
 Sets the child widget of C<$scrolled-window>.
 
-If C<$child> does not implement the B<Gnome::Gtk4::R-Scrollable> interface,
-the scrolled window will add C<$child> to a B<Gnome::Gtk4::Viewport> instance
+If C<$child> does not implement the L<Gnome::Gtk4::Viewport|/content-docs/api2/reference/Gnome::Gtk4::R-Scrollable> interface,
+the scrolled window will add C<$child> to a L<Gnome::Gtk4::Viewport|/content-docs/api2/reference/Gtk4/Viewport> instance
 and then add the viewport as its child widget.
 
 =begin code
@@ -517,13 +517,13 @@ method set-child ( N-Object() $child )
 =begin pod
 =head2 set-hadjustment
 
-Sets the B<Gnome::Gtk4::Adjustment> for the horizontal scrollbar.
+Sets the L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment> for the horizontal scrollbar.
 
 =begin code
 method set-hadjustment ( N-Object() $hadjustment )
 =end code
 
-=item $hadjustment; the B<Gnome::Gtk4::Adjustment> to use, or undefined to create a new one.
+=item $hadjustment; the L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment> to use, or undefined to create a new one.
 
 =begin comment
 
@@ -720,8 +720,8 @@ in the top left, with the scrollbars underneath and to the right.
 Other values in  enumeration C<CornerType> from C<Gnome::Gtk4::T-scrolledwindow>  are C<GTK_CORNER_TOP_RIGHT>,
 C<GTK_CORNER_BOTTOM_LEFT>, and C<GTK_CORNER_BOTTOM_RIGHT>.
 
-See also C<.get-placement()>] and
-C<.unset-placement()>].
+See also L<.get-placement()|#get-placement> and
+L<.unset-placement()|#unset-placement>.
 
 =begin code
 method set-placement ( GtkCornerType $window-placement )
@@ -815,13 +815,13 @@ method set-propagate-natural-width ( Bool() $propagate )
 =begin pod
 =head2 set-vadjustment
 
-Sets the B<Gnome::Gtk4::Adjustment> for the vertical scrollbar.
+Sets the L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment> for the vertical scrollbar.
 
 =begin code
 method set-vadjustment ( N-Object() $vadjustment )
 =end code
 
-=item $vadjustment; the B<Gnome::Gtk4::Adjustment> to use, or undefined to create a new one.
+=item $vadjustment; the L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment> to use, or undefined to create a new one.
 
 =begin comment
 
@@ -880,15 +880,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::ScrolledWindow :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $pos; edge side that was hit.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ScrolledWindow> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::ScrolledWindow> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -916,15 +915,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::ScrolledWindow :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $pos; edge side that was reached.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ScrolledWindow> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::ScrolledWindow> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -951,16 +949,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::ScrolledWindow :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $direction-type; either C<GTK_DIR_TAB_FORWARD> or
   C<GTK_DIR_TAB_BACKWARD>.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ScrolledWindow> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::ScrolledWindow> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -986,7 +983,7 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::ScrolledWindow :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
@@ -995,9 +992,8 @@ method handler (
 =item $horizontal; whether the keybinding scrolls the child
   horizontally or not.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ScrolledWindow> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::ScrolledWindow> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; 
 

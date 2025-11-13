@@ -14,14 +14,14 @@ value of some attribute.
 
 =for image :src<asset_files/images/spinbutton.png> :width<30%> :class<inline>
 
-Rather than having to directly type a number into a B<Gnome::Gtk4::Entry>,
+Rather than having to directly type a number into a L<Gnome::Gtk4::Entry|/content-docs/api2/reference/Gtk4/Entry>,
 B<Gnome::Gtk4::SpinButton> allows the user to click on one of two arrows
 to increment or decrement the displayed value. A value can still be
 typed in, with the bonus that it can be checked to ensure it is in a
 given range.
 
 The main properties of a B<Gnome::Gtk4::SpinButton> are through an adjustment.
-See the B<Gnome::Gtk4::Adjustment> documentation for more details about
+See the L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment> documentation for more details about
 an adjustment's properties.
 
 Note that B<Gnome::Gtk4::SpinButton> will by default make its entry large enough
@@ -68,7 +68,7 @@ on_output (GtkSpinButton *spin,
 
 B<Gnome::Gtk4::SpinButton>s main CSS node has the name spinbutton. It creates subnodes
 for the entry and the two buttons, with these names. The button nodes have
-the style classes .up and .down. The B<Gnome::Gtk4::Text> subnodes (if present) are put
+the style classes .up and .down. The L<Gnome::Gtk4::Text|/content-docs/api2/reference/Gtk4/Text> subnodes (if present) are put
 below the text node. The orientation of the spin button is reflected in
 the .vertical or .horizontal style class on the main node.
 
@@ -115,7 +115,7 @@ Creates a new B<Gnome::Gtk4::SpinButton>.
 method new-spinbutton ( N-Object() $adjustment, Num() $climb-rate, UInt() $digits --> Gnome::Gtk4::SpinButton )
 =end code
 
-=item $adjustment; the B<Gnome::Gtk4::Adjustment> that this spin button should use.
+=item $adjustment; the L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment> that this spin button should use.
 =item $climb-rate; specifies by how much the rate of change in the value will
   accelerate if you continue to hold down an up/down button or arrow key.
 =item $digits; the number of decimal places to display.
@@ -145,7 +145,7 @@ precision of C<$step>.
 Note that the way in which the precision is derived works
 best if C<$step> is a power of ten. If the resulting precision
 is not suitable for your needs, use
-C<.set-digits()>] to correct it.
+L<.set-digits()|#set-digits> to correct it.
 
 =begin code
 method new-with-range ( Num() $min, Num() $max, Num() $step --> Gnome::Gtk4::SpinButton )
@@ -185,7 +185,7 @@ are updated accordingly.
 method configure ( N-Object() $adjustment, Num() $climb-rate, UInt() $digits )
 =end code
 
-=item $adjustment; a B<Gnome::Gtk4::Adjustment> to replace the spin button’s
+=item $adjustment; a L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment> to replace the spin button’s
   existing adjustment, or undefined to leave its current adjustment unchanged.
 =item $climb-rate; the new climb rate.
 =item $digits; the number of decimal places to display in the spin button.
@@ -203,7 +203,7 @@ method configure ( N-Object() $adjustment, Num() $climb-rate, UInt() $digits )
 =begin pod
 =head2 get-activates-default
 
-Retrieves the value set by C<.set-activates-default()>].
+Retrieves the value set by L<.set-activates-default()|#set-activates-default>.
 
 =begin code
 method get-activates-default (--> Bool )
@@ -230,7 +230,7 @@ Get the adjustment associated with a B<Gnome::Gtk4::SpinButton>.
 method get-adjustment (--> N-Object )
 =end code
 
-Return value; the B<Gnome::Gtk4::Adjustment> of C<$spin-button>. 
+Return value; the L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment> of C<$spin-button>. 
 
 =begin comment
 
@@ -290,7 +290,7 @@ Return value; the current precision.
 Gets the current step and page the increments
 used by C<$spin-button>.
 
-See C<.set-increments()>].
+See L<.set-increments()|#set-increments>.
 
 =begin code
 method get-increments ( Num() $step, Num() $page )
@@ -335,7 +335,7 @@ Return value; C<True> if only numeric text can be entered.
 
 Gets the range allowed for C<$spin-button>.
 
-See C<.set-range()>].
+See L<.set-range()|#set-range>.
 
 =begin code
 method get-range ( Num() $min, Num() $max )
@@ -380,7 +380,7 @@ Return value; C<True> if values are snapped to the nearest step.
 
 Gets the update behavior of a spin button.
 
-See C<.set-update-policy()>].
+See L<.set-update-policy()|#set-update-policy>.
 
 =begin code
 method get-update-policy (--> GtkSpinButtonUpdatePolicy )
@@ -490,13 +490,13 @@ method set-activates-default ( Bool() $activates-default )
 =begin pod
 =head2 set-adjustment
 
-Replaces the B<Gnome::Gtk4::Adjustment> associated with C<$spin-button>.
+Replaces the L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment> associated with C<$spin-button>.
 
 =begin code
 method set-adjustment ( N-Object() $adjustment )
 =end code
 
-=item $adjustment; a B<Gnome::Gtk4::Adjustment> to replace the existing adjustment.
+=item $adjustment; a L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment> to replace the existing adjustment.
 
 =begin comment
 
@@ -781,14 +781,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::SpinButton :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SpinButton> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::SpinButton> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -816,15 +815,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::SpinButton :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $scroll; a C<enumeration GtkScrollType defined in Gnome::Gtk4::T-enums> to specify the speed and amount of change.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SpinButton> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::SpinButton> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -838,7 +836,7 @@ method handler (
 
 Emitted to convert the users input into a double value.
 
-The signal handler is expected to use C<.get-text()> in class B<Gnome::Gtk4::R-Editable>]
+The signal handler is expected to use L<.get-text() in class Editable|/content-docs/api2/reference/Gtk4/Editable#get-text>
 to retrieve the text of the spinbutton and set C<$new-value> to the
 new value.
 
@@ -850,16 +848,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::SpinButton :$_widget,
-  *C<user>-options
+  *%user-options
   --> gint
 )
 =end code
 
 =item $new-value; (transfer ownership: full)return location for the new value.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SpinButton> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::SpinButton> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; C<True> for a successful conversion, C<False> if the input
   was not handled, and C<GTK_INPUT_ERROR> if the conversion failed.
@@ -881,15 +878,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::SpinButton :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SpinButton> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::SpinButton> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; C<True> if the value has been displayed
 
@@ -936,14 +932,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::SpinButton :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SpinButton> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::SpinButton> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 // Provides a function to retrieve a floating point value from a
@@ -986,14 +981,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::SpinButton :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SpinButton> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::SpinButton> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 spinbutton.horizontal

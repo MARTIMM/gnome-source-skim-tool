@@ -20,13 +20,13 @@ is toggled on.
 
 For keyboard presses to start a search, the search bar must be told
 of a widget to capture key events from through
-C<.set-key-capture-widget()>]. This widget will
+L<.set-key-capture-widget()|#set-key-capture-widget>. This widget will
 typically be the top-level window, or a parent container of the
 search bar. Common shortcuts such as Ctrl+F should be handled as an
 application action, or through the menu items.
 
 You will also need to tell the search bar about which entry you
-are using as your search entry using C<.connect-entry()>].
+are using as your search entry using L<.connect-entry()|#connect-entry>.
 
 =head3 Creating a search bar
 
@@ -91,7 +91,7 @@ Create an object using a native object from an object of the same type found els
 Creates a B<Gnome::Gtk4::SearchBar>.
 
 You will need to tell it about which widget is going to be your text
-entry using C<.connect-entry()>].
+entry using L<.connect-entry()|#connect-entry>.
 
 =begin code
 method new-searchbar ( --> Gnome::Gtk4::SearchBar )
@@ -118,7 +118,7 @@ method new-searchbar ( --> Gnome::Gtk4::SearchBar )
 =begin pod
 =head2 connect-entry
 
-Connects the B<Gnome::Gtk4::R-Editable> widget passed as the one to be used in
+Connects the L<Gnome::Gtk4::R-Editable|/content-docs/api2/reference/Gtk4/R-Editable> widget passed as the one to be used in
 this search bar.
 
 The entry should be a descendant of the search bar. Calling this
@@ -129,7 +129,7 @@ child of the search bar (as in our main example).
 method connect-entry ( N-Object() $entry )
 =end code
 
-=item $entry; a B<Gnome::Gtk4::R-Editable>.
+=item $entry; a L<Gnome::Gtk4::R-Editable|/content-docs/api2/reference/Gtk4/R-Editable>.
 
 =begin comment
 
@@ -260,13 +260,13 @@ are only 'captured' in the bubble phase, which means that
 editable child widgets of C<$widget> will receive text input
 before it gets captured. If that is not desired, you can
 capture and forward the events yourself with
-C<.forward()> in class B<Gnome::Gtk4::EventControllerKey>].
+L<.forward() in class EventControllerKey|/content-docs/api2/reference/Gtk4/EventControllerKey#forward>.
 
 =begin code
 method set-key-capture-widget ( N-Object() $widget )
 =end code
 
-=item $widget; a B<Gnome::Gtk4::Widget>.
+=item $widget; a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>.
 
 =begin comment
 

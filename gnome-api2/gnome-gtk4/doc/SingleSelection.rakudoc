@@ -9,7 +9,7 @@ use v6.d;
 =TITLE Gnome::Gtk4::SingleSelection
 =head1 Description
 
-B<Gnome::Gtk4::SingleSelection> is a B<Gnome::Gtk4::R-SelectionModel> that allows selecting a single
+B<Gnome::Gtk4::SingleSelection> is a L<Gnome::Gtk4::R-SelectionModel|/content-docs/api2/reference/Gtk4/R-SelectionModel> that allows selecting a single
 item.
 
 Note that the selection is *persistent* -- if the selected item is removed
@@ -56,7 +56,7 @@ Creates a new selection to handle C<$model>.
 method new-singleselection ( N-List() $model --> Gnome::Gtk4::SingleSelection )
 =end code
 
-=item $model; (transfer ownership: full) the B<Gnome::Gio::R-ListModel> to manage.
+=item $model; (transfer ownership: full) the L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> to manage.
 
 =begin comment
 
@@ -249,7 +249,7 @@ If C<$model> is undefined, C<$self> will be empty.
 method set-model ( N-List() $model )
 =end code
 
-=item $model; A B<Gnome::Gio::R-ListModel> to wrap.
+=item $model; A L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> to wrap.
 
 =begin comment
 

@@ -11,10 +11,10 @@ use v6.d;
 
 B<Gnome::Gtk4::Sorter> is an object to describe sorting criteria.
 
-Its primary user is B<Gnome::Gtk4::SortListModel>
+Its primary user is L<Gnome::Gtk4::SortListModel|/content-docs/api2/reference/Gtk4/SortListModel>
 
 The model will use a sorter to determine the order in which
-its items should appear by calling C<.compare()>]
+its items should appear by calling L<.compare()|#compare>
 for pairs of items.
 
 Sorters may change their sorting behavior through their lifetime.
@@ -23,7 +23,7 @@ to notify that the sort order is no longer valid and should be updated
 by calling C<.compare()> again.
 
 GTK provides various pre-made sorter implementations for common sorting
-operations. B<Gnome::Gtk4::ColumnView> has built-in support for sorting lists
+operations. L<Gnome::Gtk4::ColumnView|/content-docs/api2/reference/Gtk4/ColumnView> has built-in support for sorting lists
 via the I<sorter defined in Gnome::Gtk4::ColumnViewColumn> property, where the user can
 change the sorting by clicking on list headers.
 
@@ -75,7 +75,7 @@ Notifies all users of the sorter that it has changed.
 
 This emits the I<changed> signal. Users
 of the sorter should then update the sort order via
-C<.compare()>].
+L<.compare()|#compare>.
 
 Depending on the C<$change> parameter, it may be possible to
 update the sort order without a full resorting. Refer to
@@ -114,7 +114,7 @@ Sorters implement a partial order:
   then a ≤ c
 
 The sorter may signal it conforms to additional constraints
-via the return value of C<.get-order()>].
+via the return value of L<.get-order()|#get-order>.
 
 =begin code
 method compare ( gpointer $item1, gpointer $item2 --> GtkOrdering )
@@ -177,7 +177,7 @@ Emitted whenever the sorter changed.
 Users of the sorter should then update the sort order
 again via C<.compare()>.
 
-B<Gnome::Gtk4::SortListModel> handles this signal automatically.
+L<Gnome::Gtk4::SortListModel|/content-docs/api2/reference/Gtk4/SortListModel> handles this signal automatically.
 
 Depending on the C<$change> parameter, it may be possible to update
 the sort order without a full resorting. Refer to the
@@ -189,15 +189,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Sorter :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $change; how the sorter changed.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Sorter> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Sorter> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

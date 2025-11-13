@@ -15,22 +15,22 @@ for a major application mode.
 If your application needs multiple sections, you should give each
 section a unique I<section-name> and
 a I<title> that can be shown in the
-section selector of the B<Gnome::Gtk4::ShortcutsWindow>.
+section selector of the L<Gnome::Gtk4::ShortcutsWindow|/content-docs/api2/reference/Gtk4/ShortcutsWindow>.
 
 The I<max-height> property can be used
 to influence how the groups in the section are distributed over pages
 and columns.
 
-This widget is only meant to be used with B<Gnome::Gtk4::ShortcutsWindow>.
+This widget is only meant to be used with L<Gnome::Gtk4::ShortcutsWindow|/content-docs/api2/reference/Gtk4/ShortcutsWindow>.
 
 The recommended way to construct a B<Gnome::Gtk4::ShortcutsSection> is with
-B<Gnome::Gtk4::Builder>, by using the `<child>` tag to populate a
-B<Gnome::Gtk4::ShortcutsSection> with one or more B<Gnome::Gtk4::ShortcutsGroup>
-instances, which in turn contain one or more B<Gnome::Gtk4::ShortcutsShortcut>
+L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder>, by using the `<child>` tag to populate a
+B<Gnome::Gtk4::ShortcutsSection> with one or more L<Gnome::Gtk4::ShortcutsGroup|/content-docs/api2/reference/Gtk4/ShortcutsGroup>
+instances, which in turn contain one or more L<Gnome::Gtk4::ShortcutsShortcut|/content-docs/api2/reference/Gtk4/ShortcutsShortcut>
 objects.
 
 If you need to add a group programmatically, use
-C<.add-group()>].
+L<.add-group()|#add-group>.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/ShortcutsSection.png> :width<70%> :class<inline>
@@ -75,17 +75,17 @@ Create an object using a native object from an object of the same type found els
 
 Adds a group to the shortcuts section.
 
-This is the programmatic equivalent to using B<Gnome::Gtk4::Builder> and a
+This is the programmatic equivalent to using L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder> and a
 `<child>` tag to add the child.
 
-Adding children with the B<Gnome::Gtk4::Box> API is not appropriate, as
+Adding children with the L<Gnome::Gtk4::Box|/content-docs/api2/reference/Gtk4/Box> API is not appropriate, as
 B<Gnome::Gtk4::ShortcutsSection> manages its children internally.
 
 =begin code
 method add-group ( N-Object() $group )
 =end code
 
-=item $group; the B<Gnome::Gtk4::ShortcutsGroup> to add.
+=item $group; the L<Gnome::Gtk4::ShortcutsGroup|/content-docs/api2/reference/Gtk4/ShortcutsGroup> to add.
 
 =begin comment
 
@@ -112,16 +112,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::ShortcutsSection :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
 =item $object; .
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ShortcutsSection> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::ShortcutsSection> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; 
 

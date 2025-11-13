@@ -14,13 +14,13 @@ A B<Gnome::Gtk4::Scale> is a slider control used to select a numeric value.
 =for image :src<asset_files/images/scales.png> :width<30%> :class<inline>
 
 To use it, you’ll probably want to investigate the methods on its base
-class, B<Gnome::Gtk4::Range>, in addition to the methods for B<Gnome::Gtk4::Scale> itself.
-To set the value of a scale, you would normally use C<.set-value()> in class B<Gnome::Gtk4::Range>].
+class, L<Gnome::Gtk4::Range|/content-docs/api2/reference/Gtk4/Range>, in addition to the methods for B<Gnome::Gtk4::Scale> itself.
+To set the value of a scale, you would normally use L<.set-value() in class Range|/content-docs/api2/reference/Gtk4/Range#set-value>.
 To detect changes to the value, you would normally use the
 I<value-changed defined in Range> signal.
 
 Note that using the same upper and lower bounds for the B<Gnome::Gtk4::Scale> (through
-the B<Gnome::Gtk4::Range> methods) will hide the slider itself. This is useful for
+the L<Gnome::Gtk4::Range|/content-docs/api2/reference/Gtk4/Range> methods) will hide the slider itself. This is useful for
 applications that want to show an undeterminate value on the scale, without
 changing the layout of the application (such as movie or music players).
 
@@ -28,7 +28,7 @@ changing the layout of the application (such as movie or music players).
 
 B<Gnome::Gtk4::Scale> supports a custom `<marks>` element, which can contain multiple
 `<mark\>` elements. The “value” and “position” attributes have the same
-meaning as C<.add-mark()>] parameters of the same name. If
+meaning as L<.add-mark()|#add-mark> parameters of the same name. If
 the element is not empty, its content is taken as the markup to show at
 the mark. It can be translated with the usual ”translatable” and
 “context” attributes.
@@ -63,11 +63,11 @@ with subnodes named trough and slider.
 The main node gets the style class .fine-tune added when the scale is in
 'fine-tuning' mode.
 
-If the scale has an origin (see C<.set-has-origin()>]), there is
+If the scale has an origin (see L<.set-has-origin()|#set-has-origin>), there is
 a subnode with name highlight below the trough node that is used for rendering
 the highlighted part of the trough.
 
-If the scale is showing a fill level (see C<.set-show-fill-level()> in class B<Gnome::Gtk4::Range>]),
+If the scale is showing a fill level (see L<.set-show-fill-level() in class Range|/content-docs/api2/reference/Gtk4/Range#set-show-fill-level>),
 there is a subnode with name fill below the trough node that is used for
 rendering the filled in part of the trough.
 
@@ -131,7 +131,7 @@ method new-scale ( GtkOrientation $orientation, N-Object() $adjustment --> Gnome
 =end code
 
 =item $orientation; the scale’s orientation..
-=item $adjustment; the B<Gnome::Gtk4::Adjustment> which sets
+=item $adjustment; the L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment> which sets
   the range of the scale, or undefined to create a new adjustment..
 
 =begin comment
@@ -156,7 +156,7 @@ the slider moves when using the arrow keys to adjust the scale
 value.
 
 Note that the way in which the precision is derived works best if C<$step> is a power of ten. If the resulting precision is not suitable
-for your needs, use C<.set-digits()>] to correct it.
+for your needs, use L<.set-digits()|#set-digits> to correct it.
 
 =begin code
 method new-with-range ( GtkOrientation $orientation, Num() $min, Num() $max, Num() $step --> Gnome::Gtk4::Scale )
@@ -196,7 +196,7 @@ marks value.
 
 If C<$markup> is defined, text is shown next to the tick mark.
 
-To remove marks from a scale, use C<.clear-marks()>].
+To remove marks from a scale, use L<.clear-marks()|#clear-marks>.
 
 =begin code
 method add-mark ( Num() $value, GtkPositionType $position, Str $markup )
@@ -306,7 +306,7 @@ Return value; C<True> if the scale has an origin..
 =begin pod
 =head2 get-layout
 
-Gets the B<Gnome::Pango::Layout> used to display the scale.
+Gets the L<Gnome::Pango::Layout|/content-docs/api2/reference/Pango/Layout> used to display the scale.
 
 The returned object is owned by the scale so does not need
 to be freed by the caller.
@@ -315,7 +315,7 @@ to be freed by the caller.
 method get-layout (--> N-Object )
 =end code
 
-Return value; the B<Gnome::Pango::Layout>
+Return value; the L<Gnome::Pango::Layout|/content-docs/api2/reference/Pango/Layout>
   for this scale, or undefined if the I<draw-value>
   property is C<False>.. 
 
@@ -333,9 +333,9 @@ Return value; the B<Gnome::Pango::Layout>
 =head2 get-layout-offsets
 
 Obtains the coordinates where the scale will draw the
-B<Gnome::Pango::Layout> representing the text in the scale.
+L<Gnome::Pango::Layout|/content-docs/api2/reference/Pango/Layout> representing the text in the scale.
 
-Remember when using the B<Gnome::Pango::Layout> function you need to
+Remember when using the L<Gnome::Pango::Layout|/content-docs/api2/reference/Pango/Layout> function you need to
 convert to and from pixels using B<PANGO_PIXELS>()` or B<Gnome::Pango::T-types>.
 
 If the I<draw-value> property is C<False>, the return
@@ -392,7 +392,7 @@ is C<False>, you can set I<round-digits defined in Gnome::Gtk4::Range> instead.
 
 Note that rounding to a small number of digits can interfere with
 the smooth autoscrolling that is built into B<Gnome::Gtk4::Scale>. As an alternative,
-you can use C<.set-format-value-func()>] to format the displayed
+you can use L<.set-format-value-func()|#set-format-value-func> to format the displayed
 value yourself.
 
 =begin code

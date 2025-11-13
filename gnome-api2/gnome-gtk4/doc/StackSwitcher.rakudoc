@@ -9,19 +9,19 @@ use v6.d;
 =TITLE Gnome::Gtk4::StackSwitcher
 =head1 Description
 
-The B<Gnome::Gtk4::StackSwitcher> shows a row of buttons to switch between B<Gnome::Gtk4::Stack>
+The B<Gnome::Gtk4::StackSwitcher> shows a row of buttons to switch between L<Gnome::Gtk4::Stack|/content-docs/api2/reference/Gtk4/Stack>
 pages.
 
 =for image :src<asset_files/images/stackswitcher.png> :width<30%> :class<inline>
 
-It acts as a controller for the associated B<Gnome::Gtk4::Stack>.
+It acts as a controller for the associated L<Gnome::Gtk4::Stack|/content-docs/api2/reference/Gtk4/Stack>.
 
 All the content for the buttons comes from the properties of the stacks
-B<Gnome::Gtk4::StackPage> objects; the button visibility in a B<Gnome::Gtk4::StackSwitcher>
-widget is controlled by the visibility of the child in the B<Gnome::Gtk4::Stack>.
+L<Gnome::Gtk4::StackPage|/content-docs/api2/reference/Gtk4/StackPage> objects; the button visibility in a B<Gnome::Gtk4::StackSwitcher>
+widget is controlled by the visibility of the child in the L<Gnome::Gtk4::Stack|/content-docs/api2/reference/Gtk4/Stack>.
 
 It is possible to associate multiple B<Gnome::Gtk4::StackSwitcher> widgets
-with the same B<Gnome::Gtk4::Stack> widget.
+with the same L<Gnome::Gtk4::Stack|/content-docs/api2/reference/Gtk4/Stack> widget.
 
 =head2 CSS nodes
 
@@ -39,7 +39,7 @@ and uses the C<GTK_ACCESSIBLE_ROLE_TAB> for its buttons.
 
 =head2 Orientable
 
-Since GTK 4.4, B<Gnome::Gtk4::StackSwitcher> implements B<Gnome::Gtk4::R-Orientable> allowing
+Since GTK 4.4, B<Gnome::Gtk4::StackSwitcher> implements L<Gnome::Gtk4::R-Orientable|/content-docs/api2/reference/Gtk4/R-Orientable> allowing
 the stack switcher to be made vertical with
 B<gtk_orientable_set_orientation>()`.
 
@@ -130,7 +130,7 @@ Sets the stack to control.
 method set-stack ( N-Object() $stack )
 =end code
 
-=item $stack; a B<Gnome::Gtk4::Stack>.
+=item $stack; a L<Gnome::Gtk4::Stack|/content-docs/api2/reference/Gtk4/Stack>.
 
 =begin comment
 

@@ -19,13 +19,13 @@ Additionally, the shortcuts can be filtered by the current view, to avoid
 showing information that is not relevant in the current application context.
 
 The recommended way to construct a B<Gnome::Gtk4::ShortcutsWindow> is with
-B<Gnome::Gtk4::Builder>, by using the `<child>` tag to populate a
-B<Gnome::Gtk4::ShortcutsWindow> with one or more B<Gnome::Gtk4::ShortcutsSection> objects,
-which contain one or more B<Gnome::Gtk4::ShortcutsGroup> instances, which, in turn,
-contain B<Gnome::Gtk4::ShortcutsShortcut> instances.
+L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder>, by using the `<child>` tag to populate a
+B<Gnome::Gtk4::ShortcutsWindow> with one or more L<Gnome::Gtk4::ShortcutsSection|/content-docs/api2/reference/Gtk4/ShortcutsSection> objects,
+which contain one or more L<Gnome::Gtk4::ShortcutsGroup|/content-docs/api2/reference/Gtk4/ShortcutsGroup> instances, which, in turn,
+contain L<Gnome::Gtk4::ShortcutsShortcut|/content-docs/api2/reference/Gtk4/ShortcutsShortcut> instances.
 
-If you need to add a section programmatically, use C<.add-section()>]
-instead of C<.set-child()> in class B<Gnome::Gtk4::Window>], as the shortcuts window manages
+If you need to add a section programmatically, use L<.add-section()|#add-section>
+instead of L<.set-child() in class Window|/content-docs/api2/reference/Gtk4/Window#set-child>, as the shortcuts window manages
 its children directly.
 
 =head2 A simple example:
@@ -104,17 +104,17 @@ Create an object using a native object from an object of the same type found els
 
 Adds a section to the shortcuts window.
 
-This is the programmatic equivalent to using B<Gnome::Gtk4::Builder> and a
+This is the programmatic equivalent to using L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder> and a
 `<child>` tag to add the child.
 
-Using C<.set-child()> in class B<Gnome::Gtk4::Window>] is not appropriate as the shortcuts
+Using L<.set-child() in class Window|/content-docs/api2/reference/Gtk4/Window#set-child> is not appropriate as the shortcuts
 window manages its children internally.
 
 =begin code
 method add-section ( N-Object() $section )
 =end code
 
-=item $section; the B<Gnome::Gtk4::ShortcutsSection> to add.
+=item $section; the L<Gnome::Gtk4::ShortcutsSection|/content-docs/api2/reference/Gtk4/ShortcutsSection> to add.
 
 =begin comment
 
@@ -146,14 +146,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::ShortcutsWindow :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ShortcutsWindow> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::ShortcutsWindow> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -176,14 +175,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::ShortcutsWindow :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ShortcutsWindow> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::ShortcutsWindow> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =end pod
 

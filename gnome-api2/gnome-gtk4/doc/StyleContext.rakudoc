@@ -14,12 +14,12 @@ B<Gnome::Gtk4::StyleContext> stores styling information affecting a widget.
 In order to construct the final style information, B<Gnome::Gtk4::StyleContext>
 queries information from all attached B<GtkStyleProviders>. Style
 providers can be either attached explicitly to the context through
-C<.add-provider()>], or to the display through
-C<.StyleContext.add-provider-for-display()>. The resulting
+L<.add-provider()|#add-provider>, or to the display through
+L<.StyleContext.add-provider-for-display().StyleContext.add-provider-for-display() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-stylecontext#StyleContext.add-provider-for-display>. The resulting
 style is a combination of all providers’ information in priority order.
 
 For GTK widgets, any B<Gnome::Gtk4::StyleContext> returned by
-C<.get-style-context()> in class B<Gnome::Gtk4::Widget>] will already have a B<Gnome::Gdk4::Display>
+L<.get-style-context() in class Widget|/content-docs/api2/reference/Gtk4/Widget#get-style-context> will already have a L<Gnome::Gdk4::Display|/content-docs/api2/reference/Gdk4/Display>
 and RTL/LTR information set. The style context will also be updated
 automatically if any of these settings change on the widget.
 
@@ -33,15 +33,15 @@ applications to affect their appearance.
 =head2 Custom styling in UI libraries and applications
 
 If you are developing a library with custom widgets that render differently
-than standard components, you may need to add a B<Gnome::Gtk4::R-StyleProvider> yourself
+than standard components, you may need to add a L<Gnome::Gtk4::R-StyleProvider|/content-docs/api2/reference/Gtk4/R-StyleProvider> yourself
 with the C<GTK_STYLE_PROVIDER_PRIORITY_FALLBACK> priority, either a
-B<Gnome::Gtk4::CssProvider> or a custom object implementing the B<Gnome::Gtk4::R-StyleProvider>
+L<Gnome::Gtk4::CssProvider|/content-docs/api2/reference/Gtk4/CssProvider> or a custom object implementing the L<Gnome::Gtk4::R-StyleProvider|/content-docs/api2/reference/Gtk4/R-StyleProvider>
 interface. This way themes may still attempt to style your UI elements in
 a different way if needed so.
 
 If you are using custom styling on an applications, you probably want then
 to make your style information prevail to the theme’s, so you must use
-a B<Gnome::Gtk4::R-StyleProvider> with the C<GTK_STYLE_PROVIDER_PRIORITY_APPLICATION>
+a L<Gnome::Gtk4::R-StyleProvider|/content-docs/api2/reference/Gtk4/R-StyleProvider> with the C<GTK_STYLE_PROVIDER_PRIORITY_APPLICATION>
 priority, keep in mind that the user settings in
 B<XDG_CONFIG_HOME>/gtk-4.0/gtk.css` will
 still take precedence over your changes, as it uses the
@@ -95,7 +95,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Adds a style class to C<$context>, so later uses of the
 style context will make use of this new class for styling.
 
-In the CSS file format, a B<Gnome::Gtk4::Entry> defining a “search”
+In the CSS file format, a L<Gnome::Gtk4::Entry|/content-docs/api2/reference/Gtk4/Entry> defining a “search”
 class, would be matched by:
 
 =begin comment
@@ -136,17 +136,17 @@ Adds a style provider to C<$context>, to be used in style construction.
 Note that a style provider added by this function only affects
 the style of the widget to which C<$context> belongs. If you want
 to affect the style of all widgets, use
-C<.StyleContext.add-provider-for-display()>.
+L<.StyleContext.add-provider-for-display().StyleContext.add-provider-for-display() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-stylecontext#StyleContext.add-provider-for-display>.
 
-Note: If both priorities are the same, a B<Gnome::Gtk4::R-StyleProvider>
+Note: If both priorities are the same, a L<Gnome::Gtk4::R-StyleProvider|/content-docs/api2/reference/Gtk4/R-StyleProvider>
 added through this function takes precedence over another added
-through C<.StyleContext.add-provider-for-display()>.
+through L<.StyleContext.add-provider-for-display().StyleContext.add-provider-for-display() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-stylecontext#StyleContext.add-provider-for-display>.
 
 =begin code
 method add-provider ( N-Object() $provider, UInt() $priority )
 =end code
 
-=item $provider; a B<Gnome::Gtk4::R-StyleProvider>.
+=item $provider; a L<Gnome::Gtk4::R-StyleProvider|/content-docs/api2/reference/Gtk4/R-StyleProvider>.
 =item $priority; the priority of the style provider. The lower
   it is, the earlier it will be used in the style construction.
   Typically this will be in the range between
@@ -214,13 +214,13 @@ method get-color ( N-Object $color )
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Returns the B<Gnome::Gdk4::Display> to which C<$context> is attached.
+Returns the L<Gnome::Gdk4::Display|/content-docs/api2/reference/Gdk4/Display> to which C<$context> is attached.
 
 =begin code
 method get-display (--> N-Object )
 =end code
 
-Return value; a B<Gnome::Gdk4::Display>.. 
+Return value; a L<Gnome::Gdk4::Display|/content-docs/api2/reference/Gdk4/Display>.. 
 
 =begin comment
 
@@ -310,9 +310,9 @@ Returns the state used for style matching.
 
 This method should only be used to retrieve the C<bit field GtkStateFlags defined in Gnome::Gtk4::T-enums>
 to pass to B<Gnome::Gtk4::StyleContext> methods, like
-C<.get-padding()>].
-If you need to retrieve the current state of a B<Gnome::Gtk4::Widget>, use
-C<.get-state-flags()> in class B<Gnome::Gtk4::Widget>].
+L<.get-padding()|#get-padding>.
+If you need to retrieve the current state of a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>, use
+L<.get-state-flags() in class Widget|/content-docs/api2/reference/Gtk4/Widget#get-state-flags>.
 
 =begin code
 method get-state (--> UInt )
@@ -416,7 +416,7 @@ Removes C<$provider> from the style providers list in C<$context>.
 method remove-provider ( N-Object() $provider )
 =end code
 
-=item $provider; a B<Gnome::Gtk4::R-StyleProvider>.
+=item $provider; a L<Gnome::Gtk4::R-StyleProvider|/content-docs/api2/reference/Gtk4/R-StyleProvider>.
 
 =begin comment
 
@@ -435,7 +435,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 
 Restores C<$context> state to a previous stage.
 
-See C<.save()>].
+See L<.save()|#save>.
 
 =begin code
 method restore ( )
@@ -459,12 +459,12 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Saves the C<$context> state.
 
 This allows temporary modifications done through
-C<.add-class()>],
-C<.remove-class()>],
-C<.set-state()>] to be quickly
-reverted in one go through C<.restore()>].
+L<.add-class()|#add-class>,
+L<.remove-class()|#remove-class>,
+L<.set-state()|#set-state> to be quickly
+reverted in one go through L<.restore()|#restore>.
 
-The matching call to C<.restore()>]
+The matching call to L<.restore()|#restore>
 must be done before GTK returns to the main loop.
 
 =begin code
@@ -489,17 +489,17 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Attaches C<$context> to the given display.
 
 The display is used to add style information from “global”
-style providers, such as the display's B<Gnome::Gtk4::Settings> instance.
+style providers, such as the display's L<Gnome::Gtk4::Settings|/content-docs/api2/reference/Gtk4/Settings> instance.
 
 If you are using a B<Gnome::Gtk4::StyleContext> returned from
-C<.get-style-context()> in class B<Gnome::Gtk4::Widget>], you do not need to
+L<.get-style-context() in class Widget|/content-docs/api2/reference/Gtk4/Widget#get-style-context>, you do not need to
 call this yourself.
 
 =begin code
 method set-display ( N-Object() $display )
 =end code
 
-=item $display; a B<Gnome::Gdk4::Display>.
+=item $display; a L<Gnome::Gdk4::Display|/content-docs/api2/reference/Gdk4/Display>.
 
 =begin comment
 
@@ -605,19 +605,19 @@ Return value; a newly allocated string representing C<$context>.
 Adds a global style provider to C<$display>, which will be used
 in style construction for all B<GtkStyleContexts> under C<$display>.
 
-GTK uses this to make styling information from B<Gnome::Gtk4::Settings>
+GTK uses this to make styling information from L<Gnome::Gtk4::Settings|/content-docs/api2/reference/Gtk4/Settings>
 available.
 
-Note: If both priorities are the same, A B<Gnome::Gtk4::R-StyleProvider>
-added through C<.add-provider()>] takes
+Note: If both priorities are the same, A L<Gnome::Gtk4::R-StyleProvider|/content-docs/api2/reference/Gtk4/R-StyleProvider>
+added through L<.add-provider()|#add-provider> takes
 precedence over another added through this function.
 
 =begin code
 method add-provider-for-display ( N-Object() $display, N-Object() $provider, UInt() $priority )
 =end code
 
-=item $display; a B<Gnome::Gdk4::Display>.
-=item $provider; a B<Gnome::Gtk4::R-StyleProvider>.
+=item $display; a L<Gnome::Gdk4::Display|/content-docs/api2/reference/Gdk4/Display>.
+=item $provider; a L<Gnome::Gtk4::R-StyleProvider|/content-docs/api2/reference/Gtk4/R-StyleProvider>.
 =item $priority; the priority of the style provider. The lower
   it is, the earlier it will be used in the style construction.
   Typically this will be in the range between
@@ -643,8 +643,8 @@ Removes C<$provider> from the global style providers list in C<$display>.
 method remove-provider-for-display ( N-Object() $display, N-Object() $provider )
 =end code
 
-=item $display; a B<Gnome::Gdk4::Display>.
-=item $provider; a B<Gnome::Gtk4::R-StyleProvider>.
+=item $display; a L<Gnome::Gdk4::Display|/content-docs/api2/reference/Gdk4/Display>.
+=item $provider; a L<Gnome::Gtk4::R-StyleProvider|/content-docs/api2/reference/Gtk4/R-StyleProvider>.
 
 =begin comment
 

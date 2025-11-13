@@ -13,7 +13,7 @@ B<Gnome::Gtk4::SearchEntry> is an entry widget that has been tailored for use
 as a search entry.
 
 The main API for interacting with a B<Gnome::Gtk4::SearchEntry> as entry
-is the B<Gnome::Gtk4::R-Editable> interface.
+is the L<Gnome::Gtk4::R-Editable|/content-docs/api2/reference/Gtk4/R-Editable> interface.
 
 =for image :src<asset_files/images/search-entry.png> :width<30%> :class<inline>
 
@@ -33,12 +33,12 @@ I<stop-search> signals can be used to
 implement moving between search results and ending the search.
 
 Often, B<Gnome::Gtk4::SearchEntry> will be fed events by means of being
-placed inside a B<Gnome::Gtk4::SearchBar>. If that is not the case,
-you can use C<.set-key-capture-widget()>] to
+placed inside a L<Gnome::Gtk4::SearchBar|/content-docs/api2/reference/Gtk4/SearchBar>. If that is not the case,
+you can use L<.set-key-capture-widget()|#set-key-capture-widget> to
 let it capture key input from another widget.
 
 B<Gnome::Gtk4::SearchEntry> provides only minimal API and should be used with
-the B<Gnome::Gtk4::R-Editable> API.
+the L<Gnome::Gtk4::SearchBar|/content-docs/api2/reference/Gnome::Gtk4::R-Editable> API.
 
 =head3 CSS Nodes
 
@@ -263,8 +263,8 @@ events from.
 Key events are consumed by the search entry to start or
 continue a search.
 
-If the entry is part of a B<Gnome::Gtk4::SearchBar>, it is preferable
-to call C<.set-key-capture-widget()> in class B<Gnome::Gtk4::SearchBar>] instead,
+If the entry is part of a L<Gnome::Gtk4::SearchBar|/content-docs/api2/reference/Gtk4/SearchBar>, it is preferable
+to call L<.set-key-capture-widget() in class SearchBar|/content-docs/api2/reference/Gtk4/SearchBar#set-key-capture-widget> instead,
 which will reveal the entry in addition to triggering the
 search entry.
 
@@ -273,13 +273,13 @@ are only 'captured' in the bubble phase, which means that
 editable child widgets of C<$widget> will receive text input
 before it gets captured. If that is not desired, you can
 capture and forward the events yourself with
-C<.forward()> in class B<Gnome::Gtk4::EventControllerKey>].
+L<.forward() in class EventControllerKey|/content-docs/api2/reference/Gtk4/EventControllerKey#forward>.
 
 =begin code
 method set-key-capture-widget ( N-Object() $widget )
 =end code
 
-=item $widget; a B<Gnome::Gtk4::Widget>.
+=item $widget; a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>.
 
 =begin comment
 
@@ -344,14 +344,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::SearchEntry :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SearchEntry> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::SearchEntry> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =comment -----------------------------------------------------------------------
 =head3 next-match
@@ -371,14 +370,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::SearchEntry :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SearchEntry> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::SearchEntry> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =comment -----------------------------------------------------------------------
 =head3 previous-match
@@ -398,14 +396,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::SearchEntry :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SearchEntry> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::SearchEntry> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =comment -----------------------------------------------------------------------
 =head3 search-changed
@@ -419,14 +416,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::SearchEntry :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SearchEntry> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::SearchEntry> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =comment -----------------------------------------------------------------------
 =head3 search-started
@@ -438,14 +434,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::SearchEntry :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SearchEntry> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::SearchEntry> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =comment -----------------------------------------------------------------------
 =head3 stop-search
@@ -464,14 +459,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::SearchEntry :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SearchEntry> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::SearchEntry> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =end pod
 

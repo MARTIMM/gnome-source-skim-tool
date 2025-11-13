@@ -16,15 +16,15 @@ The group has a title. It may optionally be associated with a view
 of the application, which can be used to show only relevant shortcuts
 depending on the application context.
 
-This widget is only meant to be used with B<Gnome::Gtk4::ShortcutsWindow>.
+This widget is only meant to be used with L<Gnome::Gtk4::ShortcutsWindow|/content-docs/api2/reference/Gtk4/ShortcutsWindow>.
 
 The recommended way to construct a B<Gnome::Gtk4::ShortcutsGroup> is with
-B<Gnome::Gtk4::Builder>, by using the `<child>` tag to populate a
-B<Gnome::Gtk4::ShortcutsGroup> with one or more B<Gnome::Gtk4::ShortcutsShortcut>
+L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder>, by using the `<child>` tag to populate a
+B<Gnome::Gtk4::ShortcutsGroup> with one or more L<Gnome::Gtk4::ShortcutsShortcut|/content-docs/api2/reference/Gtk4/ShortcutsShortcut>
 instances.
 
 If you need to add a shortcut programmatically, use
-C<.add-shortcut()>].
+L<.add-shortcut()|#add-shortcut>.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/ShortcutsGroup.png> :width<70%> :class<inline>
@@ -69,7 +69,7 @@ Create an object using a native object from an object of the same type found els
 
 Adds a shortcut to the shortcuts group.
 
-This is the programmatic equivalent to using B<Gnome::Gtk4::Builder> and a
+This is the programmatic equivalent to using L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder> and a
 `<child>` tag to add the child. Adding children with other API is not
 appropriate as B<Gnome::Gtk4::ShortcutsGroup> manages its children internally.
 
@@ -77,7 +77,7 @@ appropriate as B<Gnome::Gtk4::ShortcutsGroup> manages its children internally.
 method add-shortcut ( N-Object() $shortcut )
 =end code
 
-=item $shortcut; the B<Gnome::Gtk4::ShortcutsShortcut> to add.
+=item $shortcut; the L<Gnome::Gtk4::ShortcutsShortcut|/content-docs/api2/reference/Gtk4/ShortcutsShortcut> to add.
 
 =end pod
 

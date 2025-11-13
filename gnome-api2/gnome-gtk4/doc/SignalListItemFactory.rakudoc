@@ -9,7 +9,7 @@ use v6.d;
 =TITLE Gnome::Gtk4::SignalListItemFactory
 =head1 Description
 
-B<Gnome::Gtk4::SignalListItemFactory> is a B<Gnome::Gtk4::ListItemFactory> that emits signals
+B<Gnome::Gtk4::SignalListItemFactory> is a L<Gnome::Gtk4::ListItemFactory|/content-docs/api2/reference/Gtk4/ListItemFactory> that emits signals
 to manage listitems.
 
 Signals are emitted for every listitem in the same order:
@@ -114,7 +114,7 @@ new I<item defined in Gnome::Gtk4::ListItem> has been set on a
 listitem and should be bound for use.
 
 After this signal was emitted, the object might be shown in
-a B<Gnome::Gtk4::ListView> or other widget.
+a L<Gnome::Gtk4::ListView|/content-docs/api2/reference/Gtk4/ListView> or other widget.
 
 The I<unbind> signal is the
 opposite of this signal and can be used to undo everything done
@@ -126,15 +126,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::SignalListItemFactory :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
-=item $object; The B<Gnome::GObject::Object> to bind.
+=item $object; The L<Gnome::GObject::Object|/content-docs/api2/reference/GObject/Object> to bind.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SignalListItemFactory> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::SignalListItemFactory> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -159,15 +158,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::SignalListItemFactory :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
-=item $object; The B<Gnome::GObject::Object> to set up.
+=item $object; The L<Gnome::GObject::Object|/content-docs/api2/reference/GObject/Object> to set up.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SignalListItemFactory> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::SignalListItemFactory> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -192,15 +190,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::SignalListItemFactory :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
-=item $object; The B<Gnome::GObject::Object> to tear down.
+=item $object; The L<Gnome::GObject::Object|/content-docs/api2/reference/GObject/Object> to tear down.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SignalListItemFactory> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::SignalListItemFactory> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -225,15 +222,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::SignalListItemFactory :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
-=item $object; The B<Gnome::GObject::Object> to unbind.
+=item $object; The L<Gnome::GObject::Object|/content-docs/api2/reference/GObject/Object> to unbind.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SignalListItemFactory> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::SignalListItemFactory> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
