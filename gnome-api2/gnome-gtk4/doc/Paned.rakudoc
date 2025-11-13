@@ -17,7 +17,7 @@ The division between the two panes is adjustable by the user
 by dragging a handle.
 
 Child widgets are added to the panes of the widget with
-C<.set-start-child()> and C<.set-end-child()>.
+L<.set-start-child()|#set-start-child> and L<.set-end-child()|#set-end-child>.
 The division between the two children is set by default from the size
 requests of the children, but it can be adjusted by the user.
 
@@ -25,7 +25,7 @@ A paned widget draws a separator between the two child widgets and a
 small handle that the user can drag to adjust the division. It does not
 draw any relief around the children or around the separator. (The space
 in which the separator is called the gutter.) Often, it is useful to put
-each child inside a B<Gnome::Gtk4::Frame> so that the gutter appears as a
+each child inside a L<Gnome::Gtk4::Frame|/content-docs/api2/reference/Gtk4/Frame> so that the gutter appears as a
 ridge. No separator is drawn if one of the children is missing.
 
 Each child has two options that can be set, "resize" and "shrink". If
@@ -37,7 +37,7 @@ If "resize" is false for both children, then this is treated as if
 "resize" is true for both children.
 
 The application can set the position of the slider as if it were set
-by the user, by calling C<.set-position()>.
+by the user, by calling L<.set-position()|#set-position>.
 
 =head2 CSS nodes
 
@@ -501,15 +501,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Paned :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Paned> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Paned> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; 
 
@@ -538,15 +537,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Paned :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Paned> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Paned> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; 
 
@@ -572,16 +570,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Paned :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
 =item $reversed; whether cycling backward or forward.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Paned> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Paned> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; 
 
@@ -608,16 +605,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Paned :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
 =item $reversed; whether cycling backward or forward.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Paned> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Paned> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; 
 
@@ -641,16 +637,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Paned :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
 =item $scroll-type; a C<enumeration GtkScrollType defined in Gnome::Gtk4::T-enums>.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Paned> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Paned> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; 
 
@@ -676,15 +671,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Paned :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Paned> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Paned> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; 
 

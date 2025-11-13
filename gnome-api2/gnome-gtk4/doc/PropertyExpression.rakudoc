@@ -9,7 +9,7 @@ use v6.d;
 =TITLE Gnome::Gtk4::PropertyExpression
 =head1 Description
 
-A B<Gnome::GObject::Object> property value in a B<Gnome::Gtk4::Expression>.
+A L<Gnome::GObject::Object|/content-docs/api2/reference/GObject/Object> property value in a L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression>.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/PropertyExpression.png> :width<70%> :class<inline>
@@ -94,7 +94,7 @@ method new-for-pspec ( N-Object() $expression, N-Object() $pspec --> Gnome::Gtk4
 =item $expression; (transfer ownership: full) Expression to
   evaluate to get the object to query or undefined to
   query the B<this> object.
-=item $pspec; the B<Gnome::GObject::ParamSpec> for the property to query.
+=item $pspec; the L<Gnome::GObject::ParamSpec|/content-docs/api2/reference/GObject/ParamSpec> for the property to query.
 
 =begin comment
 
@@ -139,14 +139,14 @@ Return value; the object expression.
 =begin pod
 =head2 get-pspec
 
-Gets the B<Gnome::GObject::ParamSpec> specifying the property of
+Gets the L<Gnome::GObject::ParamSpec|/content-docs/api2/reference/GObject/ParamSpec> specifying the property of
 a property expression.
 
 =begin code
 method get-pspec (--> N-Object )
 =end code
 
-Return value; the B<Gnome::GObject::ParamSpec> for the property. 
+Return value; the L<Gnome::GObject::ParamSpec|/content-docs/api2/reference/GObject/ParamSpec> for the property. 
 
 =begin comment
 

@@ -15,7 +15,7 @@ up popover menus when clicked.
 =for image :src<asset_files/images/menubar.png> :width<30%> :class<inline>
 
 The only way to create instances of B<Gnome::Gtk4::PopoverMenuBar> is
-from a B<Gnome::Gio::MenuModel>.
+from a L<Gnome::Gio::MenuModel|/content-docs/api2/reference/Gio/MenuModel>.
 
 =head2 CSS nodes
 
@@ -40,12 +40,8 @@ B<Gnome::Gtk4::PopoverMenuBar> uses the C<GTK_ACCESSIBLE_ROLE_MENU_BAR> role,
 the menu items use the C<GTK_ACCESSIBLE_ROLE_MENU_ITEM> role and
 the menus use the C<GTK_ACCESSIBLE_ROLE_MENU> role.
 
-=begin comment
-
 =head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+=for image :src<asset_files/images/plantuml/PopoverMenuBar.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -77,13 +73,13 @@ Create an object using a native object from an object of the same type found els
 =begin pod
 =head2 new-from-model
 
-Creates a B<Gnome::Gtk4::PopoverMenuBar> from a B<Gnome::Gio::MenuModel>.
+Creates a B<Gnome::Gtk4::PopoverMenuBar> from a L<Gnome::Gio::MenuModel|/content-docs/api2/reference/Gio/MenuModel>.
 
 =begin code
-method new-from-model ( N-Object() $model --> Gnome::Gtk4::PopoverMenuBar \)
+method new-from-model ( N-Object() $model --> Gnome::Gtk4::PopoverMenuBar )
 =end code
 
-=item $model; a B<Gnome::Gio::MenuModel>.
+=item $model; a L<Gnome::Gio::MenuModel|/content-docs/api2/reference/Gio/MenuModel>.
 
 =begin comment
 
@@ -115,7 +111,7 @@ item with a B<custom> attribute that matches C<$id>.
 method add-child ( N-Object() $child, Str $id --> Bool )
 =end code
 
-=item $child; the B<Gnome::Gtk4::Widget> to add.
+=item $child; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to add.
 =item $id; the ID to insert C<$child> at.
 
 Return value; C<True> if C<$id> was found and the widget added. 
@@ -139,7 +135,7 @@ Returns the model from which the contents of C<$bar> are taken.
 method get-menu-model (--> N-Object )
 =end code
 
-Return value; a B<Gnome::Gio::MenuModel>. 
+Return value; a L<Gnome::Gio::MenuModel|/content-docs/api2/reference/Gio/MenuModel>. 
 
 =begin comment
 
@@ -161,7 +157,7 @@ C<.add-child()>.
 method remove-child ( N-Object() $child --> Bool )
 =end code
 
-=item $child; the B<Gnome::Gtk4::Widget> to remove.
+=item $child; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to remove.
 
 Return value; C<True> if the widget was removed. 
 
@@ -185,7 +181,7 @@ its contents.
 method set-menu-model ( N-Object() $model )
 =end code
 
-=item $model; a B<Gnome::Gio::MenuModel>.
+=item $model; a L<Gnome::Gio::MenuModel|/content-docs/api2/reference/Gio/MenuModel>.
 
 =begin comment
 

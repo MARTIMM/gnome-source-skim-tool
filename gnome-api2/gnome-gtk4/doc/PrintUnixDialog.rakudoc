@@ -16,12 +16,12 @@ which don’t provide a native print dialog, like Unix.
 
 It can be used very much like any other GTK dialog, at the cost of
 the portability offered by the high-level printing API with
-B<Gnome::Gtk4::PrintOperation>.
+L<Gnome::Gtk4::PrintOperation|/content-docs/api2/reference/Gtk4/PrintOperation>.
 
 In order to print something with B<Gnome::Gtk4::PrintUnixDialog>, you need to
-use C<.get-selected-printer()> to obtain a
-B<Gnome::Gtk4::Printer> object and use it to construct a B<Gnome::Gtk4::PrintJob>
-using C<.newprintunixdialog()> in class C<Gnome::Gtk4::PrintJob>.
+use L<.get-selected-printer()|#get-selected-printer> to obtain a
+L<Gnome::Gtk4::Printer|/content-docs/api2/reference/Gtk4/Printer> object and use it to construct a L<Gnome::Gtk4::PrintJob|/content-docs/api2/reference/Gtk4/PrintJob>
+using L<.newprintunixdialog() in class PrintJob|/content-docs/api2/reference/Gtk4/PrintJob#newprintunixdialog>.
 
 B<Gnome::Gtk4::PrintUnixDialog> uses the following response values:
 
@@ -31,7 +31,7 @@ B<Gnome::Gtk4::PrintUnixDialog> uses the following response values:
 
 =head2 GtkPrintUnixDialog as GtkBuildable
 
-The B<Gnome::Gtk4::PrintUnixDialog> implementation of the B<Gnome::Gtk4::R-Buildable> interface
+The B<Gnome::Gtk4::PrintUnixDialog> implementation of the L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/Gtk4/R-Buildable> interface
 exposes its C<$notebook> internal children with the name “notebook”.
 
 An example of a B<Gnome::Gtk4::PrintUnixDialog> UI definition fragment:
@@ -300,7 +300,7 @@ Return value; the currently selected printer.
 =begin pod
 =head2 get-settings
 
-Gets a new B<Gnome::Gtk4::PrintSettings> object that represents the
+Gets a new L<Gnome::Gtk4::PrintSettings|/content-docs/api2/reference/Gtk4/PrintSettings> object that represents the
 current values in the print dialog.
 
 Note that this creates a new object, and you need to unref
@@ -310,7 +310,7 @@ it if don’t want to keep it.
 method get-settings (--> N-Object )
 =end code
 
-Return value; a new B<Gnome::Gtk4::PrintSettings> object with the values from C<$dialog>. 
+Return value; a new L<Gnome::Gtk4::PrintSettings|/content-docs/api2/reference/Gtk4/PrintSettings> object with the values from C<$dialog>. 
 
 =begin comment
 
@@ -411,7 +411,6 @@ method set-has-selection ( Bool() $has-selection )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-manual-capabilities
-This function is not yet available
 
 This lets you specify the printing capabilities your application
 supports.
@@ -446,7 +445,7 @@ Sets the page setup of the B<Gnome::Gtk4::PrintUnixDialog>.
 method set-page-setup ( N-Object() $page-setup )
 =end code
 
-=item $page-setup; a B<Gnome::Gtk4::PageSetup>.
+=item $page-setup; a L<Gnome::Gtk4::PageSetup|/content-docs/api2/reference/Gtk4/PageSetup>.
 
 =begin comment
 
@@ -461,7 +460,7 @@ method set-page-setup ( N-Object() $page-setup )
 =begin pod
 =head2 set-settings
 
-Sets the B<Gnome::Gtk4::PrintSettings> for the B<Gnome::Gtk4::PrintUnixDialog>.
+Sets the L<Gnome::Gtk4::PrintSettings|/content-docs/api2/reference/Gtk4/PrintSettings> for the B<Gnome::Gtk4::PrintUnixDialog>.
 
 Typically, this is used to restore saved print settings
 from a previous print operation before the print dialog
@@ -471,7 +470,7 @@ is shown.
 method set-settings ( N-Object() $settings )
 =end code
 
-=item $settings; a B<Gnome::Gtk4::PrintSettings>.
+=item $settings; a L<Gnome::Gtk4::PrintSettings|/content-docs/api2/reference/Gtk4/PrintSettings>.
 
 =begin comment
 

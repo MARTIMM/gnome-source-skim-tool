@@ -9,7 +9,7 @@ use v6.d;
 =TITLE Gnome::Gtk4::Picture
 =head1 Description
 
-The B<Gnome::Gtk4::Picture> widget displays a B<Gnome::Gdk4::R-Paintable>.
+The B<Gnome::Gtk4::Picture> widget displays a L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable>.
 
 =for image :src<asset_files/images/picture.png> :width<30%> :class<inline>
 
@@ -21,15 +21,15 @@ If the file isn’t loaded successfully, the picture will contain a
 “broken image” icon similar to that used in many web browsers.
 If you want to handle errors in loading the file yourself,
 for example by displaying an error message, then load the image with
-C<.new-from-file()> in class C<Gnome::Gdk4::Texture>, then create the B<Gnome::Gtk4::Picture> with
-C<.new-for-paintable()>.
+L<.new-from-file() in class Texture|/content-docs/api2/reference/Gdk4/Texture#new-from-file>, then create the B<Gnome::Gtk4::Picture> with
+L<.new-for-paintable()|#new-for-paintable>.
 
 Sometimes an application will want to avoid depending on external data
 files, such as image files. See the documentation of B<Gnome::Gio::N-Resource> for details.
-In this case, C<.new-for-resource()> and
-C<.set-resource()> should be used.
+In this case, L<.new-for-resource()|#new-for-resource> and
+L<.set-resource()|#set-resource> should be used.
 
-B<Gnome::Gtk4::Picture> displays an image at its natural size. See B<Gnome::Gtk4::Image>
+B<Gnome::Gtk4::Picture> displays an image at its natural size. See L<Gnome::Gtk4::Image|/content-docs/api2/reference/Gtk4/Image>
 if you want to display a fixed-size image, such as an icon.
 
 =head3 Sizing the paintable
@@ -110,14 +110,14 @@ If the file isn’t found or can’t be loaded, the resulting
 B<Gnome::Gtk4::Picture> is empty.
 
 If you need to detect failures to load the file, use
-C<.new-from-file()> in class C<Gnome::Gdk4::Texture> to load the file yourself,
+L<.new-from-file() in class Texture|/content-docs/api2/reference/Gdk4/Texture#new-from-file> to load the file yourself,
 then create the B<Gnome::Gtk4::Picture> from the texture.
 
 =begin code
 method new-for-file ( N-Object() $file --> Gnome::Gtk4::Picture )
 =end code
 
-=item $file; a B<Gnome::Gio::R-File>.
+=item $file; a L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File>.
 
 =begin comment
 
@@ -134,7 +134,7 @@ method new-for-file ( N-Object() $file --> Gnome::Gtk4::Picture )
 
 Creates a new B<Gnome::Gtk4::Picture> displaying the file C<$filename>.
 
-This is a utility function that calls C<.new-for-file()>.
+This is a utility function that calls L<.new-for-file()|#new-for-file>.
 See that function for details.
 
 =begin code
@@ -165,7 +165,7 @@ its size and contents in response to it.
 method new-for-paintable ( N-Object() $paintable --> Gnome::Gtk4::Picture )
 =end code
 
-=item $paintable; a B<Gnome::Gdk4::R-Paintable>.
+=item $paintable; a L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable>.
 
 =begin comment
 
@@ -184,7 +184,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 
 Creates a new B<Gnome::Gtk4::Picture> displaying C<$pixbuf>.
 
-This is a utility function that calls C<.new-for-paintable()>,
+This is a utility function that calls L<.new-for-paintable()|#new-for-paintable>,
 See that function for details.
 
 The pixbuf must not be modified after passing it to this function.
@@ -193,7 +193,7 @@ The pixbuf must not be modified after passing it to this function.
 method new-for-pixbuf ( N-Object() $pixbuf --> Gnome::Gtk4::Picture )
 =end code
 
-=item $pixbuf; a B<Gnome::GdkPixbuf::Pixbuf>.
+=item $pixbuf; a L<Gnome::GdkPixbuf::Pixbuf|/content-docs/api2/reference/GdkPixbuf/Pixbuf>.
 
 =begin comment
 
@@ -210,7 +210,7 @@ method new-for-pixbuf ( N-Object() $pixbuf --> Gnome::Gtk4::Picture )
 
 Creates a new B<Gnome::Gtk4::Picture> displaying the resource at C<$resource-path>.
 
-This is a utility function that calls C<.new-for-file()>.
+This is a utility function that calls L<.new-for-file()|#new-for-file>.
 See that function for details.
 
 =begin code
@@ -307,16 +307,16 @@ Return value; the content fit mode.
 =begin pod
 =head2 get-file
 
-Gets the B<Gnome::Gio::R-File> currently displayed if C<$self> is displaying a file.
+Gets the L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File> currently displayed if C<$self> is displaying a file.
 
 If C<$self> is not displaying a file, for example when
-C<.set-paintable()> was used, then undefined is returned.
+L<.set-paintable()|#set-paintable> was used, then undefined is returned.
 
 =begin code
 method get-file (--> N-Object )
 =end code
 
-Return value; The B<Gnome::Gio::R-File> displayed by C<$self>.. 
+Return value; The L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File> displayed by C<$self>.. 
 
 =begin comment
 
@@ -354,7 +354,7 @@ Return value; C<True> if the self tries to keep the contents' aspect ratio.
 =begin pod
 =head2 get-paintable
 
-Gets the B<Gnome::Gdk4::R-Paintable> being displayed by the B<Gnome::Gtk4::Picture>.
+Gets the L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable> being displayed by the B<Gnome::Gtk4::Picture>.
 
 =begin code
 method get-paintable (--> N-Object )
@@ -407,11 +407,11 @@ If set to C<True>, the C<$self> can be made smaller than its contents.
 The contents will then be scaled down when rendering.
 
 If you want to still force a minimum size manually, consider using
-C<.set-size-request()> in class C<Gnome::Gtk4::Widget>.
+L<.set-size-request() in class Widget|/content-docs/api2/reference/Gtk4/Widget#set-size-request>.
 
 Also of note is that a similar function for growing does not exist
 because the grow behavior can be controlled via
-C<.set-halign()> in class C<Gnome::Gtk4::Widget> and C<.set-valign()> in class C<Gnome::Gtk4::Widget>.
+L<.set-halign() in class Widget|/content-docs/api2/reference/Gtk4/Widget#set-halign> and L<.set-valign() in class Widget|/content-docs/api2/reference/Gtk4/Widget#set-valign>.
 
 =begin code
 method set-can-shrink ( Bool() $can-shrink )
@@ -457,13 +457,13 @@ method set-content-fit ( GtkContentFit $content-fit )
 
 Makes C<$self> load and display C<$file>.
 
-See C<.new-for-file()> for details.
+See L<.new-for-file()|#new-for-file> for details.
 
 =begin code
 method set-file ( N-Object() $file )
 =end code
 
-=item $file; a B<Gnome::Gio::R-File>.
+=item $file; a L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File>.
 
 =begin comment
 
@@ -480,7 +480,7 @@ method set-file ( N-Object() $file )
 
 Makes C<$self> load and display the given C<$filename>.
 
-This is a utility function that calls C<.set-file()>.
+This is a utility function that calls L<.set-file()|#set-file>.
 
 =begin code
 method set-filename ( Str $filename )
@@ -535,13 +535,13 @@ Makes C<$self> display the given C<$paintable>.
 
 If C<$paintable> is undefined, nothing will be displayed.
 
-See C<.new-for-paintable()> for details.
+See L<.new-for-paintable()|#new-for-paintable> for details.
 
 =begin code
 method set-paintable ( N-Object() $paintable )
 =end code
 
-=item $paintable; a B<Gnome::Gdk4::R-Paintable>.
+=item $paintable; a L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable>.
 
 =begin comment
 
@@ -558,17 +558,17 @@ method set-paintable ( N-Object() $paintable )
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.12>
 
-Sets a B<Gnome::Gtk4::Picture> to show a B<Gnome::GdkPixbuf::Pixbuf>.
+Sets a B<Gnome::Gtk4::Picture> to show a L<Gnome::GdkPixbuf::Pixbuf|/content-docs/api2/reference/GdkPixbuf/Pixbuf>.
 
-See C<.new-for-pixbuf()> for details.
+See L<.new-for-pixbuf()|#new-for-pixbuf> for details.
 
-This is a utility function that calls C<.set-paintable()>.
+This is a utility function that calls L<.set-paintable()|#set-paintable>.
 
 =begin code
 method set-pixbuf ( N-Object() $pixbuf )
 =end code
 
-=item $pixbuf; a B<Gnome::GdkPixbuf::Pixbuf>.
+=item $pixbuf; a L<Gnome::GdkPixbuf::Pixbuf|/content-docs/api2/reference/GdkPixbuf/Pixbuf>.
 
 =begin comment
 GtkWidget *widget = gtk_picture_new_for_filename ("myfile.png");
@@ -583,7 +583,7 @@ GtkWidget *widget = gtk_picture_new_for_filename ("myfile.png");
 
 Makes C<$self> load and display the resource at the given C<$resource-path>.
 
-This is a utility function that calls C<.set-file()>.
+This is a utility function that calls L<.set-file()|#set-file>.
 
 =begin code
 method set-resource ( Str $resource-path )

@@ -12,24 +12,24 @@ use v6.d;
 B<Gnome::Gtk4::PrintOperation> is the high-level, portable printing API.
 
 It looks a bit different than other GTK dialogs such as the
-B<Gnome::Gtk4::R-FileChooser>, since some platforms don’t expose enough
+L<Gnome::Gtk4::R-FileChooser|/content-docs/api2/reference/Gtk4/R-FileChooser>, since some platforms don’t expose enough
 infrastructure to implement a good print dialog. On such
 platforms, B<Gnome::Gtk4::PrintOperation> uses the native print dialog.
 On platforms which do not provide a native print dialog, GTK
-uses its own, see B<Gnome::Gtk4::PrintUnixDialog>.
+uses its own, see L<Gnome::Gtk4::PrintUnixDialog|/content-docs/api2/reference/Gtk4/PrintUnixDialog>.
 
 The typical way to use the high-level printing API is to create
-a B<Gnome::Gtk4::PrintOperation> object with C<.newprintoperation()>
+a B<Gnome::Gtk4::PrintOperation> object with L<.newprintoperation()|#newprintoperation>
 when the user selects to print. Then you set some properties on it,
-e.g. the page size, any B<Gnome::Gtk4::PrintSettings> from previous print
+e.g. the page size, any L<Gnome::Gtk4::PrintSettings|/content-docs/api2/reference/Gtk4/PrintSettings> from previous print
 operations, the number of pages, the current page, etc.
 
-Then you start the print operation by calling C<.run()>].
+Then you start the print operation by calling L<.run()|#run>.
 It will then show a dialog, let the user select a printer and options.
 When the user finished the dialog, various signals will be emitted on
 the B<Gnome::Gtk4::PrintOperation>, the main one being
 I<draw-page>, which you are supposed to handle
-and render the page on the provided B<Gnome::Gtk4::PrintContext> using Cairo.
+and render the page on the provided L<Gnome::Gtk4::PrintContext|/content-docs/api2/reference/Gtk4/PrintContext> using Cairo.
 
 =head2 The high-level printing API
 
@@ -68,9 +68,9 @@ do_print (void)
 By default B<Gnome::Gtk4::PrintOperation> uses an external application to do
 print preview. To implement a custom print preview, an application
 must connect to the preview signal. The functions
-C<.render-page()> in class B<Gnome::Gtk4::R-PrintOperationPreview>],
-C<.end-preview()> in class B<Gnome::Gtk4::R-PrintOperationPreview>] and
-C<.is-selected()> in class B<Gnome::Gtk4::R-PrintOperationPreview>]
+L<.render-page() in class PrintOperationPreview|/content-docs/api2/reference/Gtk4/PrintOperationPreview#render-page>,
+L<.end-preview() in class PrintOperationPreview|/content-docs/api2/reference/Gtk4/PrintOperationPreview#end-preview> and
+L<.is-selected() in class PrintOperationPreview|/content-docs/api2/reference/Gtk4/PrintOperationPreview#is-selected>
 are useful when implementing a print preview.
 
 =head2 Uml Diagram
@@ -159,7 +159,7 @@ method cancel ( )
 Signal that drawing of particular page is complete.
 
 It is called after completion of page drawing (e.g. drawing
-in another thread). If C<.set-defer-drawing()>]
+in another thread). If L<.set-defer-drawing()|#set-defer-drawing>
 was called before, then this function has to be called by application.
 Otherwise it is called by GTK itself.
 
@@ -225,7 +225,7 @@ Return value; whether page setup selection combos are embedded.
 Call this when the result of a print operation is
 C<GTK_PRINT_OPERATION_RESULT_ERROR>.
 
-It can be called either after C<.run()>]
+It can be called either after L<.run()|#run>
 returns, or in the I<done> signal
 handler.
 
@@ -306,8 +306,8 @@ Return value; the number of pages that will be printed.
 Returns the current print settings.
 
 Note that the return value is undefined until either
-C<.set-print-settings()>] or
-C<.run()>] have been called.
+L<.set-print-settings()|#set-print-settings> or
+L<.run()|#run> have been called.
 
 =begin code
 method get-print-settings (--> N-Object )
@@ -330,7 +330,7 @@ Return value; the current print settings of C<$op>..
 
 Returns the status of the print operation.
 
-Also see C<.get-status-string()>].
+Also see L<.get-status-string()|#get-status-string>.
 
 =begin code
 method get-status (--> GtkPrintStatus )
@@ -355,9 +355,9 @@ Returns a string representation of the status of the
 print operation.
 
 The string is translated and suitable for displaying
-the print status e.g. in a B<Gnome::Gtk4::Statusbar>.
+the print status e.g. in a L<Gnome::Gtk4::Statusbar|/content-docs/api2/reference/Gtk4/Statusbar>.
 
-Use C<.get-status()>] to obtain
+Use L<.get-status()|#get-status> to obtain
 a status value that is suitable for programmatic use.
 
 =begin code
@@ -501,7 +501,7 @@ Return value; the result of the print operation. A return value of
   C<GTK_PRINT_OPERATION_RESULT_APPLY> indicates that the printing was
   completed successfully. In this case, it is a good idea to obtain
   the used print settings with
-  C<.get-print-settings()>]
+  L<.get-print-settings()|#get-print-settings>
   and store them for reuse with the next print operation. A value of
   C<GTK_PRINT_OPERATION_RESULT_IN_PROGRESS> means the operation is running
   asynchronously, and will emit the I<done>
@@ -547,7 +547,7 @@ method set-allow-async ( Bool() $allow-async )
 
 Sets the current page.
 
-If this is called before C<.run()>],
+If this is called before L<.run()|#run>,
 the user will be able to select to print only the current page.
 
 Note that this only makes sense for pre-paginated documents.
@@ -594,7 +594,7 @@ method set-custom-tab-label ( Str $label )
 
 Makes C<$default-page-setup> the default page setup for C<$op>.
 
-This page setup will be used by C<.run()>],
+This page setup will be used by L<.run()|#run>,
 but it can be overridden on a per-page basis by connecting
 to the I<request-page-setup> signal.
 
@@ -602,7 +602,7 @@ to the I<request-page-setup> signal.
 method set-default-page-setup ( N-Object() $default-page-setup )
 =end code
 
-=item $default-page-setup; a B<Gnome::Gtk4::PageSetup>.
+=item $default-page-setup; a L<Gnome::Gtk4::PageSetup|/content-docs/api2/reference/Gtk4/PageSetup>.
 
 =begin comment
 
@@ -618,7 +618,7 @@ method set-default-page-setup ( N-Object() $default-page-setup )
 =head2 set-defer-drawing
 
 Sets up the B<Gnome::Gtk4::PrintOperation> to wait for calling of
-C<.draw-page-finish()> from application.
+L<.draw-page-finish()|#draw-page-finish> from application.
 
 This can be used for drawing page in another thread.
 
@@ -650,7 +650,7 @@ Selected page setup is stored as default page setup in B<Gnome::Gtk4::PrintOpera
 method set-embed-page-setup ( Bool() $embed )
 =end code
 
-=item $embed; C<True> to embed page setup selection in the B<Gnome::Gtk4::PrintUnixDialog>.
+=item $embed; C<True> to embed page setup selection in the L<Gnome::Gtk4::PrintUnixDialog|/content-docs/api2/reference/Gtk4/PrintUnixDialog>.
 
 =begin comment
 
@@ -698,7 +698,7 @@ method set-export-filename ( Str $filename )
 Sets whether there is a selection to print.
 
 Application has to set number of pages to which the selection
-will draw by C<.set-n-pages()>] in a handler
+will draw by L<.set-n-pages()|#set-n-pages> in a handler
 for the I<begin-print> signal.
 
 =begin code
@@ -781,13 +781,13 @@ method set-n-pages ( Int() $n-pages )
 Sets the print settings for C<$op>.
 
 This is typically used to re-establish print settings
-from a previous print operation, see C<.run()>].
+from a previous print operation, see L<.run()|#run>.
 
 =begin code
 method set-print-settings ( N-Object() $print-settings )
 =end code
 
-=item $print-settings; B<Gnome::Gtk4::PrintSettings>.
+=item $print-settings; L<Gnome::Gtk4::PrintSettings|/content-docs/api2/reference/Gtk4/PrintSettings>.
 
 =begin comment
 
@@ -874,7 +874,7 @@ method set-track-print-status ( Bool() $track-status )
 =head2 set-unit
 
 Sets up the transformation for the cairo context obtained from
-B<Gnome::Gtk4::PrintContext> in such a way that distances are measured in
+L<Gnome::Gtk4::PrintContext|/content-docs/api2/reference/Gtk4/PrintContext> in such a way that distances are measured in
 units of C<$unit>.
 
 =begin code
@@ -897,7 +897,7 @@ method set-unit ( GtkUnit $unit )
 =head2 set-use-full-page
 
 If C<$full-page> is C<True>, the transformation for the cairo context
-obtained from B<Gnome::Gtk4::PrintContext> puts the origin at the top left
+obtained from L<Gnome::Gtk4::PrintContext|/content-docs/api2/reference/Gtk4/PrintContext> puts the origin at the top left
 corner of the page.
 
 This may not be the top left corner of the sheet, depending on page
@@ -908,7 +908,7 @@ is at the top left corner of the imageable area (i.e. inside the margins).
 method set-use-full-page ( Bool() $full-page )
 =end code
 
-=item $full-page; C<True> to set up the B<Gnome::Gtk4::PrintContext> for the full page.
+=item $full-page; C<True> to set up the L<Gnome::Gtk4::PrintContext|/content-docs/api2/reference/Gtk4/PrintContext> for the full page.
 
 =begin comment
 
@@ -933,9 +933,9 @@ Emitted after the user has finished changing print settings
 in the dialog, before the actual rendering starts.
 
 A typical use for I<begin-print> is to use the parameters from the
-B<Gnome::Gtk4::PrintContext> and paginate the document accordingly,
+L<Gnome::Gtk4::PrintContext|/content-docs/api2/reference/Gtk4/PrintContext> and paginate the document accordingly,
 and then set the number of pages with
-C<.set-n-pages()>].
+L<.set-n-pages()|#set-n-pages>.
 
 =begin code
 method handler (
@@ -943,15 +943,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::PrintOperation :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
-=item $context; the B<Gnome::Gtk4::PrintContext> for the current operation.
+=item $context; the L<Gnome::Gtk4::PrintContext|/content-docs/api2/reference/Gtk4/PrintContext> for the current operation.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::PrintOperation> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::PrintOperation> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -980,14 +979,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::PrintOperation :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::PrintOperation> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::PrintOperation> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1012,15 +1010,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::PrintOperation :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $widget; the custom widget added in I<create-custom-widget>.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::PrintOperation> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::PrintOperation> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1036,10 +1033,10 @@ Emitted when the print operation run has finished doing
 everything required for printing.
  C<$result> gives you information about what happened during the run.
 If C<$result> is C<GTK_PRINT_OPERATION_RESULT_ERROR> then you can call
-C<.get-error()>] for more information.
+L<.get-error()|#get-error> for more information.
 
 If you enabled print status tracking then
-C<.is-finished()>] may still return C<False>
+L<.is-finished()|#is-finished> may still return C<False>
 after the I<done> signal was emitted.
 
 =begin code
@@ -1048,15 +1045,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::PrintOperation :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $result; the result of the print operation.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::PrintOperation> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::PrintOperation> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1072,7 +1068,7 @@ Emitted for every page that is printed.
 
 The signal handler must render the C<$page-nr>'s page onto the cairo
 context obtained from C<$context> using
-C<.get-cairo-context()> in class B<Gnome::Gtk4::PrintContext>].
+L<.get-cairo-context() in class PrintContext|/content-docs/api2/reference/Gtk4/PrintContext#get-cairo-context>.
 
 =begin comment
 static void
@@ -1116,8 +1112,8 @@ draw_page (GtkPrintOperation *operation,
 
 =end comment
 
-Use C<.set-use-full-page()>] and
-C<.set-unit()>] before starting the print
+Use L<.set-use-full-page()|#set-use-full-page> and
+L<.set-unit()|#set-unit> before starting the print
 operation to set up the transformation of the cairo context
 according to your needs.
 
@@ -1128,16 +1124,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::PrintOperation :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
-=item $context; the B<Gnome::Gtk4::PrintContext> for the current operation.
+=item $context; the L<Gnome::Gtk4::PrintContext|/content-docs/api2/reference/Gtk4/PrintContext> for the current operation.
 =item $page-nr; the number of the currently printed page (0-based).
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::PrintOperation> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::PrintOperation> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1160,15 +1155,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::PrintOperation :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
-=item $context; the B<Gnome::Gtk4::PrintContext> for the current operation.
+=item $context; the L<Gnome::Gtk4::PrintContext|/content-docs/api2/reference/Gtk4/PrintContext> for the current operation.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::PrintOperation> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::PrintOperation> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1188,7 +1182,7 @@ It keeps getting emitted until a connected signal handler returns C<True>.
 The I<paginate> signal is intended to be used for paginating a document
 in small chunks, to avoid blocking the user interface for a long
 time. The signal handler should update the number of pages using
-C<.set-n-pages()>], and return C<True> if the document
+L<.set-n-pages()|#set-n-pages>, and return C<True> if the document
 has been completely paginated.
 
 If you don't need to do pagination in chunks, you can simply do
@@ -1201,16 +1195,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::PrintOperation :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
-=item $context; the B<Gnome::Gtk4::PrintContext> for the current operation.
+=item $context; the L<Gnome::Gtk4::PrintContext|/content-docs/api2/reference/Gtk4/PrintContext> for the current operation.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::PrintOperation> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::PrintOperation> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; C<True> if pagination is complete
 
@@ -1233,13 +1226,13 @@ To implement a custom print preview, an application must return
 C<True> from its handler for this signal. In order to use the
 provided C<$context> for the preview implementation, it must be
 given a suitable cairo context with
-C<.set-cairo-context()> in class B<Gnome::Gtk4::PrintContext>].
+L<.set-cairo-context() in class PrintContext|/content-docs/api2/reference/Gtk4/PrintContext#set-cairo-context>.
 
 The custom preview implementation can use
-C<.is-selected()> in class B<Gnome::Gtk4::R-PrintOperationPreview>] and
-C<.render-page()> in class B<Gnome::Gtk4::R-PrintOperationPreview>] to find pages which
+L<.is-selected() in class PrintOperationPreview|/content-docs/api2/reference/Gtk4/PrintOperationPreview#is-selected> and
+L<.render-page() in class PrintOperationPreview|/content-docs/api2/reference/Gtk4/PrintOperationPreview#render-page> to find pages which
 are selected for print and render them. The preview must be
-finished by calling C<.end-preview()> in class B<Gnome::Gtk4::R-PrintOperationPreview>]
+finished by calling L<.end-preview() in class PrintOperationPreview|/content-docs/api2/reference/Gtk4/PrintOperationPreview#end-preview>
 (typically in response to the user clicking a close button).
 
 =begin code
@@ -1250,18 +1243,17 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::PrintOperation :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
-=item $preview; the B<Gnome::Gtk4::R-PrintOperationPreview> for the current operation.
-=item $context; the B<Gnome::Gtk4::PrintContext> that will be used.
-=item $parent; the B<Gnome::Gtk4::Window> to use as window parent.
+=item $preview; the L<Gnome::Gtk4::R-PrintOperationPreview|/content-docs/api2/reference/Gtk4/R-PrintOperationPreview> for the current operation.
+=item $context; the L<Gnome::Gtk4::PrintContext|/content-docs/api2/reference/Gtk4/PrintContext> that will be used.
+=item $parent; the L<Gnome::Gtk4::Window|/content-docs/api2/reference/Gtk4/Window> to use as window parent.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::PrintOperation> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::PrintOperation> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; C<True> if the listener wants to take over control of the preview
 
@@ -1289,17 +1281,16 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::PrintOperation :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
-=item $context; the B<Gnome::Gtk4::PrintContext> for the current operation.
+=item $context; the L<Gnome::Gtk4::PrintContext|/content-docs/api2/reference/Gtk4/PrintContext> for the current operation.
 =item $page-nr; the number of the currently printed page (0-based).
-=item $setup; the B<Gnome::Gtk4::PageSetup>.
+=item $setup; the L<Gnome::Gtk4::PageSetup|/content-docs/api2/reference/Gtk4/PageSetup>.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::PrintOperation> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::PrintOperation> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1314,7 +1305,7 @@ method handler (
 Emitted at between the various phases of the print operation.
 
 See  enumeration C<PrintStatus> from C<Gnome::Gtk4::T-printoperation>  for the phases that are being discriminated.
-Use C<.get-status()>] to find out the current
+Use L<.get-status()|#get-status> to find out the current
 status.
 
 =begin code
@@ -1322,14 +1313,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::PrintOperation :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::PrintOperation> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::PrintOperation> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1354,7 +1344,7 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::PrintOperation :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
@@ -1362,9 +1352,8 @@ method handler (
 =item $setup; actual page setup.
 =item $settings; actual print settings.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::PrintOperation> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::PrintOperation> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

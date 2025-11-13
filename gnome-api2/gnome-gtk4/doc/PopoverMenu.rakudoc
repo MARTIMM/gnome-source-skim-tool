@@ -9,7 +9,7 @@ use v6.d;
 =TITLE Gnome::Gtk4::PopoverMenu
 =head1 Description
 
-B<Gnome::Gtk4::PopoverMenu> is a subclass of B<Gnome::Gtk4::Popover> that implements menu
+B<Gnome::Gtk4::PopoverMenu> is a subclass of L<Gnome::Gtk4::Popover|/content-docs/api2/reference/Gtk4/Popover> that implements menu
 behavior.
 
 =for image :src<asset_files/images/menu.png> :width<30%> :class<inline>
@@ -20,15 +20,15 @@ or in a more touch-friendly sliding fashion.
 The property I<flags> controls this appearance.
 
 B<Gnome::Gtk4::PopoverMenu> is meant to be used primarily with menu models,
-using C<.new-from-model()>. If you need to put
-other widgets such as a B<Gnome::Gtk4::SpinButton> or a B<Gnome::Gtk4::Switch> into a popover,
-you can use C<.add-child()>.
+using L<.new-from-model()|#new-from-model>. If you need to put
+other widgets such as a L<Gnome::Gtk4::SpinButton|/content-docs/api2/reference/Gtk4/SpinButton> or a L<Gnome::Gtk4::Switch|/content-docs/api2/reference/Gtk4/Switch> into a popover,
+you can use L<.add-child()|#add-child>.
 
-For more dialog-like behavior, use a plain B<Gnome::Gtk4::Popover>.
+For more dialog-like behavior, use a plain L<Gnome::Gtk4::Popover|/content-docs/api2/reference/Gtk4/Popover>.
 
 =head3 Menu models
 
-The XML format understood by B<Gnome::Gtk4::Builder> for B<Gnome::Gio::MenuModel> consists
+The XML format understood by L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder> for L<Gnome::Gio::MenuModel|/content-docs/api2/reference/Gio/MenuModel> consists
 of a toplevel `<menu>` element, which contains one or more `<item>`
 elements. Each `<item>` element contains `<attribute>` and `<link>`
 elements with a mandatory name attribute. `<link>` elements have the
@@ -36,11 +36,11 @@ same content model as `<menu>`. Instead of `<link name="submenu">`
 or `<link name="section">`, you can use `<submenu>` or `<section>`
 elements.
 
-Attribute values can be translated using gettext, like other B<Gnome::Gtk4::Builder>
+Attribute values can be translated using gettext, like other L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder>
 content. `<attribute>` elements can be marked for translation with a
 B<translatable>="yes"` attribute. It is also possible to specify message
 context and translator comments, using the context and comments attributes.
-To make use of this, the B<Gnome::Gtk4::Builder> must have been given the gettext
+To make use of this, the L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder> must have been given the gettext
 domain to use.
 
 The following attributes are used when constructing menu items:
@@ -54,9 +54,9 @@ The following attributes are used when constructing menu items:
      whether a submenu is open
 =item "hidden-when": a string used to determine when the item will be hidden.
      Possible values include "action-disabled", "action-missing", "macos-menubar".
-     This is mainly useful for exported menus, see C<.set-menubar()> in class C<Gnome::Gtk4::Application>.
+     This is mainly useful for exported menus, see L<.set-menubar() in class Application|/content-docs/api2/reference/Gtk4/Application#set-menubar>.
 =item "custom": a string used to match against the ID of a custom child added with
-     C<.add-child()>, C<.add-child()> in class C<Gnome::Gtk4::PopoverMenuBar>,
+     L<.add-child()|#add-child>, L<.add-child() in class PopoverMenuBar|/content-docs/api2/reference/Gtk4/PopoverMenuBar#add-child>,
      or in the ui file with `<child type="ID">`.
 
 The following attributes are used when constructing sections:
@@ -76,13 +76,13 @@ The following attributes are used when constructing submenus:
 =item "icon": icon name to display
 
 Menu items will also show accelerators, which are usually associated
-with actions via C<.set-accels-for-action()> in class C<Gnome::Gtk4::Application>,
+with actions via L<.set-accels-for-action() in class Application|/content-docs/api2/reference/Gtk4/Application#set-accels-for-action>,
 [method C<$WidgetClass>.add_binding_action] or
-C<.add-shortcut()> in class C<Gnome::Gtk4::ShortcutController>.
+L<.add-shortcut() in class ShortcutController|/content-docs/api2/reference/Gtk4/ShortcutController#add-shortcut>.
 
 =head2 CSS Nodes
 
-B<Gnome::Gtk4::PopoverMenu> is just a subclass of B<Gnome::Gtk4::Popover> that adds custom content
+B<Gnome::Gtk4::PopoverMenu> is just a subclass of L<Gnome::Gtk4::Popover|/content-docs/api2/reference/Gtk4/Popover> that adds custom content
 to it, therefore it has the same CSS nodes. It is one of the cases that add
 a `.menu` style class to the main B<popover> node.
 
@@ -137,22 +137,22 @@ Create an object using a native object from an object of the same type found els
 Creates a B<Gnome::Gtk4::PopoverMenu> and populates it according to C<$model>.
 
 The created buttons are connected to actions found in the
-B<Gnome::Gtk4::ApplicationWindow> to which the popover belongs - typically
+L<Gnome::Gtk4::ApplicationWindow|/content-docs/api2/reference/Gtk4/ApplicationWindow> to which the popover belongs - typically
 by means of being attached to a widget that is contained within
-the B<Gnome::Gtk4::ApplicationWindow>s widget hierarchy.
+the L<Gnome::Gtk4::ApplicationWindow|/content-docs/api2/reference/Gtk4/ApplicationWindow>s widget hierarchy.
 
-Actions can also be added using C<.insert-action-group()> in class C<Gnome::Gtk4::Widget>
+Actions can also be added using L<.insert-action-group() in class Widget|/content-docs/api2/reference/Gtk4/Widget#insert-action-group>
 on the menus attach widget or on any of its parent widgets.
 
 This function creates menus with sliding submenus.
-See C<.new-from-model-full()> for a way
+See L<.new-from-model-full()|#new-from-model-full> for a way
 to control this.
 
 =begin code
 method new-from-model ( N-Object() $model --> Gnome::Gtk4::PopoverMenu )
 =end code
 
-=item $model; a B<Gnome::Gio::MenuModel>.
+=item $model; a L<Gnome::Gio::MenuModel|/content-docs/api2/reference/Gio/MenuModel>.
 
 =begin comment
 
@@ -171,15 +171,15 @@ Creates a B<Gnome::Gtk4::PopoverMenu> and populates it according to C<$model>.
 
 The created buttons are connected to actions found in the
 action groups that are accessible from the parent widget.
-This includes the B<Gnome::Gtk4::ApplicationWindow> to which the popover
-belongs. Actions can also be added using C<.insert-action-group()> in class C<Gnome::Gtk4::Widget>
+This includes the L<Gnome::Gtk4::ApplicationWindow|/content-docs/api2/reference/Gtk4/ApplicationWindow> to which the popover
+belongs. Actions can also be added using L<.insert-action-group() in class Widget|/content-docs/api2/reference/Gtk4/Widget#insert-action-group>
 on the parent widget or on any of its parent widgets.
 
 =begin code
 method new-from-model-full ( N-Object() $model, UInt $flags --> Gnome::Gtk4::PopoverMenu )
 =end code
 
-=item $model; a B<Gnome::Gio::MenuModel>.
+=item $model; a L<Gnome::Gio::MenuModel|/content-docs/api2/reference/Gio/MenuModel>.
 =item $flags; flags that affect how the menu is created.
 
 =begin comment
@@ -212,7 +212,7 @@ an item with a B<custom> attribute that matches C<$id>.
 method add-child ( N-Object() $child, Str $id --> Bool )
 =end code
 
-=item $child; the B<Gnome::Gtk4::Widget> to add.
+=item $child; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to add.
 =item $id; the ID to insert C<$child> at.
 
 Return value; C<True> if C<$id> was found and the widget added. 
@@ -273,13 +273,13 @@ Return value; the menu model of C<$popover>.
 =head2 remove-child
 
 Removes a widget that has previously been added with
-C<.add-child()()>
+L<.add-child()()|#add-child()>
 
 =begin code
 method remove-child ( N-Object() $child --> Bool )
 =end code
 
-=item $child; the B<Gnome::Gtk4::Widget> to remove.
+=item $child; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to remove.
 
 Return value; C<True> if the widget was removed. 
 
@@ -343,7 +343,7 @@ to C<$model>.
 method set-menu-model ( N-Object() $model )
 =end code
 
-=item $model; a B<Gnome::Gio::MenuModel>.
+=item $model; a L<Gnome::Gio::MenuModel|/content-docs/api2/reference/Gio/MenuModel>.
 
 =end pod
 
