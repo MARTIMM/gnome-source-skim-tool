@@ -13,11 +13,11 @@ B<Gnome::Gtk4::Range> is the common base class for widgets which visualize an
 adjustment.
 
 Widgets that are derived from B<Gnome::Gtk4::Range> include
-B<Gnome::Gtk4::Scale> and B<Gnome::Gtk4::Scrollbar>.
+L<Gnome::Gtk4::Scale|/content-docs/api2/reference/Gtk4/Scale> and L<Gnome::Gtk4::Scrollbar|/content-docs/api2/reference/Gtk4/Scrollbar>.
 
 Apart from signals for monitoring the parameters of the adjustment,
 B<Gnome::Gtk4::Range> provides properties and methods for setting a
-“fill level” on range widgets. See C<.set-fill-level()>].
+“fill level” on range widgets. See L<.set-fill-level()|#set-fill-level>.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/Range.png> :width<70%> :class<inline>
@@ -66,7 +66,7 @@ Get the adjustment which is the “model” object for B<Gnome::Gtk4::Range>.
 method get-adjustment (--> N-Object )
 =end code
 
-Return value; a B<Gnome::Gtk4::Adjustment>. 
+Return value; a L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment>. 
 
 =begin comment
 
@@ -104,7 +104,7 @@ Return value; The current fill level.
 
 Gets whether the B<Gnome::Gtk4::Range> respects text direction.
 
-See C<.set-flippable()>].
+See L<.set-flippable()|#set-flippable>.
 
 =begin code
 method get-flippable (--> Bool )
@@ -127,7 +127,7 @@ Return value; C<True> if the range is flippable.
 
 Gets whether the range is inverted.
 
-See C<.set-inverted()>].
+See L<.set-inverted()|#set-inverted>.
 
 =begin code
 method get-inverted (--> Bool )
@@ -265,7 +265,7 @@ method get-slider-range ( Array[Int] $slider-start, Array[Int] $slider-end )
 
 This function is useful mainly for B<Gnome::Gtk4::Range> subclasses.
 
-See C<.set-slider-size-fixed()>].
+See L<.set-slider-size-fixed()|#set-slider-size-fixed>.
 
 =begin code
 method get-slider-size-fixed (--> Bool )
@@ -313,7 +313,7 @@ The adjustment indicates the current range value, the minimum and
 maximum range values, the step/page increments used for keybindings
 and scrolling, and the page size.
 
-The page size is normally 0 for B<Gnome::Gtk4::Scale> and nonzero for B<Gnome::Gtk4::Scrollbar>,
+The page size is normally 0 for L<Gnome::Gtk4::Scale|/content-docs/api2/reference/Gtk4/Scale> and nonzero for L<Gnome::Gtk4::Scrollbar|/content-docs/api2/reference/Gtk4/Scrollbar>,
 and indicates the size of the visible area of the widget being scrolled.
 The page size affects the size of the scrollbar slider.
 
@@ -321,7 +321,7 @@ The page size affects the size of the scrollbar slider.
 method set-adjustment ( N-Object() $adjustment )
 =end code
 
-=item $adjustment; a B<Gnome::Gtk4::Adjustment>.
+=item $adjustment; a L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment>.
 
 =begin comment
 
@@ -346,12 +346,12 @@ be the position up to which the file/stream has been downloaded.
 
 This amount of prebuffering can be displayed on the range’s trough
 and is themeable separately from the trough. To enable fill level
-display, use C<.set-show-fill-level()>]. The range defaults
+display, use L<.set-show-fill-level()|#set-show-fill-level>. The range defaults
 to not showing the fill level.
 
 Additionally, it’s possible to restrict the range’s slider position
 to values which are smaller than the fill level. This is controlled
-by C<.set-restrict-to-fill-level()>] and is by default
+by L<.set-restrict-to-fill-level()|#set-restrict-to-fill-level> and is by default
 enabled.
 
 =begin code
@@ -378,7 +378,7 @@ Sets whether the B<Gnome::Gtk4::Range> respects text direction.
 If a range is flippable, it will switch its direction
 if it is horizontal and its direction is C<GTK_TEXT_DIR_RTL>.
 
-See C<.get-direction()> in class B<Gnome::Gtk4::Widget>].
+See L<.get-direction() in class Widget|/content-docs/api2/reference/Gtk4/Widget#get-direction>.
 
 =begin code
 method set-flippable ( Bool() $flippable )
@@ -401,8 +401,8 @@ method set-flippable ( Bool() $flippable )
 
 Sets the step and page sizes for the range.
 
-The step size is used when the user clicks the B<Gnome::Gtk4::Scrollbar>
-arrows or moves a B<Gnome::Gtk4::Scale> via arrow keys. The page size
+The step size is used when the user clicks the L<Gnome::Gtk4::Scrollbar|/content-docs/api2/reference/Gtk4/Scrollbar>
+arrows or moves a L<Gnome::Gtk4::Scale|/content-docs/api2/reference/Gtk4/Scale> via arrow keys. The page size
 is used for example when moving via Page Up or Page Down keys.
 
 =begin code
@@ -479,7 +479,7 @@ method set-range ( Num() $min, Num() $max )
 
 Sets whether the slider is restricted to the fill level.
 
-See C<.set-fill-level()>] for a general description
+See L<.set-fill-level()|#set-fill-level> for a general description
 of the fill level concept.
 
 =begin code
@@ -527,7 +527,7 @@ method set-round-digits ( Int() $round-digits )
 
 Sets whether a graphical fill level is show on the trough.
 
-See C<.set-fill-level()>] for a general description
+See L<.set-fill-level()|#set-fill-level> for a general description
 of the fill level concept.
 
 =begin code
@@ -613,15 +613,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Range :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $value; the value before we clamp.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Range> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Range> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -653,7 +652,7 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Range :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
@@ -661,9 +660,8 @@ method handler (
 =item $scroll; the type of scroll action that was performed.
 =item $value; the new value resulting from the scroll action.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Range> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Range> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; C<True> to prevent other handlers from being invoked for
     the signal, C<False> to propagate the signal further
@@ -688,15 +686,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Range :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $step; how to move the slider.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Range> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Range> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -715,14 +712,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Range :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Range> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Range> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
