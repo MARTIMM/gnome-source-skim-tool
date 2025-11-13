@@ -9,10 +9,10 @@ use v6.d;
 =TITLE Gnome::Gtk4::NumericSorter
 =head1 Description
 
-B<Gnome::Gtk4::NumericSorter> is a B<Gnome::Gtk4::Sorter> that compares numbers.
+B<Gnome::Gtk4::NumericSorter> is a L<Gnome::Gtk4::Sorter|/content-docs/api2/reference/Gtk4/Sorter> that compares numbers.
 
 To obtain the numbers to compare, this sorter evaluates a
-B<Gnome::Gtk4::Expression>.
+L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression>.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/NumericSorter.png> :width<70%> :class<inline>
@@ -50,7 +50,7 @@ Create an object using a native object from an object of the same type found els
 Creates a new numeric sorter using the given C<$expression>.
 
 Smaller numbers will be sorted first. You can call
-C<.set-sort-order()> to change this.
+L<.set-sort-order()|#set-sort-order> to change this.
 
 =begin code
 method new-numericsorter ( N-Object() $expression --> Gnome::Gtk4::NumericSorter )
@@ -85,7 +85,7 @@ Gets the expression that is evaluated to obtain numbers from items.
 method get-expression (--> N-Object )
 =end code
 
-Return value; a B<Gnome::Gtk4::Expression>. 
+Return value; a L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression>. 
 
 =begin comment
 
@@ -133,7 +133,7 @@ numerically, such as C<G_TYPE_INT> or C<G_TYPE_DOUBLE>.
 method set-expression ( N-Object() $expression )
 =end code
 
-=item $expression; a B<Gnome::Gtk4::Expression>.
+=item $expression; a L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression>.
 
 =begin comment
 

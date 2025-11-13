@@ -16,15 +16,15 @@ between using tabs.
 
 There are many configuration options for B<Gnome::Gtk4::Notebook>. Among
 other things, you can choose on which edge the tabs appear
-(see C<.set-tab-pos()>), whether, if there are
+(see L<.set-tab-pos()|#set-tab-pos>), whether, if there are
 too many tabs to fit the notebook should be made bigger or scrolling
-arrows added (see C<.set-scrollable()>), and whether
+arrows added (see L<.set-scrollable()|#set-scrollable>), and whether
 there will be a popup menu allowing the users to switch pages.
-(see C<.popup-enable()>).
+(see L<.popup-enable()|#popup-enable>).
 
 =head2 GtkNotebook as GtkBuildable
 
-The B<Gnome::Gtk4::Notebook> implementation of the B<Gnome::Gtk4::R-Buildable> interface
+The B<Gnome::Gtk4::Notebook> implementation of the L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/Gtk4/R-Buildable> interface
 supports placing children into tabs by specifying “tab” as the
 “type” attribute of a `<child>` element. Note that the content
 of the tab must be created before the tab can be filled.
@@ -85,7 +85,7 @@ to the B<tabs> node. If the notebook is scrollable, CSS nodes with
 name B<arrow> are placed as first and last child of the B<tabs> node.
 
 The main node gets the `.frame` style class when the notebook
-has a border (see C<.set-show-border()>).
+has a border (see L<.set-show-border()|#set-show-border>).
 
 The header node gets one of the style class `.top`, `.bottom`,
 `.left` or `.right`, depending on where the tabs are placed. For
@@ -170,8 +170,8 @@ Appends a page to C<$notebook>.
 method append-page ( N-Object() $child, N-Object() $tab-label --> Int )
 =end code
 
-=item $child; the B<Gnome::Gtk4::Widget> to use as the contents of the page.
-=item $tab-label; the B<Gnome::Gtk4::Widget> to be used as the label
+=item $child; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to use as the contents of the page.
+=item $tab-label; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to be used as the label
   for the page, or undefined to use the default label, “page N”.
 
 Return value; the index (starting from 0) of the appended
@@ -197,14 +197,14 @@ label in the popup menu.
 method append-page-menu ( N-Object() $child, N-Object() $tab-label, N-Object() $menu-label --> Int )
 =end code
 
-=item $child; the B<Gnome::Gtk4::Widget> to use as the contents of the page.
-=item $tab-label; the B<Gnome::Gtk4::Widget> to be used as the label
+=item $child; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to use as the contents of the page.
+=item $tab-label; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to be used as the label
   for the page, or undefined to use the default label, “page N”.
 =item $menu-label; the widget to use as a label for the
   page-switch menu, if that is enabled. If undefined, and C<$tab-label>
-  is a B<Gnome::Gtk4::Label> or undefined, then the menu label will be a newly
+  is a L<Gnome::Gtk4::Label|/content-docs/api2/reference/Gtk4/Label> or undefined, then the menu label will be a newly
   created label with the same text as C<$tab-label>; if C<$tab-label>
-  is not a B<Gnome::Gtk4::Label>, C<$menu-label> must be specified if the
+  is not a L<Gnome::Gtk4::Label|/content-docs/api2/reference/Gtk4/Label>, C<$menu-label> must be specified if the
   page-switch menu is to be used..
 
 Return value; the index (starting from 0) of the appended
@@ -225,7 +225,7 @@ Return value; the index (starting from 0) of the appended
 
 Removes the child from the notebook.
 
-This function is very similar to C<.remove-page()>,
+This function is very similar to L<.remove-page()|#remove-page>,
 but additionally informs the notebook that the removal
 is happening as part of a tab DND operation, which should
 not be cancelled.
@@ -251,7 +251,7 @@ method detach-tab ( N-Object() $child )
 
 Gets one of the action widgets.
 
-See C<.set-action-widget()>.
+See L<.set-action-widget()|#set-action-widget>.
 
 =begin code
 method get-action-widget ( GtkPackType $pack-type --> N-Object )
@@ -356,7 +356,7 @@ method get-menu-label-text ( N-Object() $child --> Str )
 
 Return value; the text of the tab label, or undefined if
   the widget does not have a menu label other than the default
-  menu label, or the menu label widget is not a B<Gnome::Gtk4::Label>.
+  menu label, or the menu label widget is not a L<Gnome::Gtk4::Label|/content-docs/api2/reference/Gtk4/Label>.
   The string is owned by the widget and must not be freed.. 
 
 =begin comment
@@ -418,7 +418,7 @@ is out of bounds.
 =begin pod
 =head2 get-page
 
-Returns the B<Gnome::Gtk4::NotebookPage> for C<$child>.
+Returns the L<Gnome::Gtk4::NotebookPage|/content-docs/api2/reference/Gtk4/NotebookPage> for C<$child>.
 
 =begin code
 method get-page ( N-Object() $child --> N-Object )
@@ -426,7 +426,7 @@ method get-page ( N-Object() $child --> N-Object )
 
 =item $child; a child of C<$notebook>.
 
-Return value; the B<Gnome::Gtk4::NotebookPage> for C<$child>. 
+Return value; the L<Gnome::Gtk4::NotebookPage|/content-docs/api2/reference/Gtk4/NotebookPage> for C<$child>. 
 
 =begin comment
 
@@ -441,10 +441,10 @@ Return value; the B<Gnome::Gtk4::NotebookPage> for C<$child>.
 =begin pod
 =head2 get-pages
 
-Returns a B<Gnome::Gio::R-ListModel> that contains the pages of the notebook.
+Returns a L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> that contains the pages of the notebook.
 
 This can be used to keep an up-to-date view. The model also
-implements B<Gnome::Gtk4::R-SelectionModel> and can be used to track
+implements L<Gnome::Gtk4::NotebookPage|/content-docs/api2/reference/Gnome::Gtk4::R-SelectionModel> and can be used to track
 and modify the visible page.
 
 =begin code
@@ -452,7 +452,7 @@ method get-pages (--> N-List )
 =end code
 
 Return value; a
-  B<Gnome::Gio::R-ListModel> for the notebook's children. 
+  L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> for the notebook's children. 
 
 =begin comment
 
@@ -536,7 +536,7 @@ Returns whether the tab contents can be detached from C<$notebook>.
 method get-tab-detachable ( N-Object() $child --> Bool )
 =end code
 
-=item $child; a child B<Gnome::Gtk4::Widget>.
+=item $child; a child L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>.
 
 Return value; C<True> if the tab is detachable.. 
 
@@ -588,7 +588,7 @@ method get-tab-label-text ( N-Object() $child --> Str )
 =item $child; a widget contained in a page of C<$notebook>.
 
 Return value; the text of the tab label, or undefined if
-  the tab label widget is not a B<Gnome::Gtk4::Label>. The string is owned
+  the tab label widget is not a L<Gnome::Gtk4::Label|/content-docs/api2/reference/Gtk4/Label>. The string is owned
   by the widget and must not be freed.. 
 
 =begin comment
@@ -631,7 +631,7 @@ Gets whether the tab can be reordered via drag and drop or not.
 method get-tab-reorderable ( N-Object() $child --> Bool )
 =end code
 
-=item $child; a child B<Gnome::Gtk4::Widget>.
+=item $child; a child L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>.
 
 Return value; C<True> if the tab is reorderable.. 
 
@@ -654,8 +654,8 @@ Insert a page into C<$notebook> at the given position.
 method insert-page ( N-Object() $child, N-Object() $tab-label, Int() $position --> Int )
 =end code
 
-=item $child; the B<Gnome::Gtk4::Widget> to use as the contents of the page.
-=item $tab-label; the B<Gnome::Gtk4::Widget> to be used as the label
+=item $child; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to use as the contents of the page.
+=item $tab-label; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to be used as the label
   for the page, or undefined to use the default label, “page N”.
 =item $position; the index (starting at 0) at which to insert the page,
   or -1 to append the page after all other pages.
@@ -683,14 +683,14 @@ the widget to use as the label in the popup menu.
 method insert-page-menu ( N-Object() $child, N-Object() $tab-label, N-Object() $menu-label, Int() $position --> Int )
 =end code
 
-=item $child; the B<Gnome::Gtk4::Widget> to use as the contents of the page.
-=item $tab-label; the B<Gnome::Gtk4::Widget> to be used as the label
+=item $child; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to use as the contents of the page.
+=item $tab-label; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to be used as the label
   for the page, or undefined to use the default label, “page N”.
 =item $menu-label; the widget to use as a label for the
   page-switch menu, if that is enabled. If undefined, and C<$tab-label>
-  is a B<Gnome::Gtk4::Label> or undefined, then the menu label will be a newly
+  is a L<Gnome::Gtk4::Label|/content-docs/api2/reference/Gtk4/Label> or undefined, then the menu label will be a newly
   created label with the same text as C<$tab-label>; if C<$tab-label>
-  is not a B<Gnome::Gtk4::Label>, C<$menu-label> must be specified if the
+  is not a L<Gnome::Gtk4::Label|/content-docs/api2/reference/Gtk4/Label>, C<$menu-label> must be specified if the
   page-switch menu is to be used..
 =item $position; the index (starting at 0) at which to insert the page,
   or -1 to append the page after all other pages..
@@ -739,7 +739,7 @@ widget.
 method page-num ( N-Object() $child --> Int )
 =end code
 
-=item $child; a B<Gnome::Gtk4::Widget>.
+=item $child; a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>.
 
 Return value; the index of the page containing C<$child>, or
   -1 if C<$child> is not in the notebook. 
@@ -804,8 +804,8 @@ Prepends a page to C<$notebook>.
 method prepend-page ( N-Object() $child, N-Object() $tab-label --> Int )
 =end code
 
-=item $child; the B<Gnome::Gtk4::Widget> to use as the contents of the page.
-=item $tab-label; the B<Gnome::Gtk4::Widget> to be used as the label
+=item $child; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to use as the contents of the page.
+=item $tab-label; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to be used as the label
   for the page, or undefined to use the default label, “page N”.
 
 Return value; the index (starting from 0) of the prepended
@@ -831,14 +831,14 @@ label in the popup menu.
 method prepend-page-menu ( N-Object() $child, N-Object() $tab-label, N-Object() $menu-label --> Int )
 =end code
 
-=item $child; the B<Gnome::Gtk4::Widget> to use as the contents of the page.
-=item $tab-label; the B<Gnome::Gtk4::Widget> to be used as the label
+=item $child; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to use as the contents of the page.
+=item $tab-label; the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> to be used as the label
   for the page, or undefined to use the default label, “page N”.
 =item $menu-label; the widget to use as a label for the
   page-switch menu, if that is enabled. If undefined, and C<$tab-label>
-  is a B<Gnome::Gtk4::Label> or undefined, then the menu label will be a newly
+  is a L<Gnome::Gtk4::Label|/content-docs/api2/reference/Gtk4/Label> or undefined, then the menu label will be a newly
   created label with the same text as C<$tab-label>; if C<$tab-label>
-  is not a B<Gnome::Gtk4::Label>, C<$menu-label> must be specified if the
+  is not a L<Gnome::Gtk4::Label|/content-docs/api2/reference/Gtk4/Label>, C<$menu-label> must be specified if the
   page-switch menu is to be used..
 
 Return value; the index (starting from 0) of the prepended
@@ -929,14 +929,14 @@ method reorder-child ( N-Object() $child, Int() $position )
 Sets C<$widget> as one of the action widgets.
 
 Depending on the pack type the widget will be placed before
-or after the tabs. You can use a B<Gnome::Gtk4::Box> if you need to pack
+or after the tabs. You can use a L<Gnome::Gtk4::Box|/content-docs/api2/reference/Gtk4/Box> if you need to pack
 more than one widget on the same side.
 
 =begin code
 method set-action-widget ( N-Object() $widget, GtkPackType $pack-type )
 =end code
 
-=item $widget; a B<Gnome::Gtk4::Widget>.
+=item $widget; a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>.
 =item $pack-type; pack type of the action widget.
 
 =begin comment
@@ -1121,18 +1121,18 @@ Sets whether the tab can be detached from C<$notebook> to another
 notebook or widget.
 
 Note that two notebooks must share a common group identifier
-(see C<.set-group-name()>) to allow automatic tabs
+(see L<.set-group-name()|#set-group-name>) to allow automatic tabs
 interchange between them.
 
 If you want a widget to interact with a notebook through DnD
 (i.e.: accept dragged tabs from it) it must be set as a drop
-destination by adding to it a B<Gnome::Gtk4::DropTarget> controller that accepts
+destination by adding to it a L<Gnome::Gtk4::DropTarget|/content-docs/api2/reference/Gtk4/DropTarget> controller that accepts
 the GType B<GTK_TYPE_NOTEBOOK_PAGE>. The `:value` of said drop target will be
-preloaded with a B<Gnome::Gtk4::NotebookPage> object that corresponds to the
+preloaded with a L<Gnome::Gtk4::NotebookPage|/content-docs/api2/reference/Gtk4/NotebookPage> object that corresponds to the
 dropped tab, so you can process the value via `::accept` or `::drop` signals.
 
-Note that you should use C<.detach-tab()> instead
-of C<.remove-page()> if you want to remove the tab
+Note that you should use L<.detach-tab()|#detach-tab> instead
+of L<.remove-page()|#remove-page> if you want to remove the tab
 from the source notebook as part of accepting a drop. Otherwise,
 the source notebook will think that the dragged tab was removed
 from underneath the ongoing drag operation, and will initiate a
@@ -1168,7 +1168,7 @@ you will have to set your own DnD code to do it.
 method set-tab-detachable ( N-Object() $child, Bool() $detachable )
 =end code
 
-=item $child; a child B<Gnome::Gtk4::Widget>.
+=item $child; a child L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>.
 =item $detachable; whether the tab is detachable or not.
 
 =begin comment
@@ -1261,7 +1261,7 @@ via drag and drop or not.
 method set-tab-reorderable ( N-Object() $child, Bool() $reorderable )
 =end code
 
-=item $child; a child B<Gnome::Gtk4::Widget>.
+=item $child; a child L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>.
 =item $reorderable; whether the tab is reorderable or not.
 
 =begin comment
@@ -1289,16 +1289,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Notebook :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
 =item $object; .
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Notebook> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Notebook> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; 
 
@@ -1327,16 +1326,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Notebook :$_widget,
-  *C<user>-options
+  *%user-options
   --> N-Object
 )
 =end code
 
 =item $page; the tab of C<$notebook> that is being detached.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Notebook> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Notebook> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; a B<Gnome::Gtk4::Notebook> that
   C<$page> should be added to
@@ -1357,16 +1355,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Notebook :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
 =item $object; .
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Notebook> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Notebook> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; 
 
@@ -1386,15 +1383,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Notebook :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $object; .
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Notebook> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Notebook> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1416,16 +1412,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Notebook :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
-=item $child; the child B<Gnome::Gtk4::Widget> affected.
+=item $child; the child L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> affected.
 =item $page-num; the new page number for C<$child>.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Notebook> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Notebook> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1447,16 +1442,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Notebook :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
-=item $child; the child B<Gnome::Gtk4::Widget> affected.
+=item $child; the child L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> affected.
 =item $page-num; the C<$child> page number.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Notebook> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Notebook> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1478,16 +1472,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Notebook :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
-=item $child; the child B<Gnome::Gtk4::Widget> affected.
+=item $child; the child L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> affected.
 =item $page-num; the new page number for C<$child>.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Notebook> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Notebook> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1506,7 +1499,7 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Notebook :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
@@ -1514,9 +1507,8 @@ method handler (
 =item $object; .
 =item $p0; .
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Notebook> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Notebook> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; 
 
@@ -1536,16 +1528,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Notebook :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
 =item $object; .
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Notebook> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Notebook> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 Return value; 
 
@@ -1568,16 +1559,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Notebook :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $page; the new current page.
 =item $page-num; the index of the page.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Notebook> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Notebook> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
