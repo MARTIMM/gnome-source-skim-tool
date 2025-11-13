@@ -9,23 +9,23 @@ use v6.d;
 =TITLE Gnome::Gtk4::R-BuilderScope
 =head1 Description
 
-B<Gnome::Gtk4::R-BuilderScope> is an interface to provide language binding support
-to B<Gnome::Gtk4::Builder>.
+L<Gnome::Gtk4::R-BuilderScope|/content-docs/api2/reference/Gtk4/R-BuilderScope> is an interface to provide language binding support
+to L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder>.
 
-The goal of B<Gnome::Gtk4::R-BuilderScope> is to look up programming-language-specific
-values for strings that are given in a B<Gnome::Gtk4::Builder> UI file.
+The goal of L<Gnome::Gtk4::R-BuilderScope|/content-docs/api2/reference/Gtk4/R-BuilderScope> is to look up programming-language-specific
+values for strings that are given in a L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder> UI file.
 
 The primary intended audience is bindings that want to provide deeper
-integration of B<Gnome::Gtk4::Builder> into the language.
+integration of L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder> into the language.
 
-A B<Gnome::Gtk4::R-BuilderScope> instance may be used with multiple B<Gnome::Gtk4::Builder> objects,
+A L<Gnome::Gtk4::R-BuilderScope|/content-docs/api2/reference/Gtk4/R-BuilderScope> instance may be used with multiple L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder> objects,
 even at once.
 
-By default, GTK will use its own implementation of B<Gnome::Gtk4::R-BuilderScope>
-for the C language which can be created via C<.newbuilderscope()> in class C<Gnome::Gtk4::BuilderCScope>.
+By default, GTK will use its own implementation of L<Gnome::Gtk4::R-BuilderScope|/content-docs/api2/reference/Gtk4/R-BuilderScope>
+for the C language which can be created via L<.newbuilderscope() in class BuilderCScope|/content-docs/api2/reference/Gtk4/BuilderCScope#newbuilderscope>.
 
-If you implement B<Gnome::Gtk4::R-BuilderScope> for a language binding, you
-may want to (partially) derive from or fall back to a B<Gnome::Gtk4::BuilderCScope>,
+If you implement L<Gnome::Gtk4::R-BuilderScope|/content-docs/api2/reference/Gtk4/R-BuilderScope> for a language binding, you
+may want to (partially) derive from or fall back to a L<Gnome::Gtk4::BuilderCScope|/content-docs/api2/reference/Gtk4/BuilderCScope>,
 as that class implements support for automatic lookups from C symbols.
 
 =begin comment

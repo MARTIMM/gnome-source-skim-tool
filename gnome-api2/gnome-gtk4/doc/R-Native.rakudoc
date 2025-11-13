@@ -9,28 +9,21 @@ use v6.d;
 =TITLE Gnome::Gtk4::R-Native
 =head1 Description
 
-B<Gnome::Gtk4::R-Native> is the interface implemented by all widgets that have
-their own B<Gnome::Gdk4::Surface>.
+L<Gnome::Gtk4::R-Native|/content-docs/api2/reference/Gtk4/R-Native> is the interface implemented by all widgets that have
+their own L<Gnome::Gdk4::Surface|/content-docs/api2/reference/Gdk4/Surface>.
 
-The obvious example of a B<Gnome::Gtk4::R-Native> is B<Gnome::Gtk4::Window>.
+The obvious example of a L<Gnome::Gtk4::R-Native|/content-docs/api2/reference/Gtk4/R-Native> is L<Gnome::Gtk4::Window|/content-docs/api2/reference/Gtk4/Window>.
 
-Every widget that is not itself a B<Gnome::Gtk4::R-Native> is contained in one,
-and you can get it with C<.get-native() in class Gnome::Gtk4::Widget>.
+Every widget that is not itself a L<Gnome::Gtk4::R-Native|/content-docs/api2/reference/Gtk4/R-Native> is contained in one,
+and you can get it with L<.get-native() in class Widget|/content-docs/api2/reference/Gtk4/Widget#get-native>.
 
-To get the surface of a B<Gnome::Gtk4::R-Native>, use C<.get-surface()>.
-It is also possible to find the B<Gnome::Gtk4::R-Native> to which a surface
-belongs, with C<.Native.get-for-surface()>.
+To get the surface of a L<Gnome::Gtk4::R-Native|/content-docs/api2/reference/Gtk4/R-Native>, use L<.get-surface()|#get-surface>.
+It is also possible to find the L<Gnome::Gtk4::R-Native|/content-docs/api2/reference/Gtk4/R-Native> to which a surface
+belongs, with L<.Native.get-for-surface().Native.get-for-surface() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-native#Native.get-for-surface>.
 
-In addition to a B<Gnome::Gdk4::Surface>, a B<Gnome::Gtk4::R-Native> also provides
-a B<Gnome::Gsk4::Renderer> for rendering on that surface. To get the
-renderer, use C<.get-renderer()>.
-
-=begin comment
-
-=head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+In addition to a L<Gnome::Gdk4::Surface|/content-docs/api2/reference/Gdk4/Surface>, a L<Gnome::Gtk4::R-Native|/content-docs/api2/reference/Gtk4/R-Native> also provides
+a L<Gnome::Gsk4::Renderer|/content-docs/api2/reference/Gsk4/Renderer> for rendering on that surface. To get the
+renderer, use L<.get-renderer()|#get-renderer>.
 
 =begin comment
 
@@ -52,7 +45,7 @@ renderer, use C<.get-renderer()>.
 =begin pod
 =head2 get-renderer
 
-Returns the renderer that is used for this B<Gnome::Gtk4::R-Native>.
+Returns the renderer that is used for this L<Gnome::Gtk4::R-Native|/content-docs/api2/reference/Gtk4/R-Native>.
 
 =begin code
 method get-renderer (--> N-Object )
@@ -73,7 +66,7 @@ Return value; the renderer for C<$self>.
 =begin pod
 =head2 get-surface
 
-Returns the surface of this B<Gnome::Gtk4::R-Native>.
+Returns the surface of this L<Gnome::Gtk4::R-Native|/content-docs/api2/reference/Gtk4/R-Native>.
 
 =begin code
 method get-surface (--> N-Object )
@@ -118,7 +111,7 @@ method get-surface-transform ( Num() $x, Num() $y )
 =begin pod
 =head2 realize
 
-Realizes a B<Gnome::Gtk4::R-Native>.
+Realizes a L<Gnome::Gtk4::R-Native|/content-docs/api2/reference/Gtk4/R-Native>.
 
 This should only be used by subclasses.
 
@@ -139,7 +132,7 @@ method realize ( )
 =begin pod
 =head2 unrealize
 
-Unrealizes a B<Gnome::Gtk4::R-Native>.
+Unrealizes a L<Gnome::Gtk4::R-Native|/content-docs/api2/reference/Gtk4/R-Native>.
 
 This should only be used by subclasses.
 
@@ -168,15 +161,15 @@ method unrealize ( )
 =begin pod
 =head2 get-for-surface
 
-Finds the B<Gnome::Gtk4::R-Native> associated with the surface.
+Finds the L<Gnome::Gtk4::R-Native|/content-docs/api2/reference/Gtk4/R-Native> associated with the surface.
 
 =begin code
 method get-for-surface ( N-Object() $surface --> N-Object )
 =end code
 
-=item $surface; a B<Gnome::Gdk4::Surface>.
+=item $surface; a L<Gnome::Gdk4::Surface|/content-docs/api2/reference/Gdk4/Surface>.
 
-Return value; the B<Gnome::Gtk4::R-Native> that is associated with C<$surface>. 
+Return value; the L<Gnome::Gtk4::R-Native|/content-docs/api2/reference/Gtk4/R-Native> that is associated with C<$surface>. 
 
 =begin comment
 

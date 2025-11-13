@@ -9,19 +9,19 @@ use v6.d;
 =TITLE Gnome::Gtk4::R-Buildable
 =head1 Description
 
-B<Gnome::Gtk4::R-Buildable> allows objects to extend and customize their deserialization
+L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/Gtk4/R-Buildable> allows objects to extend and customize their deserialization
 from ui files.
 
 The interface includes methods for setting names and properties of objects,
 parsing custom tags and constructing child objects.
 
-The B<Gnome::Gtk4::R-Buildable> interface is implemented by all widgets and
+The L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/Gtk4/R-Buildable> interface is implemented by all widgets and
 many of the non-widget objects that are provided by GTK. The
-main user of this interface is B<Gnome::Gtk4::Builder>. There should be
+main user of this interface is L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder>. There should be
 very little need for applications to call any of these functions directly.
 
 An object only needs to implement this interface if it needs to extend the
-B<Gnome::Gtk4::Builder> XML format or run any extra routines at deserialization time.
+L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder> XML format or run any extra routines at deserialization time.
 
 =begin comment
 
@@ -45,7 +45,7 @@ B<Gnome::Gtk4::Builder> XML format or run any extra routines at deserialization 
 
 Gets the ID of the C<$buildable> object.
 
-B<Gnome::Gtk4::Builder> sets the name based on the ID attribute
+L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder> sets the name based on the ID attribute
 of the `<object>` tag used to construct the C<$buildable>.
 
 =begin code

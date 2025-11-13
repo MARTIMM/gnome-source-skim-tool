@@ -9,19 +9,12 @@ use v6.d;
 =TITLE Gnome::Gtk4::R-FontChooser
 =head1 Description
 
-B<Gnome::Gtk4::R-FontChooser> is an interface that can be implemented by widgets
+L<Gnome::Gtk4::R-FontChooser|/content-docs/api2/reference/Gtk4/R-FontChooser> is an interface that can be implemented by widgets
 for choosing fonts.
 
 In GTK, the main objects that implement this interface are
-B<Gnome::Gtk4::FontChooserWidget>, B<Gnome::Gtk4::FontChooserDialog> and
-B<Gnome::Gtk4::FontButton>.
-
-=begin comment
-
-=head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+L<Gnome::Gtk4::FontChooserWidget|/content-docs/api2/reference/Gtk4/FontChooserWidget>, L<Gnome::Gtk4::FontChooserDialog|/content-docs/api2/reference/Gtk4/FontChooserDialog> and
+L<Gnome::Gtk4::FontButton|/content-docs/api2/reference/Gtk4/FontButton>.
 
 =begin comment
 
@@ -48,12 +41,12 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Gets the currently-selected font name.
 
 Note that this can be a different string than what you set with
-C<.set-font()>, as the font chooser widget may
+L<.set-font()|#set-font>, as the font chooser widget may
 normalize font names and thus return a string with a different
 structure. For example, “Helvetica Italic Bold 12” could be
 normalized to “Helvetica Bold Italic 12”.
 
-Use C<.equal() in class Gnome::Pango::N-FontDescription> if you want to compare two
+Use L<.equal() in class FontDescription|/content-docs/api2/reference/Pango/FontDescription#equal> if you want to compare two
 font descriptions.
 
 =begin code
@@ -81,12 +74,12 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Gets the currently-selected font.
 
 Note that this can be a different string than what you set with
-C<.set-font()>, as the font chooser widget may
+L<.set-font()|#set-font>, as the font chooser widget may
 normalize font names and thus return a string with a different
 structure. For example, “Helvetica Italic Bold 12” could be
 normalized to “Helvetica Bold Italic 12”.
 
-Use C<.equal() in class Gnome::Pango::N-FontDescription> if you want to compare two
+Use L<.equal() in class FontDescription|/content-docs/api2/reference/Pango/FontDescription#equal> if you want to compare two
 font descriptions.
 
 =begin code
@@ -111,7 +104,7 @@ Return value; A B<Gnome::Pango::N-FontDescription> for the
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Gets the B<Gnome::Pango::FontFace> representing the selected font group
+Gets the L<Gnome::Pango::FontFace|/content-docs/api2/reference/Pango/FontFace> representing the selected font group
 details (i.e. family, slant, weight, width, etc).
 
 If the selected font is not installed, returns undefined.
@@ -120,7 +113,7 @@ If the selected font is not installed, returns undefined.
 method get-font-face (--> N-Object )
 =end code
 
-Return value; A B<Gnome::Pango::FontFace> representing the
+Return value; A L<Gnome::Pango::FontFace|/content-docs/api2/reference/Pango/FontFace> representing the
   selected font group details. 
 
 =begin comment
@@ -138,7 +131,7 @@ Return value; A B<Gnome::Pango::FontFace> representing the
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Gets the B<Gnome::Pango::FontFamily> representing the selected font family.
+Gets the L<Gnome::Pango::FontFamily|/content-docs/api2/reference/Pango/FontFamily> representing the selected font family.
 
 Font families are a collection of font faces.
 
@@ -148,7 +141,7 @@ If the selected font is not installed, returns undefined.
 method get-font-family (--> N-Object )
 =end code
 
-Return value; A B<Gnome::Pango::FontFamily> representing the
+Return value; A L<Gnome::Pango::FontFamily|/content-docs/api2/reference/Pango/FontFamily> representing the
   selected font family. 
 
 =begin comment
@@ -170,7 +163,7 @@ Gets the currently-selected font features.
 
 The format of the returned string is compatible with the
 [CSS font-feature-settings property](https://www.w3.org/TR/css-fonts-4/#font-rend-desc).
-It can be passed to C<.AttrFontFeatures.new() in package Gnome::Pango>.
+It can be passed to L<.AttrFontFeatures.new().AttrFontFeatures.new() in package Gnome::Pango|/content-docs/api2/reference/Pango/T-fontchooser#AttrFontFeatures.new>.
 
 =begin code
 method get-font-features (--> Str )
@@ -200,7 +193,7 @@ or undefined if it does not have one.
 method get-font-map (--> N-Object )
 =end code
 
-Return value; a B<Gnome::Pango::FontMap>. 
+Return value; a L<Gnome::Pango::FontMap|/content-docs/api2/reference/Pango/FontMap>. 
 
 =begin comment
 
@@ -330,7 +323,6 @@ Return value; C<True> if the preview entry is shown or C<False> if it is hidden.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-filter-func
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -338,12 +330,12 @@ Adds a filter function that decides which fonts to display
 in the font chooser.
 
 =begin code
-method set-filter-func ( &filter, gpointer $user-data, … )
+method set-filter-func ( GtkFontFilterFunc &filter, gpointer $user-data, GDestroyNotify &destroy )
 =end code
 
-=item &filter; a B<Gnome::Gtk4::T-fontchooser>. Tthe function must be specified with following signature; C<:( N-Object $family, N-Object $face, gpointer $data --> gboolean )>.
+=item GtkFontFilterFunc &filter; a B<Gnome::Gtk4::T-fontchooser>. The function must be specified with the following signature; C<:( N-Object $family, N-Object $face, gpointer $data )>.
 =item $user-data; data to pass to C<$filter>.
-=item destroy; function to call to free C<$data> when it is no longer needed. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &destroy; function to call to free C<$data> when it is no longer needed. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 
@@ -438,7 +430,7 @@ pango_context_set_font_map (context, fontmap);
 method set-font-map ( N-Object() $fontmap )
 =end code
 
-=item $fontmap; a B<Gnome::Pango::FontMap>.
+=item $fontmap; a L<Gnome::Pango::FontMap|/content-docs/api2/reference/Pango/FontMap>.
 
 =begin comment
 
@@ -565,15 +557,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::FontChooser :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $fontname; the font name.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::FontChooser> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::FontChooser> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

@@ -11,12 +11,12 @@ use v6.d;
 
 An interface for packing cells
 
-B<Gnome::Gtk4::R-CellLayout> is an interface to be implemented by all objects which
-want to provide a B<Gnome::Gtk4::TreeViewColumn> like API for packing cells,
+L<Gnome::Gtk4::R-CellLayout|/content-docs/api2/reference/Gtk4/R-CellLayout> is an interface to be implemented by all objects which
+want to provide a L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn> like API for packing cells,
 setting attributes and data funcs.
 
 One of the notable features provided by implementations of
-B<Gnome::Gtk4::R-CellLayout> are attributes. Attributes let you set the properties
+L<Gnome::Gtk4::R-CellLayout|/content-docs/api2/reference/Gtk4/R-CellLayout> are attributes. Attributes let you set the properties
 in flexible ways. They can just be set to constant values like regular
 properties. But they can also be mapped to a column of the underlying
 tree model with C<.set-attributes()>, which means that the value
@@ -28,8 +28,8 @@ value of the attribute for each cell that is rendered.
 =head3 GtkCellLayouts as GtkBuildable
 
 Implementations of GtkCellLayout which also implement the GtkBuildable
-interface (B<Gnome::Gtk4::CellView>, B<Gnome::Gtk4::IconView>, B<Gnome::Gtk4::ComboBox>,
-B<Gnome::Gtk4::EntryCompletion>, B<Gnome::Gtk4::TreeViewColumn>) accept B<Gnome::Gtk4::CellRenderer> objects
+interface (L<Gnome::Gtk4::CellView|/content-docs/api2/reference/Gtk4/CellView>, L<Gnome::Gtk4::IconView|/content-docs/api2/reference/Gtk4/IconView>, L<Gnome::Gtk4::ComboBox|/content-docs/api2/reference/Gtk4/ComboBox>,
+L<Gnome::Gtk4::EntryCompletion|/content-docs/api2/reference/Gtk4/EntryCompletion>, L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn>) accept L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> objects
 as `<child>` elements in UI definitions. They support a custom `<attributes>`
 element for their children, which can contain multiple `<attribute>`
 elements. Each `<attribute>` element has a name attribute which specifies
@@ -50,8 +50,8 @@ This is an example of a UI definition fragment specifying attributes:
 
 =end comment
 
-Furthermore for implementations of B<Gnome::Gtk4::R-CellLayout> that use a B<Gnome::Gtk4::CellArea>
-to lay out cells (all B<Gnome::Gtk4::R-CellLayout>s in GTK use a B<Gnome::Gtk4::CellArea>)
+Furthermore for implementations of L<Gnome::Gtk4::R-CellLayout|/content-docs/api2/reference/Gtk4/R-CellLayout> that use a L<Gnome::Gtk4::CellArea|/content-docs/api2/reference/Gtk4/CellArea>
+to lay out cells (all L<Gnome::Gtk4::R-CellLayout|/content-docs/api2/reference/Gtk4/R-CellLayout>s in GTK use a L<Gnome::Gtk4::CellArea|/content-docs/api2/reference/Gtk4/CellArea>)
 [cell properties](class.CellArea.html#cell-properties) can also be defined
 in the format by specifying the custom `<cell-packing>` attribute which can
 contain multiple `<property>` elements.
@@ -73,9 +73,9 @@ Here is a UI definition fragment specifying cell properties:
 
 =head3 Subclassing GtkCellLayout implementations
 
-When subclassing a widget that implements B<Gnome::Gtk4::R-CellLayout> like
-B<Gnome::Gtk4::IconView> or B<Gnome::Gtk4::ComboBox>, there are some considerations related
-to the fact that these widgets internally use a B<Gnome::Gtk4::CellArea>.
+When subclassing a widget that implements L<Gnome::Gtk4::R-CellLayout|/content-docs/api2/reference/Gtk4/R-CellLayout> like
+L<Gnome::Gtk4::IconView|/content-docs/api2/reference/Gtk4/IconView> or L<Gnome::Gtk4::ComboBox|/content-docs/api2/reference/Gtk4/ComboBox>, there are some considerations related
+to the fact that these widgets internally use a L<Gnome::Gtk4::CellArea|/content-docs/api2/reference/Gtk4/CellArea>.
 The cell area is exposed as a construct-only property by these
 widgets. This means that it is possible to e.g. do
 
@@ -124,13 +124,6 @@ for your class.
 
 =begin comment
 
-=head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
-
-=begin comment
-
 =head2 Example
 # Example use of module Gnome::Gtk4::CellLayout
 
@@ -155,14 +148,14 @@ Adds an attribute mapping to the list in C<$cell-layout>.
 
 The C<$column> is the column of the model to get a value from, and the C<$attribute> is the property on C<$cell> to be set from that value. So for
 example if column 2 of the model contains strings, you could have the
-“text” attribute of a B<Gnome::Gtk4::CellRendererText> get its values from column 2.
+“text” attribute of a L<Gnome::Gtk4::CellRendererText|/content-docs/api2/reference/Gtk4/CellRendererText> get its values from column 2.
 In this context "attribute" and "property" are used interchangeably.
 
 =begin code
 method add-attribute ( N-Object() $cell, Str $attribute, Int() $column )
 =end code
 
-=item $cell; a B<Gnome::Gtk4::CellRenderer>.
+=item $cell; a L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>.
 =item $attribute; a property on the renderer.
 =item $column; the column position on the model to get the attribute from.
 
@@ -210,7 +203,7 @@ C<.set-attributes()>.
 method clear-attributes ( N-Object() $cell )
 =end code
 
-=item $cell; a B<Gnome::Gtk4::CellRenderer> to clear the attribute mapping on.
+=item $cell; a L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> to clear the attribute mapping on.
 
 =begin comment
 
@@ -227,8 +220,8 @@ method clear-attributes ( N-Object() $cell )
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Returns the underlying B<Gnome::Gtk4::CellArea> which might be C<$cell-layout>
-if called on a B<Gnome::Gtk4::CellArea> or might be undefined if no B<Gnome::Gtk4::CellArea>
+Returns the underlying L<Gnome::Gtk4::CellArea|/content-docs/api2/reference/Gtk4/CellArea> which might be C<$cell-layout>
+if called on a L<Gnome::Gtk4::CellArea|/content-docs/api2/reference/Gtk4/CellArea> or might be undefined if no L<Gnome::Gtk4::CellArea|/content-docs/api2/reference/Gtk4/CellArea>
 is used by C<$cell-layout>.
 
 =begin code
@@ -287,7 +280,7 @@ Note that reusing the same cell renderer is not supported.
 method pack-end ( N-Object() $cell, Bool() $expand )
 =end code
 
-=item $cell; a B<Gnome::Gtk4::CellRenderer>.
+=item $cell; a L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>.
 =item $expand; C<True> if C<$cell> is to be given extra space allocated to C<$cell-layout>.
 
 =begin comment
@@ -315,7 +308,7 @@ Note that reusing the same cell renderer is not supported.
 method pack-start ( N-Object() $cell, Bool() $expand )
 =end code
 
-=item $cell; a B<Gnome::Gtk4::CellRenderer>.
+=item $cell; a L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>.
 =item $expand; C<True> if C<$cell> is to be given extra space allocated to C<$cell-layout>.
 
 =begin comment
@@ -342,7 +335,7 @@ for this to function properly.
 method reorder ( N-Object() $cell, Int() $position )
 =end code
 
-=item $cell; a B<Gnome::Gtk4::CellRenderer> to reorder.
+=item $cell; a L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> to reorder.
 =item $position; new position to insert C<$cell> at.
 
 =begin comment
@@ -357,14 +350,13 @@ method reorder ( N-Object() $cell, Int() $position )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-attributes
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the attributes in the parameter list as the attributes
 of C<$cell-layout>.
 
-See C<.add-attribute()> for more details.
+See L<.add-attribute()|#add-attribute> for more details.
 
 The attributes should be in attribute/column order, as in
 C<.add-attribute()>. All existing attributes are
@@ -374,7 +366,7 @@ removed, and replaced with the new attributes.
 method set-attributes ( N-Object() $cell, … )
 =end code
 
-=item $cell; a B<Gnome::Gtk4::CellRenderer>.
+=item $cell; a L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>.
 =item …; …. Note that each argument must be specified as a type followed by its value!
 
 =begin comment
@@ -389,11 +381,10 @@ method set-attributes ( N-Object() $cell, … )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-cell-data-func
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Sets the B<Gnome::Gtk4::R-CellLayout>DataFunc to use for C<$cell-layout>.
+Sets the L<Gnome::Gtk4::R-CellLayout|/content-docs/api2/reference/Gtk4/R-CellLayout>DataFunc to use for C<$cell-layout>.
 
 This function is used instead of the standard attributes mapping
 for setting the column value, and should set the value of C<$cell-layout>’s
@@ -401,13 +392,13 @@ cell renderer(s) as appropriate.
  C<$func> may be undefined to remove a previously set function.
 
 =begin code
-method set-cell-data-func ( N-Object() $cell, &func, gpointer $func-data, … )
+method set-cell-data-func ( N-Object() $cell, GtkCellLayoutDataFunc &func, gpointer $func-data, GDestroyNotify &destroy )
 =end code
 
-=item $cell; a B<Gnome::Gtk4::CellRenderer>.
-=item &func; the B<Gnome::Gtk4::R-CellLayout>DataFunc to use. Tthe function must be specified with following signature; C<:( N-Object $cell-layout, N-Object $cell, N-Object $tree-model, N-Object $iter, gpointer $data )>.
+=item $cell; a L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>.
+=item GtkCellLayoutDataFunc &func; the L<Gnome::Gtk4::R-CellLayout|/content-docs/api2/reference/Gtk4/R-CellLayout>DataFunc to use. The function must be specified with the following signature; C<:( N-Object $cell-layout, N-Object $cell, N-Object $tree-model, N-Object $iter, gpointer $data )>.
 =item $func-data; user data for C<$func>.
-=item destroy; destroy notify for C<$func-data>. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &destroy; destroy notify for C<$func-data>. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 

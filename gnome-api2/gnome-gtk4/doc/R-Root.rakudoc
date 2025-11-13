@@ -9,26 +9,19 @@ use v6.d;
 =TITLE Gnome::Gtk4::R-Root
 =head1 Description
 
-B<Gnome::Gtk4::R-Root> is the interface implemented by all widgets that can act as a toplevel
+L<Gnome::Gtk4::R-Root|/content-docs/api2/reference/Gtk4/R-Root> is the interface implemented by all widgets that can act as a toplevel
 widget.
 
 The root widget takes care of providing the connection to the windowing system
 and manages layout, drawing and event delivery for its widget hierarchy.
 
-The obvious example of a B<Gnome::Gtk4::R-Root> is B<Gnome::Gtk4::Window>.
+The obvious example of a L<Gnome::Gtk4::R-Root|/content-docs/api2/reference/Gtk4/R-Root> is L<Gnome::Gtk4::Window|/content-docs/api2/reference/Gtk4/Window>.
 
-To get the display to which a B<Gnome::Gtk4::R-Root> belongs, use
-C<.get-display()>.
+To get the display to which a L<Gnome::Gtk4::R-Root|/content-docs/api2/reference/Gtk4/R-Root> belongs, use
+L<.get-display()|#get-display>.
 
-B<Gnome::Gtk4::R-Root> also maintains the location of keyboard focus inside its widget
-hierarchy, with C<.set-focus()> and C<.get-focus()>.
-
-=begin comment
-
-=head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+L<Gnome::Gtk4::R-Root|/content-docs/api2/reference/Gtk4/R-Root> also maintains the location of keyboard focus inside its widget
+hierarchy, with L<.set-focus()|#set-focus> and L<.get-focus()|#get-focus>.
 
 =begin comment
 
@@ -50,7 +43,7 @@ hierarchy, with C<.set-focus()> and C<.get-focus()>.
 =begin pod
 =head2 get-display
 
-Returns the display that this B<Gnome::Gtk4::R-Root> is on.
+Returns the display that this L<Gnome::Gtk4::R-Root|/content-docs/api2/reference/Gtk4/R-Root> is on.
 
 =begin code
 method get-display (--> N-Object )
@@ -103,7 +96,7 @@ it as the focus widget for the root.
 If C<$focus> is undefined, unsets the focus widget for the root.
 
 To set the focus to a particular widget in the root, it is usually
-more convenient to use C<.grab-focus() in class Gnome::Gtk4::Widget> instead of
+more convenient to use L<.grab-focus() in class Widget|/content-docs/api2/reference/Gtk4/Widget#grab-focus> instead of
 this function.
 
 =begin code

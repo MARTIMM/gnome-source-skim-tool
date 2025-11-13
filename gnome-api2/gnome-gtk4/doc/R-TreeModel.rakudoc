@@ -11,11 +11,11 @@ use v6.d;
 
 The tree interface used by GtkTreeView
 
-The B<Gnome::Gtk4::R-TreeModel> interface defines a generic tree interface for
-use by the B<Gnome::Gtk4::TreeView> widget. It is an abstract interface, and
+The L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel> interface defines a generic tree interface for
+use by the L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView> widget. It is an abstract interface, and
 is designed to be usable with any appropriate data structure. The
 programmer just has to implement this interface on their own data
-type for it to be viewable by a B<Gnome::Gtk4::TreeView> widget.
+type for it to be viewable by a L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView> widget.
 
 The model is represented as a hierarchical tree of strongly-typed,
 columned data. In other words, the model can be seen as a tree where
@@ -29,7 +29,7 @@ model decides how and if changes are made.
 
 In order to make life simpler for programmers who do not need to
 write their own specialized model, two generic models are provided
-— the B<Gnome::Gtk4::TreeStore> and the B<Gnome::Gtk4::ListStore>. To use these, the
+— the L<Gnome::Gtk4::TreeStore|/content-docs/api2/reference/Gtk4/TreeStore> and the L<Gnome::Gtk4::ListStore|/content-docs/api2/reference/Gtk4/ListStore>. To use these, the
 developer simply pushes data into these models as necessary. These
 models provide the data structure as well as all appropriate tree
 interfaces. As a result, implementing drag and drop, sorting, and
@@ -58,14 +58,14 @@ generic pointers. These are filled in by the model in a model-specific
 way. One can convert a path to an iterator by calling
 C<.get-iter()>. These iterators are the primary way
 of accessing a model and are similar to the iterators used by
-B<Gnome::Gtk4::TextBuffer>. They are generally statically allocated on the
+L<Gnome::Gtk4::TextBuffer|/content-docs/api2/reference/Gtk4/TextBuffer>. They are generally statically allocated on the
 stack and only used for a short time. The model interface defines
 a set of operations using them for navigating the model.
 
 It is expected that models fill in the iterator with private data.
-For example, the B<Gnome::Gtk4::ListStore> model, which is internally a simple
+For example, the L<Gnome::Gtk4::ListStore|/content-docs/api2/reference/Gtk4/ListStore> model, which is internally a simple
 linked list, stores a list node in one of the pointers. The
-B<Gnome::Gtk4::R-TreeModel>Sort stores an array and an offset in two of the
+L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>Sort stores an array and an offset in two of the
 pointers. Additionally, there is an integer field. This field is
 generally filled with a unique stamp per model. This stamp is for
 catching errors resulting from using invalid iterators with a model.
@@ -76,7 +76,7 @@ is unchanged (and doesn’t emit a signal). The model is considered
 to own all outstanding iterators and nothing needs to be done to
 free them from the user’s point of view. Additionally, some models
 guarantee that an iterator is valid for as long as the node it refers
-to is valid (most notably the B<Gnome::Gtk4::TreeStore> and B<Gnome::Gtk4::ListStore>).
+to is valid (most notably the L<Gnome::Gtk4::TreeStore|/content-docs/api2/reference/Gtk4/TreeStore> and L<Gnome::Gtk4::ListStore|/content-docs/api2/reference/Gtk4/ListStore>).
 Although generally uninteresting, as one always has to allow for
 the case where iterators do not persist beyond a signal, some very
 important performance enhancements were made in the sort model.
@@ -122,10 +122,10 @@ gtk_tree_model_iter_nth_child (model, &iter,
 This second example shows a quick way of iterating through a list
 and getting a string and an integer from each row. The
 populate_model() function used below is not
-shown, as it is specific to the B<Gnome::Gtk4::ListStore>. For information on
-how to write such a function, see the B<Gnome::Gtk4::ListStore> documentation.
+shown, as it is specific to the L<Gnome::Gtk4::ListStore|/content-docs/api2/reference/Gtk4/ListStore>. For information on
+how to write such a function, see the L<Gnome::Gtk4::ListStore|/content-docs/api2/reference/Gtk4/ListStore> documentation.
 
-=head3 Reading data from a B<Gnome::Gtk4::R-TreeModel>
+=head3 Reading data from a L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>
 
 =begin comment
 enum
@@ -178,11 +178,11 @@ while (valid)
 
 =end comment
 
-The B<Gnome::Gtk4::R-TreeModel> interface contains two methods for reference
+The L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel> interface contains two methods for reference
 counting: C<.ref-node()> and C<.unref-node()>.
 These two methods are optional to implement. The reference counting
 is meant as a way for views to let models know when nodes are being
-displayed. B<Gnome::Gtk4::TreeView> will take a reference on a node when it is
+displayed. L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView> will take a reference on a node when it is
 visible, which means the node is either in the toplevel or expanded.
 Being displayed does not mean that the node is currently directly
 visible to the user in the viewport. Based on this reference counting
@@ -210,13 +210,6 @@ into account:
 
 =begin comment
 
-=head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
-
-=begin comment
-
 =head2 Example
 # Example use of module Gnome::Gtk4::TreeModel
 
@@ -237,7 +230,7 @@ into account:
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Creates a new B<Gnome::Gtk4::R-TreeModel>, with C<$child-model> as the child_model
+Creates a new L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>, with C<$child-model> as the child_model
 and C<$root> as the virtual root.
 
 =begin code
@@ -246,7 +239,7 @@ method filter-new ( N-Object $root --> N-Object )
 
 =item $root; A B<Gnome::Gtk4::N-TreePath>
 
-Return value; A new B<Gnome::Gtk4::R-TreeModel>.. 
+Return value; A new L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>.. 
 
 =begin comment
 
@@ -269,10 +262,10 @@ If C<$func> returns C<True>, then the tree ceases to be walked,
 and C<.foreach()> returns.
 
 =begin code
-method foreach ( &func, gpointer $user-data )
+method foreach ( GtkTreeModelForeachFunc &func, gpointer $user-data )
 =end code
 
-=item &func; a function to be called on each row. Tthe function must be specified with following signature; C<:( N-Object $model, N-Object $path, N-Object $iter, gpointer $data --> gboolean )>.
+=item GtkTreeModelForeachFunc &func; a function to be called on each row. The function must be specified with the following signature; C<:( N-Object $model, N-Object $path, N-Object $iter, gpointer $data )>.
 =item $user-data; user data to passed to C<$func>.
 
 =begin comment
@@ -287,7 +280,6 @@ method foreach ( &func, gpointer $user-data )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -349,13 +341,12 @@ Return value; the type of the column.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-flags
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns a set of flags supported by this interface.
 
-The flags are a bitwise combination of B<Gnome::Gtk4::R-TreeModel>Flags.
+The flags are a bitwise combination of L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>Flags.
 The flags supported should not change during the lifetime
 of the C<$tree-model>.
 
@@ -542,13 +533,12 @@ Return value; a newly-allocated string.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-valist
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Gets the value of one or more cells in the row referenced by C<$iter>.
 
-See C<.get()>, this version takes a va_list
+See L<.get()|#get>, this version takes a va_list
 for language bindings to use.
 
 =begin code
@@ -1073,16 +1063,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TreeModel :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $path; a B<Gnome::Gtk4::N-TreePath> identifying the changed row.
 =item $iter; a valid B<Gnome::Gtk4::N-TreeIter> pointing to the changed row.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeModel> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TreeModel> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1109,15 +1098,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TreeModel :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $path; a B<Gnome::Gtk4::N-TreePath> identifying the row.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeModel> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TreeModel> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1139,16 +1127,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TreeModel :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $path; a B<Gnome::Gtk4::N-TreePath> identifying the row.
 =item $iter; a valid B<Gnome::Gtk4::N-TreeIter> pointing to the row.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeModel> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TreeModel> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1174,16 +1161,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TreeModel :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $path; a B<Gnome::Gtk4::N-TreePath> identifying the new row.
 =item $iter; a valid B<Gnome::Gtk4::N-TreeIter> pointing to the new row.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeModel> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TreeModel> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -1196,7 +1182,7 @@ method handler (
 =head3 rows-reordered
 
 This signal is emitted when the children of a node in the
-B<Gnome::Gtk4::R-TreeModel> have been reordered.
+L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel> have been reordered.
 
 Note that this signal is not emitted
 when rows are reordered by DND, since this is implemented
@@ -1210,7 +1196,7 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TreeModel :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
@@ -1222,9 +1208,8 @@ method handler (
     of each child to its old position before the re-ordering,
     i.e. C<$new-order>`[newpos] = oldpos`.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeModel> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TreeModel> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

@@ -9,22 +9,15 @@ use v6.d;
 =TITLE Gnome::Gtk4::R-StyleProvider
 =head1 Description
 
-B<Gnome::Gtk4::R-StyleProvider> is an interface for style information used by
-B<Gnome::Gtk4::StyleContext>.
+L<Gnome::Gtk4::R-StyleProvider|/content-docs/api2/reference/Gtk4/R-StyleProvider> is an interface for style information used by
+L<Gnome::Gtk4::StyleContext|/content-docs/api2/reference/Gtk4/StyleContext>.
 
-See C<.add-provider() in class Gnome::Gtk4::StyleContext> and
-C<.StyleContext.add-provider-for-display()> for
+See L<.add-provider() in class StyleContext|/content-docs/api2/reference/Gtk4/StyleContext#add-provider> and
+L<.StyleContext.add-provider-for-display().StyleContext.add-provider-for-display() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-styleprovider#StyleContext.add-provider-for-display> for
 adding B<GtkStyleProviders>.
 
-GTK uses the B<Gnome::Gtk4::R-StyleProvider> implementation for CSS in
-B<Gnome::Gtk4::CssProvider>.
-
-=begin comment
-
-=head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+GTK uses the L<Gnome::Gtk4::R-StyleProvider|/content-docs/api2/reference/Gtk4/R-StyleProvider> implementation for CSS in
+L<Gnome::Gtk4::CssProvider|/content-docs/api2/reference/Gtk4/CssProvider>.
 
 =begin comment
 
@@ -49,14 +42,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::StyleProvider :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::StyleProvider> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::StyleProvider> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

@@ -9,17 +9,17 @@ use v6.d;
 =TITLE Gnome::Gtk4::R-FileChooser
 =head1 Description
 
-B<Gnome::Gtk4::R-FileChooser> is an interface that can be implemented by file
+L<Gnome::Gtk4::R-FileChooser|/content-docs/api2/reference/Gtk4/R-FileChooser> is an interface that can be implemented by file
 selection widgets.
 
 In GTK, the main objects that implement this interface are
-B<Gnome::Gtk4::FileChooserWidget> and B<Gnome::Gtk4::FileChooserDialog>.
+L<Gnome::Gtk4::FileChooserWidget|/content-docs/api2/reference/Gtk4/FileChooserWidget> and L<Gnome::Gtk4::FileChooserDialog|/content-docs/api2/reference/Gtk4/FileChooserDialog>.
 
-You do not need to write an object that implements the B<Gnome::Gtk4::R-FileChooser>
+You do not need to write an object that implements the L<Gnome::Gtk4::R-FileChooser|/content-docs/api2/reference/Gtk4/R-FileChooser>
 interface unless you are trying to adapt an existing file selector to
 expose a standard programming interface.
 
-B<Gnome::Gtk4::R-FileChooser> allows for shortcuts to various places in the filesystem.
+L<Gnome::Gtk4::R-FileChooser|/content-docs/api2/reference/Gtk4/R-FileChooser> allows for shortcuts to various places in the filesystem.
 In the default implementation these are displayed in the left pane. It
 may be a bit confusing at first that these shortcuts come from various
 sources and in various flavours, so lets explain the terminology here:
@@ -37,25 +37,18 @@ sources and in various flavours, so lets explain the terminology here:
 
 =head2 File Names and Encodings
 
-When the user is finished selecting files in a B<Gnome::Gtk4::R-FileChooser>, your
-program can get the selected filenames as B<Gnome::Gio::R-File>s.
+When the user is finished selecting files in a L<Gnome::Gtk4::R-FileChooser|/content-docs/api2/reference/Gtk4/R-FileChooser>, your
+program can get the selected filenames as L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File>s.
 
 =head2 Adding options
 
 You can add extra widgets to a file chooser to provide options
 that are not present in the default design, by using
-C<.add-choice()>. Each choice has an identifier and
+L<.add-choice()|#add-choice>. Each choice has an identifier and
 a user visible label; additionally, each choice can have multiple
 options. If a choice has no option, it will be rendered as a
 check button with the given label; if a choice has options, it will
 be rendered as a combo box.
-
-=begin comment
-
-=head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
 
 =begin comment
 
@@ -83,10 +76,10 @@ Adds a 'choice' to the file chooser.
 
 This is typically implemented as a combobox or, for boolean choices,
 as a checkbutton. You can select a value using
-C<.set-choice()> before the dialog is shown,
+L<.set-choice()|#set-choice> before the dialog is shown,
 and you can obtain the user-selected value in the
 I<response defined in Dialog> signal handler using
-C<.get-choice()>.
+L<.get-choice()|#get-choice>.
 
 =begin code
 method add-choice ( Str $id, Str $label, Array[Str] $options, Array[Str] $option-labels )
@@ -124,7 +117,7 @@ so you have to ref and sink it if you want to keep a reference.
 method add-filter ( N-Object() $filter )
 =end code
 
-=item $filter; a B<Gnome::Gtk4::FileFilter>.
+=item $filter; a L<Gnome::Gtk4::FileFilter|/content-docs/api2/reference/Gtk4/FileFilter>.
 
 =begin comment
 
@@ -148,7 +141,7 @@ in a file chooser.
 method add-shortcut-folder ( N-Object() $folder, CArray[N-Error] $err --> Bool )
 =end code
 
-=item $folder; a B<Gnome::Gio::R-File> for the folder to add.
+=item $folder; a L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File> for the folder to add.
 =item $err; Error object. When defined, an error can be returned when there is one.
 Use C<Pointer> when you want to ignore the error.
 .
@@ -242,13 +235,13 @@ Return value; C<True> if the Create Folder button should be displayed..
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Gets the current folder of C<$chooser> as B<Gnome::Gio::R-File>.
+Gets the current folder of C<$chooser> as L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File>.
 
 =begin code
 method get-current-folder (--> N-Object )
 =end code
 
-Return value; the B<Gnome::Gio::R-File> for the current folder.. 
+Return value; the L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File> for the current folder.. 
 
 =begin comment
 
@@ -295,7 +288,7 @@ Return value; The raw text from the file chooser’s “Name” entry. Free with
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Gets the B<Gnome::Gio::R-File> for the currently selected file in
+Gets the L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File> for the currently selected file in
 the file selector.
 
 If multiple files are selected, one of the files will be
@@ -308,7 +301,7 @@ the selected folder.
 method get-file (--> N-Object )
 =end code
 
-Return value; a selected B<Gnome::Gio::R-File>. You own the
+Return value; a selected L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File>. You own the
   returned file; use g_object_unref() to release it.. 
 
 =begin comment
@@ -327,13 +320,13 @@ Return value; a selected B<Gnome::Gio::R-File>. You own the
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Lists all the selected files and subfolders in the current folder
-of C<$chooser> as B<Gnome::Gio::R-File>.
+of C<$chooser> as L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File>.
 
 =begin code
 method get-files (--> N-List )
 =end code
 
-Return value; a list model containing a B<Gnome::Gio::R-File> for each
+Return value; a list model containing a L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File> for each
   selected file and subfolder in the current folder. Free the returned
   list with g_object_unref().. 
 
@@ -377,8 +370,8 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 
 Gets the current set of user-selectable filters, as a list model.
 
-See C<.add-filter()> and
-C<.remove-filter()> for changing individual filters.
+See L<.add-filter()|#add-filter> and
+L<.remove-filter()|#remove-filter> for changing individual filters.
 
 You should not modify the returned list model. Future changes to C<$chooser> may or may not affect the returned model.
 
@@ -386,7 +379,7 @@ You should not modify the returned list model. Future changes to C<$chooser> may
 method get-filters (--> N-List )
 =end code
 
-Return value; a B<Gnome::Gio::R-ListModel> containing the current set
+Return value; a L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> containing the current set
   of user-selectable filters.. 
 
 =begin comment
@@ -436,7 +429,7 @@ You should not modify the returned list model. Future changes to C<$chooser> may
 method get-shortcut-folders (--> N-List )
 =end code
 
-Return value; A list model of B<Gnome::Gio::R-File>s. 
+Return value; A list model of L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File>s. 
 
 =begin comment
 
@@ -482,7 +475,7 @@ Removes C<$filter> from the list of filters that the user can select between.
 method remove-filter ( N-Object() $filter )
 =end code
 
-=item $filter; a B<Gnome::Gtk4::FileFilter>.
+=item $filter; a L<Gnome::Gtk4::FileFilter|/content-docs/api2/reference/Gtk4/FileFilter>.
 
 =begin comment
 
@@ -505,7 +498,7 @@ Removes a folder from the shortcut folders in a file chooser.
 method remove-shortcut-folder ( N-Object() $folder, CArray[N-Error] $err --> Bool )
 =end code
 
-=item $folder; a B<Gnome::Gio::R-File> for the folder to remove.
+=item $folder; a L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File> for the folder to remove.
 =item $err; Error object. When defined, an error can be returned when there is one.
 Use C<Pointer> when you want to ignore the error.
 .
@@ -610,13 +603,13 @@ method set-create-folders ( Bool() $create-folders )
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Sets the current folder for C<$chooser> from a B<Gnome::Gio::R-File>.
+Sets the current folder for C<$chooser> from a L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File>.
 
 =begin code
 method set-current-folder ( N-Object() $file, CArray[N-Error] $err --> Bool )
 =end code
 
-=item $file; the B<Gnome::Gio::R-File> for the new folder.
+=item $file; the L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File> for the new folder.
 =item $err; Error object. When defined, an error can be returned when there is one.
 Use C<Pointer> when you want to ignore the error.
 .
@@ -648,10 +641,10 @@ suggested name in a “Save As...” dialog.  You can pass
 “Untitled.doc” or a similarly suitable suggestion for the C<$name>.
 
 If you want to preselect a particular existing file, you should
-use C<.set-file()> instead.
+use L<.set-file()|#set-file> instead.
 
 Please see the documentation for those functions for an example
-of using C<.set-current-name()> as well.
+of using L<.set-current-name()|#set-current-name> as well.
 
 =begin code
 method set-current-name ( Str $name )
@@ -722,7 +715,7 @@ prepare_file_chooser (GtkFileChooser *chooser,
 method set-file ( N-Object() $file, CArray[N-Error] $err --> Bool )
 =end code
 
-=item $file; the B<Gnome::Gio::R-File> to set as current.
+=item $file; the L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File> to set as current.
 =item $err; Error object. When defined, an error can be returned when there is one.
 Use C<Pointer> when you want to ignore the error.
 .
@@ -758,7 +751,7 @@ set of files without letting the user change it.
 method set-filter ( N-Object() $filter )
 =end code
 
-=item $filter; a B<Gnome::Gtk4::FileFilter>.
+=item $filter; a L<Gnome::Gtk4::FileFilter|/content-docs/api2/reference/Gtk4/FileFilter>.
 
 =begin comment
 

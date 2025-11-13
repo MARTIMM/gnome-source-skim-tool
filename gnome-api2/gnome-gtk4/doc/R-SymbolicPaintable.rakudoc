@@ -9,10 +9,10 @@ use v6.d;
 =TITLE Gnome::Gtk4::R-SymbolicPaintable
 =head1 Description
 
-B<Gnome::Gtk4::R-SymbolicPaintable> is an interface that support symbolic colors in
+L<Gnome::Gtk4::R-SymbolicPaintable|/content-docs/api2/reference/Gtk4/R-SymbolicPaintable> is an interface that support symbolic colors in
 paintables.
 
-B<Gnome::Gdk4::R-Paintable>s implementing the interface will have the
+L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable>s implementing the interface will have the
 [vfunc C<$Gtk>.SymbolicPaintable.snapshot_symbolic] function called and
 have the colors for drawing symbolic icons passed. At least 4 colors are guaranteed
 to be passed every time.
@@ -21,13 +21,6 @@ These 4 colors are the foreground color, and the colors to use for errors, warni
 and success information in that order.
 
 More colors may be added in the future.
-
-=begin comment
-
-=head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
 
 =begin comment
 
@@ -58,7 +51,7 @@ colors.
 method snapshot-symbolic ( N-Object() $snapshot, Num() $width, Num() $height, N-Object $colors, Int() $n-colors )
 =end code
 
-=item $snapshot; a B<Gnome::Gdk4::Snapshot> to snapshot to.
+=item $snapshot; a L<Gnome::Gdk4::Snapshot|/content-docs/api2/reference/Gdk4/Snapshot> to snapshot to.
 =item $width; width to snapshot in.
 =item $height; height to snapshot in.
 =item $colors; a pointer to an array of colors

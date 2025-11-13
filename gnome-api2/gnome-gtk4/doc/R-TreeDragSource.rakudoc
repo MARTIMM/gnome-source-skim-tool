@@ -9,14 +9,7 @@ use v6.d;
 =TITLE Gnome::Gtk4::R-TreeDragSource
 =head1 Description
 
-Interface for Drag-and-Drop destinations in B<Gnome::Gtk4::TreeView>.
-
-=begin comment
-
-=head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+Interface for Drag-and-Drop destinations in L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView>.
 
 =begin comment
 
@@ -40,7 +33,7 @@ Interface for Drag-and-Drop destinations in B<Gnome::Gtk4::TreeView>.
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Asks the B<Gnome::Gtk4::R-TreeDragSource> to delete the row at C<$path>, because
+Asks the L<Gnome::Gtk4::R-TreeDragSource|/content-docs/api2/reference/Gtk4/R-TreeDragSource> to delete the row at C<$path>, because
 it was moved somewhere else via drag-and-drop. Returns C<False>
 if the deletion fails because C<$path> no longer exists, or for
 some model-specific reason. Should robustly handle a C<$path> no
@@ -69,7 +62,7 @@ Return value; C<True> if the row was successfully deleted.
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Asks the B<Gnome::Gtk4::R-TreeDragSource> to return a B<Gnome::Gdk4::ContentProvider> representing
+Asks the L<Gnome::Gtk4::R-TreeDragSource|/content-docs/api2/reference/Gtk4/R-TreeDragSource> to return a L<Gnome::Gdk4::ContentProvider|/content-docs/api2/reference/Gdk4/ContentProvider> representing
 the row at C<$path>. Should robustly handle a C<$path> no
 longer found in the model!
 
@@ -79,7 +72,7 @@ method drag-data-get ( N-Object $path --> N-Object )
 
 =item $path; row that was dragged
 
-Return value; a B<Gnome::Gdk4::ContentProvider> for the
+Return value; a L<Gnome::Gdk4::ContentProvider|/content-docs/api2/reference/Gdk4/ContentProvider> for the
    given C<$path>. 
 
 =begin comment
@@ -97,7 +90,7 @@ Return value; a B<Gnome::Gdk4::ContentProvider> for the
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Asks the B<Gnome::Gtk4::R-TreeDragSource> whether a particular row can be used as
+Asks the L<Gnome::Gtk4::R-TreeDragSource|/content-docs/api2/reference/Gtk4/R-TreeDragSource> whether a particular row can be used as
 the source of a DND operation. If the source doesn’t implement
 this interface, the row is assumed draggable.
 

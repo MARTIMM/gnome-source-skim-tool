@@ -9,19 +9,12 @@ use v6.d;
 =TITLE Gnome::Gtk4::R-PrintOperationPreview
 =head1 Description
 
-B<Gnome::Gtk4::R-PrintOperationPreview> is the interface that is used to
+L<Gnome::Gtk4::R-PrintOperationPreview|/content-docs/api2/reference/Gtk4/R-PrintOperationPreview> is the interface that is used to
 implement print preview.
 
-A B<Gnome::Gtk4::R-PrintOperationPreview> object is passed to the
+A L<Gnome::Gtk4::R-PrintOperationPreview|/content-docs/api2/reference/Gtk4/R-PrintOperationPreview> object is passed to the
 I<preview defined in PrintOperation> signal by
-B<Gnome::Gtk4::PrintOperation>.
-
-=begin comment
-
-=head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+L<Gnome::Gtk4::PrintOperation|/content-docs/api2/reference/Gtk4/PrintOperation>.
 
 =begin comment
 
@@ -129,7 +122,7 @@ Emitted once for each page that gets rendered to the preview.
 
 A handler for this signal should update the C<$context>
 according to C<$page-setup> and set up a suitable cairo
-context, using C<.set-cairo-context() in class Gnome::Gtk4::PrintContext>.
+context, using L<.set-cairo-context() in class PrintContext|/content-docs/api2/reference/Gtk4/PrintContext#set-cairo-context>.
 
 =begin code
 method handler (
@@ -138,16 +131,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::PrintOperationPreview :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
-=item $context; the current B<Gnome::Gtk4::PrintContext>.
-=item $page-setup; the B<Gnome::Gtk4::PageSetup> for the current page.
+=item $context; the current L<Gnome::Gtk4::PrintContext|/content-docs/api2/reference/Gtk4/PrintContext>.
+=item $page-setup; the L<Gnome::Gtk4::PageSetup|/content-docs/api2/reference/Gtk4/PageSetup> for the current page.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::PrintOperationPreview> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::PrintOperationPreview> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
@@ -170,15 +162,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::PrintOperationPreview :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
-=item $context; the current B<Gnome::Gtk4::PrintContext>.
+=item $context; the current L<Gnome::Gtk4::PrintContext|/content-docs/api2/reference/Gtk4/PrintContext>.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::PrintOperationPreview> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::PrintOperationPreview> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 

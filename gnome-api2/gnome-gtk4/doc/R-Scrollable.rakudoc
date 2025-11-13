@@ -9,7 +9,7 @@ use v6.d;
 =TITLE Gnome::Gtk4::R-Scrollable
 =head1 Description
 
-B<Gnome::Gtk4::R-Scrollable> is an interface for widgets with native scrolling ability.
+L<Gnome::Gtk4::R-Scrollable|/content-docs/api2/reference/Gtk4/R-Scrollable> is an interface for widgets with native scrolling ability.
 
 To implement this interface you should override the
 I<hadjustment> and
@@ -33,17 +33,10 @@ All scrollable widgets should do the following.
 
 =item When the parent allocates space to the scrollable child widget,
   the widget must ensure the adjustments’ property values are correct and up
-  to date, for example using C<.configure() in class Gnome::Gtk4::Adjustment>.
+  to date, for example using L<.configure() in class Adjustment|/content-docs/api2/reference/Gtk4/Adjustment#configure>.
 
 =item When any of the adjustments emits the I<value-changed defined in Adjustment>
   signal, the scrollable widget should scroll its contents.
-
-=begin comment
-
-=head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
 
 =begin comment
 
@@ -93,13 +86,13 @@ Return value; C<True> if C<$border> has been set.
 =begin pod
 =head2 get-hadjustment
 
-Retrieves the B<Gnome::Gtk4::Adjustment> used for horizontal scrolling.
+Retrieves the L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment> used for horizontal scrolling.
 
 =begin code
 method get-hadjustment (--> N-Object )
 =end code
 
-Return value; horizontal B<Gnome::Gtk4::Adjustment>.. 
+Return value; horizontal L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment>.. 
 
 =begin comment
 
@@ -135,13 +128,13 @@ Return value; The horizontal C<enumeration GtkScrollablePolicy defined in Gnome:
 =begin pod
 =head2 get-vadjustment
 
-Retrieves the B<Gnome::Gtk4::Adjustment> used for vertical scrolling.
+Retrieves the L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment> used for vertical scrolling.
 
 =begin code
 method get-vadjustment (--> N-Object )
 =end code
 
-Return value; vertical B<Gnome::Gtk4::Adjustment>.. 
+Return value; vertical L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment>.. 
 
 =begin comment
 
@@ -177,13 +170,13 @@ Return value; The vertical C<enumeration GtkScrollablePolicy defined in Gnome::G
 =begin pod
 =head2 set-hadjustment
 
-Sets the horizontal adjustment of the B<Gnome::Gtk4::R-Scrollable>.
+Sets the horizontal adjustment of the L<Gnome::Gtk4::R-Scrollable|/content-docs/api2/reference/Gtk4/R-Scrollable>.
 
 =begin code
 method set-hadjustment ( N-Object() $hadjustment )
 =end code
 
-=item $hadjustment; a B<Gnome::Gtk4::Adjustment>.
+=item $hadjustment; a L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment>.
 
 =begin comment
 
@@ -222,13 +215,13 @@ method set-hscroll-policy ( GtkScrollablePolicy $policy )
 =begin pod
 =head2 set-vadjustment
 
-Sets the vertical adjustment of the B<Gnome::Gtk4::R-Scrollable>.
+Sets the vertical adjustment of the L<Gnome::Gtk4::R-Scrollable|/content-docs/api2/reference/Gtk4/R-Scrollable>.
 
 =begin code
 method set-vadjustment ( N-Object() $vadjustment )
 =end code
 
-=item $vadjustment; a B<Gnome::Gtk4::Adjustment>.
+=item $vadjustment; a L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment>.
 
 =begin comment
 

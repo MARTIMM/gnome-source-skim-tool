@@ -9,32 +9,25 @@ use v6.d;
 =TITLE Gnome::Gtk4::R-AppChooser
 =head1 Description
 
-B<Gnome::Gtk4::R-AppChooser> is an interface for widgets which allow the user to
+L<Gnome::Gtk4::R-AppChooser|/content-docs/api2/reference/Gtk4/R-AppChooser> is an interface for widgets which allow the user to
 choose an application.
 
 The main objects that implement this interface are
-B<Gnome::Gtk4::AppChooserWidget>,
-B<Gnome::Gtk4::AppChooserDialog> and B<Gnome::Gtk4::AppChooserButton>.
+L<Gnome::Gtk4::AppChooserWidget|/content-docs/api2/reference/Gtk4/AppChooserWidget>,
+L<Gnome::Gtk4::AppChooserDialog|/content-docs/api2/reference/Gtk4/AppChooserDialog> and L<Gnome::Gtk4::AppChooserButton|/content-docs/api2/reference/Gtk4/AppChooserButton>.
 
-Applications are represented by GIO B<Gnome::Gio::R-AppInfo> objects here.
+Applications are represented by GIO L<Gnome::Gio::R-AppInfo|/content-docs/api2/reference/Gio/R-AppInfo> objects here.
 GIO has a concept of recommended and fallback applications for a
 given content type. Recommended applications are those that claim
 to handle the content type itself, while fallback also includes
 applications that handle a more generic content type. GIO also
 knows the default and last-used application for a given content
-type. The B<Gnome::Gtk4::AppChooserWidget> provides detailed control over
+type. The L<Gnome::Gtk4::AppChooserWidget|/content-docs/api2/reference/Gtk4/AppChooserWidget> provides detailed control over
 whether the shown list of applications should include default,
 recommended or fallback applications.
 
-To obtain the application that has been selected in a B<Gnome::Gtk4::R-AppChooser>,
-use C<.get-app-info()>.
-
-=begin comment
-
-=head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
+To obtain the application that has been selected in a L<Gnome::Gtk4::R-AppChooser|/content-docs/api2/reference/Gtk4/R-AppChooser>,
+use L<.get-app-info()|#get-app-info>.
 
 =begin comment
 
@@ -64,7 +57,7 @@ Returns the currently selected application.
 method get-app-info (--> N-Object )
 =end code
 
-Return value; a B<Gnome::Gio::R-AppInfo> for the
+Return value; a L<Gnome::Gio::R-AppInfo|/content-docs/api2/reference/Gio/R-AppInfo> for the
   currently selected application. 
 
 =begin comment
@@ -82,7 +75,7 @@ Return value; a B<Gnome::Gio::R-AppInfo> for the
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Returns the content type for which the B<Gnome::Gtk4::R-AppChooser>
+Returns the content type for which the L<Gnome::Gtk4::R-AppChooser|/content-docs/api2/reference/Gtk4/R-AppChooser>
 shows applications.
 
 =begin code

@@ -9,20 +9,20 @@ use v6.d;
 =TITLE Gnome::Gtk4::R-SelectionModel
 =head1 Description
 
-B<Gnome::Gtk4::R-SelectionModel> is an interface that add support for selection to list models.
+L<Gnome::Gtk4::R-SelectionModel|/content-docs/api2/reference/Gtk4/R-SelectionModel> is an interface that add support for selection to list models.
 
 This support is then used by widgets using list models to add the ability
 to select and unselect various items.
 
 GTK provides default implementations of the most common selection modes such
-as B<Gnome::Gtk4::SingleSelection>, so you will only need to implement this
+as L<Gnome::Gtk4::SingleSelection|/content-docs/api2/reference/Gtk4/SingleSelection>, so you will only need to implement this
 interface if you want detailed control about how selections should be handled.
 
-A B<Gnome::Gtk4::R-SelectionModel> supports a single boolean per item indicating if an item is
-selected or not. This can be queried via C<.is-selected()>.
+A L<Gnome::Gtk4::R-SelectionModel|/content-docs/api2/reference/Gtk4/R-SelectionModel> supports a single boolean per item indicating if an item is
+selected or not. This can be queried via L<.is-selected()|#is-selected>.
 When the selected state of one or more items changes, the model will emit the
 I<selection-changed> signal by calling the
-C<.selection-changed()> function. The positions given
+L<.selection-changed()|#selection-changed> function. The positions given
 in that signal may have their selection state changed, though that is not a
 requirement. If new items added to the model via the
 [signal C<$Gio>.ListModel::items-changed] signal are selected or not is up to the
@@ -35,7 +35,7 @@ listen to both signals.
 
 Additionally, the interface can expose functionality to select and unselect
 items. If these functions are implemented, GTK's list widgets will allow users
-to select and unselect items. However, B<Gnome::Gtk4::R-SelectionModel>s are free to only
+to select and unselect items. However, L<Gnome::Gtk4::R-SelectionModel|/content-docs/api2/reference/Gtk4/R-SelectionModel>s are free to only
 implement them partially or not at all. In that case the widgets will not
 support the unimplemented operations.
 
@@ -46,13 +46,6 @@ selecting is not supported by the model.
 
 Selections may happen asynchronously, so the only reliable way to find out
 when an item was selected is to listen to the signals that indicate selection.
-
-=begin comment
-
-=head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
 
 =begin comment
 
@@ -77,8 +70,8 @@ when an item was selected is to listen to the signals that indicate selection.
 Gets the set containing all currently selected items in the model.
 
 This function may be slow, so if you are only interested in single item,
-consider using C<.is-selected()> or if you are only
-interested in a few, consider C<.get-selection-in-range()>.
+consider using L<.is-selected()|#is-selected> or if you are only
+interested in a few, consider L<.get-selection-in-range()|#get-selection-in-range>.
 
 =begin code
 method get-selection (--> N-Object )
@@ -104,7 +97,7 @@ Return value; a B<Gnome::Gtk4::N-Bitset> containing all the values currently
 Gets the set of selected items in a range.
 
 This function is an optimization for
-C<.get-selection()> when you are only
+L<.get-selection()|#get-selection> when you are only
 interested in part of the model's selected state. A common use
 case is in response to the I<selection-changed>
 signal.
@@ -229,7 +222,7 @@ Return value; C<True> if this action was supported and no fallback should be
 =begin pod
 =head2 selection-changed
 
-Helper function for implementations of B<Gnome::Gtk4::R-SelectionModel>.
+Helper function for implementations of L<Gnome::Gtk4::R-SelectionModel|/content-docs/api2/reference/Gtk4/R-SelectionModel>.
 
 Call this when the selection changes to emit the
 I<selection-changed> signal.
@@ -404,16 +397,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::SelectionModel :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $position; The first item that may have changed.
 =item $n-items; number of items with changes.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SelectionModel> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::SelectionModel> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
 =begin comment
 
