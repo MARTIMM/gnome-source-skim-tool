@@ -19,7 +19,7 @@ of the windowing system and allow the user to manipulate the window
 
 =head2 GtkWindow as GtkBuildable
 
-The B<Gnome::Gtk4::Window> implementation of the B<Gnome::Gtk4::R-Buildable> interface supports
+The B<Gnome::Gtk4::Window> implementation of the L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/gtk/Gnome-Buildable> interface supports
 setting a child as the titlebar by specifying “titlebar” as the “type”
 attribute of a `<child>` element.
 
@@ -97,15 +97,15 @@ Create an object using a native object from an object of the same type found els
 Creates a new B<Gnome::Gtk4::Window>.
 
 To get an undecorated window (no window borders), use
-C<.set-decorated()>].
+L<.set-decorated()|#set-decorated>.
 
 All top-level windows created by C<.new-window()> are stored
 in an internal top-level window list. This list can be obtained
-from C<.Window.list-toplevels()>. Due to GTK keeping a
+from L<.Window.list-toplevels().Window.list-toplevels() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-window#Window.list-toplevels>. Due to GTK keeping a
 reference to the window internally, C<.new-window()> does not
 return a reference to the caller.
 
-To delete a B<Gnome::Gtk4::Window>, call C<.destroy()>].
+To delete a B<Gnome::Gtk4::Window>, call L<.destroy()|#destroy>.
 
 =begin code
 method new-window ( --> Gnome::Gtk4::Window )
@@ -233,13 +233,13 @@ method fullscreen-on-monitor ( N-Object() $monitor )
 =begin pod
 =head2 get-application
 
-Gets the B<Gnome::Gtk4::Application> associated with the window.
+Gets the L<Gnome::Gtk4::Application|/content-docs/api2/reference/Gtk4/Application> associated with the window.
 
 =begin code
 method get-application (--> N-Object )
 =end code
 
-Return value; a B<Gnome::Gtk4::Application>. 
+Return value; a L<Gnome::Gtk4::Application|/content-docs/api2/reference/Gtk4/Application>. 
 
 =begin comment
 
@@ -444,7 +444,7 @@ If the window has no group, then the default group is returned.
 method get-group (--> N-Object )
 =end code
 
-Return value; the B<Gnome::Gtk4::WindowGroup> for a window
+Return value; the L<Gnome::Gtk4::WindowGroup|/content-docs/api2/reference/Gtk4/WindowGroup> for a window
   or the default group. 
 
 =begin comment
@@ -707,7 +707,7 @@ Note that since fullscreening is ultimately handled by the window
 manager and happens asynchronously to an application request, you
 shouldn’t assume the return value of this function changing
 immediately (or at all), as an effect of calling
-C<.fullscreen()>] or C<.unfullscreen()>].
+L<.fullscreen()|#fullscreen> or L<.unfullscreen()|#unfullscreen>.
 
 If the window isn't yet mapped, the value returned will whether the
 initial requested state is fullscreen.
@@ -737,7 +737,7 @@ Note that since maximization is ultimately handled by the window
 manager and happens asynchronously to an application request, you
 shouldn’t assume the return value of this function changing
 immediately (or at all), as an effect of calling
-C<.maximize()>] or C<.unmaximize()>].
+L<.maximize()|#maximize> or L<.unmaximize()|#unmaximize>.
 
 If the window isn't yet mapped, the value returned will whether the
 initial requested state is maximized.
@@ -880,7 +880,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 
 Presents a window to the user in response to an user interaction.
 
-See C<.present()>] for more details.
+See L<.present()|#present> for more details.
 
 The timestamp should be gathered when the window was requested
 to be shown (when clicking a link for example), rather than once
@@ -906,7 +906,7 @@ method present-with-time ( UInt() $timestamp )
 =begin pod
 =head2 set-application
 
-Sets or unsets the B<Gnome::Gtk4::Application> associated with the window.
+Sets or unsets the L<Gnome::Gtk4::Application|/content-docs/api2/reference/Gtk4/Application> associated with the window.
 
 The application will be kept alive for at least as long as it has
 any windows associated with it (see g_application_hold() for a way
@@ -916,15 +916,15 @@ Normally, the connection between the application and the window will
 remain until the window is destroyed, but you can explicitly remove
 it by setting the C<$application> to undefined.
 
-This is equivalent to calling C<.remove-window()> in class B<Gnome::Gtk4::Application>]
-and/or C<.add-window()> in class B<Gnome::Gtk4::Application>] on the old/new applications
+This is equivalent to calling L<.remove-window() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#remove-window>
+and/or L<.add-window() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#add-window> on the old/new applications
 as relevant.
 
 =begin code
 method set-application ( N-Object() $application )
 =end code
 
-=item $application; a B<Gnome::Gtk4::Application>, or undefined to unset.
+=item $application; a L<Gnome::Gtk4::Application|/content-docs/api2/reference/Gtk4/Application>, or undefined to unset.
 
 =begin comment
 
@@ -969,7 +969,7 @@ property to C<False> using this function, GTK will do its best to
 convince the window manager not to decorate the window. Depending on
 the system, this function may not have any effect when called on a
 window that is already visible, so you should call it before calling
-C<.show()> in class B<Gnome::Gtk4::Widget>].
+L<.show() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#show>.
 
 On Windows, this function always works, since there’s no window manager
 policy involved.
@@ -1009,7 +1009,7 @@ ignored and the natural size request will be used instead. It
 is possible to do this while the window is showing to "reset"
 it to its initial size.
 
-Unlike C<.set-size-request()> in class B<Gnome::Gtk4::Widget>], which sets a size
+Unlike L<.set-size-request() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#set-size-request>, which sets a size
 request for a widget and thus would keep users from shrinking
 the window, this function only sets the initial size, just as
 if the user had resized the window themselves. Users can still
@@ -1019,7 +1019,7 @@ of the window).
 
 If you use this function to reestablish a previously saved window size,
 note that the appropriate size to save is the one returned by
-C<.get-default-size()>]. Using the window allocation
+L<.get-default-size()|#get-default-size>. Using the window allocation
 directly will not work in all circumstances and can lead to growing
 or shrinking windows.
 
@@ -1076,7 +1076,7 @@ set the deletable property to C<False> using this function, GTK
 will do its best to convince the window manager not to show a
 close button. Depending on the system, this function may not
 have any effect when called on a window that is already visible,
-so you should call it before calling C<.show()> in class B<Gnome::Gtk4::Widget>].
+so you should call it before calling L<.show() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#show>.
 
 On Windows, this function always works, since there’s no window
 manager policy involved.
@@ -1125,7 +1125,7 @@ method set-destroy-with-parent ( Bool() $setting )
 =begin pod
 =head2 set-display
 
-Sets the B<Gnome::Gdk4::Display> where the C<$window> is displayed.
+Sets the L<Gnome::Gdk4::Display|/content-docs/api2/reference/Gdk4/Display> where the C<$window> is displayed.
 
 If the window is already mapped, it will be unmapped,
 and then remapped on the new display.
@@ -1134,7 +1134,7 @@ and then remapped on the new display.
 method set-display ( N-Object() $display )
 =end code
 
-=item $display; a B<Gnome::Gdk4::Display>.
+=item $display; a L<Gnome::Gdk4::Display|/content-docs/api2/reference/Gdk4/Display>.
 
 =begin comment
 
@@ -1155,7 +1155,7 @@ If C<$focus> is not the current focus widget, and is focusable,
 sets it as the focus widget for the window. If C<$focus> is undefined,
 unsets the focus widget for this window. To set the focus to a
 particular widget in the toplevel, it is usually more convenient
-to use C<.grab-focus()> in class B<Gnome::Gtk4::Widget>] instead of this function.
+to use L<.grab-focus() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#grab-focus> instead of this function.
 
 =begin code
 method set-focus ( N-Object() $focus )
@@ -1247,7 +1247,7 @@ method set-hide-on-close ( Bool() $setting )
 
 Sets the icon for the window from a named themed icon.
 
-See the docs for B<Gnome::Gtk4::IconTheme> for more details.
+See the docs for L<Gnome::Gtk4::IconTheme|/content-docs/api2/reference/Gtk4/Gnome> for more details.
 On some platforms, the window icon is not used at all.
 
 Note that this has nothing to do with the WM_ICON_NAME
@@ -1300,7 +1300,7 @@ Sets a window modal or non-modal.
 
 Modal windows prevent interaction with other windows in the same
 application. To keep modal dialogs on top of main application windows,
-use C<.set-transient-for()>] to make the dialog transient
+use L<.set-transient-for()|#set-transient-for> to make the dialog transient
 for the parent; most window managers will then disallow lowering the
 dialog below the parent.
 
@@ -1351,12 +1351,12 @@ Sets the startup notification ID.
 Startup notification identifiers are used by desktop environment
 to track application startup, to provide user feedback and other
 features. This function changes the corresponding property on the
-underlying B<Gnome::Gdk4::Surface>.
+underlying L<Gnome::Gdk4::Surface|/content-docs/api2/reference/Gdk4/Surface>.
 
 Normally, startup identifier is managed automatically and you should
 only use this function in special cases like transferring focus from
 other processes. You should use this function before calling
-C<.present()>] or any equivalent function generating
+L<.present()|#present> or any equivalent function generating
 a window map event.
 
 This function is only useful on X11, not with other GTK targets.
@@ -1412,7 +1412,7 @@ method set-title ( Str $title )
 
 Sets a custom titlebar for C<$window>.
 
-A typical widget used here is B<Gnome::Gtk4::HeaderBar>, as it
+A typical widget used here is L<Gnome::Gtk4::HeaderBar|/content-docs/api2/reference/Gtk4/Gnome>, as it
 provides various features expected of a titlebar while allowing
 the addition of child widgets to it.
 
@@ -1420,7 +1420,7 @@ If you set a custom titlebar, GTK will do its best to convince
 the window manager not to put its own titlebar on the window.
 Depending on the system, this function may not work for a window
 that is already visible, so you set the titlebar before calling
-C<.show()> in class B<Gnome::Gtk4::Widget>].
+L<.show() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#show>.
 
 =begin code
 method set-titlebar ( N-Object() $titlebar )
@@ -1444,7 +1444,7 @@ method set-titlebar ( N-Object() $titlebar )
 Dialog windows should be set transient for the main application
 window they were spawned from. This allows window managers to e.g.
 keep the dialog on top of the main window, or center the dialog
-over the main window. C<.new-with-buttons()> in class B<Gnome::Gtk4::Dialog> and other
+over the main window. L<.new-with-buttons() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#new-with-buttons> and other
 convenience functions in GTK will sometimes call
 C<.set-transient-for()> on your behalf.
 
@@ -1571,7 +1571,7 @@ Returns the fallback icon name for windows.
 
 The returned string is owned by GTK and should not
 be modified. It is only valid until the next call to
-C<.Window.set-default-icon-name()>.
+L<.Window.set-default-icon-name().Window.set-default-icon-name() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-window#Window.set-default-icon-name>.
 
 =begin code
 method get-default-icon-name (--> Str )
@@ -1649,7 +1649,7 @@ Return value; list of
 Sets whether the window should request startup notification.
 
 By default, after showing the first B<Gnome::Gtk4::Window>, GTK calls
-C<.set-startup-id()> in class B<Gnome::Gdk4::R-Toplevel>]. Call this function
+L<.set-startup-id() in class Gnome-Toplevel|/content-docs/api2/reference/Gdk4/Gnome-Toplevel#set-startup-id>. Call this function
 to disable the automatic startup notification. You might do this
 if your first window is a splash screen, and you want to delay
 notification until after your real main window has been shown,
@@ -1681,7 +1681,7 @@ method set-auto-startup-notification ( Bool() $setting )
 Sets an icon to be used as fallback.
 
 The fallback icon is used for windows that
-haven't had C<.set-icon-name()>]
+haven't had L<.set-icon-name()|#set-icon-name>
 called on them.
 
 =begin code
@@ -1751,14 +1751,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Window :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Window> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Window> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -1780,14 +1779,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Window :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Window> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Window> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -1806,15 +1804,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Window :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Window> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Window> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 Return value; C<True> to stop other handlers from being invoked for the signal
 
@@ -1845,16 +1842,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Window :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
 =item $toggle; toggle the debugger.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Window> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Window> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 Return value; C<True> if the key binding was handled
 
@@ -1876,14 +1872,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Window :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Window> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Window> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 window.background [.csd / .solid-csd / .ssd] [.maximized / .fullscreen / .tiled]

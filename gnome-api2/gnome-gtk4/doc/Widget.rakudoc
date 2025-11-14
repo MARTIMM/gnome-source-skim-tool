@@ -63,7 +63,7 @@ on the toplevel.
 
 After the toplevel window has initially requested its size in both
 dimensions it can go on to allocate itself a reasonable size (or a size
-previously specified with L<.set-default-size() in class Window|/content-docs/api2/reference/Gtk4/Window#set-default-size>). During the
+previously specified with L<.set-default-size() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#set-default-size>). During the
 recursive allocation process it’s important to note that request cycles
 will be recursively executed while widgets allocate their children.
 Each widget, once allocated a size, will go on to first share the
@@ -80,7 +80,7 @@ allocated size then it must support the request in both
 C<enumeration GtkSizeRequestMode defined in Gnome::Gtk4::T-enums>s even if the widget in question only
 trades sizes in a single orientation.
 
-For instance, a L<Gnome::Gtk4::Label|/content-docs/api2/reference/Gtk4/Label> that does height-for-width word wrapping
+For instance, a L<Gnome::Gtk4::Label|/content-docs/api2/reference/Gtk4/Gnome> that does height-for-width word wrapping
 will not expect to have [vfunc C<$Gtk>.Widget.measure] with an orientation of
 C<GTK_ORIENTATION_VERTICAL> called because that call is specific to a
 width-for-height request. In this case the label must return the height
@@ -110,7 +110,7 @@ example above.
 
 It will not work to use the wrapper function L<.measure()|#measure>
 inside your own [vfunc C<$Gtk>.Widget.size_allocate] implementation.
-These return a request adjusted by L<Gnome::Gtk4::SizeGroup|/content-docs/api2/reference/Gtk4/SizeGroup>, the widget's
+These return a request adjusted by L<Gnome::Gtk4::SizeGroup|/content-docs/api2/reference/Gtk4/Gnome>, the widget's
 align and expand flags, as well as its CSS style.
 
 If a widget used the wrappers inside its virtual method implementations,
@@ -120,7 +120,7 @@ to do it.
 
 Of course if you are getting the size request for another widget, such
 as a child widget, you must use L<.measure()|#measure>; otherwise, you
-would not properly consider widget margins, L<Gnome::Gtk4::SizeGroup|/content-docs/api2/reference/Gtk4/SizeGroup>, and
+would not properly consider widget margins, L<Gnome::Gtk4::SizeGroup|/content-docs/api2/reference/Gtk4/Gnome>, and
 so forth.
 
 GTK also supports baseline vertical alignment of widgets. This
@@ -146,7 +146,7 @@ The B<Gnome::Gtk4::Widget> implementation of the L<Gnome::Gtk4::R-Buildable|/con
 supports various custom elements to specify additional aspects of widgets
 that are not directly expressed as properties.
 
-If the widget uses a L<Gnome::Gtk4::LayoutManager|/content-docs/api2/reference/Gtk4/LayoutManager>, B<Gnome::Gtk4::Widget> supports
+If the widget uses a L<Gnome::Gtk4::LayoutManager|/content-docs/api2/reference/Gtk4/Gnome>, B<Gnome::Gtk4::Widget> supports
 a custom `<layout>` element, used to define layout properties:
 
 =begin comment
@@ -205,12 +205,12 @@ of creating composite widgets using "templates".
 
 To create composite widgets with L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder> XML, one must associate
 the interface description with the widget class at class initialization
-time using L<.set-template() in class WidgetClass|/content-docs/api2/reference/Gtk4/WidgetClass#set-template>.
+time using L<.set-template() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#set-template>.
 
 The interface description semantics expected in composite template descriptions
-is slightly different from regular L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Builder> XML.
+is slightly different from regular L<Gnome::Gtk4::Builder|/content-docs/api2/reference/Gtk4/Gnome> XML.
 
-Unlike regular interface descriptions, L<.set-template() in class WidgetClass|/content-docs/api2/reference/Gtk4/WidgetClass#set-template>
+Unlike regular interface descriptions, L<.set-template() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#set-template>
 will expect a `<template>` tag as a direct child of the toplevel
 `<interface>` tag. The `<template>` tag must specify the “class” attribute
 which must be the type name of the widget. Optionally, the “parent”
@@ -268,7 +268,7 @@ foo_widget_init (FooWidget *widget)
 
 Typically, you'll place the template fragment into a file that is
 bundled with your project, using B<Gnome::Gio::N-Resource>. In order to load the
-template, you need to call L<.set-template-from-resource() in class WidgetClass|/content-docs/api2/reference/Gtk4/WidgetClass#set-template-from-resource>
+template, you need to call L<.set-template-from-resource() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#set-template-from-resource>
 from the class initialization of your B<Gnome::Gtk4::Widget> type:
 
 =begin comment
@@ -302,11 +302,11 @@ You can access widgets defined in the template using the
 L<.get-template-child()|#get-template-child> function, but you will typically declare
 a pointer in the instance private data structure of your type using the same
 name as the widget in the template definition, and call
-L<.bind-template-child-full() in class WidgetClass|/content-docs/api2/reference/Gtk4/WidgetClass#bind-template-child-full> (or one of its wrapper macros
+L<.bind-template-child-full() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#bind-template-child-full> (or one of its wrapper macros
 L<.widget-class-bind-template-child().widget-class-bind-template-child() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-widget#widget-class-bind-template-child> and L<.widget-class-bind-template-child-private().widget-class-bind-template-child-private() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-widget#widget-class-bind-template-child-private>)
 with that name, e.g.
 
-You can also use L<.bind-template-callback-full() in class WidgetClass|/content-docs/api2/reference/Gtk4/WidgetClass#bind-template-callback-full> (or
+You can also use L<.bind-template-callback-full() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#bind-template-callback-full> (or
 is wrapper macro L<.widget-class-bind-template-callback().widget-class-bind-template-callback() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-widget#widget-class-bind-template-callback>) to connect
 a signal callback defined in the template with a function visible in the
 scope of the class, e.g.
@@ -379,14 +379,14 @@ For widgets that can be “activated” (buttons, menu items, etc.),
 this function activates them.
 
 The activation will emit the signal set using
-L<.set-activate-signal() in class WidgetClass|/content-docs/api2/reference/Gtk4/WidgetClass#set-activate-signal> during class initialization.
+L<.set-activate-signal() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#set-activate-signal> during class initialization.
 
 Activation is what happens when you press <kbd>Enter</kbd>
 on a widget during key navigation.
 
 If you wish to handle the activation keybinding yourself, it is
-recommended to use L<.add-shortcut() in class WidgetClass|/content-docs/api2/reference/Gtk4/WidgetClass#add-shortcut> with an action
-created with L<.newwidget() in class SignalAction|/content-docs/api2/reference/Gtk4/SignalAction#newwidget>.
+recommended to use L<.add-shortcut() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#add-shortcut> with an action
+created with L<.newwidget() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#newwidget>.
 
 If C<$widget> isn't activatable, the function returns C<False>.
 
@@ -494,7 +494,7 @@ method activate-default ( )
 Adds C<$controller> to C<$widget> so that it will receive events.
 
 You will usually want to call this function right after
-creating any kind of L<Gnome::Gtk4::EventController|/content-docs/api2/reference/Gtk4/EventController>.
+creating any kind of L<Gnome::Gtk4::EventController|/content-docs/api2/reference/Gtk4/Gnome>.
 
 =begin code
 method add-controller ( N-Object() $controller )
@@ -584,9 +584,9 @@ changing the text of a L<Gnome::Gtk4::Label|/content-docs/api2/reference/Gtk4/La
 L<.queue-resize()|#queue-resize> or L<.queue-draw()|#queue-draw>
 yourself.
 
-L<.get-frame-time() in class FrameClock|/content-docs/api2/reference/Gdk4/FrameClock#get-frame-time> should generally be used
+L<.get-frame-time() in class Gnome|/content-docs/api2/reference/Gdk4/Gnome#get-frame-time> should generally be used
 for timing continuous animations and
-L<.get-predicted-presentation-time() in class FrameTimings|/content-docs/api2/reference/Gdk4/FrameTimings#get-predicted-presentation-time> if you are
+L<.get-predicted-presentation-time() in class Gnome-FrameTimings|/content-docs/api2/reference/Gdk4/Gnome-FrameTimings#get-predicted-presentation-time> if you are
 trying to display isolated frames at particular times.
 
 This is a more convenient alternative to connecting directly to the
@@ -969,9 +969,9 @@ Return value; C<True> if the drag threshold has been passed..
 Notifies the user about an input-related error on this widget.
 
 If the I<gtk-error-bell defined in Gnome::Gtk4::Settings> setting is C<True>,
-it calls L<.beep() in class Surface|/content-docs/api2/reference/Gdk4/Surface#beep>, otherwise it does nothing.
+it calls L<.beep() in class Gnome|/content-docs/api2/reference/Gdk4/Gnome#beep>, otherwise it does nothing.
 
-Note that the effect of L<.beep() in class Surface|/content-docs/api2/reference/Gdk4/Surface#beep> can be configured
+Note that the effect of L<.beep() in class Gnome|/content-docs/api2/reference/Gdk4/Gnome#beep> can be configured
 in many ways, depending on the windowing backend and the desktop
 environment or window manager that is used.
 
@@ -1554,13 +1554,13 @@ Obtains the frame clock for a widget.
 
 The frame clock is a global “ticker” that can be used to drive
 animations and repaints. The most common reason to get the frame
-clock is to call L<.get-frame-time() in class FrameClock|/content-docs/api2/reference/Gdk4/FrameClock#get-frame-time>, in order
+clock is to call L<.get-frame-time() in class Gnome|/content-docs/api2/reference/Gdk4/Gnome#get-frame-time>, in order
 to get a time to use for animating. For example you might record
 the start of the animation with an initial value from
-L<.get-frame-time() in class FrameClock|/content-docs/api2/reference/Gdk4/FrameClock#get-frame-time>, and then update the animation
-by calling L<.get-frame-time() in class FrameClock|/content-docs/api2/reference/Gdk4/FrameClock#get-frame-time> again during each repaint.
+L<.get-frame-time() in class Gnome|/content-docs/api2/reference/Gdk4/Gnome#get-frame-time>, and then update the animation
+by calling L<.get-frame-time() in class Gnome|/content-docs/api2/reference/Gdk4/Gnome#get-frame-time> again during each repaint.
 
-L<.request-phase() in class FrameClock|/content-docs/api2/reference/Gdk4/FrameClock#request-phase> will result in a new frame on the
+L<.request-phase() in class Gnome|/content-docs/api2/reference/Gdk4/Gnome#request-phase> will result in a new frame on the
 clock, but won’t necessarily repaint any widgets. To repaint a
 widget, you have to use L<.queue-draw()|#queue-draw> which invalidates
 the widget (thus scheduling it to receive a draw on the next
@@ -2245,7 +2245,7 @@ coordinates to the actual device pixels.
 On traditional systems this is 1, on high density outputs,
 it can be a higher value (typically 2).
 
-See L<.get-scale-factor() in class Surface|/content-docs/api2/reference/Gdk4/Surface#get-scale-factor>.
+See L<.get-scale-factor() in class Gnome|/content-docs/api2/reference/Gdk4/Gnome#get-scale-factor>.
 
 =begin code
 method get-scale-factor (--> Int )
@@ -2328,7 +2328,7 @@ This is equivalent to calling L<.get-width()|#get-width>
 for C<GTK_ORIENTATION_HORIZONTAL> or L<.get-height()|#get-height>
 for C<GTK_ORIENTATION_VERTICAL>, but can be used when
 writing orientation-independent code, such as when
-implementing L<Gnome::Gtk4::Popover|/content-docs/api2/reference/Gnome::Gtk4::R-Orientable> widgets.
+implementing L<Gnome::Gtk4::R-Orientable|/content-docs/api2/reference/gtk/Gnome-Orientable> widgets.
 
 To learn more about widget sizes, see the coordinate
 system [overview](coordinates.html).
@@ -2391,8 +2391,8 @@ state will be returned, that is, also based on parent insensitivity,
 even if C<$widget> itself is sensitive.
 
 Also note that if you are looking for a way to obtain the
-[flags C<$Gtk>.StateFlags] to pass to a L<Gnome::Gtk4::StyleContext|/content-docs/api2/reference/Gtk4/StyleContext>
-method, you should look at L<.get-state() in class StyleContext|/content-docs/api2/reference/Gtk4/StyleContext#get-state>.
+[flags C<$Gtk>.StateFlags] to pass to a L<Gnome::Gtk4::StyleContext|/content-docs/api2/reference/Gtk4/Gnome>
+method, you should look at L<.get-state() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#get-state>.
 
 =begin code
 method get-state-flags (--> UInt )
@@ -2443,7 +2443,7 @@ Fetch an object build from the template XML for C<$widget-type> in
 this C<$widget> instance.
 
 This will only report children which were previously declared
-with L<.bind-template-child-full() in class WidgetClass|/content-docs/api2/reference/Gtk4/WidgetClass#bind-template-child-full> or one of its
+with L<.bind-template-child-full() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#bind-template-child-full> or one of its
 variants.
 
 This function is only meant to be called for code which is private
@@ -2758,7 +2758,7 @@ it has the global input focus.
 
 This is a convenience function that takes into account whether
 focus indication should currently be shown in the toplevel window
-of C<$widget>. See L<.get-focus-visible() in class Window|/content-docs/api2/reference/Gtk4/Window#get-focus-visible> for more
+of C<$widget>. See L<.get-focus-visible() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#get-focus-visible> for more
 information about focus indication.
 
 To find out if the widget has the global input focus, use
@@ -2834,7 +2834,7 @@ Creates and initializes child widgets defined in templates.
 
 This function must be called in the instance initializer
 for any class which assigned itself a template using
-L<.set-template() in class WidgetClass|/content-docs/api2/reference/Gtk4/WidgetClass#set-template>.
+L<.set-template() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#set-template>.
 
 It is important to call this function in the instance initializer
 of a B<Gnome::Gtk4::Widget> subclass and not in L<Gnome::GObject::Object|/content-docs/api2/reference/GObject/Object>.constructed()` or
@@ -2870,7 +2870,7 @@ method init-template ( )
 
 Inserts C<$group> into C<$widget>.
 
-Children of C<$widget> that implement L<Gnome::Gtk4::Popover|/content-docs/api2/reference/Gnome::Gtk4::R-Actionable> can
+Children of C<$widget> that implement L<Gnome::Gtk4::R-Actionable|/content-docs/api2/reference/gtk/Gnome-Actionable> can
 then be associated with actions in C<$group> by setting their
 “action-name” to C<$prefix>.B<action>-name`.
 
@@ -3120,7 +3120,7 @@ failed keyboard navigation.
 
 A use case for providing an own implementation of I<keynav-failed>
 (either by connecting to it or by overriding it) would be a row of
-L<Gnome::Gtk4::Entry|/content-docs/api2/reference/Gtk4/Entry> widgets where the user should be able to navigate
+L<Gnome::Gtk4::Entry|/content-docs/api2/reference/Gtk4/Gnome> widgets where the user should be able to navigate
 the entire row with the cursor keys, as e.g. known from user
 interfaces that require entering license keys.
 
@@ -3151,7 +3151,7 @@ Returns the widgets for which this widget is the target of a
 mnemonic.
 
 Typically, these widgets will be labels. See, for example,
-L<.set-mnemonic-widget() in class Label|/content-docs/api2/reference/Gtk4/Label#set-mnemonic-widget>.
+L<.set-mnemonic-widget() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#set-mnemonic-widget>.
 
 The widgets in the list are not individually referenced.
 If you want to iterate through the list and perform actions
@@ -3294,7 +3294,7 @@ Return value;
 =begin pod
 =head2 observe-controllers
 
-Returns a L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> to track the L<Gnome::Gtk4::EventController|/content-docs/api2/reference/Gtk4/EventController>s
+Returns a L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> to track the L<Gnome::Gtk4::EventController|/content-docs/api2/reference/Gtk4/Gnome>s
 of C<$widget>.
 
 Calling this function will enable extra internal bookkeeping
@@ -3418,7 +3418,7 @@ Flags a widget to have its size renegotiated.
 
 This should be called when a widget for some reason has a new
 size request. For example, when you change the text in a
-L<Gnome::Gtk4::Label|/content-docs/api2/reference/Gtk4/Label>, the label queues a resize to ensure there’s
+L<Gnome::Gtk4::Label|/content-docs/api2/reference/Gtk4/Gnome>, the label queues a resize to ensure there’s
 enough space for the new text.
 
 Note that you cannot call C<.queue-resize()> on a widget
@@ -3724,7 +3724,7 @@ Sets a named cursor to be shown when pointer devices point
 towards C<$widget>.
 
 This is a utility function that creates a cursor via
-L<.new-from-name() in class Cursor|/content-docs/api2/reference/Gdk4/Cursor#new-from-name> and then sets it on C<$widget>
+L<.new-from-name() in class Gnome|/content-docs/api2/reference/Gdk4/Gnome#new-from-name> and then sets it on C<$widget>
 with L<.set-cursor()|#set-cursor>. See those functions for
 details.
 
@@ -4159,7 +4159,7 @@ Sets a widgets name.
 Setting a name allows you to refer to the widget from a
 CSS file. You can apply a style to widgets with a particular name
 in the CSS file. See the documentation for the CSS syntax (on the
-same page as the docs for L<Gnome::Gtk4::StyleContext|/content-docs/api2/reference/Gtk4/StyleContext>.
+same page as the docs for L<Gnome::Gtk4::StyleContext|/content-docs/api2/reference/Gtk4/Gnome>.
 
 Note that the CSS syntax has certain special characters to delimit
 and represent elements in a selector (period, #, >, *...), so using
@@ -4203,8 +4203,8 @@ a toplevel to be partially translucent, all of its content will
 appear translucent, since it is ultimatively rendered on that
 toplevel. The opacity value itself is not inherited by child
 widgets (since that would make widgets deeper in the hierarchy
-progressively more translucent). As a consequence, L<Gnome::Gtk4::Popover|/content-docs/api2/reference/Gtk4/Popover>s
-and other L<Gnome::Gtk4::Popover|/content-docs/api2/reference/Gnome::Gtk4::R-Native> widgets with their own surface will use their
+progressively more translucent). As a consequence, L<Gnome::Gtk4::Popover|/content-docs/api2/reference/Gtk4/Gnome>s
+and other L<Gnome::Gtk4::R-Native|/content-docs/api2/reference/gtk/Gnome-Native> widgets with their own surface will use their
 own opacity value, and thus by default appear non-translucent,
 even if they are attached to a toplevel that is translucent.
 
@@ -4339,7 +4339,7 @@ That is, the widget’s size request will be at least C<$width>
 by C<$height>. You can use this function to force a widget to
 be larger than it normally would be.
 
-In most cases, L<.set-default-size() in class Window|/content-docs/api2/reference/Gtk4/Window#set-default-size> is a better
+In most cases, L<.set-default-size() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#set-default-size> is a better
 choice for toplevel windows than this function; setting the default
 size will still allow users to shrink the window. Setting the size
 request will force them to leave the window at least as large as
@@ -4426,7 +4426,7 @@ This function will take care of setting the
 I<has-tooltip> as a side effect, and of the
 default handler for the I<query-tooltip> signal.
 
-See also L<.set-markup() in class Tooltip|/content-docs/api2/reference/Gtk4/Tooltip#set-markup>.
+See also L<.set-markup() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#set-markup>.
 
 =begin code
 method set-tooltip-markup ( Str $markup )
@@ -4456,7 +4456,7 @@ I<has-tooltip> as a side effect,
 and of the default handler for the
 I<query-tooltip> signal.
 
-See also L<.set-text() in class Tooltip|/content-docs/api2/reference/Gtk4/Tooltip#set-text>.
+See also L<.set-text() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#set-text>.
 
 =begin code
 method set-tooltip-text ( Str $text )
@@ -4909,7 +4909,7 @@ method handler (
 
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Widget> object.
-=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -4936,7 +4936,7 @@ method handler (
 =item $previous-direction; the previous text direction of C<$widget>.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Widget> object.
-=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -4961,7 +4961,7 @@ method handler (
 
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Widget> object.
-=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -4991,7 +4991,7 @@ method handler (
 =item $direction; the direction of movement.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Widget> object.
-=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 Return value; C<True> if stopping keyboard navigation is fine, C<False>
   if the emitting widget should try to handle the keyboard
@@ -5028,7 +5028,7 @@ method handler (
 
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Widget> object.
-=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -5059,7 +5059,7 @@ method handler (
 =item $group-cycling; C<True> if there are other widgets with the same mnemonic.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Widget> object.
-=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 Return value; C<True> to stop other handlers from being invoked for the event.
 C<False> to propagate the event further.
@@ -5094,7 +5094,7 @@ method handler (
 =item $direction; the direction of the focus move.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Widget> object.
-=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -5142,7 +5142,7 @@ method handler (
 =item $tooltip; a L<Gnome::Gtk4::Tooltip|/content-docs/api2/reference/Gtk4/Tooltip>.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Widget> object.
-=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 Return value; C<True> if C<$tooltip> should be shown right now, C<False> otherwise.
 
@@ -5172,7 +5172,7 @@ method handler (
 
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Widget> object.
-=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -5197,7 +5197,7 @@ method handler (
 
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Widget> object.
-=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -5226,7 +5226,7 @@ method handler (
 =item $flags; The previous state flags..
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Widget> object.
-=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 static void
@@ -5288,7 +5288,7 @@ method handler (
 
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Widget> object.
-=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 <object class="GtkGrid" id="my_grid">
@@ -5336,7 +5336,7 @@ method handler (
 
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Widget> object.
-=item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 <object class="GtkButton" id="button1">

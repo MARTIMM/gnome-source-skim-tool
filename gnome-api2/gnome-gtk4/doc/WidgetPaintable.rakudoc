@@ -9,7 +9,7 @@ use v6.d;
 =TITLE Gnome::Gtk4::WidgetPaintable
 =head1 Description
 
-B<Gnome::Gtk4::WidgetPaintable> is a B<Gnome::Gdk4::R-Paintable> that displays the contents
+B<Gnome::Gtk4::WidgetPaintable> is a L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable> that displays the contents
 of a widget.
 
 B<Gnome::Gtk4::WidgetPaintable> will also take care of the widget not being in a
@@ -23,8 +23,8 @@ whenever the size of the widget changes as well as for visual changes by
 emitting the [signal C<$Gdk>.Paintable::invalidate-contents] signal whenever
 the widget changes.
 
-You can use a B<Gnome::Gtk4::WidgetPaintable> everywhere a B<Gnome::Gdk4::R-Paintable> is allowed,
-including using it on a B<Gnome::Gtk4::Picture> (or one of its parents) that it was
+You can use a B<Gnome::Gtk4::WidgetPaintable> everywhere a L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable> is allowed,
+including using it on a L<Gnome::Gtk4::Picture|/content-docs/api2/reference/Gtk4/Picture> (or one of its parents) that it was
 set on itself via gtk_picture_set_paintable(). The paintable will take care
 of recursion when this happens. If you do this however, ensure that the
 I<can-shrink defined in Gnome::Gtk4::Picture> property is set to C<True> or you might
@@ -69,7 +69,7 @@ Creates a new widget paintable observing the given widget.
 method new-widgetpaintable ( N-Object() $widget --> Gnome::Gtk4::WidgetPaintable )
 =end code
 
-=item $widget; a B<Gnome::Gtk4::Widget>.
+=item $widget; a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>.
 
 =begin comment
 
