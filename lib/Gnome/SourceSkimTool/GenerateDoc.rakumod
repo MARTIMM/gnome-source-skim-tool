@@ -271,7 +271,6 @@ note "$?LINE doc $!filedata<record>.keys()";
                 ($types-doc<callback> // ''),
                 ($types-doc<function> // '');
 
-
     $!mod.save-file( $filename, $doc, "types documentation");
   }
 }
