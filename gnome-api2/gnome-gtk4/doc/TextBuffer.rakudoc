@@ -9,7 +9,7 @@ use v6.d;
 =TITLE Gnome::Gtk4::TextBuffer
 =head1 Description
 
-Stores text and attributes for display in a B<Gnome::Gtk4::TextView>.
+Stores text and attributes for display in a L<Gnome::Gtk4::TextView|/content-docs/api2/reference/Gtk4/TextView>.
 
 You may wish to begin by reading the
 [text widget conceptual overview](section-text-widget.html),
@@ -17,7 +17,7 @@ which gives an overview of all the objects and data types
 related to the text widget and how they work together.
 
 GtkTextBuffer can support undoing changes to the buffer
-content, see C<.set-enable-undo()>].
+content, see L<.set-enable-undo()|#set-enable-undo>.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/TextBuffer.png> :width<70%> :class<inline>
@@ -113,14 +113,14 @@ method add-mark ( N-Object() $mark, N-Object $where )
 Adds C<$clipboard> to the list of clipboards in which the selection
 contents of C<$buffer> are available.
 
-In most cases, C<$clipboard> will be the B<Gnome::Gdk4::Clipboard> returned by
-C<.get-primary-clipboard()> in class B<Gnome::Gtk4::Widget>] for a view of C<$buffer>.
+In most cases, C<$clipboard> will be the L<Gnome::Gdk4::Clipboard|/content-docs/api2/reference/Gdk4/Clipboard> returned by
+L<.get-primary-clipboard() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#get-primary-clipboard> for a view of C<$buffer>.
 
 =begin code
 method add-selection-clipboard ( N-Object() $clipboard )
 =end code
 
-=item $clipboard; a B<Gnome::Gdk4::Clipboard>.
+=item $clipboard; a L<Gnome::Gdk4::Clipboard|/content-docs/api2/reference/Gdk4/Clipboard>.
 
 =begin comment
 
@@ -144,7 +144,7 @@ not have to be in order.
 method apply-tag ( N-Object() $tag, N-Object $start, N-Object $end )
 =end code
 
-=item $tag; a B<Gnome::Gtk4::TextTag>.
+=item $tag; a L<Gnome::Gtk4::TextTag|/content-docs/api2/reference/Gtk4/TextTag>.
 =item $start; one bound of range to be tagged
 =item $end; other bound of range to be tagged
 
@@ -163,15 +163,15 @@ method apply-tag ( N-Object() $tag, N-Object $start, N-Object $end )
 
 Emits the “apply-tag” signal on C<$buffer>.
 
-Calls C<.lookup()> in class B<Gnome::Gtk4::TextTagTable>] on the buffer’s
-tag table to get a B<Gnome::Gtk4::TextTag>, then calls
-C<.apply-tag()>].
+Calls L<.lookup() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#lookup> on the buffer’s
+tag table to get a L<Gnome::Gtk4::TextTag|/content-docs/api2/reference/Gtk4/TextTag>, then calls
+L<.apply-tag()|#apply-tag>.
 
 =begin code
 method apply-tag-by-name ( Str $name, N-Object $start, N-Object $end )
 =end code
 
-=item $name; name of a named B<Gnome::Gtk4::TextTag>.
+=item $name; name of a named L<Gnome::Gtk4::TextTag|/content-docs/api2/reference/Gtk4/TextTag>.
 =item $start; one bound of range to be tagged
 =item $end; other bound of range to be tagged
 
@@ -229,7 +229,7 @@ This will cause any previous operations in the undo/redo queue
 to be cleared.
 
 This should be paired with a call to
-C<.end-irreversible-action()>] after the irreversible
+L<.end-irreversible-action()|#end-irreversible-action> after the irreversible
 action has completed.
 
 You may nest calls to C<.begin-irreversible-action()>
@@ -266,7 +266,7 @@ outermost pair of calls. This allows you to build user actions
 from other user actions.
 
 The “interactive” buffer mutation functions, such as
-C<.insert-interactive()>], automatically call
+L<.insert-interactive()|#insert-interactive>, automatically call
 begin/end user action around the buffer operations they perform,
 so there's no need to add extra calls if you user action consists
 solely of a single call to one of those functions.
@@ -294,7 +294,7 @@ Copies the currently-selected text to a clipboard.
 method copy-clipboard ( N-Object() $clipboard )
 =end code
 
-=item $clipboard; the B<Gnome::Gdk4::Clipboard> object to copy to.
+=item $clipboard; the L<Gnome::Gdk4::Clipboard|/content-docs/api2/reference/Gdk4/Clipboard> object to copy to.
 
 =begin comment
 
@@ -312,8 +312,8 @@ method copy-clipboard ( N-Object() $clipboard )
 Creates and inserts a child anchor.
 
 This is a convenience function which simply creates a child anchor
-with C<.newtextbuffer()> in class B<Gnome::Gtk4::TextChildAnchor> and inserts it into the buffer
-with C<.insert-child-anchor()>].
+with L<.newtextbuffer() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#newtextbuffer> and inserts it into the buffer
+with L<.insert-child-anchor()|#insert-child-anchor>.
 
 The new anchor is owned by the buffer; no reference count is
 returned to the caller of this function.
@@ -342,7 +342,7 @@ Return value; the created child anchor.
 Creates a mark at position C<$where>.
 
 If C<$mark-name> is undefined, the mark is anonymous; otherwise, the mark
-can be retrieved by name using C<.get-mark()>].
+can be retrieved by name using L<.get-mark()|#get-mark>.
 If a mark has left gravity, and text is inserted at the mark’s
 current location, the mark will be moved to the left of the
 newly-inserted text. If the mark has right gravity
@@ -352,7 +352,7 @@ with right gravity (when you type, the cursor stays on the right
 side of the text you’re typing).
 
 The caller of this function does not own a
-reference to the returned B<Gnome::Gtk4::TextMark>, so you can ignore the
+reference to the returned L<Gnome::Gtk4::TextMark|/content-docs/api2/reference/Gtk4/TextMark>, so you can ignore the
 return value if you like. Marks are owned by the buffer and go
 away when the buffer does.
 
@@ -367,7 +367,7 @@ method create-mark ( Str $mark-name, N-Object $where, Bool() $left-gravity --> N
 =item $where; location to place mark
 =item $left-gravity; whether the mark has left gravity.
 
-Return value; the new B<Gnome::Gtk4::TextMark> object. 
+Return value; the new L<Gnome::Gtk4::TextMark|/content-docs/api2/reference/Gtk4/TextMark> object. 
 
 =begin comment
 
@@ -381,11 +381,10 @@ Return value; the new B<Gnome::Gtk4::TextMark> object.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 create-tag
-This function is not yet available
 
 Creates a tag and adds it to the tag table for C<$buffer>.
 
-Equivalent to calling C<.newtextbuffer()> in class B<Gnome::Gtk4::TextTag> and then adding the
+Equivalent to calling L<.newtextbuffer() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#newtextbuffer> and then adding the
 tag to the buffer’s tag table. The returned tag is owned by
 the buffer’s tag table, so the ref count will be equal to one.
 
@@ -427,7 +426,7 @@ then deletes said text if it’s editable.
 method cut-clipboard ( N-Object() $clipboard, Bool() $default-editable )
 =end code
 
-=item $clipboard; the B<Gnome::Gdk4::Clipboard> object to cut to.
+=item $clipboard; the L<Gnome::Gdk4::Clipboard|/content-docs/api2/reference/Gdk4/Clipboard> object to cut to.
 =item $default-editable; default editability of the buffer.
 
 =begin comment
@@ -476,7 +475,7 @@ method delete ( N-Object $start, N-Object $end )
 
 Deletes all editable text in the given range.
 
-Calls C<.delete()>] for each editable
+Calls L<.delete()|#delete> for each editable
 sub-range of [ C<$start>, C<$end>). C<$start> and C<$end> are revalidated
 to point to the location of the last deleted range, or left
 untouched if no text was deleted.
@@ -511,7 +510,7 @@ Removes the reference the buffer holds to the mark, so if
 you haven’t called g_object_ref() on the mark, it will be freed.
 Even if the mark isn’t freed, most operations on C<$mark> become
 invalid, until it gets added to a buffer again with
-C<.add-mark()>]. Use C<.get-deleted()> in class B<Gnome::Gtk4::TextMark>]
+L<.add-mark()|#add-mark>. Use L<.get-deleted() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#get-deleted>
 to find out if a mark has been removed from its buffer.
 
 The I<mark-deleted> signal will be emitted as
@@ -521,7 +520,7 @@ notification after the mark is deleted.
 method delete-mark ( N-Object() $mark )
 =end code
 
-=item $mark; a B<Gnome::Gtk4::TextMark> in C<$buffer>.
+=item $mark; a L<Gnome::Gtk4::TextMark|/content-docs/api2/reference/Gtk4/TextMark> in C<$buffer>.
 
 =begin comment
 
@@ -538,7 +537,7 @@ method delete-mark ( N-Object() $mark )
 
 Deletes the mark named C<$name>; the mark must exist.
 
-See C<.delete-mark()>] for details.
+See L<.delete-mark()|#delete-mark> for details.
 
 =begin code
 method delete-mark-by-name ( Str $name )
@@ -593,7 +592,7 @@ This will cause any previous operations in the undo/redo
 queue to be cleared.
 
 This should be called after completing modifications to the
-text buffer after C<.begin-irreversible-action()>]
+text buffer after L<.begin-irreversible-action()|#begin-irreversible-action>
 was called.
 
 You may nest calls to C<.begin-irreversible-action()>
@@ -619,7 +618,7 @@ method end-irreversible-action ( )
 Ends a user-visible operation.
 
 Should be paired with a call to
-C<.begin-user-action()>].
+L<.begin-user-action()|#begin-user-action>.
 See that function for a full explanation.
 
 =begin code
@@ -734,8 +733,8 @@ Return value; number of characters in the buffer.
 Gets whether the buffer is saving modifications to the buffer
 to allow for undo and redo actions.
 
-See C<.begin-irreversible-action()>] and
-C<.end-irreversible-action()>] to create
+See L<.begin-irreversible-action()|#begin-irreversible-action> and
+L<.end-irreversible-action()|#end-irreversible-action> to create
 changes to the buffer that cannot be undone.
 
 =begin code
@@ -760,10 +759,10 @@ Return value; C<True> if undoing and redoing changes to the buffer is allowed..
 Initializes C<$iter> with the “end iterator,” one past the last valid
 character in the text buffer.
 
-If dereferenced with C<.get-char()> in class B<Gnome::Gtk4::N-TextIter>], the end
+If dereferenced with L<.get-char() in class Gnome-TextIter|/content-docs/api2/reference/Gtk4/Gnome-TextIter#get-char>, the end
 iterator has a character value of 0.
 The entire buffer lies in the range from the first position in
-the buffer (call C<.get-start-iter()>] to get
+the buffer (call L<.get-start-iter()|#get-start-iter> to get
 character position 0) to the end iterator.
 
 =begin code
@@ -808,7 +807,7 @@ Return value; C<True> if the there is text selected.
 
 Returns the mark that represents the cursor (insertion point).
 
-Equivalent to calling C<.get-mark()>]
+Equivalent to calling L<.get-mark()|#get-mark>
 to get the mark named “insert”, but very slightly more
 efficient, and involves less typing.
 
@@ -950,7 +949,7 @@ method get-iter-at-mark ( N-Object $iter, N-Object() $mark )
 =end code
 
 =item $iter; iterator to initialize
-=item $mark; a B<Gnome::Gtk4::TextMark> in C<$buffer>.
+=item $mark; a L<Gnome::Gtk4::TextMark|/content-docs/api2/reference/Gtk4/TextMark> in C<$buffer>.
 
 =begin comment
 
@@ -1024,7 +1023,7 @@ method get-mark ( Str $name --> N-Object )
 
 =item $name; a mark name.
 
-Return value; a B<Gnome::Gtk4::TextMark>. 
+Return value; a L<Gnome::Gtk4::TextMark|/content-docs/api2/reference/Gtk4/TextMark>. 
 
 =begin comment
 
@@ -1065,7 +1064,7 @@ Return value; The max number of undo levels allowed (0 indicates unlimited)..
 =head2 get-modified
 
 Indicates whether the buffer has been modified since the last call
-to C<.set-modified()>] set the modification flag to
+to L<.set-modified()|#set-modified> set the modification flag to
 C<False>.
 
 Used for example to enable a “save” function in a text editor.
@@ -1091,14 +1090,14 @@ Return value; C<True> if the buffer has been modified.
 
 Returns the mark that represents the selection bound.
 
-Equivalent to calling C<.get-mark()>]
+Equivalent to calling L<.get-mark()|#get-mark>
 to get the mark named “selection_bound”, but very slightly
 more efficient, and involves less typing.
 
 The currently-selected text in C<$buffer> is the region between the
 “selection_bound” and “insert” marks. If “selection_bound” and
 “insert” are in the same place, then there is no current selection.
-C<.get-selection-bounds()>] is another convenient
+L<.get-selection-bounds()|#get-selection-bounds> is another convenient
 function for handling the selection, if you just want to know whether
 there’s a selection and what its bounds are.
 
@@ -1154,13 +1153,13 @@ Return value; whether the selection has nonzero length.
 Get a content provider for this buffer.
 
 It can be used to make the content of C<$buffer> available
-in a B<Gnome::Gdk4::Clipboard>, see C<.set-content()> in class B<Gnome::Gdk4::Clipboard>].
+in a L<Gnome::Gdk4::Clipboard|/content-docs/api2/reference/Gdk4/Clipboard>, see L<.set-content() in class Gnome|/content-docs/api2/reference/Gdk4/Gnome#set-content>.
 
 =begin code
 method get-selection-content (--> N-Object )
 =end code
 
-Return value; a new B<Gnome::Gdk4::ContentProvider>.. 
+Return value; a new L<Gnome::Gdk4::ContentProvider|/content-docs/api2/reference/Gdk4/ContentProvider>.. 
 
 =begin comment
 
@@ -1182,7 +1181,7 @@ invisibility attribute) if C<$include-hidden-chars> is C<False>.
 The returned string includes a 0xFFFC character whenever the
 buffer contains embedded images, so byte and character indexes
 into the returned string do correspond to byte and character
-indexes into the buffer. Contrast with C<.get-text()>].
+indexes into the buffer. Contrast with L<.get-text()|#get-text>.
 Note that 0xFFFC can occur in normal text as well, so it is not a
 reliable indicator that a paintable or widget is in the buffer.
 
@@ -1211,7 +1210,7 @@ Return value; an allocated UTF-8 string.
 
 Initialized C<$iter> with the first position in the text buffer.
 
-This is the same as using C<.get-iter-at-offset()>]
+This is the same as using L<.get-iter-at-offset()|#get-iter-at-offset>
 to get the iter at character offset 0.
 
 =begin code
@@ -1233,7 +1232,7 @@ method get-start-iter ( N-Object $iter )
 =begin pod
 =head2 get-tag-table
 
-Get the B<Gnome::Gtk4::TextTagTable> associated with this buffer.
+Get the L<Gnome::Gtk4::TextTagTable|/content-docs/api2/reference/Gtk4/TextTagTable> associated with this buffer.
 
 =begin code
 method get-tag-table (--> N-Object )
@@ -1261,7 +1260,7 @@ invisibility attribute) if C<$include-hidden-chars> is C<False>.
 Does not include characters representing embedded images, so
 byte and character indexes into the returned string do not
 correspond to byte and character indexes into the buffer.
-Contrast with C<.get-slice()>].
+Contrast with L<.get-slice()|#get-slice>.
 
 =begin code
 method get-text ( N-Object $start, N-Object $end, Bool() $include-hidden-chars --> Str )
@@ -1318,7 +1317,7 @@ method insert ( N-Object $iter, Str $text, Int() $len )
 
 Inserts C<$text> in C<$buffer>.
 
-Simply calls C<.insert()>],
+Simply calls L<.insert()|#insert>,
 using the current cursor position as the insertion point.
 
 =begin code
@@ -1348,10 +1347,10 @@ when obtaining the buffer contents as a string, will be represented
 by the Unicode “object replacement character” 0xFFFC. Note that the
 “slice” variants for obtaining portions of the buffer as a string
 include this character for child anchors, but the “text” variants do
-not. E.g. see C<.get-slice()>] and
-C<.get-text()>].
+not. E.g. see L<.get-slice()|#get-slice> and
+L<.get-text()|#get-text>.
 
-Consider C<.create-child-anchor()>] as a more
+Consider L<.create-child-anchor()|#create-child-anchor> as a more
 convenient alternative to this function. The buffer will add a
 reference to the anchor, so you can unref it after insertion.
 
@@ -1360,7 +1359,7 @@ method insert-child-anchor ( N-Object $iter, N-Object() $anchor )
 =end code
 
 =item $iter; location to insert the anchor
-=item $anchor; a B<Gnome::Gtk4::TextChildAnchor>.
+=item $anchor; a L<Gnome::Gtk4::TextChildAnchor|/content-docs/api2/reference/Gtk4/TextChildAnchor>.
 
 =begin comment
 
@@ -1377,13 +1376,13 @@ method insert-child-anchor ( N-Object $iter, N-Object() $anchor )
 
 Inserts C<$text> in C<$buffer>.
 
-Like C<.insert()>], but the insertion will not occur
+Like L<.insert()|#insert>, but the insertion will not occur
 if C<$iter> is at a non-editable location in the buffer. Usually you
 want to prevent insertions at ineditable locations if the insertion
 results from a user action (is interactive).
  C<$default-editable> indicates the editability of text that doesn't
 have a tag affecting editability applied to it. Typically the
-result of C<.get-editable()> in class B<Gnome::Gtk4::TextView>] is appropriate here.
+result of L<.get-editable() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#get-editable> is appropriate here.
 
 =begin code
 method insert-interactive ( N-Object $iter, Str $text, Int() $len, Bool() $default-editable --> Bool )
@@ -1411,11 +1410,11 @@ Return value; whether text was actually inserted.
 
 Inserts C<$text> in C<$buffer>.
 
-Calls C<.insert-interactive()>]
+Calls L<.insert-interactive()|#insert-interactive>
 at the cursor position.
  C<$default-editable> indicates the editability of text that doesn't
 have a tag affecting editability applied to it. Typically the
-result of C<.get-editable()> in class B<Gnome::Gtk4::TextView>] is appropriate here.
+result of L<.get-editable() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#get-editable> is appropriate here.
 
 =begin code
 method insert-interactive-at-cursor ( Str $text, Int() $len, Bool() $default-editable --> Bool )
@@ -1474,15 +1473,15 @@ and when obtaining the buffer contents as a string, will be
 represented by the Unicode “object replacement character” 0xFFFC.
 Note that the “slice” variants for obtaining portions of the buffer
 as a string include this character for paintable, but the “text”
-variants do not. e.g. see C<.get-slice()>] and
-C<.get-text()>].
+variants do not. e.g. see L<.get-slice()|#get-slice> and
+L<.get-text()|#get-text>.
 
 =begin code
 method insert-paintable ( N-Object $iter, N-Object() $paintable )
 =end code
 
 =item $iter; location to insert the paintable
-=item $paintable; a B<Gnome::Gdk4::R-Paintable>.
+=item $paintable; a L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable>.
 
 =begin comment
 
@@ -1532,11 +1531,11 @@ method insert-range ( N-Object $iter, N-Object $start, N-Object $end )
 Copies text, tags, and paintables between C<$start> and C<$end>
 and inserts the copy at C<$iter>.
 
-Same as C<.insert-range()>], but does nothing
+Same as L<.insert-range()|#insert-range>, but does nothing
 if the insertion point isn’t editable. The C<$default-editable>
 parameter indicates whether the text is editable at C<$iter> if
 no tags enclosing C<$iter> affect editability. Typically the result
-of C<.get-editable()> in class B<Gnome::Gtk4::TextView>] is appropriate here.
+of L<.get-editable() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#get-editable> is appropriate here.
 
 =begin code
 method insert-range-interactive ( N-Object $iter, N-Object $start, N-Object $end, Bool() $default-editable --> Bool )
@@ -1561,14 +1560,13 @@ Return value; whether an insertion was possible at C<$iter>.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 insert-with-tags
-This function is not yet available
 
 Inserts C<$text> into C<$buffer> at C<$iter>, applying the list of tags to
 the newly-inserted text.
 
 The last tag specified must be undefined to terminate the list.
-Equivalent to calling C<.insert()>],
-then C<.apply-tag()>] on the inserted text;
+Equivalent to calling L<.insert()|#insert>,
+then L<.apply-tag()|#apply-tag> on the inserted text;
 this is just a convenience function.
 
 =begin code
@@ -1593,12 +1591,11 @@ method insert-with-tags ( N-Object $iter, Str $text, Int() $len, N-Object() $fir
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 insert-with-tags-by-name
-This function is not yet available
 
 Inserts C<$text> into C<$buffer> at C<$iter>, applying the list of tags to
 the newly-inserted text.
 
-Same as C<.insert-with-tags()>], but allows you
+Same as L<.insert-with-tags()|#insert-with-tags>, but allows you
 to pass in tag names instead of tag objects.
 
 =begin code
@@ -1633,7 +1630,7 @@ as notification of the move.
 method move-mark ( N-Object() $mark, N-Object $where )
 =end code
 
-=item $mark; a B<Gnome::Gtk4::TextMark>.
+=item $mark; a L<Gnome::Gtk4::TextMark|/content-docs/api2/reference/Gtk4/TextMark>.
 =item $where; new location for C<$mark> in C<$buffer>
 
 =begin comment
@@ -1651,7 +1648,7 @@ method move-mark ( N-Object() $mark, N-Object $where )
 
 Moves the mark named C<$name> (which must exist) to location C<$where>.
 
-See C<.move-mark()>] for details.
+See L<.move-mark()|#move-mark> for details.
 
 =begin code
 method move-mark-by-name ( Str $name, N-Object $where )
@@ -1687,7 +1684,7 @@ data will be inserted.
 method paste-clipboard ( N-Object() $clipboard, N-Object $override-location, Bool() $default-editable )
 =end code
 
-=item $clipboard; the B<Gnome::Gdk4::Clipboard> to paste from.
+=item $clipboard; the L<Gnome::Gdk4::Clipboard|/content-docs/api2/reference/Gdk4/Clipboard> to paste from.
 =item $override-location; location to insert pasted text
 =item $default-editable; whether the buffer is editable by default.
 
@@ -1708,7 +1705,7 @@ This function moves the “insert” and “selection_bound” marks
 simultaneously.
 
 If you move them to the same place in two steps with
-C<.move-mark()>], you will temporarily select a
+L<.move-mark()|#move-mark>, you will temporarily select a
 region in between their old and new locations, which can be pretty
 inefficient since the temporarily-selected region will force stuff
 to be recalculated. This function moves them as a unit, which can
@@ -1779,15 +1776,15 @@ method remove-all-tags ( N-Object $start, N-Object $end )
 =begin pod
 =head2 remove-selection-clipboard
 
-Removes a B<Gnome::Gdk4::Clipboard> added with
-C<.add-selection-clipboard()>]
+Removes a L<Gnome::Gdk4::Clipboard|/content-docs/api2/reference/Gdk4/Clipboard> added with
+L<.add-selection-clipboard()|#add-selection-clipboard>
 
 =begin code
 method remove-selection-clipboard ( N-Object() $clipboard )
 =end code
 
-=item $clipboard; a B<Gnome::Gdk4::Clipboard> added to C<$buffer> by
-  C<.add-selection-clipboard()>].
+=item $clipboard; a L<Gnome::Gdk4::Clipboard|/content-docs/api2/reference/Gdk4/Clipboard> added to C<$buffer> by
+  L<.add-selection-clipboard()|#add-selection-clipboard>.
 
 =begin comment
 
@@ -1812,7 +1809,7 @@ to be in order.
 method remove-tag ( N-Object() $tag, N-Object $start, N-Object $end )
 =end code
 
-=item $tag; a B<Gnome::Gtk4::TextTag>.
+=item $tag; a L<Gnome::Gtk4::TextTag|/content-docs/api2/reference/Gtk4/TextTag>.
 =item $start; one bound of range to be untagged
 =item $end; other bound of range to be untagged
 
@@ -1831,15 +1828,15 @@ method remove-tag ( N-Object() $tag, N-Object $start, N-Object $end )
 
 Emits the “remove-tag” signal.
 
-Calls C<.lookup()> in class B<Gnome::Gtk4::TextTagTable>] on the buffer’s
-tag table to get a B<Gnome::Gtk4::TextTag>, then calls
-C<.remove-tag()>].
+Calls L<.lookup() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#lookup> on the buffer’s
+tag table to get a L<Gnome::Gtk4::TextTag|/content-docs/api2/reference/Gtk4/TextTag>, then calls
+L<.remove-tag()|#remove-tag>.
 
 =begin code
 method remove-tag-by-name ( Str $name, N-Object $start, N-Object $end )
 =end code
 
-=item $name; name of a B<Gnome::Gtk4::TextTag>.
+=item $name; name of a L<Gnome::Gtk4::TextTag|/content-docs/api2/reference/Gtk4/TextTag>.
 =item $start; one bound of range to be untagged
 =item $end; other bound of range to be untagged
 
@@ -1860,7 +1857,7 @@ This function moves the “insert” and “selection_bound” marks
 simultaneously.
 
 If you move them in two steps with
-C<.move-mark()>], you will temporarily select a
+L<.move-mark()|#move-mark>, you will temporarily select a
 region in between their old and new locations, which can be pretty
 inefficient since the temporarily-selected region will force stuff
 to be recalculated. This function moves them as a unit, which can
@@ -1892,10 +1889,10 @@ Undoable actions in this context are changes to the text content of
 the buffer. Changes to tags and marks are not tracked.
 
 If enabled, the user will be able to undo the last number of actions
-up to C<.get-max-undo-levels()>].
+up to L<.get-max-undo-levels()|#get-max-undo-levels>.
 
-See C<.begin-irreversible-action()>] and
-C<.end-irreversible-action()>] to create
+See L<.begin-irreversible-action()|#begin-irreversible-action> and
+L<.end-irreversible-action()|#end-irreversible-action> to create
 changes to the buffer that cannot be undone.
 
 =begin code
@@ -2032,9 +2029,9 @@ it must not invalidate the C<$start> and C<$end> iters (or has to
 revalidate them).
 
 See also:
-C<.apply-tag()>],
-C<.insert-with-tags()>],
-C<.insert-range()>].
+L<.apply-tag()|#apply-tag>,
+L<.insert-with-tags()|#insert-with-tags>,
+L<.insert-range()|#insert-range>.
 
 =begin code
 method handler (
@@ -2044,7 +2041,7 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TextBuffer :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
@@ -2052,9 +2049,8 @@ method handler (
 =item $start; the start of the range the tag is applied to.
 =item $end; the end of the range the tag is applied to.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TextBuffer> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -2070,26 +2066,25 @@ Emitted at the beginning of a single user-visible
 operation on a B<Gnome::Gtk4::TextBuffer>.
 
 See also:
-C<.begin-user-action()>],
-C<.insert-interactive()>],
-C<.insert-range-interactive()>],
-C<.delete-interactive()>],
-C<.backspace()>],
-C<.delete-selection()>].
+L<.begin-user-action()|#begin-user-action>,
+L<.insert-interactive()|#insert-interactive>,
+L<.insert-range-interactive()|#insert-range-interactive>,
+L<.delete-interactive()|#delete-interactive>,
+L<.backspace()|#backspace>,
+L<.delete-selection()|#delete-selection>.
 
 =begin code
 method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TextBuffer :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TextBuffer> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -2108,14 +2103,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TextBuffer :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TextBuffer> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -2137,7 +2131,7 @@ where text was deleted. Handlers which run after the default
 handler (see g_signal_connect_after()) do not have access to
 the deleted text.
 
-See also: C<.delete()>].
+See also: L<.delete()|#delete>.
 
 =begin code
 method handler (
@@ -2146,16 +2140,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TextBuffer :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $start; the start of the range to be deleted.
 =item $end; the end of the range to be deleted.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TextBuffer> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -2171,27 +2164,26 @@ Emitted at the end of a single user-visible
 operation on the B<Gnome::Gtk4::TextBuffer>.
 
 See also:
-C<.end-user-action()>],
-C<.insert-interactive()>],
-C<.insert-range-interactive()>],
-C<.delete-interactive()>],
-C<.backspace()>],
-C<.delete-selection()>],
-C<.backspace()>].
+L<.end-user-action()|#end-user-action>,
+L<.insert-interactive()|#insert-interactive>,
+L<.insert-range-interactive()|#insert-range-interactive>,
+L<.delete-interactive()|#delete-interactive>,
+L<.backspace()|#backspace>,
+L<.delete-selection()|#delete-selection>,
+L<.backspace()|#backspace>.
 
 =begin code
 method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TextBuffer :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TextBuffer> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -2203,7 +2195,7 @@ method handler (
 =comment -----------------------------------------------------------------------
 =head3 insert-child-anchor
 
-Emitted to insert a B<Gnome::Gtk4::TextChildAnchor> in a B<Gnome::Gtk4::TextBuffer>.
+Emitted to insert a L<Gnome::Gtk4::TextChildAnchor|/content-docs/api2/reference/Gtk4/TextChildAnchor> in a B<Gnome::Gtk4::TextBuffer>.
 
 Insertion actually occurs in the default handler.
 
@@ -2212,7 +2204,7 @@ it must not invalidate the C<$location> iter (or has to
 revalidate it). The default signal handler revalidates
 it to be placed after the inserted C<$anchor>.
 
-See also: C<.insert-child-anchor()>].
+See also: L<.insert-child-anchor()|#insert-child-anchor>.
 
 =begin code
 method handler (
@@ -2221,16 +2213,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TextBuffer :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $location; position to insert C<$anchor> in C<$textbuffer>.
-=item $anchor; the B<Gnome::Gtk4::TextChildAnchor> to be inserted.
+=item $anchor; the L<Gnome::Gtk4::TextChildAnchor|/content-docs/api2/reference/Gtk4/TextChildAnchor> to be inserted.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TextBuffer> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -2242,7 +2233,7 @@ method handler (
 =comment -----------------------------------------------------------------------
 =head3 insert-paintable
 
-Emitted to insert a B<Gnome::Gdk4::R-Paintable> in a B<Gnome::Gtk4::TextBuffer>.
+Emitted to insert a L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable> in a B<Gnome::Gtk4::TextBuffer>.
 
 Insertion actually occurs in the default handler.
 
@@ -2251,7 +2242,7 @@ it must not invalidate the C<$location> iter (or has to
 revalidate it). The default signal handler revalidates
 it to be placed after the inserted C<$paintable>.
 
-See also: C<.insert-paintable()>].
+See also: L<.insert-paintable()|#insert-paintable>.
 
 =begin code
 method handler (
@@ -2260,16 +2251,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TextBuffer :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $location; position to insert C<$paintable> in C<$textbuffer>.
-=item $paintable; the B<Gnome::Gdk4::R-Paintable> to be inserted.
+=item $paintable; the L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable> to be inserted.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TextBuffer> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -2290,8 +2280,8 @@ it must not invalidate the C<$location> iter (or has to
 revalidate it). The default signal handler revalidates
 it to point to the end of the inserted text.
 
-See also: C<.insert()>],
-C<.insert-range()>].
+See also: L<.insert()|#insert>,
+L<.insert-range()|#insert-range>.
 
 =begin code
 method handler (
@@ -2301,7 +2291,7 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TextBuffer :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
@@ -2309,9 +2299,8 @@ method handler (
 =item $text; the UTF-8 text to be inserted.
 =item $len; length of the inserted text in bytes.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TextBuffer> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -2323,9 +2312,9 @@ method handler (
 =comment -----------------------------------------------------------------------
 =head3 mark-deleted
 
-Emitted as notification after a B<Gnome::Gtk4::TextMark> is deleted.
+Emitted as notification after a L<Gnome::Gtk4::TextMark|/content-docs/api2/reference/Gtk4/TextMark> is deleted.
 
-See also: C<.delete-mark()>].
+See also: L<.delete-mark()|#delete-mark>.
 
 =begin code
 method handler (
@@ -2333,15 +2322,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TextBuffer :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $mark; The mark that was deleted.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TextBuffer> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -2353,11 +2341,11 @@ method handler (
 =comment -----------------------------------------------------------------------
 =head3 mark-set
 
-Emitted as notification after a B<Gnome::Gtk4::TextMark> is set.
+Emitted as notification after a L<Gnome::Gtk4::TextMark|/content-docs/api2/reference/Gtk4/TextMark> is set.
 
 See also:
-C<.create-mark()>],
-C<.move-mark()>].
+L<.create-mark()|#create-mark>,
+L<.move-mark()|#move-mark>.
 
 =begin code
 method handler (
@@ -2366,16 +2354,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TextBuffer :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $location; The location of C<$mark> in C<$textbuffer>.
 =item $mark; The mark that is set.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TextBuffer> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -2389,21 +2376,20 @@ method handler (
 
 Emitted when the modified bit of a B<Gnome::Gtk4::TextBuffer> flips.
 
-See also: C<.set-modified()>].
+See also: L<.set-modified()|#set-modified>.
 
 =begin code
 method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TextBuffer :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TextBuffer> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -2418,7 +2404,7 @@ method handler (
 Emitted after paste operation has been completed.
 
 This is useful to properly scroll the view to the end
-of the pasted text. See C<.paste-clipboard()>]
+of the pasted text. See L<.paste-clipboard()|#paste-clipboard>
 for more details.
 
 =begin code
@@ -2427,15 +2413,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TextBuffer :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
-=item $clipboard; the B<Gnome::Gdk4::Clipboard> pasted from.
+=item $clipboard; the L<Gnome::Gdk4::Clipboard|/content-docs/api2/reference/Gdk4/Clipboard> pasted from.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TextBuffer> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -2455,14 +2440,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TextBuffer :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TextBuffer> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -2483,7 +2467,7 @@ Note that if your handler runs before the default handler
 it must not invalidate the C<$start> and C<$end> iters (or has
 to revalidate them).
 
-See also: C<.remove-tag()>].
+See also: L<.remove-tag()|#remove-tag>.
 
 =begin code
 method handler (
@@ -2493,7 +2477,7 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TextBuffer :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
@@ -2501,9 +2485,8 @@ method handler (
 =item $start; the start of the range the tag is removed from.
 =item $end; the end of the range the tag is removed from.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TextBuffer> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -2524,14 +2507,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TextBuffer :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TextBuffer> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 

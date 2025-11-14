@@ -58,16 +58,16 @@ Create an object using a native object from an object of the same type found els
 =head2 new-treelistrowsorter
 
 Create a special-purpose sorter that applies the sorting
-of C<$sorter> to the levels of a B<Gnome::Gtk4::TreeListModel>.
+of C<$sorter> to the levels of a L<Gnome::Gtk4::TreeListModel|/content-docs/api2/reference/Gtk4/TreeListModel>.
 
 Note that this sorter relies on I<passthrough defined in Gnome::Gtk4::TreeListModel>
-being C<False> as it can only sort B<Gnome::Gtk4::TreeListRow>s.
+being C<False> as it can only sort L<Gnome::Gtk4::TreeListRow|/content-docs/api2/reference/Gtk4/Gnome>s.
 
 =begin code
 method new-treelistrowsorter ( N-Object() $sorter --> Gnome::Gtk4::TreeListRowSorter )
 =end code
 
-=item $sorter; (transfer ownership: full) a B<Gnome::Gtk4::Sorter>.
+=item $sorter; (transfer ownership: full) a L<Gnome::Gtk4::Sorter|/content-docs/api2/reference/Gtk4/Sorter>.
 
 =begin comment
 

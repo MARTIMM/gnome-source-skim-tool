@@ -51,10 +51,10 @@ with all rows collapsed.
 method new-treelistmodel ( N-List() $root, Bool() $passthrough, Bool() $autoexpand, GtkTreeListModelCreateModelFunc &create-func, gpointer $user-data, GDestroyNotify &user-destroy --> Gnome::Gtk4::TreeListModel )
 =end code
 
-=item $root; (transfer ownership: full) The B<Gnome::Gio::R-ListModel> to use as root.
+=item $root; (transfer ownership: full) The L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> to use as root.
 =item $passthrough; C<True> to pass through items from the models.
 =item $autoexpand; C<True> to set the autoexpand property and expand the C<$root> model.
-=item GtkTreeListModelCreateModelFunc &create-func; Function to call to create the B<Gnome::Gio::R-ListModel> for the children
+=item GtkTreeListModelCreateModelFunc &create-func; Function to call to create the L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> for the children
   of an item. The function must be specified with the following signature; C<:( gpointer $item, gpointer $user-data )>.
 =item $user-data; Data to pass to C<$create-func>.
 =item GDestroyNotify &user-destroy; Function to call to free C<$user-data>. The function must be specified with the following signature; C<:( gpointer $data )>.
@@ -84,7 +84,7 @@ Gets whether the model is set to automatically expand new rows
 that get added.
 
 This can be either rows added by changes to the underlying
-models or via C<.set-expanded()> in class B<Gnome::Gtk4::TreeListRow>].
+models or via L<.set-expanded() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#set-expanded>.
 
 =begin code
 method get-autoexpand (--> Bool )
@@ -110,7 +110,7 @@ Gets the row item corresponding to the child at index C<$position> for C<$self>'
 If C<$position> is greater than the number of children in the root model,
 undefined is returned.
 
-Do not confuse this function with C<.get-row()>].
+Do not confuse this function with L<.get-row()|#get-row>.
 
 =begin code
 method get-child-row ( UInt() $position --> N-Object )
@@ -156,14 +156,14 @@ Return value; the root model.
 
 Gets whether the model is passing through original row items.
 
-If this function returns C<False>, the B<Gnome::Gio::R-ListModel> functions for C<$self>
-return custom B<Gnome::Gtk4::TreeListRow> objects. You need to call
-C<.get-item()> in class B<Gnome::Gtk4::TreeListRow>] on these objects to get the original
+If this function returns C<False>, the L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> functions for C<$self>
+return custom L<Gnome::Gtk4::TreeListRow|/content-docs/api2/reference/Gtk4/TreeListRow> objects. You need to call
+L<.get-item() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#get-item> on these objects to get the original
 item.
 
 If C<True>, the values of the child models are passed through in their
-original state. You then need to call C<.get-row()>]
-to get the custom B<Gnome::Gtk4::TreeListRow>s.
+original state. You then need to call L<.get-row()|#get-row>
+to get the custom L<Gnome::Gtk4::TreeListRow|/content-docs/api2/reference/Gtk4/TreeListRow>s.
 
 =begin code
 method get-passthrough (--> Bool )
@@ -200,7 +200,7 @@ other rows being added or removed.
 If C<$self> is set to not be passthrough, this function is
 equivalent to calling g_list_model_get_item().
 
-Do not confuse this function with C<.get-child-row()>].
+Do not confuse this function with L<.get-child-row()|#get-child-row>.
 
 =begin code
 method get-row ( UInt() $position --> N-Object )
@@ -227,7 +227,7 @@ Sets whether the model should autoexpand.
 
 If set to C<True>, the model will recursively expand all rows that
 get added to the model. This can be either rows added by changes
-to the underlying models or via C<.set-expanded()> in class B<Gnome::Gtk4::TreeListRow>].
+to the underlying models or via L<.set-expanded() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#set-expanded>.
 
 =begin code
 method set-autoexpand ( Bool() $autoexpand )

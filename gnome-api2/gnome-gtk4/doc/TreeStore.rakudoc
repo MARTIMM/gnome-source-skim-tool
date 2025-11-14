@@ -9,22 +9,22 @@ use v6.d;
 =TITLE Gnome::Gtk4::TreeStore
 =head1 Description
 
-A tree-like data structure that can be used with the B<Gnome::Gtk4::TreeView>.
+A tree-like data structure that can be used with the L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/Gnome>.
 
-The B<Gnome::Gtk4::TreeStore> object is a list model for use with a B<Gnome::Gtk4::TreeView>
-widget. It implements the B<Gnome::Gtk4::R-TreeModel> interface, and consequently,
+The B<Gnome::Gtk4::TreeStore> object is a list model for use with a L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView>
+widget. It implements the L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/gtk/Gnome-TreeModel> interface, and consequently,
 can use all of the methods available there. It also implements the
-B<Gnome::Gtk4::R-TreeSortable> interface so it can be sorted by the view.
-Finally, it also implements the tree [drag]B<Gnome::Gtk4::R-TreeDragSource>
-and [drop]B<Gnome::Gtk4::R-TreeDragDest> interfaces.
+L<Gnome::Gtk4::R-TreeSortable|/content-docs/api2/reference/gtk/Gnome-TreeSortable> interface so it can be sorted by the view.
+Finally, it also implements the tree [drag]L<Gnome::Gtk4::R-TreeDragSource|/content-docs/api2/reference/gtk/Gnome-TreeDragSource>
+and [drop]L<Gnome::Gtk4::R-TreeDragDest|/content-docs/api2/reference/gtk/Gnome-TreeDragDest> interfaces.
 
 B<Gnome::Gtk4::TreeStore> is deprecated since GTK 4.10, and should not be used in newly
-written code. You should use B<Gnome::Gtk4::TreeListModel> for a tree-like model
+written code. You should use L<Gnome::Gtk4::TreeListModel|/content-docs/api2/reference/Gtk4/Gnome> for a tree-like model
 object.
 
 =head3 GtkTreeStore as GtkBuildable
 
-The GtkTreeStore implementation of the B<Gnome::Gtk4::R-Buildable> interface allows
+The GtkTreeStore implementation of the L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/Gtk4/R-Buildable> interface allows
 to specify the model columns with a `<columns>` element that may contain
 multiple `<column>` elements, each specifying one model column. The “type”
 attribute specifies the data type for the column.
@@ -70,7 +70,6 @@ Create an object using a native object from an object of the same type found els
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-treestore
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -97,7 +96,7 @@ As an example:
 =end comment
 
 will create a new B<Gnome::Gtk4::TreeStore> with three columns of type
-B<int>, B<gchararray>, and B<Gnome::Gdk4::Texture> respectively.
+B<int>, B<gchararray>, and L<Gnome::Gdk4::Texture|/content-docs/api2/reference/Gdk4/Texture> respectively.
 
 =begin code
 method new-treestore ( Int() $n-columns, … --> Gnome::Gtk4::TreeStore )
@@ -118,7 +117,6 @@ method new-treestore ( Int() $n-columns, … --> Gnome::Gtk4::TreeStore )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 newv
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -314,7 +312,6 @@ method insert-before ( N-Object $iter, N-Object $parent, N-Object $sibling )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 insert-with-values
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -626,7 +623,6 @@ method reorder ( N-Object $parent, Array[Int] $new-order )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -662,7 +658,6 @@ method set ( N-Object $iter, … )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-column-types
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -673,7 +668,7 @@ B<Gnome::Gtk4::TreeStore>, and should only be used when constructing a new
 B<Gnome::Gtk4::TreeStore>.
 
 This functions cannot be called after a row has been added,
-or a method on the B<Gnome::Gtk4::R-TreeModel> interface is called on the
+or a method on the L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel> interface is called on the
 tree store.
 
 =begin code
@@ -695,7 +690,6 @@ method set-column-types ( Int() $n-columns, … )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-valist
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 

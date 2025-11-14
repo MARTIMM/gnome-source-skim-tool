@@ -12,14 +12,14 @@ use v6.d;
 The selection object for GtkTreeView
 
 The B<Gnome::Gtk4::TreeSelection> object is a helper object to manage the selection
-for a B<Gnome::Gtk4::TreeView> widget.  The B<Gnome::Gtk4::TreeSelection> object is
-automatically created when a new B<Gnome::Gtk4::TreeView> widget is created, and
+for a L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView> widget.  The B<Gnome::Gtk4::TreeSelection> object is
+automatically created when a new L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView> widget is created, and
 cannot exist independently of this widget.  The primary reason the
 B<Gnome::Gtk4::TreeSelection> objects exists is for cleanliness of code and API.
 That is, there is no conceptual reason all these functions could not be
-methods on the B<Gnome::Gtk4::TreeView> widget instead of a separate function.
+methods on the L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView> widget instead of a separate function.
 
-The B<Gnome::Gtk4::TreeSelection> object is gotten from a B<Gnome::Gtk4::TreeView> by calling
+The B<Gnome::Gtk4::TreeSelection> object is gotten from a L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView> by calling
 gtk_tree_view_get_selection().  It can be manipulated to check the
 selection status of the tree, as well as select and deselect individual
 rows.  Selection is done completely view side.  As a result, multiple
@@ -160,7 +160,7 @@ use C<$selection> is C<GTK_SELECTION_MULTIPLE>.
 method get-selected ( N-Object() $model, N-Object $iter --> Bool )
 =end code
 
-=item $model; A pointer to set to the B<Gnome::Gtk4::R-TreeModel>.
+=item $model; A pointer to set to the L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>.
 =item $iter; The B<Gnome::Gtk4::N-TreeIter>
 
 Return value; TRUE, if there is a selected node.. 
@@ -196,7 +196,7 @@ g_list_free_full (list, (GDestroyNotify) gtk_tree_path_free);
 method get-selected-rows ( N-Object() $model --> N-List )
 =end code
 
-=item $model; A pointer to set to the B<Gnome::Gtk4::R-TreeModel>.
+=item $model; A pointer to set to the L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>.
 
 Return value; A B<Gnome::Glib::N-List> containing a B<Gnome::Gtk4::N-TreePath> for each selected row.. 
 
@@ -221,7 +221,7 @@ Returns the tree view associated with C<$selection>.
 method get-tree-view (--> N-Object )
 =end code
 
-Return value; A B<Gnome::Gtk4::TreeView>. 
+Return value; A L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView>. 
 
 =begin comment
 
@@ -591,14 +591,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TreeSelection :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeSelection> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TreeSelection> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 

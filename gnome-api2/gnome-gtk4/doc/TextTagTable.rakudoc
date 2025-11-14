@@ -9,7 +9,7 @@ use v6.d;
 =TITLE Gnome::Gtk4::TextTagTable
 =head1 Description
 
-The collection of tags in a B<Gnome::Gtk4::TextBuffer>
+The collection of tags in a L<Gnome::Gtk4::TextBuffer|/content-docs/api2/reference/Gtk4/TextBuffer>
 
 You may wish to begin by reading the
 [text widget conceptual overview](section-text-widget.html),
@@ -18,7 +18,7 @@ related to the text widget and how they work together.
 
 =head2 GtkTextTagTables as GtkBuildable
 
-The B<Gnome::Gtk4::TextTagTable> implementation of the B<Gnome::Gtk4::R-Buildable> interface
+The B<Gnome::Gtk4::TextTagTable> implementation of the L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/Gtk4/R-Buildable> interface
 supports adding tags by specifying “tag” as the “type” attribute
 of a `<child>` element.
 
@@ -104,7 +104,7 @@ the same name as an already-added tag.
 method add ( N-Object() $tag --> Bool )
 =end code
 
-=item $tag; a B<Gnome::Gtk4::TextTag>.
+=item $tag; a L<Gnome::Gtk4::TextTag|/content-docs/api2/reference/Gtk4/TextTag>.
 
 Return value; C<True> on success.. 
 
@@ -192,7 +192,7 @@ Return value; The tag.
 
 Remove a tag from the table.
 
-If a B<Gnome::Gtk4::TextBuffer> has C<$table> as its tag table, the tag is
+If a L<Gnome::Gtk4::TextBuffer|/content-docs/api2/reference/Gtk4/TextBuffer> has C<$table> as its tag table, the tag is
 removed from the buffer. The table’s reference to the tag is
 removed, so the tag will end up destroyed if you don’t have
 a reference to it.
@@ -201,7 +201,7 @@ a reference to it.
 method remove ( N-Object() $tag )
 =end code
 
-=item $tag; a B<Gnome::Gtk4::TextTag>.
+=item $tag; a L<Gnome::Gtk4::TextTag|/content-docs/api2/reference/Gtk4/TextTag>.
 
 =begin comment
 
@@ -230,15 +230,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TextTagTable :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $tag; the added tag..
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextTagTable> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TextTagTable> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -259,16 +258,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TextTagTable :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $tag; the changed tag..
-=item $size-changed; whether the change affects the B<Gnome::Gtk4::TextView> layout..
+=item $size-changed; whether the change affects the L<Gnome::Gtk4::TextView|/content-docs/api2/reference/Gtk4/TextView> layout..
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextTagTable> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TextTagTable> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -291,15 +289,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TextTagTable :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $tag; the removed tag..
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextTagTable> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TextTagTable> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 

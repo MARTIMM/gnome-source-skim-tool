@@ -9,15 +9,15 @@ use v6.d;
 =TITLE Gnome::Gtk4::TreeViewColumn
 =head1 Description
 
-A visible column in a B<Gnome::Gtk4::TreeView> widget
+A visible column in a L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/Gnome> widget
 
-The B<Gnome::Gtk4::TreeViewColumn> object represents a visible column in a B<Gnome::Gtk4::TreeView> widget.
+The B<Gnome::Gtk4::TreeViewColumn> object represents a visible column in a L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView> widget.
 It allows to set properties of the column header, and functions as a holding pen
 for the cell renderers which determine how the data in the column is displayed.
 
 Please refer to the [tree widget conceptual overview](section-tree-widget.html)
 for an overview of all the objects and data types related to the tree widget and
-how they work together, and to the B<Gnome::Gtk4::TreeView> documentation for specifics
+how they work together, and to the L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/Gnome> documentation for specifics
 about the CSS node structure for treeviews and their headers.
 
 =head2 Uml Diagram
@@ -84,7 +84,7 @@ Creates a new B<Gnome::Gtk4::TreeViewColumn> using C<$area> to render its cells.
 method new-with-area ( N-Object() $area --> Gnome::Gtk4::TreeViewColumn )
 =end code
 
-=item $area; the B<Gnome::Gtk4::CellArea> that the newly created column should use to layout cells..
+=item $area; the L<Gnome::Gtk4::CellArea|/content-docs/api2/reference/Gtk4/CellArea> that the newly created column should use to layout cells..
 
 =begin comment
 
@@ -98,7 +98,6 @@ method new-with-area ( N-Object() $area --> Gnome::Gtk4::TreeViewColumn )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-with-attributes
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -130,7 +129,7 @@ method new-with-attributes ( Str $title, N-Object() $cell, … --> Gnome::Gtk4::
 =end code
 
 =item $title; The title to set the header to.
-=item $cell; The B<Gnome::Gtk4::CellRenderer>.
+=item $cell; The L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>.
 =item …; …. Note that each argument must be specified as a type followed by its value!
 
 =begin comment
@@ -162,14 +161,14 @@ The C<$column> is the
 column of the model to get a value from, and the C<$attribute> is the
 parameter on C<$cell-renderer> to be set from the value. So for example
 if column 2 of the model contains strings, you could have the
-“text” attribute of a B<Gnome::Gtk4::CellRendererText> get its values from
+“text” attribute of a L<Gnome::Gtk4::CellRendererText|/content-docs/api2/reference/Gtk4/CellRendererText> get its values from
 column 2.
 
 =begin code
 method add-attribute ( N-Object() $cell-renderer, Str $attribute, Int() $column )
 =end code
 
-=item $cell-renderer; the B<Gnome::Gtk4::CellRenderer> to set attributes on.
+=item $cell-renderer; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> to set attributes on.
 =item $attribute; An attribute on the renderer.
 =item $column; The column position on the model to get the attribute from..
 
@@ -197,7 +196,7 @@ are not changed and C<False> is returned.
 method cell-get-position ( N-Object() $cell-renderer, Array[Int] $x-offset, Array[Int] $width --> Bool )
 =end code
 
-=item $cell-renderer; a B<Gnome::Gtk4::CellRenderer>.
+=item $cell-renderer; a L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>.
 =item $x-offset; (transfer ownership: full) return location for the horizontal
   position of C<$cell> within C<$tree-column>.
 =item $width; (transfer ownership: full) return location for the width of C<$cell>.
@@ -220,7 +219,7 @@ Return value; C<True> if C<$cell> belongs to C<$tree-column>.
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Obtains the width and height needed to render the column.  This is used
-primarily by the B<Gnome::Gtk4::TreeView>.
+primarily by the L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView>.
 
 =begin code
 method cell-get-size ( Array[Int] $x-offset, Array[Int] $y-offset, Array[Int] $width, Array[Int] $height )
@@ -274,13 +273,13 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Sets the cell renderer based on the C<$tree-model> and C<$iter>.  That is, for
 every attribute mapping in C<$tree-column>, it will get a value from the set
 column on the C<$iter>, and use that value to set the attribute on the cell
-renderer.  This is used primarily by the B<Gnome::Gtk4::TreeView>.
+renderer.  This is used primarily by the L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView>.
 
 =begin code
 method cell-set-cell-data ( N-Object() $tree-model, N-Object $iter, Bool() $is-expander, Bool() $is-expanded )
 =end code
 
-=item $tree-model; The B<Gnome::Gtk4::R-TreeModel> to get the cell renderers attributes from..
+=item $tree-model; The L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel> to get the cell renderers attributes from..
 =item $iter; The B<Gnome::Gtk4::N-TreeIter> to get the cell renderer’s attributes from.
 =item $is-expander; C<True>, if the row has children.
 =item $is-expanded; C<True>, if the row has visible children.
@@ -328,7 +327,7 @@ C<.set-attributes()>.
 method clear-attributes ( N-Object() $cell-renderer )
 =end code
 
-=item $cell-renderer; a B<Gnome::Gtk4::CellRenderer> to clear the attribute mapping on..
+=item $cell-renderer; a L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> to clear the attribute mapping on..
 
 =begin comment
 
@@ -373,7 +372,7 @@ Sets the current keyboard focus to be at C<$cell>, if the column contains
 method focus-cell ( N-Object() $cell )
 =end code
 
-=item $cell; A B<Gnome::Gtk4::CellRenderer>.
+=item $cell; A L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>.
 
 =begin comment
 
@@ -627,7 +626,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Gets the logical C<$sort-column-id> that the model sorts on
 when this column is selected for sorting.
 
-See C<.set-sort-column-id()>].
+See L<.set-sort-column-id()|#set-sort-column-id>.
 
 =begin code
 method get-sort-column-id (--> Int )
@@ -744,7 +743,7 @@ modified or freed..
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Returns the B<Gnome::Gtk4::TreeView> wherein C<$tree-column> has been inserted.
+Returns the L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView> wherein C<$tree-column> has been inserted.
 If C<$column> is currently not inserted in any tree view, undefined is
 returned.
 
@@ -794,7 +793,7 @@ the tree will show the column..
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Returns the B<Gnome::Gtk4::Widget> in the button on the column header.
+Returns the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> in the button on the column header.
 
 If a custom widget has not been set then undefined is returned.
 
@@ -802,7 +801,7 @@ If a custom widget has not been set then undefined is returned.
 method get-widget (--> N-Object )
 =end code
 
-Return value; The B<Gnome::Gtk4::Widget> in the column header. 
+Return value; The L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> in the column header. 
 
 =begin comment
 
@@ -873,7 +872,7 @@ evenly between cells for which C<$expand> is C<True>.
 method pack-end ( N-Object() $cell, Bool() $expand )
 =end code
 
-=item $cell; The B<Gnome::Gtk4::CellRenderer>.
+=item $cell; The L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>.
 =item $expand; C<True> if C<$cell> is to be given extra space allocated to C<$tree-column>..
 
 =begin comment
@@ -899,7 +898,7 @@ evenly between cells for which C<$expand> is C<True>.
 method pack-start ( N-Object() $cell, Bool() $expand )
 =end code
 
-=item $cell; The B<Gnome::Gtk4::CellRenderer>.
+=item $cell; The L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>.
 =item $expand; C<True> if C<$cell> is to be given extra space allocated to C<$tree-column>..
 
 =begin comment
@@ -961,7 +960,6 @@ method set-alignment ( Num() $xalign )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-attributes
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -975,7 +973,7 @@ are removed, and replaced with the new attributes.
 method set-attributes ( N-Object() $cell-renderer, … )
 =end code
 
-=item $cell-renderer; the B<Gnome::Gtk4::CellRenderer> we’re setting the attributes of.
+=item $cell-renderer; the L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer> we’re setting the attributes of.
 =item …; …. Note that each argument must be specified as a type followed by its value!
 
 =begin comment
@@ -1005,7 +1003,7 @@ older one.
 method set-cell-data-func ( N-Object() $cell-renderer, GtkTreeCellDataFunc &func, gpointer $func-data, GDestroyNotify &destroy )
 =end code
 
-=item $cell-renderer; A B<Gnome::Gtk4::CellRenderer>.
+=item $cell-renderer; A L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>.
 =item GtkTreeCellDataFunc &func; The B<Gnome::Gtk4::T-treeviewcolumn> to use.. The function must be specified with the following signature; C<:( N-Object $tree-column, N-Object $cell, N-Object $tree-model, N-Object $iter, gpointer $data )>.
 =item $func-data; The user data for C<$func>..
 =item GDestroyNotify &destroy; The destroy notification for C<$func-data>. The function must be specified with the following signature; C<:( gpointer $data )>.
@@ -1390,13 +1388,13 @@ method set-visible ( Bool() $visible )
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the widget in the header to be C<$widget>.  If widget is undefined, then the
-header button is set with a B<Gnome::Gtk4::Label> set to the title of C<$tree-column>.
+header button is set with a L<Gnome::Gtk4::Label|/content-docs/api2/reference/Gtk4/Label> set to the title of C<$tree-column>.
 
 =begin code
 method set-widget ( N-Object() $widget )
 =end code
 
-=item $widget; A child B<Gnome::Gtk4::Widget>.
+=item $widget; A child L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>.
 
 =begin comment
 
@@ -1424,14 +1422,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TreeViewColumn :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeViewColumn> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TreeViewColumn> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 

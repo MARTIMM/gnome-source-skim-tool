@@ -11,9 +11,9 @@ use v6.d;
 
 B<Gnome::Gtk4::TreeExpander> is a widget that provides an expander for a list.
 
-It is typically placed as a bottommost child into a B<Gnome::Gtk4::ListView>
+It is typically placed as a bottommost child into a L<Gnome::Gtk4::ListView|/content-docs/api2/reference/Gtk4/ListView>
 to allow users to expand and collapse children in a list with a
-B<Gnome::Gtk4::TreeListModel>. B<Gnome::Gtk4::TreeExpander> provides the common UI
+L<Gnome::Gtk4::TreeListModel|/content-docs/api2/reference/Gtk4/Gnome>. B<Gnome::Gtk4::TreeExpander> provides the common UI
 elements, gestures and keybindings for this purpose.
 
 On top of this, the "listitem.expand", "listitem.collapse" and
@@ -25,11 +25,11 @@ I<focusable defined in Gnome::Gtk4::ListItem> property to FALSE when using this
 widget, as you want the keyboard focus to be in the treexpander, and not
 inside the list to make use of the keybindings.
 
-The B<Gnome::Gtk4::TreeListModel> must be set to not be passthrough. Then it
-will provide B<Gnome::Gtk4::TreeListRow> items which can be set via
-C<.set-list-row()>] on the expander.
+The L<Gnome::Gtk4::TreeListModel|/content-docs/api2/reference/Gtk4/TreeListModel> must be set to not be passthrough. Then it
+will provide L<Gnome::Gtk4::TreeListRow|/content-docs/api2/reference/Gtk4/Gnome> items which can be set via
+L<.set-list-row()|#set-list-row> on the expander.
 The expander will then watch that row item automatically.
-C<.set-child()>] sets the widget that displays
+L<.set-child()|#set-child> sets the widget that displays
 the actual row contents.
 
 B<Gnome::Gtk4::TreeExpander> can be modified with properties such as
@@ -201,7 +201,7 @@ Return value; TRUE if the child should be indented when not expandable. Otherwis
 =begin pod
 =head2 get-item
 
-Forwards the item set on the B<Gnome::Gtk4::TreeListRow> that C<$self> is managing.
+Forwards the item set on the L<Gnome::Gtk4::TreeListRow|/content-docs/api2/reference/Gtk4/TreeListRow> that C<$self> is managing.
 
 This call is essentially equivalent to calling:
 
@@ -251,7 +251,7 @@ Sets the content widget to display.
 method set-child ( N-Object() $child )
 =end code
 
-=item $child; a B<Gnome::Gtk4::Widget>.
+=item $child; a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>.
 
 =begin comment
 
@@ -327,7 +327,7 @@ Sets the tree list row that this expander should manage.
 method set-list-row ( N-Object() $list-row )
 =end code
 
-=item $list-row; a B<Gnome::Gtk4::TreeListRow>.
+=item $list-row; a L<Gnome::Gtk4::TreeListRow|/content-docs/api2/reference/Gtk4/TreeListRow>.
 
 =end pod
 

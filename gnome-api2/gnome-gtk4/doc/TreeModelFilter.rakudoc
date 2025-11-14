@@ -9,7 +9,7 @@ use v6.d;
 =TITLE Gnome::Gtk4::TreeModelFilter
 =head1 Description
 
-A B<Gnome::Gtk4::R-TreeModel> which hides parts of an underlying tree model
+A L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel> which hides parts of an underlying tree model
 
 A B<Gnome::Gtk4::TreeModelFilter> is a tree model which wraps another tree model,
 and can do the following things:
@@ -29,8 +29,8 @@ and can do the following things:
   in a B<Gnome::Gtk4::N-TreePath> indicating the root node for the filter at construction
   time.
 
-The basic API is similar to B<Gnome::Gtk4::TreeModelSort>. For an example on its usage,
-see the section on B<Gnome::Gtk4::TreeModelSort>.
+The basic API is similar to L<Gnome::Gtk4::TreeModelSort|/content-docs/api2/reference/Gtk4/TreeModelSort>. For an example on its usage,
+see the section on L<Gnome::Gtk4::TreeModelSort|/content-docs/api2/reference/Gtk4/TreeModelSort>.
 
 When using B<Gnome::Gtk4::TreeModelFilter>, it is important to realize that
 B<Gnome::Gtk4::TreeModelFilter> maintains an internal cache of all nodes which are
@@ -39,8 +39,8 @@ exposed by the child model. B<Gnome::Gtk4::TreeModelFilter> will not cache the e
 child model when unnecessary to not compromise the caching mechanism
 that is exposed by the reference counting scheme. If the child model
 implements reference counting, unnecessary signals may not be emitted
-because of reference counting rule 3, see the B<Gnome::Gtk4::R-TreeModel>
-documentation. (Note that e.g. B<Gnome::Gtk4::TreeStore> does not implement
+because of reference counting rule 3, see the L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>
+documentation. (Note that e.g. L<Gnome::Gtk4::TreeStore|/content-docs/api2/reference/Gtk4/TreeStore> does not implement
 reference counting and will always emit all signals, even when
 the receiving node is not visible).
 
@@ -50,7 +50,7 @@ the node for which the visibility state must be determined, its siblings
 or its parents. Usually, having a dependency on the state of any child
 node is not possible, unless references are taken on these explicitly.
 When no such reference exists, no signals may be received for these child
-nodes (see reference counting rule number 3 in the B<Gnome::Gtk4::R-TreeModel> section).
+nodes (see reference counting rule number 3 in the L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel> section).
 
 Determining the visibility state of a given node based on the state
 of its child nodes is a frequently occurring use case. Therefore,
@@ -72,7 +72,7 @@ of any parent node has changed.
 Beware, however, that this explicit support is limited to these two
 cases. For example, if you want a node to be visible only if two nodes
 in a child’s child level (2 levels deeper) are visible, you are on your
-own. In this case, either rely on B<Gnome::Gtk4::TreeStore> to emit all signals
+own. In this case, either rely on L<Gnome::Gtk4::TreeStore|/content-docs/api2/reference/Gtk4/TreeStore> to emit all signals
 because it does not implement reference counting, or for models that
 do implement reference counting, obtain references on these child levels
 yourself.
@@ -263,7 +263,7 @@ Returns a pointer to the child model of C<$filter>.
 method get-model (--> N-Object )
 =end code
 
-Return value; A pointer to a B<Gnome::Gtk4::R-TreeModel>. 
+Return value; A pointer to a L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>. 
 
 =begin comment
 
@@ -299,7 +299,6 @@ method refilter ( )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-modify-func
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 

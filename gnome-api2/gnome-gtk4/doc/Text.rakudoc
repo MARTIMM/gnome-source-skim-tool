@@ -12,26 +12,26 @@ use v6.d;
 The B<Gnome::Gtk4::Text> widget is a single-line text entry widget.
 
 B<Gnome::Gtk4::Text> is the common implementation of single-line text editing
-that is shared between B<Gnome::Gtk4::Entry>, B<Gnome::Gtk4::PasswordEntry>,
-B<Gnome::Gtk4::SpinButton>, and other widgets. In all of these, B<Gnome::Gtk4::Text> is
-used as the delegate for the B<Gnome::Gtk4::R-Editable> implementation.
+that is shared between L<Gnome::Gtk4::Entry|/content-docs/api2/reference/Gtk4/Gnome>, L<Gnome::Gtk4::PasswordEntry|/content-docs/api2/reference/Gtk4/Gnome>,
+L<Gnome::Gtk4::SpinButton|/content-docs/api2/reference/Gtk4/Gnome>, and other widgets. In all of these, B<Gnome::Gtk4::Text> is
+used as the delegate for the L<Gnome::Gtk4::R-Editable|/content-docs/api2/reference/gtk/Gnome-Editable> implementation.
 
 A fairly large set of key bindings are supported by default. If the
 entered text is longer than the allocation of the widget, the widget
 will scroll so that the cursor position is visible.
 
 When using an entry for passwords and other sensitive information,
-it can be put into “password mode” using C<.set-visibility()>].
+it can be put into “password mode” using L<.set-visibility()|#set-visibility>.
 In this mode, entered text is displayed using a “invisible” character.
 By default, GTK picks the best invisible character that is available
 in the current font, but it can be changed with
-C<.set-invisible-char()>].
+L<.set-invisible-char()|#set-invisible-char>.
 
 If you are looking to add icons or progress display in an entry, look
-at B<Gnome::Gtk4::Entry>. There other alternatives for more specialized use
-cases, such as B<Gnome::Gtk4::SearchEntry>.
+at L<Gnome::Gtk4::Entry|/content-docs/api2/reference/Gtk4/Gnome>. There other alternatives for more specialized use
+cases, such as L<Gnome::Gtk4::SearchEntry|/content-docs/api2/reference/Gtk4/Gnome>.
 
-If you need multi-line editable text, look at B<Gnome::Gtk4::TextView>.
+If you need multi-line editable text, look at L<Gnome::Gtk4::TextView|/content-docs/api2/reference/Gtk4/Gnome>.
 
 =head2 CSS nodes
 
@@ -70,7 +70,7 @@ there is just a single handle for the text cursor, it gets the style class
 
 B<Gnome::Gtk4::Text> uses the C<GTK_ACCESSIBLE_ROLE_NONE> role, which causes it to be
 skipped for accessibility. This is because B<Gnome::Gtk4::Text> is expected to be used
-as a delegate for a B<Gnome::Gtk4::R-Editable> implementation that will be represented
+as a delegate for a L<Gnome::Gtk4::R-Editable|/content-docs/api2/reference/Gtk4/R-Editable> implementation that will be represented
 to accessibility.
 
 =head2 Uml Diagram
@@ -189,7 +189,7 @@ method compute-cursor-extents ( Int() $position, N-Object $strong, N-Object $wea
 Returns whether pressing Enter will activate
 the default widget for the window containing C<$self>.
 
-See C<.set-activates-default()>].
+See L<.set-activates-default()|#set-activates-default>.
 
 =begin code
 method get-activates-default (--> Bool )
@@ -212,7 +212,7 @@ Return value; C<True> if the B<Gnome::Gtk4::Text> will activate the default widg
 
 Gets the attribute list that was set on the B<Gnome::Gtk4::Text>.
 
-See C<.set-attributes()>].
+See L<.set-attributes()|#set-attributes>.
 
 =begin code
 method get-attributes (--> N-Object )
@@ -233,14 +233,14 @@ Return value; the attribute list.
 =begin pod
 =head2 get-buffer
 
-Get the B<Gnome::Gtk4::EntryBuffer> object which holds the text for
+Get the L<Gnome::Gtk4::EntryBuffer|/content-docs/api2/reference/Gtk4/EntryBuffer> object which holds the text for
 this widget.
 
 =begin code
 method get-buffer (--> N-Object )
 =end code
 
-Return value; A B<Gnome::Gtk4::EntryBuffer> object.. 
+Return value; A L<Gnome::Gtk4::EntryBuffer|/content-docs/api2/reference/Gtk4/EntryBuffer> object.. 
 
 =begin comment
 
@@ -279,7 +279,7 @@ Return value; C<True> if Emoji completion is enabled.
 
 Gets the menu model for extra items in the context menu.
 
-See C<.set-extra-menu()>].
+See L<.set-extra-menu()|#set-extra-menu>.
 
 =begin code
 method get-extra-menu (--> N-Object )
@@ -346,7 +346,7 @@ Retrieves the character displayed when visibility is set to false.
 
 Note that GTK does not compute this value unless it needs it,
 so the value returned by this function is not very useful unless
-it has been explicitly set with C<.set-invisible-char()>].
+it has been explicitly set with L<.set-invisible-char()|#set-invisible-char>.
 
 =begin code
 method get-invisible-char (--> UInt )
@@ -370,10 +370,10 @@ Return value; the current invisible char, or 0, if C<$text> does not
 
 Retrieves the maximum allowed length of the text in C<$self>.
 
-See C<.set-max-length()>].
+See L<.set-max-length()|#set-max-length>.
 
-This is equivalent to getting C<$self>'s B<Gnome::Gtk4::EntryBuffer> and
-calling C<.get-max-length()> in class B<Gnome::Gtk4::EntryBuffer>] on it.
+This is equivalent to getting C<$self>'s L<Gnome::Gtk4::EntryBuffer|/content-docs/api2/reference/Gtk4/EntryBuffer> and
+calling L<.get-max-length() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#get-max-length> on it.
 
 =begin code
 method get-max-length (--> Int )
@@ -397,7 +397,7 @@ Return value; the maximum allowed number of characters
 
 Gets whether text is overwritten when typing in the B<Gnome::Gtk4::Text>.
 
-See C<.set-overwrite-mode()>].
+See L<.set-overwrite-mode()|#set-overwrite-mode>.
 
 =begin code
 method get-overwrite-mode (--> Bool )
@@ -465,7 +465,7 @@ Return value; C<True> if C<$self> will propagate the text width.
 
 Gets the tabstops that were set on the B<Gnome::Gtk4::Text>.
 
-See C<.set-tabs()>].
+See L<.set-tabs()|#set-tabs>.
 
 =begin code
 method get-tabs (--> N-Object )
@@ -488,8 +488,8 @@ Return value; the tabstops.
 
 Retrieves the current length of the text in C<$self>.
 
-This is equivalent to getting C<$self>'s B<Gnome::Gtk4::EntryBuffer>
-and calling C<.get-length()> in class B<Gnome::Gtk4::EntryBuffer>] on it.
+This is equivalent to getting C<$self>'s L<Gnome::Gtk4::EntryBuffer|/content-docs/api2/reference/Gtk4/EntryBuffer>
+and calling L<.get-length() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#get-length> on it.
 
 =begin code
 method get-text-length (--> UInt )
@@ -556,7 +556,7 @@ Return value; C<True> if the text is currently visible.
 
 Causes C<$self> to have keyboard focus.
 
-It behaves like C<.grab-focus()> in class B<Gnome::Gtk4::Widget>],
+It behaves like L<.grab-focus() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#grab-focus>,
 except that it doesn't select the contents of C<$self>.
 You only want to call this on some special entries
 which the user usually doesn't want to replace all text in,
@@ -628,14 +628,14 @@ method set-attributes ( N-Object $attrs )
 =begin pod
 =head2 set-buffer
 
-Set the B<Gnome::Gtk4::EntryBuffer> object which holds the text for
+Set the L<Gnome::Gtk4::EntryBuffer|/content-docs/api2/reference/Gtk4/EntryBuffer> object which holds the text for
 this widget.
 
 =begin code
 method set-buffer ( N-Object() $buffer )
 =end code
 
-=item $buffer; a B<Gnome::Gtk4::EntryBuffer>.
+=item $buffer; a L<Gnome::Gtk4::EntryBuffer|/content-docs/api2/reference/Gtk4/EntryBuffer>.
 
 =begin comment
 
@@ -682,7 +682,7 @@ the context menu for C<$self>.
 method set-extra-menu ( N-Object() $model )
 =end code
 
-=item $model; a B<Gnome::Gio::MenuModel>.
+=item $model; a L<Gnome::Gio::MenuModel|/content-docs/api2/reference/Gio/MenuModel>.
 
 =begin comment
 
@@ -774,8 +774,8 @@ Sets the maximum allowed length of the contents of the widget.
 If the current contents are longer than the given length, then
 they will be truncated to fit.
 
-This is equivalent to getting C<$self>'s B<Gnome::Gtk4::EntryBuffer> and
-calling C<.set-max-length()> in class B<Gnome::Gtk4::EntryBuffer>] on it.
+This is equivalent to getting C<$self>'s L<Gnome::Gtk4::EntryBuffer|/content-docs/api2/reference/Gtk4/EntryBuffer> and
+calling L<.set-max-length() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#set-max-length> on it.
 
 =begin code
 method set-max-length ( Int() $length )
@@ -917,7 +917,7 @@ the text in the widget is copied to the clipboard.
 
 By default, GTK picks the best invisible character available
 in the current font, but it can be changed with
-C<.set-invisible-char()>].
+L<.set-invisible-char()|#set-invisible-char>.
 
 Note that you probably want to set I<input-purpose>
 to C<GTK_INPUT_PURPOSE_PASSWORD> or C<GTK_INPUT_PURPOSE_PIN> to
@@ -982,14 +982,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Text :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Text> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Text> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -1013,14 +1012,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Text :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Text> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Text> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -1045,14 +1043,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Text :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Text> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Text> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -1077,14 +1074,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Text :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Text> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Text> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -1115,16 +1111,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Text :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $type; the granularity of the deletion, as a C<enumeration GtkDeleteType defined in Gnome::Gtk4::T-enums>.
 =item $count; the number of C<$type> units to delete.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Text> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Text> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -1149,15 +1144,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Text :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $string; the string to insert.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Text> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Text> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -1182,14 +1176,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Text :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Text> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Text> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -1230,7 +1223,7 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Text :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
@@ -1238,9 +1231,8 @@ method handler (
 =item $count; the number of C<$step> units to move.
 =item $extend; C<True> if the move should extend the selection.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Text> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Text> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -1264,14 +1256,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Text :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Text> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Text> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -1295,15 +1286,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Text :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $preedit; the current preedit string.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Text> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Text> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -1326,14 +1316,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::Text :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Text> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Text> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 

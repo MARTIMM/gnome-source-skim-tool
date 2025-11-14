@@ -14,17 +14,17 @@ clicked.
 
 Clicking again will cause the toggle button to return to its normal state.
 
-A toggle button is created by calling either C<.newtogglebutton()> or
-C<.new-with-label()>. If using the former, it is advisable
-to pack a widget, (such as a B<Gnome::Gtk4::Label> and/or a B<Gnome::Gtk4::Image>), into the toggle
-button’s container. (See B<Gnome::Gtk4::Button> for more information).
+A toggle button is created by calling either L<.newtogglebutton()|#newtogglebutton> or
+L<.new-with-label()|#new-with-label>. If using the former, it is advisable
+to pack a widget, (such as a L<Gnome::Gtk4::Label|/content-docs/api2/reference/Gtk4/Label> and/or a L<Gnome::Gtk4::Image|/content-docs/api2/reference/Gtk4/Image>), into the toggle
+button’s container. (See L<Gnome::Gtk4::Button|/content-docs/api2/reference/Gtk4/Gnome> for more information).
 
 The state of a B<Gnome::Gtk4::ToggleButton> can be set specifically using
-C<.set-active()>], and retrieved using
-C<.get-active()>].
+L<.set-active()|#set-active>, and retrieved using
+L<.get-active()|#get-active>.
 
 To simply switch the state of a toggle button, use
-C<.toggled()>].
+L<.toggled()|#toggled>.
 
 =head3 Grouping
 
@@ -32,12 +32,12 @@ Toggle buttons can be grouped together, to form mutually exclusive
 groups - only one of the buttons can be toggled at a time, and toggling
 another one will switch the currently toggled one off.
 
-To add a B<Gnome::Gtk4::ToggleButton> to a group, use C<.set-group()>].
+To add a B<Gnome::Gtk4::ToggleButton> to a group, use L<.set-group()|#set-group>.
 
 =head3 CSS nodes
 
 B<Gnome::Gtk4::ToggleButton> has a single CSS node with name button. To differentiate
-it from a plain B<Gnome::Gtk4::Button>, it gets the `.toggle` style class.
+it from a plain L<Gnome::Gtk4::Button|/content-docs/api2/reference/Gtk4/Button>, it gets the `.toggle` style class.
 
 =head3 Accessibility
 
@@ -121,7 +121,7 @@ Create an object using a native object from an object of the same type found els
 
 Creates a new toggle button.
 
-A widget should be packed into the button, as in C<.newtogglebutton()> in class B<Gnome::Gtk4::Button>.
+A widget should be packed into the button, as in L<.newtogglebutton() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#newtogglebutton>.
 
 =begin code
 method new-togglebutton ( --> Gnome::Gtk4::ToggleButton )
@@ -163,7 +163,7 @@ method new-with-label ( Str $label --> Gnome::Gtk4::ToggleButton )
 
 Creates a new B<Gnome::Gtk4::ToggleButton> containing a label.
 
-The label will be created using C<.new-with-mnemonic()> in class B<Gnome::Gtk4::Label>,
+The label will be created using L<.new-with-mnemonic() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#new-with-mnemonic>,
 so underscores in C<$label> indicate the mnemonic for the button.
 
 =begin code
@@ -252,7 +252,7 @@ at a time.
 
 Setting up groups in a cycle leads to undefined behavior.
 
-Note that the same effect can be achieved via the B<Gnome::Gtk4::R-Actionable>
+Note that the same effect can be achieved via the L<Gnome::Gtk4::R-Actionable|/content-docs/api2/reference/gtk/Gnome-Actionable>
 API, by using the same action with parameter type and state type 's'
 for all buttons in the group, and giving each button its own target
 value.
@@ -311,14 +311,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::ToggleButton :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ToggleButton> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::ToggleButton> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 

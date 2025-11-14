@@ -11,7 +11,7 @@ use v6.d;
 
 A widget for displaying both trees and lists
 
-Widget that displays any object that implements the B<Gnome::Gtk4::R-TreeModel> interface.
+Widget that displays any object that implements the L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/gtk/Gnome-TreeModel> interface.
 
 Please refer to the [tree widget conceptual overview](section-tree-widget.html)
 for an overview of all the objects and data types related to the tree
@@ -34,15 +34,15 @@ These are:
 Several functions are available for converting between the different
 coordinate systems.  The most common translations are between widget and bin
 window coordinates and between bin window and tree coordinates. For the
-former you can use C<.convert-widget-to-bin-window-coords()>]
-(and vice versa), for the latter C<.convert-bin-window-to-tree-coords()>]
+former you can use L<.convert-widget-to-bin-window-coords()|#convert-widget-to-bin-window-coords>
+(and vice versa), for the latter L<.convert-bin-window-to-tree-coords()|#convert-bin-window-to-tree-coords>
 (and vice versa).
 
-## B<Gnome::Gtk4::TreeView> as B<Gnome::Gtk4::R-Buildable>
+## B<Gnome::Gtk4::TreeView> as L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/Gtk4/R-Buildable>
 
-The B<Gnome::Gtk4::TreeView> implementation of the B<Gnome::Gtk4::R-Buildable> interface accepts
-B<Gnome::Gtk4::TreeViewColumn> objects as `<child>` elements and exposes the
-internal B<Gnome::Gtk4::TreeSelection> in UI definitions.
+The B<Gnome::Gtk4::TreeView> implementation of the L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/Gtk4/R-Buildable> interface accepts
+L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/Gnome> objects as `<child>` elements and exposes the
+internal L<Gnome::Gtk4::TreeSelection|/content-docs/api2/reference/Gtk4/Gnome> in UI definitions.
 
 An example of a UI definition fragment with B<Gnome::Gtk4::TreeView>:
 
@@ -195,7 +195,7 @@ GTK_TREE_VIEW_COLUMN_FIXED.
 method append-column ( N-Object() $column --> Int )
 =end code
 
-=item $column; The B<Gnome::Gtk4::TreeViewColumn> to add..
+=item $column; The L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn> to add..
 
 Return value; The number of columns in C<$tree-view> after appending.. 
 
@@ -628,7 +628,7 @@ method get-background-area ( N-Object $path, N-Object() $column, N-Object $rect 
 =end code
 
 =item $path; a B<Gnome::Gtk4::N-TreePath> for the row, or undefined to get only horizontal coordinates
-=item $column; a B<Gnome::Gtk4::TreeViewColumn> for the column, or undefined to get only vertical coordinates.
+=item $column; a L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn> for the column, or undefined to get only vertical coordinates.
 =item $rect; rectangle to fill with cell background rect
 
 =begin comment
@@ -661,7 +661,7 @@ method get-cell-area ( N-Object $path, N-Object() $column, N-Object $rect )
 =end code
 
 =item $path; a B<Gnome::Gtk4::N-TreePath> for the row, or undefined to get only horizontal coordinates
-=item $column; a B<Gnome::Gtk4::TreeViewColumn> for the column, or undefined to get only vertical coordinates.
+=item $column; a L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn> for the column, or undefined to get only vertical coordinates.
 =item $rect; rectangle to fill with cell rect
 
 =begin comment
@@ -679,7 +679,7 @@ method get-cell-area ( N-Object $path, N-Object() $column, N-Object $rect )
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Gets the B<Gnome::Gtk4::TreeViewColumn> at the given position in the #tree_view.
+Gets the L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn> at the given position in the #tree_view.
 
 =begin code
 method get-column ( Int() $n --> N-Object )
@@ -687,7 +687,7 @@ method get-column ( Int() $n --> N-Object )
 
 =item $n; The position of the column, counting from 0..
 
-Return value; The B<Gnome::Gtk4::TreeViewColumn>, or undefined if the
+Return value; The L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn>, or undefined if the
 position is outside the range of columns.. 
 
 =begin comment
@@ -705,14 +705,14 @@ position is outside the range of columns..
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Returns a B<Gnome::Glib::N-List> of all the B<Gnome::Gtk4::TreeViewColumn>s currently in C<$tree-view>.
+Returns a B<Gnome::Glib::N-List> of all the L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn>s currently in C<$tree-view>.
 The returned list must be freed with g_list_free ().
 
 =begin code
 method get-columns (--> N-List )
 =end code
 
-Return value; A list of B<Gnome::Gtk4::TreeViewColumn>s. 
+Return value; A list of L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn>s. 
 
 =begin comment
 
@@ -1060,7 +1060,7 @@ model is unset.
 method get-model (--> N-Object )
 =end code
 
-Return value; A B<Gnome::Gtk4::R-TreeModel>. 
+Return value; A L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>. 
 
 =begin comment
 
@@ -1125,7 +1125,7 @@ method get-path-at-pos ( Int() $x, Int() $y, N-Object $path, N-Object() $column,
 =item $path; (transfer ownership: full) A pointer to a B<Gnome::Gtk4::N-TreePath>
   pointer to be filled in
 =item $column; A pointer to
-  a B<Gnome::Gtk4::TreeViewColumn> pointer to be filled in.
+  a L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn> pointer to be filled in.
 =item $cell-x; (transfer ownership: full) A pointer where the X coordinate
   relative to the cell can be placed.
 =item $cell-y; (transfer ownership: full) A pointer where the Y coordinate
@@ -1243,7 +1243,7 @@ Return value; the column the interactive search code searches in..
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Returns the B<Gnome::Gtk4::Entry> which is currently in use as interactive search
+Returns the L<Gnome::Gtk4::Entry|/content-docs/api2/reference/Gtk4/Entry> which is currently in use as interactive search
 entry for C<$tree-view>.  In case the built-in entry is being used, undefined
 will be returned.
 
@@ -1291,13 +1291,13 @@ Return value; the currently used compare function for the search code..
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Gets the B<Gnome::Gtk4::TreeSelection> associated with C<$tree-view>.
+Gets the L<Gnome::Gtk4::TreeSelection|/content-docs/api2/reference/Gtk4/TreeSelection> associated with C<$tree-view>.
 
 =begin code
 method get-selection (--> N-Object )
 =end code
 
-Return value; A B<Gnome::Gtk4::TreeSelection> object.. 
+Return value; A L<Gnome::Gtk4::TreeSelection|/content-docs/api2/reference/Gtk4/TreeSelection> object.. 
 
 =begin comment
 
@@ -1382,7 +1382,7 @@ method get-tooltip-context ( Int() $x, Int() $y, Bool() $keyboard-tip, N-Object(
 =item $y; the y coordinate (relative to widget coordinates).
 =item $keyboard-tip; whether this is a keyboard tooltip or not.
 =item $model; a pointer to
-  receive a B<Gnome::Gtk4::R-TreeModel>.
+  receive a L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>.
 =item $path; (transfer ownership: full) a pointer to receive a B<Gnome::Gtk4::N-TreePath>
 =item $iter; a pointer to receive a B<Gnome::Gtk4::N-TreeIter>
 
@@ -1468,7 +1468,7 @@ set to be GTK_TREE_VIEW_COLUMN_FIXED.
 method insert-column ( N-Object() $column, Int() $position --> Int )
 =end code
 
-=item $column; The B<Gnome::Gtk4::TreeViewColumn> to be inserted..
+=item $column; The L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn> to be inserted..
 =item $position; The position to insert C<$column> in..
 
 Return value; The number of columns in C<$tree-view> after insertion.. 
@@ -1485,11 +1485,10 @@ Return value; The number of columns in C<$tree-view> after insertion..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 insert-column-with-attributes
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
-Creates a new B<Gnome::Gtk4::TreeViewColumn> and inserts it into the C<$tree-view> at C<$position>.  If C<$position> is -1, then the newly created column is inserted at
+Creates a new L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn> and inserts it into the C<$tree-view> at C<$position>.  If C<$position> is -1, then the newly created column is inserted at
 the end.  The column is initialized with the attributes given. If C<$tree-view>
 has “fixed_height” mode enabled, then the new column will have its sizing
 property set to be GTK_TREE_VIEW_COLUMN_FIXED.
@@ -1500,7 +1499,7 @@ method insert-column-with-attributes ( Int() $position, Str $title, N-Object() $
 
 =item $position; The position to insert the new column in.
 =item $title; The title to set the header to.
-=item $cell; The B<Gnome::Gtk4::CellRenderer>.
+=item $cell; The L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>.
 =item …; …. Note that each argument must be specified as a type followed by its value!
 
 Return value; The number of columns in C<$tree-view> after insertion.. 
@@ -1582,7 +1581,7 @@ method is-blank-at-pos ( Int() $x, Int() $y, N-Object $path, N-Object() $column,
 =item $path; (transfer ownership: full) A pointer to a B<Gnome::Gtk4::N-TreePath> pointer to
   be filled in
 =item $column; A pointer to a
-  B<Gnome::Gtk4::TreeViewColumn> pointer to be filled in.
+  L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn> pointer to be filled in.
 =item $cell-x; (transfer ownership: full) A pointer where the X coordinate relative to the
   cell can be placed.
 =item $cell-y; (transfer ownership: full) A pointer where the Y coordinate relative to the
@@ -1661,8 +1660,8 @@ Moves C<$column> to be after to C<$base-column>.  If C<$base-column> is undefine
 method move-column-after ( N-Object() $column, N-Object() $base-column )
 =end code
 
-=item $column; The B<Gnome::Gtk4::TreeViewColumn> to be moved..
-=item $base-column; The B<Gnome::Gtk4::TreeViewColumn> to be moved relative to.
+=item $column; The L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn> to be moved..
+=item $base-column; The L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn> to be moved relative to.
 
 =begin comment
 
@@ -1685,7 +1684,7 @@ Removes C<$column> from C<$tree-view>.
 method remove-column ( N-Object() $column --> Int )
 =end code
 
-=item $column; The B<Gnome::Gtk4::TreeViewColumn> to remove..
+=item $column; The L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn> to remove..
 
 Return value; The number of columns in C<$tree-view> after removing.. 
 
@@ -1711,7 +1710,7 @@ method row-activated ( N-Object $path, N-Object() $column )
 =end code
 
 =item $path; The B<Gnome::Gtk4::N-TreePath> to be activated.
-=item $column; The B<Gnome::Gtk4::TreeViewColumn> to be activated..
+=item $column; The L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn> to be activated..
 
 =begin comment
 
@@ -1774,7 +1773,7 @@ method scroll-to-cell ( N-Object $path, N-Object() $column, Bool() $use-align, N
 =end code
 
 =item $path; The path of the row to move to
-=item $column; The B<Gnome::Gtk4::TreeViewColumn> to move horizontally to.
+=item $column; The L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn> to move horizontally to.
 =item $use-align; whether to use alignment arguments, or C<False>..
 =item $row-align; The vertical alignment of the row specified by C<$path>..
 =item $col-align; The horizontal alignment of the column specified by C<$column>..
@@ -1851,8 +1850,8 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Sets a user function for determining where a column may be dropped when
 dragged.  This function is called on every column pair in turn at the
 beginning of a column drag to determine where a drop can take place.  The
-arguments passed to C<$func> are: the C<$tree-view>, the B<Gnome::Gtk4::TreeViewColumn> being
-dragged, the two B<Gnome::Gtk4::TreeViewColumn>s determining the drop spot, and C<$user-data>.  If either of the B<Gnome::Gtk4::TreeViewColumn> arguments for the drop spot
+arguments passed to C<$func> are: the C<$tree-view>, the L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn> being
+dragged, the two L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn>s determining the drop spot, and C<$user-data>.  If either of the L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn> arguments for the drop spot
 are undefined, then they indicate an edge.  If C<$func> is set to be undefined, then C<$tree-view> reverts to the default behavior of allowing all columns to be
 dropped everywhere.
 
@@ -1895,7 +1894,7 @@ method set-cursor ( N-Object $path, N-Object() $focus-column, Bool() $start-edit
 =end code
 
 =item $path; A B<Gnome::Gtk4::N-TreePath>
-=item $focus-column; A B<Gnome::Gtk4::TreeViewColumn>.
+=item $focus-column; A L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn>.
 =item $start-editing; C<True> if the specified cell should start being edited..
 
 =begin comment
@@ -1931,8 +1930,8 @@ method set-cursor-on-cell ( N-Object $path, N-Object() $focus-column, N-Object()
 =end code
 
 =item $path; A B<Gnome::Gtk4::N-TreePath>
-=item $focus-column; A B<Gnome::Gtk4::TreeViewColumn>.
-=item $focus-cell; A B<Gnome::Gtk4::CellRenderer>.
+=item $focus-column; A L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn>.
+=item $focus-cell; A L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>.
 =item $start-editing; C<True> if the specified cell should start being edited..
 
 =begin comment
@@ -2256,11 +2255,11 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 
 This function is a convenience function to allow you to reorder
 models that support the B<GtkTreeDragSourceIface> and the
-B<GtkTreeDragDestIface>.  Both B<Gnome::Gtk4::TreeStore> and B<Gnome::Gtk4::ListStore> support
+B<GtkTreeDragDestIface>.  Both L<Gnome::Gtk4::TreeStore|/content-docs/api2/reference/Gtk4/TreeStore> and L<Gnome::Gtk4::ListStore|/content-docs/api2/reference/Gtk4/ListStore> support
 these.  If C<$reorderable> is C<True>, then the user can reorder the
 model by dragging and dropping rows. The developer can listen to
-these changes by connecting to the model’s B<Gnome::Gtk4::R-TreeModel>::row-inserted`
-and B<Gnome::Gtk4::R-TreeModel>::row-deleted` signals. The reordering is implemented
+these changes by connecting to the model’s L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>::row-inserted`
+and L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>::row-deleted` signals. The reordering is implemented
 by setting up the tree view as a drag source and destination.
 Therefore, drag and drop can not be used in a reorderable view for any
 other purpose.
@@ -2469,10 +2468,10 @@ See also C<.set-tooltip-column()> for a simpler alternative.
 method set-tooltip-cell ( N-Object() $tooltip, N-Object $path, N-Object() $column, N-Object() $cell )
 =end code
 
-=item $tooltip; a B<Gnome::Gtk4::Tooltip>.
+=item $tooltip; a L<Gnome::Gtk4::Tooltip|/content-docs/api2/reference/Gtk4/Tooltip>.
 =item $path; a B<Gnome::Gtk4::N-TreePath>
-=item $column; a B<Gnome::Gtk4::TreeViewColumn>.
-=item $cell; a B<Gnome::Gtk4::CellRenderer>.
+=item $column; a L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn>.
+=item $cell; a L<Gnome::Gtk4::CellRenderer|/content-docs/api2/reference/Gtk4/CellRenderer>.
 
 =begin comment
 
@@ -2494,7 +2493,7 @@ can use this function to have B<Gnome::Gtk4::TreeView> handle these automaticall
 for you. C<$column> should be set to the column in C<$tree-view>’s model
 containing the tooltip texts, or -1 to disable this feature.
 
-When enabled, B<Gnome::Gtk4::Widget>:has-tooltip` will be set to C<True> and C<$tree-view> will connect a B<Gnome::Gtk4::Widget>::query-tooltip` signal handler.
+When enabled, L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>:has-tooltip` will be set to C<True> and C<$tree-view> will connect a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>::query-tooltip` signal handler.
 
 Note that the signal handler sets the text with gtk_tooltip_set_markup(),
 so &, <, etc have to be escaped in the text.
@@ -2528,7 +2527,7 @@ See also gtk_tooltip_set_tip_area().
 method set-tooltip-row ( N-Object() $tooltip, N-Object $path )
 =end code
 
-=item $tooltip; a B<Gnome::Gtk4::Tooltip>.
+=item $tooltip; a L<Gnome::Gtk4::Tooltip|/content-docs/api2/reference/Gtk4/Tooltip>.
 =item $path; a B<Gnome::Gtk4::N-TreePath>
 
 =begin comment
@@ -2603,14 +2602,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TreeView :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TreeView> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -2629,14 +2627,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TreeView :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TreeView> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -2656,7 +2653,7 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TreeView :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
@@ -2665,9 +2662,8 @@ method handler (
 =item $p0; .
 =item $p1; .
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TreeView> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 Return value; 
 
@@ -2682,7 +2678,7 @@ Return value;
 =head3 move-cursor
 
 The B<Gnome::Gtk4::TreeView>::move-cursor signal is a [keybinding
-signal]B<Gnome::Gtk4::SignalAction> which gets emitted when the user
+signal]L<Gnome::Gtk4::SignalAction|/content-docs/api2/reference/Gtk4/Gnome> which gets emitted when the user
 presses one of the cursor keys.
 
 Applications should not connect to it, but may emit it with
@@ -2700,7 +2696,7 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TreeView :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
@@ -2716,9 +2712,8 @@ method handler (
 =item $extend; whether to extend the selection.
 =item $modify; whether to modify the selection.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TreeView> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 Return value; C<True> if C<$step> is supported, C<False> otherwise.
 
@@ -2733,7 +2728,7 @@ Return value; C<True> if C<$step> is supported, C<False> otherwise.
 =head3 row-activated
 
 The "row-activated" signal is emitted when the method
-C<.row-activated()>] is called.
+L<.row-activated()|#row-activated> is called.
 
 This signal is emitted when the user double-clicks a treeview row with the
 I<activate-on-single-click> property set to C<False>,
@@ -2745,7 +2740,7 @@ of the keys: <kbd>Space</kbd>, <kbd>Shift</kbd>+<kbd>Space</kbd>,
 
 For selection handling refer to the
 [tree widget conceptual overview](section-tree-widget.html)
-as well as B<Gnome::Gtk4::TreeSelection>.
+as well as L<Gnome::Gtk4::TreeSelection|/content-docs/api2/reference/Gtk4/TreeSelection>.
 
 =begin code
 method handler (
@@ -2754,16 +2749,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TreeView :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $path; the B<Gnome::Gtk4::N-TreePath> for the activated row.
-=item $column; the B<Gnome::Gtk4::TreeViewColumn> in which the activation occurred.
+=item $column; the L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/reference/Gtk4/TreeViewColumn> in which the activation occurred.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TreeView> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -2784,16 +2778,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TreeView :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $iter; the tree iter of the collapsed row.
 =item $path; a tree path that points to the row.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TreeView> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -2814,16 +2807,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TreeView :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $iter; the tree iter of the expanded row.
 =item $path; a tree path that points to the row.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TreeView> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -2840,15 +2832,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TreeView :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TreeView> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 Return value; 
 
@@ -2867,15 +2858,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TreeView :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TreeView> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 Return value; 
 
@@ -2895,16 +2885,15 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TreeView :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
 =item $object; .
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TreeView> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 Return value; 
 
@@ -2923,15 +2912,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TreeView :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TreeView> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 Return value; 
 
@@ -2955,7 +2943,7 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TreeView :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
@@ -2963,9 +2951,8 @@ method handler (
 =item $iter; the tree iter of the row to collapse.
 =item $path; a tree path that points to the row.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TreeView> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 Return value; C<False> to allow collapsing, C<True> to reject
 
@@ -2989,7 +2976,7 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TreeView :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
@@ -2997,9 +2984,8 @@ method handler (
 =item $iter; the tree iter of the row to expand.
 =item $path; a tree path that points to the row.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TreeView> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 Return value; C<False> to allow expansion, C<True> to reject
 
@@ -3018,15 +3004,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TreeView :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TreeView> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 Return value; 
 
@@ -3045,15 +3030,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TreeView :$_widget,
-  *C<user>-options
+  *%user-options
   --> gboolean
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::TreeView> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 Return value; 
 

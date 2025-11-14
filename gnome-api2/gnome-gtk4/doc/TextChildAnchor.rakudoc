@@ -9,7 +9,7 @@ use v6.d;
 =TITLE Gnome::Gtk4::TextChildAnchor
 =head1 Description
 
-A B<Gnome::Gtk4::TextChildAnchor> is a spot in a B<Gnome::Gtk4::TextBuffer> where child widgets can
+A B<Gnome::Gtk4::TextChildAnchor> is a spot in a L<Gnome::Gtk4::TextBuffer|/content-docs/api2/reference/Gtk4/TextBuffer> where child widgets can
 be “anchored”.
 
 The anchor can have multiple widgets anchored, to allow for multiple views.
@@ -49,10 +49,10 @@ Create an object using a native object from an object of the same type found els
 
 Creates a new B<Gnome::Gtk4::TextChildAnchor>.
 
-Usually you would then insert it into a B<Gnome::Gtk4::TextBuffer> with
-C<.insert-child-anchor()> in class B<Gnome::Gtk4::TextBuffer>]. To perform the
+Usually you would then insert it into a L<Gnome::Gtk4::TextBuffer|/content-docs/api2/reference/Gtk4/TextBuffer> with
+L<.insert-child-anchor() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#insert-child-anchor>. To perform the
 creation and insertion in one step, use the convenience
-function C<.create-child-anchor()> in class B<Gnome::Gtk4::TextBuffer>].
+function L<.create-child-anchor() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#create-child-anchor>.
 
 =begin code
 method new-textchildanchor ( --> Gnome::Gtk4::TextChildAnchor )
@@ -73,8 +73,8 @@ method new-textchildanchor ( --> Gnome::Gtk4::TextChildAnchor )
 
 Creates a new B<Gnome::Gtk4::TextChildAnchor> with the given replacement character.
 
-Usually you would then insert it into a B<Gnome::Gtk4::TextBuffer> with
-C<.insert-child-anchor()> in class B<Gnome::Gtk4::TextBuffer>].
+Usually you would then insert it into a L<Gnome::Gtk4::TextBuffer|/content-docs/api2/reference/Gtk4/TextBuffer> with
+L<.insert-child-anchor() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#insert-child-anchor>.
 
 =begin code
 method new-with-replacement ( Str $character --> Gnome::Gtk4::TextChildAnchor )

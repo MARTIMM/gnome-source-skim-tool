@@ -9,16 +9,16 @@ use v6.d;
 =TITLE Gnome::Gtk4::TreeListRow
 =head1 Description
 
-B<Gnome::Gtk4::TreeListRow> is used by B<Gnome::Gtk4::TreeListModel> to represent items.
+B<Gnome::Gtk4::TreeListRow> is used by L<Gnome::Gtk4::TreeListModel|/content-docs/api2/reference/Gtk4/TreeListModel> to represent items.
 
 It allows navigating the model as a tree and modify the state of rows.
 
-B<Gnome::Gtk4::TreeListRow> instances are created by a B<Gnome::Gtk4::TreeListModel> only
+B<Gnome::Gtk4::TreeListRow> instances are created by a L<Gnome::Gtk4::TreeListModel|/content-docs/api2/reference/Gtk4/TreeListModel> only
 when the I<passthrough defined in Gnome::Gtk4::TreeListModel> property is not set.
 
 There are various support objects that can make use of B<Gnome::Gtk4::TreeListRow>
-objects, such as the B<Gnome::Gtk4::TreeExpander> widget that allows displaying
-an icon to expand or collapse a row or B<Gnome::Gtk4::TreeListRowSorter> that
+objects, such as the L<Gnome::Gtk4::TreeExpander|/content-docs/api2/reference/Gtk4/Gnome> widget that allows displaying
+an icon to expand or collapse a row or L<Gnome::Gtk4::TreeListRowSorter|/content-docs/api2/reference/Gtk4/Gnome> that
 makes it possible to sort trees properly.
 
 =head2 Uml Diagram
@@ -215,7 +215,7 @@ Return value; The parent of C<$self>.
 =begin pod
 =head2 get-position
 
-Returns the position in the B<Gnome::Gtk4::TreeListModel> that C<$self> occupies
+Returns the position in the L<Gnome::Gtk4::TreeListModel|/content-docs/api2/reference/Gtk4/TreeListModel> that C<$self> occupies
 at the moment.
 
 =begin code
@@ -240,7 +240,7 @@ Return value; The position in the model.
 Checks if a row can be expanded.
 
 This does not mean that the row is actually expanded,
-this can be checked with C<.get-expanded()>].
+this can be checked with L<.get-expanded()|#get-expanded>.
 
 If a row is expandable never changes until the row is removed
 from its model at which point it will forever return C<False>.

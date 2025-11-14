@@ -11,7 +11,7 @@ use v6.d;
 
 A GtkTreeModel which makes an underlying tree model sortable
 
-The B<Gnome::Gtk4::TreeModelSort> is a model which implements the B<Gnome::Gtk4::R-TreeSortable>
+The B<Gnome::Gtk4::TreeModelSort> is a model which implements the L<Gnome::Gtk4::R-TreeSortable|/content-docs/api2/reference/Gtk4/R-TreeSortable>
 interface.  It does not hold any data itself, but rather is created with
 a child model and proxies its data.  It has identical column types to
 this child model, and the changes in the child are propagated.  The
@@ -20,9 +20,9 @@ model without modifying it. Note that the sort function used by
 B<Gnome::Gtk4::TreeModelSort> is not guaranteed to be stable.
 
 The use of this is best demonstrated through an example.  In the
-following sample code we create two B<Gnome::Gtk4::TreeView> widgets each with a
+following sample code we create two L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView> widgets each with a
 view of the same data.  As the model is wrapped here by a
-B<Gnome::Gtk4::TreeModelSort>, the two B<Gnome::Gtk4::TreeView>s can each sort their
+B<Gnome::Gtk4::TreeModelSort>, the two L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeView>s can each sort their
 view of the data without affecting the other.  By contrast, if we
 simply put the same model in each widget, then sorting the first would
 sort the second.
@@ -59,8 +59,8 @@ sort the second.
 =end comment
 
 To demonstrate how to access the underlying child model from the sort
-model, the next example will be a callback for the B<Gnome::Gtk4::TreeSelection>
-B<Gnome::Gtk4::TreeSelection>::changed` signal.  In this callback, we get a string
+model, the next example will be a callback for the L<Gnome::Gtk4::TreeSelection|/content-docs/api2/reference/Gtk4/TreeSelection>
+L<Gnome::Gtk4::TreeSelection|/content-docs/api2/reference/Gtk4/TreeSelection>::changed` signal.  In this callback, we get a string
 from COLUMN_1 of the model.  We then modify the string, find the same
 selected row on the child model, and change the row there.
 
@@ -151,7 +151,7 @@ Creates a new B<Gnome::Gtk4::TreeModelSort>, with C<$child-model> as the child m
 method new-with-model ( N-Object() $child-model --> Gnome::Gtk4::TreeModelSort )
 =end code
 
-=item $child-model; A B<Gnome::Gtk4::R-TreeModel>.
+=item $child-model; A L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-TreeModel>.
 
 =begin comment
 
