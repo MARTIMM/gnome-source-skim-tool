@@ -29,17 +29,6 @@ use v6.d;
 
 =begin pod
 =head1 Callback Functions
-=head2 TickCallback
-
-=head3 Signature
-=begin code
-:(  N-Object() $widget, N-Object() $frame-clock, gpointer $user-data  )
-=end code
-
-=item $widget; the widget
-=item $frame-clock; the frame clock for the widget (same as calling C<.get-frame-clock()>)
-=item $user-data; user data passed to C<.add-tick-callback()>.
-
 =head2 WidgetActionActivateFunc
 
 =head3 Signature
@@ -50,5 +39,16 @@ use v6.d;
 =item $widget; the widget to which the action belongs
 =item $action-name; the action name
 =item $parameter; parameter for activation
+
+=head2 TickCallback
+
+=head3 Signature
+=begin code
+:(  N-Object() $widget, N-Object() $frame-clock, gpointer $user-data  )
+=end code
+
+=item $widget; the widget
+=item $frame-clock; the frame clock for the widget (same as calling gtk_widget_get_frame_clock())
+=item $user-data; user data passed to gtk_widget_add_tick_callback().
 
 =end pod
