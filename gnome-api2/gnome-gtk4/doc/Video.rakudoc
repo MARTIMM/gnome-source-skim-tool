@@ -9,19 +9,19 @@ use v6.d;
 =TITLE Gnome::Gtk4::Video
 =head1 Description
 
-B<Gnome::Gtk4::Video> is a widget to show a B<Gnome::Gtk4::MediaStream> with media controls.
+B<Gnome::Gtk4::Video> is a widget to show a L<Gnome::Gtk4::MediaStream|/content-docs/api2/reference/Gtk4/MediaStream> with media controls.
 
 =for image :src<asset_files/images/video.png> :width<30%> :class<inline>
 
-The controls are available separately as B<Gnome::Gtk4::MediaControls>.
+The controls are available separately as L<Gnome::Gtk4::MediaControls|/content-docs/api2/reference/Gtk4/Gnome>.
 If you just want to display a video without controls, you can treat it
-like any other paintable and for example put it into a B<Gnome::Gtk4::Picture>.
+like any other paintable and for example put it into a L<Gnome::Gtk4::Picture|/content-docs/api2/reference/Gtk4/Gnome>.
 
 B<Gnome::Gtk4::Video> aims to cover use cases such as previews, embedded animations,
 etc. It supports autoplay, looping, and simple media controls. It does
 not have support for video overlays, multichannel audio, device
 selection, or input. If you are writing a full-fledged video player,
-you may want to use the B<Gnome::Gdk4::R-Paintable> API and a media framework
+you may want to use the L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/gtk/Gnome-Paintable> API and a media framework
 such as Gstreamer directly.
 
 =head2 Uml Diagram
@@ -82,7 +82,7 @@ Creates a B<Gnome::Gtk4::Video> to play back the given C<$file>.
 method new-for-file ( N-Object() $file --> Gnome::Gtk4::Video )
 =end code
 
-=item $file; a B<Gnome::Gio::R-File>.
+=item $file; a L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File>.
 
 =begin comment
 
@@ -99,7 +99,7 @@ method new-for-file ( N-Object() $file --> Gnome::Gtk4::Video )
 
 Creates a B<Gnome::Gtk4::Video> to play back the given C<$filename>.
 
-This is a utility function that calls C<.new-for-file()>,
+This is a utility function that calls L<.new-for-file()|#new-for-file>,
 See that function for details.
 
 =begin code
@@ -127,7 +127,7 @@ Creates a B<Gnome::Gtk4::Video> to play back the given C<$stream>.
 method new-for-media-stream ( N-Object() $stream --> Gnome::Gtk4::Video )
 =end code
 
-=item $stream; a B<Gnome::Gtk4::MediaStream>.
+=item $stream; a L<Gnome::Gtk4::MediaStream|/content-docs/api2/reference/Gtk4/MediaStream>.
 
 =begin comment
 
@@ -145,7 +145,7 @@ method new-for-media-stream ( N-Object() $stream --> Gnome::Gtk4::Video )
 Creates a B<Gnome::Gtk4::Video> to play back the resource at the
 given C<$resource-path>.
 
-This is a utility function that calls C<.new-for-file()>.
+This is a utility function that calls L<.new-for-file()|#new-for-file>.
 
 =begin code
 method new-for-resource ( Str $resource-path --> Gnome::Gtk4::Video )
@@ -220,7 +220,7 @@ This function is not yet available
 
 Returns whether graphics offload is enabled.
 
-See B<Gnome::Gtk4::GraphicsOffload> for more information on graphics offload.
+See L<Gnome::Gtk4::GraphicsOffload|/content-docs/api2/reference/Gtk4/Gnome> for more information on graphics offload.
 
 =begin code
 method get-graphics-offload (--> GtkGraphicsOffloadEnabled  )
@@ -348,11 +348,10 @@ method set-filename ( Str $filename )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-graphics-offload
-This function is not yet available
 
 Sets whether to enable graphics offload.
 
-See B<Gnome::Gtk4::GraphicsOffload> for more information on graphics offload.
+See L<Gnome::Gtk4::GraphicsOffload|/content-docs/api2/reference/Gtk4/Gnome> for more information on graphics offload.
 
 =begin code
 method set-graphics-offload ( GtkGraphicsOffloadEnabled  $enabled )
@@ -397,9 +396,9 @@ method set-loop ( Bool() $loop )
 Sets the media stream to be played back.
  C<$self> will take full control of managing the media stream. If you
 want to manage a media stream yourself, consider using a
-B<Gnome::Gtk4::Picture> for display.
+L<Gnome::Gtk4::Picture|/content-docs/api2/reference/Gtk4/Gnome> for display.
 
-If you want to display a file, consider using C<.set-file()>]
+If you want to display a file, consider using L<.set-file()|#set-file>
 instead.
 
 =begin code
@@ -416,7 +415,7 @@ method set-media-stream ( N-Object() $stream )
 
 Makes C<$self> play the resource at the given C<$resource-path>.
 
-This is a utility function that calls C<.set-file()>].
+This is a utility function that calls L<.set-file()|#set-file>.
 
 =begin code
 method set-resource ( Str $resource-path )
