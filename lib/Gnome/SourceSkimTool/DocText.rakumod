@@ -283,8 +283,7 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
       my Hash $h = $!solve.search-name($package ~ $class);
       my $classname = $!solve.set-object-name($h);
       $text = self.change-routine-text(
-        $text, &mfunc-regex,
-        :routine($funcname), :$class, :$package, :$classname
+        $text, &mfunc-regex, :routine($funcname), :$package, :$classname
       );
     }
   }
@@ -309,8 +308,7 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
       my Hash $h = $!solve.search-name($package ~ $class);
       my $classname = $!solve.set-object-name($h);
       $text = self.change-routine-text(
-        $text, &cfunc-regex,
-        :routine($funcname), :$class, :$package, :$classname
+        $text, &cfunc-regex, :routine($funcname), :$package, :$classname
       );
     }
   }
@@ -321,21 +319,25 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
 #-------------------------------------------------------------------------------
 method change-routine-text (
   Str $text is copy, Regex $x, Str :$routine = '',
-  Str :$class = '', Str :$package is copy = '', Str :$classname = ''
+  Str :$package is copy = '', Str :$classname = ''
   --> Str
 ) {
+  my Str $class = $classname;
+  if ?$class {
+    $class ~~ s/ '::' [ ':' | <alnum> ]+ //;
+  }
+
   $package ~= '4' if $package ~~ any(<Gtk Gsk Gdk>);
 
-  my Str $file-target =
-    [~] '../MARTIMM.github.io/content-docs/api2/reference/',
-        $package, '/', $class;
+  # .html is automatically added by github pages!
+  my Str $url-target = "/content-docs/api2/reference/$package/$class";
+#  my Str $file-target = "../MARTIMM.github.io$url-target";
 
-  my Str ( $description, $url-target) = ( '', '');
-  
+  my Str $description = '';
+
   # Routine is in a different class
   if ?$class and ?$routine {
-    $url-target = [~] '/content-docs/api2/reference/',
-                  $package, '/', $class, '#', $routine;
+    $url-target ~= '#' ~ $routine;
     $description = ".$routine\(\) in class $class";
   }
 
@@ -345,14 +347,18 @@ method change-routine-text (
     $description = ".$routine\(\)";
   }
 
+#TODO extra tests for urls in T-files
   # This is only about a class
-  elsif ?$class and ?$classname {
+  elsif ?$classname {
+#    my Str $fname = $!solve.set-object-name( $h0, :name-type(FilenameDocType));
+
+
     if $classname eq $*work-data<raku-class-name> {
+      $url-target = '';
       $description = $classname;
     }
 
     else {
-      $url-target = [~] '/content-docs/api2/reference/', $package, '/', $class;
       $description = $classname;
     }
   }
@@ -453,14 +459,17 @@ method !modify-v4classes ( Str $text is copy --> Str ) {
 #note "$?LINE $/.gist()";
 
     $package = $prefix;
-    $package = 'G' if $package ~~ any(<Gio GObject Glib>);
+#    $package = 'G' if $package ~~ any(<Gio GObject Glib>);
 
+    $text = self.change-routine-text( $text, &class1, :$package, :$classname);
+#`{{
     $description = $classname;
     $classname ~~ s/ 'Gnome::' //;
-    $classname ~~ s/ '::'/\//;
+    $classname ~~ s/ '::' /\//;
     $url-target = [~] '/content-docs/api2/reference/', $classname;
     $text ~~ s/ <class1> /L<$description|$url-target>/;
-#note "$?LINE $package, $classname, $url-target";
+#note "$?LINE $classname, $url-target";
+}}
   }
 
   # [class@Button]
@@ -478,12 +487,15 @@ method !modify-v4classes ( Str $text is copy --> Str ) {
     $package = $*work-data<name-prefix>;
 #    $package = 'G' if $package ~~ any(<Gio GObject Glib>);
 
+    $text = self.change-routine-text( $text, &class2, :$package, :$classname);
+#`{{
     $description = $classname;
     $classname ~~ s/ 'Gnome::'//;
     $classname ~~ s/ '::'/\//;
     $url-target = [~] '/content-docs/api2/reference/', $classname;
-#note "$?LINE $package, $classname, $url-target";
+#note "$?LINE $classname, $url-target";
     $text ~~ s/ <class2> /L<$description|$url-target>/;
+}}
   }
 
   # [iface@Gtk.Buildable]
@@ -495,9 +507,10 @@ method !modify-v4classes ( Str $text is copy --> Str ) {
 #    $description = $classname;
     my Hash $h = $!solve.search-name($prefix ~ $classname);
     $classname = $!solve.set-object-name($h);
-    $url-target = [~] '/content-docs/api2/reference/', $classname;
-note "$?LINE $package, $classname, $url-target";
-    $text ~~ s/ <iface1> /L<$description|$url-target>/;
+    $text = self.change-routine-text( $text, &iface1, :$package, :$classname);
+#    $url-target = [~] '/content-docs/api2/reference/', $classname;
+#note "$?LINE $classname, $url-target";
+#    $text ~~ s/ <iface1> /L<$description|$url-target>/;
   }
 
   $text
@@ -520,7 +533,7 @@ method !modify-v4enum ( Str $text is copy --> Str ) {
       my $classname = $!solve.set-object-name($h);
       $text ~~ s/ <enum> / enumeration C<$enumname> from C<$classname> /;
     }
-    
+
     else {
       $text ~~ s/ <enum> / enumeration C<$enumname> /;
     }
