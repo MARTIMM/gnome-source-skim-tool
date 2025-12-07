@@ -19,16 +19,16 @@ loop over objects
           'class $role-name <<(R,#80ffff)>>'
           '$class-name ..|> $role-name'
 
-    repeat
+    start repeat
       get $parent-name      - "parent-gnome-name": "GtkLayoutManager"
       write '$parent-name <|--- $class-name'
 
       when $parent-name is GInitiallyUnowned
         write classes above GInitiallyUnowned
 
-      end repeat when parent is "GInitiallyUnowned"
+    end repeat when parent is "GInitiallyUnowned"
 
-      find parent hash entry, go to start repeat
+    find parent hash entry, go to start repeat
 
 =end code
 
@@ -136,7 +136,6 @@ method !generate-png ( Str $class-name, Str $plantuml ) {
   my Str $png-file = $class-name;
   $png-file ~~ s/^ Gnome '::' <-[:]>* '::' //;
   $png-file = $!work-data<result-umlpng> ~ $png-file ~ '.png';
-
 
   my Str $temp-puml-png = "$*TMPDIR/plantuml-text.png";
   my Str $temp-puml-file = "$*TMPDIR/plantuml-text.puml";
