@@ -15,8 +15,7 @@ To compare the pros and cons of the two methods is difficult but boiles down to 
 * The second has the newest info on that particular system, therefore there are no missing calls or calls not yet available. Though, you have to check the documentation and compare the version with that of the libraries.
   Anyways, this still needs to be investigated. Maybe better solutions come up when the new **RakuAst** is available. It makes it possible to use macros and evaluation of code whithout the dangers of current methods.
 * Whatever method is choosen, structures, documentation, and tests need to be generated I believe.
-* A third interesting possibility is mentioned. Start out with a package name only. When a module is needed, the package generates one with the necessary code to handle the needed calls. It's a bit of a chicken and egg problem though and needs some deeper thoughts.
-  I think it is a hard problem because of the following;
+* A third interesting possibility is mentioned. Start out with a package name only. When a module is needed, the package generates one with the necessary code to handle the needed calls. It's a bit of a chicken and egg problem and needs some deeper thoughts, though I think it is a hard problem because of the following;
   * Suppose the user wants to run
     ```
     use Gnome::Gtk4;
@@ -27,9 +26,9 @@ To compare the pros and cons of the two methods is difficult but boiles down to 
     ```
     1) `use Gnome::Gtk4;` should make all modules available. The question is where? Possible solution would be at `~/.raku`.
     2) The next import statement would then import the generated `Gnome::Gtk4::Label`. This is already too late! A small test shows that the modules are looked up before it is generated. So at least the (empty with basic code) classes and modules must be delivered and installed.
-    3) The `.new-label()` contructor and the method `.set-text()` can be found in the **Label**** class. So that may be easy to find after a few calls. But where to search for when a method is used from another parent class, e.g. `.set-size-request()`, or when it is inherited, e.g. `.set-orientation()` for a **Box**. That search is even more intensive. This is also the case in the 2nd proposal written above.
+    3) The `.new-label()` contructor and the method `.set-text()` can be found in the **Label**** class. That may be easy to find after a few calls. But where to search for when a method is used from another parent class, e.g. `.set-size-request()`, or when it is inherited, e.g. `.set-orientation()` for a **Box**. That search is even more intensive. This is also the case in the 2nd proposal written above.
   
-  * No tests can be made for the modules except for the base modules delevered in the package! Because everything from the tests will generate new code and the time you want to save while installing the modules will be taken by the tests.
+  * No tests can be made for the modules except for the base modules delivered in the package! Because everything from the tests will generate new code and the time you want to save while installing the modules will be taken by the tests.
 
 Thinking it all over, I will keep it like it is now except that there must be a way to see what gnome library version the raku code, tests, and documentation is generated against. Using for example `dnf list gtk4|grep x86_64`.
 
