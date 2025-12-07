@@ -233,6 +233,7 @@ submethod prepare-work-data ( SkimSource $source ) {
 #note "$?LINE $*gnome-package.Str(), @*map-search-list.gist()";
 
   with $source {
+#`{{
     when Gtk3 {
       $!work-data = %(
         :gir-module-path(SKIMTOOLDATA ~ 'Gtk3/'),
@@ -250,7 +251,7 @@ submethod prepare-work-data ( SkimSource $source ) {
         :gir-module-path(SKIMTOOLDATA ~ 'GdkPixbuf/'),
       );
     }
-
+}}
     when Gtk4 {
       $!work-data = %(
         :gir-module-path(SKIMTOOLDATA ~ 'Gtk4/'),
@@ -262,9 +263,11 @@ submethod prepare-work-data ( SkimSource $source ) {
     when Gdk4 {
       $!work-data = %(
         :gir-module-path(SKIMTOOLDATA ~ 'Gdk4/'),
+        :result-umlpng(API2MODS ~ 'gnome-gdk4/doc/plantuml/'),
+        :raku-package<Gnome::Gdk4>,
       );
     }
-
+#`{{
     when Gsk4 {
       $!work-data = %(
         :gir-module-path(SKIMTOOLDATA ~ 'Gsk4/'),
@@ -276,7 +279,7 @@ submethod prepare-work-data ( SkimSource $source ) {
         :gir-module-path(SKIMTOOLDATA ~ 'Glib/'),
       );
     }
-
+}}
     when Gio {
       $!work-data = %(
         :gir-module-path(SKIMTOOLDATA ~ 'Gio/'),
@@ -284,7 +287,7 @@ submethod prepare-work-data ( SkimSource $source ) {
         :raku-package<Gnome::Gio>,
       );
     }
-
+#`{{
     when GObject {
       $!work-data = %(
         :gir-module-path(SKIMTOOLDATA ~ 'GObject/'),
@@ -296,13 +299,6 @@ submethod prepare-work-data ( SkimSource $source ) {
         :gir-module-path(SKIMTOOLDATA ~ 'Graphene/'),
       );
     }
-#`{{
-    when Atk {
-      $!work-data = %(
-        :gir-module-path(SKIMTOOLDATA ~ 'Atk/'),
-      );
-    }
-  }}
 
     when Pango {
       $!work-data = %(
@@ -315,8 +311,16 @@ submethod prepare-work-data ( SkimSource $source ) {
         :gir-module-path(SKIMTOOLDATA ~ 'PangoCairo/'),
       );
     }
+}}
 
 #`{{
+# NEVER processed!
+    when Atk {
+      $!work-data = %(
+        :gir-module-path(SKIMTOOLDATA ~ 'Atk/'),
+      );
+    }
+
     when GIRepo {
       $!work-data = %(
         :gir-module-path(SKIMTOOLDATA ~ 'GIRepository/'),
