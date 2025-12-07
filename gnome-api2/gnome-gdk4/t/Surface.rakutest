@@ -11,13 +11,10 @@ use NativeCall;
 
 use Cairo;
 
-use Gnome::Glib::T-error:api<2>;
 
-#use Gnome::Cairo::N-Context:api<2>;
-#use Gnome::Cairo::T-undefined-module-name:api<2>;
-use Gnome::Gdk4::T-enums:api<2>;
 use Gnome::Gdk4::Surface:api<2>;
-
+use Gnome::Gdk4::T-enums:api<2>;
+use Gnome::Glib::T-error:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -68,17 +65,17 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $surface {
-    my N-Object $cursor;
-    my CArray[N-Error] $err;
-    my N-Object $region;
-    my gint $height;
-    my GFlag $mask;
     my CArray[gdouble] $y;
+    my gint $height;
+    my gint $width;
+    my N-Object $cursor;
+    #my Cairo $region;
     my N-Object $to;
     my CArray[gdouble] $x;
-    my gint $width;
-#    my cairo_content_t  $content;
+    my Content $content;
     my N-Object $device;
+    my GFlag $mask;
+    my CArray[N-Error] $err;
 
 
 #`{{
@@ -145,17 +142,17 @@ subtest 'Method tests', {
     .set-device-cursor( $device, $cursor);
     #TM:0:get-device-cursor()
     is .get-device-cursor(),  $device, $cursor, '.set-device-cursor() / .get-device-cursor()';
-
+#`{{ Not supported by Timo's Cairo
     #TM:0:set-input-region()
-    $region = …;
+    $region =
     .set-input-region( $region);
     ok True, '.set-input-region()';
 
     #TM:0:set-opaque-region()
-    $region = …;
+    $region =
     .set-opaque-region( $region);
     ok True, '.set-opaque-region()';
-
+}}
     #TM:0:translate-coordinates()
     ok .translate-coordinates( $to, $x, $y), '.translate-coordinates()';
 
