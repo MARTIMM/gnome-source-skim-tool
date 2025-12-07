@@ -351,7 +351,8 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
           }
 
           elsif $info{$k} ~~ Array {
-            $work-data<fhelper>( $indent-level, %($info.kv));
+            #$work-data<fhelper>( $indent-level, %($info.kv));
+            say '  ' x $indent-level, $k, ': [ ', $info{$k}.join(', '), ']';
           }
 
           else {
@@ -364,11 +365,11 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
       sub ( $info, Str :$label ) {
         my Int $indent-level = 0;
         say '';
-        if $info ~~ Array {
-          $work-data<fhelper>( $indent-level, %($info.kv));
-        }
+        #if $info ~~ Array {
+        #  $work-data<fhelper>( $indent-level, %($info.kv));
+        #}
 
-        elsif ?$label {
+        if ?$label {
           $work-data<fhelper>( $indent-level, %($label => $info));
         }
 
