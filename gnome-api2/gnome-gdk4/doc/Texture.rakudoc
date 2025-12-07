@@ -18,11 +18,11 @@ There are various ways to create B<Gnome::Gdk4::Texture> objects from a
 B<Gnome::Gdk4::Texture>, or a Cairo surface, or other pixel data.
 
 The ownership of the pixel data is transferred to the B<Gnome::Gdk4::Texture>
-instance; you can only make a copy of it, via C<.download()>.
+instance; you can only make a copy of it, via L<.download()|#download>.
 
 B<Gnome::Gdk4::Texture> is an immutable object: That means you cannot change
 anything about it other than increasing the reference count via
-C<.ref()> in class C<Gnome::GObject::Object>, and consequently, it is a thread-safe object.
+L<.ref() in class Gnome|/content-docs/api2/reference/GObject/Gnome#ref>, and consequently, it is a thread-safe object.
 
 =begin comment
 
@@ -54,17 +54,17 @@ Create an object using a native object from an object of the same type found els
 =begin pod
 =head2 new-for-pixbuf
 
-Creates a new texture object representing the B<Gnome::GdkPixbuf::Pixbuf>.
+Creates a new texture object representing the L<Gnome::GdkPixbuf::Pixbuf|/content-docs/api2/reference/GdkPixbuf/Pixbuf>.
 
 This function is threadsafe, so that you can e.g. use GTask
-and C<.run-in-thread()> in class C<Gnome::Gio::Task> to avoid blocking the main thread
+and L<.run-in-thread() in class Gnome|/content-docs/api2/reference/Gio/Gnome#run-in-thread> to avoid blocking the main thread
 while loading a big image.
 
 =begin code
-method new-for-pixbuf ( N-Object() $pixbuf --> Gnome::Gdk4::Texture \)
+method new-for-pixbuf ( N-Object() $pixbuf --> Gnome::Gdk4::Texture )
 =end code
 
-=item $pixbuf; a B<Gnome::GdkPixbuf::Pixbuf>.
+=item $pixbuf; a L<Gnome::GdkPixbuf::Pixbuf|/content-docs/api2/reference/GdkPixbuf/Pixbuf>.
 
 =begin comment
 
@@ -87,11 +87,11 @@ are PNG and JPEG, though more formats might be available.
 If undefined is returned, then C<$error> will be set.
 
 This function is threadsafe, so that you can e.g. use GTask
-and C<.run-in-thread()> in class C<Gnome::Gio::Task> to avoid blocking the main thread
+and L<.run-in-thread() in class Gnome|/content-docs/api2/reference/Gio/Gnome#run-in-thread> to avoid blocking the main thread
 while loading a big image.
 
 =begin code
-method new-from-bytes ( N-Object $bytes, CArray[N-Error] $err --> Gnome::Gdk4::Texture \)
+method new-from-bytes ( N-Object $bytes, CArray[N-Error] $err --> Gnome::Gdk4::Texture )
 =end code
 
 =item $bytes; a B<Gnome::Glib::N-Bytes> containing the data to load
@@ -120,14 +120,14 @@ are PNG and JPEG, though more formats might be available.
 If undefined is returned, then C<$error> will be set.
 
 This function is threadsafe, so that you can e.g. use GTask
-and C<.run-in-thread()> in class C<Gnome::Gio::Task> to avoid blocking the main thread
+and L<.run-in-thread() in class Gnome|/content-docs/api2/reference/Gio/Gnome#run-in-thread> to avoid blocking the main thread
 while loading a big image.
 
 =begin code
-method new-from-file ( N-Object() $file, CArray[N-Error] $err --> Gnome::Gdk4::Texture \)
+method new-from-file ( N-Object() $file, CArray[N-Error] $err --> Gnome::Gdk4::Texture )
 =end code
 
-=item $file; B<Gnome::Gio::R-File> to load.
+=item $file; L<Gnome::Gio::File|/content-docs/api2/reference/Gio/File> to load.
 =item $err; Error object. When defined, an error can be returned when there is one.
 Use C<Pointer> when you want to ignore the error.
 .
@@ -153,11 +153,11 @@ are PNG and JPEG, though more formats might be available.
 If undefined is returned, then C<$error> will be set.
 
 This function is threadsafe, so that you can e.g. use GTask
-and C<.run-in-thread()> in class C<Gnome::Gio::Task> to avoid blocking the main thread
+and L<.run-in-thread() in class Gnome|/content-docs/api2/reference/Gio/Gnome#run-in-thread> to avoid blocking the main thread
 while loading a big image.
 
 =begin code
-method new-from-filename ( Str $path, CArray[N-Error] $err --> Gnome::Gdk4::Texture \)
+method new-from-filename ( Str $path, CArray[N-Error] $err --> Gnome::Gdk4::Texture )
 =end code
 
 =item $path; the filename to load.
@@ -186,14 +186,14 @@ are PNG and JPEG, though more formats might be available.
 It is a fatal error if C<$resource-path> does not specify a valid
 image resource and the program will abort if that happens.
 If you are unsure about the validity of a resource, use
-C<.new-from-file()> to load it.
+L<.new-from-file()|#new-from-file> to load it.
 
 This function is threadsafe, so that you can e.g. use GTask
-and C<.run-in-thread()> in class C<Gnome::Gio::Task> to avoid blocking the main thread
+and L<.run-in-thread() in class Gnome|/content-docs/api2/reference/Gio/Gnome#run-in-thread> to avoid blocking the main thread
 while loading a big image.
 
 =begin code
-method new-from-resource ( Str $resource-path --> Gnome::Gdk4::Texture \)
+method new-from-resource ( Str $resource-path --> Gnome::Gdk4::Texture )
 =end code
 
 =item $resource-path; the path of the resource file.
@@ -308,7 +308,7 @@ Store the given C<$texture> to the C<$filename> as a PNG file.
 This is a utility function intended for debugging and testing.
 If you want more control over formats, proper error handling or
 want to store to a B<Gnome::Gdk4::Texture> or other location, you might want to
-use C<.save-to-png-bytes()> or look into the
+use L<.save-to-png-bytes()|#save-to-png-bytes> or look into the
 gdk-pixbuf library.
 
 =begin code
@@ -334,7 +334,7 @@ Return value; C<True> if saving succeeded, C<False> on failure..
 
 Store the given C<$texture> in memory as a PNG file.
 
-Use C<.new-from-bytes()> to read it back.
+Use L<.new-from-bytes()|#new-from-bytes> to read it back.
 
 If you want to serialize a texture, this is a convenient and
 portable way to do that.
@@ -344,7 +344,7 @@ attaching metadata, you should look into an image handling
 library such as the gdk-pixbuf library.
 
 If you are dealing with high dynamic range float data, you
-might also want to consider C<.save-to-tiff-bytes()>
+might also want to consider L<.save-to-tiff-bytes()|#save-to-tiff-bytes>
 instead.
 
 =begin code
@@ -393,7 +393,7 @@ Return value; C<True> if saving succeeded, C<False> on failure..
 
 Store the given C<$texture> in memory as a TIFF file.
 
-Use C<.new-from-bytes()> to read it back.
+Use L<.new-from-bytes()|#new-from-bytes> to read it back.
 
 This function is intended to store a representation of the
 texture's data that is as accurate as possible. This is
@@ -402,7 +402,7 @@ images and floating-point texture data.
 
 If that is not your concern and you are interested in a
 smaller size and a more portable format, you might want to
-use C<.save-to-png-bytes()>.
+use L<.save-to-png-bytes()|#save-to-png-bytes>.
 
 =begin code
 method save-to-tiff-bytes (--> N-Object )

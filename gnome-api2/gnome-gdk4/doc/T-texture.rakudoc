@@ -6,6 +6,20 @@ use v6.d;
 =end pod
 
 #-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+#-------------------------------------------------------------------------------
 #--[Enumerations]---------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
@@ -20,5 +34,34 @@ Possible errors that can be returned by B<Gnome::Gdk4::Texture> constructors.
 =item C<GDK_TEXTURE_ERROR_UNSUPPORTED_CONTENT>; The image contains features
   that cannot be loaded
 =item C<GDK_TEXTURE_ERROR_UNSUPPORTED_FORMAT>; The image format is not supported
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 texture-error-quark
+
+Registers an error quark for B<Gnome::Gdk4::Texture> errors.
+
+=begin code
+method texture-error-quark (--> UInt )
+=end code
+
+Return value; the error quark. 
+
+=begin comment
+
+=head2 Example
+# Example for texture-error-quark
+
+=end comment
+
 =end pod
 

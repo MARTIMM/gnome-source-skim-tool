@@ -48,7 +48,7 @@ The resulting builder would create an empty B<Gnome::Gdk4::N-ContentFormats>.
 Use addition functions to add types to it.
 
 =begin code
-method new-contentformatsbuilder ( --> Gnome::Gdk4::ContentFormatsBuilder \)
+method new-contentformatsbuilder ( --> Gnome::Gdk4::ContentFormatsBuilder )
 =end code
 
 =begin comment
@@ -190,7 +190,7 @@ The given B<Gnome::Gdk4::N-ContentFormatsBuilder> is reset once this function re
 you cannot call this function multiple times on the same C<$builder> instance.
 
 This function is intended primarily for bindings. C code should use
-C<.free-to-formats()>.
+L<.free-to-formats()|#free-to-formats>.
 
 =begin code
 method to-formats (--> N-Object )

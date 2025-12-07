@@ -33,10 +33,10 @@ Flags about a paintable object.
 Implementations use these for optimizations such as caching.
 
 =item C<GDK_PAINTABLE_STATIC_SIZE>; The size is immutable.
-  The [signal C<$GdkPaintable>::invalidate-size] signal will never be
+  The I<invalidate-size> signal will never be
   emitted.
 =item C<GDK_PAINTABLE_STATIC_CONTENTS>; The content is immutable.
-  The [signal C<$GdkPaintable>::invalidate-contents] signal will never be
+  The I<invalidate-contents> signal will never be
   emitted.
 =end pod
 
@@ -57,7 +57,8 @@ Returns a paintable that has the given intrinsic size and draws nothing.
 This is often useful for implementing the
 [vfunc C<$Gdk>.Paintable.get_current_image] virtual function
 when the paintable is in an incomplete state (like a
-B<Gnome::Gtk4::MediaStream> before receiving the first frame).
+[GtkMediaStream](../gtk4/class.MediaStream.html) before receiving
+the first frame).
 
 =begin code
 method paintable-new-empty ( Int() $intrinsic-width, Int() $intrinsic-height --> N-Object )
@@ -66,7 +67,7 @@ method paintable-new-empty ( Int() $intrinsic-width, Int() $intrinsic-height -->
 =item $intrinsic-width; The intrinsic width to report. Can be 0 for no width..
 =item $intrinsic-height; The intrinsic height to report. Can be 0 for no height..
 
-Return value; a B<Gnome::Gdk4::R-Paintable>. 
+Return value; a L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable>. 
 
 =begin comment
 

@@ -12,11 +12,11 @@ use v6.d;
 A B<Gnome::Gdk4::ContentProvider> is used to provide content for the clipboard or
 for drag-and-drop operations in a number of formats.
 
-To create a B<Gnome::Gdk4::ContentProvider>, use C<.new-for-value()>
-or C<.new-for-bytes()>.
+To create a B<Gnome::Gdk4::ContentProvider>, use L<.new-for-value()|#new-for-value>
+or L<.new-for-bytes()|#new-for-bytes>.
 
 GDK knows how to handle common text and image formats out-of-the-box. See
-B<Gnome::Gdk4::ContentSerializer> and B<Gnome::Gdk4::ContentDeserializer> if you want
+L<Gnome::Gdk4::ContentSerializer|/content-docs/api2/reference/Gdk4/Gnome> and L<Gnome::Gdk4::ContentDeserializer|/content-docs/api2/reference/Gdk4/Gnome> if you want
 to add support for application-specific data formats.
 
 =begin comment
@@ -53,7 +53,7 @@ Create a content provider that provides the given C<$bytes> as data for
 the given C<$mime-type>.
 
 =begin code
-method new-for-bytes ( Str $mime-type, N-Object $bytes --> Gnome::Gdk4::ContentProvider \)
+method new-for-bytes ( Str $mime-type, N-Object $bytes --> Gnome::Gdk4::ContentProvider )
 =end code
 
 =item $mime-type; the mime type.
@@ -75,7 +75,7 @@ method new-for-bytes ( Str $mime-type, N-Object $bytes --> Gnome::Gdk4::ContentP
 Create a content provider that provides the given C<$value>.
 
 =begin code
-method new-for-value ( N-Object $value --> Gnome::Gdk4::ContentProvider \)
+method new-for-value ( N-Object $value --> Gnome::Gdk4::ContentProvider )
 =end code
 
 =item $value; a B<Gnome::GObject::N-Value>
@@ -92,7 +92,6 @@ method new-for-value ( N-Object $value --> Gnome::Gdk4::ContentProvider \)
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-typed
-This function is not yet available
 
 Create a content provider that provides the value of the given C<$type>.
 
@@ -100,7 +99,7 @@ The value is provided using G_VALUE_COLLECT(), so the same rules
 apply as when calling g_object_new() or g_object_set().
 
 =begin code
-method new-typed ( GType $type, … --> Gnome::Gdk4::ContentProvider \)
+method new-typed ( GType $type, … --> Gnome::Gdk4::ContentProvider )
 =end code
 
 =item $type; Type of value to follow.
@@ -136,7 +135,7 @@ gdk_content_provider_new_union ((GdkContentProvider *[2]) {
 =end comment
 
 =begin code
-method new-union ( N-Object() $providers, Int() $n-providers --> Gnome::Gdk4::ContentProvider \)
+method new-union ( N-Object() $providers, Int() $n-providers --> Gnome::Gdk4::ContentProvider )
 =end code
 
 =item $providers; (transfer ownership: full) 
@@ -187,7 +186,7 @@ Gets the contents of C<$provider> stored in C<$value>.
 
 The C<$value> will have been initialized to the B<Gnome::GObject::ContentProvider> the value should be
 provided in. This given B<Gnome::GObject::ContentProvider> does not need to be listed in the formats
-returned by C<.ref-formats()>. However, if the
+returned by L<.ref-formats()|#ref-formats>. However, if the
 given B<Gnome::GObject::ContentProvider> is not supported, this operation can fail and
 B<G_IO_ERROR_NOT_SUPPORTED> will be reported.
 
@@ -242,7 +241,7 @@ the data in.
 
 An example of such an application would be a clipboard manager.
 
-This can be assumed to be a subset of C<.ref-formats()>.
+This can be assumed to be a subset of L<.ref-formats()|#ref-formats>.
 
 =begin code
 method ref-storable-formats (--> N-Object )
@@ -266,11 +265,11 @@ Return value; The storable formats of the provider.
 Asynchronously writes the contents of C<$provider> to C<$stream> in the given C<$mime-type>.
 
 When the operation is finished C<$callback> will be called. You must then call
-C<.write-mime-type-finish()> to get the result
+L<.write-mime-type-finish()|#write-mime-type-finish> to get the result
 of the operation.
 
 The given mime type does not need to be listed in the formats returned by
-C<.ref-formats()>. However, if the given B<Gnome::GObject::ContentProvider> is
+L<.ref-formats()|#ref-formats>. However, if the given B<Gnome::GObject::ContentProvider> is
 not supported, B<G_IO_ERROR_NOT_SUPPORTED> will be reported.
 
 The given C<$stream> will not be closed.
@@ -280,9 +279,9 @@ method write-mime-type-async ( Str $mime-type, N-Object() $stream, Int() $io-pri
 =end code
 
 =item $mime-type; the mime type to provide the data in.
-=item $stream; the B<Gnome::Gio::OutputStream> to write to.
+=item $stream; the L<Gnome::Gio::OutputStream|/content-docs/api2/reference/Gio/OutputStream> to write to.
 =item $io-priority; I/O priority of the request..
-=item $cancellable; optional B<Gnome::Gio::Cancellable> object, undefined to ignore..
+=item $cancellable; optional L<Gnome::Gio::Cancellable|/content-docs/api2/reference/Gio/Cancellable> object, undefined to ignore..
 =item GAsyncReadyCallback &callback; callback to call when the request is satisfied. The function must be specified with the following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
 =item $user-data; the data to pass to callback function.
 
@@ -301,13 +300,13 @@ method write-mime-type-async ( Str $mime-type, N-Object() $stream, Int() $io-pri
 
 Finishes an asynchronous write operation.
 
-See C<.write-mime-type-async()>.
+See L<.write-mime-type-async()|#write-mime-type-async>.
 
 =begin code
 method write-mime-type-finish ( N-Object() $result, CArray[N-Error] $err --> Bool )
 =end code
 
-=item $result; a B<Gnome::Gio::R-AsyncResult>.
+=item $result; a L<Gnome::Gio::R-AsyncResult|/content-docs/api2/reference/Gio/R-AsyncResult>.
 =item $err; Error object. When defined, an error can be returned when there is one.
 Use C<Pointer> when you want to ignore the error.
 .
@@ -341,14 +340,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gdk4::ContentProvider :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gdk4::ContentProvider> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gdk4::ContentProvider> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 

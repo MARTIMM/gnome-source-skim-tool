@@ -9,51 +9,51 @@ use v6.d;
 =TITLE Gnome::Gdk4::R-Paintable
 =head1 Description
 
-B<Gnome::Gdk4::R-Paintable> is a simple interface used by GTK to represent content that
+L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable> is a simple interface used by GTK to represent content that
 can be painted.
 
-The content of a B<Gnome::Gdk4::R-Paintable> can be painted anywhere at any size
+The content of a L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable> can be painted anywhere at any size
 without requiring any sort of layout. The interface is inspired by
 similar concepts elsewhere, such as
 [ClutterContent](https://developer.gnome.org/clutter/stable/ClutterContent.html),
 [HTML/CSS Paint Sources](https://www.w3.org/TR/css-images-4/#paint-source),
 or [SVG Paint Servers](https://www.w3.org/TR/SVG2/pservers.html).
 
-A B<Gnome::Gdk4::R-Paintable> can be snapshot at any time and size using
-C<.snapshot()>. How the paintable interprets that size and
+A L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable> can be snapshot at any time and size using
+L<.snapshot()|#snapshot>. How the paintable interprets that size and
 if it scales or centers itself into the given rectangle is implementation
-defined, though if you are implementing a B<Gnome::Gdk4::R-Paintable> and don't know what
+defined, though if you are implementing a L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable> and don't know what
 to do, it is suggested that you scale your paintable ignoring any potential
 aspect ratio.
 
-The contents that a B<Gnome::Gdk4::R-Paintable> produces may depend on the B<GdkSnapshot>
+The contents that a L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable> produces may depend on the L<GdkSnapshot|/content-docs/api2/reference/gdk/GdkSnapshot>
 passed to it. For example, paintables may decide to use more detailed images
-on higher resolution screens or when OpenGL is available. A B<Gnome::Gdk4::R-Paintable>
+on higher resolution screens or when OpenGL is available. A L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable>
 will however always produce the same output for the same snapshot.
 
-A B<Gnome::Gdk4::R-Paintable> may change its contents, meaning that it will now produce
+A L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable> may change its contents, meaning that it will now produce
 a different output with the same snapshot. Once that happens, it will call
-C<.invalidate-contents()> which will emit the
+L<.invalidate-contents()|#invalidate-contents> which will emit the
 [signal C<$GdkPaintable>::invalidate-contents] signal. If a paintable is known
 to never change its contents, it will set the C<GDK_PAINTABLE_STATIC_CONTENTS>
 flag. If a consumer cannot deal with changing contents, it may call
-C<.get-current-image()> which will return a static
+L<.get-current-image()|#get-current-image> which will return a static
 paintable and use that.
 
 A paintable can report an intrinsic (or preferred) size or aspect ratio it
 wishes to be rendered at, though it doesn't have to. Consumers of the interface
 can use this information to layout thepaintable appropriately. Just like the
 contents, the size of a paintable can change. A paintable will indicate this
-by calling C<.invalidate-size()> which will emit the
+by calling L<.invalidate-size()|#invalidate-size> which will emit the
 [signal C<$GdkPaintable>::invalidate-size] signal. And just like for contents,
 if a paintable is known to never change its size, it will set the
 C<GDK_PAINTABLE_STATIC_SIZE> flag.
 
 Besides API for applications, there are some functions that are only
 useful for implementing subclasses and should not be used by applications:
-C<.invalidate-contents()>,
-C<.invalidate-size()>,
-C<.Paintable.new-empty()>.
+L<.invalidate-contents()|#invalidate-contents>,
+L<.invalidate-size()|#invalidate-size>,
+L<.Paintable.new-empty().Paintable.new-empty() in package Gnome::Gdk4|/content-docs/api2/reference/Gdk4/T-paintable#Paintable.new-empty>.
 
 =begin comment
 
@@ -75,7 +75,7 @@ C<.Paintable.new-empty()>.
 =begin pod
 =head2 compute-concrete-size
 
-Compute a concrete size for the B<Gnome::Gdk4::R-Paintable>.
+Compute a concrete size for the L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable>.
 
 Applies the sizing algorithm outlined in the
 [CSS Image spec](https://drafts.csswg.org/css-images-3/#default-sizing)
@@ -174,11 +174,11 @@ is wide. Consumers of this interface can use this to preserve aspect
 ratio when displaying the paintable.
 
 This is a purely informational value and does not in any way limit the
-values that may be passed to C<.snapshot()>.
+values that may be passed to L<.snapshot()|#snapshot>.
 
 Usually when a C<$paintable> returns nonzero values from
-C<.get-intrinsic-width()> and
-C<.get-intrinsic-height()> the aspect ratio
+L<.get-intrinsic-width()|#get-intrinsic-width> and
+L<.get-intrinsic-height()|#get-intrinsic-height> the aspect ratio
 should conform to those values, though that is not required.
 
 If the C<$paintable> does not have a preferred aspect ratio,
@@ -209,7 +209,7 @@ Consumers of this interface can use this to reserve enough space to draw
 the paintable.
 
 This is a purely informational value and does not in any way limit the
-values that may be passed to C<.snapshot()>.
+values that may be passed to L<.snapshot()|#snapshot>.
 
 If the C<$paintable> does not have a preferred height, it returns 0.
 Negative values are never returned.
@@ -239,7 +239,7 @@ Consumers of this interface can use this to reserve enough space to draw
 the paintable.
 
 This is a purely informational value and does not in any way limit the
-values that may be passed to C<.snapshot()>.
+values that may be passed to L<.snapshot()|#snapshot>.
 
 If the C<$paintable> does not have a preferred width, it returns 0.
 Negative values are never returned.
@@ -263,10 +263,10 @@ Return value; the intrinsic width of C<$paintable> or 0 if none..
 =begin pod
 =head2 invalidate-contents
 
-Called by implementations of B<Gnome::Gdk4::R-Paintable> to invalidate their contents.
+Called by implementations of L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable> to invalidate their contents.
 
 Unless the contents are invalidated, implementations must guarantee that
-multiple calls of C<.snapshot()> produce the same output.
+multiple calls of L<.snapshot()|#snapshot> produce the same output.
 
 This function will emit the I<invalidate-contents>
 signal.
@@ -291,7 +291,7 @@ method invalidate-contents ( )
 =begin pod
 =head2 invalidate-size
 
-Called by implementations of B<Gnome::Gdk4::R-Paintable> to invalidate their size.
+Called by implementations of L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable> to invalidate their size.
 
 As long as the size is not invalidated, C<$paintable> must return the same
 values for its intrinsic width, height and aspect ratio.
@@ -329,7 +329,7 @@ do nothing.
 method snapshot ( N-Object() $snapshot, Num() $width, Num() $height )
 =end code
 
-=item $snapshot; a B<Gnome::Gdk4::Snapshot> to snapshot to.
+=item $snapshot; a L<Gnome::Gdk4::Snapshot|/content-docs/api2/reference/Gdk4/Snapshot> to snapshot to.
 =item $width; width to snapshot in.
 =item $height; height to snapshot in.
 
@@ -359,7 +359,7 @@ Returns a paintable that has the given intrinsic size and draws nothing.
 This is often useful for implementing the
 [vfunc C<$Gdk>.Paintable.get_current_image] virtual function
 when the paintable is in an incomplete state (like a
-B<Gnome::Gtk4::MediaStream> before receiving the first frame).
+L<Gnome::Gtk4::MediaStream|/content-docs/api2/reference/Gtk4/Gnome> before receiving the first frame).
 
 =begin code
 method new-empty ( Int() $intrinsic-width, Int() $intrinsic-height --> N-Object )
@@ -368,7 +368,7 @@ method new-empty ( Int() $intrinsic-width, Int() $intrinsic-height --> N-Object 
 =item $intrinsic-width; The intrinsic width to report. Can be 0 for no width..
 =item $intrinsic-height; The intrinsic height to report. Can be 0 for no height..
 
-Return value; a B<Gnome::Gdk4::R-Paintable>. 
+Return value; a L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable>. 
 
 =begin comment
 
@@ -399,14 +399,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gdk4::Paintable :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gdk4::Paintable> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gdk4::Paintable> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -421,9 +420,9 @@ method handler (
 Emitted when the intrinsic size of the C<$paintable> changes.
 
 This means the values reported by at least one of
-C<.get-intrinsic-width()>,
-C<.get-intrinsic-height()> or
-C<.get-intrinsic-aspect-ratio()>
+L<.get-intrinsic-width()|#get-intrinsic-width>,
+L<.get-intrinsic-height()|#get-intrinsic-height> or
+L<.get-intrinsic-aspect-ratio()|#get-intrinsic-aspect-ratio>
 has changed.
 
 Examples for such an event would be a paintable displaying
@@ -434,14 +433,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gdk4::Paintable :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gdk4::Paintable> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gdk4::Paintable> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 

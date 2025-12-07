@@ -14,26 +14,26 @@ format of content.
 
 You will encounter B<Gnome::Gdk4::N-ContentFormats> when interacting with objects
 controlling operations that pass data between different widgets, window
-or application, like B<Gnome::Gdk4::Drag>, B<Gnome::Gdk4::Drop>,
-B<Gnome::Gdk4::Clipboard> or B<Gnome::Gdk4::ContentProvider>.
+or application, like L<Gnome::Gdk4::Drag|/content-docs/api2/reference/Gdk4/Gnome>, L<Gnome::Gdk4::Drop|/content-docs/api2/reference/Gdk4/Gnome>,
+L<Gnome::Gdk4::Clipboard|/content-docs/api2/reference/Gdk4/Gnome> or L<Gnome::Gdk4::ContentProvider|/content-docs/api2/reference/Gdk4/Gnome>.
 
 GDK supports content in 2 forms: B<Gnome::GObject::ContentFormats> and mime type.
 Using B<GTypes> is meant only for in-process content transfers. Mime types
 are meant to be used for data passing both in-process and out-of-process.
 The details of how data is passed is described in the documentation of
 the actual implementations. To transform between the two forms,
-B<Gnome::Gdk4::ContentSerializer> and B<Gnome::Gdk4::ContentDeserializer> are used.
+L<Gnome::Gdk4::ContentSerializer|/content-docs/api2/reference/Gdk4/Gnome> and L<Gnome::Gdk4::ContentDeserializer|/content-docs/api2/reference/Gdk4/Gnome> are used.
 
 A B<Gnome::Gdk4::N-ContentFormats> describes a set of possible formats content can be
 exchanged in. It is assumed that this set is ordered. B<GTypes> are more
 important than mime types. Order between different B<GTypes> or mime types
 is the order they were added in, most important first. Functions that
-care about order, such as C<.union()>, will describe
+care about order, such as L<.union()|#union>, will describe
 in their documentation how they interpret that order, though in general the
 order of the first argument is considered the primary order of the result,
 followed by the order of further arguments.
 
-For debugging purposes, the function C<.to-string()>
+For debugging purposes, the function L<.to-string()|#to-string>
 exists. It will print a comma-separated list of formats from most important
 to least important.
 
@@ -79,7 +79,7 @@ behavior of the return value is undefined. If you cannot guarantee
 this, use  B<Gnome::Gdk4::N-ContentFormatsBuilder>  instead.
 
 =begin code
-method new-contentformats ( Array[Str] $mime-types, UInt() $n-mime-types --> Gnome::Gdk4::ContentFormats \)
+method new-contentformats ( Array[Str] $mime-types, UInt() $n-mime-types --> Gnome::Gdk4::ContentFormats )
 =end code
 
 =item $mime-types; Pointer to an
@@ -102,7 +102,7 @@ method new-contentformats ( Array[Str] $mime-types, UInt() $n-mime-types --> Gno
 Creates a new B<Gnome::Gdk4::N-ContentFormats> for a given B<Gnome::GObject::ContentFormats>.
 
 =begin code
-method new-for-gtype ( GType $type --> Gnome::Gdk4::ContentFormats \)
+method new-for-gtype ( GType $type --> Gnome::Gdk4::ContentFormats )
 =end code
 
 =item $type; a B<Gnome::GObject::ContentFormats>.
@@ -307,7 +307,7 @@ Return value; The first common mime type or undefined if none.
 Prints the given C<$formats> into a string for human consumption.
 
 The result of this function can later be parsed with
-C<.ContentFormats.parse()>.
+L<.ContentFormats.parse().ContentFormats.parse() in package Gnome::Gdk4|/content-docs/api2/reference/Gdk4/T-contentformats#ContentFormats.parse>.
 
 =begin code
 method print ( N-Object $string )
@@ -351,9 +351,9 @@ Return value; the passed in B<Gnome::Gdk4::N-ContentFormats>..
 
 Prints the given C<$formats> into a human-readable string.
 
-The resulting string can be parsed with C<.ContentFormats.parse()>.
+The resulting string can be parsed with L<.ContentFormats.parse().ContentFormats.parse() in package Gnome::Gdk4|/content-docs/api2/reference/Gdk4/T-contentformats#ContentFormats.parse>.
 
-This is a small wrapper around C<.print()>
+This is a small wrapper around L<.print()|#print>
 to help when debugging.
 
 =begin code
@@ -519,7 +519,7 @@ method unref ( )
 Parses the given C<$string> into B<Gnome::Gdk4::N-ContentFormats> and
 returns the formats.
 
-Strings printed via C<.to-string()>
+Strings printed via L<.to-string()|#to-string>
 can be read in again successfully using this function.
 
 If C<$string> does not describe valid content formats, undefined

@@ -17,12 +17,12 @@ Their purpose are two-fold:
 =item To manage and provide information about output devices (monitors, projectors, etc)
 
 Most of the input device handling has been factored out into separate
-B<Gnome::Gdk4::Seat> objects. Every display has a one or more seats, which
-can be accessed with C<.get-default-seat()>] and
-C<.list-seats()>].
+L<Gnome::Gdk4::Seat|/content-docs/api2/reference/Gdk4/Gnome> objects. Every display has a one or more seats, which
+can be accessed with L<.get-default-seat()|#get-default-seat> and
+L<.list-seats()|#list-seats>.
 
-Output devices are represented by B<Gnome::Gdk4::Monitor> objects, which can
-be accessed with C<.get-monitor-at-surface()>] and similar APIs.
+Output devices are represented by L<Gnome::Gdk4::Monitor|/content-docs/api2/reference/Gdk4/Gnome> objects, which can
+be accessed with L<.get-monitor-at-surface()|#get-monitor-at-surface> and similar APIs.
 
 =begin comment
 
@@ -102,15 +102,15 @@ method close ( )
 =begin pod
 =head2 create-gl-context
 
-Creates a new B<Gnome::Gdk4::GLContext> for the B<Gnome::Gdk4::Display>.
+Creates a new L<Gnome::Gdk4::GLContext|/content-docs/api2/reference/Gdk4/GLContext> for the B<Gnome::Gdk4::Display>.
 
 The context is disconnected from any particular surface or surface
 and cannot be used to draw to any surface. It can only be used to
 draw to non-surface framebuffers like textures.
 
-If the creation of the B<Gnome::Gdk4::GLContext> failed, C<$error> will be set.
-Before using the returned B<Gnome::Gdk4::GLContext>, you will need to
-call C<.make-current()> in class B<Gnome::Gdk4::GLContext>] or C<.realize()> in class B<Gnome::Gdk4::GLContext>].
+If the creation of the L<Gnome::Gdk4::GLContext|/content-docs/api2/reference/Gdk4/GLContext> failed, C<$error> will be set.
+Before using the returned L<Gnome::Gdk4::GLContext|/content-docs/api2/reference/Gdk4/GLContext>, you will need to
+call L<.make-current() in class Gnome|/content-docs/api2/reference/Gdk4/Gnome#make-current> or L<.realize() in class Gnome|/content-docs/api2/reference/Gdk4/Gnome#realize>.
 
 =begin code
 method create-gl-context ( CArray[N-Error] $err --> N-Object )
@@ -120,7 +120,7 @@ method create-gl-context ( CArray[N-Error] $err --> N-Object )
 Use C<Pointer> when you want to ignore the error.
 .
 
-Return value; the newly created B<Gnome::Gdk4::GLContext>. 
+Return value; the newly created L<Gnome::Gdk4::GLContext|/content-docs/api2/reference/Gdk4/GLContext>. 
 
 =begin comment
 
@@ -141,7 +141,7 @@ Returns C<True> if there is an ongoing grab on C<$device> for C<$display>.
 method device-is-grabbed ( N-Object() $device --> Bool )
 =end code
 
-=item $device; a B<Gnome::Gdk4::Device>.
+=item $device; a L<Gnome::Gdk4::Device|/content-docs/api2/reference/Gdk4/Device>.
 
 Return value; C<True> if there is a grab in effect for C<$device>.. 
 
@@ -186,14 +186,14 @@ method flush ( )
 =begin pod
 =head2 get-app-launch-context
 
-Returns a B<Gnome::Gdk4::AppLaunchContext> suitable for launching
+Returns a L<Gnome::Gdk4::AppLaunchContext|/content-docs/api2/reference/Gdk4/AppLaunchContext> suitable for launching
 applications on the given display.
 
 =begin code
 method get-app-launch-context (--> N-Object )
 =end code
 
-Return value; a new B<Gnome::Gdk4::AppLaunchContext> for C<$display>. 
+Return value; a new L<Gnome::Gdk4::AppLaunchContext|/content-docs/api2/reference/Gdk4/AppLaunchContext> for C<$display>. 
 
 =begin comment
 
@@ -229,7 +229,7 @@ Return value; the display's clipboard.
 =begin pod
 =head2 get-default-seat
 
-Returns the default B<Gnome::Gdk4::Seat> for this display.
+Returns the default L<Gnome::Gdk4::Seat|/content-docs/api2/reference/Gdk4/Seat> for this display.
 
 Note that a display may not have a seat. In this case,
 this function will return undefined.
@@ -263,7 +263,7 @@ of all monitors.
 method get-monitor-at-surface ( N-Object() $surface --> N-Object )
 =end code
 
-=item $surface; a B<Gnome::Gdk4::Surface>.
+=item $surface; a L<Gnome::Gdk4::Surface|/content-docs/api2/reference/Gdk4/Surface>.
 
 Return value; the monitor with the largest
   overlap with C<$surface>. 
@@ -293,7 +293,7 @@ this list to monitor changes to the monitor of this display.
 method get-monitors (--> N-List )
 =end code
 
-Return value; a B<Gnome::Gio::R-ListModel> of B<Gnome::Gdk4::Monitor>. 
+Return value; a L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> of L<Gnome::Gdk4::Monitor|/content-docs/api2/reference/Gdk4/Monitor>. 
 
 =begin comment
 
@@ -426,7 +426,7 @@ Return value; C<True> if the display is closed..
 Returns whether surfaces can reasonably be expected to have
 their alpha channel drawn correctly on the screen.
 
-Check C<.is-rgba()>] for whether the display
+Check L<.is-rgba()|#is-rgba> for whether the display
 supports an alpha channel.
 
 On X11 this function returns whether a compositing manager is
@@ -462,7 +462,7 @@ Even if a C<True> is returned, it is possible that the
 surface’s alpha channel won’t be honored when displaying the
 surface on the screen: in particular, for X an appropriate
 windowing manager and compositing manager must be running to
-provide appropriate display. Use C<.is-composited()>]
+provide appropriate display. Use L<.is-composited()|#is-composited>
 to check if that is the case.
 
 On modern displays, this value is always C<True>.
@@ -556,7 +556,7 @@ On US keyboards, the shift key changes the keyboard level, and there
 are no groups. A group switch key might convert a keyboard between
 Hebrew to English modes, for example.
 
-B<GdkEventKey> contains a C<group> field that indicates the active
+B<GdkEventKey> contains a %group field that indicates the active
 keyboard group. The level is computed from the modifier mask.
 
 The returned array should be freed with g_free().
@@ -565,7 +565,7 @@ The returned array should be freed with g_free().
 method map-keyval ( UInt() $keyval, N-Object $keys, Array[Int] $n-keys --> Bool )
 =end code
 
-=item $keyval; a keyval, such as C<GDK_KEY_a>, C<GDK_KEY_Up>, C<GDK_KEY_Return>, etc..
+=item $keyval; a keyval, such as %GDK_KEY_a, %GDK_KEY_Up, %GDK_KEY_Return, etc..
 =item $keys; (transfer ownership: full) return location
   for an array of B<Gnome::Gdk4::N-KeymapKey>
 =item $n-keys; (transfer ownership: full) return location for number of elements in returned array.
@@ -588,9 +588,9 @@ Return value; C<True> if keys were found and returned.
 Indicates to the GUI environment that the application has
 finished loading, using a given identifier.
 
-GTK will call this function automatically for B<Gnome::Gtk4::Window>
+GTK will call this function automatically for L<Gnome::Gtk4::Window|/content-docs/api2/reference/Gtk4/Gnome>
 with custom startup-notification identifier unless
-C<.set-auto-startup-notification()> in class B<Gnome::Gtk4::Window>]
+L<.set-auto-startup-notification() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#set-auto-startup-notification>
 is called to disable that feature.
 
 =begin code
@@ -618,7 +618,7 @@ properly initialized.
 When this fails, an C<$error> will be set describing the error and this
 function returns C<False>.
 
-Note that even if this function succeeds, creating a B<Gnome::Gdk4::GLContext>
+Note that even if this function succeeds, creating a L<Gnome::Gdk4::GLContext|/content-docs/api2/reference/Gdk4/GLContext>
 may still fail.
 
 This function is idempotent. Calling it multiple times will just
@@ -661,7 +661,7 @@ and should not be used by applications.
 method put-event ( N-Object() $event )
 =end code
 
-=item $event; a B<Gnome::Gdk4::Event>.
+=item $event; a L<Gnome::Gdk4::Event|/content-docs/api2/reference/Gdk4/Event>.
 
 =begin comment
 
@@ -678,7 +678,7 @@ method put-event ( N-Object() $event )
 
 Returns C<True> if the display supports input shapes.
 
-This means that C<.set-input-region()> in class B<Gnome::Gdk4::Surface>] can
+This means that L<.set-input-region() in class Gnome|/content-docs/api2/reference/Gdk4/Gnome#set-input-region> can
 be used to modify the input shape of surfaces on C<$display>.
 
 On modern displays, this value is always C<True>.
@@ -706,8 +706,8 @@ Flushes any requests queued for the windowing system and waits until all
 requests have been handled.
 
 This is often used for making sure that the display is synchronized
-with the current state of the program. Calling C<.sync()>]
-before C<.error-trap-pop()> in class B<Gnome::Gdk4::Display>] makes sure that any errors
+with the current state of the program. Calling L<.sync()|#sync>
+before L<.error-trap-pop() in class Gnome|/content-docs/api2/reference/GdkX11/Gnome#error-trap-pop> makes sure that any errors
 generated from earlier requests are handled before the error trap is removed.
 
 This is most useful for X11. On windowing systems where requests are
@@ -850,15 +850,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gdk4::Display :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $is-error; C<True> if the display was closed due to an error.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gdk4::Display> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gdk4::Display> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -877,14 +876,13 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gdk4::Display :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gdk4::Display> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gdk4::Display> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -904,15 +902,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gdk4::Display :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $seat; the seat that was just added.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gdk4::Display> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gdk4::Display> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -932,15 +929,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gdk4::Display :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $seat; the seat that was just removed.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gdk4::Display> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gdk4::Display> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 
@@ -960,15 +956,14 @@ method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gdk4::Display :$_widget,
-  *C<user>-options
+  *%user-options
 )
 =end code
 
 =item $setting; the name of the setting that changed.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gdk4::Display> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gdk4::Display> object.
+=item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
 =begin comment
 

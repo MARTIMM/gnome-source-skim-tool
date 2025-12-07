@@ -9,7 +9,7 @@ use v6.d;
 =TITLE Gnome::Gdk4::MemoryTexture
 =head1 Description
 
-A B<Gnome::Gdk4::Texture> representing image data in memory.
+A L<Gnome::Gdk4::Texture|/content-docs/api2/reference/Gdk4/Texture> representing image data in memory.
 
 =begin comment
 
@@ -47,7 +47,7 @@ The B<Gnome::Glib::N-Bytes> must contain C<$stride> × C<$height> pixels
 in the given format.
 
 =begin code
-method new-memorytexture ( Int() $width, Int() $height, GdkMemoryFormat $format, N-Object $bytes, Int() $stride --> Gnome::Gdk4::MemoryTexture \)
+method new-memorytexture ( Int() $width, Int() $height, GdkMemoryFormat $format, N-Object $bytes, Int() $stride --> Gnome::Gdk4::MemoryTexture )
 =end code
 
 =item $width; the width of the texture.

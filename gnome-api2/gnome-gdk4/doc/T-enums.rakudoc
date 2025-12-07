@@ -16,7 +16,7 @@ use v6.d;
 
 Defines all possible DND actions.
 
-This can be used in C<.status()> in class C<Gnome::Gdk4::Drop> messages when any drop
+This can be used in L<.C<.status()> in class Gnome|/content-docs/api2/reference/Gdk4/Gnome#status> messages when any drop
 can be accepted or a more specific drop method is not yet known.
 
 =head2 GDK_MODIFIER_MASK
@@ -52,9 +52,18 @@ X and Y are present as axes depends on the GDK backend.
 =item C<GDK_AXIS_SLIDER>; the axis is used for pen slider information
 =item C<GDK_AXIS_LAST>; a constant equal to the numerically highest axis value.
 
+=head2 GdkDmabufError
+
+Error enumeration for L<Gnome::Gdk4::DmabufTexture|/content-docs/api2/reference/Gdk4/DmabufTexture>.
+=item C<GDK_DMABUF_ERROR_NOT_AVAILABLE>; Dmabuf support is not available, because the OS
+  is not Linux, or it was explicitly disabled at compile- or runtime
+=item C<GDK_DMABUF_ERROR_UNSUPPORTED_FORMAT>; The requested format is not supported
+=item C<GDK_DMABUF_ERROR_CREATION_FAILED>; GTK failed to create the resource for other
+  reasons
+
 =head2 GdkGLError
 
-Error enumeration for B<Gnome::Gdk4::GLContext>.
+Error enumeration for L<Gnome::Gdk4::GLContext|/content-docs/api2/reference/Gdk4/GLContext>.
 =item C<GDK_GL_ERROR_NOT_AVAILABLE>; OpenGL support is not available
 =item C<GDK_GL_ERROR_UNSUPPORTED_FORMAT>; The requested visual format is not supported
 =item C<GDK_GL_ERROR_UNSUPPORTED_PROFILE>; The requested profile is not supported
@@ -81,9 +90,9 @@ Defines the reference point of a surface and is used in B<Gnome::Gdk4::N-PopupLa
 C<enumeration GdkMemoryFormat defined in Gnome::Gdk4::T-enums> describes formats that image data can have in memory.
 
 It describes formats by listing the contents of the memory passed to it.
-So GDK_MEMORY_A8R8G8B8 will be 1 byte (8 bits) of alpha, followed by a
+So B<GDK_MEMORY_A8R8G8B8> will be 1 byte (8 bits) of alpha, followed by a
 byte each of red, green and blue. It is not endian-dependent, so
-CAIRO_FORMAT_ARGB32 is represented by different B<GdkMemoryFormats>
+B<CAIRO_FORMAT_ARGB32> is represented by different B<GdkMemoryFormats>
 on architectures with different endiannesses.
 
 Its naming is modelled after
@@ -101,31 +110,42 @@ for details).
 =item C<GDK_MEMORY_A8B8G8R8>; 4 bytes; for alpha, blue, green, red.
 =item C<GDK_MEMORY_R8G8B8>; 3 bytes; for red, green, blue. The data is opaque.
 =item C<GDK_MEMORY_B8G8R8>; 3 bytes; for blue, green, red. The data is opaque.
-=item C<GDK_MEMORY_R16G16B16>; 3 guint16 values; for red, green, blue. Since: 4.6
-=item C<GDK_MEMORY_R16G16B16A16_PREMULTIPLIED>; 4 guint16 values; for red, green,
-  blue, alpha. The color values are premultiplied with the alpha value.
- Since: 4.6
+=item C<GDK_MEMORY_R16G16B16>; 3 guint16 values; for red, green, blue.
+=item C<GDK_MEMORY_R16G16B16A16_PREMULTIPLIED>; 4 guint16 values; for red, green, blue, alpha. The color values are
+premultiplied with the alpha value.
 =item C<GDK_MEMORY_R16G16B16A16>; 4 guint16 values; for red, green, blue, alpha.
- Since: 4.6
-=item C<GDK_MEMORY_R16G16B16_FLOAT>; 3 half-float values; for red, green, blue.
-  The data is opaque. Since: 4.6
-=item C<GDK_MEMORY_R16G16B16A16_FLOAT_PREMULTIPLIED>; 4 half-float values; for
-  red, green, blue and alpha. The color values are premultiplied with
-  the alpha value. Since: 4.6
-=item C<GDK_MEMORY_R16G16B16A16_FLOAT>; 4 half-float values; for red, green,
-  blue and alpha. Since: 4.6
-=item C<GDK_MEMORY_R32G32B32_FLOAT>; 
-=item C<GDK_MEMORY_R32G32B32A32_FLOAT_PREMULTIPLIED>; 4 float values; for
-  red, green, blue and alpha. The color values are premultiplied with
-  the alpha value. Since: 4.6
-=item C<GDK_MEMORY_R32G32B32A32_FLOAT>; 4 float values; for red, green, blue and
-  alpha. Since: 4.6
+=item C<GDK_MEMORY_R16G16B16_FLOAT>; 3 half-float values; for red, green, blue. The data is opaque.
+=item C<GDK_MEMORY_R16G16B16A16_FLOAT_PREMULTIPLIED>; 4 half-float values; for red, green, blue and alpha. The color values are
+premultiplied with the alpha value.
+=item C<GDK_MEMORY_R16G16B16A16_FLOAT>; 4 half-float values; for red, green, blue and alpha.
+=item C<GDK_MEMORY_R32G32B32_FLOAT>; 3 float values; for red, green, blue.
+=item C<GDK_MEMORY_R32G32B32A32_FLOAT_PREMULTIPLIED>; 4 float values; for red, green, blue and alpha. The color values are
+premultiplied with the alpha value.
+=item C<GDK_MEMORY_R32G32B32A32_FLOAT>; 4 float values; for red, green, blue and alpha.
+=item C<GDK_MEMORY_G8A8_PREMULTIPLIED>; 2 bytes; for grayscale, alpha. The color values are premultiplied with the
+alpha value.
+=item C<GDK_MEMORY_G8A8>; 2 bytes; for grayscale, alpha.
+=item C<GDK_MEMORY_G8>; One byte; for grayscale. The data is opaque.
+=item C<GDK_MEMORY_G16A16_PREMULTIPLIED>; 2 guint16 values; for grayscale, alpha. The color values are premultiplied
+with the alpha value.
+=item C<GDK_MEMORY_G16A16>; 2 guint16 values; for grayscale, alpha.
+=item C<GDK_MEMORY_G16>; One guint16 value; for grayscale. The data is opaque.
+=item C<GDK_MEMORY_A8>; One byte; for alpha.
+=item C<GDK_MEMORY_A16>; One guint16 value; for alpha.
+=item C<GDK_MEMORY_A16_FLOAT>; One half-float value; for alpha.
+=item C<GDK_MEMORY_A32_FLOAT>; One float value; for alpha.
+=item C<GDK_MEMORY_A8B8G8R8_PREMULTIPLIED>; 4 bytes; for alpha, blue, green, red, The color values are premultiplied with
+the alpha value.
+=item C<GDK_MEMORY_B8G8R8X8>; 4 bytes; for blue, green, red, unused.
+=item C<GDK_MEMORY_X8R8G8B8>; 4 bytes; for unused, red, green, blue.
+=item C<GDK_MEMORY_R8G8B8X8>; 4 bytes; for red, green, blue, unused.
+=item C<GDK_MEMORY_X8B8G8R8>; 4 bytes; for unused, blue, green, red.
 =item C<GDK_MEMORY_N_FORMATS>; The number of formats. This value will change as
   more formats get added, so do not rely on its concrete integer.
 
 =head2 GdkVulkanError
 
-Error enumeration for B<Gnome::Gdk4::VulkanContext>.
+Error enumeration for L<Gnome::Gdk4::VulkanContext|/content-docs/api2/reference/Gdk4/VulkanContext>.
 =item C<GDK_VULKAN_ERROR_UNSUPPORTED>; Vulkan is not supported on this backend or has not been
   compiled in.
 =item C<GDK_VULKAN_ERROR_NOT_AVAILABLE>; Vulkan support is not available on this Surface
@@ -156,7 +176,7 @@ Flags describing the current capabilities of a device/tool.
 
 =head2 GdkDragAction
 
-Used in B<Gnome::Gdk4::Drop> and B<Gnome::Gdk4::Drag> to indicate the actions that the
+Used in L<Gnome::Gdk4::Drop|/content-docs/api2/reference/Gdk4/Drop> and L<Gnome::Gdk4::Drag|/content-docs/api2/reference/Gdk4/Drag> to indicate the actions that the
 destination can and should do with the dropped data.
 
 =item C<GDK_ACTION_COPY>; Copy the data.
@@ -167,6 +187,13 @@ destination can and should do with the dropped data.
   supported on all platforms.
 =item C<GDK_ACTION_ASK>; Ask the user what to do with the data.
 
+=head2 GdkGLAPI
+
+The list of the different APIs that GdkGLContext can potentially support.
+
+=item C<GDK_GL_API_GL>; The OpenGL API
+=item C<GDK_GL_API_GLES>; The OpenGL ES API
+
 =head2 GdkModifierType
 
 Flags to indicate the state of modifier keys and mouse buttons
@@ -176,23 +203,24 @@ Typical modifier keys are Shift, Control, Meta, Super, Hyper, Alt, Compose,
 Apple, CapsLock or ShiftLock.
 
 Note that GDK may add internal values to events which include values outside
-of this enumeration. Your code should preserve and ignore them.  You can use
+of this enumeration. Your code should preserve and ignore them. You can use
 C<GDK_MODIFIER_MASK> to remove all private values.
 
+=item C<GDK_NO_MODIFIER_MASK>; No modifier.
 =item C<GDK_SHIFT_MASK>; the Shift key.
-=item C<GDK_LOCK_MASK>; a Lock key (depending on the modifier mapping of the
- X server this may either be CapsLock or ShiftLock).
+=item C<GDK_LOCK_MASK>; a Lock key (depending on the Windowing System configuration,
+   this may either be <kbd>CapsLock</kbd> or <kbd>ShiftLock</kbd>).
 =item C<GDK_CONTROL_MASK>; the Control key.
-=item C<GDK_ALT_MASK>; the fourth modifier key (it depends on the modifier
- mapping of the X server which key is interpreted as this modifier, but
- normally it is the Alt key).
+=item C<GDK_ALT_MASK>; the fourth modifier key (it depends on the Windowing System
+   configuration which key is interpreted as this modifier, but normally it
+   is the <kbd>Alt</kbd> key).
 =item C<GDK_BUTTON1_MASK>; the first mouse button.
 =item C<GDK_BUTTON2_MASK>; the second mouse button.
 =item C<GDK_BUTTON3_MASK>; the third mouse button.
 =item C<GDK_BUTTON4_MASK>; the fourth mouse button.
 =item C<GDK_BUTTON5_MASK>; the fifth mouse button.
-=item C<GDK_SUPER_MASK>; the Super modifier
-=item C<GDK_HYPER_MASK>; the Hyper modifier
-=item C<GDK_META_MASK>; the Meta modifier
+=item C<GDK_SUPER_MASK>; the Super modifier.
+=item C<GDK_HYPER_MASK>; the Hyper modifier.
+=item C<GDK_META_MASK>; the Meta modifier. Maps to Command on macOS.
 =end pod
 
