@@ -664,7 +664,7 @@ note "$?LINE $funcname, $classname, $h.gist()";
 }}
 
 ##`{{
-  my Str $sub-prefix = $*work-data<sub-prefix>;
+  my Str $sub-prefix = $*work-data<sub-prefix> // '';
   my Str $raku-name = $*work-data<raku-name>.lc;
 
   # When a local function has '_new' at the end in the text, convert it into
@@ -845,7 +845,6 @@ method !modify-rest ( Str $text is copy --> Str ) {
   my token name { [<alnum> | '_' ]+ }
   my regex name-regex { '`' <name> '`'? }
   while $text ~~ m/ <name-regex> / {
-#note "$?LINE $/.gist()";
     my Str $name = $/<name-regex><name>.Str;
     # Exception when external like cairo_t is used
     if $name ~~ m/ cairo [ '_' <alnum>+ ]? '_t' '*'? / {
@@ -854,13 +853,13 @@ method !modify-rest ( Str $text is copy --> Str ) {
 
     else {
       my Hash $h = $!solve.search-name($name);
-#note "$?LINE $name, gir-type: ", $h<gir-type>//'-';
       if ?$h {
         my Str $classname = $!solve.set-object-name($h);
-#note "$?LINE $classname";
         given $h<gir-type> {
           when 'class' {
-            if $classname eq $*work-data<raku-class-name> {
+            if $*work-data<raku-class-name>:exists and
+               $classname eq $*work-data<raku-class-name>
+            {
               $text ~~ s/ <name-regex> /B<$classname>/;
             }
 
@@ -874,7 +873,9 @@ method !modify-rest ( Str $text is copy --> Str ) {
           }
 
           when 'interface' {
-            if $classname eq $*work-data<raku-class-name> {
+            if $*work-data<raku-class-name>:exists and
+               $classname eq $*work-data<raku-class-name>
+            {
               $text ~~ s/ <name-regex> /B<$classname>/;
             }
 

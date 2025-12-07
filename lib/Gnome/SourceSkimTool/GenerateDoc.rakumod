@@ -132,7 +132,7 @@ note "$?LINE doc $!filedata<record>.keys()";
 
 #  my Bool $first = True;
   my Hash $types-doc = %();
-#  my Gnome::SourceSkimTool::Prepare $t-prep; # .= new;
+  my Gnome::SourceSkimTool::Prepare $t-prep .= new;
   for $!filedata.keys.sort -> $gir-type {
     # Records and unions must be seen here to generate a type file when
     # only one of those are available
@@ -153,11 +153,6 @@ note "$?LINE doc $!filedata<record>.keys()";
     $data<package-name> = $*work-data<raku-package>;
 
     $*gnome-class = $data<type-name>;
-#    $t-prep .= new unless ?$t-prep;
-
-    $data<package-name> = $*work-data<raku-package>;
-#$t-prep.display-hash( $data, :label('type file data'));
-#note "$?LINE $gir-type, $*work-data<raku-package>";
 
 #    my Str $type-name = $data<type-name>;
 #    my Str $prefix = $*work-data<name-prefix>;
@@ -167,6 +162,7 @@ note "$?LINE doc $!filedata<record>.keys()";
 #      %( :type-name($*work-data<raku-name>), :type-letter<T>),
 #      :name-type(FilenameDocType)
 #    );
+
     $filename = $!solve.set-object-name( $data, :name-type(FilenameDocType));
     $class-name = $!solve.set-object-name($data);
 #    $class-name = $!solve.set-object-name(
@@ -175,13 +171,12 @@ note "$?LINE doc $!filedata<record>.keys()";
     #$data<class-name>;
 #    $class-name ~~ s:i/ '::T-' $prefix /::T-/;
     $!mod.add-import($class-name);
-#note "$?LINE $filename";
 
     given $gir-type {
+note "$?LINE $gir-type";
       when 'constant' {
         my @constants = ();
         for $!filedata<constant>.kv -> $k, $v {
-#          my Str $name = $k; # $t-prep.drop-prefix( $k, :constant);
           @constants.push: $k; #( $name, $v<constant-type>, $v<constant-value>);
         }
 
