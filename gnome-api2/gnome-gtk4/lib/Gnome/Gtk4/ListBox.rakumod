@@ -79,7 +79,7 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   append => %(:is-symbol<gtk_list_box_append>, :parameters([N-Object]), ),
-  bind-model => %(:is-symbol<gtk_list_box_bind_model>, :parameters([N-Object, :( gpointer $item, gpointer $user-data ), gpointer, :( gpointer $data )]), ),
+  bind-model => %(:is-symbol<gtk_list_box_bind_model>, :parameters([N-Object, :( N-Object $item, gpointer $user-data ), gpointer, :( gpointer $data )]), ),
   drag-highlight-row => %(:is-symbol<gtk_list_box_drag_highlight_row>, :parameters([N-Object]), ),
   drag-unhighlight-row => %(:is-symbol<gtk_list_box_drag_unhighlight_row>, ),
   get-activate-on-single-click => %(:is-symbol<gtk_list_box_get_activate_on_single_click>, :returns(gboolean), :cnv-return(Bool), ),

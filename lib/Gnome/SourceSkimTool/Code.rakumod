@@ -1559,12 +1559,14 @@ method generate-role-init ( XML::Element $element, XML::XPath $xpath --> Str ) {
 
   # Check if signal admin is needed
   my Hash $sig-info = self.signals( $element, $xpath);
-  if ?$sig-info<doc> {
+$*work-data<finit>( $sig-info, :label<sig-info>);
+
+  if ?$sig-info {
 #:w3<move-cursor>, :w0<copy-clipboard activate-current-link>,
 #:w1<populate-popup activate-link>,
     my Hash $signal-levels = %();
-    for $sig-info<signals>.keys -> $signal-name {
-      my Str $level = $sig-info<signals>{$signal-name}<parameters>.elems.Str;
+    for $sig-info.keys -> $signal-name {
+      my Str $level = $sig-info{$signal-name}<parameters>.elems.Str;
       $signal-levels{$level} = [] unless $signal-levels{$level}:exists;
       $signal-levels{$level}.push: $signal-name;
     }

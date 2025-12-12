@@ -9,7 +9,6 @@ use NativeCall;
 
 
 
-
 use Gnome::Gtk4::N-Bitset:api<2>;
 use Gnome::Gtk4::T-types:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -23,6 +22,12 @@ use Gnome::N::NativeLib:api<2>;
 #-------------------------------------------------------------------------------
 
 unit role Gnome::Gtk4::R-SelectionModel:auth<github:MARTIMM>:api<2>;
+
+method _add_gtk_selection_model_signal_types ( Str $class-name ) {
+  self.add-signal-types( $class-name,
+    :w1<selection-changed>,
+  );
+}
 
 
 #-------------------------------------------------------------------------------
