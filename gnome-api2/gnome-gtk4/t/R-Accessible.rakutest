@@ -10,9 +10,10 @@ use NativeCall;
 use Test;
 
 
-
 use Gnome::GObject::N-Value:api<2>;
 use Gnome::GObject::T-value:api<2>;
+
+use Gnome::Gtk4::StackPage:api<2>;
 #use Gnome::Gtk4::Accessible:api<2>;
 use Gnome::Gtk4::T-accessible:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
@@ -30,31 +31,33 @@ unless %*ENV<raku_test_all>:exists {
   exit;
 }
 
+my Gnome::Gtk4::StackPage $r-accessible .= new;
+
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $r-accessible {
     my gint $n-states;
-    my GtkAccessibleState $first-state;
+#    my GtkAccessibleState $first-state;
     my N-Object $parent;
-    my GtkAccessibleRelation $relations;
-    my GtkAccessibleState $states;
-    my GtkAccessibleProperty $first-property;
+#    my GtkAccessibleRelation $relations;
+#    my GtkAccessibleState $states;
+#    my GtkAccessibleProperty $first-property;
     my gint-ptr $x;
     my N-Object $values;
     my gint-ptr $width;
     my Str $message;
-    my GtkAccessibleRelation $relation;
+#    my GtkAccessibleRelation $relation;
     my N-Object $next-sibling;
     my N-Object $new-sibling;
-    my GtkAccessibleProperty $property;
+#    my GtkAccessibleProperty $property;
     my gint-ptr $height;
-    my GtkAccessibleRelation $first-relation;
+#    my GtkAccessibleRelation $first-relation;
     my gint $n-relations;
-    my GtkAccessibleProperty $properties;
-    my GtkAccessibleAnnouncementPriority $priority;
+#    my GtkAccessibleProperty $properties;
+#    my GtkAccessibleAnnouncementPriority $priority;
     my gint-ptr $y;
     my gint $n-properties;
-    my GtkAccessibleState $state;
+#    my GtkAccessibleState $state;
 
 
 #`{{
