@@ -91,6 +91,9 @@ find . -name '*.raku*' | xargs wc -l
 * [x] Improve documentation.
 
 # Release notes
+* 2025-12-14
+  * Found a huge bug. Somewhere in the past, signals delivered by roles were not available anymore. Must have been some "improvement" in data structures. Need to check every role now …
+
 * 2025-06-29
   * Program to get version of current generation. When the information is retrieved from the GIR XML files, the program `bin/versions.raku` is run to generate a program `version-of.raku` and is stored in the Gtk3 and Gtk4 bin directory. That program is then published together with the installation of the `Gnome::Gtk3` and `Gnome::Gtk4` packages. Examples of use;
     ```
