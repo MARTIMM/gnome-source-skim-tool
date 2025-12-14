@@ -9,7 +9,6 @@ use NativeCall;
 
 
 
-
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -21,6 +20,13 @@ use Gnome::N::NativeLib:api<2>;
 #-------------------------------------------------------------------------------
 
 unit role Gnome::Gtk4::R-CellEditable:auth<github:MARTIMM>:api<2>;
+
+#TM:1:_add_gtk_cell_editable_signal_types:
+method _add_gtk_cell_editable_signal_types ( Str $class-name ) {
+  self.add-signal-types( $class-name,
+    :w0<editing-done remove-widget>,
+  );
+}
 
 
 #-------------------------------------------------------------------------------

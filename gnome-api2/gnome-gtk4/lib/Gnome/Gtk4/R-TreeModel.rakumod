@@ -26,6 +26,15 @@ use Gnome::N::NativeLib:api<2>;
 
 unit role Gnome::Gtk4::R-TreeModel:auth<github:MARTIMM>:api<2>;
 
+#TM:1:_add_gtk_tree_model_signal_types:
+method _add_gtk_tree_model_signal_types ( Str $class-name ) {
+  self.add-signal-types( $class-name,
+    :w1<row-deleted>,
+    :w2<row-has-child-toggled row-changed row-inserted>,
+    :w3<rows-reordered>,
+  );
+}
+
 
 #-------------------------------------------------------------------------------
 #--[Native Routine Definitions]-------------------------------------------------

@@ -9,7 +9,6 @@ use NativeCall;
 
 
 
-
 use Gnome::Gtk4::N-TreeIter:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::Gtk4::T-treemodel:api<2>;
@@ -24,6 +23,13 @@ use Gnome::N::NativeLib:api<2>;
 #-------------------------------------------------------------------------------
 
 unit role Gnome::Gtk4::R-TreeSortable:auth<github:MARTIMM>:api<2>;
+
+#TM:1:_add_gtk_tree_sortable_signal_types:
+method _add_gtk_tree_sortable_signal_types ( Str $class-name ) {
+  self.add-signal-types( $class-name,
+    :w0<sort-column-changed>,
+  );
+}
 
 
 #-------------------------------------------------------------------------------

@@ -25,7 +25,7 @@ unit role Gnome::Gtk4::R-SelectionModel:auth<github:MARTIMM>:api<2>;
 
 method _add_gtk_selection_model_signal_types ( Str $class-name ) {
   self.add-signal-types( $class-name,
-    :w1<selection-changed>,
+    :w2<selection-changed>,
   );
 }
 

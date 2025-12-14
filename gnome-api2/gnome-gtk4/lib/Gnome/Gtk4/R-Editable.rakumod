@@ -9,7 +9,6 @@ use NativeCall;
 
 
 
-
 use Gnome::GObject::N-Value:api<2>;
 use Gnome::GObject::T-value:api<2>;
 use Gnome::Gtk4::T-accessible:api<2>;
@@ -24,6 +23,15 @@ use Gnome::N::NativeLib:api<2>;
 #-------------------------------------------------------------------------------
 
 unit role Gnome::Gtk4::R-Editable:auth<github:MARTIMM>:api<2>;
+
+#TM:1:_add_gtk_editable_signal_types:
+method _add_gtk_editable_signal_types ( Str $class-name ) {
+  self.add-signal-types( $class-name,
+    :w0<changed>,
+    :w2<delete-text>,
+    :w3<insert-text>,
+  );
+}
 
 
 #-------------------------------------------------------------------------------

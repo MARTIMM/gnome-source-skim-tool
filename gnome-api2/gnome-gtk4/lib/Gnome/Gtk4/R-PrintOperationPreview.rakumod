@@ -9,7 +9,6 @@ use NativeCall;
 
 
 
-
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -21,6 +20,14 @@ use Gnome::N::NativeLib:api<2>;
 #-------------------------------------------------------------------------------
 
 unit role Gnome::Gtk4::R-PrintOperationPreview:auth<github:MARTIMM>:api<2>;
+
+#TM:1:_add_gtk_print_operation_preview_signal_types:
+method _add_gtk_print_operation_preview_signal_types ( Str $class-name ) {
+  self.add-signal-types( $class-name,
+    :w1<ready>,
+    :w2<got-page-size>,
+  );
+}
 
 
 #-------------------------------------------------------------------------------

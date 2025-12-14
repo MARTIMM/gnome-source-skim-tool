@@ -9,7 +9,6 @@ use NativeCall;
 
 
 
-
 use Gnome::Gdk4::N-RGBA:api<2>;
 use Gnome::Gdk4::T-rgba:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
@@ -25,6 +24,13 @@ use Gnome::N::NativeLib:api<2>;
 
 unit role Gnome::Gtk4::R-ColorChooser:auth<github:MARTIMM>:api<2>;
 
+#TM:1:_add_gtk_color_chooser_signal_types:
+method _add_gtk_color_chooser_signal_types ( Str $class-name ) {
+  self.add-signal-types( $class-name,
+    :w1<color-activated>,
+  );
+}
+
 
 #-------------------------------------------------------------------------------
 #--[Native Routine Definitions]-------------------------------------------------
@@ -35,7 +41,7 @@ my Hash $methods = %(
   #--[Methods]------------------------------------------------------------------
   add-palette => %(:is-symbol<gtk_color_chooser_add_palette>, :parameters([GEnum, gint, gint, N-Object]), :deprecated, :deprecated-version<4.10>, ),
   get-rgba => %(:is-symbol<gtk_color_chooser_get_rgba>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
-  get-use-alpha => %(:is-symbol<gtk_color_chooser_get_use_alpha>, :returns(gboolean), :deprecated, :deprecated-version<4.10>, ),
+  get-use-alpha => %(:is-symbol<gtk_color_chooser_get_use_alpha>, :returns(gboolean), :cnv-return(Bool), :deprecated, :deprecated-version<4.10>, ),
   set-rgba => %(:is-symbol<gtk_color_chooser_set_rgba>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
   set-use-alpha => %(:is-symbol<gtk_color_chooser_set_use_alpha>, :parameters([gboolean]), :deprecated, :deprecated-version<4.10>, ),
 );
