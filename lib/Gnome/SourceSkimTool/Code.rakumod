@@ -1552,21 +1552,15 @@ method signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 
 #-------------------------------------------------------------------------------
 method generate-role-init ( XML::Element $element, XML::XPath $xpath --> Str ) {
-#  my Str $ctype = $element.attribs<c:type>;
-#  my Hash $h = $!solve.search-name($ctype);
-
   my Str $code = '';
 
   # Check if signal admin is needed
   my Hash $sig-info = self.signals( $element, $xpath);
-$*work-data<finit>( $sig-info, :label<sig-info>);
 
   if ?$sig-info {
-#:w3<move-cursor>, :w0<copy-clipboard activate-current-link>,
-#:w1<populate-popup activate-link>,
     my Hash $signal-levels = %();
     for $sig-info.keys -> $signal-name {
-      my Str $level = $sig-info{$signal-name}<parameters>.elems.Str;
+      my Str $level = $sig-info{$signal-name}<level>;
       $signal-levels{$level} = [] unless $signal-levels{$level}:exists;
       $signal-levels{$level}.push: $signal-name;
     }
@@ -1581,8 +1575,8 @@ $*work-data<finit>( $sig-info, :label<sig-info>);
 
     my Str $role-ini-method-name =
       "_add_$*work-data<sub-prefix>signal_types";
-#TM:1:$role-ini-method-name:
     $code ~= qq:to/EOBUILD/;
+      #TM:1:$role-ini-method-name:
       method $role-ini-method-name ( Str \$class-name ) \{
         self\.add-signal-types\( \$class-name,
       $sig-list  );
@@ -1590,12 +1584,6 @@ $*work-data<finit>( $sig-info, :label<sig-info>);
 
       EOBUILD
   }
-
-#  $code ~= qq:to/RAKUMOD/;
-#
-#    {pod-header('Native Routine Definitions');}
-#    my Hash \$methods = \%\(
-#    RAKUMOD
 
   $code
 }
