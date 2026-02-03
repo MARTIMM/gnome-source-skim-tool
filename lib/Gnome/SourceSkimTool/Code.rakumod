@@ -2292,11 +2292,13 @@ method save-file ( Str $filename is copy, Str $content is copy, Str $comment ) {
     }
 
     elsif $*generate-doc {
-      $protect = $!protected-files<d>.first($checkfname).Bool;
+      # Now always protect doc files
+      $protect = True; #$!protected-files<d>.first($checkfname).Bool;
     }
 
     elsif $*generate-test {
-      $protect = $!protected-files<t>.first($checkfname).Bool;
+      # Now always protect test files
+      $protect = True; #$!protected-files<t>.first($checkfname).Bool;
     }
 
     my Str $a;
@@ -2317,11 +2319,11 @@ method save-file ( Str $filename is copy, Str $content is copy, Str $comment ) {
     }
 
     given $a.lc {
-      when 'o' {
+      when 'o' { # o - overwrite
         $save-it = !$protect and True;
       }
 
-      when 'v' {
+      when 'v' { # v - version
         my $f = $filename;
         my Int $v = 1;
         $filename ~= ";$v";
@@ -2333,7 +2335,7 @@ method save-file ( Str $filename is copy, Str $content is copy, Str $comment ) {
         $save-it = True;
       }
 
-      # when 's'
+      # when 's' # s - skip
       default {
         $save-it = False;
       }
