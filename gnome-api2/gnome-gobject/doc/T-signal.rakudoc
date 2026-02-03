@@ -1,0 +1,1215 @@
+=comment Package: GObject, C-Source: signal
+use v6.d;
+
+=begin pod
+=TITLE Gnome::GObject::T-signal
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-SignalInvocationHint
+
+  class N-SignalInvocationHint:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has guint $.signal-id;
+    has GQuark $.detail;
+    has GFlag $.run-type;           # GSignalFlags _UA_
+  }
+
+=item signal-id; The signal id of the signal invoking the callback
+=item detail; The detail passed on for this emission
+=item run-type; The stage the signal emission is currently in, this
+ field will contain one of C<G_SIGNAL_RUN_FIRST>,
+ C<G_SIGNAL_RUN_LAST> or C<G_SIGNAL_RUN_CLEANUP> and C<G_SIGNAL_ACCUMULATOR_FIRST_RUN>.
+ C<G_SIGNAL_ACCUMULATOR_FIRST_RUN> is only set for the first run of the accumulator
+ function for a signal emission.. Enumeration of type GSignalFlags _UA_.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-SignalQuery
+
+  class N-SignalQuery:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has guint $.signal-id;
+    has Str $.signal-name;
+    has GType $.itype;
+    has GFlag $.signal-flags;           # GSignalFlags _UA_
+    has GType $.return-type;
+    has guint $.n-params;
+    has  $.param-types;
+  }
+
+=item signal-id; The signal id of the signal being queried, or 0 if the
+ signal to be queried was unknown.
+=item signal-name; The signal name.
+=item itype; The interface/instance type that this signal can be emitted for.
+=item signal-flags; The signal flags as passed in to g_signal_new().. Enumeration of type GSignalFlags _UA_.
+=item return-type; The return type for user callbacks.
+=item n-params; The number of parameters that user callbacks take.
+=item param-types; The individual parameter types for
+ user callbacks, note that the effective callback signature is:
+ 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Constants]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Constants
+
+=head2 G_SIGNAL_FLAGS_MASK
+
+A mask for all B<Gnome::GObject::T-signal> bits.
+
+=head2 G_SIGNAL_MATCH_MASK
+
+A mask for all B<Gnome::GObject::T-signal> bits.
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Bitfields
+
+=head2 GConnectFlags
+
+The connection flags are used to specify the behaviour of a signal's
+connection.
+
+=item C<G_CONNECT_DEFAULT>; Default behaviour (no special flags). Since: 2.74
+=item C<G_CONNECT_AFTER>; If set, the handler should be called after the
+ default handler of the signal. Normally, the handler is called before
+ the default handler.
+=item C<G_CONNECT_SWAPPED>; If set, the instance and data should be swapped when
+ calling the handler; see g_signal_connect_swapped() for an example.
+
+=head2 GSignalFlags
+
+The signal flags are used to specify a signal's behaviour.
+
+=item C<G_SIGNAL_RUN_FIRST>; Invoke the object method handler in the first emission stage.
+=item C<G_SIGNAL_RUN_LAST>; Invoke the object method handler in the third emission stage.
+=item C<G_SIGNAL_RUN_CLEANUP>; Invoke the object method handler in the last emission stage.
+=item C<G_SIGNAL_NO_RECURSE>; Signals being emitted for an object while currently being in
+ emission for this very object will not be emitted recursively,
+ but instead cause the first emission to be restarted.
+=item C<G_SIGNAL_DETAILED>; This signal supports "::detail" appendices to the signal name
+ upon handler connections and emissions.
+=item C<G_SIGNAL_ACTION>; Action signals are signals that may freely be emitted on alive
+ objects from user code via g_signal_emit() and friends, without
+ the need of being embedded into extra code that performs pre or
+ post emission adjustments on the object. They can also be thought
+ of as object methods which can be called generically by
+ third-party code.
+=item C<G_SIGNAL_NO_HOOKS>; No emissions hooks are supported for this signal.
+=item C<G_SIGNAL_MUST_COLLECT>; Varargs signal emission will always collect the
+  arguments, even if there are no signal handlers connected.  Since 2.30.
+=item C<G_SIGNAL_DEPRECATED>; The signal is deprecated and will be removed
+  in a future version. A warning will be generated if it is connected while
+  running with G_ENABLE_DIAGNOSTIC=1.  Since 2.32.
+=item C<G_SIGNAL_ACCUMULATOR_FIRST_RUN>; Only used in B<Gnome::GObject::T-signal> accumulator
+  functions for the  I<run_type> defined in C<Gnome::GObject::SignalQuery> field to mark the first
+  call to the accumulator function for a signal emission.  Since 2.68.
+
+=head2 GSignalMatchType
+
+The match types specify what g_signal_handlers_block_matched(),
+g_signal_handlers_unblock_matched() and g_signal_handlers_disconnect_matched()
+match signals by.
+
+=item C<G_SIGNAL_MATCH_ID>; The signal id must be equal.
+=item C<G_SIGNAL_MATCH_DETAIL>; The signal detail must be equal.
+=item C<G_SIGNAL_MATCH_CLOSURE>; The closure must be the same.
+=item C<G_SIGNAL_MATCH_FUNC>; The C closure callback must be the same.
+=item C<G_SIGNAL_MATCH_DATA>; The closure data must be the same.
+=item C<G_SIGNAL_MATCH_UNBLOCKED>; Only unblocked signals may be matched.
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Callback Functions]---------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Callback Functions
+=head2 SignalEmissionHook
+
+=head3 Signature
+=begin code
+:(  Array[Int] $ihint, UInt() $n-param-values, N-Object $param-values, gpointer $data  )
+=end code
+
+=item $ihint; Signal invocation hint, see B<Gnome::GObject::T-signal>.
+=item $n-param-values; the number of parameters to the function, including
+ the instance on which the signal was emitted.
+=item $param-values; the instance on which
+ the signal was emitted, followed by the parameters of the emission.
+=item $data; user data associated with the hook.
+
+=head2 SignalAccumulator
+
+=head3 Signature
+=begin code
+:(  Array[Int] $ihint, N-Object $return-accu, N-Object $handler-return, gpointer $data  )
+=end code
+
+=item $ihint; Signal invocation hint, see B<Gnome::GObject::T-signal>.
+=item $return-accu; Accumulator to collect callback return values in, this
+ is the return value of the current signal emission.
+=item $handler-return; A B<Gnome::GObject::N-Value> holding the return value of the signal handler.
+=item $data; Callback data that was specified when creating the signal.
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 clear-signal-handler
+
+Disconnects a handler from C<$instance> so it will not be called during
+any future or currently ongoing emissions of the signal it has been
+connected to. The C<$handler-id-ptr> is then set to zero, which is never a valid handler ID value (see g_signal_connect()).
+
+If the handler ID is 0 then this function does nothing.
+
+There is also a macro version of this function so that the code
+will be inlined.
+
+=begin code
+method clear-signal-handler ( …, gpointer $instance )
+=end code
+
+=item handler-id-ptr; A pointer to a handler ID (of type #gulong) of the handler to be disconnected.. Note that each argument must be specified as a type followed by its value!
+=item $instance; The instance to remove the signal handler from.
+  This pointer may be undefined or invalid, if the handler ID is zero..
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::GObject::SignalQuery
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-accumulator-first-wins
+
+A predefined B<Gnome::GObject::T-signal> for signals intended to be used as a
+hook for application code to provide a particular value.  Usually
+only one such value is desired and multiple handlers for the same
+signal don't make much sense (except for the case of the default
+handler defined in the class structure, in which case you will
+usually want the signal connection to override the class handler).
+
+This accumulator will use the return value from the first signal
+handler that is run as the return value for the signal and not run
+any further handlers (ie: the first handler "wins").
+
+=begin code
+method signal-accumulator-first-wins ( Array[Int] $ihint, N-Object $return-accu, N-Object $handler-return, gpointer $dummy --> Bool )
+=end code
+
+=item $ihint; standard B<Gnome::GObject::T-signal> parameter.
+=item $return-accu; standard B<Gnome::GObject::T-signal> parameter
+=item $handler-return; standard B<Gnome::GObject::T-signal> parameter
+=item $dummy; standard B<Gnome::GObject::T-signal> parameter.
+
+Return value; standard B<Gnome::GObject::T-signal> result. 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-accumulator-true-handled
+
+A predefined B<Gnome::GObject::T-signal> for signals that return a
+boolean values. The behavior that this accumulator gives is
+that a return of C<True> stops the signal emission: no further
+callbacks will be invoked, while a return of C<False> allows
+the emission to continue. The idea here is that a C<True> return
+indicates that the callback handled the signal, and no further
+handling is needed.
+
+=begin code
+method signal-accumulator-true-handled ( Array[Int] $ihint, N-Object $return-accu, N-Object $handler-return, gpointer $dummy --> Bool )
+=end code
+
+=item $ihint; standard B<Gnome::GObject::T-signal> parameter.
+=item $return-accu; standard B<Gnome::GObject::T-signal> parameter
+=item $handler-return; standard B<Gnome::GObject::T-signal> parameter
+=item $dummy; standard B<Gnome::GObject::T-signal> parameter.
+
+Return value; standard B<Gnome::GObject::T-signal> result. 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-add-emission-hook
+
+Adds an emission hook for a signal, which will get called for any emission
+of that signal, independent of the instance. This is possible only
+for signals which don't have C<G_SIGNAL_NO_HOOKS> flag set.
+
+=begin code
+method signal-add-emission-hook ( UInt() $signal-id, UInt $detail, GSignalEmissionHook &hook-func, gpointer $hook-data, GDestroyNotify &data-destroy --> UInt )
+=end code
+
+=item $signal-id; the signal identifier, as returned by g_signal_lookup()..
+=item $detail; the detail on which to call the hook..
+=item GSignalEmissionHook &hook-func; a B<Gnome::GObject::T-signal> function.. The function must be specified with the following signature; C<:( gint-ptr $ihint, guint $n-param-values, N-Object $param-values, gpointer $data )>.
+=item $hook-data; user data for C<$hook-func>..
+=item GDestroyNotify &data-destroy; a B<Gnome::Glib::T-types> for C<$hook-data>.. The function must be specified with the following signature; C<:( gpointer $data )>.
+
+Return value; the hook id, for later use with g_signal_remove_emission_hook().. 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-chain-from-overridden
+
+Calls the original class closure of a signal. This function should only
+be called from an overridden class closure; see
+g_signal_override_class_closure() and
+g_signal_override_class_handler().
+
+=begin code
+method signal-chain-from-overridden ( N-Object $instance-and-params, N-Object $return-value )
+=end code
+
+=item $instance-and-params; the argument list of the signal emission.
+ The first element in the array is a B<Gnome::GObject::N-Value> for the instance the signal
+ is being emitted on. The rest are any arguments to be passed to the signal.
+=item $return-value; Location for the return value.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-chain-from-overridden-handler
+
+Calls the original class closure of a signal. This function should
+only be called from an overridden class closure; see
+g_signal_override_class_closure() and
+g_signal_override_class_handler().
+
+=begin code
+method signal-chain-from-overridden-handler ( gpointer $instance, … )
+=end code
+
+=item $instance; the instance the signal is being
+   emitted on..
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-connect-closure
+
+Connects a closure to a signal for a particular object.
+
+If C<$closure> is a floating reference (see g_closure_sink()), this function
+takes ownership of C<$closure>.
+
+=begin code
+method signal-connect-closure ( gpointer $instance, Str $detailed-signal, N-Object $closure, Bool() $after --> UInt )
+=end code
+
+=item $instance; the instance to connect to..
+=item $detailed-signal; a string of the form "signal-name::detail"..
+=item $closure; the closure to connect.
+=item $after; whether the handler should be called before or after the
+ default handler of the signal..
+
+Return value; the handler ID (always greater than 0 for successful connections). 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-connect-closure-by-id
+
+Connects a closure to a signal for a particular object.
+
+If C<$closure> is a floating reference (see g_closure_sink()), this function
+takes ownership of C<$closure>.
+
+=begin code
+method signal-connect-closure-by-id ( gpointer $instance, UInt() $signal-id, UInt $detail, N-Object $closure, Bool() $after --> UInt )
+=end code
+
+=item $instance; the instance to connect to..
+=item $signal-id; the id of the signal..
+=item $detail; the detail..
+=item $closure; the closure to connect.
+=item $after; whether the handler should be called before or after the
+ default handler of the signal..
+
+Return value; the handler ID (always greater than 0 for successful connections). 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-connect-data
+
+Connects a B<Gnome::GObject::T-closure> function to a signal for a particular object. Similar
+to g_signal_connect(), but allows to provide a B<Gnome::GObject::T-closure> for the data
+which will be called when the signal handler is disconnected and no longer
+used. Specify C<$connect-flags> if you need `..._after()` or
+`..._swapped()` variants of this function.
+
+=begin code
+method signal-connect-data ( gpointer $instance, Str $detailed-signal, GCallback &c-handler, gpointer $data, GClosureNotify &destroy-data, UInt $connect-flags --> UInt )
+=end code
+
+=item $instance; the instance to connect to..
+=item $detailed-signal; a string of the form "signal-name::detail"..
+=item GCallback &c-handler; the B<Gnome::GObject::T-closure> to connect.. The function must be specified with the following signature; C<:( )>.
+=item $data; data to pass to C<$c-handler> calls..
+=item GClosureNotify &destroy-data; a B<Gnome::GObject::T-closure> for C<$data>.. The function must be specified with the following signature; C<:( gpointer $data, N-Object $closure )>.
+=item $connect-flags; a combination of B<Gnome::GObject::T-signal>..
+
+Return value; the handler ID (always greater than 0 for successful connections). 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-emit
+
+Emits a signal. Signal emission is done synchronously.
+The method will only return control after all handlers are called or signal emission was stopped.
+
+Note that g_signal_emit() resets the return value to the default
+if no handlers are connected, in contrast to g_signal_emitv().
+
+=begin code
+method signal-emit ( gpointer $instance, UInt() $signal-id, UInt $detail, … )
+=end code
+
+=item $instance; the instance the signal is being emitted on..
+=item $signal-id; the signal id.
+=item $detail; the detail.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-emit-by-name
+
+Emits a signal. Signal emission is done synchronously.
+The method will only return control after all handlers are called or signal emission was stopped.
+
+Note that g_signal_emit_by_name() resets the return value to the default
+if no handlers are connected, in contrast to g_signal_emitv().
+
+=begin code
+method signal-emit-by-name ( gpointer $instance, Str $detailed-signal, … )
+=end code
+
+=item $instance; the instance the signal is being emitted on..
+=item $detailed-signal; a string of the form "signal-name::detail"..
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-emit-valist
+
+Emits a signal. Signal emission is done synchronously.
+The method will only return control after all handlers are called or signal emission was stopped.
+
+Note that g_signal_emit_valist() resets the return value to the default
+if no handlers are connected, in contrast to g_signal_emitv().
+
+=begin code
+method signal-emit-valist ( gpointer $instance, UInt() $signal-id, UInt $detail, … )
+=end code
+
+=item $instance; the instance the signal is being
+   emitted on..
+=item $signal-id; the signal id.
+=item $detail; the detail.
+=item var-args; a list of parameters to be passed to the signal, followed by a
+ location for the return value. If the return type of the signal
+ is C<G_TYPE_NONE>, the return value location can be omitted.. Note that each argument must be specified as a type followed by its value!
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-emitv
+
+Emits a signal. Signal emission is done synchronously.
+The method will only return control after all handlers are called or signal emission was stopped.
+
+Note that g_signal_emitv() doesn't change C<$return-value> if no handlers are
+connected, in contrast to g_signal_emit() and g_signal_emit_valist().
+
+=begin code
+method signal-emitv ( N-Object $instance-and-params, UInt() $signal-id, UInt $detail, N-Object $return-value )
+=end code
+
+=item $instance-and-params; argument list for the signal emission.
+ The first element in the array is a B<Gnome::GObject::N-Value> for the instance the signal
+ is being emitted on. The rest are any arguments to be passed to the signal.
+=item $signal-id; the signal id.
+=item $detail; the detail.
+=item $return-value; (transfer ownership: full) Location to
+store the return value of the signal emission. This must be provided if the
+specified signal returns a value, but may be ignored otherwise.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-get-invocation-hint
+
+Returns the invocation hint of the innermost signal emission of instance.
+
+=begin code
+method signal-get-invocation-hint ( gpointer $instance --> Array[Int] )
+=end code
+
+=item $instance; the instance to query.
+
+Return value; the invocation hint of the innermost
+    signal emission, or undefined if not found.. 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-handler-block
+
+Blocks a handler of an instance so it will not be called during any
+signal emissions unless it is unblocked again. Thus "blocking" a
+signal handler means to temporarily deactivate it, a signal handler
+has to be unblocked exactly the same amount of times it has been
+blocked before to become active again.
+
+The C<$handler-id> has to be a valid signal handler id, connected to a
+signal of C<$instance>.
+
+=begin code
+method signal-handler-block ( gpointer $instance, UInt() $handler-id )
+=end code
+
+=item $instance; The instance to block the signal handler of..
+=item $handler-id; Handler id of the handler to be blocked..
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-handler-disconnect
+
+Disconnects a handler from an instance so it will not be called during
+any future or currently ongoing emissions of the signal it has been
+connected to. The C<$handler-id> becomes invalid and may be reused.
+
+The C<$handler-id> has to be a valid signal handler id, connected to a
+signal of C<$instance>.
+
+=begin code
+method signal-handler-disconnect ( gpointer $instance, UInt() $handler-id )
+=end code
+
+=item $instance; The instance to remove the signal handler from..
+=item $handler-id; Handler id of the handler to be disconnected..
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-handler-find
+
+Finds the first signal handler that matches certain selection criteria.
+The criteria mask is passed as an OR-ed combination of B<Gnome::GObject::T-signal>
+flags, and the criteria values are passed as arguments.
+The match C<$mask> has to be non-0 for successful matches.
+If no handler was found, 0 is returned.
+
+=begin code
+method signal-handler-find ( gpointer $instance, UInt $mask, UInt() $signal-id, UInt $detail, N-Object $closure, gpointer $func, gpointer $data --> UInt )
+=end code
+
+=item $instance; The instance owning the signal handler to be found..
+=item $mask; Mask indicating which of C<$signal-id>, C<$detail>, C<$closure>, C<$func>
+ and/or C<$data> the handler has to match..
+=item $signal-id; Signal the handler has to be connected to..
+=item $detail; Signal detail the handler has to be connected to..
+=item $closure; The closure the handler will invoke.
+=item $func; The C closure callback of the handler (useless for non-C closures)..
+=item $data; The closure data of the handler's closure..
+
+Return value; A valid non-0 signal handler id for a successful match.. 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-handler-is-connected
+
+Returns whether C<$handler-id> is the ID of a handler connected to C<$instance>.
+
+=begin code
+method signal-handler-is-connected ( gpointer $instance, UInt() $handler-id --> Bool )
+=end code
+
+=item $instance; The instance where a signal handler is sought..
+=item $handler-id; the handler ID..
+
+Return value; whether C<$handler-id> identifies a handler connected to C<$instance>.. 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-handler-unblock
+
+Undoes the effect of a previous g_signal_handler_block() call.  A
+blocked handler is skipped during signal emissions and will not be
+invoked, unblocking it (for exactly the amount of times it has been
+blocked before) reverts its "blocked" state, so the handler will be
+recognized by the signal system and is called upon future or
+currently ongoing signal emissions (since the order in which
+handlers are called during signal emissions is deterministic,
+whether the unblocked handler in question is called as part of a
+currently ongoing emission depends on how far that emission has
+proceeded yet).
+
+The C<$handler-id> has to be a valid id of a signal handler that is
+connected to a signal of C<$instance> and is currently blocked.
+
+=begin code
+method signal-handler-unblock ( gpointer $instance, UInt() $handler-id )
+=end code
+
+=item $instance; The instance to unblock the signal handler of..
+=item $handler-id; Handler id of the handler to be unblocked..
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-handlers-block-matched
+
+Blocks all handlers on an instance that match a certain selection criteria.
+
+The criteria mask is passed as a combination of B<Gnome::GObject::T-signal> flags, and
+the criteria values are passed as arguments. A handler must match on all
+flags set in C<$mask> to be blocked (i.e. the match is conjunctive).
+
+Passing at least one of the C<G_SIGNAL_MATCH_ID>, C<G_SIGNAL_MATCH_CLOSURE>,
+C<G_SIGNAL_MATCH_FUNC>
+or C<G_SIGNAL_MATCH_DATA> match flags is required for successful matches.
+If no handlers were found, 0 is returned, the number of blocked handlers
+otherwise.
+
+Support for C<G_SIGNAL_MATCH_ID> was added in GLib 2.78.
+
+=begin code
+method signal-handlers-block-matched ( gpointer $instance, UInt $mask, UInt() $signal-id, UInt $detail, N-Object $closure, gpointer $func, gpointer $data --> UInt )
+=end code
+
+=item $instance; The instance to block handlers from..
+=item $mask; Mask indicating which of C<$signal-id>, C<$detail>, C<$closure>, C<$func>
+ and/or C<$data> the handlers have to match..
+=item $signal-id; Signal the handlers have to be connected to..
+=item $detail; Signal detail the handlers have to be connected to..
+=item $closure; The closure the handlers will invoke.
+=item $func; The C closure callback of the handlers (useless for non-C closures)..
+=item $data; The closure data of the handlers' closures..
+
+Return value; The number of handlers that matched.. 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-handlers-destroy
+
+Destroy all signal handlers of a type instance. This function is
+an implementation detail of the B<Gnome::GObject::Object> dispose implementation,
+and should not be used outside of the type system.
+
+=begin code
+method signal-handlers-destroy ( gpointer $instance )
+=end code
+
+=item $instance; The instance whose signal handlers are destroyed.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-handlers-disconnect-matched
+
+Disconnects all handlers on an instance that match a certain
+selection criteria.
+
+The criteria mask is passed as a combination of B<Gnome::GObject::T-signal> flags, and
+the criteria values are passed as arguments. A handler must match on all
+flags set in C<$mask> to be disconnected (i.e. the match is conjunctive).
+
+Passing at least one of the C<G_SIGNAL_MATCH_ID>, C<G_SIGNAL_MATCH_CLOSURE>,
+C<G_SIGNAL_MATCH_FUNC> or
+C<G_SIGNAL_MATCH_DATA> match flags is required for successful
+matches.  If no handlers were found, 0 is returned, the number of
+disconnected handlers otherwise.
+
+Support for C<G_SIGNAL_MATCH_ID> was added in GLib 2.78.
+
+=begin code
+method signal-handlers-disconnect-matched ( gpointer $instance, UInt $mask, UInt() $signal-id, UInt $detail, N-Object $closure, gpointer $func, gpointer $data --> UInt )
+=end code
+
+=item $instance; The instance to remove handlers from..
+=item $mask; Mask indicating which of C<$signal-id>, C<$detail>, C<$closure>, C<$func>
+ and/or C<$data> the handlers have to match..
+=item $signal-id; Signal the handlers have to be connected to..
+=item $detail; Signal detail the handlers have to be connected to..
+=item $closure; The closure the handlers will invoke.
+=item $func; The C closure callback of the handlers (useless for non-C closures)..
+=item $data; The closure data of the handlers' closures..
+
+Return value; The number of handlers that matched.. 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-handlers-unblock-matched
+
+Unblocks all handlers on an instance that match a certain selection
+criteria.
+
+The criteria mask is passed as a combination of B<Gnome::GObject::T-signal> flags, and
+the criteria values are passed as arguments. A handler must match on all
+flags set in C<$mask> to be unblocked (i.e. the match is conjunctive).
+
+Passing at least one of the C<G_SIGNAL_MATCH_ID>, C<G_SIGNAL_MATCH_CLOSURE>,
+C<G_SIGNAL_MATCH_FUNC>
+or C<G_SIGNAL_MATCH_DATA> match flags is required for successful matches.
+If no handlers were found, 0 is returned, the number of unblocked handlers
+otherwise. The match criteria should not apply to any handlers that are
+not currently blocked.
+
+Support for C<G_SIGNAL_MATCH_ID> was added in GLib 2.78.
+
+=begin code
+method signal-handlers-unblock-matched ( gpointer $instance, UInt $mask, UInt() $signal-id, UInt $detail, N-Object $closure, gpointer $func, gpointer $data --> UInt )
+=end code
+
+=item $instance; The instance to unblock handlers from..
+=item $mask; Mask indicating which of C<$signal-id>, C<$detail>, C<$closure>, C<$func>
+ and/or C<$data> the handlers have to match..
+=item $signal-id; Signal the handlers have to be connected to..
+=item $detail; Signal detail the handlers have to be connected to..
+=item $closure; The closure the handlers will invoke.
+=item $func; The C closure callback of the handlers (useless for non-C closures)..
+=item $data; The closure data of the handlers' closures..
+
+Return value; The number of handlers that matched.. 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-has-handler-pending
+
+Returns whether there are any handlers connected to C<$instance> for the
+given signal id and detail.
+
+If C<$detail> is 0 then it will only match handlers that were connected
+without detail.  If C<$detail> is non-zero then it will match handlers
+connected both without detail and with the given detail.  This is
+consistent with how a signal emitted with C<$detail> would be delivered
+to those handlers.
+
+Since 2.46 this also checks for a non-default class closure being
+installed, as this is basically always what you want.
+
+One example of when you might use this is when the arguments to the
+signal are difficult to compute. A class implementor may opt to not
+emit the signal if no one is attached anyway, thus saving the cost
+of building the arguments.
+
+=begin code
+method signal-has-handler-pending ( gpointer $instance, UInt() $signal-id, UInt $detail, Bool() $may-be-blocked --> Bool )
+=end code
+
+=item $instance; the object whose signal handlers are sought..
+=item $signal-id; the signal id..
+=item $detail; the detail..
+=item $may-be-blocked; whether blocked handlers should count as match..
+
+Return value; C<True> if a handler is connected to the signal, C<False>
+         otherwise.. 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-is-valid-name
+
+Validate a signal name. This can be useful for dynamically-generated signals
+which need to be validated at run-time before actually trying to create them.
+
+See canonical parameter names for details of
+the rules for valid names. The rules for signal names are the same as those
+for property names.
+
+=begin code
+method signal-is-valid-name ( Str $name --> Bool )
+=end code
+
+=item $name; the canonical name of the signal.
+
+Return value; C<True> if C<$name> is a valid signal name, C<False> otherwise.. 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-list-ids
+
+Lists the signals by id that a certain instance or interface type
+created. Further information about the signals can be acquired through
+g_signal_query().
+
+=begin code
+method signal-list-ids ( GType $itype, Array[Int] $n-ids --> Array[Int] )
+=end code
+
+=item $itype; Instance or interface type..
+=item $n-ids; (transfer ownership: full) Location to store the number of signal ids for C<$itype>..
+
+Return value; Newly allocated array of signal IDs.. 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-lookup
+
+Given the name of the signal and the type of object it connects to, gets
+the signal's identifying integer. Emitting the signal by number is
+somewhat faster than using the name each time.
+
+Also tries the ancestors of the given type.
+
+The type class passed as C<$itype> must already have been instantiated (for
+example, using g_type_class_ref()) for this function to work, as signals are
+always installed during class initialization.
+
+See g_signal_new() for details on allowed signal names.
+
+=begin code
+method signal-lookup ( Str $name, GType $itype --> UInt )
+=end code
+
+=item $name; the signal's name..
+=item $itype; the type that the signal operates on..
+
+Return value; the signal's identifying number, or 0 if no signal was found.. 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-name
+
+Given the signal's identifier, finds its name.
+
+Two different signals may have the same name, if they have differing types.
+
+=begin code
+method signal-name ( UInt() $signal-id --> Str )
+=end code
+
+=item $signal-id; the signal's identifying number..
+
+Return value; the signal name, or undefined if the signal number was invalid.. 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-new
+
+Creates a new signal. (This is usually done in the class initializer.)
+
+A signal name consists of segments consisting of ASCII letters and
+digits, separated by either the `-` or B<_> character. The first
+character of a signal name must be a letter. Names which violate these
+rules lead to undefined behaviour. These are the same rules as for property
+naming (see g_param_spec_internal()).
+
+When registering a signal and looking up a signal, either separator can
+be used, but they cannot be mixed. Using `-` is considerably more efficient.
+Using B<_> is discouraged.
+
+If 0 is used for C<$class-offset> subclasses cannot override the class handler
+in their class_init method by doing super_class->signal_handler = my_signal_handler.
+Instead they will have to use g_signal_override_class_handler().
+
+If C<$c-marshaller> is undefined, g_cclosure_marshal_generic() will be used as
+the marshaller for this signal. In some simple cases, g_signal_new()
+will use a more optimized c_marshaller and va_marshaller for the signal
+instead of g_cclosure_marshal_generic().
+
+If C<$c-marshaller> is non-undefined, you need to also specify a va_marshaller
+using g_signal_set_va_marshaller() or the generic va_marshaller will
+be used.
+
+=begin code
+method signal-new ( Str $signal-name, GType $itype, UInt $signal-flags, UInt() $class-offset, GSignalAccumulator &accumulator, gpointer $accu-data, …, GType $return-type, UInt() $n-params, … --> UInt )
+=end code
+
+=item $signal-name; the name for the signal.
+=item $itype; the type this signal pertains to. It will also pertain to
+ types which are derived from this type..
+=item $signal-flags; a combination of B<Gnome::GObject::T-signal> specifying detail of when
+ the default handler is to be invoked. You should at least specify
+ C<G_SIGNAL_RUN_FIRST> or C<G_SIGNAL_RUN_LAST>..
+=item $class-offset; The offset of the function pointer in the class structure
+ for this type. Used to invoke a class method generically. Pass 0 to
+ not associate a class method slot with this signal..
+=item GSignalAccumulator &accumulator; the accumulator for this signal; may be undefined.. The function must be specified with the following signature; C<:( gint-ptr $ihint, N-Object $return-accu, N-Object $handler-return, gpointer $data )>.
+=item $accu-data; user data for the C<$accumulator>..
+=item c-marshaller; the function to translate arrays of parameter
+ values to signal emissions into C language callback invocations or undefined.. Note that each argument must be specified as a type followed by its value!
+=item $return-type; the type of return value, or C<G_TYPE_NONE> for a signal
+ without a return value..
+=item $n-params; the number of parameter types to follow..
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+Return value; the signal id. 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-new-class-handler
+
+Creates a new signal. (This is usually done in the class initializer.)
+
+This is a variant of g_signal_new() that takes a C callback instead
+of a class offset for the signal's class handler. This function
+doesn't need a function pointer exposed in the class structure of
+an object definition, instead the function pointer is passed
+directly and can be overridden by derived classes with
+g_signal_override_class_closure() or
+g_signal_override_class_handler() and chained to with
+g_signal_chain_from_overridden() or
+g_signal_chain_from_overridden_handler().
+
+See g_signal_new() for information about signal names.
+
+If c_marshaller is undefined, g_cclosure_marshal_generic() will be used as
+the marshaller for this signal.
+
+=begin code
+method signal-new-class-handler ( Str $signal-name, GType $itype, UInt $signal-flags, GCallback &class-handler, GSignalAccumulator &accumulator, gpointer $accu-data, …, GType $return-type, UInt() $n-params, … --> UInt )
+=end code
+
+=item $signal-name; the name for the signal.
+=item $itype; the type this signal pertains to. It will also pertain to
+ types which are derived from this type..
+=item $signal-flags; a combination of B<Gnome::GObject::T-signal> specifying detail of when
+ the default handler is to be invoked. You should at least specify
+ C<G_SIGNAL_RUN_FIRST> or C<G_SIGNAL_RUN_LAST>..
+=item GCallback &class-handler; a B<Gnome::GObject::T-closure> which acts as class implementation of
+ this signal. Used to invoke a class method generically. Pass undefined to
+ not associate a class method with this signal.. The function must be specified with the following signature; C<:( )>.
+=item GSignalAccumulator &accumulator; the accumulator for this signal; may be undefined.. The function must be specified with the following signature; C<:( gint-ptr $ihint, N-Object $return-accu, N-Object $handler-return, gpointer $data )>.
+=item $accu-data; user data for the C<$accumulator>..
+=item c-marshaller; the function to translate arrays of parameter
+ values to signal emissions into C language callback invocations or undefined.. Note that each argument must be specified as a type followed by its value!
+=item $return-type; the type of return value, or C<G_TYPE_NONE> for a signal
+ without a return value..
+=item $n-params; the number of parameter types to follow..
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+Return value; the signal id. 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-new-valist
+
+Creates a new signal. (This is usually done in the class initializer.)
+
+See g_signal_new() for details on allowed signal names.
+
+If c_marshaller is undefined, g_cclosure_marshal_generic() will be used as
+the marshaller for this signal.
+
+=begin code
+method signal-new-valist ( Str $signal-name, GType $itype, UInt $signal-flags, N-Object $class-closure, GSignalAccumulator &accumulator, gpointer $accu-data, …, GType $return-type, UInt() $n-params, … --> UInt )
+=end code
+
+=item $signal-name; the name for the signal.
+=item $itype; the type this signal pertains to. It will also pertain to
+ types which are derived from this type..
+=item $signal-flags; a combination of B<Gnome::GObject::T-signal> specifying detail of when
+ the default handler is to be invoked. You should at least specify
+ C<G_SIGNAL_RUN_FIRST> or C<G_SIGNAL_RUN_LAST>..
+=item $class-closure; The closure to invoke on signal emission; may be undefined.
+=item GSignalAccumulator &accumulator; the accumulator for this signal; may be undefined.. The function must be specified with the following signature; C<:( gint-ptr $ihint, N-Object $return-accu, N-Object $handler-return, gpointer $data )>.
+=item $accu-data; user data for the C<$accumulator>..
+=item c-marshaller; the function to translate arrays of parameter
+ values to signal emissions into C language callback invocations or undefined.. Note that each argument must be specified as a type followed by its value!
+=item $return-type; the type of return value, or C<G_TYPE_NONE> for a signal
+ without a return value..
+=item $n-params; the number of parameter types in C<$args>..
+=item args; va_list of B<Gnome::GObject::SignalQuery>, one for each parameter.. Note that each argument must be specified as a type followed by its value!
+
+Return value; the signal id. 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-newv
+
+Creates a new signal. (This is usually done in the class initializer.)
+
+See g_signal_new() for details on allowed signal names.
+
+If c_marshaller is undefined, g_cclosure_marshal_generic() will be used as
+the marshaller for this signal.
+
+=begin code
+method signal-newv ( Str $signal-name, GType $itype, UInt $signal-flags, N-Object $class-closure, GSignalAccumulator &accumulator, gpointer $accu-data, …, GType $return-type, UInt() $n-params, … --> UInt )
+=end code
+
+=item $signal-name; the name for the signal.
+=item $itype; the type this signal pertains to. It will also pertain to
+    types which are derived from this type.
+=item $signal-flags; a combination of B<Gnome::GObject::T-signal> specifying detail of when
+    the default handler is to be invoked. You should at least specify
+    C<G_SIGNAL_RUN_FIRST> or C<G_SIGNAL_RUN_LAST>.
+=item $class-closure; The closure to invoke on signal emission;
+    may be undefined
+=item GSignalAccumulator &accumulator; the accumulator for this signal; may be undefined. The function must be specified with the following signature; C<:( gint-ptr $ihint, N-Object $return-accu, N-Object $handler-return, gpointer $data )>.
+=item $accu-data; user data for the C<$accumulator>.
+=item c-marshaller; the function to translate arrays of
+    parameter values to signal emissions into C language callback
+    invocations or undefined. Note that each argument must be specified as a type followed by its value!
+=item $return-type; the type of return value, or C<G_TYPE_NONE> for a signal
+    without a return value.
+=item $n-params; the length of C<$param-types>.
+=item param-types; an array of types, one for
+    each parameter (may be undefined if C<$n-params> is zero). Note that each argument must be specified as a type followed by its value!
+
+Return value; the signal id. 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-override-class-closure
+
+Overrides the class closure (i.e. the default handler) for the given signal
+for emissions on instances of C<$instance-type>. C<$instance-type> must be derived
+from the type to which the signal belongs.
+
+See g_signal_chain_from_overridden() and
+g_signal_chain_from_overridden_handler() for how to chain up to the
+parent class closure from inside the overridden one.
+
+=begin code
+method signal-override-class-closure ( UInt() $signal-id, GType $instance-type, N-Object $class-closure )
+=end code
+
+=item $signal-id; the signal id.
+=item $instance-type; the instance type on which to override the class closure
+ for the signal..
+=item $class-closure; the closure.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-override-class-handler
+
+Overrides the class closure (i.e. the default handler) for the
+given signal for emissions on instances of C<$instance-type> with
+callback C<$class-handler>. C<$instance-type> must be derived from the
+type to which the signal belongs.
+
+See g_signal_chain_from_overridden() and
+g_signal_chain_from_overridden_handler() for how to chain up to the
+parent class closure from inside the overridden one.
+
+=begin code
+method signal-override-class-handler ( Str $signal-name, GType $instance-type, GCallback &class-handler )
+=end code
+
+=item $signal-name; the name for the signal.
+=item $instance-type; the instance type on which to override the class handler
+ for the signal..
+=item GCallback &class-handler; the handler.. The function must be specified with the following signature; C<:( )>.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-parse-name
+
+Internal function to parse a signal name into its C<$signal-id>
+and C<$detail> quark.
+
+=begin code
+method signal-parse-name ( Str $detailed-signal, GType $itype, Array[Int] $signal-id-p, UInt $detail-p, Bool() $force-detail-quark --> Bool )
+=end code
+
+=item $detailed-signal; a string of the form "signal-name::detail"..
+=item $itype; The interface/instance type that introduced "signal-name"..
+=item $signal-id-p; (transfer ownership: full) Location to store the signal id..
+=item $detail-p; (transfer ownership: full) Location to store the detail quark..
+=item $force-detail-quark; C<True> forces creation of a B<Gnome::Glib::SignalQuery> for the detail..
+
+Return value; Whether the signal name could successfully be parsed and C<$signal-id-p> and C<$detail-p> contain valid return values.. 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-query
+
+Queries the signal system for in-depth information about a
+specific signal. This function will fill in a user-provided
+structure to hold signal-specific information. If an invalid
+signal id is passed in, the C<$signal-id> member of the B<Gnome::GObject::T-signal>
+is 0. All members filled into the B<Gnome::GObject::T-signal> structure should
+be considered constant and have to be left untouched.
+
+=begin code
+method signal-query ( UInt() $signal-id, N-Object $query )
+=end code
+
+=item $signal-id; The signal id of the signal to query information for..
+=item $query; A user provided structure that is
+ filled in with constant values upon success.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-remove-emission-hook
+
+Deletes an emission hook.
+
+=begin code
+method signal-remove-emission-hook ( UInt() $signal-id, UInt() $hook-id )
+=end code
+
+=item $signal-id; the id of the signal.
+=item $hook-id; the id of the emission hook, as returned by
+ g_signal_add_emission_hook().
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-set-va-marshaller
+
+Change the B<Gnome::GObject::SignalQuery> used for a given signal.  This is a
+specialised form of the marshaller that can often be used for the
+common case of a single connected signal handler and avoids the
+overhead of B<Gnome::GObject::N-Value>.  Its use is optional.
+
+=begin code
+method signal-set-va-marshaller ( UInt() $signal-id, GType $instance-type, … )
+=end code
+
+=item $signal-id; the signal id.
+=item $instance-type; the instance type on which to set the marshaller..
+=item va-marshaller; the marshaller to set.. Note that each argument must be specified as a type followed by its value!
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-stop-emission
+
+Stops a signal's current emission.
+
+This will prevent the default method from running, if the signal was
+C<G_SIGNAL_RUN_LAST> and you connected normally (i.e. without the "after"
+flag).
+
+Prints a warning if used on a signal which isn't being emitted.
+
+=begin code
+method signal-stop-emission ( gpointer $instance, UInt() $signal-id, UInt $detail )
+=end code
+
+=item $instance; the object whose signal handlers you wish to stop..
+=item $signal-id; the signal identifier, as returned by g_signal_lookup()..
+=item $detail; the detail which the signal was emitted with..
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 signal-stop-emission-by-name
+
+Stops a signal's current emission.
+
+This is just like g_signal_stop_emission() except it will look up the
+signal id for you.
+
+=begin code
+method signal-stop-emission-by-name ( gpointer $instance, Str $detailed-signal )
+=end code
+
+=item $instance; the object whose signal handlers you wish to stop..
+=item $detailed-signal; a string of the form "signal-name::detail"..
+
+=end pod
+

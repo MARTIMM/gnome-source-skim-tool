@@ -1,0 +1,278 @@
+=comment Package: GObject, C-Source: signal
+use v6.d;
+
+#TL:1:Gnome::GObject::T-signal:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+
+#use Gnome::GObject::N-Closure:api<2>;
+use Gnome::GObject::N-Value:api<2>;
+#use Gnome::GObject::T-closure:api<2>;
+use Gnome::GObject::T-signal:api<2>;
+use Gnome::GObject::T-value:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Constants]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'constants', {
+#TE:1:G_SIGNAL_FLAGS_MASK
+is G_SIGNAL_FLAGS_MASK, 511, "constant G_SIGNAL_FLAGS_MASK = 511";
+
+#TE:1:G_SIGNAL_MATCH_MASK
+is G_SIGNAL_MATCH_MASK, 63, "constant G_SIGNAL_MATCH_MASK = 63";
+
+};
+
+
+my Gnome::GObject::T-signal $signal .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $signal {
+    my gulong $handler-id;
+    my Str $detailed-signal;
+    my GQuark $detail-p;
+    my gulong $hook-id;
+    my gint-ptr $n-ids;
+    my  $c-marshaller;
+    my GFlag $mask;
+    my N-Object $return-value;
+    my Str $signal-name;
+    my N-Object $query;
+    my GFlag $signal-flags;
+    my  $args;
+    my gint-ptr $ihint;
+    sub hook-func ( gint-ptr $ihint, guint $n-param-values, N-Object $param-values, gpointer $data ) {}
+    my guint $signal-id;
+    my  $va-marshaller;
+    my N-Object $instance-and-params;
+    my GType $return-type;
+    my Str $name;
+    my guint $n-params;
+    my N-Object $handler-return;
+    my N-Object $class-closure;
+    sub c-handler ( ) {}
+    my GFlag $connect-flags;
+    my N-Object $closure;
+    sub data-destroy ( gpointer $data ) {}
+    my gpointer $instance;
+    my gpointer $hook-data;
+    my gboolean $after;
+    my gboolean $may-be-blocked;
+    my  $handler-id-ptr;
+    sub accumulator ( gint-ptr $ihint, N-Object $return-accu, N-Object $handler-return, gpointer $data ) {}
+    sub class-handler ( ) {}
+    my gboolean $force-detail-quark;
+    my gint-ptr $signal-id-p;
+    my  $var-args;
+    sub destroy-data ( gpointer $data, N-Object $closure ) {}
+    my gpointer $accu-data;
+    my GQuark $detail;
+    my gpointer $data;
+    my N-Object $return-accu;
+    my gpointer $func;
+    my guint $class-offset;
+    my GType $itype;
+    my gpointer $dummy;
+    my GType $instance-type;
+    my  $param-types;
+
+
+#`{{
+    #TM:0:clear-signal-handler()
+    ok .clear-signal-handler( $handler-id-ptr, $instance), '.clear-signal-handler()';
+
+    #TM:0:signal-accumulator-first-wins()
+    ok .signal-accumulator-first-wins( $ihint, $return-accu, $handler-return, $dummy), '.signal-accumulator-first-wins()';
+
+    #TM:0:signal-accumulator-true-handled()
+    ok .signal-accumulator-true-handled( $ihint, $return-accu, $handler-return, $dummy), '.signal-accumulator-true-handled()';
+
+    #TM:0:signal-add-emission-hook()
+    ok .signal-add-emission-hook( $signal-id, $detail, $hook-func, $hook-data, $data-destroy), '.signal-add-emission-hook()';
+
+    #TM:0:signal-chain-from-overridden()
+    ok .signal-chain-from-overridden( $instance-and-params, $return-value), '.signal-chain-from-overridden()';
+
+    #TM:0:signal-chain-from-overridden-handler()
+    ok .signal-chain-from-overridden-handler( $instance), '.signal-chain-from-overridden-handler()';
+
+    #TM:0:signal-connect-closure()
+    ok .signal-connect-closure( $instance, $detailed-signal, $closure, $after), '.signal-connect-closure()';
+
+    #TM:0:signal-connect-closure-by-id()
+    ok .signal-connect-closure-by-id( $instance, $signal-id, $detail, $closure, $after), '.signal-connect-closure-by-id()';
+
+    #TM:0:signal-connect-data()
+    ok .signal-connect-data( $instance, $detailed-signal, $c-handler, $data, $destroy-data, $connect-flags), '.signal-connect-data()';
+
+    #TM:0:signal-emit()
+    ok .signal-emit( $instance, $signal-id, $detail), '.signal-emit()';
+
+    #TM:0:signal-emit-by-name()
+    ok .signal-emit-by-name( $instance, $detailed-signal), '.signal-emit-by-name()';
+
+    #TM:0:signal-emit-valist()
+    ok .signal-emit-valist( $instance, $signal-id, $detail, $var-args), '.signal-emit-valist()';
+
+    #TM:0:signal-emitv()
+    ok .signal-emitv( $instance-and-params, $signal-id, $detail, $return-value), '.signal-emitv()';
+
+    #TM:0:signal-get-invocation-hint()
+    ok .signal-get-invocation-hint( $instance), '.signal-get-invocation-hint()';
+
+    #TM:0:signal-handler-block()
+    ok .signal-handler-block( $instance, $handler-id), '.signal-handler-block()';
+
+    #TM:0:signal-handler-disconnect()
+    ok .signal-handler-disconnect( $instance, $handler-id), '.signal-handler-disconnect()';
+
+    #TM:0:signal-handler-find()
+    ok .signal-handler-find( $instance, $mask, $signal-id, $detail, $closure, $func, $data), '.signal-handler-find()';
+
+    #TM:0:signal-handler-is-connected()
+    ok .signal-handler-is-connected( $instance, $handler-id), '.signal-handler-is-connected()';
+
+    #TM:0:signal-handler-unblock()
+    ok .signal-handler-unblock( $instance, $handler-id), '.signal-handler-unblock()';
+
+    #TM:0:signal-handlers-block-matched()
+    ok .signal-handlers-block-matched( $instance, $mask, $signal-id, $detail, $closure, $func, $data), '.signal-handlers-block-matched()';
+
+    #TM:0:signal-handlers-destroy()
+    ok .signal-handlers-destroy( $instance), '.signal-handlers-destroy()';
+
+    #TM:0:signal-handlers-disconnect-matched()
+    ok .signal-handlers-disconnect-matched( $instance, $mask, $signal-id, $detail, $closure, $func, $data), '.signal-handlers-disconnect-matched()';
+
+    #TM:0:signal-handlers-unblock-matched()
+    ok .signal-handlers-unblock-matched( $instance, $mask, $signal-id, $detail, $closure, $func, $data), '.signal-handlers-unblock-matched()';
+
+    #TM:0:signal-has-handler-pending()
+    ok .signal-has-handler-pending( $instance, $signal-id, $detail, $may-be-blocked), '.signal-has-handler-pending()';
+
+    #TM:0:signal-is-valid-name()
+    ok .signal-is-valid-name( $name), '.signal-is-valid-name()';
+
+    #TM:0:signal-list-ids()
+    ok .signal-list-ids( $itype, $n-ids), '.signal-list-ids()';
+
+    #TM:0:signal-lookup()
+    ok .signal-lookup( $name, $itype), '.signal-lookup()';
+
+    #TM:0:signal-name()
+    ok .signal-name( $signal-id), '.signal-name()';
+
+    #TM:0:signal-new()
+    ok .signal-new( $signal-name, $itype, $signal-flags, $class-offset, $accumulator, $accu-data, $c-marshaller, $return-type, $n-params), '.signal-new()';
+
+    #TM:0:signal-new-class-handler()
+    ok .signal-new-class-handler( $signal-name, $itype, $signal-flags, $class-handler, $accumulator, $accu-data, $c-marshaller, $return-type, $n-params), '.signal-new-class-handler()';
+
+    #TM:0:signal-new-valist()
+    ok .signal-new-valist( $signal-name, $itype, $signal-flags, $class-closure, $accumulator, $accu-data, $c-marshaller, $return-type, $n-params, $args), '.signal-new-valist()';
+
+    #TM:0:signal-newv()
+    ok .signal-newv( $signal-name, $itype, $signal-flags, $class-closure, $accumulator, $accu-data, $c-marshaller, $return-type, $n-params, $param-types), '.signal-newv()';
+
+    #TM:0:signal-override-class-closure()
+    ok .signal-override-class-closure( $signal-id, $instance-type, $class-closure), '.signal-override-class-closure()';
+
+    #TM:0:signal-override-class-handler()
+    ok .signal-override-class-handler( $signal-name, $instance-type, $class-handler), '.signal-override-class-handler()';
+
+    #TM:0:signal-parse-name()
+    ok .signal-parse-name( $detailed-signal, $itype, $signal-id-p, $detail-p, $force-detail-quark), '.signal-parse-name()';
+
+    #TM:0:signal-query()
+    ok .signal-query( $signal-id, $query), '.signal-query()';
+
+    #TM:0:signal-remove-emission-hook()
+    ok .signal-remove-emission-hook( $signal-id, $hook-id), '.signal-remove-emission-hook()';
+
+    #TM:0:signal-set-va-marshaller()
+    ok .signal-set-va-marshaller( $signal-id, $instance-type, $va-marshaller), '.signal-set-va-marshaller()';
+
+    #TM:0:signal-stop-emission()
+    ok .signal-stop-emission( $instance, $signal-id, $detail), '.signal-stop-emission()';
+
+    #TM:0:signal-stop-emission-by-name()
+    ok .signal-stop-emission-by-name( $instance, $detailed-signal), '.signal-stop-emission-by-name()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GConnectFlags
+subtest 'GConnectFlags', {
+  is G_CONNECT_DEFAULT.value, 0, 'bitfield G_CONNECT_DEFAULT = 0';
+
+  is G_CONNECT_AFTER.value, 1, 'bitfield G_CONNECT_AFTER = 1';
+
+  is G_CONNECT_SWAPPED.value, 2, 'bitfield G_CONNECT_SWAPPED = 2';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GSignalFlags
+subtest 'GSignalFlags', {
+  is G_SIGNAL_RUN_FIRST.value, 1, 'bitfield G_SIGNAL_RUN_FIRST = 1';
+
+  is G_SIGNAL_RUN_LAST.value, 2, 'bitfield G_SIGNAL_RUN_LAST = 2';
+
+  is G_SIGNAL_RUN_CLEANUP.value, 4, 'bitfield G_SIGNAL_RUN_CLEANUP = 4';
+
+  is G_SIGNAL_NO_RECURSE.value, 8, 'bitfield G_SIGNAL_NO_RECURSE = 8';
+
+  is G_SIGNAL_DETAILED.value, 16, 'bitfield G_SIGNAL_DETAILED = 16';
+
+  is G_SIGNAL_ACTION.value, 32, 'bitfield G_SIGNAL_ACTION = 32';
+
+  is G_SIGNAL_NO_HOOKS.value, 64, 'bitfield G_SIGNAL_NO_HOOKS = 64';
+
+  is G_SIGNAL_MUST_COLLECT.value, 128, 'bitfield G_SIGNAL_MUST_COLLECT = 128';
+
+  is G_SIGNAL_DEPRECATED.value, 256, 'bitfield G_SIGNAL_DEPRECATED = 256';
+
+  is G_SIGNAL_ACCUMULATOR_FIRST_RUN.value, 131072, 'bitfield G_SIGNAL_ACCUMULATOR_FIRST_RUN = 131072';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GSignalMatchType
+subtest 'GSignalMatchType', {
+  is G_SIGNAL_MATCH_ID.value, 1, 'bitfield G_SIGNAL_MATCH_ID = 1';
+
+  is G_SIGNAL_MATCH_DETAIL.value, 2, 'bitfield G_SIGNAL_MATCH_DETAIL = 2';
+
+  is G_SIGNAL_MATCH_CLOSURE.value, 4, 'bitfield G_SIGNAL_MATCH_CLOSURE = 4';
+
+  is G_SIGNAL_MATCH_FUNC.value, 8, 'bitfield G_SIGNAL_MATCH_FUNC = 8';
+
+  is G_SIGNAL_MATCH_DATA.value, 16, 'bitfield G_SIGNAL_MATCH_DATA = 16';
+
+  is G_SIGNAL_MATCH_UNBLOCKED.value, 32, 'bitfield G_SIGNAL_MATCH_UNBLOCKED = 32';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
