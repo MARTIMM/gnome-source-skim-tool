@@ -27,18 +27,16 @@ when a user clicks one. The behaviour can be overridden with the
 I<activate-link> signal.
 
 To specify a person with an email address, use a string like
-B<Edgar> Allan Poe <edgar C<$poe>.com>`. To specify a website with a title,
-use a string like B<GTK> team https://www.gtk.org`.
+C<Edgar Allan Poe <edgar@poe.com>>. To specify a website with a title,
+use a string like C<GTK team https://www.gtk.org>.
 
-To make constructing a B<Gnome::Gtk4::AboutDialog> as convenient as possible, you can
-use the function L<.show-about-dialog().show-about-dialog() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-aboutdialog#show-about-dialog> which constructs and shows
+To make constructing a B<Gnome::Gtk4::AboutDialog> as convenient as possible, you can use the function L<.show-about-dialog() in package Gnome::Gtk4::T-aboutdialog|/content-docs/api2/reference/Gtk4/T-aboutdialog#show-about-dialog> which constructs and shows
 a dialog and keeps it around so that it can be shown again.
 
-Note that GTK sets a default title of B<_>("About %s")` on the dialog
-window (where `%s` is replaced by the name of the application, but in
+Note that GTK sets a default title of C<"About %s"> on the dialog
+window (where %s is replaced by the name of the application, but in
 order to ensure proper translation of the title, applications should
-set the title property explicitly when constructing a B<Gnome::Gtk4::AboutDialog>,
-as shown in the following example:
+set the title property explicitly when constructing a B<Gnome::Gtk4::AboutDialog>, as shown in the following example:
 
 =begin code
 use Gnome::Gtk4::Window:api<2>;
@@ -47,21 +45,20 @@ use Gnome::Gtk4::T-AboutDialog:api<2>;
 
 my Gnome::Gtk4::Window $window .= new-window;
 
-my Gnome::Gtk4::AboutDialog $about .= new-about-dialog;
+my Gnome::Gtk4::AboutDialog $about .= new-aboutdialog;
 $about.set-transient-for($window);
 $about.set-version('0.21.4');
 $about.set-license-type(GTK_LICENSE_ARTISTIC);
 
 # Normally run() is started by a menu select or button click
-$about.run;   # application stays here in separate main loop
+$about.run;   # application stays in $about in separate event loop
 $about.hide;  # application returns here when buttons
               # on dialog are pressed
 =end code
 
 =head3 CSS nodes
 
-B<Gnome::Gtk4::AboutDialog> has a single CSS node with the name B<window> and style
-class `.aboutdialog`.
+B<Gnome::Gtk4::AboutDialog> has a single CSS node with the name B<window> and style class B<.aboutdialog>.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/AboutDialog.png> :width<70%> :class<inline>
@@ -143,8 +140,7 @@ method add-credit-section ( Str $section-name, Array[Str] $people )
 =begin pod
 =head2 get-artists
 
-Returns the names of the artists which are displayed
-in the credits page.
+Returns the names of the artists which are displayed in the credits page.
 
 =begin code
 method get-artists (--> Array[Str] )
@@ -628,8 +624,7 @@ method set-license ( Str $license )
 =begin pod
 =head2 set-license-type
 
-Sets the license of the application showing the about dialog from a
-list of known licenses.
+Sets the license of the application showing the about dialog from a list of known licenses.
 
 This function overrides the license set using
 L<.set-license()|#set-license>.
@@ -674,7 +669,7 @@ method set-logo ( N-Object() $logo )
 =begin pod
 =head2 set-logo-icon-name
 
-Sets the icon name to be displayed as logo in the about dialog.
+Sets $icon-name to be displayed as logo in the about dialog.
 
 =begin code
 method set-logo-icon-name ( Str $icon-name )
@@ -697,8 +692,7 @@ method set-logo-icon-name ( Str $icon-name )
 
 Sets the name to display in the about dialog.
 
-If B<name> is not set, the string returned
-by B<Gnome::Glib::T-utils>()` is used.
+If B<$name> is not set, the string returned by B<Gnome::Glib::T-utils>()` is used.
 
 =begin code
 method set-program-name ( Str $name )
@@ -749,20 +743,20 @@ method set-system-information ( Str $system-information )
 Sets the translator credits string which is displayed in
 the credits page.
 
+=begin comment
 The intended use for this string is to display the translator
 of the language which is currently used in the user interface.
 Using B<gettext>()`, a simple way to achieve that is to mark the
 string for translation:
 
-=begin comment
 my Gnome::Gtk4::AboutDialog $about .= new-about-dialog;
 $about.set-translator-credits("translator-credits"));
-=end comment
 
 It is a good idea to use the customary B<msgid> “translator-credits”
 for this purpose, since translators will already know the purpose of
 that B<msgid>, and since B<Gnome::Gtk4::AboutDialog> will detect if “translator-credits”
 is untranslated and omit translator credits.
+=end comment
 
 =begin code
 method set-translator-credits ( Str $translator-credits )
@@ -884,7 +878,6 @@ method handler (
   Str $uri,
   Int :$_handle_id,
   N-GObject :$_native-object,
-  Gnome::Gtk4::AboutDialog :$_widget,
   *%user-options
   --> gboolean
 )
