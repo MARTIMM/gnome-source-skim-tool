@@ -153,14 +153,15 @@ CONTROL {
     say "Insert saved example text" if $*verbose;
 
     # Get examples from file if exists
-    my Str $example-file = $file-basename;
-    $example-file ~~ s/ \. <-[\.]>+ $/.yaml/;
-    $example-file = [~] $*work-data<result-code-sections>, $example-file;
+#    my Str $example-file = $file-basename;
+#    $example-file ~~ s/ \. <-[\.]>+ $/.yaml/;
+#    $example-file = [~] $*work-data<result-code-sections>, $example-file;
     my Hash $external-examples = %();
-    $external-examples = load-yaml($example-file.IO.slurp)
-      if $example-file.IO.r;
+#    $external-examples = load-yaml($example-file.IO.slurp)
+#      if $example-file.IO.r;
 
     # Substitute the examples back into the text before we can finally modify it
+#`{{
     if ?$external-examples {
 #note "$?LINE $example-file, $examples.keys.elems()";
       for $examples.keys -> $ex-key {
@@ -171,6 +172,7 @@ CONTROL {
     }
 
     else {
+}}
       for $examples.keys -> $ex-key {
 
         my Str $t = self!modify-xml($examples{$ex-key});
@@ -179,8 +181,8 @@ CONTROL {
         $external-examples{$ex-key} = $t;
       }
 
-      $example-file.IO.spurt(save-yaml($external-examples));
-    }
+#      $example-file.IO.spurt(save-yaml($external-examples));
+#    }
   }
 
   self!cleanup($text);
