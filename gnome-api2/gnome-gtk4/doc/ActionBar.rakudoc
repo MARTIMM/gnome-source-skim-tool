@@ -21,12 +21,9 @@ contains an internal centered box which is centered with respect to
 the full width of the box, even if the children at either side take
 up different amounts of space.
 
-=head2 GtkActionBar as GtkBuildable
+=head2 The action bar as a buildable
 
-The B<Gnome::Gtk4::ActionBar> implementation of the L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/Gtk4/R-Buildable> interface supports
-adding children at the start or end sides by specifying “start” or “end” as
-the “type” attribute of a `<child>` element, or setting the center widget
-by specifying “center” value.
+The B<Gnome::Gtk4::ActionBar> implementation of the L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/Gtk4/R-Buildable> interface supports adding children at the start or end sides by specifying I<start> or I<end> as the I<type> attribute of a <child> element, or setting the center widget by specifying I<center> value.
 
 =head2 CSS nodes
 
@@ -39,13 +36,9 @@ actionbar
         ├── [center widget]
         ╰── box.end
             ╰── [end children]
-
 =end code
 
-A B<Gnome::Gtk4::ActionBar>'s CSS node is called B<actionbar>. It contains a B<revealer>
-subnode, which contains a B<box> subnode, which contains two B<box> subnodes at
-the start and end of the action bar, with B<start> and B<end> style classes
-respectively, as well as a center node that represents the center child.
+A B<Gnome::Gtk4::ActionBar>'s CSS node is called B<actionbar>. It contains a B<revealer> subnode, which contains a B<box> subnode, which contains two B<box> subnodes at the start and end of the action bar, with B<start> and B<end> style classes respectively, as well as a center node that represents the center child.
 
 Each of the boxes contains children packed for that side.
 
