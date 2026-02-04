@@ -1,9 +1,0 @@
----
-"____EXAMPLE____000": "=begin comment\n\n=head2 Uml Diagram\n![](plantuml/….svg)\n\n=end comment\n"
-"____EXAMPLE____001": "=begin comment\n\n=head2 Example\n# Example use of module Gnome::Gio::ActionMap\n\n=end comment\n"
-"____EXAMPLE____002": "=begin comment\n\n=head2 Example\n# Example for add-action\n\n=end comment\n"
-"____EXAMPLE____003": "=begin comment\n\n=head2 Example\n# Example for add-action-entries\n\n=end comment\n"
-"____EXAMPLE____004": "=begin comment\n\n=head2 Example\n# Example for lookup-action\n\n=end comment\n"
-"____EXAMPLE____005": "=begin comment\n\n=head2 Example\n# Example for remove-action\n\n=end comment\n"
-"____EXAMPLE____006": "=begin comment\n<!-- language=\"C\" -->\nstatic void\nactivate_quit (GSimpleAction *simple,\n               GVariant      *parameter,\n               gpointer       user_data)\n{\n  exit (0);\n}\n\nstatic void\nactivate_print_string (GSimpleAction *simple,\n                       GVariant      *parameter,\n                       gpointer       user_data)\n{\n  g_print (\"%s\\n\", g_variant_get_string (parameter, NULL));\n}\n\nstatic GActionGroup *\ncreate_action_group (void)\n{\n  const GActionEntry entries[] = {\n    { \"quit\",         activate_quit              },\n    { \"print-string\", activate_print_string, \"s\" }\n  };\n  GSimpleActionGroup *group;\n\n  group = g_simple_action_group_new ();\n  g_action_map_add_action_entries (G_ACTION_MAP (group), entries, G_N_ELEMENTS (entries), NULL);\n\n  return G_ACTION_GROUP (group);\n}\n\n=end comment\n"
-...

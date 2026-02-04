@@ -1,9 +1,0 @@
----
-"____EXAMPLE____000": "=begin comment\n\n=head2 Uml Diagram\n![](plantuml/….svg)\n\n=end comment\n"
-"____EXAMPLE____001": "=begin comment\n\n=head2 Example\n# Example use of module Gnome::Gio::AsyncResult\n\n=end comment\n"
-"____EXAMPLE____002": "=begin comment\n\n=head2 Example\n# Example for get-source-object\n\n=end comment\n"
-"____EXAMPLE____003": "=begin comment\n\n=head2 Example\n# Example for get-user-data\n\n=end comment\n"
-"____EXAMPLE____004": "=begin comment\n\n=head2 Example\n# Example for is-tagged\n\n=end comment\n"
-"____EXAMPLE____005": "=begin comment\n\n=head2 Example\n# Example for legacy-propagate-error\n\n=end comment\n"
-"____EXAMPLE____006": "=begin comment\nvoid _theoretical_frobnitz_async (Theoretical         *t,\n                                  GCancellable        *c,\n                                  GAsyncReadyCallback  cb,\n                                  gpointer             u);\n\ngboolean _theoretical_frobnitz_finish (Theoretical   *t,\n                                       GAsyncResult  *res,\n                                       GError       **e);\n\nstatic void\nfrobnitz_result_func (GObject      *source_object,\n\t\t GAsyncResult *res,\n\t\t gpointer      user_data)\n{\n  gboolean success = FALSE;\n\n  success = _theoretical_frobnitz_finish (source_object, res, NULL);\n\n  if (success)\n    g_printf (\"Hurray!\\n\");\n  else\n    g_printf (\"Uh oh!\\n\");\n\n  ...\n\n}\n\nint main (int argc, void *argv[])\n{\n   ...\n\n   _theoretical_frobnitz_async (theoretical_data,\n                                NULL,\n                                frobnitz_result_func,\n                                NULL);\n\n   ...\n}\n\n=end comment\n"
-...
