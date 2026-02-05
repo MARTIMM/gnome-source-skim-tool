@@ -9,7 +9,7 @@ use v6.d;
 =TITLE Gnome::Gtk4::ActivateAction
 =head1 Description
 
-A L<Gnome::Gtk4::ShortcutAction|/content-docs/api2/reference/Gtk4/ShortcutAction> that calls gtk_widget_activate().
+A L<Gnome::Gtk4::ShortcutAction|/content-docs/api2/reference/Gtk4/ShortcutAction> that calls L<Gnome::Gtk4::Widget .activate() in Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget#activate>.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/ActivateAction.png> :width<70%> :class<inline>
@@ -54,11 +54,10 @@ Create an object using a native object from an object of the same type found els
 
 Gets the activate action.
 
-This is an action that calls gtk_widget_activate()
-on the given widget upon activation.
+This is an action that calls C<.activate() in Gnome::Gtk4::Widget> on the given widget upon activation.
 
 =begin code
-method get (--> N-Object )
+method get ( --> N-Object )
 =end code
 
 Return value; The activate action. 
