@@ -21,7 +21,7 @@ default application.
 The list of applications shown in a B<Gnome::Gtk4::AppChooserButton> includes
 the recommended applications for the given content type. When
 I<show-default-item> is set, the default
-application is also included. To let the user chooser other applications,
+application is also included. To let the user choose other applications,
 you can set the I<show-dialog-item> property,
 which allows to open a full L<Gnome::Gtk4::AppChooserDialog|/content-docs/api2/reference/Gtk4/AppChooserDialog>.
 
@@ -164,7 +164,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Returns the text to display at the top of the dialog.
 
 =begin code
-method get-heading (--> Str )
+method get-heading ( --> Str )
 =end code
 
 Return value; the text to display at the top of the dialog,
@@ -188,7 +188,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Gets whether the dialog is modal.
 
 =begin code
-method get-modal (--> Bool )
+method get-modal ( --> Bool )
 =end code
 
 Return value; C<True> if the dialog is modal. 
@@ -212,7 +212,7 @@ Returns whether the dropdown menu should show the default
 application at the top.
 
 =begin code
-method get-show-default-item (--> Bool )
+method get-show-default-item ( --> Bool )
 =end code
 
 Return value; the value of I<show-default-item>. 
@@ -236,7 +236,7 @@ Returns whether the dropdown menu shows an item
 for a L<Gnome::Gtk4::AppChooserDialog|/content-docs/api2/reference/Gtk4/AppChooserDialog>.
 
 =begin code
-method get-show-dialog-item (--> Bool )
+method get-show-dialog-item ( --> Bool )
 =end code
 
 Return value; the value of I<show-dialog-item>. 
@@ -393,7 +393,6 @@ emitting it causes the button to pop up its dialog.
 method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
-  Gnome::Gtk4::AppChooserButton :$_widget,
   *%user-options
 )
 =end code
@@ -418,7 +417,6 @@ Emitted when the active application changes.
 method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
-  Gnome::Gtk4::AppChooserButton :$_widget,
   *%user-options
 )
 =end code
@@ -447,7 +445,6 @@ method handler (
   Str $item-name,
   Int :$_handle_id,
   N-GObject :$_native-object,
-  Gnome::Gtk4::AppChooserButton :$_widget,
   *%user-options
 )
 =end code
