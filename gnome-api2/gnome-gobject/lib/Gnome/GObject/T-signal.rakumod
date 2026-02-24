@@ -44,7 +44,7 @@ submethod BUILD ( ) {
 #-------------------------------------------------------------------------------
 #--[Record Structure]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
-
+#`{{
 class N-SignalQuery:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
 
   has guint $.signal-id;
@@ -65,8 +65,8 @@ class N-SignalQuery:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
     nativecast( N-SignalQuery, $no)
   }
 }
-
-
+}}
+#`{{
 class N-SignalInvocationHint:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
 
   has guint $.signal-id;
@@ -83,6 +83,7 @@ class N-SignalInvocationHint:auth<github:MARTIMM>:api<2> is export is repr('CStr
     nativecast( N-SignalInvocationHint, $no)
   }
 }
+}}
 
 #-------------------------------------------------------------------------------
 #--[Constants]------------------------------------------------------------------
@@ -113,45 +114,45 @@ my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
   #clear-signal-handler => %( :type(Function), :is-symbol<g_clear_signal_handler>, :parameters([ , gpointer]), ),
-  signal-accumulator-first-wins => %( :type(Function), :is-symbol<g_signal_accumulator_first_wins>, :returns(gboolean), :parameters([ gint-ptr, N-Object, N-Object, gpointer]), ),
-  signal-accumulator-true-handled => %( :type(Function), :is-symbol<g_signal_accumulator_true_handled>, :returns(gboolean), :parameters([ gint-ptr, N-Object, N-Object, gpointer]), ),
-  signal-add-emission-hook => %( :type(Function), :is-symbol<g_signal_add_emission_hook>, :returns(gulong), :parameters([ guint, GQuark, :( gint-ptr $ihint, guint $n-param-values, N-Object $param-values, gpointer $data ), gpointer, :( gpointer $data )]), ),
-  signal-chain-from-overridden => %( :type(Function), :is-symbol<g_signal_chain_from_overridden>, :parameters([ N-Object, N-Object]), ),
-  signal-chain-from-overridden-handler => %( :type(Function), :is-symbol<g_signal_chain_from_overridden_handler>, :variable-list, :parameters([gpointer]), ),
-  signal-connect-closure => %( :type(Function), :is-symbol<g_signal_connect_closure>, :returns(gulong), :parameters([ gpointer, Str, N-Object, gboolean]), ),
-  signal-connect-closure-by-id => %( :type(Function), :is-symbol<g_signal_connect_closure_by_id>, :returns(gulong), :parameters([ gpointer, guint, GQuark, N-Object, gboolean]), ),
+  #signal-accumulator-first-wins => %( :type(Function), :is-symbol<g_signal_accumulator_first_wins>, :returns(gboolean), :parameters([ gint-ptr, N-Object, N-Object, gpointer]), ),
+  #signal-accumulator-true-handled => %( :type(Function), :is-symbol<g_signal_accumulator_true_handled>, :returns(gboolean), :parameters([ gint-ptr, N-Object, N-Object, gpointer]), ),
+  #signal-add-emission-hook => %( :type(Function), :is-symbol<g_signal_add_emission_hook>, :returns(gulong), :parameters([ guint, GQuark, :( gint-ptr $ihint, guint $n-param-values, N-Object $param-values, gpointer $data ), gpointer, :( gpointer $data )]), ),
+  #signal-chain-from-overridden => %( :type(Function), :is-symbol<g_signal_chain_from_overridden>, :parameters([ N-Object, N-Object]), ),
+  #signal-chain-from-overridden-handler => %( :type(Function), :is-symbol<g_signal_chain_from_overridden_handler>, :variable-list, :parameters([gpointer]), ),
+  #signal-connect-closure => %( :type(Function), :is-symbol<g_signal_connect_closure>, :returns(gulong), :parameters([ gpointer, Str, N-Object, gboolean]), ),
+  #signal-connect-closure-by-id => %( :type(Function), :is-symbol<g_signal_connect_closure_by_id>, :returns(gulong), :parameters([ gpointer, guint, GQuark, N-Object, gboolean]), ),
   #signal-connect-data => %( :type(Function), :is-symbol<g_signal_connect_data>, :returns(gulong), :parameters([UInt]), ),
   signal-emit => %( :type(Function), :is-symbol<g_signal_emit>, :variable-list, :parameters([ gpointer, guint, GQuark]), ),
   signal-emit-by-name => %( :type(Function), :is-symbol<g_signal_emit_by_name>, :variable-list, :parameters([ gpointer, Str]), ),
   #signal-emit-valist => %( :type(Function), :is-symbol<g_signal_emit_valist>, :parameters([ gpointer, guint, GQuark, ]), ),
-  signal-emitv => %( :type(Function), :is-symbol<g_signal_emitv>, :parameters([ N-Object, guint, GQuark, N-Object]), ),
-  signal-get-invocation-hint => %( :type(Function), :is-symbol<g_signal_get_invocation_hint>, :returns(gint-ptr), :parameters([gpointer]), ),
-  signal-handler-block => %( :type(Function), :is-symbol<g_signal_handler_block>, :parameters([ gpointer, gulong]), ),
-  signal-handler-disconnect => %( :type(Function), :is-symbol<g_signal_handler_disconnect>, :parameters([ gpointer, gulong]), ),
+  #signal-emitv => %( :type(Function), :is-symbol<g_signal_emitv>, :parameters([ N-Object, guint, GQuark, N-Object]), ),
+  #signal-get-invocation-hint => %( :type(Function), :is-symbol<g_signal_get_invocation_hint>, :returns(gint-ptr), :parameters([gpointer]), ),
+  #signal-handler-block => %( :type(Function), :is-symbol<g_signal_handler_block>, :parameters([ gpointer, gulong]), ),
+  #signal-handler-disconnect => %( :type(Function), :is-symbol<g_signal_handler_disconnect>, :parameters([ gpointer, gulong]), ),
   #signal-handler-find => %( :type(Function), :is-symbol<g_signal_handler_find>, :returns(gulong), :parameters([ UInt, guint, GQuark, N-Object, gpointer, gpointer]), ),
-  signal-handler-is-connected => %( :type(Function), :is-symbol<g_signal_handler_is_connected>, :returns(gboolean), :parameters([ gpointer, gulong]), ),
-  signal-handler-unblock => %( :type(Function), :is-symbol<g_signal_handler_unblock>, :parameters([ gpointer, gulong]), ),
+  #signal-handler-is-connected => %( :type(Function), :is-symbol<g_signal_handler_is_connected>, :returns(gboolean), :parameters([ gpointer, gulong]), ),
+  #signal-handler-unblock => %( :type(Function), :is-symbol<g_signal_handler_unblock>, :parameters([ gpointer, gulong]), ),
   #signal-handlers-block-matched => %( :type(Function), :is-symbol<g_signal_handlers_block_matched>, :returns(guint), :parameters([ UInt, guint, GQuark, N-Object, gpointer, gpointer]), ),
-  signal-handlers-destroy => %( :type(Function), :is-symbol<g_signal_handlers_destroy>, :parameters([gpointer]), ),
+  #signal-handlers-destroy => %( :type(Function), :is-symbol<g_signal_handlers_destroy>, :parameters([gpointer]), ),
   #signal-handlers-disconnect-matched => %( :type(Function), :is-symbol<g_signal_handlers_disconnect_matched>, :returns(guint), :parameters([ UInt, guint, GQuark, N-Object, gpointer, gpointer]), ),
   #signal-handlers-unblock-matched => %( :type(Function), :is-symbol<g_signal_handlers_unblock_matched>, :returns(guint), :parameters([ UInt, guint, GQuark, N-Object, gpointer, gpointer]), ),
-  signal-has-handler-pending => %( :type(Function), :is-symbol<g_signal_has_handler_pending>, :returns(gboolean), :parameters([ gpointer, guint, GQuark, gboolean]), ),
-  signal-is-valid-name => %( :type(Function), :is-symbol<g_signal_is_valid_name>, :returns(gboolean), :parameters([Str]), ),
-  signal-list-ids => %( :type(Function), :is-symbol<g_signal_list_ids>, :returns(gint-ptr), :parameters([ GType, gint-ptr]), ),
-  signal-lookup => %( :type(Function), :is-symbol<g_signal_lookup>, :returns(guint), :parameters([ Str, GType]), ),
-  signal-name => %( :type(Function), :is-symbol<g_signal_name>, :returns(Str), :parameters([guint]), ),
+  #signal-has-handler-pending => %( :type(Function), :is-symbol<g_signal_has_handler_pending>, :returns(gboolean), :parameters([ gpointer, guint, GQuark, gboolean]), ),
+  #signal-is-valid-name => %( :type(Function), :is-symbol<g_signal_is_valid_name>, :returns(gboolean), :parameters([Str]), ),
+  #signal-list-ids => %( :type(Function), :is-symbol<g_signal_list_ids>, :returns(gint-ptr), :parameters([ GType, gint-ptr]), ),
+  #signal-lookup => %( :type(Function), :is-symbol<g_signal_lookup>, :returns(guint), :parameters([ Str, GType]), ),
+  #signal-name => %( :type(Function), :is-symbol<g_signal_name>, :returns(Str), :parameters([guint]), ),
   #signal-new => %( :type(Function), :is-symbol<g_signal_new>, :variable-list, :returns(guint), :parameters([ UInt, guint, :( gint-ptr $ihint, N-Object $return-accu, N-Object $handler-return, gpointer $data ), gpointer, , GType, guint]), ),
   #signal-new-class-handler => %( :type(Function), :is-symbol<g_signal_new_class_handler>, :variable-list, :returns(guint), :parameters([ UInt, :( ), :( gint-ptr $ihint, N-Object $return-accu, N-Object $handler-return, gpointer $data ), gpointer, , GType, guint]), ),
   #signal-new-valist => %( :type(Function), :is-symbol<g_signal_new_valist>, :returns(guint), :parameters([ UInt, N-Object, :( gint-ptr $ihint, N-Object $return-accu, N-Object $handler-return, gpointer $data ), gpointer, , GType, guint, ]), ),
   #signal-newv => %( :type(Function), :is-symbol<g_signal_newv>, :returns(guint), :parameters([ UInt, N-Object, :( gint-ptr $ihint, N-Object $return-accu, N-Object $handler-return, gpointer $data ), gpointer, , GType, guint, ]), ),
-  signal-override-class-closure => %( :type(Function), :is-symbol<g_signal_override_class_closure>, :parameters([ guint, GType, N-Object]), ),
-  signal-override-class-handler => %( :type(Function), :is-symbol<g_signal_override_class_handler>, :parameters([ Str, GType, :( )]), ),
-  signal-parse-name => %( :type(Function), :is-symbol<g_signal_parse_name>, :returns(gboolean), :parameters([ Str, GType, gint-ptr, GQuark, gboolean]), ),
-  signal-query => %( :type(Function), :is-symbol<g_signal_query>, :parameters([ guint, N-Object]), ),
-  signal-remove-emission-hook => %( :type(Function), :is-symbol<g_signal_remove_emission_hook>, :parameters([ guint, gulong]), ),
+  #signal-override-class-closure => %( :type(Function), :is-symbol<g_signal_override_class_closure>, :parameters([ guint, GType, N-Object]), ),
+  #signal-override-class-handler => %( :type(Function), :is-symbol<g_signal_override_class_handler>, :parameters([ Str, GType, :( )]), ),
+  #signal-parse-name => %( :type(Function), :is-symbol<g_signal_parse_name>, :returns(gboolean), :parameters([ Str, GType, gint-ptr, GQuark, gboolean]), ),
+  #signal-query => %( :type(Function), :is-symbol<g_signal_query>, :parameters([ guint, N-Object]), ),
+  #signal-remove-emission-hook => %( :type(Function), :is-symbol<g_signal_remove_emission_hook>, :parameters([ guint, gulong]), ),
   #signal-set-va-marshaller => %( :type(Function), :is-symbol<g_signal_set_va_marshaller>, :parameters([ guint, GType, ]), ),
-  signal-stop-emission => %( :type(Function), :is-symbol<g_signal_stop_emission>, :parameters([ gpointer, guint, GQuark]), ),
-  signal-stop-emission-by-name => %( :type(Function), :is-symbol<g_signal_stop_emission_by_name>, :parameters([ gpointer, Str]), ),
+  #signal-stop-emission => %( :type(Function), :is-symbol<g_signal_stop_emission>, :parameters([ gpointer, guint, GQuark]), ),
+  #signal-stop-emission-by-name => %( :type(Function), :is-symbol<g_signal_stop_emission_by_name>, :parameters([ gpointer, Str]), ),
 
 );
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
