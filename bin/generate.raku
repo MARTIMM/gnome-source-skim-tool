@@ -45,7 +45,7 @@ $c = ?$o<c>;  # generate code
 $d = ?$o<d>;  # generate docs
 $t = ?$o<t>;  # generate tests
 
-my Bool $*overwrite = ?$o<o>;   # Automatic (over)write. When chice is missing,
+my Bool $*overwrite = ?$o<o>;   # Automatic (over)write. When choice is missing,
                                 # the choices are presented to skip or make
                                 # a new version
 
