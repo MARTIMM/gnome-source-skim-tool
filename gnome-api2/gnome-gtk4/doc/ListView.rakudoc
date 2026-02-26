@@ -1,4 +1,5 @@
 =comment Package: Gtk4, C-Source: listview
+
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -14,33 +15,49 @@ B<Gnome::Gtk4::ListView> presents a large dynamic list of items.
 B<Gnome::Gtk4::ListView> uses its factory to generate one row widget for each visible
 item and shows them in a linear display, either vertically or horizontally.
 
-The I<show-separators> property offers a simple way to
-display separators between the rows.
+The C<.set-show-separators()> method offers a simple way to
+set separators between the rows.
 
 B<Gnome::Gtk4::ListView> allows the user to select items according to the selection
 characteristics of the model. For models that allow multiple selected items,
-it is possible to turn on _rubberband selection_, using
-I<enable-rubberband>.
+it is possible to turn on I<rubberband selection>, using
+C<.set-enable-rubberband()>.
 
 If you need multiple columns with headers, see L<Gnome::Gtk4::ColumnView|/content-docs/api2/reference/Gtk4/ColumnView>.
 
 To learn more about the list widget framework, see the
-[overview](section-list-widget.html).
+L<overview|https://docs.gtk.org/gtk4/section-list-widget.html>.
 
-An example of using B<Gnome::Gtk4::ListView>:
+=begin comment
+
+=head2 Example use
+
+=begin code
+=end code
+
+=end comment
 
 =head2 CSS nodes
 
+=begin code
+listview[.separators][.rich-list][.navigation-sidebar][.data-table]
+├── row[.activatable]
+│
+├── row[.activatable]
+│
+┊
+╰── [rubberband]
+=end code
+
 B<Gnome::Gtk4::ListView> uses a single CSS node named B<listview>. It may carry the
-`.separators` style class, when I<show-separators>
+I<.separators> style class, when I<show-separators>
 property is set. Each child widget uses a single CSS node named B<row>.
 If the I<activatable defined in Gnome::Gtk4::ListItem> property is set, the
-corresponding row will have the `.activatable` style class. For
+corresponding row will have the I<.activatable> style class. For
 rubberband selection, a node with name B<rubberband> is used.
 
 The main listview node may also carry style classes to select
-the style of [list presentation](ListContainers.html#list-styles):
-.rich-list, .navigation-sidebar or .data-table.
+the style of L<list presentation|https://docs.gtk.org/gtk4/section-list-widget.html#list-styles>: I<.rich-list>, I<.navigation-sidebar> or I<.data-table>.
 
 =head2 Accessibility
 
@@ -48,6 +65,7 @@ B<Gnome::Gtk4::ListView> uses the C<GTK_ACCESSIBLE_ROLE_LIST> role, and the list
 items use the C<GTK_ACCESSIBLE_ROLE_LIST_ITEM> role.
 
 =head2 Uml Diagram
+
 =for image :src<asset_files/images/plantuml/ListView.png> :width<70%> :class<inline>
 
 =begin comment
@@ -72,7 +90,7 @@ items use the C<GTK_ACCESSIBLE_ROLE_LIST_ITEM> role.
 
 Create an object using a native object from an object of the same type found elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
-  multi method new ( N-Object() :$native-object! )
+  method new ( N-Object() :$native-object! )
 
 =end pod
 
@@ -108,6 +126,7 @@ method new-listview ( N-Object() $model, N-Object() $factory --> Gnome::Gtk4::Li
 
 =begin pod
 =head1 Methods
+
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -167,7 +186,7 @@ Return value; The factory in use.
 =begin comment
 
 =head2 Example
-# Example for get-model
+# Example for get-header-factory
 
 =end comment
 
@@ -188,7 +207,6 @@ Return value; The model in use.
 =begin comment
 
 =head2 Example
-# Example for get-show-separators
 
 =end comment
 
@@ -210,7 +228,6 @@ Return value; C<True> if the list box shows separators.
 =begin comment
 
 =head2 Example
-# Example for get-single-click-activate
 
 =end comment
 
@@ -232,7 +249,6 @@ Return value; C<True> if rows are activated on single click.
 =begin comment
 
 =head2 Example
-# Example for set-enable-rubberband
 
 =end comment
 
@@ -253,7 +269,6 @@ Return value; The behavior of the <kbd>Tab</kbd> key.
 =begin comment
 
 =head2 Example
-# Example for set-factory
 
 =end comment
 
@@ -282,7 +297,6 @@ method scroll-to ( UInt() $pos, UInt $flags, N-Object $scroll )
 =begin comment
 
 =head2 Example
-# Example for set-model
 
 =end comment
 
@@ -303,7 +317,6 @@ method set-enable-rubberband ( Bool() $enable-rubberband )
 =begin comment
 
 =head2 Example
-# Example for set-show-separators
 
 =end comment
 
@@ -321,12 +334,16 @@ method set-factory ( N-Object() $factory )
 
 =item $factory; the factory to use.
 
-=begin comment
+=head2 Example using set-factory
 
-=head2 Example
-# Example for set-single-click-activate
-
-=end comment
+=begin code
+my Gnome::Gtk4::ListView $list-view;
+with $list-view .= new-listview( N-Object, N-Object) {
+  my $signal-factory .= new-signallistitemfactory;
+  .set-factory($!signal-factory);
+  …
+}
+=end code
 
 =end pod
 
@@ -348,7 +365,6 @@ method set-header-factory ( N-Object() $factory )
 =begin comment
 
 =head2 Example
-# Example for signal activate
 
 =end comment
 
@@ -369,6 +385,7 @@ method set-model ( N-Object() $model )
 =item $model; the model to use.
 
 =begin comment
+
 static void
 setup_listitem_cb (GtkListItemFactory *factory,
                    GtkListItem        *list_item)
@@ -436,13 +453,6 @@ method set-show-separators ( Bool() $show-separators )
 =item $show-separators; C<True> to show separators.
 
 =begin comment
-listview[.separators][.rich-list][.navigation-sidebar][.data-table]
-├── row[.activatable]
-│
-├── row[.activatable]
-│
-┊
-╰── [rubberband]
 
 =end comment
 
@@ -497,15 +507,13 @@ Emitted when a row has been activated by the user,
 usually via activating the GtkListView|list.activate-item action.
 
 This allows for a convenient way to handle activation in a listview.
-See L<.set-activatable() in class ListItem|/content-docs/api2/reference/Gtk4/ListItem#set-activatable> for details on how to use
-this signal.
+See L<.set-activatable() in class ListItem|/content-docs/api2/reference/Gtk4/ListItem#set-activatable> for details on how to use this signal.
 
 =begin code
 method handler (
   guint $position,
   Int :$_handle_id,
   N-GObject :$_native-object,
-  Gnome::Gtk4::ListView :$_widget,
   *%user-options
 )
 =end code
