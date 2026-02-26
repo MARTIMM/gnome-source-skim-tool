@@ -112,7 +112,7 @@
 * [ ] ListItem.rakumod
 * [ ] ListItemFactory.rakumod
 * [ ] ListStore.rakumod
-* [ ] ListView.rakumod
+* [x] ListView.rakumod
 * [ ] LockButton.rakumod
 * [ ] MediaControls.rakumod
 * [ ] MenuButton.rakumod
