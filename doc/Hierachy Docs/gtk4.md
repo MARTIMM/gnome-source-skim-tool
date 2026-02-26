@@ -196,6 +196,7 @@ GObject                                         Gnome::GObject::Object
 │   ├── GtkIMContextSimple
 │   ╰── GtkIMMulticontext
 ├── GtkListItem                                 ListItem
+├── GtkListHeader                               
 ├── GtkListStore                                ListStore
 ├── GtkMapListModel
 ├── GtkMediaStream
