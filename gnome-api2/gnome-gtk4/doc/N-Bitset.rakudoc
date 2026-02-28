@@ -13,12 +13,9 @@ A B<Gnome::Gtk4::N-Bitset> represents a set of unsigned integers.
 
 Another name for this data structure is "bitmap".
 
-The current implementation is based on [roaring bitmaps](https://roaringbitmap.org/).
+The current implementation is based on L<roaring bitmaps|https://roaringbitmap.org/> (Roaring bitmaps are compressed bitmaps. They can be hundreds of times faster).
 
-A bitset allows adding a set of integers and provides support for set operations
-like unions, intersections and checks for equality or if a value is contained
-in the set. B<Gnome::Gtk4::N-Bitset> also contains various functions to query metadata about
-the bitset, such as the minimum or maximum values or its size.
+A bitset allows adding a set of integers and provides support for set operations like unions, intersections and checks for equality or if a value is contained in the set. B<Gnome::Gtk4::N-Bitset> also contains various functions to query metadata about the bitset, such as the minimum or maximum values or its size.
 
 The fastest way to iterate values in a bitset is  B<Gnome::Gtk4::N-BitsetIter> .
 
