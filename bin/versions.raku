@@ -2,6 +2,34 @@
 
 use v6.d;
 use META6;
+use Gnome::Versions;
+
+with my Gnome::Versions $gnome-versions .= new {
+  .set-repopath(
+    $*HOME ~ '/Languages/Raku/Projects/gnome-source-skim-tool/gnome-api2'
+  );
+
+  .add-repos(
+    :Gtk4<gnome-gtk4>,
+    :Gdk4<gnome-gdk4>,
+    :Gsk4<gnome-gsk4>,
+    :Graphene<gnome-graphene>,
+
+    :Gtk3<gnome-gtk3>,
+    :Gdk3<gnome-gdk3>,
+
+    :Glib<gnome-glib>,
+    :Gio<gnome-gio>,
+    :GObject<gnome-gobject>,
+
+    :Pango<gnome-pango>,
+    :GdkPixbuf<gnome-gdkpixbuf>,
+
+  #  :N<gnome-native>,
+  );
+}
+
+exit;
 
 # gdk3, gtk3 is stored in gtk3
 # gdk4, gsk4, gtk4 is stored in gtk4
@@ -199,6 +227,7 @@ $code ~= Q:q:to/EORAKU/;
 
 #note $code;
 
+=finish
 say "write 'bin/version-of.raku'";
 'bin/version-of.raku'.IO.spurt($code);
 
