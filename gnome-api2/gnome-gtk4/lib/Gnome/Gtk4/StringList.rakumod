@@ -81,6 +81,7 @@ my Hash $methods = %(
   #--[Methods]------------------------------------------------------------------
   append => %(:is-symbol<gtk_string_list_append>, :parameters([Str]), ),
   get-string => %(:is-symbol<gtk_string_list_get_string>, :returns(Str), :parameters([guint]), ),
+  find => %(:is-symbol<gtk_string_list_find>, :returns(guint), :parameters([gchar-ptr]), ),
   remove => %(:is-symbol<gtk_string_list_remove>, :parameters([guint]), ),
   splice => %(:is-symbol<gtk_string_list_splice>, :parameters([guint, guint, gchar-pptr]), ),
   take => %(:is-symbol<gtk_string_list_take>, :parameters([Str]), ),
