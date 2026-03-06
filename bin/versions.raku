@@ -25,7 +25,7 @@ with my Gnome::Versions $gnome-versions .= new {
     :Pango<gnome-pango>,
     :GdkPixbuf<gnome-gdkpixbuf>,
 
-  #  :N<gnome-native>,
+#    :N<gnome-native>,
   );
 }
 
