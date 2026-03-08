@@ -70,13 +70,12 @@ sub USAGE ( ) {
     {$*PROGRAM.basename} [-v] package …
 
     Options:
-      help    Show this info. (or any other non existant option ;-)
+      help    Show this info.
       v       Show some extra info while stumping. Default False.
 
     Arguments
       package   The Gnome package name used for the class. Select one
-                from this list; Atk Cairo DBus DBusGLib Gdk3 Gdk4
-                GdkPixbuf GdkPixdata Gio Glib GObject Gtk3 Gtk4 Gsk4
-                Pango PangoCairo Grapheme.
+                from this list; DBus DBusGLib Gtk4 Gdk4 Gdk3 Gdk4 Gsk4
+                GdkPixbuf Pango Grapheme.
   EOHELP
 }
