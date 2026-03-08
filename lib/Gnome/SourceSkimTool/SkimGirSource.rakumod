@@ -42,6 +42,7 @@ submethod BUILD ( ) {
 
 #-------------------------------------------------------------------------------
 method get-classes-from-gir ( ) {
+  self!load-map;
 
   # Make start of xml by taking the <package> and <namespace> elements.
   # some gir files mention two packages. we take only one
@@ -888,10 +889,22 @@ method !set-names ( Str $naked-gnome-name is copy --> List ) {
 }
 
 #-------------------------------------------------------------------------------
-method !save-map ( ) {
-
+method !load-map ( ) {
   my $fname = $*work-data<gir-module-path> ~ 'repo-object-map.yaml';
-  note "Save object map" if $*verbose;
+  if $fname.IO ~~ :r {
+    note "Load object map $fname" if $*verbose;
+    $!map = load-yaml($fname.IO.slurp);
+  }
+
+  else {
+    $!map = %();
+  }
+}
+
+#-------------------------------------------------------------------------------
+method !save-map ( ) {
+  my $fname = $*work-data<gir-module-path> ~ 'repo-object-map.yaml';
+  note "Save object map $fname" if $*verbose;
   $fname.IO.spurt(save-yaml($!map));
 }
 
@@ -900,8 +913,14 @@ method !save-map ( ) {
 # an XML::XPath object.
 method load-gir-file ( --> XML::XPath ) {
   my Str $file = $*work-data<gir>;
-  $!gir-modification-time = $file.IO.modified;
-  $!xp .= new(:$file);
+  if $file.IO ~~ :r {
+    $!gir-modification-time = $file.IO.modified;
+    $!xp .= new(:$file);
+  }
+
+  else {
+    die "Gir file $*work-data<gir> not found";
+  }
 }
 
 #-------------------------------------------------------------------------------
