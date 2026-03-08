@@ -896,7 +896,9 @@ method !save-map ( ) {
 }
 
 #-------------------------------------------------------------------------------
-method load-gir-file ( ) {
+# Read the XML file found at /usr/share/gir-1.0. Return result in
+# an XML::XPath object.
+method load-gir-file ( --> XML::XPath ) {
   my Str $file = $*work-data<gir>;
   $!gir-modification-time = $file.IO.modified;
   $!xp .= new(:$file);
