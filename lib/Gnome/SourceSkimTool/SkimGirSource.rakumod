@@ -47,9 +47,8 @@ method get-classes-from-gir ( ) {
   # Make start of xml by taking the <package> and <namespace> elements.
   # some gir files mention two packages. we take only one
   my XML::Element $e = $!xp.find( '/repository/package', :to-list)[0];
-  my Str $xml-namespace = "  $e.Str()\n      <namespace\n";
+  my Str $xml-namespace = self!devise-xml-namespace;
 
-  # Get info from namespace
   $e = $!xp.find( '/repository/namespace');
   my $attribs = $e.attribs;
   my Str $namespace-name = $attribs<name>;
@@ -60,30 +59,24 @@ method get-classes-from-gir ( ) {
 
   my Str $id-prefix = $attribs<c:identifier-prefixes>;
 
-  # Add attributes to the xml start
-  for $attribs.kv -> $k, $v {
-    $xml-namespace ~= "            $k=\"$v\"\n";
-  }
-  $xml-namespace ~= "      >\n";
-
   my @elements = ($!xp.find( '/repository/namespace/*', :to-list));
   for @elements -> $element {
 
     # Ignore the entry when the item is moved to some other module
     my $attrs = $element.attribs;
-    next if $attribs<moved-to>:exists;
+    next if $attrs<moved-to>:exists;
 
     # Map an element into the repo-object-map.
-    ## Returns True if
-    ## element is deprecated or is a *class, *iface, *interface or *private type.
-    #next if
     self!map-element( $element, $namespace-name, $symbol-prefix, $id-prefix);
     my Str $element-name = self.test-for-oddities( $element.name, $attrs);
-    given $element-name {
+next unless $element-name eq 'class';
 
+    given $element-name {
       # Save the class info in separate gir files
       when 'class' {
         my Str $name = self!check-pixbuf($attrs<name>);
+note "$?LINE $name";
+next unless $name eq 'AboutDialog';
         my $xml-file = "$*work-data<gir-module-path>C-$name.gir";
         if ($xml-file.IO ~~ :!e) or
            ($xml-file.IO.modified > $!gir-modification-time)
@@ -106,12 +99,17 @@ method get-classes-from-gir ( ) {
 
           if $element.name ne 'class' {
             $xml ~~ s/ '<interface ' /\<class /;
-            $xml ~~ s/ '</interface>' /\<\/class\>/;
+            $xml ~~ s/ \<\/interface\> /\<\/class\>/;
           }
 
           note "Save class $name" if $*verbose;
           $xml-file.IO.spurt($xml);
+
+          self!write-yaml($xml);
         }
+
+note "$?LINE exit";
+exit;
       }
 
       # Records are structures in C. There are fields for the structure,
@@ -243,7 +241,6 @@ method get-classes-from-gir ( ) {
   for $!map.keys -> $entry-name {
     next unless $!map{$entry-name}<gir-type>:exists;
 
-##`{{
     # A type name is the bare name of an object without any prefixes of gnome.
     # Those are found on class, interface, record and union. The rest of the
     # gir types must read it from the filename map created above while
@@ -265,7 +262,6 @@ method get-classes-from-gir ( ) {
       $!map{$entry-name}<inheritable> = self!is-inheritable($entry-name);
       self!set-real-role-user($entry-name) if $!map{$entry-name}<roles>;
     }
-#}}
 
     if $!map{$entry-name}<gir-type> ~~ any(
          <function constant enumeration bitfield docsection callback>
@@ -279,6 +275,47 @@ method get-classes-from-gir ( ) {
 
   self!save-other($xml-namespace);
   self!save-map;
+}
+
+#-------------------------------------------------------------------------------
+method !devise-xml-namespace ( --> Str ) {
+  # Create start of xml by taking the <package> and <namespace> elements.
+  # some gir files mention two packages. we take only one
+  my XML::Element $e = $!xp.find( '/repository/package', :to-list)[0];
+  my Str $xml-namespace = "  $e.Str()\n      <namespace\n";
+
+  # Get info from namespace
+  $e = $!xp.find( '/repository/namespace');
+
+  # Add attributes to the xml start
+  my $attribs = $e.attribs;
+  for $attribs.kv -> $k, $v {
+    $xml-namespace ~= "            $k=\"$v\"\n";
+  }
+  $xml-namespace ~= "      >\n";
+
+  $xml-namespace
+}
+
+#-------------------------------------------------------------------------------
+method !write-yaml ( Str $xml ) {
+  my XML::XPath $xp .= new(:$xml);
+  my %data = self!get-data($xp);
+note "$?LINE ", %data.gist;
+}
+
+#-------------------------------------------------------------------------------
+method !get-data ( XML::XPath $xp --> Hash ) {
+
+  my Hash $class-data = %();
+
+  my XML::Element $element = $xp.find('//class');
+  die "//class not found" unless ?$element;
+  my Hash $attrs = $element.attribs;
+note "$?LINE ", $attrs.gist;
+  $class-data{$attrs<name>} = %();
+
+  $class-data
 }
 
 #-------------------------------------------------------------------------------
@@ -356,13 +393,14 @@ method set-implentors ( Str $entry-name, Str $role-class-name is copy ) {
 }
 
 #-------------------------------------------------------------------------------
-# Make a map of function, class and structure names to Raku names. Add some
-# extra notes like type and location in hierarchy tree. Return True when element
-# is deprecated or is a class, iface or private type
+#|( Make a map of function, class and structure names to Raku names. Add some
+    extra notes like type and location in hierarchy tree.
+    * $element; toplevel at 'repository/namespace'
+)
+
 method !map-element (
   XML::Element $element, Str $namespace-name,
   Str $symbol-prefix is copy, Str $id-prefix
-#  --> Bool
 ) {
   my Bool $deprecated;
   my Str $deprecated-version;
@@ -372,7 +410,7 @@ method !map-element (
   my Hash $attrs = $element.attribs;
 
   # Return if element is marked as disguised. We don't need those.
-  return True if $attrs<disguised>:exists and $attrs<disguised> == 1;
+  return if $attrs<disguised>:exists and $attrs<disguised> == 1;
 
   # Map key from some sort of identifier
   my Str $ctype = $attrs<c:type> //           # Most cases
@@ -381,14 +419,13 @@ method !map-element (
                   $attrs<name> // ''          # Doc sections
                   ;
   # Return when an element ends in specific words. Most of those are records.
-# Maybe we need xxxClass types to access/modify virtual functions of a class
-  return True if $ctype ~~ m/ [ Private || Class || Iface || Interface ] $/;
-#  return True if $ctype ~~ m/ [ Private || Iface || Interface ] $/;
+  return if $ctype ~~ m/ [ Private || Class || Iface || Interface ] $/;
+#  return if $ctype ~~ m/ [ Private || Iface || Interface ] $/;
 
   # Check for this id. If undefined make some noise and return
   unless ?$ctype {
     note "\nNO IDENTIFIER FOUND FOR tag $element.name(); ", $attrs.gist;
-    return True;
+    return;
   }
 
   $gnome-name = $ctype;
@@ -696,7 +733,7 @@ method !map-element (
     when 'function-macro' { }
 
     default {
-      print 'Unprocessed element type: ', $_;
+      say 'Unprocessed element type: ', $_;
     }
   }
 
@@ -900,6 +937,21 @@ method !load-map ( ) {
     $!map = %();
   }
 }
+
+#`{{
+#-------------------------------------------------------------------------------
+method !load-object ( ) {
+  my $fname = $*work-data<gir-module-path> ~ 'repo-object-map.yaml';
+  if $fname.IO ~~ :r {
+    note "Load object map $fname" if $*verbose;
+    $!map = load-yaml($fname.IO.slurp);
+  }
+
+  else {
+    $!map = %();
+  }
+}
+  }}
 
 #-------------------------------------------------------------------------------
 method !save-map ( ) {
