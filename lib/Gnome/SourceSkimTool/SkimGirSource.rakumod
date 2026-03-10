@@ -7,7 +7,6 @@ use YAMLish;
 #use Gnome::SourceSkimTool::Code;
 use Gnome::SourceSkimTool::Resolve;
 
-
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::SkimGirSource:auth<github:MARTIMM>;
 
@@ -51,11 +50,12 @@ method get-classes-from-gir ( ) {
 
   $e = $!xp.find( '/repository/namespace');
   my $attribs = $e.attribs;
-  my Str $namespace-name = $attribs<name>;
-  my Str $symbol-prefix = $attribs<c:symbol-prefixes>;
+  $*namespace-name = $attribs<name>;
+  $*symbol-prefix = $attribs<c:symbol-prefixes>;
+  $*lib-version = $attribs<version>;
 
   # Glib strays of from standard, must correct it. Gio and GObject are correct
-  $symbol-prefix ~~ s/^ g <[.,]> .* /g/;
+  $*symbol-prefix ~~ s/^ g <[.,]> .* /g/;
 
   my Str $id-prefix = $attribs<c:identifier-prefixes>;
 
@@ -67,7 +67,7 @@ method get-classes-from-gir ( ) {
     next if $attrs<moved-to>:exists;
 
     # Map an element into the repo-object-map.
-    self!map-element( $element, $namespace-name, $symbol-prefix, $id-prefix);
+    self!map-element( $element, $*namespace-name, $*symbol-prefix, $id-prefix);
     my Str $element-name = self.test-for-oddities( $element.name, $attrs);
 next unless $element-name eq 'class';
 
@@ -105,7 +105,7 @@ next unless $name eq 'AboutDialog';
           note "Save class $name" if $*verbose;
           $xml-file.IO.spurt($xml);
 
-          self!write-yaml($xml);
+          self!write-yaml( $xml-file, $xml, $element-name);
         }
 
 note "$?LINE exit";
@@ -298,24 +298,70 @@ method !devise-xml-namespace ( --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method !write-yaml ( Str $xml ) {
+method !write-yaml ( Str $xml-file, Str $xml, Str $element-name ) {
+
+  # Get previously saved yaml data of element
+  my $yaml-file = $xml-file;
+  $yaml-file ~~ s/ \. gir /.yaml/;
+  my Hash $element-data = %();
+  $element-data = load-yaml($yaml-file.IO.slurp) if $yaml-file.IO ~~ :r;
+
+  # Add/Change new data in 
   my XML::XPath $xp .= new(:$xml);
-  my %data = self!get-data($xp);
-note "$?LINE ", %data.gist;
+  self!get-data( $xp, $element-data, $element-name);
+note "$?LINE ", $element-data.gist;
+
+  # Save data
+note "$?LINE write to $yaml-file";
+  $yaml-file.IO.spurt(save-yaml($element-data));
 }
 
 #-------------------------------------------------------------------------------
-method !get-data ( XML::XPath $xp --> Hash ) {
+method !get-data ( XML::XPath $xp, Hash $element-data, Str $element-name ) {
+  # Setup basic info
+  $element-data<version> = $*lib-version;
+  $element-data<namespace-name> = $*namespace-name;
+  $element-data<symbol-prefix> = $*symbol-prefix;
 
-  my Hash $class-data = %();
+  # Search for the name
+  my XML::Element $element = $xp.find('//' ~ $element-name);
+  die "$element-name not found" unless ?$element;
 
-  my XML::Element $element = $xp.find('//class');
-  die "//class not found" unless ?$element;
+  # Get the attributes
   my Hash $attrs = $element.attribs;
-note "$?LINE ", $attrs.gist;
-  $class-data{$attrs<name>} = %();
 
-  $class-data
+  # Map key from some sort of identifier
+  my Str $ctype = self!get-name($attrs);
+  my Str $gtype =$ctype;
+  $gtype ~~ s/^ $*namespace-name//;
+
+note "$?LINE $ctype, $gtype";
+
+  # Get Hash of current object
+  $element-data{$gtype} //= %();
+  my Hash $ed-name = $element-data{$gtype};
+
+  # Get detected info and merge
+  for $!map{$ctype}.kv -> $k, $v {
+    $ed-name{$k} //= $v;
+  }
+
+#  $ed-name<parent> = $attrs<parent>;
+  $ed-name<version> //= $attrs<version> // $*lib-version;
+
+  #TODO check for file
+  my Int $modules-generated = 0;
+  $ed-name<checks> //= %(
+    :handcorrected-docs(0), :nbr-tests(0), :$modules-generated
+  );
+
+  self!get-routines( $xp, $element, $ed-name);
+
+#  $element-data
+}
+
+#-------------------------------------------------------------------------------
+method !get-routines ( XML::XPath $xp, XML::Element $element, Hash $ed-name ) {
 }
 
 #-------------------------------------------------------------------------------
@@ -399,8 +445,8 @@ method set-implentors ( Str $entry-name, Str $role-class-name is copy ) {
 )
 
 method !map-element (
-  XML::Element $element, Str $namespace-name,
-  Str $symbol-prefix is copy, Str $id-prefix
+  XML::Element $element, Str $*namespace-name,
+  Str $*symbol-prefix is copy, Str $id-prefix
 ) {
   my Bool $deprecated;
   my Str $deprecated-version;
@@ -413,11 +459,8 @@ method !map-element (
   return if $attrs<disguised>:exists and $attrs<disguised> == 1;
 
   # Map key from some sort of identifier
-  my Str $ctype = $attrs<c:type> //           # Most cases
-                  $attrs<glib:type-name> //   # Some classes
-                  $attrs<c:identifier> //     # Functions
-                  $attrs<name> // ''          # Doc sections
-                  ;
+  my Str $ctype = self!get-name($attrs);
+
   # Return when an element ends in specific words. Most of those are records.
   return if $ctype ~~ m/ [ Private || Class || Iface || Interface ] $/;
 #  return if $ctype ~~ m/ [ Private || Iface || Interface ] $/;
@@ -429,8 +472,8 @@ method !map-element (
   }
 
   $gnome-name = $ctype;
-  $symbol-prefix = [~] $symbol-prefix, '_', $attrs<c:symbol-prefix> // '', '_';
-  $symbol-prefix ~~ s/^ 'g,glib' /g/;
+  $*symbol-prefix = [~] $*symbol-prefix, '_', $attrs<c:symbol-prefix> // '', '_';
+  $*symbol-prefix ~~ s/^ 'g,glib' /g/;
 
   # Gather data depending on the tag type
   my Str $element-name = self.test-for-oddities( $element.name, $attrs);
@@ -466,7 +509,7 @@ method !map-element (
         :type-letter(''),
 
         :$parent-raku-name, :$parent-gnome-name, :@roles,
-        :$symbol-prefix,
+        :$*symbol-prefix,
       );
 
       $!map{$ctype}<deprecated> = $deprecated if $deprecated;
@@ -494,7 +537,7 @@ method !map-element (
         :$type-name,
         :type-letter('R'),
 
-        :$symbol-prefix,
+        :$*symbol-prefix,
       );
 
       $!map{$ctype}<deprecated> = $deprecated if $deprecated;
@@ -524,7 +567,7 @@ method !map-element (
         :$type-name,
         :type-letter('N'),
 
-        :$symbol-prefix,
+        :$*symbol-prefix,
       );
 
       $!map{$ctype}<deprecated> = $deprecated if $deprecated;
@@ -553,7 +596,7 @@ method !map-element (
         :$type-name,
         :type-letter('N'),
 
-        :$symbol-prefix,
+        :$*symbol-prefix,
       );
 
       $!map{$ctype}<deprecated> = $deprecated if $deprecated;
@@ -738,6 +781,18 @@ method !map-element (
   }
 
 #  $deprecated
+}
+
+#-------------------------------------------------------------------------------
+method !get-name ( Hash $attrs --> Str ) {
+  # Map key from some sort of identifier
+  my Str $ctype = $attrs<c:type> //           # Most cases
+                  $attrs<glib:type-name> //   # Some classes
+                  $attrs<c:identifier> //     # Functions
+                  $attrs<name> // ''          # Doc sections
+                  ;
+
+  $ctype
 }
 
 #-------------------------------------------------------------------------------
