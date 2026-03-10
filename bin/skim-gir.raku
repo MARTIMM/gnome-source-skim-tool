@@ -26,6 +26,10 @@ my Hash $*lib-content-list-file = load-yaml(lib-content-list-file.IO.slurp);
 
 my Array $*saved-file-summary = [];
 
+my Str $*lib-version;
+my Str $*namespace-name;
+my Str $*symbol-prefix;
+
 #-------------------------------------------------------------------------------
 sub MAIN ( *@gnome-packages, Bool :$v = False, Bool :$help = False ) {
 
