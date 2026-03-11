@@ -312,7 +312,7 @@ method !write-yaml ( Str $xml-file, Str $xml, Str $element-name ) {
   # Add/Change new data in 
   my XML::XPath $xp .= new(:$xml);
   self!get-data( $xp, $element-data, $element-name);
-note "$?LINE ", $element-data.gist;
+#note "$?LINE ", $element-data.gist;
 
   # Save data
 note "$?LINE write to $yaml-file";
@@ -358,15 +358,27 @@ note "$?LINE $ctype, $gtype";
     :handcorrected-docs(0), :nbr-tests(0), :$modules-generated
   );
 
-  self!get-routines( $xp, $element, $ed-name);
+  # Fill in some missing data before calling for routine search
+  $*work-data<gnome-name> = $ed-name<gnome-name>;
+  $*work-data<raku-name> = $ed-name<class-name>;
+  $*work-data<sub-prefix> = $ed-name<symbol-prefix>;
+
+  $ed-name<routines> = self!get-routines( $xp, $element);
 
 #  $element-data
 }
 
 #-------------------------------------------------------------------------------
-method !get-routines ( XML::XPath $xp, XML::Element $element, Hash $ed-name ) {
-  $ed-name<constructor> =
+method !get-routines ( XML::XPath $xp, XML::Element $element --> Hash ) {
+  my Hash $routines = %();
+  $routines<constructors> =
     $!code.get-native-subs( $element, $xp, :routine-type<constructor>);
+  $routines<methods> =
+    $!code.get-native-subs( $element, $xp, :routine-type<method>);
+  $routines<functions> =
+    $!code.get-native-subs( $element, $xp, :routine-type<function>);
+
+  $routines
 }
 
 #`{{
