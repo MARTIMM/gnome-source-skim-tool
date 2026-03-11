@@ -22,8 +22,6 @@ has Gnome::SourceSkimTool::Resolve $!solve;
 #-------------------------------------------------------------------------------
 multi submethod BUILD ( Bool :$skim-init! ) {
   note 'skim-init';
-
-  my Gnome::SourceSkimTool::Prepare $prepare .= new;
 }
 
 #-------------------------------------------------------------------------------
@@ -548,7 +546,7 @@ method get-native-subs (
   Bool :$user-side = False, Str :$routine-type = 'method'
   --> Hash
 ) {
-  my Hash $hms = %();
+  my Hash $routines = %();
   my @subs = $xpath.find( $routine-type, :start($element), :to-list);
 
   for @subs -> $native-sub {
@@ -559,10 +557,10 @@ method get-native-subs (
     next unless ?$function-name and ?%h;
 
     # Add to hash with functionname as its
-    $hms{$function-name} = %h;
+    $routines{$function-name} = %h;
   }
 
-  $hms
+  $routines
 }
 
 #-------------------------------------------------------------------------------
@@ -1822,10 +1820,11 @@ method !get-method-data (
   my Bool $deprecated = ?$e.attribs<deprecated>;
   my Str $deprecated-version =
     $deprecated ?? $e.attribs<deprecated-version> !! '';
+  my Str $version = $e.attribs<version> // '';
 
   ( $function-name, %(
       :@parameters, :$variable-list, :$rv-type, :$return-raku-type,
-      :$missing-type, :$deprecated, :$deprecated-version,
+      :$missing-type, :$deprecated, :$deprecated-version, :$version,
 #      :$return-raku-rtype,
 #      :$rv-transfer-ownership,
     )
