@@ -20,7 +20,14 @@ has Hash $!protected-files;
 has Gnome::SourceSkimTool::Resolve $!solve;
 
 #-------------------------------------------------------------------------------
-submethod BUILD ( ) {
+multi submethod BUILD ( Bool :$skim-init! ) {
+  note 'skim-init';
+
+  my Gnome::SourceSkimTool::Prepare $prepare .= new;
+}
+
+#-------------------------------------------------------------------------------
+multi submethod BUILD ( ) {
   # Load list of protected files. These are files which are changed by hand
   # after generating and thus don't want those be reset by an
   # accidental overwrite action.
