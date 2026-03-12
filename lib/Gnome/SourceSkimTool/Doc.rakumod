@@ -519,14 +519,14 @@ method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
 
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
   my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>//'';
-  my Str ( $rv-doc, $rv-type, $return-raku-type) =
+  my Str ( $rv-doc, $return-c-type, $return-raku-type) =
     self.get-doc-type( $rvalue, $xpath, :user-side);
-#note "$?LINE $function-name, $rvalue, $xpath, $rv-type, $return-raku-type";
+#note "$?LINE $function-name, $rvalue, $xpath, $return-c-type, $return-raku-type";
 
   $missing-type = True if !$return-raku-type or $return-raku-type ~~ /_UA_ $/;
   $return-raku-type ~~ s/ _UA_ $//;
   $return-raku-type ~~ s/ '()' //;
-#note "$?LINE $rv-type, $return-raku-type, $missing-type";
+#note "$?LINE $return-c-type, $return-raku-type, $missing-type";
 
   # Get all parameters. Mostly the instance parameters come first
   # but I am not certain.
@@ -589,7 +589,7 @@ method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
 #note "$?LINE $function-name, $missing-type";
   ( $function-name, %(
       :$function-doc, :@parameters, :$missing-type,
-      :$rv-doc, :$rv-type, :$return-raku-type,
+      :$rv-doc, :$return-c-type, :$return-raku-type,
       :$rv-transfer-ownership,
     )
   );
@@ -701,10 +701,10 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
     my XML::Element $rvalue = $xpath.find( 'return-value', :start($si));
     $curr-signal<transfer-ownership> = $rvalue.attribs<transfer-ownership>;
 
-    my Str ( $rv-doc, $rv-type, $return-ntype) =
+    my Str ( $rv-doc, $return-c-type, $return-ntype) =
        self.get-doc-type( $rvalue, $xpath, :!user-side);
     $curr-signal<rv-doc> = $rv-doc;
-    $curr-signal<rv-type> = $rv-type;
+    $curr-signal<return-c-type> = $return-c-type;
     $curr-signal<return-ntype> = $return-ntype;
 
     # Signal parameter info
@@ -1099,7 +1099,7 @@ method !get-callback-data (
 ) {
 #  my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
   #my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
-  my Str ( $rv-doc, $rv-type, $return-raku-type)
+  my Str ( $rv-doc, $return-c-type, $return-raku-type)
     = self.get-doc-type( $e, $xpath, :user-side);
 
   # Get all parameters. Mostly the instance parameters come first
@@ -1123,8 +1123,8 @@ method !get-callback-data (
     @parameters.push: $ph;
   }
 
-#  %( :@parameters, :$variable-list, :$rv-type, :$return-raku-type)
-  %( :@parameters, $rv-doc, :$rv-type, :$return-raku-type)
+#  %( :@parameters, :$variable-list, :$return-c-type, :$return-raku-type)
+  %( :@parameters, $rv-doc, :$return-c-type, :$return-raku-type)
 }
 
 #-------------------------------------------------------------------------------

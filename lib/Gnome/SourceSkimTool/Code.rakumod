@@ -1753,8 +1753,8 @@ method !get-method-data (
 #note "\n$?LINE $function-name";
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
   #my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
-#  my Str ( $rv-type, $return-raku-type, $return-raku-rtype) =
-  my Str ( $rv-type, $return-raku-type) = self.get-type( $rvalue, :$user-side);
+#  my Str ( $return-c-type, $return-raku-type, $return-raku-rtype) =
+  my Str ( $return-c-type, $return-raku-type) = self.get-type( $rvalue, :$user-side);
   $missing-type = True if !$return-raku-type or $return-raku-type ~~ /_UA_ $/;
   $return-raku-type ~~ s/ _UA_ $//;
 #note "$?LINE rv: $return-raku-type, $missing-type";
@@ -1769,8 +1769,8 @@ method !get-method-data (
 
   my Bool $variable-list = False;
   for @prmtrs -> $p {
-#    my Str ( $type, $raku-type, $raku-rtype) = self.get-type( $p, :$user-side);
-    my Str ( $type, $raku-type) = self.get-type( $p, :$user-side);
+#    my Str ( $c-type, $raku-type, $raku-rtype) = self.get-type( $p, :$user-side);
+    my Str ( $c-type, $raku-type) = self.get-type( $p, :$user-side);
     $missing-type = True if !$raku-type or $raku-type ~~ /_UA_ $/;
     $raku-type ~~ s/ _UA_ $//;
 #note "$?LINE p: $raku-type, $missing-type";
@@ -1780,13 +1780,13 @@ method !get-method-data (
     # When '…', there will be no type for that parameter. It means that
     # a variable argument list is used ending in a Nil.
     if $parameter-name eq '…' {
-#      $type = $raku-type = $raku-rtype = '…';
-      $type = $raku-type = '…';
+#      $c-type = $raku-type = $raku-rtype = '…';
+      $c-type = $raku-type = '…';
       $variable-list = True;
     }
 
     my Hash $ph = %(
-      :name($parameter-name), :$type, :$raku-type,
+      :name($parameter-name), :$c-type, :$raku-type,
 #      :transfer-ownership($attribs<transfer-ownership>),
 #      :$raku-rtype
     );
@@ -1823,7 +1823,7 @@ method !get-method-data (
   my Str $version = $e.attribs<version> // '';
 
   ( $function-name, %(
-      :@parameters, :$variable-list, :$rv-type, :$return-raku-type,
+      :@parameters, :$variable-list, :$return-c-type, :$return-raku-type,
       :$missing-type, :$deprecated, :$deprecated-version, :$version,
 #      :$return-raku-rtype,
 #      :$rv-transfer-ownership,
@@ -1838,7 +1838,7 @@ method !get-callback-data (
 ) {
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
   #my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
-  my Str ( $rv-type, $return-raku-type) = self.get-type( $rvalue, :$user-side);
+  my Str ( $return-c-type, $return-raku-type) = self.get-type( $rvalue, :$user-side);
 
   # Get all parameters. Mostly the instance parameters come first
   # but I am not certain.
@@ -1850,7 +1850,7 @@ method !get-callback-data (
 
 #  my Bool $variable-list = False;
   for @prmtrs -> $p {
-    my Str ( $type, $raku-type) = self.get-type( $p, :$user-side);
+    my Str ( $c-type, $raku-type) = self.get-type( $p, :$user-side);
     my Hash $attribs = $p.attribs;
     my Str $parameter-name = self.cleanup-id($attribs<name>);
 
@@ -1858,11 +1858,11 @@ method !get-callback-data (
     # When '…', there will be no type for that parameter. It means that
     # a variable argument list is used ending in a Nil.
     if $parameter-name eq '…' {
-      $type = $raku-type = '…';
+      $c-type = $raku-type = '…';
       $variable-list = True;
     }
 }}
-    my Hash $ph = %( :name($parameter-name), :$type, :$raku-type);
+    my Hash $ph = %( :name($parameter-name), :$c-type, :$raku-type);
 
     $ph<allow-none> = $attribs<allow-none>.Bool;
     $ph<nullable> = $attribs<nullable>.Bool;
@@ -1871,8 +1871,8 @@ method !get-callback-data (
     @parameters.push: $ph;
   }
 
-#  %( :@parameters, :$variable-list, :$rv-type, :$return-raku-type )
-  %( :@parameters, :$rv-type, :$return-raku-type )
+#  %( :@parameters, :$variable-list, :$return-c-type, :$return-raku-type )
+  %( :@parameters, :$return-c-type, :$return-raku-type )
 }
 
 #-------------------------------------------------------------------------------
@@ -2491,7 +2491,7 @@ method !get-constructor-data (
   # Find return value; constructors should return a native N-Object while
   # the gnome might say e.g. gtkwidget 
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
-  my Str ( $rv-type, $return-raku-type) = self.get-type( $rvalue, :$user-side);
+  my Str ( $return-c-type, $return-raku-type) = self.get-type( $rvalue, :$user-side);
   $missing-type = True if !$return-raku-type or $return-raku-type ~~ /_UA_ $/;
   $return-raku-type ~~ s/ _UA_ $//;
 
@@ -2577,7 +2577,7 @@ method !get-constructor-data (
   ( $function-name, %(
       :@parameters, :$variable-list,
 #      :$option-name, :@parameters, :$variable-list,
-      :$rv-type, :$return-raku-type, :$missing-type
+      :$return-c-type, :$return-raku-type, :$missing-type
     )
   );
 }
