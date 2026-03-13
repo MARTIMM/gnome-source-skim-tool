@@ -335,14 +335,14 @@ method !get-data ( XML::XPath $xp, Hash $element-data, Str $element-name ) {
 
   # Map key from some sort of identifier
   my Str $ctype = self!get-name($attrs);
-  my Str $gtype =$ctype;
-  $gtype ~~ s/^ $*namespace-name//;
+  my Str $raku-type =$ctype;
+  $raku-type ~~ s/^ $*namespace-name//;
 
-note "$?LINE $ctype, $gtype";
+note "$?LINE $ctype, $raku-type";
 
   # Get Hash of current object
-  $element-data{$gtype} //= %();
-  my Hash $ed-name = $element-data{$gtype};
+  $element-data{$raku-type} //= %();
+  my Hash $ed-name = $element-data{$raku-type};
 
   # Get detected info and merge
   for $!map{$ctype}.kv -> $k, $v {
@@ -365,13 +365,15 @@ note "$?LINE $ctype, $gtype";
   $*work-data<raku-name> = $ed-name<class-name>;
   $*work-data<sub-prefix> = $ed-name<symbol-prefix>;
 
-  $ed-name<routines> = self!get-routines( $xp, $element);
+  $ed-name<routines> = self!get-routines( $xp, $element, $raku-type);
 
 #  $element-data
 }
 
 #-------------------------------------------------------------------------------
-method !get-routines ( XML::XPath $xp, XML::Element $element --> Hash ) {
+method !get-routines (
+  XML::XPath $xp, XML::Element $element, Str $raku-type --> Hash
+) {
   my Hash $routines = %();
   $routines<constructors> =
     $!code.get-native-subs( $element, $xp, :routine-type<constructor>);
@@ -394,6 +396,14 @@ method !get-routines ( XML::XPath $xp, XML::Element $element --> Hash ) {
       # Other fields not needed when False or otherwise
       $routines{$rtype}{$rname}<missing-type>:delete
         if !$routines{$rtype}{$rname}<missing-type>;
+
+      if $rtype eq 'constructors' {
+        if $rname eq 'new' {
+          my $method-name = $raku-type.lc;
+          $routines{$rtype}{"new-$method-name"} =
+            $routines{$rtype}{$rname}:delete;
+        }
+      }
     }
   }
 
