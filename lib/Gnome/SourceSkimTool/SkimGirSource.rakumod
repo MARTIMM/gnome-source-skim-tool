@@ -350,10 +350,13 @@ note "$?LINE $ctype, $raku-type";
   }
 
 #  $ed-name<parent> = $attrs<parent>;
-  $ed-name<version> //= $attrs<version> // $*lib-version;
+  $ed-name<version> = $attrs<version> if ?$attrs<version>;
 
   #TODO check for file
-  my Int $modules-generated = 0;
+  my Str $lib-path =
+    [~] $*api2root, 'gnome-', $*gnome-package.Str.lc, '/lib/Gnome/';
+  my Int $modules-generated =
+    "$lib-path$*gnome-package.Str()/$raku-type.rakumod".IO.r ?? 1 !! 0;
   $ed-name<checks> //= %(
     :handcorrected-docs(0), :nbr-tests(0), :$modules-generated
   );
@@ -396,14 +399,17 @@ method !get-routines (
       # Other fields not needed when False or otherwise
       $routines{$rtype}{$rname}<missing-type>:delete
         if !$routines{$rtype}{$rname}<missing-type>;
+    }
+  }
 
-      if $rtype eq 'constructors' {
-        if $rname eq 'new' {
-          my $method-name = $raku-type.lc;
-          $routines{$rtype}{"new-$method-name"} =
-            $routines{$rtype}{$rname}:delete;
-        }
-      }
+  for $routines<constructors>.keys -> $rname {
+    if $rname eq 'new' {
+      my $method-name = $raku-type.lc;
+      $routines<constructors>{"new-$method-name"} =
+        $routines<constructors>{$rname}:delete;
+
+      # There will only be one 'new'
+      last;
     }
   }
 
