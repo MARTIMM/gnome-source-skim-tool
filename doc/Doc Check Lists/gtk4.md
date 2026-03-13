@@ -1,6 +1,8 @@
 # Documentation checklist for Gnome::Gtk4
 
 * [x] AboutDialog.rakumod
+  * [x] new-aboutdialog
+  * [x] add-credit-section
 * [x] ActionBar.rakumod
 * [x] ActivateAction.rakumod
 * [x] Adjustment.rakumod
