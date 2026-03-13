@@ -30,6 +30,9 @@ my Str $*lib-version;
 my Str $*namespace-name;
 my Str $*symbol-prefix;
 
+my Str $*api2root =
+   $*HOME ~ '/Languages/Raku/Projects/gnome-source-skim-tool/gnome-api2/';
+
 #-------------------------------------------------------------------------------
 sub MAIN ( *@gnome-packages, Bool :$v = False, Bool :$help = False ) {
 
