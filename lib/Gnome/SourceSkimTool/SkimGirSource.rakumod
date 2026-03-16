@@ -62,6 +62,7 @@ method get-classes-from-gir ( ) {
 
   my Str $id-prefix = $attribs<c:identifier-prefixes>;
 
+  # Gather all data
   my @elements = ($!xp.find( '/repository/namespace/*', :to-list));
   for @elements -> $element {
 
@@ -72,170 +73,11 @@ method get-classes-from-gir ( ) {
     # Map an element into the repo-object-map.
     self!map-element( $element, $*namespace-name, $*symbol-prefix, $id-prefix);
     my Str $element-name = self.test-for-oddities( $element.name, $attrs);
-next unless $element-name eq 'class';
-
-    given $element-name {
-      # Save the class info in separate gir files
-      when 'class' {
-        my Str $name = self!check-pixbuf($attrs<name>);
-note "$?LINE $name";
-next unless $name eq 'AboutDialog';
-        my $xml-file = "$*work-data<gir-module-path>C-$name.gir";
-        if ($xml-file.IO ~~ :!e) or
-           ($xml-file.IO.modified > $!gir-modification-time)
-        {
-          my Str $xml = qq:to/EOXML/;
-            <?xml version="1.0"?>
-            <!--
-              File is automatically generated from original gir files;
-              DO NOT EDIT!
-            -->
-            <repository version="1.2"
-                        xmlns="http://www.gtk.org/introspection/core/1.0"
-                        xmlns:c="http://www.gtk.org/introspection/c/1.0"
-                        xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
-                $xml-namespace
-                $element.Str()
-              </namespace>
-            </repository>
-            EOXML
-
-          if $element.name ne 'class' {
-            $xml ~~ s/ '<interface ' /\<class /;
-            $xml ~~ s/ \<\/interface\> /\<\/class\>/;
-          }
-
-          note "Save class $name" if $*verbose;
-          $xml-file.IO.spurt($xml);
-
-          self!write-yaml( $xml-file, $xml, $element-name);
-        }
-
-note "$?LINE exit";
-exit;
-      }
-
-      # Records are structures in C. There are fields for the structure,
-      # constructors, methods and functions.
-      when 'record' {
-        my Str $name = self!check-pixbuf($attrs<name>);
-        my $xml-file = "$*work-data<gir-module-path>R-$name.gir";
-        if ($xml-file.IO ~~ :!e) or
-           ($xml-file.IO.modified > $!gir-modification-time)
-        {
-          my Str $name-prefix = $*work-data<name-prefix>;
-          $name ~~ s:i/^ $name-prefix //;
-
-          my Str $xml = qq:to/EOXML/;
-            <?xml version="1.0"?>
-            <!--
-              File is automatically generated from original gir files;
-              DO NOT EDIT!
-            -->
-            <repository version="1.2"
-                        xmlns="http://www.gtk.org/introspection/core/1.0"
-                        xmlns:c="http://www.gtk.org/introspection/c/1.0"
-                        xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
-                $xml-namespace
-                $element.Str()
-              </namespace>
-            </repository>
-            EOXML
-
-          note "Save record R-$name" if $*verbose;
-          $xml-file.IO.spurt($xml);
-        }
-      }
-
-      when 'union' {
-        my Str $name = self!check-pixbuf($attrs<name>);
-        if ?$name {
-          my Str $name-prefix = $*work-data<name-prefix>;
-          $name ~~ s:i/^ $name-prefix //;
-
-          my $xml-file = "$*work-data<gir-module-path>U-$name.gir";
-          if ($xml-file.IO ~~ :!e) or
-            ($xml-file.IO.modified > $!gir-modification-time)
-          {
-            my Str $xml = qq:to/EOXML/;
-              <?xml version="1.0"?>
-              <!--
-                File is automatically generated from original gir files;
-                DO NOT EDIT!
-              -->
-              <repository version="1.2"
-                          xmlns="http://www.gtk.org/introspection/core/1.0"
-                          xmlns:c="http://www.gtk.org/introspection/c/1.0"
-                          xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
-                  $xml-namespace
-                  $element.Str()
-                </namespace>
-              </repository>
-              EOXML
-
-            note "Save union U-$name" if $*verbose;
-            $xml-file.IO.spurt($xml);
-          }
-        }
-      }
-
-      when 'interface' {
-        my Str $name = self!check-pixbuf($attrs<name>);
-        my $xml-file = "$*work-data<gir-module-path>I-$name.gir";
-        if ($xml-file.IO ~~ :!e) or
-           ($xml-file.IO.modified > $!gir-modification-time)
-        {
-          my Str $xml = qq:to/EOXML/;
-            <?xml version="1.0"?>
-            <!--
-              File is automatically generated from original gir files;
-              DO NOT EDIT!
-            -->
-            <repository version="1.2"
-                        xmlns="http://www.gtk.org/introspection/core/1.0"
-                        xmlns:c="http://www.gtk.org/introspection/c/1.0"
-                        xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
-                $xml-namespace
-                $element.Str()
-              </namespace>
-            </repository>
-            EOXML
-
-          note "Save interface I-$name" if $*verbose;
-          $xml-file.IO.spurt($xml);
-        }
-      }
-
-      # Only stand alone functions. Functions within other
-      # elements are not saved here.
-      when 'function' {
-        $!other<function>.push: $element;
-      }
-
-      when 'constant' {
-        $!other<constant>.push: $element;
-      }
-
-      when 'docsection' {
-        $!other<docsection>.push: $element;
-      }
-
-      when 'callback' {
-        $!other<callback>.push: $element;
-      }
-
-      when 'bitfield' {
-        $!other<bitfield>.push: $element;
-      }
-
-      when 'enumeration' {
-        $!other<enumeration>.push: $element;
-      }
-    }
+#next unless $element-name eq 'class';
   }
 
-  # Before we save the map find out which classes will be inheritable. It is
-  # now decided to only have decendents from GtkWidget be able to inherit.
+  # Find out which classes will be inheritable. It is now decided to only
+  # have decendents from GtkWidget be able to inherit.
   #
   # The classes which implement a role (a C-interface) must be checked if the
   # parent has also the same role. Only the top most class can implement this
@@ -276,6 +118,176 @@ exit;
     # else {} ignore rest
   }
 
+  # Use the data to generate gir and yaml files
+  for @elements -> $element {
+
+    # Ignore the entry when the item is moved to some other module
+    my $attrs = $element.attribs;
+    next if $attrs<moved-to>:exists;
+    my Str $element-name = self.test-for-oddities( $element.name, $attrs);
+    given $element-name {
+      # Save the class info in separate gir files
+      when 'class' {
+        my Str $name = self!check-pixbuf($attrs<name>);
+note "$?LINE $name";
+#next unless $name eq 'AboutDialog';
+        my $xml-file = "$*work-data<gir-module-path>C-$name.gir";
+        if ($xml-file.IO ~~ :!e) or
+           ($xml-file.IO.modified > $!gir-modification-time)
+        {
+          my Str $xml = qq:to/EOXML/;
+            <?xml version="1.0"?>
+            <!--
+              File is automatically generated from original gir files;
+              DO NOT EDIT!
+            -->
+            <repository version="1.2"
+                        xmlns="http://www.gtk.org/introspection/core/1.0"
+                        xmlns:c="http://www.gtk.org/introspection/c/1.0"
+                        xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
+                $xml-namespace
+                $element.Str()
+              </namespace>
+            </repository>
+            EOXML
+
+          if $element.name ne 'class' {
+            $xml ~~ s/ '<interface ' /\<class /;
+            $xml ~~ s/ \<\/interface\> /\<\/class\>/;
+          }
+
+          note "Save class $name" if $*verbose;
+          $xml-file.IO.spurt($xml);
+
+          self!write-yaml( $xml-file, $xml, $element-name);
+        }
+      }
+
+      # Records are structures in C. There are fields for the structure,
+      # constructors, methods and functions.
+      when 'record' {
+        my Str $name = self!check-pixbuf($attrs<name>);
+        my $xml-file = "$*work-data<gir-module-path>R-$name.gir";
+        if ($xml-file.IO ~~ :!e) or
+           ($xml-file.IO.modified > $!gir-modification-time)
+        {
+          my Str $name-prefix = $*work-data<name-prefix>;
+          $name ~~ s:i/^ $name-prefix //;
+
+          my Str $xml = qq:to/EOXML/;
+            <?xml version="1.0"?>
+            <!--
+              File is automatically generated from original gir files;
+              DO NOT EDIT!
+            -->
+            <repository version="1.2"
+                        xmlns="http://www.gtk.org/introspection/core/1.0"
+                        xmlns:c="http://www.gtk.org/introspection/c/1.0"
+                        xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
+                $xml-namespace
+                $element.Str()
+              </namespace>
+            </repository>
+            EOXML
+
+          note "Save record R-$name" if $*verbose;
+          $xml-file.IO.spurt($xml);
+
+          self!write-yaml( $xml-file, $xml, $element-name);
+        }
+      }
+
+      when 'union' {
+        my Str $name = self!check-pixbuf($attrs<name>);
+        if ?$name {
+          my Str $name-prefix = $*work-data<name-prefix>;
+          $name ~~ s:i/^ $name-prefix //;
+
+          my $xml-file = "$*work-data<gir-module-path>U-$name.gir";
+          if ($xml-file.IO ~~ :!e) or
+            ($xml-file.IO.modified > $!gir-modification-time)
+          {
+            my Str $xml = qq:to/EOXML/;
+              <?xml version="1.0"?>
+              <!--
+                File is automatically generated from original gir files;
+                DO NOT EDIT!
+              -->
+              <repository version="1.2"
+                          xmlns="http://www.gtk.org/introspection/core/1.0"
+                          xmlns:c="http://www.gtk.org/introspection/c/1.0"
+                          xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
+                  $xml-namespace
+                  $element.Str()
+                </namespace>
+              </repository>
+              EOXML
+
+            note "Save union U-$name" if $*verbose;
+            $xml-file.IO.spurt($xml);
+
+            self!write-yaml( $xml-file, $xml, $element-name);
+          }
+        }
+      }
+
+      when 'interface' {
+        my Str $name = self!check-pixbuf($attrs<name>);
+        my $xml-file = "$*work-data<gir-module-path>I-$name.gir";
+        if ($xml-file.IO ~~ :!e) or
+           ($xml-file.IO.modified > $!gir-modification-time)
+        {
+          my Str $xml = qq:to/EOXML/;
+            <?xml version="1.0"?>
+            <!--
+              File is automatically generated from original gir files;
+              DO NOT EDIT!
+            -->
+            <repository version="1.2"
+                        xmlns="http://www.gtk.org/introspection/core/1.0"
+                        xmlns:c="http://www.gtk.org/introspection/c/1.0"
+                        xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
+                $xml-namespace
+                $element.Str()
+              </namespace>
+            </repository>
+            EOXML
+
+          note "Save interface I-$name" if $*verbose;
+          $xml-file.IO.spurt($xml);
+
+          self!write-yaml( $xml-file, $xml, $element-name);
+        }
+      }
+
+      # Only stand alone functions. Functions within other
+      # elements are not saved here.
+      when 'function' {
+        $!other<function>.push: $element;
+      }
+
+      when 'constant' {
+        $!other<constant>.push: $element;
+      }
+
+      when 'docsection' {
+        $!other<docsection>.push: $element;
+      }
+
+      when 'callback' {
+        $!other<callback>.push: $element;
+      }
+
+      when 'bitfield' {
+        $!other<bitfield>.push: $element;
+      }
+
+      when 'enumeration' {
+        $!other<enumeration>.push: $element;
+      }
+    }
+  }
+
   self!save-other($xml-namespace);
   self!save-map;
 }
@@ -311,16 +323,17 @@ method !write-yaml ( Str $xml-file, Str $xml, Str $element-name ) {
 
   # Add/Change new data in 
   my XML::XPath $xp .= new(:$xml);
-  self!get-data( $xp, $element-data, $element-name);
-#note "$?LINE ", $element-data.gist;
-
-  # Save data
-note "$?LINE write to $yaml-file";
-  $yaml-file.IO.spurt(save-yaml($element-data));
+  if self!get-data( $xp, $element-data, $element-name) {
+    # Save data if data is meaningful
+    note "$?LINE write $element-name to $yaml-file" if $*verbose;
+    $yaml-file.IO.spurt(save-yaml($element-data));
+  }
 }
 
 #-------------------------------------------------------------------------------
-method !get-data ( XML::XPath $xp, Hash $element-data, Str $element-name ) {
+method !get-data (
+  XML::XPath $xp, Hash $element-data, Str $element-name --> Bool
+) {
   # Setup basic info
   $element-data<version> = $*lib-version;
   $element-data<namespace-name> = $*namespace-name;
@@ -333,12 +346,18 @@ method !get-data ( XML::XPath $xp, Hash $element-data, Str $element-name ) {
   # Get the attributes
   my Hash $attrs = $element.attribs;
 
+  # Return if element is marked as disguised. We don't need those.
+  return False if $attrs<disguised>:exists and $attrs<disguised> == 1;
+
   # Map key from some sort of identifier
   my Str $ctype = self!get-name($attrs);
   my Str $raku-type =$ctype;
   $raku-type ~~ s/^ $*namespace-name//;
 
-note "$?LINE $ctype, $raku-type";
+  # Return when an element ends in specific words. Most of those are records.
+  return False if $ctype ~~ m/ [ Private || Class || Iface || Interface ] $/;
+
+  note "\nProcessing $raku-type" if $*verbose;
 
   # Get Hash of current object
   $element-data{$raku-type} //= %();
@@ -349,10 +368,10 @@ note "$?LINE $ctype, $raku-type";
     $ed-name{$k} //= $v;
   }
 
-#  $ed-name<parent> = $attrs<parent>;
+  $ed-name<parent> = $attrs<parent>;
   $ed-name<version> = $attrs<version> if ?$attrs<version>;
 
-  #TODO check for file
+  # Check for module file to set $modules-generated
   my Str $lib-path =
     [~] $*api2root, 'gnome-', $*gnome-package.Str.lc, '/lib/Gnome/';
   my Int $modules-generated =
@@ -368,9 +387,11 @@ note "$?LINE $ctype, $raku-type";
   $*work-data<raku-name> = $ed-name<class-name>;
   $*work-data<sub-prefix> = $ed-name<symbol-prefix>;
 
+  $*work-data<finit>( $*work-data, :label<work-data>) if $*verbose;
+
   $ed-name<routines> = self!get-routines( $xp, $element, $raku-type);
 
-#  $element-data
+  True
 }
 
 #-------------------------------------------------------------------------------
