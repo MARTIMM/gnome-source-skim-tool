@@ -3,6 +3,7 @@
 use v6.d;
 use META6;
 use Gnome::Versions;
+use YAMLish;
 
 with my Gnome::Versions $gnome-versions .= new {
   .set-repopath(
@@ -29,7 +30,7 @@ with my Gnome::Versions $gnome-versions .= new {
   );
 }
 
-exit;
+#exit;
 
 # gdk3, gtk3 is stored in gtk3
 # gdk4, gsk4, gtk4 is stored in gtk4
@@ -64,10 +65,9 @@ for $repolib.keys -> $repo {
   if $meta-file.IO.e {
 #    say "\nload meta file for $repo";
     $meta .= new(:file($meta-file));
-    $h{$repo}<raku> = $meta<version>;
+    $h{$repo}<raku> = $meta<version>.Str;
   }
 }
-
 
 for <gtk3 gtk4 gdk-pixbuf2 glib2 graphene pango> -> $package {
   # Get the library version using Fedora dnf package manager
@@ -135,8 +135,14 @@ for <gtk3 gtk4 gdk-pixbuf2 glib2 graphene pango> -> $package {
   $p.err.close;
 }
 
-#say save-yaml($h);
+say save-yaml($h);
 
+
+
+
+
+
+=finish
 
 my Str $code = Q:q:to/EORAKU/;
   #!/usr/bin/env -S raku
