@@ -43,8 +43,7 @@ submethod BUILD ( ) {
 }
 
 #-------------------------------------------------------------------------------
-method get-classes-from-gir ( ) {
-  self!load-map;
+method make-subgirs-from-gir ( ) {
 
   # Make start of xml by taking the <package> and <namespace> elements.
   # some gir files mention two packages. we take only one
@@ -73,7 +72,9 @@ method get-classes-from-gir ( ) {
     next if $attrs<moved-to>:exists;
     next if $attrs<introspectable>:exists and $attrs<introspectable> eq 0;
     next if $attrs<disguised>:exists and $attrs<disguised> == 1;
+    next if $element-name ~~ m/^ glib \:/;
 
+#note "$?LINE $attrs.gist(), $element-name";
     my Str $name = self!check-pixbuf($attrs<name>);
     if $name ~~ m/ [ Class || Private || Iface || Interface ] $/ {
 #      note "$?LINE $name, $attrs.gist(), $element.name()";
@@ -97,7 +98,7 @@ method get-classes-from-gir ( ) {
       # Save the class info in separate gir files
       when 'class' {
         my Str $name = self!check-pixbuf($attrs<name>);
-note "$?LINE $name";
+#note "$?LINE $name";
 #next unless $name eq 'AboutDialog';
         my $xml-file = "$*work-data<gir-module-path>C-$name.gir";
 #`{{
@@ -129,8 +130,8 @@ note "$?LINE $name";
 }}
           note "Save class $name" if $*verbose;
           $xml-file.IO.spurt($xml);
-#TODO write-yaml must be called later. Need missing gir files!!!!!!!
-          self!write-yaml( $xml-file, $xml, $element-name);
+#TODO write-yaml must be called later. Need gir files, still to be written!!!!!!!
+#          self!write-yaml( $xml-file, $xml, $element-name);
         }
       }
 
@@ -166,7 +167,7 @@ note "$?LINE $name";
 }}
           note "Save record R-$name" if $*verbose;
           $xml-file.IO.spurt($xml);
-          self!write-yaml( $xml-file, $xml, $element-name);
+#          self!write-yaml( $xml-file, $xml, $element-name);
         }
       }
 
@@ -201,7 +202,7 @@ note "$?LINE $name";
 }}
             note "Save union U-$name" if $*verbose;
             $xml-file.IO.spurt($xml);
-            self!write-yaml( $xml-file, $xml, $element-name);
+#            self!write-yaml( $xml-file, $xml, $element-name);
           }
         }
       }
@@ -233,7 +234,7 @@ note "$?LINE $name";
 }}
           note "Save interface I-$name" if $*verbose;
           $xml-file.IO.spurt($xml);
-          self!write-yaml( $xml-file, $xml, $element-name);
+#          self!write-yaml( $xml-file, $xml, $element-name);
         }
       }
 
@@ -308,7 +309,7 @@ note "$?LINE $name";
   }
 
   self!save-other($xml-namespace);
-  self!save-map;
+#  self.save-map;
 }
 
 #-------------------------------------------------------------------------------
@@ -332,7 +333,75 @@ method !devise-xml-namespace ( --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method !write-yaml ( Str $xml-file, Str $xml, Str $element-name ) {
+method make-yaml-from-subgirs ( ) {
+  #self.load-map;
+  for dir($*work-data<gir-module-path>) -> $xml-file {
+    next if $xml-file.Str ~~ m/^ repo '-' /;
+    next if $xml-file.Str !~~ m/ \. gir $/;
+
+    my Str $xml = $xml-file.IO.slurp;
+    $!xp .= new(:$xml);
+
+    # There should only be one element
+    my @elements = ($!xp.find( '/repository/namespace/*', :to-list));
+    for @elements -> $element {
+      next unless $element ~~ any(<class interface record union>);
+      my $attrs = $element.attribs;
+      my Str $element-name = $element.name;
+      self!write-yaml( $xml-file, $xml, $element-name);
+    }
+  }
+
+#`{{
+  # Find out which classes will be inheritable. It is now decided to only
+  # have decendents from GtkWidget be able to inherit.
+  #
+  # The classes which implement a role (a C-interface) must be checked if the
+  # parent has also the same role. Only the top most class can implement this
+  # role in Raku. All decendents will have access to the methods and signals
+  # defined in that role.
+  for $!map.keys -> $entry-name {
+    next unless $!map{$entry-name}<gir-type>:exists;
+
+    # A type name is the bare name of an object without any prefixes of gnome.
+    # Those are found on class, interface, record and union. The rest of the
+    # gir types must read it from the filename map created above while
+    # processing the XML. There are situations where there are only simple
+    # types defined in the sources and a name must be created from the source
+    # filename with its first letter uppercased.
+    my Str $type-name =
+      $!fname-class{$!map{$entry-name}<source-filename>} //
+        $!map{$entry-name}<source-filename>.tc;
+
+    if $!map{$entry-name}<gir-type> ~~ any(
+         <function constant enumeration bitfield docsection callback>
+       ) {
+      $!map{$entry-name}<type-name> //= $type-name;
+      $!map{$entry-name}<type-letter> //= 'T';
+    }
+
+    elsif $!map{$entry-name}<gir-type> eq 'class' {
+      $!map{$entry-name}<inheritable> = self!is-inheritable($entry-name);
+      self!set-real-role-user($entry-name) if $!map{$entry-name}<roles>;
+    }
+
+    if $!map{$entry-name}<gir-type> ~~ any(
+         <function constant enumeration bitfield docsection callback>
+    ) {
+       my Str $type-name = $!map{$entry-name}<source-filename>;
+       $!map{$entry-name}<type-letter> = 'T';
+    }
+
+    # else {} ignore rest
+  }
+
+  self!save-other($xml-namespace);
+  self!save-map;
+}}
+}
+
+#-------------------------------------------------------------------------------
+method !write-yaml ( Str() $xml-file, Str $xml, Str $element-name ) {
 
   # Get previously saved yaml data of element
   my $yaml-file = $xml-file;
@@ -344,7 +413,7 @@ method !write-yaml ( Str $xml-file, Str $xml, Str $element-name ) {
   my XML::XPath $xp .= new(:$xml);
   if self!get-data( $xp, $element-data, $element-name) {
     # Save data if data is meaningful
-    note "$?LINE write $element-name to $yaml-file" if $*verbose;
+    note "Write $element-name to $yaml-file" if $*verbose;
     $yaml-file.IO.spurt(save-yaml($element-data));
   }
 }
@@ -359,6 +428,8 @@ method !get-data (
   $element-data<symbol-prefix> = $*symbol-prefix;
 
   # Search for the name
+#note "$?LINE $element-name, ", $xp.find('//' ~ $element-name).Str;
+
   my XML::Element $element = $xp.find('//' ~ $element-name);
   die "$element-name not found" unless ?$element;
 
@@ -436,13 +507,16 @@ method !get-routines (
         $routines{$rtype}{$rname}<deprecated-version>:delete;
       }
 
-      # Other fields not needed when False or otherwise
+      # Other fields not needed when False, empty, or missing.
       $routines{$rtype}{$rname}<missing-type>:delete
         if !$routines{$rtype}{$rname}<missing-type>;
+      $routines{$rtype}{$rname}<variable-list>:delete
+        if !$routines{$rtype}{$rname}<variable-list>;
     }
   }
 
   for $routines<constructors>.keys -> $rname {
+    # Change the name of the 'new' method.
     if $rname eq 'new' {
       my $method-name = $raku-type.lc;
       $routines<constructors>{"new-$method-name"} =
@@ -453,10 +527,10 @@ method !get-routines (
     }
   }
 
-  # The first parameter in a method in the Raku implementation is hidden
-  for $routines<methods>.keys -> $rname {
-    $routines<methods>{$rname}<parameters>.shift;
-  }
+#  # The first parameter in a method in the Raku implementation is hidden
+#  for $routines<methods>.keys -> $rname {
+#    $routines<methods>{$rname}<parameters>.shift;
+#  }
 
   $routines
 }
@@ -1080,7 +1154,7 @@ method !set-names ( Str $naked-gnome-name is copy --> List ) {
 }
 
 #-------------------------------------------------------------------------------
-method !load-map ( ) {
+method load-map ( ) {
   my $fname = $*work-data<gir-module-path> ~ 'repo-object-map.yaml';
   if $fname.IO ~~ :r {
     note "Load object map $fname" if $*verbose;
@@ -1108,7 +1182,7 @@ method !load-object ( ) {
   }}
 
 #-------------------------------------------------------------------------------
-method !save-map ( ) {
+method save-map ( ) {
   my $fname = $*work-data<gir-module-path> ~ 'repo-object-map.yaml';
   note "Save object map $fname" if $*verbose;
   $fname.IO.spurt(save-yaml($!map));
