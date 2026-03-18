@@ -20,9 +20,7 @@ has Hash $!protected-files;
 has Gnome::SourceSkimTool::Resolve $!solve;
 
 #-------------------------------------------------------------------------------
-multi submethod BUILD ( Bool :$skim-init! ) {
-  note 'skim-init';
-}
+multi submethod BUILD ( Bool :$skim-init! ) { }
 
 #-------------------------------------------------------------------------------
 multi submethod BUILD ( ) {
