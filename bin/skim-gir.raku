@@ -58,7 +58,10 @@ sub MAIN ( *@gnome-packages, Bool :$v = False, Bool :$help = False ) {
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
     my Gnome::SourceSkimTool::SkimGirSource $skim-doc .= new;
     $skim-doc.load-gir-file;
-    $skim-doc.get-classes-from-gir;
+    $skim-doc.load-map;
+    $skim-doc.make-subgirs-from-gir;
+    $skim-doc.save-map;
+    $skim-doc.make-yaml-from-subgirs
   }
 }
 
