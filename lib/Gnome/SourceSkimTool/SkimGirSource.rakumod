@@ -342,6 +342,14 @@ method make-yaml-from-subgirs ( ) {
     my Str $xml = $xml-file.IO.slurp;
     $!xp .= new(:$xml);
 
+    unless $*namespace-name {
+      my XML::Element $e = $!xp.find( '/repository/namespace');
+      my $attribs = $e.attribs;
+      $*namespace-name = $attribs<name>;
+      $*symbol-prefix = $attribs<c:symbol-prefixes>;
+      $*lib-version = $attribs<version>;
+    }
+
     # There should only be one element
     my @elements = ($!xp.find( '/repository/namespace/*', :to-list));
 
