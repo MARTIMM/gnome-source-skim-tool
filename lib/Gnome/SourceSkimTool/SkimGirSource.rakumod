@@ -335,7 +335,7 @@ method !devise-xml-namespace ( --> Str ) {
 #-------------------------------------------------------------------------------
 method make-yaml-from-subgirs ( ) {
   #self.load-map;
-  for dir($*work-data<gir-module-path>) -> $xml-file {
+  for dir($*work-data<gir-module-path>).sort -> $xml-file {
     next if $xml-file.Str ~~ m/^ repo '-' /;
     next if $xml-file.Str !~~ m/ \. gir $/;
 
@@ -423,7 +423,7 @@ method !write-yaml ( Str() $xml-file, Str $xml, Str $element-name ) {
   my XML::XPath $xp .= new(:$xml);
   if self!get-data( $xp, $element-data, $element-name) {
     # Save data if data is meaningful
-    note "Write $element-name to $yaml-file" if $*verbose;
+    note "Write $element-name to $yaml-file.IO.basename()" if $*verbose;
     $yaml-file.IO.spurt(save-yaml($element-data));
   }
 }
@@ -487,9 +487,24 @@ method !get-data (
   $*work-data<raku-name> = $ed-name<class-name>;
   $*work-data<sub-prefix> = $ed-name<symbol-prefix>;
 
-  $*work-data<finit>( $*work-data, :label<work-data>) if $*verbose;
+#$*work-data<finit>( $*work-data, :label<work-data>) if $*verbose;
 
-  $ed-name<routines> = self!get-routines( $xp, $element, $raku-type);
+  $ed-name<routines> //= %();
+  my Hash $routines = $ed-name<routines>;
+  my Hash $r = self!get-routines( $xp, $element, $raku-type);
+  for $r.keys -> $rtype {
+    for $r{$rtype}.keys -> $rname {
+
+      # Copy all fields if they aren't there
+      for $r{$rtype}{$rname}.keys -> $rfield {
+        $routines{$rtype}{$rname}{$rfield} = $r{$rtype}{$rname}{$rfield};
+      }
+
+      # Add field for generation info depending on version > first release
+      $routines{$rtype}{$rname}<generated> //=
+        ?$r{$rtype}{$rname}<version> ?? 0 !! 1;
+    }
+  }
 
   True
 }
