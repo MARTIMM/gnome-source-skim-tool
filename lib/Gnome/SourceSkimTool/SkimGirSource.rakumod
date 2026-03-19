@@ -344,8 +344,9 @@ method make-yaml-from-subgirs ( ) {
 
     # There should only be one element
     my @elements = ($!xp.find( '/repository/namespace/*', :to-list));
+
     for @elements -> $element {
-      next unless $element ~~ any(<class interface record union>);
+      next unless $element.name ~~ any(<class interface record union>);
       my $attrs = $element.attribs;
       my Str $element-name = $element.name;
       self!write-yaml( $xml-file, $xml, $element-name);
