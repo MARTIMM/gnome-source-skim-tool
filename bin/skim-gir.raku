@@ -61,7 +61,7 @@ sub MAIN ( *@gnome-packages, Bool :$v = False, Bool :$help = False ) {
     $skim-doc.load-map;
     $skim-doc.make-subgirs-from-gir;
     $skim-doc.save-map;
-    $skim-doc.make-yaml-from-subgirs
+    $skim-doc.make-yaml-from-subgirs;
   }
 }
 
