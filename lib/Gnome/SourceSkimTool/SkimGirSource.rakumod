@@ -342,6 +342,7 @@ method make-yaml-from-subgirs ( ) {
     my Str $xml = $xml-file.IO.slurp;
     $!xp .= new(:$xml);
 
+    # Needed when previous calls are skipped
     unless $*namespace-name {
       my XML::Element $e = $!xp.find( '/repository/namespace');
       my $attribs = $e.attribs;
