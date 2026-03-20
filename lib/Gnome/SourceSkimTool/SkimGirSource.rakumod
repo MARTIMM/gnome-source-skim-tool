@@ -494,15 +494,20 @@ method !get-data (
   my Hash $r = self!get-routines( $xp, $element, $raku-type);
   for $r.keys -> $rtype {
     for $r{$rtype}.keys -> $rname {
+      my Hash $rdata = $r{$rtype}{$rname};
 
       # Copy all fields if they aren't there
-      for $r{$rtype}{$rname}.keys -> $rfield {
-        $routines{$rtype}{$rname}{$rfield} = $r{$rtype}{$rname}{$rfield};
+      for $rdata.keys -> $rfield {
+        $routines{$rtype}{$rname}{$rfield} = $rdata{$rfield};
       }
 
-      # Add field for generation info depending on version > first release
+      # Only missing-type = True is stored
+      my Int $not-missing = $rdata<missing-type>:exists ?? 0 !! 1;
+
+      # Add field for generation info depending on 
+      # missing parameters or version > first release
       $routines{$rtype}{$rname}<generated> //=
-        ?$r{$rtype}{$rname}<version> ?? 0 !! 1;
+        ?$rdata<version> ?? 0 !! $not-missing +& $modules-generated +& 1;
     }
   }
 
@@ -523,20 +528,19 @@ method !get-routines (
   
   for <constructors methods functions> -> $rtype {
     for $routines{$rtype}.keys -> $rname {
+      my Hash $rdata = $routines{$rtype}{$rname};
+
       # Remove empty version fields. These have the version from the
       # start of the distribution. E.g. Gtk4 has version 4.0 at the start.
-      $routines{$rtype}{$rname}<version>:delete
-        unless ?$routines{$rtype}{$rname}<version>;
-      if !$routines{$rtype}{$rname}<deprecated> {
-        $routines{$rtype}{$rname}<deprecated>:delete;
-        $routines{$rtype}{$rname}<deprecated-version>:delete;
-      }
+      $rdata<version>:delete unless ?$rdata<version>;
+
+      # Always remove deprecated, deprecated-version is sufficient.
+      $rdata<deprecated>:delete;
+      $rdata<deprecated-version>:delete unless $rdata<deprecated-version>;
 
       # Other fields not needed when False, empty, or missing.
-      $routines{$rtype}{$rname}<missing-type>:delete
-        if !$routines{$rtype}{$rname}<missing-type>;
-      $routines{$rtype}{$rname}<variable-list>:delete
-        if !$routines{$rtype}{$rname}<variable-list>;
+      $rdata<missing-type>:delete unless $rdata<missing-type>;
+      $rdata<variable-list>:delete unless $rdata<variable-list>;
     }
   }
 
