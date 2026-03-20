@@ -1,5 +1,7 @@
 #!/usr/bin/env -S rakudo -Ilib
 
+use v6.d;
+
 use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::Prepare;
 use Gnome::SourceSkimTool::SkimGirSource;
