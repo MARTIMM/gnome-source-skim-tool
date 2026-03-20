@@ -21,7 +21,8 @@ method set-repopath ( Str:D $path where $path.IO.d ) {
 }
 
 #-------------------------------------------------------------------------------
-method add-repos ( *%repo-pairs ) {
+multi method add-repos ( *%repo-pairs ) {
+#`{{
   for %repo-pairs.kv -> Str $repokey, Str $repo {
     my Str $rpk = $!repopath ~ '/' ~ $repo;
     if $rpk.IO.d {
@@ -43,6 +44,33 @@ method add-repos ( *%repo-pairs ) {
   }
 
 note "$?LINE $!repolib<Gtk4>.gist()";
+}}
+  self.add-repos(%repo-pairs);
+}
+
+#-------------------------------------------------------------------------------
+multi method add-repos ( %repo-pairs ) {
+  for %repo-pairs.kv -> Str $repokey, Str $repo {
+    my Str $rpk = $!repopath ~ '/' ~ $repo;
+    if $rpk.IO.d {
+      given $!repolib{$repokey} {
+        .<path> = $rpk;
+        .<package> = SkimSource(SkimSource.enums{$repokey});
+        .<name> = "Gnome::$repokey";
+        if $repokey eq 'GdkPixbuf' {
+          .<libname> = 'gdk-pixbuf2';
+        }
+        
+        else {
+          .<libname> = $repokey.lc;
+        }
+      }
+      self.raku-version($repokey);
+      self.gnome-version($repokey);
+    }
+  }
+
+#note "$?LINE $!repolib<Gtk4>.gist()";
 }
 
 #-------------------------------------------------------------------------------
