@@ -73,15 +73,30 @@ $doc ~= $gnome-versions.raku-version($gnome-package) ~ "\n";
     $doc ~= make-table-end;
 }}
 
-$doc ~= "|Information||\n|-|-|\n";
-$doc ~= "|Raku distribution|$*work-data<raku-package>|\n";
-$doc ~= "|Raku distribution version|$gnome-versions.raku-version($gnome-package)|\n";
-$doc ~= "|Gnome library version|$gnome-versions.gnome-version($gnome-package)|\n";
-#$doc ~= "|||\n";
+$doc ~= Q:q:to/EOSTYLE/;
+  <style>
+  table {
+    table-layout: auto;
+    border: 2px solid yellow;
+    width: 80%;
+  }
+  </style>
+  EOSTYLE
+
+$doc ~= "### Legend for the tables\n";
+$doc ~= "|Symbol|Meaning|\n|-|-|\n";
+$doc ~= '|' ~ md-image('checklist-ok')
+      ~ '|Code and documentation is generated|' ~ "\n";
+$doc ~= '|' ~ md-image('checklist-implement') 
+      ~ "|Must be written|\n";
+$doc ~= '|' ~ md-image('checklist-deprecated')
+      ~ "|Removed in next Gnome library release|\n";
+$doc ~= '|' ~ md-image('checklist-missing')
+      ~ "|Not generated, there are missing types|\n";
 
 # Scan file in storage dir
 for dir($*work-data<gir-module-path>).sort -> $file {
-#  state Bool $run-code = True;
+  state Bool $run-code = True;
 
   # Skip repo-object-map and all .gir files.
   next if $file.basename ~~ m/^ repo '-' /;
@@ -90,19 +105,23 @@ for dir($*work-data<gir-module-path>).sort -> $file {
   # Get the data from the yaml file
   my Hash $data = load-yaml($file.slurp);
 
-#  if $run-code {
-#    $doc ~= "Gnome namespace: $data[0]<namespace-name>\n";
-#    $doc ~= "Gnome release: $data[0]<version>\n";
-#
-#    $run-code = False;
-#  }
+  if $run-code {
+    $doc ~= "\n### Library and distribution information\n";
+    $doc ~= "|Information|Version|Name|\n|-|-|-|\n";
+    $doc ~= "|Raku distribution|$gnome-versions.raku-version($gnome-package)"
+          ~ "|$*work-data<raku-package>|\n";
+    $doc ~= "|Gnome release|$data[0]<version>"
+          ~ "|$data[0]<namespace-name>|\n";
+    $doc ~= "|Gnome library|$gnome-versions.gnome-version($gnome-package)|\n";
+
+    $run-code = False;
+  }
 
   for $data.keys.sort: { $^a.lc leg $^b.lc } -> $obj-name {
     next if $obj-name ~~ any(<namespace-name symbol-prefix version>);
 
     my Hash $obj-data = $data{$obj-name};
     my Hash $checks = $obj-data<checks>;
-
 
     $doc ~= "\n### $obj-data<class-name>\n";
     $doc ~= $checks<modules-generated>
@@ -117,7 +136,7 @@ for dir($*work-data<gir-module-path>).sort -> $file {
 
     $doc ~= ?$checks<nbr-tests>
               ?? '![](./checklist-ok.png)'
-              !! '![](./checklist-implement.png)',
+              !! '![](./checklist-implement.png)'
          ~ " Number of tests: $checks<nbr-tests>\n";
 
     my Hash $r = $obj-data<routines>;
@@ -169,6 +188,12 @@ sub make-table-entry ( Str $rname, Hash $rdata --> Str ) {
 
   $doc
 }
+
+sub md-image ( Str $name --> Str ) {
+  my $asset-path = './';
+  [~] '![](', $asset-path, $name, '.png)';
+}
+
 
 #`{{
 sub make-table-start ( --> Str ) {
