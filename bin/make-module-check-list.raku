@@ -123,6 +123,24 @@ for dir($*work-data<gir-module-path>).sort -> $file {
     my Hash $obj-data = $data{$obj-name};
     my Hash $checks = $obj-data<checks>;
 
+    $doc ~= "\n### Module\n";
+    $doc ~= "|**$obj-data<class-name>**|State|Name|Tests|\n|-|-|-|-|\n";
+    $doc ~= "|Module generated|"
+          ~ ($checks<modules-generated>
+              ?? md-image('checklist-ok')
+              !! md-image('checklist-implement')
+            ) ~ "|$obj-name.rakumod\n";
+    $doc ~= "|Documentation corrected|"
+          ~ ($checks<handcorrected-docs>
+              ?? md-image('checklist-ok')
+              !! md-image('checklist-implement')
+            ) ~ "|$obj-name.rakudoc\n";
+    $doc ~= "|Tests completed|"
+          ~ (?$checks<nbr-tests>
+              ?? md-image('checklist-ok')
+              !! md-image('checklist-implement')
+            ) ~ "|$obj-name.rakutest|$checks<nbr-tests> tests|\n";
+#`{{
     $doc ~= "\n### $obj-data<class-name>\n";
     $doc ~= $checks<modules-generated>
               ?? '![](./checklist-ok.png)'
@@ -138,6 +156,7 @@ for dir($*work-data<gir-module-path>).sort -> $file {
               ?? '![](./checklist-ok.png)'
               !! '![](./checklist-implement.png)'
          ~ " Number of tests: $checks<nbr-tests>\n";
+}}
 
     my Hash $r = $obj-data<routines>;
     if $r<constructors>:exists {
