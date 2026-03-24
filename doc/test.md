@@ -1,56 +1,49 @@
 
 <style>
-table {
-  border: 2px solid yellow;
-  width: 80%;
+html body table {
+  border: 2px solid rgb(47, 0, 47);
+  width: 95%;
+  margin: 0px auto;
+  display: block table;
+}
+
+td:nth-child(1) {  
+  width: 35%;
 }
 </style>
-
-### Legend for the tables
-
+# Legend for the tables
 |Symbol|Meaning|
 |-|-|
-|![](./checklist-ok.png)|Code and documentation is generated|
-|![](./checklist-implement.png)|Not yet written|
-|![](./checklist-deprecated.png)|Removed in next Gnome library release|
-|![](./checklist-missing.png)|Not generated, there are missing types|
+|![](/content-docs/asset_files/images/checklist-ok.png)|Code and documentation is generated|
+|![](/content-docs/asset_files/images/checklist-implement.png)|Must be written|
+|![](/content-docs/asset_files/images/checklist-deprecated.png)|Removed in next Gnome library release|
+|![](/content-docs/asset_files/images/checklist-missing.png)|Not generated, there are missing types|
 
-### Library and distribution information
-|Information|Version||
+# Library and distribution information
+|Information|Version|Name|
 |-|-|-|
 |Raku distribution|0.2.6|Gnome::Gtk4|
 |Gnome library|4.18.6|
-|Gnome namespace|Gtk|4.0|
+|Gnome release|4.0|Gtk|
 
-### Gnome::Gtk4::ATContext
-![](./checklist-implement.png) Module is generated
-![](./checklist-implement.png) Documentation is corrected
-![](./checklist-implement.png) Number of tests: 0
+# Module Information
+||State|Name|Tests|
+|-|-|-|-|
+|Class name||Gnome::Gtk4::ATContext||
+|Module generated|![](/content-docs/asset_files/images/checklist-implement.png)|ATContext.rakumod
+|Documentation corrected|![](/content-docs/asset_files/images/checklist-implement.png)|ATContext.rakudoc
+|Tests completed|![](/content-docs/asset_files/images/checklist-implement.png)|ATContext.rakutest|0 tests|
 
 ### Constructors
-|Routine|G|Deprecated|Version|
+|Routine|State¹|Version²|Deprecated³|
 |-------|-|----------|-------|
-| create |![](./checklist-implement.png)||
+| create |![](/content-docs/asset_files/images/checklist-implement.png)|||
+1. Status, generated, missing values, deprecated, etc
+2. Version of introduction, otherwise it is the release version
+3. Version of deprecation and is removed in next release
 
 ### Methods
-|Routine|G|Deprecated|Version|
+|Routine|G|Version|Deprecated|
 |-------|-|----------|-------|
-| get-accessible |![](./checklist-implement.png)||
-| get-accessible-role |![](./checklist-implement.png)||
-
-
-### Module
-|**Gnome::Gtk4::ATContext**|State|Note|
-|-|-|-|
-|Module generated|![](./checklist-implement.png)|
-|Documentation corrected|![](./checklist-implement.png)|
-|Tests completed|![](./checklist-implement.png)|0|
-
-
-### Module
-|**Gnome::Gtk4::ATContext**|State|Name|Tests|
-|-|-|-|-|
-|Module generated|![](./checklist-implement.png)|ATContext.rakumod
-|Documentation corrected|![](./checklist-implement.png)|ATContext.rakudoc
-|Tests completed|![](./checklist-implement.png)|ATContext.rakutest|0 tests|
-
+| get-accessible |![](/content-docs/asset_files/images/checklist-implement.png)|||
+| get-accessible-role |![](/content-docs/asset_files/images/checklist-implement.png)|||

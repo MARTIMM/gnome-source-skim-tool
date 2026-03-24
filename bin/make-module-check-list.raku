@@ -53,37 +53,29 @@ my $*work-data;
 my Gnome::SourceSkimTool::Prepare $prepare .= new;
 $*work-data<finit>( $*work-data, :label<work-data>);
 
-#`{{
-$doc ~= "Gnome library version: ";
-$doc ~= $gnome-versions.gnome-version($gnome-package) ~ "\n";
-$doc ~= "Raku distribution version: ";
-$doc ~= $gnome-versions.raku-version($gnome-package) ~ "\n";
-}}
-#`{{
-    $doc ~= make-table-start;
-    $doc ~= make-table-head( "Information", "");
-    $doc ~= make-table-entry(
-      "Gnome library version", $gnome-versions.gnome-version($gnome-package)
-    );
-    $doc ~= make-table-entry(
-      "Raku distribution version",
-      $gnome-versions.raku-version($gnome-package)
-    );
-    $doc ~= make-table-entry( "Raku distribution", $*work-data<raku-package>);
-    $doc ~= make-table-end;
-}}
-
 $doc ~= Q:q:to/EOSTYLE/;
+  ---
+  title: Gnome api 2
+  layout: sidebar
+  nav_menu: api2-nav
+  sidebar_menu: api2-checklist-sidebar
+  ---
+
   <style>
-  table {
-    table-layout: auto;
-    border: 2px solid yellow;
-    width: 80%;
+  html body table {
+    border: 2px solid rgb(47, 0, 47);
+    width: 95%;
+    margin: 0px auto;
+    display: block table;
+  }
+
+  td:nth-child(1) {  
+    width: 35%;
   }
   </style>
   EOSTYLE
 
-$doc ~= "### Legend for the tables\n";
+$doc ~= "\n# Legend for the tables\n\n";
 $doc ~= "|Symbol|Meaning|\n|-|-|\n";
 $doc ~= '|' ~ md-image('checklist-ok')
       ~ '|Code and documentation is generated|' ~ "\n";
@@ -98,21 +90,20 @@ $doc ~= '|' ~ md-image('checklist-missing')
 for dir($*work-data<gir-module-path>).sort -> $file {
   state Bool $run-code = True;
 
-  # Skip repo-object-map and all .gir files.
-  next if $file.basename ~~ m/^ repo '-' /;
-  next if $file.Str ~~ m/ \. gir $/;
+  # Skip repo-object-map.yaml and all .gir files.
+  next if $file.basename ~~ m/ [^ repo '-' object || \. gir $] /;
 
   # Get the data from the yaml file
   my Hash $data = load-yaml($file.slurp);
 
   if $run-code {
-    $doc ~= "\n### Library and distribution information\n";
+    $doc ~= "\n# Library and distribution information\n\n";
     $doc ~= "|Information|Version|Name|\n|-|-|-|\n";
     $doc ~= "|Raku distribution|$gnome-versions.raku-version($gnome-package)"
           ~ "|$*work-data<raku-package>|\n";
+    $doc ~= "|Gnome library|$gnome-versions.gnome-version($gnome-package)|\n";
     $doc ~= "|Gnome release|$data[0]<version>"
           ~ "|$data[0]<namespace-name>|\n";
-    $doc ~= "|Gnome library|$gnome-versions.gnome-version($gnome-package)|\n";
 
     $run-code = False;
   }
@@ -123,8 +114,9 @@ for dir($*work-data<gir-module-path>).sort -> $file {
     my Hash $obj-data = $data{$obj-name};
     my Hash $checks = $obj-data<checks>;
 
-    $doc ~= "\n### Module\n";
-    $doc ~= "|**$obj-data<class-name>**|State|Name|Tests|\n|-|-|-|-|\n";
+    $doc ~= "\n# Module Information\n\n";
+    $doc ~= "||State|Name|Tests|\n|-|-|-|-|\n";
+    $doc ~= "|Class name||$obj-data<class-name>||\n";
     $doc ~= "|Module generated|"
           ~ ($checks<modules-generated>
               ?? md-image('checklist-ok')
@@ -140,37 +132,24 @@ for dir($*work-data<gir-module-path>).sort -> $file {
               ?? md-image('checklist-ok')
               !! md-image('checklist-implement')
             ) ~ "|$obj-name.rakutest|$checks<nbr-tests> tests|\n";
-#`{{
-    $doc ~= "\n### $obj-data<class-name>\n";
-    $doc ~= $checks<modules-generated>
-              ?? '![](./checklist-ok.png)'
-              !! '![](./checklist-implement.png)'
-         ~ " Module is generated\n";
-
-    $doc ~= $checks<handcorrected-docs>
-              ?? '![](./checklist-ok.png)'
-              !! '![](./checklist-implement.png)'
-         ~ " Documentation is corrected\n";
-
-    $doc ~= ?$checks<nbr-tests>
-              ?? '![](./checklist-ok.png)'
-              !! '![](./checklist-implement.png)'
-         ~ " Number of tests: $checks<nbr-tests>\n";
-}}
 
     my Hash $r = $obj-data<routines>;
     if $r<constructors>:exists {
-      $doc ~= "\n### Constructors\n";
-      $doc ~= '|Routine|G|Deprecated|Version|' ~ "\n";
+      $doc ~= "\n### Constructors\n\n";
+      $doc ~= '|Routine|State¹|Version²|Deprecated³|' ~ "\n";
       $doc ~= '|-------|-|----------|-------|' ~ "\n";
       for $r<constructors>.keys.sort -> $rname {
         $doc ~= make-table-entry( $rname, $r<constructors>{$rname});
       }
     }
 
+    $doc ~= "\n1. Status, generated, missing values, deprecated, etc\n";
+    $doc ~= "2. Version of introduction, otherwise it is the release version\n";
+    $doc ~= "3. Version of deprecation and is removed in next release\n";
+
     if $r<methods>:exists {
-      $doc ~= "\n### Methods\n";
-      $doc ~= '|Routine|G|Deprecated|Version|' ~ "\n";
+      $doc ~= "\n### Methods\n\n";
+      $doc ~= '|Routine|State|Version|Deprecated|' ~ "\n";
       $doc ~= '|-------|-|----------|-------|' ~ "\n";
       for $r<methods>.keys.sort -> $rname {
         $doc ~= make-table-entry( $rname, $r<methods>{$rname});
@@ -178,8 +157,8 @@ for dir($*work-data<gir-module-path>).sort -> $file {
     }
 
     if $r<functions>:exists {
-      $doc ~= "\n### Functions\n";
-      $doc ~= '|Routine|G|Deprecated|Version|' ~ "\n";
+      $doc ~= "\n### Functions\n\n";
+      $doc ~= '|Routine|State|Version|Deprecated|' ~ "\n";
       $doc ~= '|-------|-|----------|-------|' ~ "\n";
       for $r<functions>.keys.sort -> $rname {
         $doc ~= make-table-entry( $rname, $r<functions>{$rname});
@@ -191,63 +170,28 @@ last
 
 note "\n\n$doc";
 
-
+#-------------------------------------------------------------------------------
 sub make-table-entry ( Str $rname, Hash $rdata --> Str ) {
   my Str $doc = '';
   $doc ~= "| $rname |";
   $doc ~= $rdata<generated>
-          ?? '![](./checklist-ok.png)'
-          !! '![](./checklist-implement.png)';
-#  $doc ~= $rdata<missing-type>:exists ?? "1" !! '|';
+          ?? md-image('checklist-ok') !! md-image('checklist-implement');
+  $doc ~= $rdata<missing-type>:exists ?? md-image('checklist-missing') !! '';
   $doc ~= $rdata<deprecated-version>:exists
-          ?? '![](./checklist-deprecated.png) | ' ~ $rdata<deprecated-version>
-          !! '|';
-  $doc ~= $rdata<version>:exists ?? "$rdata<version> |" !! '|';
+          ?? md-image('checklist-deprecated') !! '';
+  $doc ~= $rdata<version>:exists ?? "| $rdata<version> |" !! '||';
+  $doc ~= $rdata<deprecated-version>:exists
+          ?? "$rdata<deprecated-version> |" !! '|';
   $doc ~= "\n";
 
   $doc
 }
 
+#-------------------------------------------------------------------------------
 sub md-image ( Str $name --> Str ) {
-  my $asset-path = './';
+  my $asset-path = '/content-docs/asset_files/images/';
   [~] '![](', $asset-path, $name, '.png)';
 }
-
-
-#`{{
-sub make-table-start ( --> Str ) {
-  "<table>\n"
-}
-
-sub make-table-head ( *@header --> Str ) {
-  my Str $h = "<tr>";
-  for @header -> $i {
-    $h ~= "<th> $i </th>";
-  }
-
-  $h ~= "</tr>\n";
-
-  $h
-}
-
-sub make-table-entry ( *@header --> Str ) {
-  my Str $h = "<tr>";
-  for @header -> $i {
-    $h ~= "<td> $i </td>";
-  }
-
-  $h ~= "</tr>\n";
-
-  $h
-}
-
-sub make-table-end ( --> Str ) {
-  "</table>\n\n"
-}
-}}
-
-
-
 
 
 
