@@ -74,14 +74,16 @@ multi method add-repos ( %repo-pairs ) {
 }
 
 #-------------------------------------------------------------------------------
-method raku-version ( Str $repokey ) {
+method raku-version ( Str $repokey --> Str ) {
   my Str $meta-file = $!repolib{$repokey}<path> ~ '/META6.json';
   $!repolib{$repokey}<raku-version> =
     META6.new(:file($meta-file))<version>.Str if $meta-file.IO.e;
+
+  $!repolib{$repokey}<raku-version> // ''
 }
 
 #-------------------------------------------------------------------------------
-method gnome-version ( Str $repokey ) {
+method gnome-version ( Str $repokey --> Str ) {
   my Str $version;
 
   given $repokey {
@@ -102,7 +104,7 @@ method gnome-version ( Str $repokey ) {
       $!repolib<Gsk4><lib-version> = $version;
     }
 
-    when m/ Gdk\-Pixbuf2 / {
+    when m/ GdkPixbuf / {
       $version = self.dnf-versions($!repolib{$repokey}<libname>);
       return unless ?$version;
 
@@ -131,7 +133,13 @@ method gnome-version ( Str $repokey ) {
       $!repolib<GObject><lib-version> = $version;
       $!repolib<Gio><lib-version> = $version;
     }
+
+    default {
+      $version = $!repolib{$repokey}<lib-version> // '';
+    }
   }
+
+  $version
 }
 
 #-------------------------------------------------------------------------------
