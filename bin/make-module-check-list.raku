@@ -13,7 +13,8 @@ my Str $doc = '';
 
 #my Str $gnome-package = @*ARGS[0];
 
-sub MAIN ( Str $gnome-package ) {
+#sub MAIN ( Str $gnome-package ) {
+sub MAIN ( $gnome-package! ) {
 
   with my Gnome::Versions $gnome-versions .= new {
     .set-repopath(
@@ -53,42 +54,21 @@ sub MAIN ( Str $gnome-package ) {
   my Gnome::SourceSkimTool::Prepare $prepare .= new;
   $*work-data<finit>( $*work-data, :label<work-data>);
 
-  $doc ~= Q:q:to/EOSTYLE/;
-    ---
-    title: Gnome api 2
-    layout: sidebar
-    nav_menu: api2-nav
-    sidebar_menu: api2-checklist-sidebar
-    ---
+  $doc ~= set-style;
 
-    <style>
-    html body table {
-      border: 2px solid rgb(47, 0, 47);
-      width: 95%;
-      margin: 0px auto;
-      display: block table;
-    }
+  $doc ~= "\n# Library and distribution information\n\n";
+  $doc ~= "\n|Distribution|Raku version|Gnome library version|\n|-|-|-|\n";
+  for <Gtk4 Gdk4 Gsk4 Graphene Glib Gio GObject Pango GdkPixbuf> -> $package {
+    $doc ~= "|Gnome::$package|"
+          ~ $gnome-versions.raku-version($package) ~ "|"
+          ~ $gnome-versions.gnome-version($package) ~ "|\n";
+  }
 
-    td:nth-child(1) {  
-      width: 35%;
-    }
-    </style>
-    EOSTYLE
-
-  $doc ~= "\n# Legend for the tables\n\n";
-  $doc ~= "|Symbol|Meaning|\n|-|-|\n";
-  $doc ~= '|' ~ md-image('checklist-ok')
-        ~ '|Code and documentation is generated|' ~ "\n";
-  $doc ~= '|' ~ md-image('checklist-implement') 
-        ~ "|Must be written|\n";
-  $doc ~= '|' ~ md-image('checklist-deprecated')
-        ~ "|Removed in next Gnome library release|\n";
-  $doc ~= '|' ~ md-image('checklist-missing')
-        ~ "|Not generated, there are missing types|\n";
+  $doc ~= set-legend;
 
   # Scan file in storage dir
   for dir($*work-data<gir-module-path>).sort -> $file {
-    state Bool $run-code = True;
+#    state Bool $run-code = True;
 
     # Skip repo-object-map.yaml and all .gir files.
     next if $file.basename ~~ m/ [^ repo '-' object || \. gir $] /;
@@ -96,43 +76,16 @@ sub MAIN ( Str $gnome-package ) {
     # Get the data from the yaml file
     my Hash $data = load-yaml($file.slurp);
 
-    if $run-code {
-      $doc ~= "\n# Library and distribution information\n\n";
-      $doc ~= "\n|Distribution|Raku version|Gnome library version|\n|-|-|-|\n";
-      for <Gtk4 Gdk4 Gsk4 Graphene Glib Gio GObject Pango GdkPixbuf> -> $package {
-        $doc ~= "|Gnome::$package|"
-              ~ $gnome-versions.raku-version($package) ~ "|"
-              ~ $gnome-versions.gnome-version($package) ~ "|\n";
-      }
-
-      $run-code = False;
-    }
+#    if $run-code {
+#      $run-code = False;
+#    }
 
     for $data.keys.sort: { $^a.lc leg $^b.lc } -> $obj-name {
       next if $obj-name ~~ any(<namespace-name symbol-prefix version>);
 
-      my Hash $obj-data = $data{$obj-name};
-      my Hash $checks = $obj-data<checks>;
+      $doc ~= set-module-info( $data, $obj-name);
 
-      $doc ~= "\n# Module Information\n\n";
-      $doc ~= "||State|Name|Tests|\n|-|-|-|-|\n";
-      $doc ~= "|Class name||$obj-data<class-name>||\n";
-      $doc ~= "|Module generated|"
-            ~ ($checks<modules-generated>
-                ?? md-image('checklist-ok')
-                !! md-image('checklist-implement')
-              ) ~ "|$obj-name.rakumod\n";
-      $doc ~= "|Documentation corrected|"
-            ~ ($checks<handcorrected-docs>
-                ?? md-image('checklist-ok')
-                !! md-image('checklist-implement')
-              ) ~ "|$obj-name.rakudoc\n";
-      $doc ~= "|Tests completed|"
-            ~ (?$checks<nbr-tests>
-                ?? md-image('checklist-ok')
-                !! md-image('checklist-implement')
-              ) ~ "|$obj-name.rakutest|$checks<nbr-tests> tests|\n";
-
+  my Hash $obj-data = $data{$obj-name};
       my Hash $r = $obj-data<routines>;
       if $r<constructors>:exists {
         $doc ~= "\n### Constructors\n\n";
@@ -189,16 +142,77 @@ sub make-table-entry ( Str $rname, Hash $rdata --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
+sub set-style ( --> Str ) {
+  Q:q:to/EOSTYLE/;
+      ---
+      title: Gnome api 2
+      layout: sidebar
+      nav_menu: api2-nav
+      sidebar_menu: api2-checklist-sidebar
+      ---
+
+      <style>
+      html body table {
+        border: 2px solid rgb(47, 0, 47);
+        width: 95%;
+        margin: 0px auto;
+        display: block table;
+      }
+
+      td:nth-child(1) {  
+        width: 35%;
+      }
+      </style>
+      EOSTYLE
+}
+
+#-------------------------------------------------------------------------------
+sub set-legend ( --> Str ) {
+  Q:qq:to/EOLEGEND/;
+    
+    # Legend for the tables
+
+    |Symbol|Meaning|
+    |-|-|
+    |{md-image('checklist-ok')}|Code and documentation is generated|
+    |{md-image('checklist-implement')}|Must be written|
+    |{md-image('checklist-deprecated')}|Removed in next Gnome library release|
+    |{md-image('checklist-missing')}|Not generated, there are missing types|
+    EOLEGEND
+}
+ 
+#-------------------------------------------------------------------------------
+sub set-module-info ( Hash $data, Str $obj-name --> Str ) {
+  my Hash $obj-data = $data{$obj-name};
+  my Hash $checks = $obj-data<checks>;
+
+  $doc ~= "\n# Module Information\n\n";
+  $doc ~= "||State|Name|Tests|\n|-|-|-|-|\n";
+  $doc ~= "|Class name||$obj-data<class-name>||\n";
+  $doc ~= "|Module generated|"
+        ~ ($checks<modules-generated>
+            ?? md-image('checklist-ok')
+            !! md-image('checklist-implement')
+          ) ~ "|$obj-name.rakumod\n";
+  $doc ~= "|Documentation corrected|"
+        ~ ($checks<handcorrected-docs>
+            ?? md-image('checklist-ok')
+            !! md-image('checklist-implement')
+          ) ~ "|$obj-name.rakudoc\n";
+  $doc ~= "|Tests completed|"
+        ~ (?$checks<nbr-tests>
+            ?? md-image('checklist-ok')
+            !! md-image('checklist-implement')
+          ) ~ "|$obj-name.rakutest|$checks<nbr-tests> tests|\n";
+
+}
+
+#-------------------------------------------------------------------------------
+#NOTE: the $asset-path is a path on the documentation site of MARTIMM.github.io
 sub md-image ( Str $name --> Str ) {
   my $asset-path = '/content-docs/asset_files/images/';
   [~] '![](', $asset-path, $name, '.png)';
 }
-
-
-
-
-
-
 
 
 
