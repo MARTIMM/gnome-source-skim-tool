@@ -9,7 +9,7 @@ use Gnome::SourceSkimTool::ConstEnumType;
 
 use Gnome::Versions;
 
-my Str $doc = '';
+#my Str $doc = '';
 
 #my Str $gnome-package = @*ARGS[0];
 
@@ -55,6 +55,7 @@ multi sub MAIN ( ) {
   $*work-data<finit>( $*work-data, :label<work-data>);
 }}
 
+  my Str $doc = '';
   $doc ~= set-style;
 
   $doc ~= "\n# Library and distribution information\n\n";
@@ -66,10 +67,12 @@ multi sub MAIN ( ) {
   }
 
 note "\n\n$doc";
+  'doc/checklists/lib-versions.md'.IO.spurt($doc);
 }
 
 #-------------------------------------------------------------------------------
 multi sub MAIN ( SkimSource $gnome-package! ) {
+#TODO optional module argument
 
   my $*gnome-package = SkimSource(SkimSource.enums{$gnome-package});
   my $*generate-code = False;
@@ -83,13 +86,12 @@ multi sub MAIN ( SkimSource $gnome-package! ) {
   my Gnome::SourceSkimTool::Prepare $prepare .= new;
   $*work-data<finit>( $*work-data, :label<work-data>);
 
-  $doc ~= set-style;
-
-
-  $doc ~= set-legend;
-
   # Scan file in storage dir
   for dir($*work-data<gir-module-path>).sort -> $file {
+    my Str $doc = '';
+    $doc ~= set-style;
+    $doc ~= set-legend;
+
 #    state Bool $run-code = True;
 
     # Skip repo-object-map.yaml and all .gir files.
@@ -103,64 +105,34 @@ multi sub MAIN ( SkimSource $gnome-package! ) {
 #    }
 
     for $data.keys.sort: { $^a.lc leg $^b.lc } -> $obj-name {
+      # Skip non module keys
       next if $obj-name ~~ any(<namespace-name symbol-prefix version>);
 
-      $doc ~= set-module-info( $data, $obj-name);
+      # Get module data
+      my Hash $obj-data = $data{$obj-name};
 
-  my Hash $obj-data = $data{$obj-name};
-      my Hash $r = $obj-data<routines>;
-      if $r<constructors>:exists {
-        $doc ~= "\n### Constructors\n\n";
-        $doc ~= '|Routine|State¹|Version²|Deprecated³|' ~ "\n";
-        $doc ~= '|-------|-|----------|-------|' ~ "\n";
-        for $r<constructors>.keys.sort -> $rname {
-          $doc ~= make-table-entry( $rname, $r<constructors>{$rname});
+      my Str $md-file = $file.basename;
+      $md-file ~~ s/ \.yaml $/.md/;
+      $md-file = 'doc/checklists/' ~ $gnome-package.Str() ~ '/' ~ $md-file;
+
+      # Check if a module must be ignored
+      if ?$obj-data<checks><no-implement> {
+        if $md-file.IO ~~ :e {
+          unlink $md-file;
+          note "$md-file removed";
         }
       }
 
-      $doc ~= "\n1. Status, generated, missing values, deprecated, etc\n";
-      $doc ~= "2. Version of introduction, otherwise it is the release version\n";
-      $doc ~= "3. Version of deprecation and is removed in next release\n";
+      else {
 
-      if $r<methods>:exists {
-        $doc ~= "\n### Methods\n\n";
-        $doc ~= '|Routine|State|Version|Deprecated|' ~ "\n";
-        $doc ~= '|-------|-|----------|-------|' ~ "\n";
-        for $r<methods>.keys.sort -> $rname {
-          $doc ~= make-table-entry( $rname, $r<methods>{$rname});
-        }
-      }
+        $doc ~= set-module-info( $obj-data, $obj-name);
+        $doc ~= set-routine-info( $obj-data, $obj-name);
 
-      if $r<functions>:exists {
-        $doc ~= "\n### Functions\n\n";
-        $doc ~= '|Routine|State|Version|Deprecated|' ~ "\n";
-        $doc ~= '|-------|-|----------|-------|' ~ "\n";
-        for $r<functions>.keys.sort -> $rname {
-          $doc ~= make-table-entry( $rname, $r<functions>{$rname});
-        }
+        note "$md-file";
+        $md-file.IO.spurt($doc);
       }
     }
-  last
   }
-
-note "\n\n$doc";
-}
-
-#-------------------------------------------------------------------------------
-sub make-table-entry ( Str $rname, Hash $rdata --> Str ) {
-  my Str $doc = '';
-  $doc ~= "| $rname |";
-  $doc ~= $rdata<generated>
-          ?? md-image('checklist-ok') !! md-image('checklist-implement');
-  $doc ~= $rdata<missing-type>:exists ?? md-image('checklist-missing') !! '';
-  $doc ~= $rdata<deprecated-version>:exists
-          ?? md-image('checklist-deprecated') !! '';
-  $doc ~= $rdata<version>:exists ?? "| $rdata<version> |" !! '||';
-  $doc ~= $rdata<deprecated-version>:exists
-          ?? "$rdata<deprecated-version> |" !! '|';
-  $doc ~= "\n";
-
-  $doc
 }
 
 #-------------------------------------------------------------------------------
@@ -200,17 +172,24 @@ sub set-legend ( --> Str ) {
     |{md-image('checklist-implement')}|Must be written|
     |{md-image('checklist-deprecated')}|Removed in next Gnome library release|
     |{md-image('checklist-missing')}|Not generated, there are missing types|
+    |{md-image('checklist-no-implement')}|Will not be generated|
     EOLEGEND
 }
- 
+
 #-------------------------------------------------------------------------------
-sub set-module-info ( Hash $data, Str $obj-name --> Str ) {
-  my Hash $obj-data = $data{$obj-name};
+sub set-module-info ( Hash $obj-data, Str $obj-name --> Str ) {
+#  my Hash $obj-data = $data{$obj-name};
   my Hash $checks = $obj-data<checks>;
 
-  $doc ~= "\n# Module Information\n\n";
-  $doc ~= "||State|Name|Tests|\n|-|-|-|-|\n";
-  $doc ~= "|Class name||$obj-data<class-name>||\n";
+  my Str $doc = Q:qq:to/EOINFO/;
+
+    # Module Information
+
+    ||State|Name|Tests|
+    |-|-|-|-|
+    |Class name||$obj-data<class-name>||
+    EOINFO
+
   $doc ~= "|Module generated|"
         ~ ($checks<modules-generated>
             ?? md-image('checklist-ok')
@@ -227,6 +206,46 @@ sub set-module-info ( Hash $data, Str $obj-name --> Str ) {
             !! md-image('checklist-implement')
           ) ~ "|$obj-name.rakutest|$checks<nbr-tests> tests|\n";
 
+  $doc
+}
+
+#-------------------------------------------------------------------------------
+sub set-routine-info ( Hash $obj-data, Str $obj-name --> Str ) {
+#      my Hash $obj-data = $data{$obj-name};
+  my $doc = '';
+  my Hash $r = $obj-data<routines>;
+  if $r<constructors>:exists {
+    $doc ~= "\n### Constructors\n\n";
+    $doc ~= '|Routine|State¹|Version²|Deprecated³|' ~ "\n";
+    $doc ~= '|-------|-|----------|-------|' ~ "\n";
+    for $r<constructors>.keys.sort -> $rname {
+      $doc ~= make-table-entry( $rname, $r<constructors>{$rname});
+    }
+  }
+
+  $doc ~= "\n1. Status, generated, missing values, deprecated, etc\n";
+  $doc ~= "2. Version of introduction, otherwise it is the release version\n";
+  $doc ~= "3. Version of deprecation and is removed in next release\n";
+
+  if $r<methods>:exists {
+    $doc ~= "\n### Methods\n\n";
+    $doc ~= '|Routine|State|Version|Deprecated|' ~ "\n";
+    $doc ~= '|-------|-|----------|-------|' ~ "\n";
+    for $r<methods>.keys.sort -> $rname {
+      $doc ~= make-table-entry( $rname, $r<methods>{$rname});
+    }
+  }
+
+  if $r<functions>:exists {
+    $doc ~= "\n### Functions\n\n";
+    $doc ~= '|Routine|State|Version|Deprecated|' ~ "\n";
+    $doc ~= '|-------|-|----------|-------|' ~ "\n";
+    for $r<functions>.keys.sort -> $rname {
+      $doc ~= make-table-entry( $rname, $r<functions>{$rname});
+    }
+  }
+
+  $doc
 }
 
 #-------------------------------------------------------------------------------
@@ -234,6 +253,23 @@ sub set-module-info ( Hash $data, Str $obj-name --> Str ) {
 sub md-image ( Str $name --> Str ) {
   my $asset-path = '/content-docs/asset_files/images/';
   [~] '![](', $asset-path, $name, '.png)';
+}
+
+#-------------------------------------------------------------------------------
+sub make-table-entry ( Str $rname, Hash $rdata --> Str ) {
+  my Str $doc = '';
+  $doc ~= "| $rname |";
+  $doc ~= $rdata<generated>
+          ?? md-image('checklist-ok') !! md-image('checklist-implement');
+  $doc ~= $rdata<missing-type>:exists ?? md-image('checklist-missing') !! '';
+  $doc ~= $rdata<deprecated-version>:exists
+          ?? md-image('checklist-deprecated') !! '';
+  $doc ~= $rdata<version>:exists ?? "| $rdata<version> |" !! '||';
+  $doc ~= $rdata<deprecated-version>:exists
+          ?? "$rdata<deprecated-version> |" !! '|';
+  $doc ~= "\n";
+
+  $doc
 }
 
 
