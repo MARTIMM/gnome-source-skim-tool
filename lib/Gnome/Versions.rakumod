@@ -147,7 +147,7 @@ method dnf-versions ( Str $libname --> Str ) {
   my Str $version;
 
   # Get the library version using Fedora dnf package manager
-  my Proc $p = shell "dnf list $libname | grep x86_64", :out, :err;
+  my Proc $p = shell "dnf5 list $libname | grep x86_64", :out, :err;
   for $p.out.lines -> $l {
     # skip some messages
     next if $l ~~ m/ Updating | Repositories /;
