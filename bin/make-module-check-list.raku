@@ -13,7 +13,8 @@ my Str $doc = '';
 
 #my Str $gnome-package = @*ARGS[0];
 
-sub MAIN ( SkimSource $gnome-package! ) {
+#-------------------------------------------------------------------------------
+multi sub MAIN ( ) {
 
   with my Gnome::Versions $gnome-versions .= new {
     .set-repopath(
@@ -40,6 +41,35 @@ sub MAIN ( SkimSource $gnome-package! ) {
 
   #my Str $p = $repolib{$gnome-package};
   #$gnome-versions.add-repos($gnome-package => $p);
+#`{{
+  my $*gnome-package = SkimSource(SkimSource.enums{$gnome-package});
+  my $*generate-code = False;
+  my $*generate-test = False;
+  my $*external-modules = %();
+  my $*verbose = False;
+  my @*map-search-list = ();
+  my $*gnome-class = '';
+  my $*work-data;
+
+  my Gnome::SourceSkimTool::Prepare $prepare .= new;
+  $*work-data<finit>( $*work-data, :label<work-data>);
+}}
+
+  $doc ~= set-style;
+
+  $doc ~= "\n# Library and distribution information\n\n";
+  $doc ~= "\n|Distribution|Raku version|Gnome library version|\n|-|-|-|\n";
+  for <Gtk4 Gdk4 Gsk4 Graphene Glib Gio GObject Pango GdkPixbuf> -> $package {
+    $doc ~= "|Gnome::$package|"
+          ~ $gnome-versions.raku-version($package) ~ "|"
+          ~ $gnome-versions.gnome-version($package) ~ "|\n";
+  }
+
+note "\n\n$doc";
+}
+
+#-------------------------------------------------------------------------------
+multi sub MAIN ( SkimSource $gnome-package! ) {
 
   my $*gnome-package = SkimSource(SkimSource.enums{$gnome-package});
   my $*generate-code = False;
@@ -55,13 +85,6 @@ sub MAIN ( SkimSource $gnome-package! ) {
 
   $doc ~= set-style;
 
-  $doc ~= "\n# Library and distribution information\n\n";
-  $doc ~= "\n|Distribution|Raku version|Gnome library version|\n|-|-|-|\n";
-  for <Gtk4 Gdk4 Gsk4 Graphene Glib Gio GObject Pango GdkPixbuf> -> $package {
-    $doc ~= "|Gnome::$package|"
-          ~ $gnome-versions.raku-version($package) ~ "|"
-          ~ $gnome-versions.gnome-version($package) ~ "|\n";
-  }
 
   $doc ~= set-legend;
 
