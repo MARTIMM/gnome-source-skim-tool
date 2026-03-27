@@ -477,8 +477,10 @@ method !get-data (
   my Int $modules-generated =
     "$lib-path$*gnome-package.Str()/$raku-type.rakumod".IO.r ?? 1 !! 0;
   $ed-name<checks> //= %(
-    :handcorrected-docs(0), :nbr-tests(0), :$modules-generated
+    :handcorrected-docs(0), :nbr-tests(0), :$modules-generated,
+    :no-implement(0)
   );
+$ed-name<checks><no-implement> = 0;
 
   # Fill in some missing data before calling for routine search. The used call
   # .get-native-subs() from Gnome::SourceSkimTool::Code is used to generate
