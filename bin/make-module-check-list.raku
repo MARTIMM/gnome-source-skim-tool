@@ -13,8 +13,7 @@ my Str $doc = '';
 
 #my Str $gnome-package = @*ARGS[0];
 
-#sub MAIN ( Str $gnome-package ) {
-sub MAIN ( $gnome-package! ) {
+sub MAIN ( SkimSource $gnome-package! ) {
 
   with my Gnome::Versions $gnome-versions .= new {
     .set-repopath(
