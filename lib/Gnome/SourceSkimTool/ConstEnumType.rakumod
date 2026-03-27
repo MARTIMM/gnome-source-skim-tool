@@ -52,15 +52,12 @@ constant lib-content-list-file is export =
 }}
 
 enum SkimSource is export <
-  Atk
-  Cairo
   DBus DBusGLib
   Gdk3 Gdk4 GdkPixbuf
   Gio Glib GObject
   Gtk3 Gsk4 Gtk4
   Graphene
   Pango PangoCairo
-  GIRepo
 >;
 
 enum ExternalModuleType is export <
