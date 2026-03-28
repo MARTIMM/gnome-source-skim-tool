@@ -39,40 +39,30 @@ multi sub MAIN ( ) {
     );
   }
 
-  #my Str $p = $repolib{$gnome-package};
-  #$gnome-versions.add-repos($gnome-package => $p);
-#`{{
-  my $*gnome-package = SkimSource(SkimSource.enums{$gnome-package});
-  my $*generate-code = False;
-  my $*generate-test = False;
-  my $*external-modules = %();
-  my $*verbose = False;
-  my @*map-search-list = ();
-  my $*gnome-class = '';
-  my $*work-data;
+  my Str $doc = Q:qq:to/EOHEADER/;
+    {set-preamble}
+    {set-style}
 
-  my Gnome::SourceSkimTool::Prepare $prepare .= new;
-  $*work-data<finit>( $*work-data, :label<work-data>);
-}}
+    # Library and distribution information
 
-  my Str $doc = '';
-  $doc ~= set-style;
+    Below there is a table of versions. It shows the current Raku distributions and the Gnome library versions on my computer. It may give you an indication of what is provided by the Raku distributions compared to the [Gnome documentation](https://docs.gtk.org/). There are also tables for each module in a distribution showing what is supported or need to be defined.
 
-  $doc ~= "\n# Library and distribution information\n\n";
-  $doc ~= "\n|Distribution|Raku version|Gnome library version|\n|-|-|-|\n";
+    |Distribution|Raku version|Gnome library version|
+    |-|-|-|
+    EOHEADER
+
   for <Gtk4 Gdk4 Gsk4 Graphene Glib Gio GObject Pango GdkPixbuf> -> $package {
     $doc ~= "|Gnome::$package|"
           ~ $gnome-versions.raku-version($package) ~ "|"
           ~ $gnome-versions.gnome-version($package) ~ "|\n";
   }
 
-note "\n\n$doc";
+  note "Save lib-versions.md";
   'doc/checklists/lib-versions.md'.IO.spurt($doc);
 }
 
 #-------------------------------------------------------------------------------
 multi sub MAIN ( SkimSource $gnome-package!, Str $module = '' ) {
-#TODO optional module argument
 
   my $*gnome-package = SkimSource(SkimSource.enums{$gnome-package});
   my $*generate-code = False;
@@ -84,7 +74,7 @@ multi sub MAIN ( SkimSource $gnome-package!, Str $module = '' ) {
   my $*work-data;
 
   my Gnome::SourceSkimTool::Prepare $prepare .= new;
-  $*work-data<finit>( $*work-data, :label<work-data>);
+#  $*work-data<finit>( $*work-data, :label<work-data>);
 
   my Str $list-root = 'doc/checklists/' ~ $gnome-package.Str;
   mkdir $list-root, 0o750 unless $list-root.IO ~~ :r;
@@ -108,6 +98,7 @@ multi sub MAIN ( SkimSource $gnome-package!, Str $module = '' ) {
 
   for @files -> $file {
     my Str $doc = '';
+    $doc ~= set-preamble(:$gnome-package);
     $doc ~= set-style;
     $doc ~= set-legend;
 
@@ -132,6 +123,9 @@ multi sub MAIN ( SkimSource $gnome-package!, Str $module = '' ) {
 
       my Str $md-file = $file.basename;
       $md-file ~~ s/ \.yaml $/.md/;
+      $md-file ~~ s/^ 'R-' /N-/;
+      $md-file ~~ s/^ 'I-' /R-/;
+      $md-file ~~ s/^ 'C-' //;
       $md-file = "$list-root/$md-file";
 
       # Check if a module must be ignored
@@ -146,7 +140,7 @@ multi sub MAIN ( SkimSource $gnome-package!, Str $module = '' ) {
         $doc ~= set-module-info( $obj-data, $obj-name);
         $doc ~= set-routine-info( $obj-data, $obj-name);
 
-        note "$md-file";
+        note "save $md-file";
         $md-file.IO.spurt($doc);
       }
     }
@@ -154,28 +148,33 @@ multi sub MAIN ( SkimSource $gnome-package!, Str $module = '' ) {
 }
 
 #-------------------------------------------------------------------------------
+sub set-preamble ( Str() :$gnome-package --> Str ) {
+  Q:qq:to/EOPREAMBLE/;
+    ---
+    title: Gnome api 2
+    layout: sidebar
+    nav_menu: api2-nav
+    sidebar_menu: api2-{$gnome-package}-checklist-sidebar
+    ---
+    EOPREAMBLE
+}
+
+#-------------------------------------------------------------------------------
 sub set-style ( --> Str ) {
   Q:q:to/EOSTYLE/;
-      ---
-      title: Gnome api 2
-      layout: sidebar
-      nav_menu: api2-nav
-      sidebar_menu: api2-checklist-sidebar
-      ---
+    <style>
+    html body table {
+      border: 2px solid rgb(47, 0, 47);
+      width: 95%;
+      margin: 0px auto;
+      display: block table;
+    }
 
-      <style>
-      html body table {
-        border: 2px solid rgb(47, 0, 47);
-        width: 95%;
-        margin: 0px auto;
-        display: block table;
-      }
-
-      td:nth-child(1) {  
-        width: 35%;
-      }
-      </style>
-      EOSTYLE
+    td:nth-child(1) {  
+      width: 35%;
+    }
+    </style>
+    EOSTYLE
 }
 
 #-------------------------------------------------------------------------------
