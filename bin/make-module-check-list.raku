@@ -71,7 +71,7 @@ note "\n\n$doc";
 }
 
 #-------------------------------------------------------------------------------
-multi sub MAIN ( SkimSource $gnome-package! ) {
+multi sub MAIN ( SkimSource $gnome-package!, Str $module = '' ) {
 #TODO optional module argument
 
   my $*gnome-package = SkimSource(SkimSource.enums{$gnome-package});
@@ -86,8 +86,27 @@ multi sub MAIN ( SkimSource $gnome-package! ) {
   my Gnome::SourceSkimTool::Prepare $prepare .= new;
   $*work-data<finit>( $*work-data, :label<work-data>);
 
-  # Scan file in storage dir
-  for dir($*work-data<gir-module-path>).sort -> $file {
+  my Str $list-root = 'doc/checklists/' ~ $gnome-package.Str;
+  mkdir $list-root, 0o750 unless $list-root.IO ~~ :r;
+
+  # Scan files in storage dir. If $module is defined, select only that file.
+  # Files are prefixed with 'C-'. 'I-' or 'R-'.
+  my @files;
+  if ?$module {
+    my Str $gmp = $*work-data<gir-module-path>;
+    for <C- I- R-> -> $prefix {
+      if "$gmp$prefix$module.yaml".IO ~~ :r {
+        @files.push: "$gmp$prefix$module.yaml".IO;
+        last;
+      }
+    }
+  }
+
+  else {
+    @files = dir($*work-data<gir-module-path>).sort: { $^a.lc leg $^b.lc };
+  }
+
+  for @files -> $file {
     my Str $doc = '';
     $doc ~= set-style;
     $doc ~= set-legend;
@@ -113,7 +132,7 @@ multi sub MAIN ( SkimSource $gnome-package! ) {
 
       my Str $md-file = $file.basename;
       $md-file ~~ s/ \.yaml $/.md/;
-      $md-file = 'doc/checklists/' ~ $gnome-package.Str() ~ '/' ~ $md-file;
+      $md-file = "$list-root/$md-file";
 
       # Check if a module must be ignored
       if ?$obj-data<checks><no-implement> {
@@ -124,7 +143,6 @@ multi sub MAIN ( SkimSource $gnome-package! ) {
       }
 
       else {
-
         $doc ~= set-module-info( $obj-data, $obj-name);
         $doc ~= set-routine-info( $obj-data, $obj-name);
 
