@@ -438,8 +438,6 @@ method !get-data (
   $element-data<symbol-prefix> = $*symbol-prefix;
 
   # Search for the name
-#note "$?LINE $element-name, ", $xp.find('//' ~ $element-name).Str;
-
   my XML::Element $element = $xp.find('//' ~ $element-name);
   die "$element-name not found" unless ?$element;
 
@@ -470,17 +468,19 @@ method !get-data (
 
   $ed-name<parent> = $attrs<parent>;
   $ed-name<version> = $attrs<version> if ?$attrs<version>;
+  $ed-name<checks> //= %(
+    :handcorrected-docs(0), :nbr-tests(0), :no-implement(0)
+  );
+
 
   # Check for module file to set $modules-generated
+  my Str $prefix = $ed-name<type-letter>:exists
+        ?? $ed-name<type-letter> ~ '-' !! '';
   my Str $lib-path =
     [~] $*api2root, 'gnome-', $*gnome-package.Str.lc, '/lib/Gnome/';
   my Int $modules-generated =
-    "$lib-path$*gnome-package.Str()/$raku-type.rakumod".IO.r ?? 1 !! 0;
-  $ed-name<checks> //= %(
-    :handcorrected-docs(0), :nbr-tests(0), :$modules-generated,
-    :no-implement(0)
-  );
-$ed-name<checks><no-implement> = 0;
+    "$lib-path$*gnome-package.Str()/$prefix$raku-type.rakumod".IO.r ?? 1 !! 0;
+  $ed-name<checks><modules-generated> = $modules-generated;
 
   # Fill in some missing data before calling for routine search. The used call
   # .get-native-subs() from Gnome::SourceSkimTool::Code is used to generate
@@ -488,8 +488,6 @@ $ed-name<checks><no-implement> = 0;
   $*work-data<gnome-name> = $ed-name<gnome-name>;
   $*work-data<raku-name> = $ed-name<class-name>;
   $*work-data<sub-prefix> = $ed-name<symbol-prefix>;
-
-#$*work-data<finit>( $*work-data, :label<work-data>) if $*verbose;
 
   $ed-name<routines> //= %();
   my Hash $routines = $ed-name<routines>;
