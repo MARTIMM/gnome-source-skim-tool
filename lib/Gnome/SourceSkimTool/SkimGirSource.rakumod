@@ -472,7 +472,6 @@ method !get-data (
     :handcorrected-docs(0), :nbr-tests(0), :no-implement(0)
   );
 
-
   # Check for module file to set $modules-generated
   my Str $prefix = $ed-name<type-letter>:exists
         ?? $ed-name<type-letter> ~ '-' !! '';
