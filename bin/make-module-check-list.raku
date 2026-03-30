@@ -154,7 +154,7 @@ sub set-preamble ( Str() :$gnome-package --> Str ) {
     title: Gnome api 2
     layout: sidebar
     nav_menu: api2-nav
-    sidebar_menu: api2-{$gnome-package}-checklist-sidebar
+    sidebar_menu: api2-{$gnome-package.lc}-checklist-sidebar
     ---
     EOPREAMBLE
 }
