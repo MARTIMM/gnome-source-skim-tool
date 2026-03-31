@@ -9,10 +9,6 @@ use Gnome::SourceSkimTool::ConstEnumType;
 
 use Gnome::Versions;
 
-#my Str $doc = '';
-
-#my Str $gnome-package = @*ARGS[0];
-
 #-------------------------------------------------------------------------------
 multi sub MAIN ( ) {
 
@@ -102,17 +98,11 @@ multi sub MAIN ( SkimSource $gnome-package!, Str $module = '' ) {
     $doc ~= set-style;
     $doc ~= set-legend;
 
-#    state Bool $run-code = True;
-
     # Skip repo-object-map.yaml and all .gir files.
     next if $file.basename ~~ m/ [^ repo '-' object || \. gir $] /;
 
     # Get the data from the yaml file
     my Hash $data = load-yaml($file.slurp);
-
-#    if $run-code {
-#      $run-code = False;
-#    }
 
     for $data.keys.sort: { $^a.lc leg $^b.lc } -> $obj-name {
       # Skip non module keys
