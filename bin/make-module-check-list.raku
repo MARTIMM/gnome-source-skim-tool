@@ -127,7 +127,7 @@ multi sub MAIN ( SkimSource $gnome-package!, Str $module = '' ) {
       }
 
       else {
-        $doc ~= set-module-info( $obj-data, $obj-name);
+        $doc ~= set-module-info( $obj-data, $md-file);
         $doc ~= set-routine-info( $obj-data, $obj-name);
 
         note "save $md-file";
@@ -184,34 +184,36 @@ sub set-legend ( --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-sub set-module-info ( Hash $obj-data, Str $obj-name --> Str ) {
+sub set-module-info ( Hash $obj-data, Str $md-file is copy --> Str ) {
 #  my Hash $obj-data = $data{$obj-name};
   my Hash $checks = $obj-data<checks>;
 
+  $md-file = $md-file.IO.basename;
+  $md-file ~~ s/ \. md $//;
+
   my Str $doc = Q:qq:to/EOINFO/;
 
-    # Module Information
+    # $obj-data<class-name>
 
     ||State|Name|Tests|
     |-|-|-|-|
-    |Class name||$obj-data<class-name>||
     EOINFO
 
   $doc ~= "|Module generated|"
         ~ ($checks<modules-generated>
             ?? md-image('checklist-ok')
             !! md-image('checklist-implement')
-          ) ~ "|$obj-name.rakumod\n";
+          ) ~ "|$md-file.rakumod\n";
   $doc ~= "|Documentation corrected|"
         ~ ($checks<handcorrected-docs>
             ?? md-image('checklist-ok')
             !! md-image('checklist-implement')
-          ) ~ "|$obj-name.rakudoc\n";
+          ) ~ "|$md-file.rakudoc\n";
   $doc ~= "|Tests completed|"
         ~ (?$checks<nbr-tests>
             ?? md-image('checklist-ok')
             !! md-image('checklist-implement')
-          ) ~ "|$obj-name.rakutest|$checks<nbr-tests> tests|\n";
+          ) ~ "|$md-file.rakutest|$checks<nbr-tests> tests|\n";
 
   $doc
 }
