@@ -110,6 +110,8 @@ multi sub MAIN ( SkimSource $gnome-package!, Str $module = '' ) {
       # Get module data
       my Hash $obj-data = $data{$obj-name};
 
+      # Gnome files: R- = record/union, I- = interface, C- = class
+      # Rakudo files: N- = record/union, R- = interface, no prefix for class
       my Str $md-file = $file.basename;
       $md-file ~~ s/ \.yaml $/.md/;
       $md-file ~~ s/^ 'R-' /N-/;
@@ -135,7 +137,6 @@ multi sub MAIN ( SkimSource $gnome-package!, Str $module = '' ) {
         $md-file.IO.spurt($doc);
       }
     }
-
   }
 }
 
@@ -162,8 +163,22 @@ sub set-style ( --> Str ) {
       display: block table;
     }
 
-    td:nth-child(1) {  
+    /* Keep most tables first 2 columns the same. Less disturbing display */
+    td:nth-child(1) {
       width: 35%;
+    }
+
+    td:nth-child(2) {
+      width: 11%;
+    }
+
+    /* Legend table must have different column sizes */
+    .legend td:nth-child(1) {
+      width: 1%;
+    }
+
+    .legend td:nth-child(2) {
+      width: 99%;
     }
     </style>
     EOSTYLE
@@ -175,13 +190,23 @@ sub set-legend ( --> Str ) {
 
     ## Legend for the tables
 
-    |Symbol|Meaning|
-    |-|-|
-    |{md-image('checklist-ok')}|Code and documentation is generated|
-    |{md-image('checklist-implement')}|Must be written|
-    |{md-image('checklist-deprecated')}|Removed in next Gnome library release|
-    |{md-image('checklist-missing')}|Not generated, there are missing types|
-    |{md-image('checklist-no-implement')}|Will not be generated|
+    <table class="legend"><tr><th>Symbol</th><th>Meaning</th></tr>
+
+    <tr><td>{md-image( 'checklist-ok', :img)}</td>
+    <td>Code and documentation is generated</td></tr>
+
+    <tr><td>{md-image( 'checklist-implement', :img)}</td>
+    <td>Must be written</td></tr>
+
+    <tr><td>{md-image( 'checklist-deprecated', :img)}</td>
+    <td>Removed in next Gnome library release</td></tr>
+
+    <tr><td>{md-image( 'checklist-missing', :img)}</td>
+    <td>Not generated, there are missing types</td></tr>
+
+    <tr><td>{md-image( 'checklist-no-implement', :img)}</td>
+    <td>Will not be generated</td></tr>
+
     EOLEGEND
 }
 
@@ -266,9 +291,19 @@ sub set-routine-info ( Hash $obj-data, Str $obj-name --> Str ) {
 
 #-------------------------------------------------------------------------------
 #NOTE: the $asset-path is a path on the documentation site of MARTIMM.github.io
-sub md-image ( Str $name --> Str ) {
+sub md-image ( Str $name, Bool :$img = False --> Str ) {
   my $asset-path = '/content-docs/asset_files/images/';
-  [~] '![](', $asset-path, $name, '.png)';
+  my Str $t;
+
+  if $img {
+    $t = [~] '<img src="', $asset-path, $name, '.png" />';
+  }
+
+  else {
+    $t = [~] '![](', $asset-path, $name, '.png)';
+  }
+
+  $t
 }
 
 #-------------------------------------------------------------------------------
