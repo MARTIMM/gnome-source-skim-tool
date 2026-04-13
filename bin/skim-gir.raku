@@ -59,6 +59,7 @@ sub MAIN ( *@gnome-packages, Bool :$v = False, Bool :$help = False ) {
     say "\nGenerate the intermediate gir and yaml files for package $gnome-package" if $*verbose;
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
     my Gnome::SourceSkimTool::SkimGirSource $skim-doc .= new;
+
     $skim-doc.load-gir-file;
     $skim-doc.load-map;
     $skim-doc.make-subgirs-from-gir;
