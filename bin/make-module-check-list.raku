@@ -96,7 +96,6 @@ multi sub MAIN ( SkimSource $gnome-package!, Str $module = '' ) {
     my Str $doc = '';
     $doc ~= set-preamble(:$gnome-package);
     $doc ~= set-style;
-    $doc ~= set-legend;
 
     # Skip repo-object-map.yaml and all .gir files.
     next if $file.basename ~~ m/ [^ repo '-' object || \. gir $] /;
@@ -130,10 +129,13 @@ multi sub MAIN ( SkimSource $gnome-package!, Str $module = '' ) {
         $doc ~= set-module-info( $obj-data, $md-file);
         $doc ~= set-routine-info( $obj-data, $obj-name);
 
+        $doc ~= set-legend;
+
         note "save $md-file";
         $md-file.IO.spurt($doc);
       }
     }
+
   }
 }
 
@@ -144,7 +146,7 @@ sub set-preamble ( Str() :$gnome-package --> Str ) {
     title: Gnome api 2
     layout: sidebar
     nav_menu: api2-nav
-    sidebar_menu: api2-{$gnome-package.lc}-checklist-sidebar
+    sidebar_menu: api2-{?$gnome-package ?? $gnome-package.lc ~ '-' !! ''}checklist-sidebar
     ---
     EOPREAMBLE
 }
@@ -170,8 +172,8 @@ sub set-style ( --> Str ) {
 #-------------------------------------------------------------------------------
 sub set-legend ( --> Str ) {
   Q:qq:to/EOLEGEND/;
-    
-    # Legend for the tables
+
+    ## Legend for the tables
 
     |Symbol|Meaning|
     |-|-|
@@ -192,8 +194,13 @@ sub set-module-info ( Hash $obj-data, Str $md-file is copy --> Str ) {
   $md-file ~~ s/ \. md $//;
 
   my Str $doc = Q:qq:to/EOINFO/;
+    # Module Checklist
 
-    # $obj-data<class-name>
+    Checklist for module $obj-data<class-name> to show the progress of deveopment or wheher it is deprecated. Most of the modules are generated but documentation needs to be checked for typos ad mistakes. Also examples may be added. Not much will be done for deprecated modules. You might be interested in the [GnomeTools distribution](/content-docs/GnomeTools/index.html) where some of the deprecated modules are rewritten.
+
+    Furthermore there is a list of the current versions of [Gnome libraries]() installed on my machine versus the Raku distribution versions.
+
+    ## $obj-data<class-name>
 
     ||State|Name|Tests|
     |-|-|-|-|
