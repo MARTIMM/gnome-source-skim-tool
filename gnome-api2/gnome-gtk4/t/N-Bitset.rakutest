@@ -23,29 +23,29 @@ use Gnome::N::X:api<2>;
 
 #Gnome::N::debug(:on);
 my N-Bitset $n-bitset;
+my Gnome::Gtk4::N-Bitset $bitset;
 
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 subtest 'ISA test', {
-  given $n-bitset {
+  given $bitset {
     my UInt() $start;
     my UInt() $n-items;
 
 #`{{
+}}
     #TC:0:new-empty()
 
-    $n-bitset .= new-empty();
+    $bitset .= new-empty();
     ok .is-valid, '.new-empty()';
 
     #TC:0:new-range()
     $start = 42;
     $n-items = 42;
-    $n-bitset .= new-range( $start, $n-items);
+    $bitset .= new-range( $start, $n-items);
     ok .is-valid, '.new-range( $start, $n-items)';
-
-}}
   }
 };
 
