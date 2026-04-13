@@ -87,7 +87,10 @@ sub USAGE ( ) {
 
     Arguments
       package   The Gnome package name used for the class. Select one
-                from this list; DBus DBusGLib Gtk4 Gdk4 Gdk3 Gdk4 Gsk4
-                GdkPixbuf Pango Grapheme.
+                from this list; Gtk4 Gdk4 Gsk4
+                GdkPixbuf Pango Grapheme Gio Glib GObject.
   EOHELP
 }
+
+#NOTE package tested against SkimSource enums defined in Gnome::SourceSkimTool::ConstEnumType
+#NOTE skip Gtk3 Gdk3 and others for the moment
