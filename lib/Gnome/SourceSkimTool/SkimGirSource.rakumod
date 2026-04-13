@@ -379,7 +379,7 @@ method make-yaml-from-subgirs ( Str $module = '' ) {
       next unless $element.name ~~ any(<class interface record union>);
       my $attrs = $element.attribs;
       my Str $element-name = $element.name;
-      self!write-yaml( $xml-file, $xml, $element-name);
+      self!write-yaml( $xml-file, $xml, $element-name, $module);
     }
   }
 
@@ -432,7 +432,9 @@ method make-yaml-from-subgirs ( Str $module = '' ) {
 }
 
 #-------------------------------------------------------------------------------
-method !write-yaml ( Str() $xml-file, Str $xml, Str $element-name ) {
+method !write-yaml (
+  Str() $xml-file, Str $xml, Str $element-name, Str $module = ''
+) {
 
   # Get previously saved yaml data of element
   my $yaml-file = $xml-file;
@@ -442,7 +444,7 @@ method !write-yaml ( Str() $xml-file, Str $xml, Str $element-name ) {
 #note "$?LINE $element-data.keys.gist()";
   # Add/Change new data in 
   my XML::XPath $xp .= new(:$xml);
-  if self!get-data( $xp, $element-data, $element-name) {
+  if self!get-data( $xp, $element-data, $element-name, $module) {
     # Save data if data is meaningful
     note "Write $element-name to $yaml-file.IO.basename()" if $*verbose;
     $yaml-file.IO.spurt(save-yaml($element-data));
@@ -451,7 +453,9 @@ method !write-yaml ( Str() $xml-file, Str $xml, Str $element-name ) {
 
 #-------------------------------------------------------------------------------
 method !get-data (
-  XML::XPath $xp, Hash $element-data, Str $element-name --> Bool
+  XML::XPath $xp, Hash $element-data,
+  Str $element-name, Str $module = ''
+  --> Bool
 ) {
   # Setup basic info
   $element-data<version> = $*lib-version;
@@ -497,6 +501,8 @@ method !get-data (
 #$ed-name<checks><enough-tests> = 0;
 #note "$?LINE $ed-name<checks>.raku()";
 
+  $ed-name<checks><nbr-tests> = self!get-nbr-tests( $ed-name, $module);
+
   # Check for module file to set $modules-generated
   my Str $prefix = $ed-name<type-letter>:exists
         ?? $ed-name<type-letter> ~ '-' !! '';
@@ -536,6 +542,39 @@ method !get-data (
   }
 
   True
+}
+
+#-------------------------------------------------------------------------------
+method !get-nbr-tests ( Hash $ed-name, Str $module = '' --> UInt ) {
+  my UInt $tests = 0;
+
+  my Str $test-file = $*work-data<result-tests>;
+  if ?$ed-name<type-letter> {
+    $test-file ~= [~] '/', $ed-name<type-letter>, '-', $module, '.rakutest';
+  }
+
+  else {
+    $test-file ~= "/$module.rakutest";
+  }
+
+#note "$?LINE $*work-data.gist()\n$test-file";
+  my Str $t = $test-file.IO.slurp;
+  $t ~~ s:g/ '#' \` '{{' .*? '}}' //;
+  $t ~~ s:g/'#' .*? $$//;
+  $t ~~ s/ \= finish .* //;
+
+  for $t.lines -> $line {
+    $tests++ if $line ~~ m/^ \s* [
+          ok | nok | is | isnt |
+          is\-approx| is\-approx\-calculate | is\-deeply |
+          cmp\-ok | isa\-ok | can\-ok | does\-ok |
+          like | unlike | use\-ok | dies\-ok | lives\-ok |
+          eval\-dies\-ok | eval\-lives\-ok | exits\-ok |
+          throws\-like | fails\-like
+        ] /;
+  }
+
+  $tests
 }
 
 #-------------------------------------------------------------------------------
@@ -663,11 +702,9 @@ method set-implentors ( Str $entry-name, Str $role-class-name is copy ) {
 }
 
 #-------------------------------------------------------------------------------
-#|( Make a map of function, class and structure names to Raku names. Add some
-    extra notes like type and location in hierarchy tree.
-    * $element; toplevel at 'repository/namespace'
-)
-
+# Make a map of function, class and structure names to Raku names. Add some
+# extra notes like type and location in hierarchy tree.
+# $element; toplevel at 'repository/namespace'
 method !map-element (
   XML::Element $element, Str $*namespace-name,
   Str $*symbol-prefix is copy, Str $id-prefix
