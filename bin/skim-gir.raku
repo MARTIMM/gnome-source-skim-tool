@@ -36,7 +36,10 @@ my Str $*api2root =
    $*HOME ~ '/Languages/Raku/Projects/gnome-source-skim-tool/gnome-api2/';
 
 #-------------------------------------------------------------------------------
-sub MAIN ( *@gnome-packages, Bool :$v = False, Bool :$help = False ) {
+sub MAIN (
+  SkimSource $*gnome-package, Str se = '', Bool :$v = False,
+  Bool :$help = False
+) {
 
   if $help {
     USAGE;
@@ -45,9 +48,10 @@ sub MAIN ( *@gnome-packages, Bool :$v = False, Bool :$help = False ) {
 
   $*verbose = $v;
 
+#`{{
   for @gnome-packages -> $gnome-package {
     try {
-      $*gnome-package = SkimSource(SkimSource.enums{$gnome-package});
+      $*gnome-package = $gnome-package;#SkimSource(SkimSource.enums{$gnome-package});
       CATCH {
         default {
           USAGE;
@@ -55,8 +59,8 @@ sub MAIN ( *@gnome-packages, Bool :$v = False, Bool :$help = False ) {
         }
       }
     }
-
-    say "\nGenerate the intermediate gir and yaml files for package $gnome-package" if $*verbose;
+}}
+    say "\nGenerate the intermediate gir and yaml files for package $*gnome-package" if $*verbose;
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
     my Gnome::SourceSkimTool::SkimGirSource $skim-doc .= new;
 
@@ -65,7 +69,7 @@ sub MAIN ( *@gnome-packages, Bool :$v = False, Bool :$help = False ) {
     $skim-doc.make-subgirs-from-gir;
     $skim-doc.save-map;
     $skim-doc.make-yaml-from-subgirs;
-  }
+#  }
 }
 
 #-------------------------------------------------------------------------------
