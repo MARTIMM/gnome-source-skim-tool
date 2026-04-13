@@ -37,7 +37,7 @@ my Str $*api2root =
 
 #-------------------------------------------------------------------------------
 sub MAIN (
-  SkimSource $*gnome-package, Str se = '', Bool :$v = False,
+  SkimSource $*gnome-package, Str $module = '', Bool :$v = False,
   Bool :$help = False
 ) {
 
@@ -66,9 +66,9 @@ sub MAIN (
 
     $skim-doc.load-gir-file;
     $skim-doc.load-map;
-    $skim-doc.make-subgirs-from-gir;
+    $skim-doc.make-subgirs-from-gir($module);
     $skim-doc.save-map;
-    $skim-doc.make-yaml-from-subgirs;
+    $skim-doc.make-yaml-from-subgirs($module);
 #  }
 }
 

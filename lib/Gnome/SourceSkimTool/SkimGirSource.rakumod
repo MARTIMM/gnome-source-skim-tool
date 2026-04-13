@@ -43,7 +43,7 @@ submethod BUILD ( ) {
 }
 
 #-------------------------------------------------------------------------------
-method make-subgirs-from-gir ( ) {
+method make-subgirs-from-gir ( Str $module = '' ) {
 
   # Make start of xml by taking the <package> and <namespace> elements.
   # some gir files mention two packages. we take only one
@@ -68,7 +68,7 @@ method make-subgirs-from-gir ( ) {
     my $attrs = $element.attribs;
     my Str $element-name = self.test-for-oddities( $element.name, $attrs);
 note "$?LINE $attrs.gist(), $element-name";
-
+exit;
     # Ignore the entry when the item is moved to some other module
     next if $attrs<moved-to>:exists;
     next if $attrs<introspectable>:exists and $attrs<introspectable> eq 0;
@@ -333,7 +333,7 @@ method !devise-xml-namespace ( --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method make-yaml-from-subgirs ( ) {
+method make-yaml-from-subgirs ( Str $module = '' ) {
   #self.load-map;
 
 note "$?LINE $*work-data<gir-module-path>";
