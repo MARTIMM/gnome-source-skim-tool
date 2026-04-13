@@ -67,8 +67,8 @@ method make-subgirs-from-gir ( Str $module = '' ) {
 
     my $attrs = $element.attribs;
     my Str $element-name = self.test-for-oddities( $element.name, $attrs);
-note "$?LINE $attrs.gist(), $element-name";
-exit;
+#note "$?LINE $attrs.gist(), $element-name";
+
     # Ignore the entry when the item is moved to some other module
     next if $attrs<moved-to>:exists;
     next if $attrs<introspectable>:exists and $attrs<introspectable> eq 0;
@@ -80,6 +80,14 @@ exit;
 #      note "$?LINE $name, $attrs.gist(), $element.name()";
       next;
     }
+
+    # If module defined then skip all but this module
+    if ?$module {
+      if $module !~~ m/$name/ {
+        next;
+      }
+    }
+#note "$?LINE $name, $element-name";
 
     # Map an element into the repo-object-map.
     self!map-element( $element, $*namespace-name, $*symbol-prefix, $id-prefix);
@@ -341,6 +349,16 @@ note "$?LINE $*work-data<gir-module-path>";
   for dir($*work-data<gir-module-path>).sort -> $xml-file {
     next if $xml-file.Str ~~ m/^ repo '-' /;
     next if $xml-file.Str !~~ m/ \. gir $/;
+
+    # If module defined then skip all but this module
+    if ?$module {
+      my Str $bname = $xml-file.basename;
+
+      # Basename still has .gir at the end.
+      if $bname !~~ m/$module \. gir $/ {
+        next;
+      }
+    }
 
     my Str $xml = $xml-file.IO.slurp;
     $!xp .= new(:$xml);
