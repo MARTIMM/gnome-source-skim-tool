@@ -67,6 +67,7 @@ method make-subgirs-from-gir ( ) {
 
     my $attrs = $element.attribs;
     my Str $element-name = self.test-for-oddities( $element.name, $attrs);
+note "$?LINE $attrs.gist(), $element-name";
 
     # Ignore the entry when the item is moved to some other module
     next if $attrs<moved-to>:exists;
@@ -74,7 +75,6 @@ method make-subgirs-from-gir ( ) {
     next if $attrs<disguised>:exists and $attrs<disguised> == 1;
     next if $element-name ~~ m/^ glib \:/;
 
-#note "$?LINE $attrs.gist(), $element-name";
     my Str $name = self!check-pixbuf($attrs<name>);
     if $name ~~ m/ [ Class || Private || Iface || Interface ] $/ {
 #      note "$?LINE $name, $attrs.gist(), $element.name()";
@@ -335,6 +335,9 @@ method !devise-xml-namespace ( --> Str ) {
 #-------------------------------------------------------------------------------
 method make-yaml-from-subgirs ( ) {
   #self.load-map;
+
+note "$?LINE $*work-data<gir-module-path>";
+
   for dir($*work-data<gir-module-path>).sort -> $xml-file {
     next if $xml-file.Str ~~ m/^ repo '-' /;
     next if $xml-file.Str !~~ m/ \. gir $/;
@@ -415,10 +418,10 @@ method !write-yaml ( Str() $xml-file, Str $xml, Str $element-name ) {
 
   # Get previously saved yaml data of element
   my $yaml-file = $xml-file;
-  $yaml-file ~~ s/ \. gir /.yaml/;
+  $yaml-file ~~ s/ \. gir $/.yaml/;
   my Hash $element-data = %();
   $element-data = load-yaml($yaml-file.IO.slurp) if $yaml-file.IO ~~ :r;
-
+#note "$?LINE $element-data.keys.gist()";
   # Add/Change new data in 
   my XML::XPath $xp .= new(:$xml);
   if self!get-data( $xp, $element-data, $element-name) {
@@ -469,8 +472,12 @@ method !get-data (
   $ed-name<parent> = $attrs<parent>;
   $ed-name<version> = $attrs<version> if ?$attrs<version>;
   $ed-name<checks> //= %(
-    :handcorrected-docs(0), :nbr-tests(0), :no-implement(0)
+    :handcorrected-docs(0), :enough-tests(0),
+    :nbr-tests(0), :no-implement(0)
   );
+# temporary
+#$ed-name<checks><enough-tests> = 0;
+#note "$?LINE $ed-name<checks>.raku()";
 
   # Check for module file to set $modules-generated
   my Str $prefix = $ed-name<type-letter>:exists
