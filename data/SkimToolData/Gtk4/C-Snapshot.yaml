@@ -1,0 +1,1014 @@
+---
+"Snapshot": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::Snapshot"
+  "gir-type": "class"
+  "gnome-name": "GtkSnapshot"
+  "inheritable": false
+  "package-name": "Gnome::Gtk4"
+  "parent": "Gdk.Snapshot"
+  "parent-gnome-name": "GdkSnapshot"
+  "parent-raku-name": "Gnome::Gdk4::Snapshot"
+  "roles":  []
+  "routines": 
+    "constructors": 
+      "new-snapshot": 
+        "generated": 1
+        "parameters":  []
+        "return-c-type": "GtkSnapshot*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "append-border": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GskRoundedRect*"
+            "name": "outline"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const float*"
+            "name": "border-width"
+            "raku-type": "CArray[gfloat]"
+          - 
+            "c-type": "const GdkRGBA*"
+            "name": "border-color"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "append-cairo": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const graphene_rect_t*"
+            "name": "bounds"
+            "raku-type": "N-Object"
+        "return-c-type": "cairo_t*"
+        "return-raku-type": "Cairo::cairo_t"
+      "append-color": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GdkRGBA*"
+            "name": "color"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const graphene_rect_t*"
+            "name": "bounds"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "append-conic-gradient": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const graphene_rect_t*"
+            "name": "bounds"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const graphene_point_t*"
+            "name": "center"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "float"
+            "name": "rotation"
+            "raku-type": "gfloat"
+          - 
+            "c-type": "const GskColorStop*"
+            "name": "stops"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gsize"
+            "name": "n-stops"
+            "raku-type": "gsize"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "append-fill": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GskPath*"
+            "name": "path"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GskFillRule"
+            "name": "fill-rule"
+            "raku-type": "GEnum:GskFillRule"
+          - 
+            "c-type": "const GdkRGBA*"
+            "name": "color"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.14"
+      "append-inset-shadow": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GskRoundedRect*"
+            "name": "outline"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GdkRGBA*"
+            "name": "color"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "float"
+            "name": "dx"
+            "raku-type": "gfloat"
+          - 
+            "c-type": "float"
+            "name": "dy"
+            "raku-type": "gfloat"
+          - 
+            "c-type": "float"
+            "name": "spread"
+            "raku-type": "gfloat"
+          - 
+            "c-type": "float"
+            "name": "blur-radius"
+            "raku-type": "gfloat"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "append-layout": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GdkRGBA*"
+            "name": "color"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "append-linear-gradient": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const graphene_rect_t*"
+            "name": "bounds"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const graphene_point_t*"
+            "name": "start-point"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const graphene_point_t*"
+            "name": "end-point"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GskColorStop*"
+            "name": "stops"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gsize"
+            "name": "n-stops"
+            "raku-type": "gsize"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "append-node": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GskRenderNode*"
+            "name": "node"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "append-outset-shadow": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GskRoundedRect*"
+            "name": "outline"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GdkRGBA*"
+            "name": "color"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "float"
+            "name": "dx"
+            "raku-type": "gfloat"
+          - 
+            "c-type": "float"
+            "name": "dy"
+            "raku-type": "gfloat"
+          - 
+            "c-type": "float"
+            "name": "spread"
+            "raku-type": "gfloat"
+          - 
+            "c-type": "float"
+            "name": "blur-radius"
+            "raku-type": "gfloat"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "append-radial-gradient": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const graphene_rect_t*"
+            "name": "bounds"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const graphene_point_t*"
+            "name": "center"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "float"
+            "name": "hradius"
+            "raku-type": "gfloat"
+          - 
+            "c-type": "float"
+            "name": "vradius"
+            "raku-type": "gfloat"
+          - 
+            "c-type": "float"
+            "name": "start"
+            "raku-type": "gfloat"
+          - 
+            "c-type": "float"
+            "name": "end"
+            "raku-type": "gfloat"
+          - 
+            "c-type": "const GskColorStop*"
+            "name": "stops"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gsize"
+            "name": "n-stops"
+            "raku-type": "gsize"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "append-repeating-linear-gradient": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const graphene_rect_t*"
+            "name": "bounds"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const graphene_point_t*"
+            "name": "start-point"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const graphene_point_t*"
+            "name": "end-point"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GskColorStop*"
+            "name": "stops"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gsize"
+            "name": "n-stops"
+            "raku-type": "gsize"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "append-repeating-radial-gradient": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const graphene_rect_t*"
+            "name": "bounds"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const graphene_point_t*"
+            "name": "center"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "float"
+            "name": "hradius"
+            "raku-type": "gfloat"
+          - 
+            "c-type": "float"
+            "name": "vradius"
+            "raku-type": "gfloat"
+          - 
+            "c-type": "float"
+            "name": "start"
+            "raku-type": "gfloat"
+          - 
+            "c-type": "float"
+            "name": "end"
+            "raku-type": "gfloat"
+          - 
+            "c-type": "const GskColorStop*"
+            "name": "stops"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gsize"
+            "name": "n-stops"
+            "raku-type": "gsize"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "append-scaled-texture": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkTexture*"
+            "name": "texture"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GskScalingFilter"
+            "name": "filter"
+            "raku-type": "GEnum:GskScalingFilter"
+          - 
+            "c-type": "const graphene_rect_t*"
+            "name": "bounds"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.10"
+      "append-stroke": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GskPath*"
+            "name": "path"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GskStroke*"
+            "name": "stroke"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GdkRGBA*"
+            "name": "color"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.14"
+      "append-texture": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkTexture*"
+            "name": "texture"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const graphene_rect_t*"
+            "name": "bounds"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "free-to-node": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+        "return-c-type": "GskRenderNode*"
+        "return-raku-type": "N-Object"
+      "free-to-paintable": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const graphene_size_t*"
+            "name": "size"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkPaintable*"
+        "return-raku-type": "N-Object"
+      "gl-shader-pop-texture": 
+        "deprecated-version": "4.16"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "perspective": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "float"
+            "name": "depth"
+            "raku-type": "gfloat"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "pop": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "push-blend": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GskBlendMode"
+            "name": "blend-mode"
+            "raku-type": "GEnum:GskBlendMode"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "push-blur": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "radius"
+            "raku-type": "gdouble"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "push-clip": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const graphene_rect_t*"
+            "name": "bounds"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "push-color-matrix": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const graphene_matrix_t*"
+            "name": "color-matrix"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const graphene_vec4_t*"
+            "name": "color-offset"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "push-cross-fade": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "progress"
+            "raku-type": "gdouble"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "push-debug": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "message"
+            "raku-type": "Str"
+          - 
+            "c-type": "…"
+            "name": "…"
+            "raku-type": "…"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "variable-list": true
+      "push-fill": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GskPath*"
+            "name": "path"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GskFillRule"
+            "name": "fill-rule"
+            "raku-type": "GEnum:GskFillRule"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.14"
+      "push-gl-shader": 
+        "deprecated-version": "4.16"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GskGLShader*"
+            "name": "shader"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const graphene_rect_t*"
+            "name": "bounds"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GBytes*"
+            "name": "take-args"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "push-mask": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GskMaskMode"
+            "name": "mask-mode"
+            "raku-type": "GEnum:GskMaskMode"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.10"
+      "push-opacity": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "opacity"
+            "raku-type": "gdouble"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "push-repeat": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const graphene_rect_t*"
+            "name": "bounds"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const graphene_rect_t*"
+            "name": "child-bounds"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "push-rounded-clip": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GskRoundedRect*"
+            "name": "bounds"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "push-shadow": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GskShadow*"
+            "name": "shadow"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gsize"
+            "name": "n-shadows"
+            "raku-type": "gsize"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "push-stroke": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GskPath*"
+            "name": "path"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GskStroke*"
+            "name": "stroke"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.14"
+      "render-background": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkStyleContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "x"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "double"
+            "name": "y"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "double"
+            "name": "width"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "double"
+            "name": "height"
+            "raku-type": "gdouble"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "render-focus": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkStyleContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "x"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "double"
+            "name": "y"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "double"
+            "name": "width"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "double"
+            "name": "height"
+            "raku-type": "gdouble"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "render-frame": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkStyleContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "x"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "double"
+            "name": "y"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "double"
+            "name": "width"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "double"
+            "name": "height"
+            "raku-type": "gdouble"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "render-insertion-cursor": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkStyleContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "x"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "double"
+            "name": "y"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "index"
+            "raku-type": "gint"
+          - 
+            "c-type": "PangoDirection"
+            "name": "direction"
+            "raku-type": "GEnum:PangoDirection"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "render-layout": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkStyleContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "x"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "double"
+            "name": "y"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "restore": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "rotate": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "float"
+            "name": "angle"
+            "raku-type": "gfloat"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "rotate-3d": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "float"
+            "name": "angle"
+            "raku-type": "gfloat"
+          - 
+            "c-type": "const graphene_vec3_t*"
+            "name": "axis"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "save": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "scale": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "float"
+            "name": "factor-x"
+            "raku-type": "gfloat"
+          - 
+            "c-type": "float"
+            "name": "factor-y"
+            "raku-type": "gfloat"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "scale-3d": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "float"
+            "name": "factor-x"
+            "raku-type": "gfloat"
+          - 
+            "c-type": "float"
+            "name": "factor-y"
+            "raku-type": "gfloat"
+          - 
+            "c-type": "float"
+            "name": "factor-z"
+            "raku-type": "gfloat"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "to-node": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+        "return-c-type": "GskRenderNode*"
+        "return-raku-type": "N-Object"
+      "to-paintable": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const graphene_size_t*"
+            "name": "size"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkPaintable*"
+        "return-raku-type": "N-Object"
+      "transform": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GskTransform*"
+            "name": "transform"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "transform-matrix": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const graphene_matrix_t*"
+            "name": "matrix"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "translate": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const graphene_point_t*"
+            "name": "point"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "translate-3d": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const graphene_point3d_t*"
+            "name": "point"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "snapshot"
+  "symbol-prefix": "gtk_snapshot_"
+  "type-letter": ""
+  "type-name": "Snapshot"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

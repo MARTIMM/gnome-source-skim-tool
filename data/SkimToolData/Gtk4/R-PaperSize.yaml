@@ -1,0 +1,338 @@
+---
+"PaperSize": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::N-PaperSize"
+  "gir-type": "record"
+  "gnome-name": "GtkPaperSize"
+  "package-name": "Gnome::Gtk4"
+  "parent": ~
+  "record-class": "N-PaperSize"
+  "routines": 
+    "constructors": 
+      "new-custom": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "name"
+            "raku-type": "Str"
+          - 
+            "c-type": "const char*"
+            "name": "display-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "double"
+            "name": "width"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "double"
+            "name": "height"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "GtkUnit"
+            "name": "unit"
+            "raku-type": "GEnum:GtkUnit"
+        "return-c-type": "GtkPaperSize*"
+        "return-raku-type": "N-Object"
+      "new-from-gvariant": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GVariant*"
+            "name": "variant"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkPaperSize*"
+        "return-raku-type": "N-Object"
+      "new-from-ipp": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "ipp-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "double"
+            "name": "width"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "double"
+            "name": "height"
+            "raku-type": "gdouble"
+        "return-c-type": "GtkPaperSize*"
+        "return-raku-type": "N-Object"
+      "new-from-key-file": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GKeyFile*"
+            "name": "key-file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "group-name"
+            "raku-type": "Str"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GtkPaperSize*"
+        "return-raku-type": "N-Object"
+      "new-from-ppd": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "ppd-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "const char*"
+            "name": "ppd-display-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "double"
+            "name": "width"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "double"
+            "name": "height"
+            "raku-type": "gdouble"
+        "return-c-type": "GtkPaperSize*"
+        "return-raku-type": "N-Object"
+      "new-papersize": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "name"
+            "raku-type": "Str"
+        "return-c-type": "GtkPaperSize*"
+        "return-raku-type": "N-Object"
+    "functions": 
+      "get-default": 
+        "generated": 0
+        "parameters":  []
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-paper-sizes": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "gboolean"
+            "name": "include-custom"
+            "raku-type": "gboolean"
+        "return-c-type": "GList*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "copy": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPaperSize*"
+            "name": "other"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkPaperSize*"
+        "return-raku-type": "N-Object"
+      "free": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPaperSize*"
+            "name": "size"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-default-bottom-margin": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPaperSize*"
+            "name": "size"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkUnit"
+            "name": "unit"
+            "raku-type": "GEnum:GtkUnit"
+        "return-c-type": "double"
+        "return-raku-type": "gdouble"
+      "get-default-left-margin": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPaperSize*"
+            "name": "size"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkUnit"
+            "name": "unit"
+            "raku-type": "GEnum:GtkUnit"
+        "return-c-type": "double"
+        "return-raku-type": "gdouble"
+      "get-default-right-margin": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPaperSize*"
+            "name": "size"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkUnit"
+            "name": "unit"
+            "raku-type": "GEnum:GtkUnit"
+        "return-c-type": "double"
+        "return-raku-type": "gdouble"
+      "get-default-top-margin": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPaperSize*"
+            "name": "size"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkUnit"
+            "name": "unit"
+            "raku-type": "GEnum:GtkUnit"
+        "return-c-type": "double"
+        "return-raku-type": "gdouble"
+      "get-display-name": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPaperSize*"
+            "name": "size"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-height": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPaperSize*"
+            "name": "size"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkUnit"
+            "name": "unit"
+            "raku-type": "GEnum:GtkUnit"
+        "return-c-type": "double"
+        "return-raku-type": "gdouble"
+      "get-name": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPaperSize*"
+            "name": "size"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-ppd-name": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPaperSize*"
+            "name": "size"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-width": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPaperSize*"
+            "name": "size"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkUnit"
+            "name": "unit"
+            "raku-type": "GEnum:GtkUnit"
+        "return-c-type": "double"
+        "return-raku-type": "gdouble"
+      "is-custom": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPaperSize*"
+            "name": "size"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "is-equal": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPaperSize*"
+            "name": "size1"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkPaperSize*"
+            "name": "size2"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "is-ipp": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPaperSize*"
+            "name": "size"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "set-size": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPaperSize*"
+            "name": "size"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "width"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "double"
+            "name": "height"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "GtkUnit"
+            "name": "unit"
+            "raku-type": "GEnum:GtkUnit"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "to-gvariant": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPaperSize*"
+            "name": "paper-size"
+            "raku-type": "N-Object"
+        "return-c-type": "GVariant*"
+        "return-raku-type": "N-Object"
+      "to-key-file": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPaperSize*"
+            "name": "size"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GKeyFile*"
+            "name": "key-file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "group-name"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "papersize"
+  "symbol-prefix": "gtk_paper_size_"
+  "type-letter": "N"
+  "type-name": "PaperSize"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

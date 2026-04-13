@@ -1,0 +1,105 @@
+---
+"UriLauncher": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::UriLauncher"
+  "gir-type": "class"
+  "gnome-name": "GtkUriLauncher"
+  "inheritable": false
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles":  []
+  "routines": 
+    "constructors": 
+      "new-urilauncher": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "uri"
+            "raku-type": "Str"
+        "return-c-type": "GtkUriLauncher*"
+        "return-raku-type": "N-Object"
+        "version": "4.10"
+    "methods": 
+      "get-uri": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkUriLauncher*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+        "version": "4.10"
+      "launch": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkUriLauncher*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWindow*"
+            "name": "parent"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.10"
+      "launch-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkUriLauncher*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "4.10"
+      "set-uri": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkUriLauncher*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "uri"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.10"
+  "source-filename": "urilauncher"
+  "symbol-prefix": "gtk_uri_launcher_"
+  "type-letter": ""
+  "type-name": "UriLauncher"
+  "version": "4.10"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

@@ -1,0 +1,193 @@
+---
+"TreeModelFilter": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::TreeModelFilter"
+  "deprecated": true
+  "deprecated-version": "4.10"
+  "gir-type": "class"
+  "gnome-name": "GtkTreeModelFilter"
+  "implement-roles": 
+    - "Gnome::Gtk4::R-TreeDragSource"
+    - "Gnome::Gtk4::R-TreeModel"
+  "inheritable": false
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles": 
+    - "Gnome::Gtk4::R-TreeDragSource"
+    - "Gnome::Gtk4::R-TreeModel"
+  "routines": 
+    "methods": 
+      "clear-cache": 
+        "deprecated-version": "4.10"
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkTreeModelFilter*"
+            "name": "filter"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "convert-child-iter-to-iter": 
+        "deprecated-version": "4.10"
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkTreeModelFilter*"
+            "name": "filter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreeIter*"
+            "name": "filter-iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreeIter*"
+            "name": "child-iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "convert-child-path-to-path": 
+        "deprecated-version": "4.10"
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkTreeModelFilter*"
+            "name": "filter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "child-path"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkTreePath*"
+        "return-raku-type": "N-Object"
+      "convert-iter-to-child-iter": 
+        "deprecated-version": "4.10"
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkTreeModelFilter*"
+            "name": "filter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreeIter*"
+            "name": "child-iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreeIter*"
+            "name": "filter-iter"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "convert-path-to-child-path": 
+        "deprecated-version": "4.10"
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkTreeModelFilter*"
+            "name": "filter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "filter-path"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkTreePath*"
+        "return-raku-type": "N-Object"
+      "get-model": 
+        "deprecated-version": "4.10"
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkTreeModelFilter*"
+            "name": "filter"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkTreeModel*"
+        "return-raku-type": "N-Object"
+      "refilter": 
+        "deprecated-version": "4.10"
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkTreeModelFilter*"
+            "name": "filter"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-modify-func": 
+        "deprecated-version": "4.10"
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GtkTreeModelFilter*"
+            "name": "filter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "n-columns"
+            "raku-type": "gint"
+          - 
+            "c-type": "GType*"
+            "name": "types"
+            "raku-type": ""
+          - 
+            "c-type": "GtkTreeModelFilterModifyFunc"
+            "name": "func"
+            "raku-type": ":( N-Object $model, N-Object $iter, N-Object $value, gint $column, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GDestroyNotify"
+            "name": "destroy"
+            "raku-type": ":( gpointer $data )"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-visible-column": 
+        "deprecated-version": "4.10"
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkTreeModelFilter*"
+            "name": "filter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "column"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-visible-func": 
+        "deprecated-version": "4.10"
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkTreeModelFilter*"
+            "name": "filter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreeModelFilterVisibleFunc"
+            "name": "func"
+            "raku-type": ":( N-Object $model, N-Object $iter, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GDestroyNotify"
+            "name": "destroy"
+            "raku-type": ":( gpointer $data )"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "treemodelfilter"
+  "symbol-prefix": "gtk_tree_model_filter_"
+  "type-letter": ""
+  "type-name": "TreeModelFilter"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

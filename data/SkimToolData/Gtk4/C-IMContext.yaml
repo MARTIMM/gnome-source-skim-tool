@@ -1,0 +1,282 @@
+---
+"IMContext": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::IMContext"
+  "gir-type": "class"
+  "gnome-name": "GtkIMContext"
+  "inheritable": false
+  "package-name": "Gnome::Gtk4"
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles":  []
+  "routines": 
+    "methods": 
+      "activate-osk": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkIMContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "4.14"
+      "delete-surrounding": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkIMContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "offset"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "n-chars"
+            "raku-type": "gint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "filter-key": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkIMContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "press"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "GdkSurface*"
+            "name": "surface"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkDevice*"
+            "name": "device"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint32"
+            "name": "time"
+            "raku-type": "guint32"
+          - 
+            "c-type": "guint"
+            "name": "keycode"
+            "raku-type": "guint"
+          - 
+            "c-type": "GdkModifierType"
+            "name": "state"
+            "raku-type": "GFlag:GdkModifierType"
+          - 
+            "c-type": "int"
+            "name": "group"
+            "raku-type": "gint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "filter-keypress": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkIMContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "focus-in": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkIMContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "focus-out": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkIMContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-preedit-string": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkIMContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "char**"
+            "name": "str"
+            "raku-type": "gchar-pptr"
+          - 
+            "c-type": "PangoAttrList**"
+            "name": "attrs"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int*"
+            "name": "cursor-pos"
+            "raku-type": "gint-ptr"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-surrounding": 
+        "deprecated-version": "4.2"
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkIMContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "char**"
+            "name": "text"
+            "raku-type": "gchar-pptr"
+          - 
+            "c-type": "int*"
+            "name": "cursor-index"
+            "raku-type": "gint-ptr"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-surrounding-with-selection": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkIMContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "char**"
+            "name": "text"
+            "raku-type": "gchar-pptr"
+          - 
+            "c-type": "int*"
+            "name": "cursor-index"
+            "raku-type": "gint-ptr"
+          - 
+            "c-type": "int*"
+            "name": "anchor-index"
+            "raku-type": "gint-ptr"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "4.2"
+      "reset": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkIMContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-client-widget": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkIMContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-cursor-location": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkIMContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GdkRectangle*"
+            "name": "area"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-surrounding": 
+        "deprecated-version": "4.2"
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkIMContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "text"
+            "raku-type": "Str"
+          - 
+            "c-type": "int"
+            "name": "len"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "cursor-index"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-surrounding-with-selection": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkIMContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "text"
+            "raku-type": "Str"
+          - 
+            "c-type": "int"
+            "name": "len"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "cursor-index"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "anchor-index"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.2"
+      "set-use-preedit": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkIMContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "use-preedit"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "imcontext"
+  "symbol-prefix": "gtk_im_context_"
+  "type-letter": ""
+  "type-name": "IMContext"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

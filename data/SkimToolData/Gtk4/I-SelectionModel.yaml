@@ -1,0 +1,185 @@
+---
+"SelectionModel": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 1
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::R-SelectionModel"
+  "gir-type": "interface"
+  "gnome-name": "GtkSelectionModel"
+  "implementors": 
+    - "Gnome::Gtk4::NoSelection"
+    - "Gnome::Gtk4::MultiSelection"
+    - "Gnome::Gtk4::SingleSelection"
+  "package-name": "Gnome::Gtk4"
+  "parent": ~
+  "routines": 
+    "methods": 
+      "get-selection": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSelectionModel*"
+            "name": "model"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkBitset*"
+        "return-raku-type": "N-Object"
+      "get-selection-in-range": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSelectionModel*"
+            "name": "model"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "position"
+            "raku-type": "guint"
+          - 
+            "c-type": "guint"
+            "name": "n-items"
+            "raku-type": "guint"
+        "return-c-type": "GtkBitset*"
+        "return-raku-type": "N-Object"
+      "is-selected": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSelectionModel*"
+            "name": "model"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "position"
+            "raku-type": "guint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "select-all": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSelectionModel*"
+            "name": "model"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "select-item": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSelectionModel*"
+            "name": "model"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "position"
+            "raku-type": "guint"
+          - 
+            "c-type": "gboolean"
+            "name": "unselect-rest"
+            "raku-type": "gboolean"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "select-range": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSelectionModel*"
+            "name": "model"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "position"
+            "raku-type": "guint"
+          - 
+            "c-type": "guint"
+            "name": "n-items"
+            "raku-type": "guint"
+          - 
+            "c-type": "gboolean"
+            "name": "unselect-rest"
+            "raku-type": "gboolean"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "selection-changed": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSelectionModel*"
+            "name": "model"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "position"
+            "raku-type": "guint"
+          - 
+            "c-type": "guint"
+            "name": "n-items"
+            "raku-type": "guint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-selection": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSelectionModel*"
+            "name": "model"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkBitset*"
+            "name": "selected"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkBitset*"
+            "name": "mask"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "unselect-all": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSelectionModel*"
+            "name": "model"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "unselect-item": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSelectionModel*"
+            "name": "model"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "position"
+            "raku-type": "guint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "unselect-range": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSelectionModel*"
+            "name": "model"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "position"
+            "raku-type": "guint"
+          - 
+            "c-type": "guint"
+            "name": "n-items"
+            "raku-type": "guint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+  "source-filename": "selectionmodel"
+  "symbol-prefix": "gtk_selection_model_"
+  "type-letter": "R"
+  "type-name": "SelectionModel"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

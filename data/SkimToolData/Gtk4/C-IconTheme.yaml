@@ -1,0 +1,253 @@
+---
+"IconTheme": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::IconTheme"
+  "gir-type": "class"
+  "gnome-name": "GtkIconTheme"
+  "inheritable": false
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles":  []
+  "routines": 
+    "constructors": 
+      "new-icontheme": 
+        "generated": 1
+        "parameters":  []
+        "return-c-type": "GtkIconTheme*"
+        "return-raku-type": "N-Object"
+    "functions": 
+      "get-for-display": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "display"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkIconTheme*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "add-resource-path": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconTheme*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "path"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "add-search-path": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconTheme*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "path"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-display": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconTheme*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkDisplay*"
+        "return-raku-type": "N-Object"
+      "get-icon-names": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconTheme*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "char**"
+        "return-raku-type": "gchar-pptr"
+      "get-icon-sizes": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconTheme*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "icon-name"
+            "raku-type": "Str"
+        "return-c-type": "int*"
+        "return-raku-type": "gint-ptr"
+      "get-resource-path": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconTheme*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "char**"
+        "return-raku-type": "gchar-pptr"
+      "get-search-path": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconTheme*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "char**"
+        "return-raku-type": "gchar-pptr"
+      "get-theme-name": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconTheme*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "char*"
+        "return-raku-type": "Str"
+      "has-gicon": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkIconTheme*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GIcon*"
+            "name": "gicon"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "4.2"
+      "has-icon": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconTheme*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "icon-name"
+            "raku-type": "Str"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "lookup-by-gicon": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconTheme*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GIcon*"
+            "name": "icon"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "size"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "scale"
+            "raku-type": "gint"
+          - 
+            "c-type": "GtkTextDirection"
+            "name": "direction"
+            "raku-type": "GEnum:GtkTextDirection"
+          - 
+            "c-type": "GtkIconLookupFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GtkIconLookupFlags"
+        "return-c-type": "GtkIconPaintable*"
+        "return-raku-type": "N-Object"
+      "lookup-icon": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconTheme*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "icon-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "const char**"
+            "name": "fallbacks"
+            "raku-type": "gchar-pptr"
+          - 
+            "c-type": "int"
+            "name": "size"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "scale"
+            "raku-type": "gint"
+          - 
+            "c-type": "GtkTextDirection"
+            "name": "direction"
+            "raku-type": "GEnum:GtkTextDirection"
+          - 
+            "c-type": "GtkIconLookupFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GtkIconLookupFlags"
+        "return-c-type": "GtkIconPaintable*"
+        "return-raku-type": "N-Object"
+      "set-resource-path": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconTheme*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char* const*"
+            "name": "path"
+            "raku-type": "gchar-pptr"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-search-path": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconTheme*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char* const*"
+            "name": "path"
+            "raku-type": "gchar-pptr"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-theme-name": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconTheme*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "theme-name"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "icontheme"
+  "symbol-prefix": "gtk_icon_theme_"
+  "type-letter": ""
+  "type-name": "IconTheme"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

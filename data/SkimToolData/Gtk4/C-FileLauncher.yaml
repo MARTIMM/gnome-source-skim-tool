@@ -1,0 +1,197 @@
+---
+"FileLauncher": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::FileLauncher"
+  "gir-type": "class"
+  "gnome-name": "GtkFileLauncher"
+  "inheritable": false
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles":  []
+  "routines": 
+    "constructors": 
+      "new-filelauncher": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkFileLauncher*"
+        "return-raku-type": "N-Object"
+        "version": "4.10"
+    "methods": 
+      "get-always-ask": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileLauncher*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "4.12"
+      "get-file": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileLauncher*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+        "version": "4.10"
+      "get-writable": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileLauncher*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "4.14"
+      "launch": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileLauncher*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWindow*"
+            "name": "parent"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.10"
+      "launch-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileLauncher*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "4.10"
+      "open-containing-folder": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileLauncher*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWindow*"
+            "name": "parent"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.10"
+      "open-containing-folder-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileLauncher*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "4.10"
+      "set-always-ask": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileLauncher*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "always-ask"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.12"
+      "set-file": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileLauncher*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.10"
+      "set-writable": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileLauncher*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "writable"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.14"
+  "source-filename": "filelauncher"
+  "symbol-prefix": "gtk_file_launcher_"
+  "type-letter": ""
+  "type-name": "FileLauncher"
+  "version": "4.10"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

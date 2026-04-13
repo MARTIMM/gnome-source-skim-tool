@@ -1,0 +1,209 @@
+---
+"LevelBar": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::LevelBar"
+  "gir-type": "class"
+  "gnome-name": "GtkLevelBar"
+  "implement-roles": 
+    - "Gnome::Gtk4::R-AccessibleRange"
+    - "Gnome::Gtk4::R-Orientable"
+  "inheritable": true
+  "parent": "Widget"
+  "parent-gnome-name": "GtkWidget"
+  "parent-raku-name": "Gnome::Gtk4::Widget"
+  "roles": 
+    - "Gnome::Gtk4::R-Accessible"
+    - "Gnome::Gtk4::R-AccessibleRange"
+    - "Gnome::Gtk4::R-Buildable"
+    - "Gnome::Gtk4::R-ConstraintTarget"
+    - "Gnome::Gtk4::R-Orientable"
+  "routines": 
+    "constructors": 
+      "new-for-interval": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "double"
+            "name": "min-value"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "double"
+            "name": "max-value"
+            "raku-type": "gdouble"
+        "return-c-type": "GtkWidget*"
+        "return-raku-type": "N-Object"
+      "new-levelbar": 
+        "generated": 1
+        "parameters":  []
+        "return-c-type": "GtkWidget*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "add-offset-value": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkLevelBar*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "name"
+            "raku-type": "Str"
+          - 
+            "c-type": "double"
+            "name": "value"
+            "raku-type": "gdouble"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-inverted": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkLevelBar*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-max-value": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkLevelBar*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "double"
+        "return-raku-type": "gdouble"
+      "get-min-value": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkLevelBar*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "double"
+        "return-raku-type": "gdouble"
+      "get-mode": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkLevelBar*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkLevelBarMode"
+        "return-raku-type": "GEnum:GtkLevelBarMode"
+      "get-offset-value": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkLevelBar*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "name"
+            "raku-type": "Str"
+          - 
+            "c-type": "double*"
+            "name": "value"
+            "raku-type": "CArray[gdouble]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-value": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkLevelBar*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "double"
+        "return-raku-type": "gdouble"
+      "remove-offset-value": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkLevelBar*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "name"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-inverted": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkLevelBar*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "inverted"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-max-value": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkLevelBar*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "value"
+            "raku-type": "gdouble"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-min-value": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkLevelBar*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "value"
+            "raku-type": "gdouble"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-mode": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkLevelBar*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkLevelBarMode"
+            "name": "mode"
+            "raku-type": "GEnum:GtkLevelBarMode"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-value": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkLevelBar*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "value"
+            "raku-type": "gdouble"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "levelbar"
+  "symbol-prefix": "gtk_level_bar_"
+  "type-letter": ""
+  "type-name": "LevelBar"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

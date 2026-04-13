@@ -1,0 +1,251 @@
+---
+"TreePath": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 1
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::N-TreePath"
+  "deprecated": true
+  "deprecated-version": "4.10"
+  "gir-type": "record"
+  "gnome-name": "GtkTreePath"
+  "package-name": "Gnome::Gtk4"
+  "parent": ~
+  "record-class": "N-TreePath"
+  "routines": 
+    "constructors": 
+      "new-first": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters":  []
+        "return-c-type": "GtkTreePath*"
+        "return-raku-type": "N-Object"
+      "new-from-indices": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "int"
+            "name": "first-index"
+            "raku-type": "gint"
+          - 
+            "c-type": "…"
+            "name": "…"
+            "raku-type": "…"
+        "return-c-type": "GtkTreePath*"
+        "return-raku-type": "N-Object"
+        "variable-list": true
+      "new-from-indicesv": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "int*"
+            "name": "indices"
+            "raku-type": "gint-ptr"
+          - 
+            "c-type": "gsize"
+            "name": "length"
+            "raku-type": "gsize"
+        "return-c-type": "GtkTreePath*"
+        "return-raku-type": "N-Object"
+      "new-from-string": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "path"
+            "raku-type": "Str"
+        "return-c-type": "GtkTreePath*"
+        "return-raku-type": "N-Object"
+      "new-treepath": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters":  []
+        "return-c-type": "GtkTreePath*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "append-index": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "path"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "index"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "compare": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTreePath*"
+            "name": "a"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GtkTreePath*"
+            "name": "b"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "copy": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTreePath*"
+            "name": "path"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkTreePath*"
+        "return-raku-type": "N-Object"
+      "down": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "path"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "free": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "path"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-depth": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "path"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-indices": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "path"
+            "raku-type": "N-Object"
+        "return-c-type": "int*"
+        "return-raku-type": "gint-ptr"
+      "get-indices-with-depth": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "path"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int*"
+            "name": "depth"
+            "raku-type": "gint-ptr"
+        "return-c-type": "int*"
+        "return-raku-type": "gint-ptr"
+      "is-ancestor": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "path"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "descendant"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "is-descendant": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "path"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "ancestor"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "next": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "path"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "prepend-index": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "path"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "index"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "prev": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "path"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "to-string": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "path"
+            "raku-type": "N-Object"
+        "return-c-type": "char*"
+        "return-raku-type": "Str"
+      "up": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "path"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+  "source-filename": "treemodel"
+  "symbol-prefix": "gtk_tree_path_"
+  "type-letter": "N"
+  "type-name": "TreePath"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

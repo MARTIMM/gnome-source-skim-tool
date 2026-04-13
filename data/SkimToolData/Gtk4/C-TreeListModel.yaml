@@ -1,0 +1,121 @@
+---
+"TreeListModel": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::TreeListModel"
+  "gir-type": "class"
+  "gnome-name": "GtkTreeListModel"
+  "inheritable": false
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles":  []
+  "routines": 
+    "constructors": 
+      "new-treelistmodel": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GListModel*"
+            "name": "root"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "passthrough"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "gboolean"
+            "name": "autoexpand"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "GtkTreeListModelCreateModelFunc"
+            "name": "create-func"
+            "raku-type": ":( gpointer $item, gpointer $user-data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GDestroyNotify"
+            "name": "user-destroy"
+            "raku-type": ":( gpointer $data )"
+        "return-c-type": "GtkTreeListModel*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "get-autoexpand": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTreeListModel*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-child-row": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTreeListModel*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "position"
+            "raku-type": "guint"
+        "return-c-type": "GtkTreeListRow*"
+        "return-raku-type": "N-Object"
+      "get-model": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTreeListModel*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "GListModel*"
+        "return-raku-type": "N-Object"
+      "get-passthrough": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTreeListModel*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-row": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTreeListModel*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "position"
+            "raku-type": "guint"
+        "return-c-type": "GtkTreeListRow*"
+        "return-raku-type": "N-Object"
+      "set-autoexpand": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTreeListModel*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "autoexpand"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "treelistmodel"
+  "symbol-prefix": "gtk_tree_list_model_"
+  "type-letter": ""
+  "type-name": "TreeListModel"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

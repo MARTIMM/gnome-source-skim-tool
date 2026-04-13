@@ -1,0 +1,2002 @@
+---
+"Widget": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::Widget"
+  "gir-type": "class"
+  "gnome-name": "GtkWidget"
+  "implement-roles": 
+    - "Gnome::Gtk4::R-Accessible"
+    - "Gnome::Gtk4::R-Buildable"
+    - "Gnome::Gtk4::R-ConstraintTarget"
+  "inheritable": false
+  "package-name": "Gnome::Gtk4"
+  "parent": "GObject.InitiallyUnowned"
+  "parent-gnome-name": "GInitiallyUnowned"
+  "parent-raku-name": "Gnome::GObject::InitiallyUnowned"
+  "roles": 
+    - "Gnome::Gtk4::R-Accessible"
+    - "Gnome::Gtk4::R-Buildable"
+    - "Gnome::Gtk4::R-ConstraintTarget"
+  "routines": 
+    "functions": 
+      "get-default-direction": 
+        "generated": 1
+        "parameters":  []
+        "return-c-type": "GtkTextDirection"
+        "return-raku-type": "GEnum:GtkTextDirection"
+      "set-default-direction": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextDirection"
+            "name": "dir"
+            "raku-type": "GEnum:GtkTextDirection"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+    "methods": 
+      "action-set-enabled": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "action-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "gboolean"
+            "name": "enabled"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "activate": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "activate-action": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "name"
+            "raku-type": "Str"
+          - 
+            "c-type": "const char*"
+            "name": "format-string"
+            "raku-type": "Str"
+          - 
+            "c-type": "…"
+            "name": "…"
+            "raku-type": "…"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "variable-list": true
+      "activate-action-variant": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "name"
+            "raku-type": "Str"
+          - 
+            "c-type": "GVariant*"
+            "name": "args"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "activate-default": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "add-controller": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkEventController*"
+            "name": "controller"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "add-css-class": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "css-class"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "add-mnemonic-label": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "label"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "add-tick-callback": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTickCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $widget, N-Object $frame-clock, gpointer $user-data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GDestroyNotify"
+            "name": "notify"
+            "raku-type": ":( gpointer $data )"
+        "return-c-type": "guint"
+        "return-raku-type": "guint"
+      "allocate": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "width"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "height"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "baseline"
+            "raku-type": "gint"
+          - 
+            "c-type": "GskTransform*"
+            "name": "transform"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "child-focus": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkDirectionType"
+            "name": "direction"
+            "raku-type": "GEnum:GtkDirectionType"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "compute-bounds": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "target"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "graphene_rect_t*"
+            "name": "out-bounds"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "compute-expand": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkOrientation"
+            "name": "orientation"
+            "raku-type": "GEnum:GtkOrientation"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "compute-point": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "target"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const graphene_point_t*"
+            "name": "point"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "graphene_point_t*"
+            "name": "out-point"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "compute-transform": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "target"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "graphene_matrix_t*"
+            "name": "out-transform"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "contains": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "x"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "double"
+            "name": "y"
+            "raku-type": "gdouble"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "create-pango-context": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoContext*"
+        "return-raku-type": "N-Object"
+      "create-pango-layout": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "text"
+            "raku-type": "Str"
+        "return-c-type": "PangoLayout*"
+        "return-raku-type": "N-Object"
+      "dispose-template": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GType"
+            "name": "widget-type"
+            "raku-type": "GType"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.8"
+      "drag-check-threshold": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "start-x"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "start-y"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "current-x"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "current-y"
+            "raku-type": "gint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "error-bell": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-allocated-baseline": 
+        "deprecated-version": "4.12"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-allocated-height": 
+        "deprecated-version": "4.12"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-allocated-width": 
+        "deprecated-version": "4.12"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-allocation": 
+        "deprecated-version": "4.12"
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkAllocation*"
+            "name": "allocation"
+            "raku-type": ""
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-ancestor": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GType"
+            "name": "widget-type"
+            "raku-type": "GType"
+        "return-c-type": "GtkWidget*"
+        "return-raku-type": "N-Object"
+      "get-baseline": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+        "version": "4.12"
+      "get-can-focus": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-can-target": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-child-visible": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-clipboard": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkClipboard*"
+        "return-raku-type": "N-Object"
+      "get-color": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkRGBA*"
+            "name": "color"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.10"
+      "get-css-classes": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "char**"
+        "return-raku-type": "gchar-pptr"
+      "get-css-name": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-cursor": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkCursor*"
+        "return-raku-type": "N-Object"
+      "get-direction": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkTextDirection"
+        "return-raku-type": "GEnum:GtkTextDirection"
+      "get-display": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkDisplay*"
+        "return-raku-type": "N-Object"
+      "get-first-child": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkWidget*"
+        "return-raku-type": "N-Object"
+      "get-focus-child": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkWidget*"
+        "return-raku-type": "N-Object"
+      "get-focus-on-click": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-focusable": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-font-map": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoFontMap*"
+        "return-raku-type": "N-Object"
+      "get-font-options": 
+        "deprecated-version": "4.16"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "const cairo_font_options_t*"
+        "return-raku-type": "Cairo::cairo_font_options_t"
+      "get-frame-clock": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkFrameClock*"
+        "return-raku-type": "N-Object"
+      "get-halign": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkAlign"
+        "return-raku-type": "GEnum:GtkAlign"
+      "get-has-tooltip": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-height": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-hexpand": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-hexpand-set": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-last-child": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkWidget*"
+        "return-raku-type": "N-Object"
+      "get-layout-manager": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkLayoutManager*"
+        "return-raku-type": "N-Object"
+      "get-limit-events": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "4.18"
+      "get-mapped": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-margin-bottom": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-margin-end": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-margin-start": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-margin-top": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-name": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-native": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkNative*"
+        "return-raku-type": "N-Object"
+      "get-next-sibling": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkWidget*"
+        "return-raku-type": "N-Object"
+      "get-opacity": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "double"
+        "return-raku-type": "gdouble"
+      "get-overflow": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkOverflow"
+        "return-raku-type": "GEnum:GtkOverflow"
+      "get-pango-context": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoContext*"
+        "return-raku-type": "N-Object"
+      "get-parent": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkWidget*"
+        "return-raku-type": "N-Object"
+      "get-preferred-size": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkRequisition*"
+            "name": "minimum-size"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkRequisition*"
+            "name": "natural-size"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-prev-sibling": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkWidget*"
+        "return-raku-type": "N-Object"
+      "get-primary-clipboard": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkClipboard*"
+        "return-raku-type": "N-Object"
+      "get-realized": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-receives-default": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-request-mode": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkSizeRequestMode"
+        "return-raku-type": "GEnum:GtkSizeRequestMode"
+      "get-root": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkRoot*"
+        "return-raku-type": "N-Object"
+      "get-scale-factor": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-sensitive": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-settings": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkSettings*"
+        "return-raku-type": "N-Object"
+      "get-size": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkOrientation"
+            "name": "orientation"
+            "raku-type": "GEnum:GtkOrientation"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-size-request": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int*"
+            "name": "width"
+            "raku-type": "gint-ptr"
+          - 
+            "c-type": "int*"
+            "name": "height"
+            "raku-type": "gint-ptr"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-state-flags": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkStateFlags"
+        "return-raku-type": "GFlag:GtkStateFlags"
+      "get-style-context": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkStyleContext*"
+        "return-raku-type": "N-Object"
+      "get-template-child": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GType"
+            "name": "widget-type"
+            "raku-type": "GType"
+          - 
+            "c-type": "const char*"
+            "name": "name"
+            "raku-type": "Str"
+        "return-c-type": "GObject*"
+        "return-raku-type": "N-Object"
+      "get-tooltip-markup": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-tooltip-text": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-valign": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkAlign"
+        "return-raku-type": "GEnum:GtkAlign"
+      "get-vexpand": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-vexpand-set": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-visible": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-width": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "grab-focus": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "has-css-class": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "css-class"
+            "raku-type": "Str"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "has-default": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "has-focus": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "has-visible-focus": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "hide": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "in-destruction": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "init-template": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "insert-action-group": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "name"
+            "raku-type": "Str"
+          - 
+            "c-type": "GActionGroup*"
+            "name": "group"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "insert-after": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "parent"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "previous-sibling"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "insert-before": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "parent"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "next-sibling"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "is-ancestor": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "ancestor"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "is-drawable": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "is-focus": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "is-sensitive": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "is-visible": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "keynav-failed": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkDirectionType"
+            "name": "direction"
+            "raku-type": "GEnum:GtkDirectionType"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "list-mnemonic-labels": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "GList*"
+        "return-raku-type": "N-Object"
+      "map": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "measure": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkOrientation"
+            "name": "orientation"
+            "raku-type": "GEnum:GtkOrientation"
+          - 
+            "c-type": "int"
+            "name": "for-size"
+            "raku-type": "gint"
+          - 
+            "c-type": "int*"
+            "name": "minimum"
+            "raku-type": "gint-ptr"
+          - 
+            "c-type": "int*"
+            "name": "natural"
+            "raku-type": "gint-ptr"
+          - 
+            "c-type": "int*"
+            "name": "minimum-baseline"
+            "raku-type": "gint-ptr"
+          - 
+            "c-type": "int*"
+            "name": "natural-baseline"
+            "raku-type": "gint-ptr"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "mnemonic-activate": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "group-cycling"
+            "raku-type": "gboolean"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "observe-children": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "GListModel*"
+        "return-raku-type": "N-Object"
+      "observe-controllers": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "GListModel*"
+        "return-raku-type": "N-Object"
+      "pick": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "x"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "double"
+            "name": "y"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "GtkPickFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GtkPickFlags"
+        "return-c-type": "GtkWidget*"
+        "return-raku-type": "N-Object"
+      "queue-allocate": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "queue-draw": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "queue-resize": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "realize": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "remove-controller": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkEventController*"
+            "name": "controller"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "remove-css-class": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "css-class"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "remove-mnemonic-label": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "label"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "remove-tick-callback": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "id"
+            "raku-type": "guint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-can-focus": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "can-focus"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-can-target": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "can-target"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-child-visible": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "child-visible"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-css-classes": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char**"
+            "name": "classes"
+            "raku-type": "gchar-pptr"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-cursor": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkCursor*"
+            "name": "cursor"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-cursor-from-name": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "name"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-direction": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTextDirection"
+            "name": "dir"
+            "raku-type": "GEnum:GtkTextDirection"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-focus-child": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "child"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-focus-on-click": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "focus-on-click"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-focusable": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "focusable"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-font-map": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoFontMap*"
+            "name": "font-map"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-font-options": 
+        "deprecated-version": "4.16"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const cairo_font_options_t*"
+            "name": "options"
+            "raku-type": "Cairo::cairo_font_options_t"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-halign": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkAlign"
+            "name": "align"
+            "raku-type": "GEnum:GtkAlign"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-has-tooltip": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "has-tooltip"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-hexpand": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "expand"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-hexpand-set": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "set"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-layout-manager": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkLayoutManager*"
+            "name": "layout-manager"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-limit-events": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "limit-events"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.18"
+      "set-margin-bottom": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "margin"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-margin-end": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "margin"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-margin-start": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "margin"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-margin-top": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "margin"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-name": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "name"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-opacity": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "opacity"
+            "raku-type": "gdouble"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-overflow": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkOverflow"
+            "name": "overflow"
+            "raku-type": "GEnum:GtkOverflow"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-parent": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "parent"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-receives-default": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "receives-default"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-sensitive": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "sensitive"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-size-request": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "width"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "height"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-state-flags": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkStateFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GtkStateFlags"
+          - 
+            "c-type": "gboolean"
+            "name": "clear"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-tooltip-markup": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "markup"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-tooltip-text": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "text"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-valign": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkAlign"
+            "name": "align"
+            "raku-type": "GEnum:GtkAlign"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-vexpand": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "expand"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-vexpand-set": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "set"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-visible": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "visible"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "should-layout": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "show": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "size-allocate": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GtkAllocation*"
+            "name": "allocation"
+            "raku-type": ""
+          - 
+            "c-type": "int"
+            "name": "baseline"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "snapshot-child": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "child"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "translate-coordinates": 
+        "deprecated-version": "4.12"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "src-widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "dest-widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "src-x"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "double"
+            "name": "src-y"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "double*"
+            "name": "dest-x"
+            "raku-type": "CArray[gdouble]"
+          - 
+            "c-type": "double*"
+            "name": "dest-y"
+            "raku-type": "CArray[gdouble]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "trigger-tooltip-query": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "unmap": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "unparent": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "unrealize": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "unset-state-flags": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkStateFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GtkStateFlags"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "widget"
+  "symbol-prefix": "gtk_widget_"
+  "type-letter": ""
+  "type-name": "Widget"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

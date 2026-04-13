@@ -1,0 +1,406 @@
+---
+"Builder": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::Builder"
+  "gir-type": "class"
+  "gnome-name": "GtkBuilder"
+  "inheritable": false
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles":  []
+  "routines": 
+    "constructors": 
+      "new-builder": 
+        "generated": 1
+        "parameters":  []
+        "return-c-type": "GtkBuilder*"
+        "return-raku-type": "N-Object"
+      "new-from-file": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "filename"
+            "raku-type": "Str"
+        "return-c-type": "GtkBuilder*"
+        "return-raku-type": "N-Object"
+      "new-from-resource": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "resource-path"
+            "raku-type": "Str"
+        "return-c-type": "GtkBuilder*"
+        "return-raku-type": "N-Object"
+      "new-from-string": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "string"
+            "raku-type": "Str"
+          - 
+            "c-type": "gssize"
+            "name": "length"
+            "raku-type": "gssize"
+        "return-c-type": "GtkBuilder*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "add-from-file": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkBuilder*"
+            "name": "builder"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "filename"
+            "raku-type": "Str"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "add-from-resource": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkBuilder*"
+            "name": "builder"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "resource-path"
+            "raku-type": "Str"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "add-from-string": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkBuilder*"
+            "name": "builder"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "buffer"
+            "raku-type": "Str"
+          - 
+            "c-type": "gssize"
+            "name": "length"
+            "raku-type": "gssize"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "add-objects-from-file": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkBuilder*"
+            "name": "builder"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "filename"
+            "raku-type": "Str"
+          - 
+            "c-type": "const char**"
+            "name": "object-ids"
+            "raku-type": "gchar-pptr"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "add-objects-from-resource": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkBuilder*"
+            "name": "builder"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "resource-path"
+            "raku-type": "Str"
+          - 
+            "c-type": "const char**"
+            "name": "object-ids"
+            "raku-type": "gchar-pptr"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "add-objects-from-string": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkBuilder*"
+            "name": "builder"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "buffer"
+            "raku-type": "Str"
+          - 
+            "c-type": "gssize"
+            "name": "length"
+            "raku-type": "gssize"
+          - 
+            "c-type": "const char**"
+            "name": "object-ids"
+            "raku-type": "gchar-pptr"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "create-closure": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkBuilder*"
+            "name": "builder"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "function-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "GtkBuilderClosureFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GtkBuilderClosureFlags"
+          - 
+            "c-type": "GObject*"
+            "name": "object"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GClosure*"
+        "return-raku-type": "N-Object"
+      "expose-object": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkBuilder*"
+            "name": "builder"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "name"
+            "raku-type": "Str"
+          - 
+            "c-type": "GObject*"
+            "name": "object"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "extend-with-template": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkBuilder*"
+            "name": "builder"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GObject*"
+            "name": "object"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GType"
+            "name": "template-type"
+            "raku-type": "GType"
+          - 
+            "c-type": "const char*"
+            "name": "buffer"
+            "raku-type": "Str"
+          - 
+            "c-type": "gssize"
+            "name": "length"
+            "raku-type": "gssize"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-current-object": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkBuilder*"
+            "name": "builder"
+            "raku-type": "N-Object"
+        "return-c-type": "GObject*"
+        "return-raku-type": "N-Object"
+      "get-object": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkBuilder*"
+            "name": "builder"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "name"
+            "raku-type": "Str"
+        "return-c-type": "GObject*"
+        "return-raku-type": "N-Object"
+      "get-objects": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkBuilder*"
+            "name": "builder"
+            "raku-type": "N-Object"
+        "return-c-type": "GSList*"
+        "return-raku-type": "N-Object"
+      "get-scope": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkBuilder*"
+            "name": "builder"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkBuilderScope*"
+        "return-raku-type": "N-Object"
+      "get-translation-domain": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkBuilder*"
+            "name": "builder"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-type-from-name": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkBuilder*"
+            "name": "builder"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "type-name"
+            "raku-type": "Str"
+        "return-c-type": "GType"
+        "return-raku-type": "GType"
+      "set-current-object": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkBuilder*"
+            "name": "builder"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GObject*"
+            "name": "current-object"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-scope": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkBuilder*"
+            "name": "builder"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkBuilderScope*"
+            "name": "scope"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-translation-domain": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkBuilder*"
+            "name": "builder"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "domain"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "value-from-string": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkBuilder*"
+            "name": "builder"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GParamSpec*"
+            "name": "pspec"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "string"
+            "raku-type": "Str"
+          - 
+            "c-type": "GValue*"
+            "name": "value"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "value-from-string-type": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkBuilder*"
+            "name": "builder"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GType"
+            "name": "type"
+            "raku-type": "GType"
+          - 
+            "c-type": "const char*"
+            "name": "string"
+            "raku-type": "Str"
+          - 
+            "c-type": "GValue*"
+            "name": "value"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+  "source-filename": "builder"
+  "symbol-prefix": "gtk_builder_"
+  "type-letter": ""
+  "type-name": "Builder"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

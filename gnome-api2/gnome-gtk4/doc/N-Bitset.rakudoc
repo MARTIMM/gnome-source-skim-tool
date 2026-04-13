@@ -17,17 +17,39 @@ The current implementation is based on L<roaring bitmaps|https://roaringbitmap.o
 
 A bitset allows adding a set of integers and provides support for set operations like unions, intersections and checks for equality or if a value is contained in the set. B<Gnome::Gtk4::N-Bitset> also contains various functions to query metadata about the bitset, such as the minimum or maximum values or its size.
 
-The fastest way to iterate values in a bitset is  B<Gnome::Gtk4::N-BitsetIter> .
+The fastest way to iterate values in a bitset is  B<Gnome::Gtk4::N-BitsetIter>.
 
 The main use case for B<Gnome::Gtk4::N-Bitset> is implementing complex selections for L<using the R-SelectionModel|/content-docs/api2/reference/Gnome::Gtk4::R-SelectionModel>.
 
-=begin comment
-
 =head2 Example
-# Example use of module Gnome::Gtk4::Bitset
+An example use of module bitset is to show a selection of listview entries. @pos is an array of unsigned integers representing the item positions in the listview to select.
 
-=end comment
+=begin code
+  my Gnome::Gtk4::StringList $list-objects;
+  $list-objects .= new-stringlist(CArray[Str].new(Str));
+  $list-objects.append('foo');
+  $list-objects.append('foo');
+  $list-objects.append('baz');
 
+  my Gnome::Gtk4::MultiSelection $selection-type;
+  $selection-type .= new-multiselection($list-objects);
+
+  my Gnome::Gtk4::N-Bitset $bitset .= new-empty;
+  for ( 0, 2) -> $p {
+    $bitset.add($p);
+  }
+
+  my Gnome::Gtk4::ListView $list-view;
+  with $list-view .= new-listview( N-Object, N-Object) {
+    .set-orientation(GTK_ORIENTATION_VERTICAL);
+    .set-model($selection-type);
+    .set-enable-rubberband(True);
+    .set-show-separators(True);
+  }
+
+  # Set the selection with the same mask as its selected items.
+  $selection-type.set-selection( $bitset, $bitset);
+=end code
 =end pod
 
 #-------------------------------------------------------------------------------

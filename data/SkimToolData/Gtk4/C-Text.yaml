@@ -1,0 +1,427 @@
+---
+"Text": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::Text"
+  "gir-type": "class"
+  "gnome-name": "GtkText"
+  "implement-roles": 
+    - "Gnome::Gtk4::R-AccessibleText"
+    - "Gnome::Gtk4::R-Editable"
+  "inheritable": true
+  "parent": "Widget"
+  "parent-gnome-name": "GtkWidget"
+  "parent-raku-name": "Gnome::Gtk4::Widget"
+  "roles": 
+    - "Gnome::Gtk4::R-Accessible"
+    - "Gnome::Gtk4::R-AccessibleText"
+    - "Gnome::Gtk4::R-Buildable"
+    - "Gnome::Gtk4::R-ConstraintTarget"
+    - "Gnome::Gtk4::R-Editable"
+  "routines": 
+    "constructors": 
+      "new-text": 
+        "generated": 1
+        "parameters":  []
+        "return-c-type": "GtkWidget*"
+        "return-raku-type": "N-Object"
+      "new-with-buffer": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkEntryBuffer*"
+            "name": "buffer"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkWidget*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "compute-cursor-extents": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gsize"
+            "name": "position"
+            "raku-type": "gsize"
+          - 
+            "c-type": "graphene_rect_t*"
+            "name": "strong"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "graphene_rect_t*"
+            "name": "weak"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.4"
+      "get-activates-default": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-attributes": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoAttrList*"
+        "return-raku-type": "N-Object"
+      "get-buffer": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkEntryBuffer*"
+        "return-raku-type": "N-Object"
+      "get-enable-emoji-completion": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-extra-menu": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "GMenuModel*"
+        "return-raku-type": "N-Object"
+      "get-input-hints": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkInputHints"
+        "return-raku-type": "GFlag:GtkInputHints"
+      "get-input-purpose": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkInputPurpose"
+        "return-raku-type": "GEnum:GtkInputPurpose"
+      "get-invisible-char": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "gunichar"
+        "return-raku-type": "gunichar"
+      "get-max-length": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-overwrite-mode": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-placeholder-text": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-propagate-text-width": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-tabs": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoTabArray*"
+        "return-raku-type": "N-Object"
+      "get-text-length": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "guint16"
+        "return-raku-type": "guint16"
+      "get-truncate-multiline": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-visibility": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "grab-focus-without-selecting": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "set-activates-default": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "activates"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-attributes": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoAttrList*"
+            "name": "attrs"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-buffer": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkEntryBuffer*"
+            "name": "buffer"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-enable-emoji-completion": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "enable-emoji-completion"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-extra-menu": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GMenuModel*"
+            "name": "model"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-input-hints": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkInputHints"
+            "name": "hints"
+            "raku-type": "GFlag:GtkInputHints"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-input-purpose": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkInputPurpose"
+            "name": "purpose"
+            "raku-type": "GEnum:GtkInputPurpose"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-invisible-char": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gunichar"
+            "name": "ch"
+            "raku-type": "gunichar"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-max-length": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "length"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-overwrite-mode": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "overwrite"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-placeholder-text": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "text"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-propagate-text-width": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "propagate-text-width"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-tabs": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoTabArray*"
+            "name": "tabs"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-truncate-multiline": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "truncate-multiline"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-visibility": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "visible"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "unset-invisible-char": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkText*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "text"
+  "symbol-prefix": "gtk_text_"
+  "type-letter": ""
+  "type-name": "Text"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

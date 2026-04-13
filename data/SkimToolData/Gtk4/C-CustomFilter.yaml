@@ -1,0 +1,64 @@
+---
+"CustomFilter": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::CustomFilter"
+  "gir-type": "class"
+  "gnome-name": "GtkCustomFilter"
+  "inheritable": false
+  "parent": "Filter"
+  "parent-gnome-name": "GtkFilter"
+  "parent-raku-name": "Gnome::Gtk4::Filter"
+  "roles":  []
+  "routines": 
+    "constructors": 
+      "new-customfilter": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkCustomFilterFunc"
+            "name": "match-func"
+            "raku-type": ":( gpointer $item, gpointer $user-data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GDestroyNotify"
+            "name": "user-destroy"
+            "raku-type": ":( gpointer $data )"
+        "return-c-type": "GtkCustomFilter*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "set-filter-func": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkCustomFilter*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCustomFilterFunc"
+            "name": "match-func"
+            "raku-type": ":( gpointer $item, gpointer $user-data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GDestroyNotify"
+            "name": "user-destroy"
+            "raku-type": ":( gpointer $data )"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "customfilter"
+  "symbol-prefix": "gtk_custom_filter_"
+  "type-letter": ""
+  "type-name": "CustomFilter"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

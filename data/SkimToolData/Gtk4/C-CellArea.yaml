@@ -1,0 +1,934 @@
+---
+"CellArea": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::CellArea"
+  "deprecated": true
+  "deprecated-version": "4.10"
+  "gir-type": "class"
+  "gnome-name": "GtkCellArea"
+  "implement-roles": 
+    - "Gnome::Gtk4::R-Buildable"
+    - "Gnome::Gtk4::R-CellLayout"
+  "inheritable": false
+  "parent": "GObject.InitiallyUnowned"
+  "parent-gnome-name": "GInitiallyUnowned"
+  "parent-raku-name": "Gnome::GObject::InitiallyUnowned"
+  "roles": 
+    - "Gnome::Gtk4::R-Buildable"
+    - "Gnome::Gtk4::R-CellLayout"
+  "routines": 
+    "methods": 
+      "activate": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellAreaContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GdkRectangle*"
+            "name": "cell-area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRendererState"
+            "name": "flags"
+            "raku-type": "GFlag:GtkCellRendererState"
+          - 
+            "c-type": "gboolean"
+            "name": "edit-only"
+            "raku-type": "gboolean"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "activate-cell": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "renderer"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GdkRectangle*"
+            "name": "cell-area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRendererState"
+            "name": "flags"
+            "raku-type": "GFlag:GtkCellRendererState"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "add": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "renderer"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "add-focus-sibling": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "renderer"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "sibling"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "add-with-properties": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "renderer"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "first-prop-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "…"
+            "name": "…"
+            "raku-type": "…"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "variable-list": true
+      "apply-attributes": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreeModel*"
+            "name": "tree-model"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreeIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "is-expander"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "gboolean"
+            "name": "is-expanded"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "attribute-connect": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "renderer"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+          - 
+            "c-type": "int"
+            "name": "column"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "attribute-disconnect": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "renderer"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "attribute-get-column": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "renderer"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "cell-get": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "renderer"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "first-prop-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "…"
+            "name": "…"
+            "raku-type": "…"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "variable-list": true
+      "cell-get-property": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "renderer"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "property-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "GValue*"
+            "name": "value"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "cell-get-valist": 
+        "deprecated-version": "4.10"
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "renderer"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "first-property-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "va_list"
+            "name": "var-args"
+            "raku-type": ""
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "cell-set": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "renderer"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "first-prop-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "…"
+            "name": "…"
+            "raku-type": "…"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "variable-list": true
+      "cell-set-property": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "renderer"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "property-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "const GValue*"
+            "name": "value"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "cell-set-valist": 
+        "deprecated-version": "4.10"
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "renderer"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "first-property-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "va_list"
+            "name": "var-args"
+            "raku-type": ""
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "copy-context": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellAreaContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkCellAreaContext*"
+        "return-raku-type": "N-Object"
+      "create-context": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkCellAreaContext*"
+        "return-raku-type": "N-Object"
+      "event": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellAreaContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GdkRectangle*"
+            "name": "cell-area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRendererState"
+            "name": "flags"
+            "raku-type": "GFlag:GtkCellRendererState"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "focus": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkDirectionType"
+            "name": "direction"
+            "raku-type": "GEnum:GtkDirectionType"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "foreach": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $renderer, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "callback-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "foreach-alloc": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellAreaContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GdkRectangle*"
+            "name": "cell-area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GdkRectangle*"
+            "name": "background-area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellAllocCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $renderer, N-Object $cell-area, N-Object $cell-background, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "callback-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-cell-allocation": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellAreaContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "renderer"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GdkRectangle*"
+            "name": "cell-area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkRectangle*"
+            "name": "allocation"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-cell-at-position": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellAreaContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GdkRectangle*"
+            "name": "cell-area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "x"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "y"
+            "raku-type": "gint"
+          - 
+            "c-type": "GdkRectangle*"
+            "name": "alloc-area"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkCellRenderer*"
+        "return-raku-type": "N-Object"
+      "get-current-path-string": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-edit-widget": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkCellEditable*"
+        "return-raku-type": "N-Object"
+      "get-edited-cell": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkCellRenderer*"
+        "return-raku-type": "N-Object"
+      "get-focus-cell": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkCellRenderer*"
+        "return-raku-type": "N-Object"
+      "get-focus-from-sibling": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "renderer"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkCellRenderer*"
+        "return-raku-type": "N-Object"
+      "get-focus-siblings": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "renderer"
+            "raku-type": "N-Object"
+        "return-c-type": "const GList*"
+        "return-raku-type": "N-Object"
+      "get-preferred-height": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellAreaContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int*"
+            "name": "minimum-height"
+            "raku-type": "gint-ptr"
+          - 
+            "c-type": "int*"
+            "name": "natural-height"
+            "raku-type": "gint-ptr"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-preferred-height-for-width": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellAreaContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "width"
+            "raku-type": "gint"
+          - 
+            "c-type": "int*"
+            "name": "minimum-height"
+            "raku-type": "gint-ptr"
+          - 
+            "c-type": "int*"
+            "name": "natural-height"
+            "raku-type": "gint-ptr"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-preferred-width": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellAreaContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int*"
+            "name": "minimum-width"
+            "raku-type": "gint-ptr"
+          - 
+            "c-type": "int*"
+            "name": "natural-width"
+            "raku-type": "gint-ptr"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-preferred-width-for-height": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellAreaContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "height"
+            "raku-type": "gint"
+          - 
+            "c-type": "int*"
+            "name": "minimum-width"
+            "raku-type": "gint-ptr"
+          - 
+            "c-type": "int*"
+            "name": "natural-width"
+            "raku-type": "gint-ptr"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-request-mode": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkSizeRequestMode"
+        "return-raku-type": "GEnum:GtkSizeRequestMode"
+      "has-renderer": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "renderer"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "inner-cell-area": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GdkRectangle*"
+            "name": "cell-area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkRectangle*"
+            "name": "inner-area"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "is-activatable": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "is-focus-sibling": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "renderer"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "sibling"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "remove": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "renderer"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "remove-focus-sibling": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "renderer"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "sibling"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "request-renderer": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "renderer"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkOrientation"
+            "name": "orientation"
+            "raku-type": "GEnum:GtkOrientation"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "for-size"
+            "raku-type": "gint"
+          - 
+            "c-type": "int*"
+            "name": "minimum-size"
+            "raku-type": "gint-ptr"
+          - 
+            "c-type": "int*"
+            "name": "natural-size"
+            "raku-type": "gint-ptr"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-focus-cell": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "renderer"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "snapshot": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellAreaContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkSnapshot*"
+            "name": "snapshot"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GdkRectangle*"
+            "name": "background-area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GdkRectangle*"
+            "name": "cell-area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRendererState"
+            "name": "flags"
+            "raku-type": "GFlag:GtkCellRendererState"
+          - 
+            "c-type": "gboolean"
+            "name": "paint-focus"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "stop-editing": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "canceled"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "cellarea"
+  "symbol-prefix": "gtk_cell_area_"
+  "type-letter": ""
+  "type-name": "CellArea"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

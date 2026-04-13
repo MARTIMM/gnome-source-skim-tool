@@ -1,0 +1,470 @@
+---
+"FlowBox": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::FlowBox"
+  "gir-type": "class"
+  "gnome-name": "GtkFlowBox"
+  "implement-roles": 
+    - "Gnome::Gtk4::R-Orientable"
+  "inheritable": true
+  "parent": "Widget"
+  "parent-gnome-name": "GtkWidget"
+  "parent-raku-name": "Gnome::Gtk4::Widget"
+  "roles": 
+    - "Gnome::Gtk4::R-Accessible"
+    - "Gnome::Gtk4::R-Buildable"
+    - "Gnome::Gtk4::R-ConstraintTarget"
+    - "Gnome::Gtk4::R-Orientable"
+  "routines": 
+    "constructors": 
+      "new-flowbox": 
+        "generated": 1
+        "parameters":  []
+        "return-c-type": "GtkWidget*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "append": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "child"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.6"
+      "bind-model": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GListModel*"
+            "name": "model"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkFlowBoxCreateWidgetFunc"
+            "name": "create-widget-func"
+            "raku-type": ":( gpointer $item, gpointer $user-data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GDestroyNotify"
+            "name": "user-data-free-func"
+            "raku-type": ":( gpointer $data )"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-activate-on-single-click": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-child-at-index": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "idx"
+            "raku-type": "gint"
+        "return-c-type": "GtkFlowBoxChild*"
+        "return-raku-type": "N-Object"
+      "get-child-at-pos": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "x"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "y"
+            "raku-type": "gint"
+        "return-c-type": "GtkFlowBoxChild*"
+        "return-raku-type": "N-Object"
+      "get-column-spacing": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+        "return-c-type": "guint"
+        "return-raku-type": "guint"
+      "get-homogeneous": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-max-children-per-line": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+        "return-c-type": "guint"
+        "return-raku-type": "guint"
+      "get-min-children-per-line": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+        "return-c-type": "guint"
+        "return-raku-type": "guint"
+      "get-row-spacing": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+        "return-c-type": "guint"
+        "return-raku-type": "guint"
+      "get-selected-children": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+        "return-c-type": "GList*"
+        "return-raku-type": "N-Object"
+      "get-selection-mode": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkSelectionMode"
+        "return-raku-type": "GEnum:GtkSelectionMode"
+      "insert": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "position"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "invalidate-filter": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "invalidate-sort": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "prepend": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "child"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.6"
+      "remove": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWidget*"
+            "name": "widget"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "remove-all": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.12"
+      "select-all": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "select-child": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkFlowBoxChild*"
+            "name": "child"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "selected-foreach": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkFlowBoxForeachFunc"
+            "name": "func"
+            "raku-type": ":( N-Object $box, N-Object $child, gpointer $user-data )"
+          - 
+            "c-type": "gpointer"
+            "name": "data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-activate-on-single-click": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "single"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-column-spacing": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "spacing"
+            "raku-type": "guint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-filter-func": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkFlowBoxFilterFunc"
+            "name": "filter-func"
+            "raku-type": ":( N-Object $child, gpointer $user-data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GDestroyNotify"
+            "name": "destroy"
+            "raku-type": ":( gpointer $data )"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-hadjustment": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkAdjustment*"
+            "name": "adjustment"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-homogeneous": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "homogeneous"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-max-children-per-line": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "n-children"
+            "raku-type": "guint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-min-children-per-line": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "n-children"
+            "raku-type": "guint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-row-spacing": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "spacing"
+            "raku-type": "guint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-selection-mode": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkSelectionMode"
+            "name": "mode"
+            "raku-type": "GEnum:GtkSelectionMode"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-sort-func": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkFlowBoxSortFunc"
+            "name": "sort-func"
+            "raku-type": ":( N-Object $child1, N-Object $child2, gpointer $user-data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GDestroyNotify"
+            "name": "destroy"
+            "raku-type": ":( gpointer $data )"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-vadjustment": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkAdjustment*"
+            "name": "adjustment"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "unselect-all": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "unselect-child": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFlowBox*"
+            "name": "box"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkFlowBoxChild*"
+            "name": "child"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "flowbox"
+  "symbol-prefix": "gtk_flow_box_"
+  "type-letter": ""
+  "type-name": "FlowBox"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

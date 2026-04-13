@@ -1,0 +1,983 @@
+---
+"PrintSettings": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::PrintSettings"
+  "gir-type": "class"
+  "gnome-name": "GtkPrintSettings"
+  "inheritable": false
+  "package-name": "Gnome::Gtk4"
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles":  []
+  "routines": 
+    "constructors": 
+      "new-from-file": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "file-name"
+            "raku-type": "Str"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GtkPrintSettings*"
+        "return-raku-type": "N-Object"
+      "new-from-gvariant": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GVariant*"
+            "name": "variant"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkPrintSettings*"
+        "return-raku-type": "N-Object"
+      "new-from-key-file": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GKeyFile*"
+            "name": "key-file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "group-name"
+            "raku-type": "Str"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GtkPrintSettings*"
+        "return-raku-type": "N-Object"
+      "new-printsettings": 
+        "generated": 0
+        "parameters":  []
+        "return-c-type": "GtkPrintSettings*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "copy": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "other"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkPrintSettings*"
+        "return-raku-type": "N-Object"
+      "foreach": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkPrintSettingsFunc"
+            "name": "func"
+            "raku-type": ":( Str $key, Str $value, gpointer $user-data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "key"
+            "raku-type": "Str"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-bool": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "key"
+            "raku-type": "Str"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-collate": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-default-source": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-dither": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-double": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "key"
+            "raku-type": "Str"
+        "return-c-type": "double"
+        "return-raku-type": "gdouble"
+      "get-double-with-default": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "key"
+            "raku-type": "Str"
+          - 
+            "c-type": "double"
+            "name": "def"
+            "raku-type": "gdouble"
+        "return-c-type": "double"
+        "return-raku-type": "gdouble"
+      "get-duplex": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkPrintDuplex"
+        "return-raku-type": "GEnum:GtkPrintDuplex"
+      "get-finishings": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-int": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "key"
+            "raku-type": "Str"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-int-with-default": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "key"
+            "raku-type": "Str"
+          - 
+            "c-type": "int"
+            "name": "def"
+            "raku-type": "gint"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-length": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "key"
+            "raku-type": "Str"
+          - 
+            "c-type": "GtkUnit"
+            "name": "unit"
+            "raku-type": "GEnum:GtkUnit"
+        "return-c-type": "double"
+        "return-raku-type": "gdouble"
+      "get-media-type": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-n-copies": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-number-up": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-number-up-layout": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkNumberUpLayout"
+        "return-raku-type": "GEnum:GtkNumberUpLayout"
+      "get-orientation": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkPageOrientation"
+        "return-raku-type": "GEnum:GtkPageOrientation"
+      "get-output-bin": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-page-ranges": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int*"
+            "name": "num-ranges"
+            "raku-type": "gint-ptr"
+        "return-c-type": "GtkPageRange*"
+        "return-raku-type": "N-Object"
+      "get-page-set": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkPageSet"
+        "return-raku-type": "GEnum:GtkPageSet"
+      "get-paper-height": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkUnit"
+            "name": "unit"
+            "raku-type": "GEnum:GtkUnit"
+        "return-c-type": "double"
+        "return-raku-type": "gdouble"
+      "get-paper-size": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkPaperSize*"
+        "return-raku-type": "N-Object"
+      "get-paper-width": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkUnit"
+            "name": "unit"
+            "raku-type": "GEnum:GtkUnit"
+        "return-c-type": "double"
+        "return-raku-type": "gdouble"
+      "get-print-pages": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkPrintPages"
+        "return-raku-type": "GEnum:GtkPrintPages"
+      "get-printer": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-printer-lpi": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "double"
+        "return-raku-type": "gdouble"
+      "get-quality": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkPrintQuality"
+        "return-raku-type": "GEnum:GtkPrintQuality"
+      "get-resolution": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-resolution-x": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-resolution-y": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-reverse": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-scale": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "double"
+        "return-raku-type": "gdouble"
+      "get-use-color": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "has-key": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "key"
+            "raku-type": "Str"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "load-file": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "file-name"
+            "raku-type": "Str"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "load-key-file": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GKeyFile*"
+            "name": "key-file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "group-name"
+            "raku-type": "Str"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "set": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "key"
+            "raku-type": "Str"
+          - 
+            "c-type": "const char*"
+            "name": "value"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-bool": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "key"
+            "raku-type": "Str"
+          - 
+            "c-type": "gboolean"
+            "name": "value"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-collate": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "collate"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-default-source": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "default-source"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-dither": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "dither"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-double": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "key"
+            "raku-type": "Str"
+          - 
+            "c-type": "double"
+            "name": "value"
+            "raku-type": "gdouble"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-duplex": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkPrintDuplex"
+            "name": "duplex"
+            "raku-type": "GEnum:GtkPrintDuplex"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-finishings": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "finishings"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-int": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "key"
+            "raku-type": "Str"
+          - 
+            "c-type": "int"
+            "name": "value"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-length": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "key"
+            "raku-type": "Str"
+          - 
+            "c-type": "double"
+            "name": "value"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "GtkUnit"
+            "name": "unit"
+            "raku-type": "GEnum:GtkUnit"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-media-type": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "media-type"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-n-copies": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "num-copies"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-number-up": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "number-up"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-number-up-layout": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkNumberUpLayout"
+            "name": "number-up-layout"
+            "raku-type": "GEnum:GtkNumberUpLayout"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-orientation": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkPageOrientation"
+            "name": "orientation"
+            "raku-type": "GEnum:GtkPageOrientation"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-output-bin": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "output-bin"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-page-ranges": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkPageRange*"
+            "name": "page-ranges"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "num-ranges"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-page-set": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkPageSet"
+            "name": "page-set"
+            "raku-type": "GEnum:GtkPageSet"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-paper-height": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "height"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "GtkUnit"
+            "name": "unit"
+            "raku-type": "GEnum:GtkUnit"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-paper-size": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkPaperSize*"
+            "name": "paper-size"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-paper-width": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "width"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "GtkUnit"
+            "name": "unit"
+            "raku-type": "GEnum:GtkUnit"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-print-pages": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkPrintPages"
+            "name": "pages"
+            "raku-type": "GEnum:GtkPrintPages"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-printer": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "printer"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-printer-lpi": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "lpi"
+            "raku-type": "gdouble"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-quality": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkPrintQuality"
+            "name": "quality"
+            "raku-type": "GEnum:GtkPrintQuality"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-resolution": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "resolution"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-resolution-xy": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "resolution-x"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "resolution-y"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-reverse": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "reverse"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-scale": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "scale"
+            "raku-type": "gdouble"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-use-color": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "use-color"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "to-file": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "file-name"
+            "raku-type": "Str"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "to-gvariant": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "GVariant*"
+        "return-raku-type": "N-Object"
+      "to-key-file": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GKeyFile*"
+            "name": "key-file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "group-name"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "unset": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "key"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "printsettings"
+  "symbol-prefix": "gtk_print_settings_"
+  "type-letter": ""
+  "type-name": "PrintSettings"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

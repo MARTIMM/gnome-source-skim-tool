@@ -1,0 +1,132 @@
+---
+"TreeSortable": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 1
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::R-TreeSortable"
+  "deprecated": true
+  "deprecated-version": "4.10"
+  "gir-type": "interface"
+  "gnome-name": "GtkTreeSortable"
+  "implementors": 
+    - "Gnome::Gtk4::TreeModelSort"
+    - "Gnome::Gtk4::TreeStore"
+    - "Gnome::Gtk4::ListStore"
+  "package-name": "Gnome::Gtk4"
+  "parent": ~
+  "routines": 
+    "methods": 
+      "get-sort-column-id": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTreeSortable*"
+            "name": "sortable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int*"
+            "name": "sort-column-id"
+            "raku-type": "gint-ptr"
+          - 
+            "c-type": "GtkSortType*"
+            "name": "order"
+            "raku-type": "GEnum:GtkSortType"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "has-default-sort-func": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTreeSortable*"
+            "name": "sortable"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "set-default-sort-func": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTreeSortable*"
+            "name": "sortable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreeIterCompareFunc"
+            "name": "sort-func"
+            "raku-type": ":( N-Object $model, N-Object $a, N-Object $b, gpointer $user-data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GDestroyNotify"
+            "name": "destroy"
+            "raku-type": ":( gpointer $data )"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-sort-column-id": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTreeSortable*"
+            "name": "sortable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "sort-column-id"
+            "raku-type": "gint"
+          - 
+            "c-type": "GtkSortType"
+            "name": "order"
+            "raku-type": "GEnum:GtkSortType"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-sort-func": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTreeSortable*"
+            "name": "sortable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "sort-column-id"
+            "raku-type": "gint"
+          - 
+            "c-type": "GtkTreeIterCompareFunc"
+            "name": "sort-func"
+            "raku-type": ":( N-Object $model, N-Object $a, N-Object $b, gpointer $user-data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GDestroyNotify"
+            "name": "destroy"
+            "raku-type": ":( gpointer $data )"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "sort-column-changed": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTreeSortable*"
+            "name": "sortable"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "treesortable"
+  "symbol-prefix": "gtk_tree_sortable_"
+  "type-letter": "R"
+  "type-name": "TreeSortable"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

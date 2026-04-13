@@ -1,0 +1,64 @@
+---
+"CustomSorter": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::CustomSorter"
+  "gir-type": "class"
+  "gnome-name": "GtkCustomSorter"
+  "inheritable": false
+  "parent": "Sorter"
+  "parent-gnome-name": "GtkSorter"
+  "parent-raku-name": "Gnome::Gtk4::Sorter"
+  "roles":  []
+  "routines": 
+    "constructors": 
+      "new-customsorter": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GCompareDataFunc"
+            "name": "sort-func"
+            "raku-type": ":( gpointer $a, gpointer $b, gpointer $user-data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GDestroyNotify"
+            "name": "user-destroy"
+            "raku-type": ":( gpointer $data )"
+        "return-c-type": "GtkCustomSorter*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "set-sort-func": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkCustomSorter*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCompareDataFunc"
+            "name": "sort-func"
+            "raku-type": ":( gpointer $a, gpointer $b, gpointer $user-data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GDestroyNotify"
+            "name": "user-destroy"
+            "raku-type": ":( gpointer $data )"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "customsorter"
+  "symbol-prefix": "gtk_custom_sorter_"
+  "type-letter": ""
+  "type-name": "CustomSorter"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

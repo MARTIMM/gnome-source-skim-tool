@@ -1,0 +1,370 @@
+---
+"FileChooser": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 1
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::R-FileChooser"
+  "deprecated": true
+  "deprecated-version": "4.10"
+  "gir-type": "interface"
+  "gnome-name": "GtkFileChooser"
+  "implementors": 
+    - "Gnome::Gtk4::FileChooserDialog"
+    - "Gnome::Gtk4::FileChooserNative"
+    - "Gnome::Gtk4::FileChooserWidget"
+  "package-name": "Gnome::Gtk4"
+  "parent": ~
+  "routines": 
+    "methods": 
+      "add-choice": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFileChooser*"
+            "name": "chooser"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "id"
+            "raku-type": "Str"
+          - 
+            "c-type": "const char*"
+            "name": "label"
+            "raku-type": "Str"
+          - 
+            "c-type": "const char**"
+            "name": "options"
+            "raku-type": "gchar-pptr"
+          - 
+            "c-type": "const char**"
+            "name": "option-labels"
+            "raku-type": "gchar-pptr"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "add-filter": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFileChooser*"
+            "name": "chooser"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkFileFilter*"
+            "name": "filter"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "add-shortcut-folder": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFileChooser*"
+            "name": "chooser"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFile*"
+            "name": "folder"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-action": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFileChooser*"
+            "name": "chooser"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkFileChooserAction"
+        "return-raku-type": "GEnum:GtkFileChooserAction"
+      "get-choice": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFileChooser*"
+            "name": "chooser"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "id"
+            "raku-type": "Str"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-create-folders": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFileChooser*"
+            "name": "chooser"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-current-folder": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFileChooser*"
+            "name": "chooser"
+            "raku-type": "N-Object"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+      "get-current-name": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFileChooser*"
+            "name": "chooser"
+            "raku-type": "N-Object"
+        "return-c-type": "char*"
+        "return-raku-type": "Str"
+      "get-file": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFileChooser*"
+            "name": "chooser"
+            "raku-type": "N-Object"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+      "get-files": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFileChooser*"
+            "name": "chooser"
+            "raku-type": "N-Object"
+        "return-c-type": "GListModel*"
+        "return-raku-type": "N-Object"
+      "get-filter": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFileChooser*"
+            "name": "chooser"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkFileFilter*"
+        "return-raku-type": "N-Object"
+      "get-filters": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFileChooser*"
+            "name": "chooser"
+            "raku-type": "N-Object"
+        "return-c-type": "GListModel*"
+        "return-raku-type": "N-Object"
+      "get-select-multiple": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFileChooser*"
+            "name": "chooser"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-shortcut-folders": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFileChooser*"
+            "name": "chooser"
+            "raku-type": "N-Object"
+        "return-c-type": "GListModel*"
+        "return-raku-type": "N-Object"
+      "remove-choice": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFileChooser*"
+            "name": "chooser"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "id"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "remove-filter": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFileChooser*"
+            "name": "chooser"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkFileFilter*"
+            "name": "filter"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "remove-shortcut-folder": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFileChooser*"
+            "name": "chooser"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFile*"
+            "name": "folder"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "set-action": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFileChooser*"
+            "name": "chooser"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkFileChooserAction"
+            "name": "action"
+            "raku-type": "GEnum:GtkFileChooserAction"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-choice": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFileChooser*"
+            "name": "chooser"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "id"
+            "raku-type": "Str"
+          - 
+            "c-type": "const char*"
+            "name": "option"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-create-folders": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFileChooser*"
+            "name": "chooser"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "create-folders"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-current-folder": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFileChooser*"
+            "name": "chooser"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "set-current-name": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFileChooser*"
+            "name": "chooser"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "name"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-file": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFileChooser*"
+            "name": "chooser"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "set-filter": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFileChooser*"
+            "name": "chooser"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkFileFilter*"
+            "name": "filter"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-select-multiple": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkFileChooser*"
+            "name": "chooser"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "select-multiple"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "filechooser"
+  "symbol-prefix": "gtk_file_chooser_"
+  "type-letter": "R"
+  "type-name": "FileChooser"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

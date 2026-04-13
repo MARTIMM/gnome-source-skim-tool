@@ -1,0 +1,396 @@
+---
+"SpinButton": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::SpinButton"
+  "gir-type": "class"
+  "gnome-name": "GtkSpinButton"
+  "implement-roles": 
+    - "Gnome::Gtk4::R-AccessibleRange"
+    - "Gnome::Gtk4::R-CellEditable"
+    - "Gnome::Gtk4::R-Editable"
+    - "Gnome::Gtk4::R-Orientable"
+  "inheritable": true
+  "parent": "Widget"
+  "parent-gnome-name": "GtkWidget"
+  "parent-raku-name": "Gnome::Gtk4::Widget"
+  "roles": 
+    - "Gnome::Gtk4::R-Accessible"
+    - "Gnome::Gtk4::R-AccessibleRange"
+    - "Gnome::Gtk4::R-Buildable"
+    - "Gnome::Gtk4::R-CellEditable"
+    - "Gnome::Gtk4::R-ConstraintTarget"
+    - "Gnome::Gtk4::R-Editable"
+    - "Gnome::Gtk4::R-Orientable"
+  "routines": 
+    "constructors": 
+      "new-spinbutton": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkAdjustment*"
+            "name": "adjustment"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "climb-rate"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "guint"
+            "name": "digits"
+            "raku-type": "guint"
+        "return-c-type": "GtkWidget*"
+        "return-raku-type": "N-Object"
+      "new-with-range": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "double"
+            "name": "min"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "double"
+            "name": "max"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "double"
+            "name": "step"
+            "raku-type": "gdouble"
+        "return-c-type": "GtkWidget*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "configure": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSpinButton*"
+            "name": "spin-button"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkAdjustment*"
+            "name": "adjustment"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "climb-rate"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "guint"
+            "name": "digits"
+            "raku-type": "guint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-activates-default": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkSpinButton*"
+            "name": "spin-button"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "4.14"
+      "get-adjustment": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSpinButton*"
+            "name": "spin-button"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkAdjustment*"
+        "return-raku-type": "N-Object"
+      "get-climb-rate": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSpinButton*"
+            "name": "spin-button"
+            "raku-type": "N-Object"
+        "return-c-type": "double"
+        "return-raku-type": "gdouble"
+      "get-digits": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSpinButton*"
+            "name": "spin-button"
+            "raku-type": "N-Object"
+        "return-c-type": "guint"
+        "return-raku-type": "guint"
+      "get-increments": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSpinButton*"
+            "name": "spin-button"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double*"
+            "name": "step"
+            "raku-type": "CArray[gdouble]"
+          - 
+            "c-type": "double*"
+            "name": "page"
+            "raku-type": "CArray[gdouble]"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-numeric": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSpinButton*"
+            "name": "spin-button"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-range": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSpinButton*"
+            "name": "spin-button"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double*"
+            "name": "min"
+            "raku-type": "CArray[gdouble]"
+          - 
+            "c-type": "double*"
+            "name": "max"
+            "raku-type": "CArray[gdouble]"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-snap-to-ticks": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSpinButton*"
+            "name": "spin-button"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-update-policy": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSpinButton*"
+            "name": "spin-button"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkSpinButtonUpdatePolicy"
+        "return-raku-type": "GEnum:GtkSpinButtonUpdatePolicy"
+      "get-value": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSpinButton*"
+            "name": "spin-button"
+            "raku-type": "N-Object"
+        "return-c-type": "double"
+        "return-raku-type": "gdouble"
+      "get-value-as-int": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSpinButton*"
+            "name": "spin-button"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-wrap": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSpinButton*"
+            "name": "spin-button"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "set-activates-default": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkSpinButton*"
+            "name": "spin-button"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "activates-default"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.14"
+      "set-adjustment": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSpinButton*"
+            "name": "spin-button"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkAdjustment*"
+            "name": "adjustment"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-climb-rate": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSpinButton*"
+            "name": "spin-button"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "climb-rate"
+            "raku-type": "gdouble"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-digits": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSpinButton*"
+            "name": "spin-button"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "digits"
+            "raku-type": "guint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-increments": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSpinButton*"
+            "name": "spin-button"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "step"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "double"
+            "name": "page"
+            "raku-type": "gdouble"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-numeric": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSpinButton*"
+            "name": "spin-button"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "numeric"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-range": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSpinButton*"
+            "name": "spin-button"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "min"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "double"
+            "name": "max"
+            "raku-type": "gdouble"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-snap-to-ticks": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSpinButton*"
+            "name": "spin-button"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "snap-to-ticks"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-update-policy": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSpinButton*"
+            "name": "spin-button"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkSpinButtonUpdatePolicy"
+            "name": "policy"
+            "raku-type": "GEnum:GtkSpinButtonUpdatePolicy"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-value": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSpinButton*"
+            "name": "spin-button"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "value"
+            "raku-type": "gdouble"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-wrap": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSpinButton*"
+            "name": "spin-button"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "wrap"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "spin": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSpinButton*"
+            "name": "spin-button"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkSpinType"
+            "name": "direction"
+            "raku-type": "GEnum:GtkSpinType"
+          - 
+            "c-type": "double"
+            "name": "increment"
+            "raku-type": "gdouble"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "update": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkSpinButton*"
+            "name": "spin-button"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "spinbutton"
+  "symbol-prefix": "gtk_spin_button_"
+  "type-letter": ""
+  "type-name": "SpinButton"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

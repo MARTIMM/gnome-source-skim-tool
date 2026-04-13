@@ -1,0 +1,297 @@
+---
+"PrintDialog": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::PrintDialog"
+  "gir-type": "class"
+  "gnome-name": "GtkPrintDialog"
+  "inheritable": false
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles":  []
+  "routines": 
+    "constructors": 
+      "new-printdialog": 
+        "generated": 0
+        "parameters":  []
+        "return-c-type": "GtkPrintDialog*"
+        "return-raku-type": "N-Object"
+        "version": "4.14"
+    "methods": 
+      "get-accept-label": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+        "version": "4.14"
+      "get-modal": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "4.14"
+      "get-page-setup": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkPageSetup*"
+        "return-raku-type": "N-Object"
+        "version": "4.14"
+      "get-print-settings": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkPrintSettings*"
+        "return-raku-type": "N-Object"
+        "version": "4.14"
+      "get-title": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+        "version": "4.14"
+      "print": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWindow*"
+            "name": "parent"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkPrintSetup*"
+            "name": "setup"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.14"
+      "print-file": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWindow*"
+            "name": "parent"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkPrintSetup*"
+            "name": "setup"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.14"
+      "print-file-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "4.14"
+      "print-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GOutputStream*"
+        "return-raku-type": "N-Object"
+        "version": "4.14"
+      "set-accept-label": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "accept-label"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.14"
+      "set-modal": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "modal"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.14"
+      "set-page-setup": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkPageSetup*"
+            "name": "page-setup"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.14"
+      "set-print-settings": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "print-settings"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.14"
+      "set-title": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "title"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.14"
+      "setup": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWindow*"
+            "name": "parent"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.14"
+      "setup-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GtkPrintSetup*"
+        "return-raku-type": "N-Object"
+        "version": "4.14"
+  "source-filename": "printdialog"
+  "symbol-prefix": "gtk_print_dialog_"
+  "type-letter": ""
+  "type-name": "PrintDialog"
+  "version": "4.14"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

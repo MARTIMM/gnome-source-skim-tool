@@ -1,0 +1,102 @@
+---
+"MapListModel": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::MapListModel"
+  "gir-type": "class"
+  "gnome-name": "GtkMapListModel"
+  "implement-roles": 
+    - "Gnome::Gtk4::R-SectionModel"
+  "inheritable": false
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles": 
+    - "Gnome::Gtk4::R-SectionModel"
+  "routines": 
+    "constructors": 
+      "new-maplistmodel": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GListModel*"
+            "name": "model"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkMapListModelMapFunc"
+            "name": "map-func"
+            "raku-type": ":( gpointer $item, gpointer $user-data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GDestroyNotify"
+            "name": "user-destroy"
+            "raku-type": ":( gpointer $data )"
+        "return-c-type": "GtkMapListModel*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "get-model": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkMapListModel*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "GListModel*"
+        "return-raku-type": "N-Object"
+      "has-map": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkMapListModel*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "set-map-func": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkMapListModel*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkMapListModelMapFunc"
+            "name": "map-func"
+            "raku-type": ":( gpointer $item, gpointer $user-data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GDestroyNotify"
+            "name": "user-destroy"
+            "raku-type": ":( gpointer $data )"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-model": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkMapListModel*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GListModel*"
+            "name": "model"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "maplistmodel"
+  "symbol-prefix": "gtk_map_list_model_"
+  "type-letter": ""
+  "type-name": "MapListModel"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

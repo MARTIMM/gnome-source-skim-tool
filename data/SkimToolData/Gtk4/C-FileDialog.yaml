@@ -1,0 +1,593 @@
+---
+"FileDialog": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::FileDialog"
+  "gir-type": "class"
+  "gnome-name": "GtkFileDialog"
+  "inheritable": false
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles":  []
+  "routines": 
+    "constructors": 
+      "new-filedialog": 
+        "generated": 0
+        "parameters":  []
+        "return-c-type": "GtkFileDialog*"
+        "return-raku-type": "N-Object"
+        "version": "4.10"
+    "methods": 
+      "get-accept-label": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+        "version": "4.10"
+      "get-default-filter": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkFileFilter*"
+        "return-raku-type": "N-Object"
+        "version": "4.10"
+      "get-filters": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "GListModel*"
+        "return-raku-type": "N-Object"
+        "version": "4.10"
+      "get-initial-file": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+        "version": "4.10"
+      "get-initial-folder": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+        "version": "4.10"
+      "get-initial-name": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+        "version": "4.10"
+      "get-modal": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "4.10"
+      "get-title": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+        "version": "4.10"
+      "open": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWindow*"
+            "name": "parent"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.10"
+      "open-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+        "version": "4.10"
+      "open-multiple": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWindow*"
+            "name": "parent"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.10"
+      "open-multiple-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GListModel*"
+        "return-raku-type": "N-Object"
+        "version": "4.10"
+      "open-multiple-text-files": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWindow*"
+            "name": "parent"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.18"
+      "open-multiple-text-files-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char**"
+            "name": "encoding"
+            "raku-type": "gchar-pptr"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GListModel*"
+        "return-raku-type": "N-Object"
+        "version": "4.18"
+      "open-text-file": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWindow*"
+            "name": "parent"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.18"
+      "open-text-file-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char**"
+            "name": "encoding"
+            "raku-type": "gchar-pptr"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+        "version": "4.18"
+      "save": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWindow*"
+            "name": "parent"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.10"
+      "save-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+        "version": "4.10"
+      "save-text-file": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWindow*"
+            "name": "parent"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.18"
+      "save-text-file-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char**"
+            "name": "encoding"
+            "raku-type": "gchar-pptr"
+          - 
+            "c-type": "const char**"
+            "name": "line-ending"
+            "raku-type": "gchar-pptr"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+        "version": "4.18"
+      "select-folder": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWindow*"
+            "name": "parent"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.10"
+      "select-folder-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+        "version": "4.10"
+      "select-multiple-folders": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWindow*"
+            "name": "parent"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.10"
+      "select-multiple-folders-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GListModel*"
+        "return-raku-type": "N-Object"
+        "version": "4.10"
+      "set-accept-label": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "accept-label"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.10"
+      "set-default-filter": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkFileFilter*"
+            "name": "filter"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.10"
+      "set-filters": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GListModel*"
+            "name": "filters"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.10"
+      "set-initial-file": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.10"
+      "set-initial-folder": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFile*"
+            "name": "folder"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.10"
+      "set-initial-name": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "name"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.10"
+      "set-modal": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "modal"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.10"
+      "set-title": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkFileDialog*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "title"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "4.10"
+  "source-filename": "filedialog"
+  "symbol-prefix": "gtk_file_dialog_"
+  "type-letter": ""
+  "type-name": "FileDialog"
+  "version": "4.10"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

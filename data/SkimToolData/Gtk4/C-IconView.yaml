@@ -1,0 +1,938 @@
+---
+"IconView": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::IconView"
+  "deprecated": true
+  "deprecated-version": "4.10"
+  "gir-type": "class"
+  "gnome-name": "GtkIconView"
+  "implement-roles": 
+    - "Gnome::Gtk4::R-CellLayout"
+    - "Gnome::Gtk4::R-Scrollable"
+  "inheritable": true
+  "parent": "Widget"
+  "parent-gnome-name": "GtkWidget"
+  "parent-raku-name": "Gnome::Gtk4::Widget"
+  "roles": 
+    - "Gnome::Gtk4::R-Accessible"
+    - "Gnome::Gtk4::R-Buildable"
+    - "Gnome::Gtk4::R-CellLayout"
+    - "Gnome::Gtk4::R-ConstraintTarget"
+    - "Gnome::Gtk4::R-Scrollable"
+  "routines": 
+    "constructors": 
+      "new-iconview": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters":  []
+        "return-c-type": "GtkWidget*"
+        "return-raku-type": "N-Object"
+      "new-with-area": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkCellArea*"
+            "name": "area"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkWidget*"
+        "return-raku-type": "N-Object"
+      "new-with-model": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTreeModel*"
+            "name": "model"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkWidget*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "create-drag-icon": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "path"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkPaintable*"
+        "return-raku-type": "N-Object"
+      "enable-model-drag-dest": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkContentFormats*"
+            "name": "formats"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkDragAction"
+            "name": "actions"
+            "raku-type": "GFlag:GdkDragAction"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "enable-model-drag-source": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkModifierType"
+            "name": "start-button-mask"
+            "raku-type": "GFlag:GdkModifierType"
+          - 
+            "c-type": "GdkContentFormats*"
+            "name": "formats"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkDragAction"
+            "name": "actions"
+            "raku-type": "GFlag:GdkDragAction"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-activate-on-single-click": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-cell-rect": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "path"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "cell"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkRectangle*"
+            "name": "rect"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-column-spacing": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-columns": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-cursor": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreePath**"
+            "name": "path"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer**"
+            "name": "cell"
+            "raku-type": "CArray[N-Object]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-dest-item-at-pos": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "drag-x"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "drag-y"
+            "raku-type": "gint"
+          - 
+            "c-type": "GtkTreePath**"
+            "name": "path"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkIconViewDropPosition*"
+            "name": "pos"
+            "raku-type": "GEnum:GtkIconViewDropPosition"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-drag-dest-item": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreePath**"
+            "name": "path"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkIconViewDropPosition*"
+            "name": "pos"
+            "raku-type": "GEnum:GtkIconViewDropPosition"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-item-at-pos": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "x"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "y"
+            "raku-type": "gint"
+          - 
+            "c-type": "GtkTreePath**"
+            "name": "path"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer**"
+            "name": "cell"
+            "raku-type": "CArray[N-Object]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-item-column": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "path"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-item-orientation": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkOrientation"
+        "return-raku-type": "GEnum:GtkOrientation"
+      "get-item-padding": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-item-row": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "path"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-item-width": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-margin": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-markup-column": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-model": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkTreeModel*"
+        "return-raku-type": "N-Object"
+      "get-path-at-pos": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "x"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "y"
+            "raku-type": "gint"
+        "return-c-type": "GtkTreePath*"
+        "return-raku-type": "N-Object"
+      "get-pixbuf-column": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-reorderable": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-row-spacing": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-selected-items": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+        "return-c-type": "GList*"
+        "return-raku-type": "N-Object"
+      "get-selection-mode": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkSelectionMode"
+        "return-raku-type": "GEnum:GtkSelectionMode"
+      "get-spacing": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-text-column": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-tooltip-column": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-tooltip-context": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "x"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "y"
+            "raku-type": "gint"
+          - 
+            "c-type": "gboolean"
+            "name": "keyboard-tip"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "GtkTreeModel**"
+            "name": "model"
+            "raku-type": "CArray[N-Object]"
+          - 
+            "c-type": "GtkTreePath**"
+            "name": "path"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreeIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-visible-range": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreePath**"
+            "name": "start-path"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreePath**"
+            "name": "end-path"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "item-activated": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "path"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "path-is-selected": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "path"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "scroll-to-path": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "path"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "use-align"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "float"
+            "name": "row-align"
+            "raku-type": "gfloat"
+          - 
+            "c-type": "float"
+            "name": "col-align"
+            "raku-type": "gfloat"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "select-all": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "select-path": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "path"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "selected-foreach": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkIconViewForeachFunc"
+            "name": "func"
+            "raku-type": ":( N-Object $icon-view, N-Object $path, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-activate-on-single-click": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "single"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-column-spacing": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "column-spacing"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-columns": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "columns"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-cursor": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "path"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "cell"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "start-editing"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-drag-dest-item": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "path"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkIconViewDropPosition"
+            "name": "pos"
+            "raku-type": "GEnum:GtkIconViewDropPosition"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-item-orientation": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkOrientation"
+            "name": "orientation"
+            "raku-type": "GEnum:GtkOrientation"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-item-padding": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "item-padding"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-item-width": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "item-width"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-margin": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "margin"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-markup-column": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "column"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-model": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreeModel*"
+            "name": "model"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-pixbuf-column": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "column"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-reorderable": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "reorderable"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-row-spacing": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "row-spacing"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-selection-mode": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkSelectionMode"
+            "name": "mode"
+            "raku-type": "GEnum:GtkSelectionMode"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-spacing": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "spacing"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-text-column": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "column"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-tooltip-cell": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTooltip*"
+            "name": "tooltip"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "path"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkCellRenderer*"
+            "name": "cell"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-tooltip-column": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "column"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-tooltip-item": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTooltip*"
+            "name": "tooltip"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "path"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "unselect-all": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "unselect-path": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTreePath*"
+            "name": "path"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "unset-model-drag-dest": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "unset-model-drag-source": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkIconView*"
+            "name": "icon-view"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "iconview"
+  "symbol-prefix": "gtk_icon_view_"
+  "type-letter": ""
+  "type-name": "IconView"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

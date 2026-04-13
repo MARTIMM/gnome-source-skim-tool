@@ -1,0 +1,1061 @@
+---
+"TextIter": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 1
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::N-TextIter"
+  "gir-type": "record"
+  "gnome-name": "GtkTextIter"
+  "package-name": "Gnome::Gtk4"
+  "parent": ~
+  "record-class": "N-TextIter"
+  "routines": 
+    "methods": 
+      "assign": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "other"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "backward-char": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "backward-chars": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "count"
+            "raku-type": "gint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "backward-cursor-position": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "backward-cursor-positions": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "count"
+            "raku-type": "gint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "backward-find-char": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTextCharPredicate"
+            "name": "pred"
+            "raku-type": ":( gunichar $ch, gpointer $user-data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "limit"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "backward-line": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "backward-lines": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "count"
+            "raku-type": "gint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "backward-search": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "str"
+            "raku-type": "Str"
+          - 
+            "c-type": "GtkTextSearchFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GtkTextSearchFlags"
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "match-start"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "match-end"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "limit"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "backward-sentence-start": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "backward-sentence-starts": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "count"
+            "raku-type": "gint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "backward-to-tag-toggle": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTextTag*"
+            "name": "tag"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "backward-visible-cursor-position": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "backward-visible-cursor-positions": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "count"
+            "raku-type": "gint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "backward-visible-line": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "backward-visible-lines": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "count"
+            "raku-type": "gint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "backward-visible-word-start": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "backward-visible-word-starts": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "count"
+            "raku-type": "gint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "backward-word-start": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "backward-word-starts": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "count"
+            "raku-type": "gint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "can-insert": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "default-editability"
+            "raku-type": "gboolean"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "compare": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "lhs"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "rhs"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "copy": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkTextIter*"
+        "return-raku-type": "N-Object"
+      "editable": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "default-setting"
+            "raku-type": "gboolean"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "ends-line": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "ends-sentence": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "ends-tag": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTextTag*"
+            "name": "tag"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "ends-word": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "equal": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "lhs"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "rhs"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "forward-char": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "forward-chars": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "count"
+            "raku-type": "gint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "forward-cursor-position": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "forward-cursor-positions": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "count"
+            "raku-type": "gint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "forward-find-char": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTextCharPredicate"
+            "name": "pred"
+            "raku-type": ":( gunichar $ch, gpointer $user-data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "limit"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "forward-line": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "forward-lines": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "count"
+            "raku-type": "gint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "forward-search": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "str"
+            "raku-type": "Str"
+          - 
+            "c-type": "GtkTextSearchFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GtkTextSearchFlags"
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "match-start"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "match-end"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "limit"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "forward-sentence-end": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "forward-sentence-ends": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "count"
+            "raku-type": "gint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "forward-to-end": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "forward-to-line-end": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "forward-to-tag-toggle": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTextTag*"
+            "name": "tag"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "forward-visible-cursor-position": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "forward-visible-cursor-positions": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "count"
+            "raku-type": "gint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "forward-visible-line": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "forward-visible-lines": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "count"
+            "raku-type": "gint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "forward-visible-word-end": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "forward-visible-word-ends": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "count"
+            "raku-type": "gint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "forward-word-end": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "forward-word-ends": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "count"
+            "raku-type": "gint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "free": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-buffer": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkTextBuffer*"
+        "return-raku-type": "N-Object"
+      "get-bytes-in-line": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-char": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gunichar"
+        "return-raku-type": "gunichar"
+      "get-chars-in-line": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-child-anchor": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkTextChildAnchor*"
+        "return-raku-type": "N-Object"
+      "get-language": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoLanguage*"
+        "return-raku-type": "N-Object"
+      "get-line": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-line-index": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-line-offset": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-marks": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "GSList*"
+        "return-raku-type": "N-Object"
+      "get-offset": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-paintable": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkPaintable*"
+        "return-raku-type": "N-Object"
+      "get-slice": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "start"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "end"
+            "raku-type": "N-Object"
+        "return-c-type": "char*"
+        "return-raku-type": "Str"
+      "get-tags": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "GSList*"
+        "return-raku-type": "N-Object"
+      "get-text": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "start"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "end"
+            "raku-type": "N-Object"
+        "return-c-type": "char*"
+        "return-raku-type": "Str"
+      "get-toggled-tags": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "toggled-on"
+            "raku-type": "gboolean"
+        "return-c-type": "GSList*"
+        "return-raku-type": "N-Object"
+      "get-visible-line-index": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-visible-line-offset": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-visible-slice": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "start"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "end"
+            "raku-type": "N-Object"
+        "return-c-type": "char*"
+        "return-raku-type": "Str"
+      "get-visible-text": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "start"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "end"
+            "raku-type": "N-Object"
+        "return-c-type": "char*"
+        "return-raku-type": "Str"
+      "has-tag": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTextTag*"
+            "name": "tag"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "in-range": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "start"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "end"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "inside-sentence": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "inside-word": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "is-cursor-position": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "is-end": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "is-start": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "order": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "first"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "second"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-line": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "line-number"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-line-index": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "byte-on-line"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-line-offset": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "char-on-line"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-offset": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "char-offset"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-visible-line-index": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "byte-on-line"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-visible-line-offset": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "char-on-line"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "starts-line": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "starts-sentence": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "starts-tag": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTextTag*"
+            "name": "tag"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "starts-word": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "toggles-tag": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GtkTextIter*"
+            "name": "iter"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkTextTag*"
+            "name": "tag"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+  "source-filename": "textiter"
+  "symbol-prefix": "gtk_text_iter_"
+  "type-letter": "N"
+  "type-name": "TextIter"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

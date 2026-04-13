@@ -1,0 +1,401 @@
+---
+"PrintJob": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::PrintJob"
+  "gir-type": "class"
+  "gnome-name": "GtkPrintJob"
+  "inheritable": false
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles":  []
+  "routines": 
+    "constructors": 
+      "new-printjob": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "title"
+            "raku-type": "Str"
+          - 
+            "c-type": "GtkPrinter*"
+            "name": "printer"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkPrintSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkPageSetup*"
+            "name": "page-setup"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkPrintJob*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "get-collate": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-n-up": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+        "return-c-type": "guint"
+        "return-raku-type": "guint"
+      "get-n-up-layout": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkNumberUpLayout"
+        "return-raku-type": "GEnum:GtkNumberUpLayout"
+      "get-num-copies": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-page-ranges": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int*"
+            "name": "n-ranges"
+            "raku-type": "gint-ptr"
+        "return-c-type": "GtkPageRange*"
+        "return-raku-type": "N-Object"
+      "get-page-set": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkPageSet"
+        "return-raku-type": "GEnum:GtkPageSet"
+      "get-pages": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkPrintPages"
+        "return-raku-type": "GEnum:GtkPrintPages"
+      "get-printer": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkPrinter*"
+        "return-raku-type": "N-Object"
+      "get-reverse": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-rotate": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-scale": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+        "return-c-type": "double"
+        "return-raku-type": "gdouble"
+      "get-settings": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkPrintSettings*"
+        "return-raku-type": "N-Object"
+      "get-status": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkPrintStatus"
+        "return-raku-type": "GEnum:GtkPrintStatus"
+      "get-surface": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "cairo_surface_t*"
+        "return-raku-type": "Cairo::cairo_surface_t"
+      "get-title": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-track-print-status": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "send": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkPrintJobCompleteFunc"
+            "name": "callback"
+            "raku-type": ":( N-Object $print-job, gpointer $user-data, N-Object $error )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GDestroyNotify"
+            "name": "dnotify"
+            "raku-type": ":( gpointer $data )"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-collate": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "collate"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-n-up": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "n-up"
+            "raku-type": "guint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-n-up-layout": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkNumberUpLayout"
+            "name": "layout"
+            "raku-type": "GEnum:GtkNumberUpLayout"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-num-copies": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "num-copies"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-page-ranges": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkPageRange*"
+            "name": "ranges"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "n-ranges"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-page-set": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkPageSet"
+            "name": "page-set"
+            "raku-type": "GEnum:GtkPageSet"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-pages": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkPrintPages"
+            "name": "pages"
+            "raku-type": "GEnum:GtkPrintPages"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-reverse": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "reverse"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-rotate": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "rotate"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-scale": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "scale"
+            "raku-type": "gdouble"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-source-fd": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "fd"
+            "raku-type": "gint"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "set-source-file": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "filename"
+            "raku-type": "Str"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "set-track-print-status": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GtkPrintJob*"
+            "name": "job"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "track-status"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "printjob"
+  "symbol-prefix": "gtk_print_job_"
+  "type-letter": ""
+  "type-name": "PrintJob"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

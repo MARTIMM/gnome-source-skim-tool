@@ -1,0 +1,217 @@
+---
+"Application": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::Application"
+  "gir-type": "class"
+  "gnome-name": "GtkApplication"
+  "inheritable": false
+  "parent": "Gio.Application"
+  "parent-gnome-name": "Gio.Application"
+  "parent-raku-name": "Gnome::Gio::Application"
+  "roles":  []
+  "routines": 
+    "constructors": 
+      "new-application": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "application-id"
+            "raku-type": "Str"
+          - 
+            "c-type": "GApplicationFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GApplicationFlags"
+        "return-c-type": "GtkApplication*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "add-window": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkApplication*"
+            "name": "application"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWindow*"
+            "name": "window"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-accels-for-action": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkApplication*"
+            "name": "application"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "detailed-action-name"
+            "raku-type": "Str"
+        "return-c-type": "char**"
+        "return-raku-type": "gchar-pptr"
+      "get-actions-for-accel": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkApplication*"
+            "name": "application"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "accel"
+            "raku-type": "Str"
+        "return-c-type": "char**"
+        "return-raku-type": "gchar-pptr"
+      "get-active-window": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkApplication*"
+            "name": "application"
+            "raku-type": "N-Object"
+        "return-c-type": "GtkWindow*"
+        "return-raku-type": "N-Object"
+      "get-menu-by-id": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkApplication*"
+            "name": "application"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "id"
+            "raku-type": "Str"
+        "return-c-type": "GMenu*"
+        "return-raku-type": "N-Object"
+      "get-menubar": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkApplication*"
+            "name": "application"
+            "raku-type": "N-Object"
+        "return-c-type": "GMenuModel*"
+        "return-raku-type": "N-Object"
+      "get-window-by-id": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkApplication*"
+            "name": "application"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "id"
+            "raku-type": "guint"
+        "return-c-type": "GtkWindow*"
+        "return-raku-type": "N-Object"
+      "get-windows": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkApplication*"
+            "name": "application"
+            "raku-type": "N-Object"
+        "return-c-type": "GList*"
+        "return-raku-type": "N-Object"
+      "inhibit": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkApplication*"
+            "name": "application"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWindow*"
+            "name": "window"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkApplicationInhibitFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GtkApplicationInhibitFlags"
+          - 
+            "c-type": "const char*"
+            "name": "reason"
+            "raku-type": "Str"
+        "return-c-type": "guint"
+        "return-raku-type": "guint"
+      "list-action-descriptions": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkApplication*"
+            "name": "application"
+            "raku-type": "N-Object"
+        "return-c-type": "char**"
+        "return-raku-type": "gchar-pptr"
+      "remove-window": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkApplication*"
+            "name": "application"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GtkWindow*"
+            "name": "window"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-accels-for-action": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkApplication*"
+            "name": "application"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "detailed-action-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "const char* const*"
+            "name": "accels"
+            "raku-type": "gchar-pptr"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-menubar": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkApplication*"
+            "name": "application"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GMenuModel*"
+            "name": "menubar"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "uninhibit": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkApplication*"
+            "name": "application"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "cookie"
+            "raku-type": "guint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "application"
+  "symbol-prefix": "gtk_application_"
+  "type-letter": ""
+  "type-name": "Application"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

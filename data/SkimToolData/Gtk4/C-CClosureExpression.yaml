@@ -1,0 +1,58 @@
+---
+"CClosureExpression": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 1
+  "class-name": "Gnome::Gtk4::CClosureExpression"
+  "gir-type": "class"
+  "gnome-name": "GtkCClosureExpression"
+  "inheritable": false
+  "parent": "Expression"
+  "parent-gnome-name": "GtkExpression"
+  "parent-raku-name": "Gnome::Gtk4::Expression"
+  "roles":  []
+  "routines": 
+    "constructors": 
+      "new-cclosureexpression": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GType"
+            "name": "value-type"
+            "raku-type": "GType"
+          - 
+            "c-type": "GClosureMarshal"
+            "name": "marshal"
+            "raku-type": ":( N-Object $closure, N-Object $return-value, guint $n-param-values, N-Object $param-values, gpointer $invocation-hint, gpointer $marshal-data )"
+          - 
+            "c-type": "guint"
+            "name": "n-params"
+            "raku-type": "guint"
+          - 
+            "c-type": "GtkExpression**"
+            "name": "params"
+            "raku-type": "CArray[N-Object]"
+          - 
+            "c-type": "GCallback"
+            "name": "callback-func"
+            "raku-type": ":( )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GClosureNotify"
+            "name": "user-destroy"
+            "raku-type": ":( gpointer $data, N-Object $closure )"
+        "return-c-type": "GtkExpression*"
+        "return-raku-type": "N-Object"
+  "source-filename": "expression"
+  "symbol-prefix": "gtk_cclosure_expression_"
+  "type-letter": ""
+  "type-name": "CClosureExpression"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...

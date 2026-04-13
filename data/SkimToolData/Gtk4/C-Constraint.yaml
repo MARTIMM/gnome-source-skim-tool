@@ -1,0 +1,187 @@
+---
+"Constraint": 
+  "checks": 
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+  "class-name": "Gnome::Gtk4::Constraint"
+  "gir-type": "class"
+  "gnome-name": "GtkConstraint"
+  "inheritable": false
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles":  []
+  "routines": 
+    "constructors": 
+      "new-constant": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "gpointer"
+            "name": "target"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GtkConstraintAttribute"
+            "name": "target-attribute"
+            "raku-type": "GEnum:GtkConstraintAttribute"
+          - 
+            "c-type": "GtkConstraintRelation"
+            "name": "relation"
+            "raku-type": "GEnum:GtkConstraintRelation"
+          - 
+            "c-type": "double"
+            "name": "constant"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "int"
+            "name": "strength"
+            "raku-type": "gint"
+        "return-c-type": "GtkConstraint*"
+        "return-raku-type": "gint-ptr"
+      "new-constraint": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "gpointer"
+            "name": "target"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GtkConstraintAttribute"
+            "name": "target-attribute"
+            "raku-type": "GEnum:GtkConstraintAttribute"
+          - 
+            "c-type": "GtkConstraintRelation"
+            "name": "relation"
+            "raku-type": "GEnum:GtkConstraintRelation"
+          - 
+            "c-type": "gpointer"
+            "name": "source"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GtkConstraintAttribute"
+            "name": "source-attribute"
+            "raku-type": "GEnum:GtkConstraintAttribute"
+          - 
+            "c-type": "double"
+            "name": "multiplier"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "double"
+            "name": "constant"
+            "raku-type": "gdouble"
+          - 
+            "c-type": "int"
+            "name": "strength"
+            "raku-type": "gint"
+        "return-c-type": "GtkConstraint*"
+        "return-raku-type": "gint-ptr"
+    "methods": 
+      "get-constant": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkConstraint*"
+            "name": "constraint"
+            "raku-type": "gint-ptr"
+        "return-c-type": "double"
+        "return-raku-type": "gdouble"
+      "get-multiplier": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkConstraint*"
+            "name": "constraint"
+            "raku-type": "gint-ptr"
+        "return-c-type": "double"
+        "return-raku-type": "gdouble"
+      "get-relation": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkConstraint*"
+            "name": "constraint"
+            "raku-type": "gint-ptr"
+        "return-c-type": "GtkConstraintRelation"
+        "return-raku-type": "GEnum:GtkConstraintRelation"
+      "get-source": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkConstraint*"
+            "name": "constraint"
+            "raku-type": "gint-ptr"
+        "return-c-type": "GtkConstraintTarget*"
+        "return-raku-type": "N-Object"
+      "get-source-attribute": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkConstraint*"
+            "name": "constraint"
+            "raku-type": "gint-ptr"
+        "return-c-type": "GtkConstraintAttribute"
+        "return-raku-type": "GEnum:GtkConstraintAttribute"
+      "get-strength": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkConstraint*"
+            "name": "constraint"
+            "raku-type": "gint-ptr"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-target": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkConstraint*"
+            "name": "constraint"
+            "raku-type": "gint-ptr"
+        "return-c-type": "GtkConstraintTarget*"
+        "return-raku-type": "N-Object"
+      "get-target-attribute": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkConstraint*"
+            "name": "constraint"
+            "raku-type": "gint-ptr"
+        "return-c-type": "GtkConstraintAttribute"
+        "return-raku-type": "GEnum:GtkConstraintAttribute"
+      "is-attached": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkConstraint*"
+            "name": "constraint"
+            "raku-type": "gint-ptr"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "is-constant": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkConstraint*"
+            "name": "constraint"
+            "raku-type": "gint-ptr"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "is-required": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GtkConstraint*"
+            "name": "constraint"
+            "raku-type": "gint-ptr"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+  "source-filename": "constraint"
+  "symbol-prefix": "gtk_constraint_"
+  "type-letter": ""
+  "type-name": "Constraint"
+"namespace-name": "Gtk"
+"symbol-prefix": "gtk"
+"version": "4.0"
+...
