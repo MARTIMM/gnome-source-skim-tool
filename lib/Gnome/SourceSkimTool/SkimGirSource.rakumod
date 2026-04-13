@@ -344,7 +344,7 @@ method !devise-xml-namespace ( --> Str ) {
 method make-yaml-from-subgirs ( Str $module = '' ) {
   #self.load-map;
 
-note "$?LINE $*work-data<gir-module-path>";
+#note "$?LINE $*work-data<gir-module-path>";
 
   for dir($*work-data<gir-module-path>).sort -> $xml-file {
     next if $xml-file.Str ~~ m/^ repo '-' /;
