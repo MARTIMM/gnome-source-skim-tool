@@ -6,9 +6,6 @@ use v6.d;
 
 use NativeCall;
 
-
-
-
 use Gnome::Gtk4::T-types:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -42,7 +39,9 @@ submethod BUILD ( ) {
 #-------------------------------------------------------------------------------
 #--[Record Structure]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
+class N-BitsetIter:auth<github:MARTIMM>:api<2> is repr('CPointer') is export;
 
+#`{{
 class N-BitsetIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
 
   has gchar-pptr $.private-data;
@@ -57,6 +56,7 @@ class N-BitsetIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
     nativecast( N-BitsetIter, $no)
   }
 }
+}}
 
 #-------------------------------------------------------------------------------
 #--[Standalone functions]-------------------------------------------------------
