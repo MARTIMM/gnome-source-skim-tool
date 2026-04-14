@@ -85,16 +85,18 @@ find . -name '*.raku*' | xargs wc -l
 * No lists are returned to read veriables set by the native routines.
 * Some cases where text was provided as an argument where it also needed to give the length of the string. In the older versions it was hidden. In the new version it must be provided.
 * Possible and maybe for certain there will be no distributions for Gtk3 and Gdk3.
-* Gnome also have a fair share in braking compatibility between Gtk3 and Gtk4. Also a reason not to do Gtk3/Gdk3 in this new api. Luckily, the deprecated symbols, functions and classes were not supported in the old versions of mine. Much can be read [here](https://docs.gtk.org/gtk4/migrating-3to4.html). A small list;
-  * Window manager control like `self.set-position()` and `self.set-keep-above()`;
+* Gnome also have a fair share in braking compatibility between Gtk3 and Gtk4. Also a reason not to do Gtk3/Gdk3 in this new api. Luckily, the deprecated symbols, functions and classes were not supported in the old versions of mine. Much can be read [on the migration page](https://docs.gtk.org/gtk4/migrating-3to4.html).
 
 * [x] Improve documentation.
 
 # Release notes
-* 2025-12-14
+* 2026-04-13 0.17.6
+  * Skimmer tool now accumulates info in more yaml files. This is done to gather work status of the modules. Needed to trace work on documentation, to see if new modules or routines in modules are added by Gnome, or are deprecated. The results are put in tables and are available on the [github pages website](https://martimm.github.io).
+
+* 2025-12-14 0.17.5
   * Found a huge bug. Somewhere in the past, signals delivered by roles were not available anymore. Must have been some "improvement" in data structures. Need to check every role now …
 
-* 2025-06-29
+* 2025-06-29 0.17.4
   * Program to get version of current generation. When the information is retrieved from the GIR XML files, the program `bin/versions.raku` is run to generate a program `version-of.raku` and is stored in the Gtk3 and Gtk4 bin directory. That program is then published together with the installation of the `Gnome::Gtk3` and `Gnome::Gtk4` packages. Examples of use;
     ```
     > version-of.raku cairo
