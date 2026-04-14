@@ -417,10 +417,11 @@ method !get-data (
 
   # Checks are only set when not defined.
   $ed-name<checks> //= %(
-    :handcorrected-docs(0), :enough-tests(0), :no-implement(0)
+    :handcorrected-docs(0), :enough-tests(0), :no-implement(0), :note(''),
   );
-# temporary
-#$ed-name<checks><enough-tests> = 0;
+
+# temporary field change additions
+$ed-name<checks><note> = '';
 #note "$?LINE $ed-name<checks>.raku()";
 
   # Field 'nbr-tests' are set here.
