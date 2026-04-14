@@ -1159,7 +1159,7 @@ method !set-names ( Str $naked-gnome-name is copy --> List ) {
 method load-map ( ) {
   my $fname = $*work-data<gir-module-path> ~ 'repo-object-map.yaml';
   if $fname.IO ~~ :r {
-    note "Load object map $fname" if $*verbose;
+    note "Load object map $fname\n " if $*verbose;
     $!map = load-yaml($fname.IO.slurp);
   }
 

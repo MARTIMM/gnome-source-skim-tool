@@ -89,7 +89,7 @@ submethod BUILD ( ) {
 
   $*work-data<finit>( $*work-data, :label<work-data>) if $*verbose;
 
-  note "Prepare for work" if $*verbose;
+  note "\nPrepare for work" if $*verbose;
 }
 
 #-------------------------------------------------------------------------------
