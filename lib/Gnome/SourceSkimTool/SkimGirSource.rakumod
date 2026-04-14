@@ -1,17 +1,14 @@
+use v6.d;
 
 use XML;
 use XML::XPath;
 use YAMLish;
 
-#use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::Code;
 use Gnome::SourceSkimTool::Resolve;
 
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::SkimGirSource:auth<github:MARTIMM>;
-
-#has Gnome::SourceSkimTool::Code $!mod;
-has Gnome::SourceSkimTool::Resolve $!solve;
 
 has Hash $!map;
 has Hash $!other;
@@ -19,12 +16,14 @@ has XML::XPath $!xp;
 
 has Hash $!fname-class;
 has Instant $!gir-modification-time;
+
 has Gnome::SourceSkimTool::Code $!code;
+has Gnome::SourceSkimTool::Resolve $!solve;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
 
-  # the sections like :function are arrays of XML::Element's
+  # The sections like :function are arrays of XML::Element's
   $!other = %(
     :function([]),
     :callback([]),
@@ -35,10 +34,7 @@ submethod BUILD ( ) {
   );
 
   $!fname-class = %();
-
-#  $!mod .= new;
   $!solve .= new;
-  
   $!code .= new(:skim-init);
 }
 
@@ -67,19 +63,22 @@ method make-subgirs-from-gir ( Str $module = '' ) {
 
     my $attrs = $element.attribs;
     my Str $element-name = self.test-for-oddities( $element.name, $attrs);
-#note "$?LINE $attrs.gist(), $element-name";
 
     # Ignore the entry when the item is moved to some other module
     next if $attrs<moved-to>:exists;
+
+    # Not supported by GIR
     next if $attrs<introspectable>:exists and $attrs<introspectable> eq 0;
+
+    # No info when disguised
     next if $attrs<disguised>:exists and $attrs<disguised> == 1;
+
+    #NOTE needed? E.g. glib:signal but is 2nd level, not 1st like tested here
     next if $element-name ~~ m/^ glib \:/;
 
+    # Some structures are not needed. Are used at lower level.
     my Str $name = self!check-pixbuf($attrs<name>);
-    if $name ~~ m/ [ Class || Private || Iface || Interface ] $/ {
-#      note "$?LINE $name, $attrs.gist(), $element.name()";
-      next;
-    }
+    next if $name ~~ m/ [ Class || Private || Iface || Interface ] $/;
 
     # If module defined then skip all but this module
     if ?$module {
@@ -87,30 +86,16 @@ method make-subgirs-from-gir ( Str $module = '' ) {
         next;
       }
     }
-#note "$?LINE $name, $element-name";
 
     # Map an element into the repo-object-map.
     self!map-element( $element, $*namespace-name, $*symbol-prefix, $id-prefix);
-#    my Str $element-name = self.test-for-oddities( $element.name, $attrs);
-#next unless $element-name eq 'class';
-#  }
 
-#  # Use the data to generate gir and yaml files
-#  for @elements -> $element {
-#    my $attrs = $element.attribs;
-
-#    # Ignore the entry when the item is moved to some other module
-#    next if $attrs<moved-to>:exists;
-#    my Str $element-name = self.test-for-oddities( $element.name, $attrs);
     given $element-name {
       # Save the class info in separate gir files
       when 'class' {
         my Str $name = self!check-pixbuf($attrs<name>);
-#note "$?LINE $name";
-#next unless $name eq 'AboutDialog';
         my $xml-file = "$*work-data<gir-module-path>C-$name.gir";
-#`{{
-}}
+
         if ($xml-file.IO ~~ :!e) or
            ($xml-file.IO.modified > $!gir-modification-time)
         {
@@ -134,12 +119,9 @@ method make-subgirs-from-gir ( Str $module = '' ) {
             $xml ~~ s/ '<interface ' /\<class /;
             $xml ~~ s/ \<\/interface\> /\<\/class\>/;
           }
-#`{{
-}}
+
           note "Save class $name" if $*verbose;
           $xml-file.IO.spurt($xml);
-#TODO write-yaml must be called later. Need gir files, still to be written!!!!!!!
-#          self!write-yaml( $xml-file, $xml, $element-name);
         }
       }
 
@@ -148,8 +130,7 @@ method make-subgirs-from-gir ( Str $module = '' ) {
       when 'record' {
         my Str $name = self!check-pixbuf($attrs<name>);
         my $xml-file = "$*work-data<gir-module-path>R-$name.gir";
-#`{{
-}}
+
         if ($xml-file.IO ~~ :!e) or
            ($xml-file.IO.modified > $!gir-modification-time)
         {
@@ -171,11 +152,9 @@ method make-subgirs-from-gir ( Str $module = '' ) {
               </namespace>
             </repository>
             EOXML
-#`{{
-}}
+
           note "Save record R-$name" if $*verbose;
           $xml-file.IO.spurt($xml);
-#          self!write-yaml( $xml-file, $xml, $element-name);
         }
       }
 
@@ -184,10 +163,8 @@ method make-subgirs-from-gir ( Str $module = '' ) {
         if ?$name {
           my Str $name-prefix = $*work-data<name-prefix>;
           $name ~~ s:i/^ $name-prefix //;
-
           my $xml-file = "$*work-data<gir-module-path>U-$name.gir";
-#`{{
-}}
+
           if ($xml-file.IO ~~ :!e) or
             ($xml-file.IO.modified > $!gir-modification-time)
           {
@@ -206,11 +183,9 @@ method make-subgirs-from-gir ( Str $module = '' ) {
                 </namespace>
               </repository>
               EOXML
-#`{{
-}}
+
             note "Save union U-$name" if $*verbose;
             $xml-file.IO.spurt($xml);
-#            self!write-yaml( $xml-file, $xml, $element-name);
           }
         }
       }
@@ -218,8 +193,7 @@ method make-subgirs-from-gir ( Str $module = '' ) {
       when 'interface' {
         my Str $name = self!check-pixbuf($attrs<name>);
         my $xml-file = "$*work-data<gir-module-path>I-$name.gir";
-#`{{
-}}
+
         if ($xml-file.IO ~~ :!e) or
            ($xml-file.IO.modified > $!gir-modification-time)
         {
@@ -238,11 +212,9 @@ method make-subgirs-from-gir ( Str $module = '' ) {
               </namespace>
             </repository>
             EOXML
-#`{{
-}}
+
           note "Save interface I-$name" if $*verbose;
           $xml-file.IO.spurt($xml);
-#          self!write-yaml( $xml-file, $xml, $element-name);
         }
       }
 
@@ -312,8 +284,6 @@ method make-subgirs-from-gir ( Str $module = '' ) {
        my Str $type-name = $!map{$entry-name}<source-filename>;
        $!map{$entry-name}<type-letter> = 'T';
     }
-
-    # else {} ignore rest
   }
 
   self!save-other($xml-namespace);
@@ -342,9 +312,6 @@ method !devise-xml-namespace ( --> Str ) {
 
 #-------------------------------------------------------------------------------
 method make-yaml-from-subgirs ( Str $module = '' ) {
-  #self.load-map;
-
-#note "$?LINE $*work-data<gir-module-path>";
 
   for dir($*work-data<gir-module-path>).sort -> $xml-file {
     next if $xml-file.Str ~~ m/^ repo '-' /;
@@ -382,53 +349,6 @@ method make-yaml-from-subgirs ( Str $module = '' ) {
       self!write-yaml( $xml-file, $xml, $element-name, $module);
     }
   }
-
-#`{{
-  # Find out which classes will be inheritable. It is now decided to only
-  # have decendents from GtkWidget be able to inherit.
-  #
-  # The classes which implement a role (a C-interface) must be checked if the
-  # parent has also the same role. Only the top most class can implement this
-  # role in Raku. All decendents will have access to the methods and signals
-  # defined in that role.
-  for $!map.keys -> $entry-name {
-    next unless $!map{$entry-name}<gir-type>:exists;
-
-    # A type name is the bare name of an object without any prefixes of gnome.
-    # Those are found on class, interface, record and union. The rest of the
-    # gir types must read it from the filename map created above while
-    # processing the XML. There are situations where there are only simple
-    # types defined in the sources and a name must be created from the source
-    # filename with its first letter uppercased.
-    my Str $type-name =
-      $!fname-class{$!map{$entry-name}<source-filename>} //
-        $!map{$entry-name}<source-filename>.tc;
-
-    if $!map{$entry-name}<gir-type> ~~ any(
-         <function constant enumeration bitfield docsection callback>
-       ) {
-      $!map{$entry-name}<type-name> //= $type-name;
-      $!map{$entry-name}<type-letter> //= 'T';
-    }
-
-    elsif $!map{$entry-name}<gir-type> eq 'class' {
-      $!map{$entry-name}<inheritable> = self!is-inheritable($entry-name);
-      self!set-real-role-user($entry-name) if $!map{$entry-name}<roles>;
-    }
-
-    if $!map{$entry-name}<gir-type> ~~ any(
-         <function constant enumeration bitfield docsection callback>
-    ) {
-       my Str $type-name = $!map{$entry-name}<source-filename>;
-       $!map{$entry-name}<type-letter> = 'T';
-    }
-
-    # else {} ignore rest
-  }
-
-  self!save-other($xml-namespace);
-  self!save-map;
-}}
 }
 
 #-------------------------------------------------------------------------------
@@ -441,7 +361,7 @@ method !write-yaml (
   $yaml-file ~~ s/ \. gir $/.yaml/;
   my Hash $element-data = %();
   $element-data = load-yaml($yaml-file.IO.slurp) if $yaml-file.IO ~~ :r;
-#note "$?LINE $element-data.keys.gist()";
+
   # Add/Change new data in 
   my XML::XPath $xp .= new(:$xml);
   if self!get-data( $xp, $element-data, $element-name, $module) {
@@ -486,24 +406,27 @@ method !get-data (
   $element-data{$raku-type} //= %();
   my Hash $ed-name = $element-data{$raku-type};
 
-  # Get detected info and merge
+  # Get detected info stored in $!map and merge without overwriting
   for $!map{$ctype}.kv -> $k, $v {
     $ed-name{$k} //= $v;
   }
 
+  # Few items more from elements attributes
   $ed-name<parent> = $attrs<parent>;
   $ed-name<version> = $attrs<version> if ?$attrs<version>;
+
+  # Checks are only set when not defined.
   $ed-name<checks> //= %(
-    :handcorrected-docs(0), :enough-tests(0),
-    :nbr-tests(0), :no-implement(0)
+    :handcorrected-docs(0), :enough-tests(0), :no-implement(0)
   );
 # temporary
 #$ed-name<checks><enough-tests> = 0;
 #note "$?LINE $ed-name<checks>.raku()";
 
+  # Field 'nbr-tests' are set here.
   $ed-name<checks><nbr-tests> = self!get-nbr-tests( $ed-name, $module);
 
-  # Check for module file to set $modules-generated
+  # Check for module file to set field 'modules-generated'.
   my Str $prefix = $ed-name<type-letter>:exists
         ?? $ed-name<type-letter> ~ '-' !! '';
   my Str $lib-path =
@@ -514,11 +437,13 @@ method !get-data (
 
   # Fill in some missing data before calling for routine search. The used call
   # .get-native-subs() from Gnome::SourceSkimTool::Code is used to generate
-  # code, doc and tests. The init is a bit different, hence the missing values.
+  # code, doc and tests. The init in this program is a bit different,
+  # hence the missing values.
   $*work-data<gnome-name> = $ed-name<gnome-name>;
   $*work-data<raku-name> = $ed-name<class-name>;
   $*work-data<sub-prefix> = $ed-name<symbol-prefix>;
 
+  # Get all routines from this module
   $ed-name<routines> //= %();
   my Hash $routines = $ed-name<routines>;
   my Hash $r = self!get-routines( $xp, $element, $raku-type);
@@ -619,11 +544,6 @@ method !get-routines (
     }
   }
 
-#  # The first parameter in a method in the Raku implementation is hidden
-#  for $routines<methods>.keys -> $rname {
-#    $routines<methods>{$rname}<parameters>.shift;
-#  }
-
   $routines
 }
 
@@ -644,7 +564,6 @@ method !set-real-role-user( Str $entry-name ) {
 #-------------------------------------------------------------------------------
 method !check-parent-role ( Str $entry-name, Str $role-class-name ) {
   my $parent-entry = $!map{$entry-name}<parent-gnome-name>;
-#note "$?LINE check-parent-role $entry-name, Str $role-class-name";
 
   # Stop when parent is GObject or GInitiallyUnowned. They have
   # no roles implemented
@@ -668,7 +587,7 @@ method !check-parent-role ( Str $entry-name, Str $role-class-name ) {
 #-------------------------------------------------------------------------------
 # Add role to be implemented by this class
 method implement-role ( Str $entry-name, Str $role-class-name) {
-#note "$?LINE implement-role $entry-name, $role-class-name";
+
   # Add array unless it exists
   $!map{$entry-name}<implement-roles> = []
     unless $!map{$entry-name}<implement-roles>:exists;
@@ -717,15 +636,8 @@ method !map-element (
   # Get attribute hash
   my Hash $attrs = $element.attribs;
 
-#  # Return if element is marked as disguised. We don't need those.
-#  return False if $attrs<disguised>:exists and $attrs<disguised> == 1;
-
   # Map key from some sort of identifier
   my Str $ctype = self!get-name($attrs);
-
-#  # Return when an element ends in specific words. Most of those are records.
-#  return False if $ctype ~~ m/ [ Private || Class || Iface || Interface ] $/;
-#  return if $ctype ~~ m/ [ Private || Iface || Interface ] $/;
 
   # Check for this id. If undefined make some noise and return
   unless ?$ctype {
@@ -1255,21 +1167,6 @@ method load-map ( ) {
     $!map = %();
   }
 }
-
-#`{{
-#-------------------------------------------------------------------------------
-method !load-object ( ) {
-  my $fname = $*work-data<gir-module-path> ~ 'repo-object-map.yaml';
-  if $fname.IO ~~ :r {
-    note "Load object map $fname" if $*verbose;
-    $!map = load-yaml($fname.IO.slurp);
-  }
-
-  else {
-    $!map = %();
-  }
-}
-  }}
 
 #-------------------------------------------------------------------------------
 method save-map ( ) {
