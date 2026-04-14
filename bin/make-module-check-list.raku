@@ -323,34 +323,3 @@ sub make-table-entry ( Str $rname, Hash $rdata --> Str ) {
   $doc
 }
 
-
-
-
-
-
-
-
-
-
-=finish
-
-my Gnome::SourceSkimTool::Prepare $prepare .= new;
-$*work-data<finit>( $*work-data, :label<work-data>);
-
-my Str $check-list = Q:qq:to/EOFCL/;
-  # Documentation checklist for $*work-data<raku-package>
-
-  EOFCL
-
-my Proc $p = shell "ls -c1 $*work-data<result-mods>", :out;
-for $p.out.lines.sort -> $l {
-  $check-list ~= "* [ ] $l\n";
-}
-
-$p.out.close;
-
-"doc/Doc Check Lists/{$gnome-package.lc}.md".IO.spurt($check-list);
-
-
-
-
