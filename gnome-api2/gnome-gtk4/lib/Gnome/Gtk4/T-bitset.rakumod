@@ -39,7 +39,7 @@ submethod BUILD ( ) {
 #-------------------------------------------------------------------------------
 #--[Record Structure]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
-class N-BitsetIter:auth<github:MARTIMM>:api<2> is repr('CPointer') is export;
+class N-BitsetIter:auth<github:MARTIMM>:api<2> is repr('CPointer') is export {}
 
 #`{{
 class N-BitsetIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
@@ -66,10 +66,10 @@ my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
   bitset-iter-init-at => %( :type(Function), :is-symbol<gtk_bitset_iter_init_at>, :returns(gboolean), :parameters([ N-Object, N-Object, guint, gint-ptr]), ),
-  bitset-iter-init-first => %( :type(Function), :is-symbol<gtk_bitset_iter_init_first>, :returns(gboolean), :parameters([ N-Object, N-Object, gint-ptr]), ),
+  bitset-iter-init-first => %( :type(Function), :is-symbol<gtk_bitset_iter_init_first>, :returns(gboolean), :parameters([ CArray[N-Object], N-Object, gint-ptr]), ),
   bitset-iter-init-last => %( :type(Function), :is-symbol<gtk_bitset_iter_init_last>, :returns(gboolean), :parameters([ N-Object, N-Object, gint-ptr]), ),
-
 );
+
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
 method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
   if $methods{$name}:exists {
