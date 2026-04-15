@@ -37,12 +37,10 @@ subtest 'ISA test', {
     my UInt() $start;
     my UInt() $n-items;
 
-#`{{
-}}
-
     #TC:1:new-empty()
     $bitset .= new-empty();
     ok .is-valid, '.new-empty()';
+
     #TM:1:is-empty()
     ok .is-empty, '.is-empty()';
 
@@ -65,36 +63,16 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
+  $bitset .= new-range( 42, 10);
   with $bitset {
-#`{{
-    my UInt() $stride;
-    my UInt() $start;
-    my UInt() $nth;
-    my N-Object $other;
-    my UInt() $removed;
-    my UInt() $first;
-    my UInt() $value;
-    my UInt() $height;
-    my UInt() $amount;
-    my UInt() $n-items;
-    my UInt() $position;
-    my UInt() $width;
-    my UInt() $last;
-    my UInt() $added;
-}}
-
-    my Int $start = 42;
-    my Int $n-items = 10;
-    $bitset .= new-range( $start, $n-items);
-
 
     #TM:1:add()
     my Int $value = 50;
-    nok .add($value), '.add(50), False because 50 is in range 42..52';
+    nok .add(50), '.add(50), False because 50 is in range 42..52';
 
     #TM:1:contains()
-    ok .contains($value), '.contains(50), is inside 42..52';
-    nok .contains($value + 10), '.contains(60), is outside 42..52';
+    ok .contains(50), '.contains(50), is inside 42..52';
+    nok .contains(60), '.contains(60), is outside 42..52';
 
     #TM:1:copy()
     my Gnome::Gtk4::N-Bitset() $b;
@@ -128,25 +106,56 @@ subtest 'Method tests', {
     #TM:1:remove()
     ok .remove(45), '.remove(45)';
     is .get-size(), 9, '.get-size() now 9';
-    is .get-nth(8), 51, '.get-nth(8) of range 42..52 is 51';
-
-#`{{
-    #TM:0:bitset-iter-init-first()
-    $t-bitset .= new;
-    my $bi = CArray[N-Object].new;
-    my $v = CArray[guint].new(0);
-    ok $t-bitset.bitset-iter-init-first( $bi, $bitset, $v),
-       '.bitset-iter-init-first()';
-    is $v[0], 42, "value is $v[0]";
-$bitset-iter = $o;
-note $bitset-iter.gist();
-note $bitset-iter.get-value;
-}}
-
+    is .get-nth(8), 51, '.get-nth(8) of range 42..51 is 51';
 
     #TM:1:remove-all()
     lives-ok {.remove-all}, '.remove-all()';
     ok .is-empty, '.is-empty()';
+  }
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $bitset {
+
+    #TM:1:bitset-iter-init-first()
+    $t-bitset .= new;
+    $bitset .= new-range( 5, 3);
+
+    my N-BitsetIter $bi .= new;
+    ok $t-bitset.bitset-iter-init-first( $bi, $bitset, Nil),
+       'T-bitset  .bitset-iter-init-first()';
+  
+    #TM:1:get-value()
+    $bitset-iter .= new(:native-object($bi));
+    is $bitset-iter.get-value, 5, 'N-BitsetIter  .get-value(): 5';
+    ok $bitset-iter.is-valid, 'N-BitsetIter  .is-valid(): 5';
+
+    #TM:1:next()
+    ok $bitset-iter.next, 'N-BitsetIter  .next()';
+    is $bitset-iter.get-value, 6, 'N-BitsetIter  .get-value(): 6';
+
+    ok $bitset-iter.next, 'N-BitsetIter  .next()';
+    is $bitset-iter.get-value, 7, 'N-BitsetIter  .get-value(): 7';
+
+    #TM:1:is-valid()
+    nok $bitset-iter.next, 'N-BitsetIter  .next()';
+    nok $bitset-iter.is-valid, 'N-BitsetIter  .is-valid(): passed the end';
+#    is $bitset-iter.get-value, 0, '.get-value(): 0 after passing the end';
+
+    #TM:1:bitset-iter-init-last()
+    $bitset .= new-range( 7, 5);
+    my N-BitsetIter $bi .= new;
+    ok $t-bitset.bitset-iter-init-last( $bi, $bitset, Nil),
+       'T-bitset  .bitset-iter-init-last()';
+    $bitset-iter .= new(:native-object($bi));
+
+    #TM:0:previous()
+    my $count = 0;
+    while $bitset-iter.previous {
+      $count++;
+    }
+    is $count, 4, 'N-BitsetIter  4 successful calls to .previous()';
 
 
 #`{{
@@ -198,16 +207,6 @@ note $bitset-iter.get-value;
     #TM:0:unref()
     ok .unref(), '.unref()';
 
-}}
-  }
-};
-
-#-------------------------------------------------------------------------------
-subtest 'Function tests', {
-  with $bitset {
-
-
-#`{{
 }}
   }
 };
