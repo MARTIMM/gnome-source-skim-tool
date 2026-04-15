@@ -421,7 +421,7 @@ method !get-data (
   );
 
 # temporary field change additions
-$ed-name<checks><note> = '';
+$ed-name<checks><note> = '' unless $ed-name<checks><note>:exists;
 #note "$?LINE $ed-name<checks>.raku()";
 
   # Field 'nbr-tests' are set here.
