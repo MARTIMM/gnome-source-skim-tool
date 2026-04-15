@@ -7,6 +7,7 @@ use v6.d;
 use NativeCall;
 
 use Gnome::Gtk4::T-types:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -39,39 +40,46 @@ submethod BUILD ( ) {
 #-------------------------------------------------------------------------------
 #--[Record Structure]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
-class N-BitsetIter:auth<github:MARTIMM>:api<2> is repr('CPointer') is export {}
+#class N-BitsetIter:auth<github:MARTIMM>:api<2> is repr('CPointer') is export {}
 
-#`{{
+#`{{ From include file; it shows an array of 10 gpointers.
+struct _GtkBitsetIter
+{
+  /*< private >*/
+  gpointer private_data[10];
+};
+}}
+
 class N-BitsetIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
 
-  has gchar-pptr $.private-data;
+  has CArray[gpointer] $!private-data;
 
-  submethod BUILD (
-    gchar-pptr :$!private-data, 
-  ) {
+  submethod BUILD ( ) {
+    $!private-data := CArray[gpointer].new(|(gpointer xx 10));
   }
 
-  method COERCE ( $no --> N-BitsetIter ) {
+  multi method COERCE ( $no --> N-BitsetIter ) {
     note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
     nativecast( N-BitsetIter, $no)
   }
 }
-}}
+
 
 #-------------------------------------------------------------------------------
 #--[Standalone functions]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 my Hash $methods = %(
-  
+
   #--[Functions]----------------------------------------------------------------
   bitset-iter-init-at => %( :type(Function), :is-symbol<gtk_bitset_iter_init_at>, :returns(gboolean), :parameters([ N-Object, N-Object, guint, gint-ptr]), ),
-  bitset-iter-init-first => %( :type(Function), :is-symbol<gtk_bitset_iter_init_first>, :returns(gboolean), :parameters([ CArray[N-Object], N-Object, gint-ptr]), ),
+  bitset-iter-init-first => %( :type(Function), :is-symbol<gtk_bitset_iter_init_first>, :returns(gboolean), :parameters([ N-Object, N-Object, gint-ptr]), ),
   bitset-iter-init-last => %( :type(Function), :is-symbol<gtk_bitset_iter_init_last>, :returns(gboolean), :parameters([ N-Object, N-Object, gint-ptr]), ),
 );
 
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
 method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
+#note "$?LINE $name, $methods{$name}.gist()";
   if $methods{$name}:exists {
     $_fallback-v2-ok = True;
     return $!routine-caller.call-native-sub(
