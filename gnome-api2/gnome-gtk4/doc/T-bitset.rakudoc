@@ -26,14 +26,7 @@ Initialization of a type class is simple and only needed when the standalone fun
 
 =begin pod
 =head1 Record N-BitsetIter
-
-  class N-BitsetIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-    has gchar-pptr $.private-data;
-  }
-
-=item private-data; 
-
+  class N-BitsetIter is repr('CPointer') is export;
 =end pod
 
 #-------------------------------------------------------------------------------
