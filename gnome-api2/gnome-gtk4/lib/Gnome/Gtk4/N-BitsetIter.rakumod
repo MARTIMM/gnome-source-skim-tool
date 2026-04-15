@@ -7,11 +7,9 @@ use v6.d;
 
 use NativeCall;
 
-
-
-
 use Gnome::Gtk4::T-bitset:api<2>;
 use Gnome::Gtk4::T-types:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -40,7 +38,6 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
-
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -67,6 +64,11 @@ method native-object-unref ( $n-native-object ) {
 #-------------------------------------------------------------------------------
 #--[Native Routine Definitions]-------------------------------------------------
 #-------------------------------------------------------------------------------
+# Need to define the method here because it is defined in
+# the TopLevelClassSupport class
+method is-valid ( --> Bool ) {
+  self._fallback-v2( 'is-valid', my Bool $_fallback-v2-ok);
+}
 
 my Hash $methods = %(
 
@@ -87,6 +89,7 @@ my Hash $methods = %(
 method _fallback-v2 (
   Str $name, Bool $_fallback-v2-ok is rw, *@arguments, *%options
 ) {
+#note "$?LINE $name, $methods{$name}.gist()";
   if $methods{$name}:exists {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
@@ -108,6 +111,7 @@ method _fallback-v2 (
 
     else {
       my $native-object = self.get-native-object-no-reffing;
+#note "$?LINE $name, $native-object.gist()";
       return $!routine-caller.call-native-sub(
         $name, @arguments, $methods, $native-object
       );
