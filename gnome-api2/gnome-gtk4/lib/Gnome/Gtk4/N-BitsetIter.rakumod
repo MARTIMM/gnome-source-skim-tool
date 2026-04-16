@@ -40,7 +40,12 @@ submethod BUILD ( *%options ) {
 
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
-
+#`{{
+  unless %options<native-object> {
+    my N-BitsetIter $bi .= new;
+    self._set-native-object(nativecast( N-Object, $bi));
+  }
+}}
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::BitsetIter' {
     # If already initialized using ':$native-object', ':$build-id', or
