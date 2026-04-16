@@ -115,13 +115,16 @@ subtest 'Method tests', {
 }
 
 #-------------------------------------------------------------------------------
-subtest 'Function tests', {
+subtest 'Function tests using T-bitset', {
   with $bitset {
 
     #TM:1:bitset-iter-init-first()
     $t-bitset .= new;
     $bitset .= new-range( 5, 3);
 
+    # Init structure, then use it in the call to .bitset-iter-init-first().
+    # After the call $bi is filled with data. Then it can be stored in the
+    # Raku object $bitset-iter, a Gnome::Gtk4::BitsetIter to get a value.
     my N-BitsetIter $bi .= new;
     ok $t-bitset.bitset-iter-init-first( $bi, $bitset, Nil),
        'T-bitset  .bitset-iter-init-first()';
@@ -145,18 +148,98 @@ subtest 'Function tests', {
 
     #TM:1:bitset-iter-init-last()
     $bitset .= new-range( 7, 5);
+    $bi .= new;
+    ok $t-bitset.bitset-iter-init-last( $bi, $bitset, Nil),
+       'T-bitset  .bitset-iter-init-last()';
+    $bitset-iter .= new(:native-object($bi));
+
+    #TM:1:previous()
+    my $count = 0;
+    while $bitset-iter.previous {
+      $count++;
+      diag $bitset-iter.get-value;
+    }
+    is $count, 4, 'N-BitsetIter  4 successful calls to .previous()';
+
+
+    #TM:1:bitset-iter-init-at()
+    $bitset .= new-range( 7, 5);
+    $bitset.add(50);
+    $bi .= new;
+    ok $t-bitset.bitset-iter-init-at( $bi, $bitset, 9, Nil),
+       'T-bitset  .bitset-iter-init-at()';
+    $bitset-iter .= new(:native-object($bi));
+
+    $count = 0;
+    while $bitset-iter.next {
+      $count++;
+      diag $bitset-iter.get-value;
+    }
+    is $count, 3, 'N-BitsetIter  3 successful calls to .next()';
+  }
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests using N-BitsetIter', {
+  $bitset-iter .= new;
+  with $bitset-iter {
+
+    #TM:1:bitset-iter-init-first()
+    #$t-bitset .= new;
+    $bitset .= new-range( 5, 3);
+
+    # Init structure
+    my N-BitsetIter $bi .= new;
+    ok .init-first( $bi, $bitset, Nil), 'T-bitset  .init-first()';
+  
+    #TM:1:get-value()
+    $bitset-iter .= new(:native-object($bi));
+    is .get-value, 5, 'N-BitsetIter  .get-value(): 5';
+    ok .is-valid, 'N-BitsetIter  .is-valid(): 5';
+
+    #TM:1:next()
+    ok $bitset-iter.next, 'N-BitsetIter  .next()';
+    is $bitset-iter.get-value, 6, 'N-BitsetIter  .get-value(): 6';
+
+    ok $bitset-iter.next, 'N-BitsetIter  .next()';
+    is $bitset-iter.get-value, 7, 'N-BitsetIter  .get-value(): 7';
+
+    #TM:1:is-valid()
+    nok $bitset-iter.next, 'N-BitsetIter  .next()';
+    nok $bitset-iter.is-valid, 'N-BitsetIter  .is-valid(): passed the end';
+#    is $bitset-iter.get-value, 0, '.get-value(): 0 after passing the end';
+    #TM:1:bitset-iter-init-last()
+    $bitset .= new-range( 7, 5);
     my N-BitsetIter $bi .= new;
     ok $t-bitset.bitset-iter-init-last( $bi, $bitset, Nil),
        'T-bitset  .bitset-iter-init-last()';
     $bitset-iter .= new(:native-object($bi));
 
-    #TM:0:previous()
+#`{{
+    #TM:1:previous()
     my $count = 0;
     while $bitset-iter.previous {
       $count++;
+      diag $bitset-iter.get-value;
     }
     is $count, 4, 'N-BitsetIter  4 successful calls to .previous()';
 
+
+    #TM:1:bitset-iter-init-at()
+    $bitset .= new-range( 7, 5);
+    $bitset.add(50);
+    my N-BitsetIter $bi .= new;
+    ok $t-bitset.bitset-iter-init-at( $bi, $bitset, 9, Nil),
+       'T-bitset  .bitset-iter-init-at()';
+    $bitset-iter .= new(:native-object($bi));
+
+    my $count = 0;
+    while $bitset-iter.next {
+      $count++;
+      diag $bitset-iter.get-value;
+    }
+    is $count, 3, 'N-BitsetIter  3 successful calls to .next()';
+  }}
 
 #`{{
     #TM:0:add-range-closed()
