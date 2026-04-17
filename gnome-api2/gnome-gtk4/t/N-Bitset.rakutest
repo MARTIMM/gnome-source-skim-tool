@@ -116,6 +116,7 @@ subtest 'Method tests', {
 
 #-------------------------------------------------------------------------------
 subtest 'Function tests using T-bitset', {
+  $bitset-iter.= new;
   with $bitset-iter {
 
     #TM:1:bitset-iter-init-first()
@@ -183,6 +184,7 @@ subtest 'Function tests using T-bitset', {
   }
 }
 
+#`{{
 #-------------------------------------------------------------------------------
 subtest 'Function tests using N-BitsetIter', {
   $bitset-iter .= new;
@@ -221,7 +223,6 @@ subtest 'Function tests using N-BitsetIter', {
     ok $bitset-iter.init-last( $bi, $bitset, gint-ptr),
        'T-bitset  .bitset-iter-init-last()';
     $bitset-iter .= new(:native-object($bi));
-note $?LINE;
 
     #TM:1:previous()
     my $count = 0;
@@ -230,7 +231,6 @@ note $?LINE;
       diag $bitset-iter.get-value;
     }
     is $count, 4, 'N-BitsetIter  4 successful calls to .previous()';
-note $?LINE;
 
     #TM:1:bitset-iter-init-at()
     $bitset.clear-object;
@@ -247,8 +247,6 @@ note $?LINE;
       diag $bitset-iter.get-value;
     }
     is $count, 3, 'N-BitsetIter  3 successful calls to .next()';
-note $?LINE;
-
 
 
 #`{{
@@ -303,6 +301,7 @@ note $?LINE;
 }}
   }
 };
+}}
 
 #-------------------------------------------------------------------------------
 done-testing;
