@@ -116,72 +116,69 @@ subtest 'Method tests', {
 
 #-------------------------------------------------------------------------------
 subtest 'Function tests using T-bitset', {
-  with $bitset {
+  with $bitset-iter {
 
     #TM:1:bitset-iter-init-first()
     $t-bitset .= new;
+    $bitset.clear-object;
     $bitset .= new-range( 5, 3);
 
     # Init structure, then use it in the call to .bitset-iter-init-first().
     # After the call $bi is filled with data. Then it can be stored in the
     # Raku object $bitset-iter, a Gnome::Gtk4::BitsetIter to get a value.
     my N-BitsetIter $bi .= new;
-    ok $t-bitset.bitset-iter-init-first( $bi, $bitset, gpointer),
+    ok $t-bitset.bitset-iter-init-first( $bi, $bitset, gint-ptr),
        'T-bitset  .bitset-iter-init-first()';
 
     #TM:1:get-value()
     $bitset-iter .= new(:native-object($bi));
-    is $bitset-iter.get-value, 5, 'N-BitsetIter  .get-value(): 5';
-    ok $bitset-iter.is-valid, 'N-BitsetIter  .is-valid()';
+    is .get-value, 5, 'N-BitsetIter  .get-value(): 5';
+    ok .is-valid, 'N-BitsetIter  .is-valid()';
 
     #TM:1:next()
-    ok $bitset-iter.next(gpointer), 'N-BitsetIter  .next()';
-    is $bitset-iter.get-value, 6, 'N-BitsetIter  .get-value(): 6';
+    ok .next(gint-ptr), 'N-BitsetIter  .next()';
+    is .get-value, 6, 'N-BitsetIter  .get-value(): 6';
 
-    ok $bitset-iter.next(gpointer), 'N-BitsetIter  .next()';
-    is $bitset-iter.get-value, 7, 'N-BitsetIter  .get-value(): 7';
+    ok .next(gint-ptr), 'N-BitsetIter  .next()';
+    is .get-value, 7, 'N-BitsetIter  .get-value(): 7';
 
     #TM:1:is-valid()
-#    nok $bitset-iter.next(gpointer), 'N-BitsetIter  .next()';
-    nok $bitset-iter.is-valid, 'N-BitsetIter  .is-valid(): passed the end';
-#    is $bitset-iter.get-value, 0, '.get-value(): 0 after passing the end';
+    nok .next(gint-ptr), 'N-BitsetIter  .next()';
+    nok .is-valid, 'N-BitsetIter  .is-valid(): passed the end';
+#    is .get-value, 0, '.get-value(): 0 after passing the end';
 
     #TM:1:bitset-iter-init-last()
-note $?LINE;
+    $bitset.clear-object;
     $bitset .= new-range( 7, 5);
-note $?LINE;
     $bi .= new;
-note $?LINE;
-    ok $t-bitset.bitset-iter-init-last( $bi, $bitset, Nil),
+    ok $t-bitset.bitset-iter-init-last( $bi, $bitset, gint-ptr),
        'T-bitset  .bitset-iter-init-last()';
     $bitset-iter .= new(:native-object($bi));
 
     #TM:1:previous()
     my $count = 0;
-    while $bitset-iter.previous(Nil) {
+    while .previous(gint-ptr) {
       $count++;
-      diag $bitset-iter.get-value;
+      diag .get-value;
     }
     is $count, 4, 'N-BitsetIter  4 successful calls to .previous()';
 
 
     #TM:1:bitset-iter-init-at()
+    $bitset.clear-object;
     $bitset .= new-range( 7, 5);
     $bitset.add(50);
     $bi .= new;
-    ok $t-bitset.bitset-iter-init-at( $bi, $bitset, 9, Nil),
+    ok $t-bitset.bitset-iter-init-at( $bi, $bitset, 9, gint-ptr),
        'T-bitset  .bitset-iter-init-at()';
     $bitset-iter .= new(:native-object($bi));
 
-note $?LINE;
     $count = 0;
-    while $bitset-iter.next {
-note $?LINE;
+    while .next {
       $count++;
-      diag $bitset-iter.get-value;
-note $?LINE;
+      diag .get-value;
     }
-note $?LINE;
+
     is $count, 3, 'N-BitsetIter  3 successful calls to .next()';
   }
 }
@@ -191,61 +188,66 @@ subtest 'Function tests using N-BitsetIter', {
   $bitset-iter .= new;
   with $bitset-iter {
 
-
     #TM:1:bitset-iter-init-first()
     #$t-bitset .= new;
+    $bitset.clear-object;
     $bitset .= new-range( 5, 3);
 
     # Init structure
     my N-BitsetIter $bi .= new;
-    ok .init-first( $bi, $bitset, Nil), 'T-bitset  .init-first()';
+    ok .init-first( $bi, $bitset, gint-ptr), 'T-bitset  .init-first()';
     #TM:1:get-value()
     $bitset-iter .= new(:native-object($bi));
     is .get-value, 5, 'N-BitsetIter  .get-value(): 5';
     ok .is-valid, 'N-BitsetIter  .is-valid(): 5';
 
     #TM:1:next()
-    ok $bitset-iter.next(Nil), 'N-BitsetIter  .next()';
+    ok $bitset-iter.next(gint-ptr), 'N-BitsetIter  .next()';
     is $bitset-iter.get-value, 6, 'N-BitsetIter  .get-value(): 6';
 
-    ok $bitset-iter.next(Nil), 'N-BitsetIter  .next()';
+    ok $bitset-iter.next(gint-ptr), 'N-BitsetIter  .next()';
     is $bitset-iter.get-value, 7, 'N-BitsetIter  .get-value(): 7';
 
     #TM:1:is-valid()
-#    nok $bitset-iter.next(Nil), 'N-BitsetIter  .next()';
+    nok $bitset-iter.next(gint-ptr), 'N-BitsetIter  .next()';
     nok $bitset-iter.is-valid, 'N-BitsetIter  .is-valid(): passed the end';
 #    is $bitset-iter.get-value, 0, '.get-value(): 0 after passing the end';
     #TM:1:bitset-iter-init-last()
 
     $bitset-iter .= new;
+    $bitset.clear-object;
     $bitset .= new-range( 20, 5);
     $bi .= new;
-    ok $bitset-iter.init-last( $bi, $bitset, Nil),
+    ok $bitset-iter.init-last( $bi, $bitset, gint-ptr),
        'T-bitset  .bitset-iter-init-last()';
     $bitset-iter .= new(:native-object($bi));
+note $?LINE;
 
     #TM:1:previous()
     my $count = 0;
-    while $bitset-iter.previous(Nil) {
+    while $bitset-iter.previous(gint-ptr) {
       $count++;
       diag $bitset-iter.get-value;
     }
     is $count, 4, 'N-BitsetIter  4 successful calls to .previous()';
+note $?LINE;
 
     #TM:1:bitset-iter-init-at()
+    $bitset.clear-object;
     $bitset .= new-range( 100, 5);
     $bitset.add(150);
     $bi .= new;
     $bitset-iter .= new;
-    ok $bitset-iter.init-at( $bi, $bitset, 102, Nil),
+    ok $bitset-iter.init-at( $bi, $bitset, 102, gint-ptr),
        'T-bitset  .bitset-iter-init-at()';
     $bitset-iter .= new(:native-object($bi));
     $count = 0;
-    while $bitset-iter.next(Nil) {
+    while $bitset-iter.next(gint-ptr) {
       $count++;
       diag $bitset-iter.get-value;
     }
     is $count, 3, 'N-BitsetIter  3 successful calls to .next()';
+note $?LINE;
 
 
 
