@@ -7,46 +7,17 @@ Glib:
   - N-Variant               # modified sub new-variant-with-variant
   - T-error                 # bug in g_clear_error()
   - T-quark                 # fix method names
-  d:
-  - N-List                  # modified record class names
-  - N-Error                 # modified record class names
-  - N-SList                 # modified record class names
-  - N-Variant               # modified sub new-variant-with-variant
-  - T-array
-  - T-List                  # modified record class names
-  t:
-  - N-Error
-  - N-List
-  - N-SList
-  - N-Variant
-  - T-error
-  - T-List
 
 GObject:
   c:
   - N-Value                 # modified
   - Object                  # modify Build submethod
   - T-signal                # function names
-  d:
-  - InitiallyUnowned
-  - Object
-  t:
-  - Object
 
 Gio:
   c:
   - ListStore               # call to interface fallback generated wrong
   - SimpleAsyncResult
-  d:
-  - R-ListModel
-  - SimpleAction            # changed signal info
-  t:
-  - Application
-  - File
-  - Permission
-  - R-AsyncResult
-  - R-ListModel
-  - T-ioenums
 
 Gtk4:
   c:
@@ -64,61 +35,14 @@ Gtk4:
   - T-textiter              # Need no BUILD and TWEAK
   - T-bitset                # changed BUILD
 
-  d:
-  - T-textiter              # Need no info about structure
-
-  d:
-#  - ListBase                # modified
-#  - PrintOperation          # missing > line 631
-
-  t:
-  - AboutDialog
-  - Application
-  - ApplicationWindow
-  - AppChooserButton
-  - ActionBar
-  - AspectFrame
-  - Button
-  - Calendar
-  - CheckButton
-  - CustomLayout
-  - ConstraintLayout
-  - Expression
-  - Dialog
-  - FixedLayoutChild
-  - Grid
-  - Label
-  - MessageDialog
-  - R-AppChooser
-  - R-Accessible
-  - R-CellLayout
-  - R-ColorChooser
-  - R-ConstraintTarget
-  - R-FileChooser
-  - R-FontChooser
-  - R-Orientable
-  - R-StyleProvider
-  - R-TreeModel
-  - StringList
-  - T-expression
-  - TreeView
-  - Window
-
 Pango:
   c:
   - TabArray
-  t:
-  - Context
 
 Gdk4:
   c:
   - N-RGBA                      # functions named wrong
   - Texture
-  - Surface                     # Cairo::cairo_region_t not supported
-  t:
-  - Texture
-  - Surface                     # Cairo::cairo_region_t not supported
-  d:
   - Surface                     # Cairo::cairo_region_t not supported
 
 GdkPixbuf:
@@ -128,8 +52,6 @@ GdkPixbuf:
 Gsk4:
   c:
   - N-Transform                 # 
-  t:
-  - N-Transform
 
 Graphene:
   c:
@@ -148,21 +70,6 @@ Graphene:
   - T-point                     # default values on structure init
   - T-point3d                   # default values on structure init
   - T-rect
-
-  t:
-  - N-Point
-  - N-Point3D
-  - N-Quad
-  - N-Rect
-  - N-Size
-  - N-Vec2
-  - N-Vec3
-  - N-Vec4
-  - T-config
-  - T-point
-  - T-point3d
-  - T-rect
-  - T-vec
 
 SkimToolData:
   Gio:
