@@ -223,7 +223,7 @@ sub set-module-info ( Hash $obj-data, Str $md-file is copy --> Str ) {
 
     Checklist for module $obj-data<class-name> to show the progress of deveopment or wheher it is deprecated. Most of the modules are generated but documentation needs to be checked for typos ad mistakes. Also examples may be added. Not much will be done for deprecated modules. You might be interested in the [GnomeTools distribution](/content-docs/GnomeTools/index.html) where some of the deprecated modules are rewritten.
 
-    Furthermore there is a list of the current versions of [Gnome libraries]() installed on my machine versus the Raku distribution versions.
+    Furthermore there is a list of the current versions of [Gnome libraries and Raku distibutions](/content-docs/api2/check-lists/lib-versions) installed on my machine versus the Raku distribution versions.
 
     ## $obj-data<class-name>
 
