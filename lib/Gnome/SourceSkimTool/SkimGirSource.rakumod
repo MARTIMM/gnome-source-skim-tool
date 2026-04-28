@@ -311,7 +311,7 @@ method !devise-xml-namespace ( --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method make-yaml-from-subgirs ( Str $module = '' ) {
+method make-yaml-from-subgirs ( Str $module ) {
 
   for dir($*work-data<gir-module-path>).sort -> $xml-file {
     next if $xml-file.Str ~~ m/^ repo '-' /;
@@ -353,7 +353,7 @@ method make-yaml-from-subgirs ( Str $module = '' ) {
 
 #-------------------------------------------------------------------------------
 method !write-yaml (
-  Str() $xml-file, Str $xml, Str $element-name, Str $module = ''
+  Str() $xml-file, Str $xml, Str $element-name, Str $module
 ) {
 
   # Get previously saved yaml data of element
@@ -373,8 +373,7 @@ method !write-yaml (
 
 #-------------------------------------------------------------------------------
 method !get-data (
-  XML::XPath $xp, Hash $element-data,
-  Str $element-name, Str $module = ''
+  XML::XPath $xp, Hash $element-data, Str $element-name, Str $module
   --> Bool
 ) {
   # Setup basic info
@@ -483,33 +482,36 @@ $ed-name<checks><note> = '' unless $ed-name<checks><note>:exists;
 }
 
 #-------------------------------------------------------------------------------
-method !get-nbr-tests ( Hash $ed-name, Str $module = '' --> UInt ) {
+method !get-nbr-tests ( Hash $ed-name, Str $module --> UInt ) {
   my UInt $tests = 0;
+  my $basename = ?$module ?? $module !! $ed-name<type-name>;
 
   my Str $test-file = $*work-data<result-tests>;
   if ?$ed-name<type-letter> {
-    $test-file ~= [~] '/', $ed-name<type-letter>, '-', $module, '.rakutest';
+    $test-file ~= [~] '/', $ed-name<type-letter>, '-', $basename, '.rakutest';
   }
 
   else {
-    $test-file ~= "/$module.rakutest";
+    $test-file ~= "/$basename.rakutest";
   }
 
+  if $test-file.IO.r {
 #note "$?LINE $*work-data.gist()\n$test-file";
-  my Str $t = $test-file.IO.slurp;
-  $t ~~ s:g/ '#' \` '{{' .*? '}}' //;
-  $t ~~ s:g/'#' .*? $$//;
-  $t ~~ s/ \= finish .* //;
+    my Str $t = $test-file.IO.slurp;
+    $t ~~ s:g/ '#' \` '{{' .*? '}}' //;
+    $t ~~ s:g/'#' .*? $$//;
+    $t ~~ s/ \= finish .* //;
 
-  for $t.lines -> $line {
-    $tests++ if $line ~~ m/^ \s* [
-          ok | nok | is | isnt |
-          is\-approx| is\-approx\-calculate | is\-deeply |
-          cmp\-ok | isa\-ok | can\-ok | does\-ok |
-          like | unlike | use\-ok | dies\-ok | lives\-ok |
-          eval\-dies\-ok | eval\-lives\-ok | exits\-ok |
-          throws\-like | fails\-like
-        ] /;
+    for $t.lines -> $line {
+      $tests++ if $line ~~ m/^ \s* [
+            ok | nok | is | isnt |
+            is\-approx| is\-approx\-calculate | is\-deeply |
+            cmp\-ok | isa\-ok | can\-ok | does\-ok |
+            like | unlike | use\-ok | dies\-ok | lives\-ok |
+            eval\-dies\-ok | eval\-lives\-ok | exits\-ok |
+            throws\-like | fails\-like
+          ] /;
+    }
   }
 
   $tests
