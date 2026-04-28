@@ -10,6 +10,8 @@ use Test;
 use NativeCall;
 
 use Gnome::Gtk4::StringList:api<2>;
+use Gnome::Gtk4::StringObject:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -31,13 +33,18 @@ subtest 'ISA test', {
     my gchar-pptr $strings;
 
     #TC:1:new-stringlist()
-    $strings = CArray[Str].new('a string', '2nd string');
-    $stringlist .= new-stringlist($strings);
-    ok .is-valid, '.new-stringlist($strings)';
+    #$strings .= CArray[Str];
+    $stringlist .= new-stringlist(CArray[Str].new);
+    ok .is-valid, '.new-stringlist(CArray[Str].new)';
+
+    #$strings = ;
+    $stringlist .= new-stringlist(CArray[Str].new( 'a string', '2nd string'));
+    ok .is-valid, '.new-stringlist(CArray[Str].new( … $strings … )';
+
 
     #TM:1:get-string()
-    is .get-string(0), 'a string', '.get-string(0)';
-    is .get-string(1), '2nd string', '.get-string(1)';
+    is .get-string(0), 'a string', '.get-string(0): a string';
+    is .get-string(1), '2nd string', '.get-string(1): 2nd string';
   }
 };
 
@@ -61,21 +68,45 @@ subtest 'Method tests', {
     #TM:1:append()
     .append('abc');
     is .get-string(2), 'abc', '.append()';
-    is .get-n-items, 3, 'GIO: g_list_model_get_n_items()';
 
-#`{{
-    #TM:0:remove()
-    ok .remove( $position), '.remove()';
+    #TM:1:remove()
+    lives-ok {.remove(2)}, '.remove()';
 
     #TM:0:splice()
-    ok .splice( $position, $n-removals, $additions), '.splice()';
+    lives-ok {.splice( 2, 0, CArray[Str].new( 'string4', 'str5'))}, '.splice()';
 
+#`{{
     #TM:0:take()
     ok .take( $string), '.take()';
 
 }}
   }
 };
+
+#-------------------------------------------------------------------------------
+subtest 'Tests for R-ListModel and ListObject classes', {
+  with $stringlist {
+
+    #TM:1:get-n-items()
+    is .get-n-items, 4, 'Gnome::Gio::ListModel .get-n-items()';
+
+    #TM:1:get-item()
+    my Gnome::Gtk4::StringObject() $so;
+    lives-ok {$so = nativecast( N-Object, .get-item(1))},
+      'Gnome::Gio::ListModel .get-item()';
+    is $so.get-string(1), '2nd string',
+      'Gnome::Gtk4::StringObject .get-string()';
+ 
+    #TM:1:get-object()
+#    my Gnome::Gtk4::StringObject() $so;
+    lives-ok {$so = .get-object(1)},
+      'Gnome::Gio::ListModel .get-object()';
+    is $so.get-string(1), '2nd string',
+      'Gnome::Gtk4::StringObject .get-string()';
+
+    nok ?.get-object(10), '10th item not available';
+ }
+}
 
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {

@@ -27,7 +27,8 @@ supports the regular translation attributes “translatable”,
 
 Here is a UI definition fragment specifying a B<Gnome::Gtk4::StringList>
 
-=begin comment
+=begin code
+
 <object class="GtkStringList">
   <items>
     <item translatable="yes">Factory</item>
@@ -36,15 +37,22 @@ Here is a UI definition fragment specifying a B<Gnome::Gtk4::StringList>
   </items>
 </object>
 
-=end comment
+=end code
 
 =head2 Uml Diagram
+
 =for image :src<asset_files/images/plantuml/StringList.png> :width<70%> :class<inline>
 
 =begin comment
 
 =head2 Example
+
 # Example use of module Gnome::Gtk4::StringList
+
+=begin code
+
+
+=end code
 
 =end comment
 
@@ -100,7 +108,7 @@ method new-stringlist ( Array[Str] $strings --> Gnome::Gtk4::StringList )
 =begin pod
 =head2 append
 
-Appends C<$string> to C<$self>.
+Appends C<$string> to the string list.
 
 The C<$string> will be copied. See
 L<.take()|#take> for a way to avoid that.
