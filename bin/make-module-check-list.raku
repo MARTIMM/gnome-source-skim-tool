@@ -1,5 +1,13 @@
 #!/usr/bin/env -S rakudo -Ilib
 
+=begin comment
+
+Create a markdown file in the ./doc/checklists/<package> directory using the yaml source in ./data/SkimToolData/<package>.
+
+Before use, run skim-gir.raku to update the yaml file with test results and some other handwritten additions. Then run this program to generate the markdown file. Copy the markdown file in the github pages environment in MARTIMM.github.io/content-docs/api2/check-lists
+
+=end comment
+
 use v6.d;
 
 use YAMLish;
@@ -221,7 +229,7 @@ sub set-module-info ( Hash $obj-data, Str $md-file is copy --> Str ) {
   my Str $doc = Q:qq:to/EOINFO/;
     # Module Checklist
 
-    Checklist for module $obj-data<class-name> to show the progress of deveopment or wheher it is deprecated. Most of the modules are generated but documentation needs to be checked for typos ad mistakes. Also examples may be added. Not much will be done for deprecated modules. You might be interested in the [GnomeTools distribution](/content-docs/GnomeTools/index.html) where some of the deprecated modules are rewritten.
+    Checklist for module $obj-data<class-name> to show the progress of deveopment or whether it is deprecated. Most of the modules are generated but documentation needs to be checked for typos and mistakes. Also examples may be added. Not much will be done for deprecated modules. You might be interested in the [GnomeTools distribution](/content-docs/GnomeTools/index.html) where some of the deprecated modules are rewritten.
 
     Furthermore there is a list of the current versions of [Gnome libraries and Raku distibutions](/content-docs/api2/check-lists/lib-versions) installed on my machine versus the Raku distribution versions.
 
@@ -247,6 +255,8 @@ sub set-module-info ( Hash $obj-data, Str $md-file is copy --> Str ) {
             !! md-image('checklist-implement')
           ) ~ "|$md-file.rakutest|$checks<nbr-tests> tests|\n";
 
+  $doc ~= "\n<br/><strong>Note:</strong> $checks<note>\n" if ?$checks<note>;
+
   $doc
 }
 
@@ -264,13 +274,9 @@ sub set-routine-info ( Hash $obj-data, Str $obj-name --> Str ) {
     }
   }
 
-  $doc ~= "\n1. Status, generated, missing values, deprecated, etc\n";
-  $doc ~= "2. Version of introduction, otherwise it is the release version\n";
-  $doc ~= "3. Version of deprecation and is removed in next release\n";
-
   if $r<methods>:exists {
     $doc ~= "\n### Methods\n\n";
-    $doc ~= '|Routine|State|Version|Deprecated|' ~ "\n";
+    $doc ~= '|Routine|State¹|Version²|Deprecated|' ~ "\n";
     $doc ~= '|-------|-|----------|-------|' ~ "\n";
     for $r<methods>.keys.sort -> $rname {
       $doc ~= make-table-entry( $rname, $r<methods>{$rname});
@@ -279,12 +285,16 @@ sub set-routine-info ( Hash $obj-data, Str $obj-name --> Str ) {
 
   if $r<functions>:exists {
     $doc ~= "\n### Functions\n\n";
-    $doc ~= '|Routine|State|Version|Deprecated|' ~ "\n";
+    $doc ~= '|Routine|State¹|Version²|Deprecated³|' ~ "\n";
     $doc ~= '|-------|-|----------|-------|' ~ "\n";
     for $r<functions>.keys.sort -> $rname {
       $doc ~= make-table-entry( $rname, $r<functions>{$rname});
     }
   }
+
+  $doc ~= "\n1. Status, generated, missing values, deprecated, etc\n";
+  $doc ~= "2. Version of introduction, otherwise it is the release version\n";
+  $doc ~= "3. Version of deprecation and is removed in next release\n";
 
   $doc
 }
