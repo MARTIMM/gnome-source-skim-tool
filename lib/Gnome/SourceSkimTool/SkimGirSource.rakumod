@@ -466,15 +466,8 @@ $ed-name<checks><note> = '' unless $ed-name<checks><note>:exists;
 
       # Add field for generation info depending on 
       # missing parameters or version > first release (when Gtk, Gsk, or Gdk)
-      if $*gnome-package.Str ~~ any(<Gtk Gsk Gdk>) {
-        $routines{$rtype}{$rname}<generated> //=
-          ?$rdata<version> ?? 0 !! $not-missing +& $modules-generated +& 1;
-      }
-
-      else {
-        $routines{$rtype}{$rname}<generated> //=
-          $not-missing +& $modules-generated +& 1;
-      }
+      $routines{$rtype}{$rname}<generated> //=
+        ?$rdata<version> ?? 0 !! $not-missing +& $modules-generated +& 1;
     }
   }
 
