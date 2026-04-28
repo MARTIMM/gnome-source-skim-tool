@@ -1,0 +1,383 @@
+---
+"GDesktopAppInfo": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::DesktopAppInfo"
+  "gir-type": "class"
+  "gnome-name": "GDesktopAppInfo"
+  "implement-roles": 
+    - "Gnome::Gio::R-AppInfo"
+  "inheritable": false
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles": 
+    - "Gnome::Gio::R-AppInfo"
+  "routines": 
+    "constructors": 
+      "new-from-filename": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "filename"
+            "raku-type": "Str"
+        "return-c-type": "GDesktopAppInfo*"
+        "return-raku-type": "N-Object"
+      "new-from-keyfile": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GKeyFile*"
+            "name": "key-file"
+            "raku-type": "N-Object"
+        "return-c-type": "GDesktopAppInfo*"
+        "return-raku-type": "N-Object"
+        "version": "2.18"
+      "new-gdesktopappinfo": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "desktop-id"
+            "raku-type": "Str"
+        "return-c-type": "GDesktopAppInfo*"
+        "return-raku-type": "N-Object"
+    "functions": 
+      "get-implementations": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const gchar*"
+            "name": "interface"
+            "raku-type": "Str"
+        "return-c-type": "GList*"
+        "return-raku-type": "N-Object"
+        "version": "2.42"
+      "search": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const gchar*"
+            "name": "search-string"
+            "raku-type": "Str"
+        "return-c-type": "gchar***"
+        "return-raku-type": "gchar-pptr"
+      "set-desktop-env": 
+        "deprecated-version": "2.42"
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "desktop-env"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+    "methods": 
+      "get-action-name": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDesktopAppInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "action-name"
+            "raku-type": "Str"
+        "return-c-type": "gchar*"
+        "return-raku-type": "Str"
+        "version": "2.38"
+      "get-boolean": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDesktopAppInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "key"
+            "raku-type": "Str"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.36"
+      "get-categories": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDesktopAppInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-filename": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDesktopAppInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+        "version": "2.24"
+      "get-generic-name": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDesktopAppInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-is-hidden": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDesktopAppInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-keywords": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDesktopAppInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "const char* const*"
+        "return-raku-type": "gchar-pptr"
+        "version": "2.32"
+      "get-locale-string": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDesktopAppInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "key"
+            "raku-type": "Str"
+        "return-c-type": "char*"
+        "return-raku-type": "Str"
+        "version": "2.56"
+      "get-nodisplay": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDesktopAppInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.30"
+      "get-show-in": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDesktopAppInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "desktop-env"
+            "raku-type": "Str"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.30"
+      "get-startup-wm-class": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDesktopAppInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+        "version": "2.34"
+      "get-string": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDesktopAppInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "key"
+            "raku-type": "Str"
+        "return-c-type": "char*"
+        "return-raku-type": "Str"
+        "version": "2.36"
+      "get-string-list": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDesktopAppInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "key"
+            "raku-type": "Str"
+          - 
+            "c-type": "gsize*"
+            "name": "length"
+            "raku-type": "CArray[gsize]"
+        "return-c-type": "gchar**"
+        "return-raku-type": "gchar-pptr"
+        "version": "2.60"
+      "has-key": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDesktopAppInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "key"
+            "raku-type": "Str"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.36"
+      "launch-action": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDesktopAppInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "action-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "GAppLaunchContext*"
+            "name": "launch-context"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.38"
+      "launch-uris-as-manager": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GDesktopAppInfo*"
+            "name": "appinfo"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GList*"
+            "name": "uris"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAppLaunchContext*"
+            "name": "launch-context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GSpawnFlags"
+            "name": "spawn-flags"
+            "raku-type": "GFlag:GSpawnFlags "
+          - 
+            "c-type": "GSpawnChildSetupFunc"
+            "name": "user-setup"
+            "raku-type": ":( gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-setup-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GDesktopAppLaunchCallback"
+            "name": "pid-callback"
+            "raku-type": ":( N-Object $appinfo,  $pid, gpointer $user-data )"
+          - 
+            "c-type": "gpointer"
+            "name": "pid-callback-data"
+            "raku-type": "gpointer"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "launch-uris-as-manager-with-fds": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GDesktopAppInfo*"
+            "name": "appinfo"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GList*"
+            "name": "uris"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAppLaunchContext*"
+            "name": "launch-context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GSpawnFlags"
+            "name": "spawn-flags"
+            "raku-type": "GFlag:GSpawnFlags "
+          - 
+            "c-type": "GSpawnChildSetupFunc"
+            "name": "user-setup"
+            "raku-type": ":( gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-setup-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GDesktopAppLaunchCallback"
+            "name": "pid-callback"
+            "raku-type": ":( N-Object $appinfo,  $pid, gpointer $user-data )"
+          - 
+            "c-type": "gpointer"
+            "name": "pid-callback-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "gint"
+            "name": "stdin-fd"
+            "raku-type": "gint"
+          - 
+            "c-type": "gint"
+            "name": "stdout-fd"
+            "raku-type": "gint"
+          - 
+            "c-type": "gint"
+            "name": "stderr-fd"
+            "raku-type": "gint"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.58"
+      "list-actions": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDesktopAppInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "const gchar* const*"
+        "return-raku-type": "gchar-pptr"
+        "version": "2.38"
+  "source-filename": "desktopappinfo"
+  "symbol-prefix": "gio,g_desktop_app_info_"
+  "type-letter": ""
+  "type-name": "DesktopAppInfo"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...

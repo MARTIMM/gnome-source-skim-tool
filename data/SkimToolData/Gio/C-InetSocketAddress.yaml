@@ -1,0 +1,99 @@
+---
+"GInetSocketAddress": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::InetSocketAddress"
+  "gir-type": "class"
+  "gnome-name": "GInetSocketAddress"
+  "implement-roles": 
+    - "Gnome::Gio::R-SocketConnectable"
+  "inheritable": false
+  "parent": "SocketAddress"
+  "parent-gnome-name": "GioSocketAddress"
+  "parent-raku-name": "Gnome::Gio::SocketAddress"
+  "roles": 
+    - "Gnome::Gio::R-SocketConnectable"
+  "routines": 
+    "constructors": 
+      "new-from-string": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "address"
+            "raku-type": "Str"
+          - 
+            "c-type": "guint"
+            "name": "port"
+            "raku-type": "guint"
+        "return-c-type": "GSocketAddress*"
+        "return-raku-type": "N-Object"
+        "version": "2.40"
+      "new-ginetsocketaddress": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GInetAddress*"
+            "name": "address"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint16"
+            "name": "port"
+            "raku-type": "guint16"
+        "return-c-type": "GSocketAddress*"
+        "return-raku-type": "N-Object"
+        "version": "2.22"
+    "methods": 
+      "get-address": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GInetSocketAddress*"
+            "name": "address"
+            "raku-type": "N-Object"
+        "return-c-type": "GInetAddress*"
+        "return-raku-type": "N-Object"
+        "version": "2.22"
+      "get-flowinfo": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GInetSocketAddress*"
+            "name": "address"
+            "raku-type": "N-Object"
+        "return-c-type": "guint32"
+        "return-raku-type": "guint32"
+        "version": "2.32"
+      "get-port": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GInetSocketAddress*"
+            "name": "address"
+            "raku-type": "N-Object"
+        "return-c-type": "guint16"
+        "return-raku-type": "guint16"
+        "version": "2.22"
+      "get-scope-id": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GInetSocketAddress*"
+            "name": "address"
+            "raku-type": "N-Object"
+        "return-c-type": "guint32"
+        "return-raku-type": "guint32"
+        "version": "2.32"
+  "source-filename": "inetsocketaddress"
+  "symbol-prefix": "gio,g_inet_socket_address_"
+  "type-letter": ""
+  "type-name": "InetSocketAddress"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...

@@ -1,0 +1,454 @@
+---
+"GResolver": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::Resolver"
+  "gir-type": "class"
+  "gnome-name": "GResolver"
+  "inheritable": false
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles":  []
+  "routines": 
+    "functions": 
+      "free-addresses": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GList*"
+            "name": "addresses"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.22"
+      "free-targets": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GList*"
+            "name": "targets"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.22"
+      "get-default": 
+        "generated": 0
+        "parameters":  []
+        "return-c-type": "GResolver*"
+        "return-raku-type": "N-Object"
+        "version": "2.22"
+    "methods": 
+      "get-timeout": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GResolver*"
+            "name": "resolver"
+            "raku-type": "N-Object"
+        "return-c-type": "unsigned"
+        "return-raku-type": ""
+        "version": "2.78"
+      "lookup-by-address": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GResolver*"
+            "name": "resolver"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GInetAddress*"
+            "name": "address"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gchar*"
+        "return-raku-type": "Str"
+        "version": "2.22"
+      "lookup-by-address-async": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GResolver*"
+            "name": "resolver"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GInetAddress*"
+            "name": "address"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.22"
+      "lookup-by-address-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GResolver*"
+            "name": "resolver"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gchar*"
+        "return-raku-type": "Str"
+        "version": "2.22"
+      "lookup-by-name": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GResolver*"
+            "name": "resolver"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "hostname"
+            "raku-type": "Str"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GList*"
+        "return-raku-type": "N-Object"
+        "version": "2.22"
+      "lookup-by-name-async": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GResolver*"
+            "name": "resolver"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "hostname"
+            "raku-type": "Str"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.22"
+      "lookup-by-name-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GResolver*"
+            "name": "resolver"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GList*"
+        "return-raku-type": "N-Object"
+        "version": "2.22"
+      "lookup-by-name-with-flags": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GResolver*"
+            "name": "resolver"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "hostname"
+            "raku-type": "Str"
+          - 
+            "c-type": "GResolverNameLookupFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GResolverNameLookupFlags "
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GList*"
+        "return-raku-type": "N-Object"
+        "version": "2.60"
+      "lookup-by-name-with-flags-async": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GResolver*"
+            "name": "resolver"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "hostname"
+            "raku-type": "Str"
+          - 
+            "c-type": "GResolverNameLookupFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GResolverNameLookupFlags "
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.60"
+      "lookup-by-name-with-flags-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GResolver*"
+            "name": "resolver"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GList*"
+        "return-raku-type": "N-Object"
+        "version": "2.60"
+      "lookup-records": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GResolver*"
+            "name": "resolver"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "rrname"
+            "raku-type": "Str"
+          - 
+            "c-type": "GResolverRecordType"
+            "name": "record-type"
+            "raku-type": "GEnum:GResolverRecordType"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GList*"
+        "return-raku-type": "N-Object"
+        "version": "2.34"
+      "lookup-records-async": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GResolver*"
+            "name": "resolver"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "rrname"
+            "raku-type": "Str"
+          - 
+            "c-type": "GResolverRecordType"
+            "name": "record-type"
+            "raku-type": "GEnum:GResolverRecordType"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.34"
+      "lookup-records-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GResolver*"
+            "name": "resolver"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GList*"
+        "return-raku-type": "N-Object"
+        "version": "2.34"
+      "lookup-service": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GResolver*"
+            "name": "resolver"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "service"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "protocol"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "domain"
+            "raku-type": "Str"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GList*"
+        "return-raku-type": "N-Object"
+        "version": "2.22"
+      "lookup-service-async": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GResolver*"
+            "name": "resolver"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "service"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "protocol"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "domain"
+            "raku-type": "Str"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.22"
+      "lookup-service-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GResolver*"
+            "name": "resolver"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GList*"
+        "return-raku-type": "N-Object"
+        "version": "2.22"
+      "set-default": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GResolver*"
+            "name": "resolver"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.22"
+      "set-timeout": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GResolver*"
+            "name": "resolver"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "unsigned"
+            "name": "timeout-ms"
+            "raku-type": ""
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.78"
+  "source-filename": "resolver"
+  "symbol-prefix": "gio,g_resolver_"
+  "type-letter": ""
+  "type-name": "Resolver"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...

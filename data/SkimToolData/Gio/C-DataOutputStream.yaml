@@ -1,0 +1,230 @@
+---
+"GDataOutputStream": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::DataOutputStream"
+  "gir-type": "class"
+  "gnome-name": "GDataOutputStream"
+  "implement-roles": 
+    - "Gnome::Gio::R-Seekable"
+  "inheritable": false
+  "parent": "FilterOutputStream"
+  "parent-gnome-name": "GioFilterOutputStream"
+  "parent-raku-name": "Gnome::Gio::FilterOutputStream"
+  "roles": 
+    - "Gnome::Gio::R-Seekable"
+  "routines": 
+    "constructors": 
+      "new-gdataoutputstream": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GOutputStream*"
+            "name": "base-stream"
+            "raku-type": "N-Object"
+        "return-c-type": "GDataOutputStream*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "get-byte-order": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDataOutputStream*"
+            "name": "stream"
+            "raku-type": "N-Object"
+        "return-c-type": "GDataStreamByteOrder"
+        "return-raku-type": "GEnum:GDataStreamByteOrder"
+      "put-byte": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDataOutputStream*"
+            "name": "stream"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guchar"
+            "name": "data"
+            "raku-type": "guchar"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "put-int16": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDataOutputStream*"
+            "name": "stream"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint16"
+            "name": "data"
+            "raku-type": "gint16"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "put-int32": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDataOutputStream*"
+            "name": "stream"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint32"
+            "name": "data"
+            "raku-type": "gint32"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "put-int64": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDataOutputStream*"
+            "name": "stream"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint64"
+            "name": "data"
+            "raku-type": "gint64"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "put-string": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDataOutputStream*"
+            "name": "stream"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "str"
+            "raku-type": "Str"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "put-uint16": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDataOutputStream*"
+            "name": "stream"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint16"
+            "name": "data"
+            "raku-type": "guint16"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "put-uint32": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDataOutputStream*"
+            "name": "stream"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint32"
+            "name": "data"
+            "raku-type": "guint32"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "put-uint64": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDataOutputStream*"
+            "name": "stream"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint64"
+            "name": "data"
+            "raku-type": "guint64"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "set-byte-order": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDataOutputStream*"
+            "name": "stream"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GDataStreamByteOrder"
+            "name": "order"
+            "raku-type": "GEnum:GDataStreamByteOrder"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "dataoutputstream"
+  "symbol-prefix": "gio,g_data_output_stream_"
+  "type-letter": ""
+  "type-name": "DataOutputStream"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...

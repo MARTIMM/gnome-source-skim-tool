@@ -1,0 +1,1182 @@
+---
+"GSocket": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::Socket"
+  "gir-type": "class"
+  "gnome-name": "GSocket"
+  "implement-roles": 
+    - "Gnome::Gio::R-DatagramBased"
+    - "Gnome::Gio::R-Initable"
+  "inheritable": false
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles": 
+    - "Gnome::Gio::R-DatagramBased"
+    - "Gnome::Gio::R-Initable"
+  "routines": 
+    "constructors": 
+      "new-from-fd": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "gint"
+            "name": "fd"
+            "raku-type": "gint"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GSocket*"
+        "return-raku-type": "N-Object"
+        "version": "2.22"
+      "new-gsocket": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocketFamily"
+            "name": "family"
+            "raku-type": "GEnum:GSocketFamily"
+          - 
+            "c-type": "GSocketType"
+            "name": "type"
+            "raku-type": "GEnum:GSocketType"
+          - 
+            "c-type": "GSocketProtocol"
+            "name": "protocol"
+            "raku-type": "GEnum:GSocketProtocol"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GSocket*"
+        "return-raku-type": "N-Object"
+        "version": "2.22"
+    "methods": 
+      "accept": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GSocket*"
+        "return-raku-type": "N-Object"
+        "version": "2.22"
+      "bind": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GSocketAddress*"
+            "name": "address"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "allow-reuse"
+            "raku-type": "gboolean"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.22"
+      "check-connect-result": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.22"
+      "close": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.22"
+      "condition-check": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GIOCondition"
+            "name": "condition"
+            "raku-type": "GFlag:GIOCondition "
+        "return-c-type": "GIOCondition"
+        "return-raku-type": "GFlag:GIOCondition "
+        "version": "2.22"
+      "condition-timed-wait": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GIOCondition"
+            "name": "condition"
+            "raku-type": "GFlag:GIOCondition "
+          - 
+            "c-type": "gint64"
+            "name": "timeout-us"
+            "raku-type": "gint64"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.32"
+      "condition-wait": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GIOCondition"
+            "name": "condition"
+            "raku-type": "GFlag:GIOCondition "
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.22"
+      "connect": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GSocketAddress*"
+            "name": "address"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.22"
+      "connection-factory-create-connection": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+        "return-c-type": "GSocketConnection*"
+        "return-raku-type": "N-Object"
+        "version": "2.22"
+      "create-source": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GIOCondition"
+            "name": "condition"
+            "raku-type": "GFlag:GIOCondition "
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+        "return-c-type": "GSource*"
+        "return-raku-type": "N-Object"
+        "version": "2.22"
+      "get-available-bytes": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+        "return-c-type": "gssize"
+        "return-raku-type": "gssize"
+        "version": "2.32"
+      "get-blocking": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.22"
+      "get-broadcast": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.32"
+      "get-credentials": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GCredentials*"
+        "return-raku-type": "N-Object"
+        "version": "2.26"
+      "get-family": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+        "return-c-type": "GSocketFamily"
+        "return-raku-type": "GEnum:GSocketFamily"
+        "version": "2.22"
+      "get-fd": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+        "version": "2.22"
+      "get-keepalive": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.22"
+      "get-listen-backlog": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+        "return-c-type": "gint"
+        "return-raku-type": "gint"
+        "version": "2.22"
+      "get-local-address": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GSocketAddress*"
+        "return-raku-type": "N-Object"
+        "version": "2.22"
+      "get-multicast-loopback": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.32"
+      "get-multicast-ttl": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+        "return-c-type": "guint"
+        "return-raku-type": "guint"
+        "version": "2.32"
+      "get-option": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint"
+            "name": "level"
+            "raku-type": "gint"
+          - 
+            "c-type": "gint"
+            "name": "optname"
+            "raku-type": "gint"
+          - 
+            "c-type": "gint*"
+            "name": "value"
+            "raku-type": "gint-ptr"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.36"
+      "get-protocol": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+        "return-c-type": "GSocketProtocol"
+        "return-raku-type": "GEnum:GSocketProtocol"
+        "version": "2.22"
+      "get-remote-address": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GSocketAddress*"
+        "return-raku-type": "N-Object"
+        "version": "2.22"
+      "get-socket-type": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+        "return-c-type": "GSocketType"
+        "return-raku-type": "GEnum:GSocketType"
+        "version": "2.22"
+      "get-timeout": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+        "return-c-type": "guint"
+        "return-raku-type": "guint"
+        "version": "2.26"
+      "get-ttl": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+        "return-c-type": "guint"
+        "return-raku-type": "guint"
+        "version": "2.32"
+      "is-closed": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.22"
+      "is-connected": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.22"
+      "join-multicast-group": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GInetAddress*"
+            "name": "group"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "source-specific"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "const gchar*"
+            "name": "iface"
+            "raku-type": "Str"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.32"
+      "join-multicast-group-ssm": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GInetAddress*"
+            "name": "group"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GInetAddress*"
+            "name": "source-specific"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "iface"
+            "raku-type": "Str"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.56"
+      "leave-multicast-group": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GInetAddress*"
+            "name": "group"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "source-specific"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "const gchar*"
+            "name": "iface"
+            "raku-type": "Str"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.32"
+      "leave-multicast-group-ssm": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GInetAddress*"
+            "name": "group"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GInetAddress*"
+            "name": "source-specific"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "iface"
+            "raku-type": "Str"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.56"
+      "listen": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.22"
+      "receive": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gchar*"
+            "name": "buffer"
+            "raku-type": "Str"
+          - 
+            "c-type": "gsize"
+            "name": "size"
+            "raku-type": "gsize"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gssize"
+        "return-raku-type": "gssize"
+        "version": "2.22"
+      "receive-bytes": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gsize"
+            "name": "size"
+            "raku-type": "gsize"
+          - 
+            "c-type": "gint64"
+            "name": "timeout-us"
+            "raku-type": "gint64"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GBytes*"
+        "return-raku-type": "N-Object"
+        "version": "2.80"
+      "receive-bytes-from": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GSocketAddress**"
+            "name": "address"
+            "raku-type": "CArray[N-Object]"
+          - 
+            "c-type": "gsize"
+            "name": "size"
+            "raku-type": "gsize"
+          - 
+            "c-type": "gint64"
+            "name": "timeout-us"
+            "raku-type": "gint64"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GBytes*"
+        "return-raku-type": "N-Object"
+        "version": "2.80"
+      "receive-from": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GSocketAddress**"
+            "name": "address"
+            "raku-type": "CArray[N-Object]"
+          - 
+            "c-type": "gchar*"
+            "name": "buffer"
+            "raku-type": "Str"
+          - 
+            "c-type": "gsize"
+            "name": "size"
+            "raku-type": "gsize"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gssize"
+        "return-raku-type": "gssize"
+        "version": "2.22"
+      "receive-message": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GSocketAddress**"
+            "name": "address"
+            "raku-type": "CArray[N-Object]"
+          - 
+            "c-type": "GInputVector*"
+            "name": "vectors"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint"
+            "name": "num-vectors"
+            "raku-type": "gint"
+          - 
+            "c-type": "GSocketControlMessage***"
+            "name": "messages"
+            "raku-type": "CArray[N-Object]"
+          - 
+            "c-type": "gint*"
+            "name": "num-messages"
+            "raku-type": "gint-ptr"
+          - 
+            "c-type": "gint*"
+            "name": "flags"
+            "raku-type": "gint-ptr"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gssize"
+        "return-raku-type": "gssize"
+        "version": "2.22"
+      "receive-messages": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GInputMessage*"
+            "name": "messages"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "num-messages"
+            "raku-type": "guint"
+          - 
+            "c-type": "gint"
+            "name": "flags"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gint"
+        "return-raku-type": "gint"
+        "version": "2.48"
+      "receive-with-blocking": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gchar*"
+            "name": "buffer"
+            "raku-type": "Str"
+          - 
+            "c-type": "gsize"
+            "name": "size"
+            "raku-type": "gsize"
+          - 
+            "c-type": "gboolean"
+            "name": "blocking"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gssize"
+        "return-raku-type": "gssize"
+        "version": "2.26"
+      "send": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "buffer"
+            "raku-type": "Str"
+          - 
+            "c-type": "gsize"
+            "name": "size"
+            "raku-type": "gsize"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gssize"
+        "return-raku-type": "gssize"
+        "version": "2.22"
+      "send-message": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GSocketAddress*"
+            "name": "address"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GOutputVector*"
+            "name": "vectors"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint"
+            "name": "num-vectors"
+            "raku-type": "gint"
+          - 
+            "c-type": "GSocketControlMessage**"
+            "name": "messages"
+            "raku-type": "CArray[N-Object]"
+          - 
+            "c-type": "gint"
+            "name": "num-messages"
+            "raku-type": "gint"
+          - 
+            "c-type": "gint"
+            "name": "flags"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gssize"
+        "return-raku-type": "gssize"
+        "version": "2.22"
+      "send-message-with-timeout": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GSocketAddress*"
+            "name": "address"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GOutputVector*"
+            "name": "vectors"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint"
+            "name": "num-vectors"
+            "raku-type": "gint"
+          - 
+            "c-type": "GSocketControlMessage**"
+            "name": "messages"
+            "raku-type": "CArray[N-Object]"
+          - 
+            "c-type": "gint"
+            "name": "num-messages"
+            "raku-type": "gint"
+          - 
+            "c-type": "gint"
+            "name": "flags"
+            "raku-type": "gint"
+          - 
+            "c-type": "gint64"
+            "name": "timeout-us"
+            "raku-type": "gint64"
+          - 
+            "c-type": "gsize*"
+            "name": "bytes-written"
+            "raku-type": "CArray[gsize]"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GPollableReturn"
+        "return-raku-type": "GEnum:GPollableReturn"
+        "version": "2.60"
+      "send-messages": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GOutputMessage*"
+            "name": "messages"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "num-messages"
+            "raku-type": "guint"
+          - 
+            "c-type": "gint"
+            "name": "flags"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gint"
+        "return-raku-type": "gint"
+        "version": "2.44"
+      "send-to": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GSocketAddress*"
+            "name": "address"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "buffer"
+            "raku-type": "Str"
+          - 
+            "c-type": "gsize"
+            "name": "size"
+            "raku-type": "gsize"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gssize"
+        "return-raku-type": "gssize"
+        "version": "2.22"
+      "send-with-blocking": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "buffer"
+            "raku-type": "Str"
+          - 
+            "c-type": "gsize"
+            "name": "size"
+            "raku-type": "gsize"
+          - 
+            "c-type": "gboolean"
+            "name": "blocking"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gssize"
+        "return-raku-type": "gssize"
+        "version": "2.26"
+      "set-blocking": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "blocking"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.22"
+      "set-broadcast": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "broadcast"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.32"
+      "set-keepalive": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "keepalive"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.22"
+      "set-listen-backlog": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint"
+            "name": "backlog"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.22"
+      "set-multicast-loopback": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "loopback"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.32"
+      "set-multicast-ttl": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "ttl"
+            "raku-type": "guint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.32"
+      "set-option": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint"
+            "name": "level"
+            "raku-type": "gint"
+          - 
+            "c-type": "gint"
+            "name": "optname"
+            "raku-type": "gint"
+          - 
+            "c-type": "gint"
+            "name": "value"
+            "raku-type": "gint"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.36"
+      "set-timeout": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "timeout"
+            "raku-type": "guint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.26"
+      "set-ttl": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "ttl"
+            "raku-type": "guint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.32"
+      "shutdown": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "shutdown-read"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "gboolean"
+            "name": "shutdown-write"
+            "raku-type": "gboolean"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.22"
+      "speaks-ipv4": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocket*"
+            "name": "socket"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.22"
+  "source-filename": "socket"
+  "symbol-prefix": "gio,g_socket_"
+  "type-letter": ""
+  "type-name": "Socket"
+  "version": "2.22"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...

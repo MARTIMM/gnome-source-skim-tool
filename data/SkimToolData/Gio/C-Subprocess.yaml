@@ -1,0 +1,472 @@
+---
+"GSubprocess": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::Subprocess"
+  "gir-type": "class"
+  "gnome-name": "GSubprocess"
+  "implement-roles": 
+    - "Gnome::Gio::R-Initable"
+  "inheritable": false
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles": 
+    - "Gnome::Gio::R-Initable"
+  "routines": 
+    "constructors": 
+      "new-gsubprocess": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSubprocessFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GSubprocessFlags"
+          - 
+            "c-type": "GError**"
+            "name": "error"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "argv0"
+            "raku-type": "Str"
+          - 
+            "c-type": "…"
+            "name": "…"
+            "raku-type": "…"
+        "return-c-type": "GSubprocess*"
+        "return-raku-type": "N-Object"
+        "variable-list": true
+        "version": "2.40"
+      "newv": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const gchar* const*"
+            "name": "argv"
+            "raku-type": "gchar-pptr"
+          - 
+            "c-type": "GSubprocessFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GSubprocessFlags"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GSubprocess*"
+        "return-raku-type": "N-Object"
+        "version": "2.40"
+    "methods": 
+      "communicate": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSubprocess*"
+            "name": "subprocess"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GBytes*"
+            "name": "stdin-buf"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GBytes**"
+            "name": "stdout-buf"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GBytes**"
+            "name": "stderr-buf"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.40"
+      "communicate-async": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSubprocess*"
+            "name": "subprocess"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GBytes*"
+            "name": "stdin-buf"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "communicate-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSubprocess*"
+            "name": "subprocess"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GBytes**"
+            "name": "stdout-buf"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GBytes**"
+            "name": "stderr-buf"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "communicate-utf8": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSubprocess*"
+            "name": "subprocess"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "stdin-buf"
+            "raku-type": "Str"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "char**"
+            "name": "stdout-buf"
+            "raku-type": "gchar-pptr"
+          - 
+            "c-type": "char**"
+            "name": "stderr-buf"
+            "raku-type": "gchar-pptr"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "communicate-utf8-async": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSubprocess*"
+            "name": "subprocess"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "stdin-buf"
+            "raku-type": "Str"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "communicate-utf8-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSubprocess*"
+            "name": "subprocess"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "char**"
+            "name": "stdout-buf"
+            "raku-type": "gchar-pptr"
+          - 
+            "c-type": "char**"
+            "name": "stderr-buf"
+            "raku-type": "gchar-pptr"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "force-exit": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSubprocess*"
+            "name": "subprocess"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.40"
+      "get-exit-status": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSubprocess*"
+            "name": "subprocess"
+            "raku-type": "N-Object"
+        "return-c-type": "gint"
+        "return-raku-type": "gint"
+        "version": "2.40"
+      "get-identifier": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSubprocess*"
+            "name": "subprocess"
+            "raku-type": "N-Object"
+        "return-c-type": "const gchar*"
+        "return-raku-type": "Str"
+        "version": "2.40"
+      "get-if-exited": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSubprocess*"
+            "name": "subprocess"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.40"
+      "get-if-signaled": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSubprocess*"
+            "name": "subprocess"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.40"
+      "get-status": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSubprocess*"
+            "name": "subprocess"
+            "raku-type": "N-Object"
+        "return-c-type": "gint"
+        "return-raku-type": "gint"
+        "version": "2.40"
+      "get-stderr-pipe": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSubprocess*"
+            "name": "subprocess"
+            "raku-type": "N-Object"
+        "return-c-type": "GInputStream*"
+        "return-raku-type": "N-Object"
+        "version": "2.40"
+      "get-stdin-pipe": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSubprocess*"
+            "name": "subprocess"
+            "raku-type": "N-Object"
+        "return-c-type": "GOutputStream*"
+        "return-raku-type": "N-Object"
+        "version": "2.40"
+      "get-stdout-pipe": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSubprocess*"
+            "name": "subprocess"
+            "raku-type": "N-Object"
+        "return-c-type": "GInputStream*"
+        "return-raku-type": "N-Object"
+        "version": "2.40"
+      "get-successful": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSubprocess*"
+            "name": "subprocess"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.40"
+      "get-term-sig": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSubprocess*"
+            "name": "subprocess"
+            "raku-type": "N-Object"
+        "return-c-type": "gint"
+        "return-raku-type": "gint"
+        "version": "2.40"
+      "send-signal": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSubprocess*"
+            "name": "subprocess"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint"
+            "name": "signal-num"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.40"
+      "wait": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSubprocess*"
+            "name": "subprocess"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.40"
+      "wait-async": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSubprocess*"
+            "name": "subprocess"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.40"
+      "wait-check": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSubprocess*"
+            "name": "subprocess"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.40"
+      "wait-check-async": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSubprocess*"
+            "name": "subprocess"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.40"
+      "wait-check-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSubprocess*"
+            "name": "subprocess"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.40"
+      "wait-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSubprocess*"
+            "name": "subprocess"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.40"
+  "source-filename": "subprocess"
+  "symbol-prefix": "gio,g_subprocess_"
+  "type-letter": ""
+  "type-name": "Subprocess"
+  "version": "2.40"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...

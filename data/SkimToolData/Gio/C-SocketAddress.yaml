@@ -1,0 +1,88 @@
+---
+"GSocketAddress": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::SocketAddress"
+  "gir-type": "class"
+  "gnome-name": "GSocketAddress"
+  "implement-roles": 
+    - "Gnome::Gio::R-SocketConnectable"
+  "inheritable": false
+  "package-name": "Gnome::Gio"
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles": 
+    - "Gnome::Gio::R-SocketConnectable"
+  "routines": 
+    "constructors": 
+      "new-from-native": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "gpointer"
+            "name": "native"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "gsize"
+            "name": "len"
+            "raku-type": "gsize"
+        "return-c-type": "GSocketAddress*"
+        "return-raku-type": "N-Object"
+        "version": "2.22"
+    "methods": 
+      "get-family": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocketAddress*"
+            "name": "address"
+            "raku-type": "N-Object"
+        "return-c-type": "GSocketFamily"
+        "return-raku-type": "GEnum:GSocketFamily"
+        "version": "2.22"
+      "get-native-size": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocketAddress*"
+            "name": "address"
+            "raku-type": "N-Object"
+        "return-c-type": "gssize"
+        "return-raku-type": "gssize"
+        "version": "2.22"
+      "to-native": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSocketAddress*"
+            "name": "address"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gpointer"
+            "name": "dest"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "gsize"
+            "name": "destlen"
+            "raku-type": "gsize"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.22"
+  "source-filename": "socketaddress"
+  "symbol-prefix": "gio,g_socket_address_"
+  "type-letter": ""
+  "type-name": "SocketAddress"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...

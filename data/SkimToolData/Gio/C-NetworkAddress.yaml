@@ -1,0 +1,122 @@
+---
+"GNetworkAddress": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::NetworkAddress"
+  "gir-type": "class"
+  "gnome-name": "GNetworkAddress"
+  "implement-roles": 
+    - "Gnome::Gio::R-SocketConnectable"
+  "inheritable": false
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles": 
+    - "Gnome::Gio::R-SocketConnectable"
+  "routines": 
+    "constructors": 
+      "new-gnetworkaddress": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const gchar*"
+            "name": "hostname"
+            "raku-type": "Str"
+          - 
+            "c-type": "guint16"
+            "name": "port"
+            "raku-type": "guint16"
+        "return-c-type": "GSocketConnectable*"
+        "return-raku-type": "N-Object"
+        "version": "2.22"
+      "new-loopback": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "guint16"
+            "name": "port"
+            "raku-type": "guint16"
+        "return-c-type": "GSocketConnectable*"
+        "return-raku-type": "N-Object"
+        "version": "2.44"
+    "functions": 
+      "parse": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const gchar*"
+            "name": "host-and-port"
+            "raku-type": "Str"
+          - 
+            "c-type": "guint16"
+            "name": "default-port"
+            "raku-type": "guint16"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GSocketConnectable*"
+        "return-raku-type": "N-Object"
+        "version": "2.22"
+      "parse-uri": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const gchar*"
+            "name": "uri"
+            "raku-type": "Str"
+          - 
+            "c-type": "guint16"
+            "name": "default-port"
+            "raku-type": "guint16"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GSocketConnectable*"
+        "return-raku-type": "N-Object"
+        "version": "2.26"
+    "methods": 
+      "get-hostname": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GNetworkAddress*"
+            "name": "addr"
+            "raku-type": "N-Object"
+        "return-c-type": "const gchar*"
+        "return-raku-type": "Str"
+        "version": "2.22"
+      "get-port": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GNetworkAddress*"
+            "name": "addr"
+            "raku-type": "N-Object"
+        "return-c-type": "guint16"
+        "return-raku-type": "guint16"
+        "version": "2.22"
+      "get-scheme": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GNetworkAddress*"
+            "name": "addr"
+            "raku-type": "N-Object"
+        "return-c-type": "const gchar*"
+        "return-raku-type": "Str"
+        "version": "2.26"
+  "source-filename": "networkaddress"
+  "symbol-prefix": "gio,g_network_address_"
+  "type-letter": ""
+  "type-name": "NetworkAddress"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...

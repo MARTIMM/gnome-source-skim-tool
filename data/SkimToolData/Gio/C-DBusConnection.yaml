@@ -1,0 +1,1122 @@
+---
+"GDBusConnection": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::DBusConnection"
+  "gir-type": "class"
+  "gnome-name": "GDBusConnection"
+  "implement-roles": 
+    - "Gnome::Gio::R-AsyncInitable"
+    - "Gnome::Gio::R-Initable"
+  "inheritable": false
+  "package-name": "Gnome::Gio"
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles": 
+    - "Gnome::Gio::R-AsyncInitable"
+    - "Gnome::Gio::R-Initable"
+  "routines": 
+    "constructors": 
+      "new-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "res"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GDBusConnection*"
+        "return-raku-type": "N-Object"
+        "version": "2.26"
+      "new-for-address-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "res"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GDBusConnection*"
+        "return-raku-type": "N-Object"
+        "version": "2.26"
+      "new-for-address-sync": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const gchar*"
+            "name": "address"
+            "raku-type": "Str"
+          - 
+            "c-type": "GDBusConnectionFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GDBusConnectionFlags"
+          - 
+            "c-type": "GDBusAuthObserver*"
+            "name": "observer"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GDBusConnection*"
+        "return-raku-type": "N-Object"
+        "version": "2.26"
+      "new-sync": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GIOStream*"
+            "name": "stream"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "guid"
+            "raku-type": "Str"
+          - 
+            "c-type": "GDBusConnectionFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GDBusConnectionFlags"
+          - 
+            "c-type": "GDBusAuthObserver*"
+            "name": "observer"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GDBusConnection*"
+        "return-raku-type": "N-Object"
+        "version": "2.26"
+    "functions": 
+      "new": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GIOStream*"
+            "name": "stream"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "guid"
+            "raku-type": "Str"
+          - 
+            "c-type": "GDBusConnectionFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GDBusConnectionFlags"
+          - 
+            "c-type": "GDBusAuthObserver*"
+            "name": "observer"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.26"
+      "new-for-address": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const gchar*"
+            "name": "address"
+            "raku-type": "Str"
+          - 
+            "c-type": "GDBusConnectionFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GDBusConnectionFlags"
+          - 
+            "c-type": "GDBusAuthObserver*"
+            "name": "observer"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.26"
+    "methods": 
+      "add-filter": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GDBusMessageFilterFunction"
+            "name": "filter-function"
+            "raku-type": ":( N-Object $connection, N-Object $message, gboolean $incoming, gpointer $user-data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GDestroyNotify"
+            "name": "user-data-free-func"
+            "raku-type": ":( gpointer $data )"
+        "return-c-type": "guint"
+        "return-raku-type": "guint"
+        "version": "2.26"
+      "call": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "bus-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "object-path"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "interface-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "method-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "GVariant*"
+            "name": "parameters"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GVariantType*"
+            "name": "reply-type"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GDBusCallFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GDBusCallFlags"
+          - 
+            "c-type": "gint"
+            "name": "timeout-msec"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.26"
+      "call-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "res"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GVariant*"
+        "return-raku-type": "N-Object"
+        "version": "2.26"
+      "call-sync": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "bus-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "object-path"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "interface-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "method-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "GVariant*"
+            "name": "parameters"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GVariantType*"
+            "name": "reply-type"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GDBusCallFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GDBusCallFlags"
+          - 
+            "c-type": "gint"
+            "name": "timeout-msec"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GVariant*"
+        "return-raku-type": "N-Object"
+        "version": "2.26"
+      "call-with-unix-fd-list": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "bus-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "object-path"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "interface-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "method-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "GVariant*"
+            "name": "parameters"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GVariantType*"
+            "name": "reply-type"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GDBusCallFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GDBusCallFlags"
+          - 
+            "c-type": "gint"
+            "name": "timeout-msec"
+            "raku-type": "gint"
+          - 
+            "c-type": "GUnixFDList*"
+            "name": "fd-list"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.30"
+      "call-with-unix-fd-list-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GUnixFDList**"
+            "name": "out-fd-list"
+            "raku-type": "CArray[N-Object]"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "res"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GVariant*"
+        "return-raku-type": "N-Object"
+        "version": "2.30"
+      "call-with-unix-fd-list-sync": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "bus-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "object-path"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "interface-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "method-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "GVariant*"
+            "name": "parameters"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GVariantType*"
+            "name": "reply-type"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GDBusCallFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GDBusCallFlags"
+          - 
+            "c-type": "gint"
+            "name": "timeout-msec"
+            "raku-type": "gint"
+          - 
+            "c-type": "GUnixFDList*"
+            "name": "fd-list"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GUnixFDList**"
+            "name": "out-fd-list"
+            "raku-type": "CArray[N-Object]"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GVariant*"
+        "return-raku-type": "N-Object"
+        "version": "2.30"
+      "close": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.26"
+      "close-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "res"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.26"
+      "close-sync": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.26"
+      "emit-signal": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "destination-bus-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "object-path"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "interface-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "signal-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "GVariant*"
+            "name": "parameters"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.26"
+      "export-action-group": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "object-path"
+            "raku-type": "Str"
+          - 
+            "c-type": "GActionGroup*"
+            "name": "action-group"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "guint"
+        "return-raku-type": "guint"
+        "version": "2.32"
+      "export-menu-model": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "object-path"
+            "raku-type": "Str"
+          - 
+            "c-type": "GMenuModel*"
+            "name": "menu"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "guint"
+        "return-raku-type": "guint"
+        "version": "2.32"
+      "flush": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.26"
+      "flush-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "res"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.26"
+      "flush-sync": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.26"
+      "get-capabilities": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+        "return-c-type": "GDBusCapabilityFlags"
+        "return-raku-type": "GFlag:GDBusCapabilityFlags"
+        "version": "2.26"
+      "get-exit-on-close": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.26"
+      "get-flags": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+        "return-c-type": "GDBusConnectionFlags"
+        "return-raku-type": "GFlag:GDBusConnectionFlags"
+        "version": "2.60"
+      "get-guid": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+        "return-c-type": "const gchar*"
+        "return-raku-type": "Str"
+        "version": "2.26"
+      "get-last-serial": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+        "return-c-type": "guint32"
+        "return-raku-type": "guint32"
+        "version": "2.34"
+      "get-peer-credentials": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+        "return-c-type": "GCredentials*"
+        "return-raku-type": "N-Object"
+        "version": "2.26"
+      "get-stream": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+        "return-c-type": "GIOStream*"
+        "return-raku-type": "N-Object"
+        "version": "2.26"
+      "get-unique-name": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+        "return-c-type": "const gchar*"
+        "return-raku-type": "Str"
+        "version": "2.26"
+      "is-closed": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.26"
+      "register-object": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "object-path"
+            "raku-type": "Str"
+          - 
+            "c-type": "GDBusInterfaceInfo*"
+            "name": "interface-info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GDBusInterfaceVTable*"
+            "name": "vtable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GDestroyNotify"
+            "name": "user-data-free-func"
+            "raku-type": ":( gpointer $data )"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "guint"
+        "return-raku-type": "guint"
+        "version": "2.26"
+      "register-object-with-closures": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "object-path"
+            "raku-type": "Str"
+          - 
+            "c-type": "GDBusInterfaceInfo*"
+            "name": "interface-info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GClosure*"
+            "name": "method-call-closure"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GClosure*"
+            "name": "get-property-closure"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GClosure*"
+            "name": "set-property-closure"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "guint"
+        "return-raku-type": "guint"
+        "version": "2.46"
+      "register-subtree": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "object-path"
+            "raku-type": "Str"
+          - 
+            "c-type": "const GDBusSubtreeVTable*"
+            "name": "vtable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GDBusSubtreeFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GDBusSubtreeFlags"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GDestroyNotify"
+            "name": "user-data-free-func"
+            "raku-type": ":( gpointer $data )"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "guint"
+        "return-raku-type": "guint"
+        "version": "2.26"
+      "remove-filter": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "filter-id"
+            "raku-type": "guint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.26"
+      "send-message": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GDBusMessage*"
+            "name": "message"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GDBusSendMessageFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GDBusSendMessageFlags"
+          - 
+            "c-type": "volatile guint32*"
+            "name": "out-serial"
+            "raku-type": "CArray[uint32]"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.26"
+      "send-message-with-reply": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GDBusMessage*"
+            "name": "message"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GDBusSendMessageFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GDBusSendMessageFlags"
+          - 
+            "c-type": "gint"
+            "name": "timeout-msec"
+            "raku-type": "gint"
+          - 
+            "c-type": "volatile guint32*"
+            "name": "out-serial"
+            "raku-type": "CArray[uint32]"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.26"
+      "send-message-with-reply-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "res"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GDBusMessage*"
+        "return-raku-type": "N-Object"
+        "version": "2.26"
+      "send-message-with-reply-sync": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GDBusMessage*"
+            "name": "message"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GDBusSendMessageFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GDBusSendMessageFlags"
+          - 
+            "c-type": "gint"
+            "name": "timeout-msec"
+            "raku-type": "gint"
+          - 
+            "c-type": "volatile guint32*"
+            "name": "out-serial"
+            "raku-type": "CArray[uint32]"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GDBusMessage*"
+        "return-raku-type": "N-Object"
+        "version": "2.26"
+      "set-exit-on-close": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "exit-on-close"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.26"
+      "signal-subscribe": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "sender"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "interface-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "member"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "object-path"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "arg0"
+            "raku-type": "Str"
+          - 
+            "c-type": "GDBusSignalFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GDBusSignalFlags"
+          - 
+            "c-type": "GDBusSignalCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $connection, Str $sender-name, Str $object-path, Str $interface-name, Str $signal-name, N-Object $parameters, gpointer $user-data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GDestroyNotify"
+            "name": "user-data-free-func"
+            "raku-type": ":( gpointer $data )"
+        "return-c-type": "guint"
+        "return-raku-type": "guint"
+        "version": "2.26"
+      "signal-unsubscribe": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "subscription-id"
+            "raku-type": "guint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.26"
+      "start-message-processing": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.26"
+      "unexport-action-group": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "export-id"
+            "raku-type": "guint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.32"
+      "unexport-menu-model": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "export-id"
+            "raku-type": "guint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.32"
+      "unregister-object": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "registration-id"
+            "raku-type": "guint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.26"
+      "unregister-subtree": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDBusConnection*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "registration-id"
+            "raku-type": "guint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.26"
+  "source-filename": "dbusconnection"
+  "symbol-prefix": "gio,g_dbus_connection_"
+  "type-letter": ""
+  "type-name": "DBusConnection"
+  "version": "2.26"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...

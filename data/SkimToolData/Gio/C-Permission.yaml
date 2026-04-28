@@ -1,0 +1,195 @@
+---
+"GPermission": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 1
+    "nbr-tests": 5
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::Permission"
+  "gir-type": "class"
+  "gnome-name": "GPermission"
+  "inheritable": false
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles":  []
+  "routines": 
+    "methods": 
+      "acquire": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GPermission*"
+            "name": "permission"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.26"
+      "acquire-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GPermission*"
+            "name": "permission"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.26"
+      "acquire-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GPermission*"
+            "name": "permission"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.26"
+      "get-allowed": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GPermission*"
+            "name": "permission"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.26"
+      "get-can-acquire": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GPermission*"
+            "name": "permission"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.26"
+      "get-can-release": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GPermission*"
+            "name": "permission"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.26"
+      "impl-update": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GPermission*"
+            "name": "permission"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "allowed"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "gboolean"
+            "name": "can-acquire"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "gboolean"
+            "name": "can-release"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.26"
+      "release": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GPermission*"
+            "name": "permission"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.26"
+      "release-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GPermission*"
+            "name": "permission"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.26"
+      "release-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GPermission*"
+            "name": "permission"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.26"
+  "source-filename": "permission"
+  "symbol-prefix": "gio,g_permission_"
+  "type-letter": ""
+  "type-name": "Permission"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...

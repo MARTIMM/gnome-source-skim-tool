@@ -1,0 +1,108 @@
+---
+"GMemoryOutputStream": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::MemoryOutputStream"
+  "gir-type": "class"
+  "gnome-name": "GMemoryOutputStream"
+  "implement-roles": 
+    - "Gnome::Gio::R-PollableOutputStream"
+    - "Gnome::Gio::R-Seekable"
+  "inheritable": false
+  "parent": "OutputStream"
+  "parent-gnome-name": "GioOutputStream"
+  "parent-raku-name": "Gnome::Gio::OutputStream"
+  "roles": 
+    - "Gnome::Gio::R-PollableOutputStream"
+    - "Gnome::Gio::R-Seekable"
+  "routines": 
+    "constructors": 
+      "new-gmemoryoutputstream": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "gpointer"
+            "name": "data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "gsize"
+            "name": "size"
+            "raku-type": "gsize"
+          - 
+            "c-type": "GReallocFunc"
+            "name": "realloc-function"
+            "raku-type": ":( gpointer $data, gsize $size )"
+          - 
+            "c-type": "GDestroyNotify"
+            "name": "destroy-function"
+            "raku-type": ":( gpointer $data )"
+        "return-c-type": "GOutputStream*"
+        "return-raku-type": "N-Object"
+      "new-resizable": 
+        "generated": 0
+        "parameters":  []
+        "return-c-type": "GOutputStream*"
+        "return-raku-type": "N-Object"
+        "version": "2.36"
+    "methods": 
+      "get-data": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMemoryOutputStream*"
+            "name": "ostream"
+            "raku-type": "N-Object"
+        "return-c-type": "gpointer"
+        "return-raku-type": "gpointer"
+      "get-data-size": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMemoryOutputStream*"
+            "name": "ostream"
+            "raku-type": "N-Object"
+        "return-c-type": "gsize"
+        "return-raku-type": "gsize"
+        "version": "2.18"
+      "get-size": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMemoryOutputStream*"
+            "name": "ostream"
+            "raku-type": "N-Object"
+        "return-c-type": "gsize"
+        "return-raku-type": "gsize"
+      "steal-as-bytes": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMemoryOutputStream*"
+            "name": "ostream"
+            "raku-type": "N-Object"
+        "return-c-type": "GBytes*"
+        "return-raku-type": "N-Object"
+        "version": "2.34"
+      "steal-data": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMemoryOutputStream*"
+            "name": "ostream"
+            "raku-type": "N-Object"
+        "return-c-type": "gpointer"
+        "return-raku-type": "gpointer"
+        "version": "2.26"
+  "source-filename": "memoryoutputstream"
+  "symbol-prefix": "gio,g_memory_output_stream_"
+  "type-letter": ""
+  "type-name": "MemoryOutputStream"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...

@@ -1,0 +1,86 @@
+---
+"GUnixFDMessage": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::UnixFDMessage"
+  "gir-type": "class"
+  "gnome-name": "GUnixFDMessage"
+  "inheritable": false
+  "parent": "SocketControlMessage"
+  "parent-gnome-name": "GioSocketControlMessage"
+  "parent-raku-name": "Gnome::Gio::SocketControlMessage"
+  "roles":  []
+  "routines": 
+    "constructors": 
+      "new-gunixfdmessage": 
+        "generated": 0
+        "parameters":  []
+        "return-c-type": "GSocketControlMessage*"
+        "return-raku-type": "N-Object"
+        "version": "2.22"
+      "new-with-fd-list": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GUnixFDList*"
+            "name": "fd-list"
+            "raku-type": "N-Object"
+        "return-c-type": "GSocketControlMessage*"
+        "return-raku-type": "N-Object"
+        "version": "2.24"
+    "methods": 
+      "append-fd": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GUnixFDMessage*"
+            "name": "message"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint"
+            "name": "fd"
+            "raku-type": "gint"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.22"
+      "get-fd-list": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GUnixFDMessage*"
+            "name": "message"
+            "raku-type": "N-Object"
+        "return-c-type": "GUnixFDList*"
+        "return-raku-type": "N-Object"
+        "version": "2.24"
+      "steal-fds": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GUnixFDMessage*"
+            "name": "message"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint*"
+            "name": "length"
+            "raku-type": "gint-ptr"
+        "return-c-type": "gint*"
+        "return-raku-type": "gint-ptr"
+        "version": "2.22"
+  "source-filename": "unixfdmessage"
+  "symbol-prefix": "gio,g_unix_fd_message_"
+  "type-letter": ""
+  "type-name": "UnixFDMessage"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...

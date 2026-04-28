@@ -1,0 +1,246 @@
+---
+"GNotification": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 1
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::Notification"
+  "gir-type": "class"
+  "gnome-name": "GNotification"
+  "inheritable": false
+  "package-name": "Gnome::Gio"
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles":  []
+  "routines": 
+    "constructors": 
+      "new-gnotification": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const gchar*"
+            "name": "title"
+            "raku-type": "Str"
+        "return-c-type": "GNotification*"
+        "return-raku-type": "N-Object"
+        "version": "2.40"
+    "methods": 
+      "add-button": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GNotification*"
+            "name": "notification"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "label"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "detailed-action"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.40"
+      "add-button-with-target": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GNotification*"
+            "name": "notification"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "label"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "action"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "target-format"
+            "raku-type": "Str"
+          - 
+            "c-type": "…"
+            "name": "…"
+            "raku-type": "…"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "variable-list": true
+        "version": "2.40"
+      "add-button-with-target-value": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GNotification*"
+            "name": "notification"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "label"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "action"
+            "raku-type": "Str"
+          - 
+            "c-type": "GVariant*"
+            "name": "target"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.40"
+      "set-body": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GNotification*"
+            "name": "notification"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "body"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.40"
+      "set-category": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GNotification*"
+            "name": "notification"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "category"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.70"
+      "set-default-action": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GNotification*"
+            "name": "notification"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "detailed-action"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.40"
+      "set-default-action-and-target": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GNotification*"
+            "name": "notification"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "action"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "target-format"
+            "raku-type": "Str"
+          - 
+            "c-type": "…"
+            "name": "…"
+            "raku-type": "…"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "variable-list": true
+        "version": "2.40"
+      "set-default-action-and-target-value": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GNotification*"
+            "name": "notification"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "action"
+            "raku-type": "Str"
+          - 
+            "c-type": "GVariant*"
+            "name": "target"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.40"
+      "set-icon": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GNotification*"
+            "name": "notification"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GIcon*"
+            "name": "icon"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.40"
+      "set-priority": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GNotification*"
+            "name": "notification"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GNotificationPriority"
+            "name": "priority"
+            "raku-type": "GEnum:GNotificationPriority"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-title": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GNotification*"
+            "name": "notification"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "title"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.40"
+      "set-urgent": 
+        "deprecated-version": "2.42"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GNotification*"
+            "name": "notification"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "urgent"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.40"
+  "source-filename": "notification"
+  "symbol-prefix": "gio,g_notification_"
+  "type-letter": ""
+  "type-name": "Notification"
+  "version": "2.40"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...

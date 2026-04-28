@@ -1,0 +1,2950 @@
+---
+"GFile": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 1
+    "nbr-tests": 4
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::File"
+  "gir-type": "class"
+  "gnome-name": "GFile"
+  "inheritable": false
+  "package-name": "Gnome::Gio"
+  "parent": ~
+  "parent-gnome-name": ""
+  "parent-raku-name": ""
+  "roles":  []
+  "routines": 
+    "constructors": 
+      "new-build-filename": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const gchar*"
+            "name": "first-element"
+            "raku-type": "Str"
+          - 
+            "c-type": "…"
+            "name": "…"
+            "raku-type": "…"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+        "variable-list": true
+        "version": "2.56"
+      "new-for-commandline-arg": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "arg"
+            "raku-type": "Str"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+      "new-for-commandline-arg-and-cwd": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const gchar*"
+            "name": "arg"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "cwd"
+            "raku-type": "Str"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+        "version": "2.36"
+      "new-for-path": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "path"
+            "raku-type": "Str"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+      "new-for-uri": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "uri"
+            "raku-type": "Str"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+      "new-tmp": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "tmpl"
+            "raku-type": "Str"
+          - 
+            "c-type": "GFileIOStream**"
+            "name": "iostream"
+            "raku-type": "CArray[N-Object]"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+        "version": "2.32"
+      "parse-name": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "parse-name"
+            "raku-type": "Str"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "append-to": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileCreateFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileCreateFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFileOutputStream*"
+        "return-raku-type": "N-Object"
+      "append-to-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileCreateFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileCreateFlags"
+          - 
+            "c-type": "int"
+            "name": "io-priority"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "append-to-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "res"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFileOutputStream*"
+        "return-raku-type": "N-Object"
+      "build-attribute-list-for-copy": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileCopyFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileCopyFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "char*"
+        "return-raku-type": "Str"
+        "version": "2.68"
+      "copy": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "source"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFile*"
+            "name": "destination"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileCopyFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileCopyFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileProgressCallback"
+            "name": "progress-callback"
+            "raku-type": ":(  $current-num-bytes,  $total-num-bytes, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "progress-callback-data"
+            "raku-type": "gpointer"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "copy-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "source"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFile*"
+            "name": "destination"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileCopyFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileCopyFlags"
+          - 
+            "c-type": "int"
+            "name": "io-priority"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileProgressCallback"
+            "name": "progress-callback"
+            "raku-type": ":(  $current-num-bytes,  $total-num-bytes, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "progress-callback-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "copy-attributes": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "source"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFile*"
+            "name": "destination"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileCopyFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileCopyFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "copy-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "res"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "create": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileCreateFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileCreateFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFileOutputStream*"
+        "return-raku-type": "N-Object"
+      "create-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileCreateFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileCreateFlags"
+          - 
+            "c-type": "int"
+            "name": "io-priority"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "create-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "res"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFileOutputStream*"
+        "return-raku-type": "N-Object"
+      "create-readwrite": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileCreateFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileCreateFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFileIOStream*"
+        "return-raku-type": "N-Object"
+        "version": "2.22"
+      "create-readwrite-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileCreateFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileCreateFlags"
+          - 
+            "c-type": "int"
+            "name": "io-priority"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.22"
+      "create-readwrite-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "res"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFileIOStream*"
+        "return-raku-type": "N-Object"
+        "version": "2.22"
+      "delete": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "delete-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "io-priority"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.34"
+      "delete-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.34"
+      "dup": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+      "eject-mountable": 
+        "deprecated-version": "2.22"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GMountUnmountFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GMountUnmountFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "eject-mountable-finish": 
+        "deprecated-version": "2.22"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "eject-mountable-with-operation": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GMountUnmountFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GMountUnmountFlags"
+          - 
+            "c-type": "GMountOperation*"
+            "name": "mount-operation"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.22"
+      "eject-mountable-with-operation-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.22"
+      "enumerate-children": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attributes"
+            "raku-type": "Str"
+          - 
+            "c-type": "GFileQueryInfoFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileQueryInfoFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFileEnumerator*"
+        "return-raku-type": "N-Object"
+      "enumerate-children-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attributes"
+            "raku-type": "Str"
+          - 
+            "c-type": "GFileQueryInfoFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileQueryInfoFlags"
+          - 
+            "c-type": "int"
+            "name": "io-priority"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "enumerate-children-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "res"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFileEnumerator*"
+        "return-raku-type": "N-Object"
+      "equal": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file1"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFile*"
+            "name": "file2"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "find-enclosing-mount": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GMount*"
+        "return-raku-type": "N-Object"
+      "find-enclosing-mount-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "io-priority"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "find-enclosing-mount-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "res"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GMount*"
+        "return-raku-type": "N-Object"
+      "get-basename": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+        "return-c-type": "char*"
+        "return-raku-type": "Str"
+      "get-child": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "name"
+            "raku-type": "Str"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+      "get-child-for-display-name": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "display-name"
+            "raku-type": "Str"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+      "get-parent": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+      "get-parse-name": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+        "return-c-type": "char*"
+        "return-raku-type": "Str"
+      "get-path": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+        "return-c-type": "char*"
+        "return-raku-type": "Str"
+      "get-relative-path": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "parent"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFile*"
+            "name": "descendant"
+            "raku-type": "N-Object"
+        "return-c-type": "char*"
+        "return-raku-type": "Str"
+      "get-uri": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+        "return-c-type": "char*"
+        "return-raku-type": "Str"
+      "get-uri-scheme": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+        "return-c-type": "char*"
+        "return-raku-type": "Str"
+      "has-parent": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFile*"
+            "name": "parent"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.24"
+      "has-prefix": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFile*"
+            "name": "prefix"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "has-uri-scheme": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "uri-scheme"
+            "raku-type": "Str"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "hash": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "gconstpointer"
+            "name": "file"
+            "raku-type": "gpointer"
+        "return-c-type": "guint"
+        "return-raku-type": "guint"
+      "is-native": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "load-bytes": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gchar**"
+            "name": "etag-out"
+            "raku-type": "gchar-pptr"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GBytes*"
+        "return-raku-type": "N-Object"
+        "version": "2.56"
+      "load-bytes-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.56"
+      "load-bytes-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gchar**"
+            "name": "etag-out"
+            "raku-type": "gchar-pptr"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GBytes*"
+        "return-raku-type": "N-Object"
+        "version": "2.56"
+      "load-contents": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "char**"
+            "name": "contents"
+            "raku-type": "gchar-pptr"
+          - 
+            "c-type": "gsize*"
+            "name": "length"
+            "raku-type": "CArray[gsize]"
+          - 
+            "c-type": "char**"
+            "name": "etag-out"
+            "raku-type": "gchar-pptr"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "load-contents-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "load-contents-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "res"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "char**"
+            "name": "contents"
+            "raku-type": "gchar-pptr"
+          - 
+            "c-type": "gsize*"
+            "name": "length"
+            "raku-type": "CArray[gsize]"
+          - 
+            "c-type": "char**"
+            "name": "etag-out"
+            "raku-type": "gchar-pptr"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "load-partial-contents-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileReadMoreCallback"
+            "name": "read-more-callback"
+            "raku-type": ":( Str $file-contents,  $file-size, gpointer $callback-data )"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "load-partial-contents-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "res"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "char**"
+            "name": "contents"
+            "raku-type": "gchar-pptr"
+          - 
+            "c-type": "gsize*"
+            "name": "length"
+            "raku-type": "CArray[gsize]"
+          - 
+            "c-type": "char**"
+            "name": "etag-out"
+            "raku-type": "gchar-pptr"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "make-directory": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "make-directory-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "io-priority"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.38"
+      "make-directory-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.38"
+      "make-directory-with-parents": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.18"
+      "make-symbolic-link": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "symlink-value"
+            "raku-type": "Str"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "measure-disk-usage": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileMeasureFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileMeasureFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileMeasureProgressCallback"
+            "name": "progress-callback"
+            "raku-type": ":( gboolean $reporting, guint64 $current-size, guint64 $num-dirs, guint64 $num-files, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "progress-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "guint64*"
+            "name": "disk-usage"
+            "raku-type": "CArray[uint64]"
+          - 
+            "c-type": "guint64*"
+            "name": "num-dirs"
+            "raku-type": "CArray[uint64]"
+          - 
+            "c-type": "guint64*"
+            "name": "num-files"
+            "raku-type": "CArray[uint64]"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.38"
+      "measure-disk-usage-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileMeasureFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileMeasureFlags"
+          - 
+            "c-type": "gint"
+            "name": "io-priority"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileMeasureProgressCallback"
+            "name": "progress-callback"
+            "raku-type": ":( gboolean $reporting, guint64 $current-size, guint64 $num-dirs, guint64 $num-files, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "progress-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.38"
+      "measure-disk-usage-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint64*"
+            "name": "disk-usage"
+            "raku-type": "CArray[uint64]"
+          - 
+            "c-type": "guint64*"
+            "name": "num-dirs"
+            "raku-type": "CArray[uint64]"
+          - 
+            "c-type": "guint64*"
+            "name": "num-files"
+            "raku-type": "CArray[uint64]"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.38"
+      "monitor": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileMonitorFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileMonitorFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFileMonitor*"
+        "return-raku-type": "N-Object"
+        "version": "2.18"
+      "monitor-directory": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileMonitorFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileMonitorFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFileMonitor*"
+        "return-raku-type": "N-Object"
+      "monitor-file": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileMonitorFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileMonitorFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFileMonitor*"
+        "return-raku-type": "N-Object"
+      "mount-enclosing-volume": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "location"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GMountMountFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GMountMountFlags"
+          - 
+            "c-type": "GMountOperation*"
+            "name": "mount-operation"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "mount-enclosing-volume-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "location"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "mount-mountable": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GMountMountFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GMountMountFlags"
+          - 
+            "c-type": "GMountOperation*"
+            "name": "mount-operation"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "mount-mountable-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+      "move": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "source"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFile*"
+            "name": "destination"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileCopyFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileCopyFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileProgressCallback"
+            "name": "progress-callback"
+            "raku-type": ":(  $current-num-bytes,  $total-num-bytes, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "progress-callback-data"
+            "raku-type": "gpointer"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "move-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "source"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFile*"
+            "name": "destination"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileCopyFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileCopyFlags"
+          - 
+            "c-type": "int"
+            "name": "io-priority"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileProgressCallback"
+            "name": "progress-callback"
+            "raku-type": ":(  $current-num-bytes,  $total-num-bytes, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "progress-callback-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.72"
+      "move-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.72"
+      "open-readwrite": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFileIOStream*"
+        "return-raku-type": "N-Object"
+        "version": "2.22"
+      "open-readwrite-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "io-priority"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.22"
+      "open-readwrite-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "res"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFileIOStream*"
+        "return-raku-type": "N-Object"
+        "version": "2.22"
+      "peek-path": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+        "version": "2.56"
+      "poll-mountable": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.22"
+      "poll-mountable-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.22"
+      "query-default-handler": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GAppInfo*"
+        "return-raku-type": "N-Object"
+      "query-default-handler-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "io-priority"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.60"
+      "query-default-handler-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GAppInfo*"
+        "return-raku-type": "N-Object"
+        "version": "2.60"
+      "query-exists": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "query-file-type": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileQueryInfoFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileQueryInfoFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+        "return-c-type": "GFileType"
+        "return-raku-type": "GEnum:GFileType"
+        "version": "2.18"
+      "query-filesystem-info": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attributes"
+            "raku-type": "Str"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFileInfo*"
+        "return-raku-type": "N-Object"
+      "query-filesystem-info-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attributes"
+            "raku-type": "Str"
+          - 
+            "c-type": "int"
+            "name": "io-priority"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "query-filesystem-info-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "res"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFileInfo*"
+        "return-raku-type": "N-Object"
+      "query-info": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attributes"
+            "raku-type": "Str"
+          - 
+            "c-type": "GFileQueryInfoFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileQueryInfoFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFileInfo*"
+        "return-raku-type": "N-Object"
+      "query-info-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attributes"
+            "raku-type": "Str"
+          - 
+            "c-type": "GFileQueryInfoFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileQueryInfoFlags"
+          - 
+            "c-type": "int"
+            "name": "io-priority"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "query-info-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "res"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFileInfo*"
+        "return-raku-type": "N-Object"
+      "query-settable-attributes": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFileAttributeInfoList*"
+        "return-raku-type": "N-Object"
+      "query-writable-namespaces": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFileAttributeInfoList*"
+        "return-raku-type": "N-Object"
+      "read": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFileInputStream*"
+        "return-raku-type": "N-Object"
+      "read-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "io-priority"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "read-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "res"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFileInputStream*"
+        "return-raku-type": "N-Object"
+      "replace": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "etag"
+            "raku-type": "Str"
+          - 
+            "c-type": "gboolean"
+            "name": "make-backup"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "GFileCreateFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileCreateFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFileOutputStream*"
+        "return-raku-type": "N-Object"
+      "replace-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "etag"
+            "raku-type": "Str"
+          - 
+            "c-type": "gboolean"
+            "name": "make-backup"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "GFileCreateFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileCreateFlags"
+          - 
+            "c-type": "int"
+            "name": "io-priority"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "replace-contents": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "contents"
+            "raku-type": "Str"
+          - 
+            "c-type": "gsize"
+            "name": "length"
+            "raku-type": "gsize"
+          - 
+            "c-type": "const char*"
+            "name": "etag"
+            "raku-type": "Str"
+          - 
+            "c-type": "gboolean"
+            "name": "make-backup"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "GFileCreateFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileCreateFlags"
+          - 
+            "c-type": "char**"
+            "name": "new-etag"
+            "raku-type": "gchar-pptr"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "replace-contents-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "contents"
+            "raku-type": "Str"
+          - 
+            "c-type": "gsize"
+            "name": "length"
+            "raku-type": "gsize"
+          - 
+            "c-type": "const char*"
+            "name": "etag"
+            "raku-type": "Str"
+          - 
+            "c-type": "gboolean"
+            "name": "make-backup"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "GFileCreateFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileCreateFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "replace-contents-bytes-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GBytes*"
+            "name": "contents"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "etag"
+            "raku-type": "Str"
+          - 
+            "c-type": "gboolean"
+            "name": "make-backup"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "GFileCreateFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileCreateFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.40"
+      "replace-contents-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "res"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "char**"
+            "name": "new-etag"
+            "raku-type": "gchar-pptr"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "replace-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "res"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFileOutputStream*"
+        "return-raku-type": "N-Object"
+      "replace-readwrite": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "etag"
+            "raku-type": "Str"
+          - 
+            "c-type": "gboolean"
+            "name": "make-backup"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "GFileCreateFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileCreateFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFileIOStream*"
+        "return-raku-type": "N-Object"
+        "version": "2.22"
+      "replace-readwrite-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "etag"
+            "raku-type": "Str"
+          - 
+            "c-type": "gboolean"
+            "name": "make-backup"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "GFileCreateFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileCreateFlags"
+          - 
+            "c-type": "int"
+            "name": "io-priority"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.22"
+      "replace-readwrite-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "res"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFileIOStream*"
+        "return-raku-type": "N-Object"
+        "version": "2.22"
+      "resolve-relative-path": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "relative-path"
+            "raku-type": "Str"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+      "set-attribute": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+          - 
+            "c-type": "GFileAttributeType"
+            "name": "type"
+            "raku-type": "GEnum:GFileAttributeType"
+          - 
+            "c-type": "gpointer"
+            "name": "value-p"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GFileQueryInfoFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileQueryInfoFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "set-attribute-byte-string": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+          - 
+            "c-type": "const char*"
+            "name": "value"
+            "raku-type": "Str"
+          - 
+            "c-type": "GFileQueryInfoFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileQueryInfoFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "set-attribute-int32": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+          - 
+            "c-type": "gint32"
+            "name": "value"
+            "raku-type": "gint32"
+          - 
+            "c-type": "GFileQueryInfoFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileQueryInfoFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "set-attribute-int64": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+          - 
+            "c-type": "gint64"
+            "name": "value"
+            "raku-type": "gint64"
+          - 
+            "c-type": "GFileQueryInfoFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileQueryInfoFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "set-attribute-string": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+          - 
+            "c-type": "const char*"
+            "name": "value"
+            "raku-type": "Str"
+          - 
+            "c-type": "GFileQueryInfoFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileQueryInfoFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "set-attribute-uint32": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+          - 
+            "c-type": "guint32"
+            "name": "value"
+            "raku-type": "guint32"
+          - 
+            "c-type": "GFileQueryInfoFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileQueryInfoFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "set-attribute-uint64": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+          - 
+            "c-type": "guint64"
+            "name": "value"
+            "raku-type": "guint64"
+          - 
+            "c-type": "GFileQueryInfoFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileQueryInfoFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "set-attributes-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileQueryInfoFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileQueryInfoFlags"
+          - 
+            "c-type": "int"
+            "name": "io-priority"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-attributes-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileInfo**"
+            "name": "info"
+            "raku-type": "CArray[N-Object]"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "set-attributes-from-info": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileQueryInfoFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GFileQueryInfoFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "set-display-name": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "display-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+      "set-display-name-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "display-name"
+            "raku-type": "Str"
+          - 
+            "c-type": "int"
+            "name": "io-priority"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-display-name-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "res"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+      "start-mountable": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GDriveStartFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GDriveStartFlags"
+          - 
+            "c-type": "GMountOperation*"
+            "name": "start-operation"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.22"
+      "start-mountable-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.22"
+      "stop-mountable": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GMountUnmountFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GMountUnmountFlags"
+          - 
+            "c-type": "GMountOperation*"
+            "name": "mount-operation"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.22"
+      "stop-mountable-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.22"
+      "supports-thread-contexts": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.22"
+      "trash": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "trash-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "io-priority"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.38"
+      "trash-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.38"
+      "unmount-mountable": 
+        "deprecated-version": "2.22"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GMountUnmountFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GMountUnmountFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "unmount-mountable-finish": 
+        "deprecated-version": "2.22"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "unmount-mountable-with-operation": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GMountUnmountFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GMountUnmountFlags"
+          - 
+            "c-type": "GMountOperation*"
+            "name": "mount-operation"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.22"
+      "unmount-mountable-with-operation-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.22"
+  "source-filename": "file"
+  "symbol-prefix": "gio,g_file_"
+  "type-letter": ""
+  "type-name": "File"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...

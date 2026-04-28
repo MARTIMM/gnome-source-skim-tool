@@ -1,0 +1,942 @@
+---
+"GFileInfo": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::FileInfo"
+  "gir-type": "class"
+  "gnome-name": "GFileInfo"
+  "inheritable": false
+  "package-name": "Gnome::Gio"
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles":  []
+  "routines": 
+    "constructors": 
+      "new-gfileinfo": 
+        "generated": 0
+        "parameters":  []
+        "return-c-type": "GFileInfo*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "clear-status": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "copy-into": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "src-info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileInfo*"
+            "name": "dest-info"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "dup": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "other"
+            "raku-type": "N-Object"
+        "return-c-type": "GFileInfo*"
+        "return-raku-type": "N-Object"
+      "get-access-date-time": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "GDateTime*"
+        "return-raku-type": "N-Object"
+        "version": "2.70"
+      "get-attribute-as-string": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+        "return-c-type": "char*"
+        "return-raku-type": "Str"
+      "get-attribute-boolean": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-attribute-byte-string": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-attribute-data": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+          - 
+            "c-type": "GFileAttributeType*"
+            "name": "type"
+            "raku-type": "GEnum:GFileAttributeType"
+          - 
+            "c-type": "gpointer*"
+            "name": "value-pp"
+            "raku-type": "CArray[gpointer]"
+          - 
+            "c-type": "GFileAttributeStatus*"
+            "name": "status"
+            "raku-type": "GEnum:GFileAttributeStatus"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-attribute-file-path": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+        "version": "2.78"
+      "get-attribute-int32": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+        "return-c-type": "gint32"
+        "return-raku-type": "gint32"
+      "get-attribute-int64": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+        "return-c-type": "gint64"
+        "return-raku-type": "gint64"
+      "get-attribute-object": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+        "return-c-type": "GObject*"
+        "return-raku-type": "N-Object"
+      "get-attribute-status": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+        "return-c-type": "GFileAttributeStatus"
+        "return-raku-type": "GEnum:GFileAttributeStatus"
+      "get-attribute-string": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-attribute-stringv": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+        "return-c-type": "char**"
+        "return-raku-type": "gchar-pptr"
+        "version": "2.22"
+      "get-attribute-type": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+        "return-c-type": "GFileAttributeType"
+        "return-raku-type": "GEnum:GFileAttributeType"
+      "get-attribute-uint32": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+        "return-c-type": "guint32"
+        "return-raku-type": "guint32"
+      "get-attribute-uint64": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+        "return-c-type": "guint64"
+        "return-raku-type": "guint64"
+      "get-content-type": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-creation-date-time": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "GDateTime*"
+        "return-raku-type": "N-Object"
+        "version": "2.70"
+      "get-deletion-date": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "GDateTime*"
+        "return-raku-type": "N-Object"
+        "version": "2.36"
+      "get-display-name": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-edit-name": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-etag": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-file-type": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "GFileType"
+        "return-raku-type": "GEnum:GFileType"
+      "get-icon": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "GIcon*"
+        "return-raku-type": "N-Object"
+      "get-is-backup": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-is-hidden": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-is-symlink": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-modification-date-time": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "GDateTime*"
+        "return-raku-type": "N-Object"
+        "version": "2.62"
+      "get-modification-time": 
+        "deprecated-version": "2.62"
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GTimeVal*"
+            "name": "result"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-name": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-size": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "goffset"
+        "return-raku-type": ""
+      "get-sort-order": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "gint32"
+        "return-raku-type": "gint32"
+      "get-symbolic-icon": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "GIcon*"
+        "return-raku-type": "N-Object"
+        "version": "2.34"
+      "get-symlink-target": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "has-attribute": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "has-namespace": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "name-space"
+            "raku-type": "Str"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.22"
+      "list-attributes": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "name-space"
+            "raku-type": "Str"
+        "return-c-type": "char**"
+        "return-raku-type": "gchar-pptr"
+      "remove-attribute": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-access-date-time": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GDateTime*"
+            "name": "atime"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.70"
+      "set-attribute": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+          - 
+            "c-type": "GFileAttributeType"
+            "name": "type"
+            "raku-type": "GEnum:GFileAttributeType"
+          - 
+            "c-type": "gpointer"
+            "name": "value-p"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-attribute-boolean": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+          - 
+            "c-type": "gboolean"
+            "name": "attr-value"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-attribute-byte-string": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+          - 
+            "c-type": "const char*"
+            "name": "attr-value"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-attribute-file-path": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+          - 
+            "c-type": "const char*"
+            "name": "attr-value"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.78"
+      "set-attribute-int32": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+          - 
+            "c-type": "gint32"
+            "name": "attr-value"
+            "raku-type": "gint32"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-attribute-int64": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+          - 
+            "c-type": "gint64"
+            "name": "attr-value"
+            "raku-type": "gint64"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-attribute-mask": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileAttributeMatcher*"
+            "name": "mask"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-attribute-object": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+          - 
+            "c-type": "GObject*"
+            "name": "attr-value"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-attribute-status": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+          - 
+            "c-type": "GFileAttributeStatus"
+            "name": "status"
+            "raku-type": "GEnum:GFileAttributeStatus"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.22"
+      "set-attribute-string": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+          - 
+            "c-type": "const char*"
+            "name": "attr-value"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-attribute-stringv": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+          - 
+            "c-type": "char**"
+            "name": "attr-value"
+            "raku-type": "gchar-pptr"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-attribute-uint32": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+          - 
+            "c-type": "guint32"
+            "name": "attr-value"
+            "raku-type": "guint32"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-attribute-uint64": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "attribute"
+            "raku-type": "Str"
+          - 
+            "c-type": "guint64"
+            "name": "attr-value"
+            "raku-type": "guint64"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-content-type": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "content-type"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-creation-date-time": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GDateTime*"
+            "name": "creation-time"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.70"
+      "set-display-name": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "display-name"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-edit-name": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "edit-name"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-file-type": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GFileType"
+            "name": "type"
+            "raku-type": "GEnum:GFileType"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-icon": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GIcon*"
+            "name": "icon"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-is-hidden": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "is-hidden"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-is-symlink": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "is-symlink"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-modification-date-time": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GDateTime*"
+            "name": "mtime"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.62"
+      "set-modification-time": 
+        "deprecated-version": "2.62"
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GTimeVal*"
+            "name": "mtime"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-name": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "name"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-size": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "goffset"
+            "name": "size"
+            "raku-type": ""
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-sort-order": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint32"
+            "name": "sort-order"
+            "raku-type": "gint32"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-symbolic-icon": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GIcon*"
+            "name": "icon"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.34"
+      "set-symlink-target": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "symlink-target"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "unset-attribute-mask": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GFileInfo*"
+            "name": "info"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "fileinfo"
+  "symbol-prefix": "gio,g_file_info_"
+  "type-letter": ""
+  "type-name": "FileInfo"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...

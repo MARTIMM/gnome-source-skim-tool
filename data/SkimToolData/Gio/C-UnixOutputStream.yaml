@@ -1,0 +1,80 @@
+---
+"GUnixOutputStream": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::UnixOutputStream"
+  "gir-type": "class"
+  "gnome-name": "GUnixOutputStream"
+  "implement-roles": 
+    - "Gnome::Gio::R-FileDescriptorBased"
+    - "Gnome::Gio::R-PollableOutputStream"
+  "inheritable": false
+  "parent": "OutputStream"
+  "parent-gnome-name": "GioOutputStream"
+  "parent-raku-name": "Gnome::Gio::OutputStream"
+  "roles": 
+    - "Gnome::Gio::R-FileDescriptorBased"
+    - "Gnome::Gio::R-PollableOutputStream"
+  "routines": 
+    "constructors": 
+      "new-gunixoutputstream": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "gint"
+            "name": "fd"
+            "raku-type": "gint"
+          - 
+            "c-type": "gboolean"
+            "name": "close-fd"
+            "raku-type": "gboolean"
+        "return-c-type": "GOutputStream*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "get-close-fd": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GUnixOutputStream*"
+            "name": "stream"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.20"
+      "get-fd": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GUnixOutputStream*"
+            "name": "stream"
+            "raku-type": "N-Object"
+        "return-c-type": "gint"
+        "return-raku-type": "gint"
+        "version": "2.20"
+      "set-close-fd": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GUnixOutputStream*"
+            "name": "stream"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "close-fd"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.20"
+  "source-filename": "unixoutputstream"
+  "symbol-prefix": "gio,g_unix_output_stream_"
+  "type-letter": ""
+  "type-name": "UnixOutputStream"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...

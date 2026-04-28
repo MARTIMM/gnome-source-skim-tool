@@ -1,0 +1,123 @@
+---
+"GUnixFDList": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::UnixFDList"
+  "gir-type": "class"
+  "gnome-name": "GUnixFDList"
+  "inheritable": false
+  "package-name": "Gnome::Gio"
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles":  []
+  "routines": 
+    "constructors": 
+      "new-from-array": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const gint*"
+            "name": "fds"
+            "raku-type": "gint-ptr"
+          - 
+            "c-type": "gint"
+            "name": "n-fds"
+            "raku-type": "gint"
+        "return-c-type": "GUnixFDList*"
+        "return-raku-type": "N-Object"
+        "version": "2.24"
+      "new-gunixfdlist": 
+        "generated": 0
+        "parameters":  []
+        "return-c-type": "GUnixFDList*"
+        "return-raku-type": "N-Object"
+        "version": "2.24"
+    "methods": 
+      "append": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GUnixFDList*"
+            "name": "list"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint"
+            "name": "fd"
+            "raku-type": "gint"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gint"
+        "return-raku-type": "gint"
+        "version": "2.24"
+      "get": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GUnixFDList*"
+            "name": "list"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint"
+            "name": "index"
+            "raku-type": "gint"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gint"
+        "return-raku-type": "gint"
+        "version": "2.24"
+      "get-length": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GUnixFDList*"
+            "name": "list"
+            "raku-type": "N-Object"
+        "return-c-type": "gint"
+        "return-raku-type": "gint"
+        "version": "2.24"
+      "peek-fds": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GUnixFDList*"
+            "name": "list"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint*"
+            "name": "length"
+            "raku-type": "gint-ptr"
+        "return-c-type": "const gint*"
+        "return-raku-type": "gint-ptr"
+        "version": "2.24"
+      "steal-fds": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GUnixFDList*"
+            "name": "list"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint*"
+            "name": "length"
+            "raku-type": "gint-ptr"
+        "return-c-type": "gint*"
+        "return-raku-type": "gint-ptr"
+        "version": "2.24"
+  "source-filename": "unixfdlist"
+  "symbol-prefix": "gio,g_unix_fd_list_"
+  "type-letter": ""
+  "type-name": "UnixFDList"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...

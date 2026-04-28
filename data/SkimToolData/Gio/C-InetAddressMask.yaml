@@ -1,0 +1,132 @@
+---
+"GInetAddressMask": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::InetAddressMask"
+  "gir-type": "class"
+  "gnome-name": "GInetAddressMask"
+  "implement-roles": 
+    - "Gnome::Gio::R-Initable"
+  "inheritable": false
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles": 
+    - "Gnome::Gio::R-Initable"
+  "routines": 
+    "constructors": 
+      "new-from-string": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const gchar*"
+            "name": "mask-string"
+            "raku-type": "Str"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GInetAddressMask*"
+        "return-raku-type": "N-Object"
+        "version": "2.32"
+      "new-ginetaddressmask": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GInetAddress*"
+            "name": "addr"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "length"
+            "raku-type": "guint"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GInetAddressMask*"
+        "return-raku-type": "N-Object"
+        "version": "2.32"
+    "methods": 
+      "equal": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GInetAddressMask*"
+            "name": "mask"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GInetAddressMask*"
+            "name": "mask2"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.32"
+      "get-address": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GInetAddressMask*"
+            "name": "mask"
+            "raku-type": "N-Object"
+        "return-c-type": "GInetAddress*"
+        "return-raku-type": "N-Object"
+        "version": "2.32"
+      "get-family": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GInetAddressMask*"
+            "name": "mask"
+            "raku-type": "N-Object"
+        "return-c-type": "GSocketFamily"
+        "return-raku-type": "GEnum:GSocketFamily"
+        "version": "2.32"
+      "get-length": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GInetAddressMask*"
+            "name": "mask"
+            "raku-type": "N-Object"
+        "return-c-type": "guint"
+        "return-raku-type": "guint"
+        "version": "2.32"
+      "matches": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GInetAddressMask*"
+            "name": "mask"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GInetAddress*"
+            "name": "address"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.32"
+      "to-string": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GInetAddressMask*"
+            "name": "mask"
+            "raku-type": "N-Object"
+        "return-c-type": "gchar*"
+        "return-raku-type": "Str"
+        "version": "2.32"
+  "source-filename": "inetaddressmask"
+  "symbol-prefix": "gio,g_inet_address_mask_"
+  "type-letter": ""
+  "type-name": "InetAddressMask"
+  "version": "2.32"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...

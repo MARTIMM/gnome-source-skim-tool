@@ -1,0 +1,823 @@
+---
+"GSettings": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::Settings"
+  "gir-type": "class"
+  "gnome-name": "GSettings"
+  "inheritable": false
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles":  []
+  "routines": 
+    "constructors": 
+      "new-full": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettingsSchema*"
+            "name": "schema"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GSettingsBackend*"
+            "name": "backend"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "path"
+            "raku-type": "Str"
+        "return-c-type": "GSettings*"
+        "return-raku-type": "N-Object"
+        "version": "2.32"
+      "new-gsettings": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const gchar*"
+            "name": "schema-id"
+            "raku-type": "Str"
+        "return-c-type": "GSettings*"
+        "return-raku-type": "N-Object"
+        "version": "2.26"
+      "new-with-backend": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const gchar*"
+            "name": "schema-id"
+            "raku-type": "Str"
+          - 
+            "c-type": "GSettingsBackend*"
+            "name": "backend"
+            "raku-type": "N-Object"
+        "return-c-type": "GSettings*"
+        "return-raku-type": "N-Object"
+        "version": "2.26"
+      "new-with-backend-and-path": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const gchar*"
+            "name": "schema-id"
+            "raku-type": "Str"
+          - 
+            "c-type": "GSettingsBackend*"
+            "name": "backend"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "path"
+            "raku-type": "Str"
+        "return-c-type": "GSettings*"
+        "return-raku-type": "N-Object"
+        "version": "2.26"
+      "new-with-path": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const gchar*"
+            "name": "schema-id"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "path"
+            "raku-type": "Str"
+        "return-c-type": "GSettings*"
+        "return-raku-type": "N-Object"
+        "version": "2.26"
+    "functions": 
+      "list-relocatable-schemas": 
+        "deprecated-version": "2.40"
+        "generated": 0
+        "parameters":  []
+        "return-c-type": "const gchar* const*"
+        "return-raku-type": "gchar-pptr"
+        "version": "2.28"
+      "list-schemas": 
+        "deprecated-version": "2.40"
+        "generated": 0
+        "parameters":  []
+        "return-c-type": "const gchar* const*"
+        "return-raku-type": "gchar-pptr"
+        "version": "2.26"
+      "sync": 
+        "generated": 0
+        "parameters":  []
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "unbind": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "gpointer"
+            "name": "object"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "const gchar*"
+            "name": "property"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.26"
+    "methods": 
+      "apply": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "bind": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+          - 
+            "c-type": "gpointer"
+            "name": "object"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "const gchar*"
+            "name": "property"
+            "raku-type": "Str"
+          - 
+            "c-type": "GSettingsBindFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GSettingsBindFlags "
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.26"
+      "bind-with-mapping": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+          - 
+            "c-type": "gpointer"
+            "name": "object"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "const gchar*"
+            "name": "property"
+            "raku-type": "Str"
+          - 
+            "c-type": "GSettingsBindFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GSettingsBindFlags "
+          - 
+            "c-type": "GSettingsBindGetMapping"
+            "name": "get-mapping"
+            "raku-type": ":( N-Object $value, N-Object $variant, gpointer $user-data )"
+          - 
+            "c-type": "GSettingsBindSetMapping"
+            "name": "set-mapping"
+            "raku-type": ":( N-Object $value, N-Object $expected-type, gpointer $user-data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GDestroyNotify"
+            "name": "destroy"
+            "raku-type": ":( gpointer $data )"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.26"
+      "bind-writable": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+          - 
+            "c-type": "gpointer"
+            "name": "object"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "const gchar*"
+            "name": "property"
+            "raku-type": "Str"
+          - 
+            "c-type": "gboolean"
+            "name": "inverted"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.26"
+      "create-action": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+        "return-c-type": "GAction*"
+        "return-raku-type": "N-Object"
+        "version": "2.32"
+      "delay": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.26"
+      "get": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "format"
+            "raku-type": "Str"
+          - 
+            "c-type": "…"
+            "name": "…"
+            "raku-type": "…"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "variable-list": true
+        "version": "2.26"
+      "get-boolean": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.26"
+      "get-child": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "name"
+            "raku-type": "Str"
+        "return-c-type": "GSettings*"
+        "return-raku-type": "N-Object"
+        "version": "2.26"
+      "get-default-value": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+        "return-c-type": "GVariant*"
+        "return-raku-type": "N-Object"
+        "version": "2.40"
+      "get-double": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+        "return-c-type": "gdouble"
+        "return-raku-type": "gdouble"
+        "version": "2.26"
+      "get-enum": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+        "return-c-type": "gint"
+        "return-raku-type": "gint"
+        "version": "2.26"
+      "get-flags": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+        "return-c-type": "guint"
+        "return-raku-type": "guint"
+        "version": "2.26"
+      "get-has-unapplied": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.26"
+      "get-int": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+        "return-c-type": "gint"
+        "return-raku-type": "gint"
+        "version": "2.26"
+      "get-int64": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+        "return-c-type": "gint64"
+        "return-raku-type": "gint64"
+        "version": "2.50"
+      "get-mapped": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+          - 
+            "c-type": "GSettingsGetMapping"
+            "name": "mapping"
+            "raku-type": ":( N-Object $value, CArray[gpointer] $result, gpointer $user-data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "gpointer"
+        "return-raku-type": "gpointer"
+      "get-range": 
+        "deprecated-version": "2.40"
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+        "return-c-type": "GVariant*"
+        "return-raku-type": "N-Object"
+        "version": "2.28"
+      "get-string": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+        "return-c-type": "gchar*"
+        "return-raku-type": "Str"
+        "version": "2.26"
+      "get-strv": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+        "return-c-type": "gchar**"
+        "return-raku-type": "gchar-pptr"
+        "version": "2.26"
+      "get-uint": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+        "return-c-type": "guint"
+        "return-raku-type": "guint"
+        "version": "2.30"
+      "get-uint64": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+        "return-c-type": "guint64"
+        "return-raku-type": "guint64"
+        "version": "2.50"
+      "get-user-value": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+        "return-c-type": "GVariant*"
+        "return-raku-type": "N-Object"
+        "version": "2.40"
+      "get-value": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+        "return-c-type": "GVariant*"
+        "return-raku-type": "N-Object"
+        "version": "2.26"
+      "is-writable": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "name"
+            "raku-type": "Str"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.26"
+      "list-children": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "gchar**"
+        "return-raku-type": "gchar-pptr"
+      "list-keys": 
+        "deprecated-version": "2.46"
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "gchar**"
+        "return-raku-type": "gchar-pptr"
+      "range-check": 
+        "deprecated-version": "2.40"
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+          - 
+            "c-type": "GVariant*"
+            "name": "value"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.28"
+      "reset": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "revert": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "format"
+            "raku-type": "Str"
+          - 
+            "c-type": "…"
+            "name": "…"
+            "raku-type": "…"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "variable-list": true
+        "version": "2.26"
+      "set-boolean": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+          - 
+            "c-type": "gboolean"
+            "name": "value"
+            "raku-type": "gboolean"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.26"
+      "set-double": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+          - 
+            "c-type": "gdouble"
+            "name": "value"
+            "raku-type": "gdouble"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.26"
+      "set-enum": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+          - 
+            "c-type": "gint"
+            "name": "value"
+            "raku-type": "gint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "set-flags": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+          - 
+            "c-type": "guint"
+            "name": "value"
+            "raku-type": "guint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "set-int": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+          - 
+            "c-type": "gint"
+            "name": "value"
+            "raku-type": "gint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.26"
+      "set-int64": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+          - 
+            "c-type": "gint64"
+            "name": "value"
+            "raku-type": "gint64"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.50"
+      "set-string": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "value"
+            "raku-type": "Str"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.26"
+      "set-strv": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar* const*"
+            "name": "value"
+            "raku-type": "gchar-pptr"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.26"
+      "set-uint": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+          - 
+            "c-type": "guint"
+            "name": "value"
+            "raku-type": "guint"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.30"
+      "set-uint64": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+          - 
+            "c-type": "guint64"
+            "name": "value"
+            "raku-type": "guint64"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.50"
+      "set-value": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettings*"
+            "name": "settings"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "key"
+            "raku-type": "Str"
+          - 
+            "c-type": "GVariant*"
+            "name": "value"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.26"
+  "source-filename": "settings"
+  "symbol-prefix": "gio,g_settings_"
+  "type-letter": ""
+  "type-name": "Settings"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...

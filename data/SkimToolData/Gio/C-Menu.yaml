@@ -1,0 +1,289 @@
+---
+"GMenu": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 1
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::Menu"
+  "gir-type": "class"
+  "gnome-name": "GMenu"
+  "inheritable": false
+  "parent": "MenuModel"
+  "parent-gnome-name": "GioMenuModel"
+  "parent-raku-name": "Gnome::Gio::MenuModel"
+  "roles":  []
+  "routines": 
+    "constructors": 
+      "new-gmenu": 
+        "generated": 1
+        "parameters":  []
+        "return-c-type": "GMenu*"
+        "return-raku-type": "N-Object"
+        "version": "2.32"
+    "methods": 
+      "append": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GMenu*"
+            "name": "menu"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "label"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "detailed-action"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.32"
+      "append-item": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GMenu*"
+            "name": "menu"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GMenuItem*"
+            "name": "item"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.32"
+      "append-section": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GMenu*"
+            "name": "menu"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "label"
+            "raku-type": "Str"
+          - 
+            "c-type": "GMenuModel*"
+            "name": "section"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.32"
+      "append-submenu": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GMenu*"
+            "name": "menu"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "label"
+            "raku-type": "Str"
+          - 
+            "c-type": "GMenuModel*"
+            "name": "submenu"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.32"
+      "freeze": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GMenu*"
+            "name": "menu"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.32"
+      "insert": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GMenu*"
+            "name": "menu"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint"
+            "name": "position"
+            "raku-type": "gint"
+          - 
+            "c-type": "const gchar*"
+            "name": "label"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "detailed-action"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.32"
+      "insert-item": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GMenu*"
+            "name": "menu"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint"
+            "name": "position"
+            "raku-type": "gint"
+          - 
+            "c-type": "GMenuItem*"
+            "name": "item"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.32"
+      "insert-section": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GMenu*"
+            "name": "menu"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint"
+            "name": "position"
+            "raku-type": "gint"
+          - 
+            "c-type": "const gchar*"
+            "name": "label"
+            "raku-type": "Str"
+          - 
+            "c-type": "GMenuModel*"
+            "name": "section"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.32"
+      "insert-submenu": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GMenu*"
+            "name": "menu"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint"
+            "name": "position"
+            "raku-type": "gint"
+          - 
+            "c-type": "const gchar*"
+            "name": "label"
+            "raku-type": "Str"
+          - 
+            "c-type": "GMenuModel*"
+            "name": "submenu"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.32"
+      "prepend": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GMenu*"
+            "name": "menu"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "label"
+            "raku-type": "Str"
+          - 
+            "c-type": "const gchar*"
+            "name": "detailed-action"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.32"
+      "prepend-item": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GMenu*"
+            "name": "menu"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GMenuItem*"
+            "name": "item"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.32"
+      "prepend-section": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GMenu*"
+            "name": "menu"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "label"
+            "raku-type": "Str"
+          - 
+            "c-type": "GMenuModel*"
+            "name": "section"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.32"
+      "prepend-submenu": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GMenu*"
+            "name": "menu"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "label"
+            "raku-type": "Str"
+          - 
+            "c-type": "GMenuModel*"
+            "name": "submenu"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.32"
+      "remove": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GMenu*"
+            "name": "menu"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint"
+            "name": "position"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.32"
+      "remove-all": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GMenu*"
+            "name": "menu"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.38"
+  "source-filename": "menu"
+  "symbol-prefix": "gio,g_menu_"
+  "type-letter": ""
+  "type-name": "Menu"
+  "version": "2.32"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...
