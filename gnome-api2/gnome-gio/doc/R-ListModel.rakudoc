@@ -89,7 +89,7 @@ Get the item at C<$position>.
 If C<$position> is greater than the number of items in C<$list>, undefined is
 returned.
 
-undefined is never returned for an index that is smaller than the length
+Undefined is never returned for an index that is smaller than the length
 of the list.
 
 See also: C<.get-n-items()>
@@ -102,12 +102,20 @@ method get-item ( UInt() $position --> gpointer )
 
 Return value; the item at C<$position>.. 
 
-=begin comment
 
 =head2 Example
-# Example for get-item
 
-=end comment
+# Example for get-item.
+
+The example shows a way to get the 2nd item from a list managed by the list model. This method is more complex, so it is better to use other means when possible. For this class, it is better to use L<.get-object()|#get-object>
+
+=begin code
+
+my Gnome::Gtk4::StringObject() $so;
+$so = nativecast( N-Object, .get-item(1));
+my Str $string = $so.get-string(1);
+
+=end code
 
 =end pod
 
@@ -188,12 +196,18 @@ method get-object ( UInt() $position --> N-Object )
 
 Return value; the object at C<$position>.. 
 
-=begin comment
-
 =head2 Example
-# Example for get-object
 
-=end comment
+# Example for get-object.
+
+The example shows a way to get the 2nd item from a list managed by the list model. This method is better than C<.get-item> explained above.
+
+=begin code
+
+my Gnome::Gtk4::StringObject() $so = .get-item(1));
+my Str $string = $so.get-string(1);
+
+=end code
 
 =end pod
 
