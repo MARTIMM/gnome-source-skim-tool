@@ -394,7 +394,7 @@ method !get-data (
 
   # Map key from some sort of identifier
   my Str $ctype = self!get-name($attrs);
-  my Str $raku-type =$ctype;
+  my Str $raku-type = $ctype;
   $raku-type ~~ s/^ $*namespace-name//;
 
   # Return when an element ends in specific words. Most of those are records.
@@ -428,12 +428,17 @@ $ed-name<checks><note> = '' unless $ed-name<checks><note>:exists;
   $ed-name<checks><nbr-tests> = self!get-nbr-tests( $ed-name, $module);
 
   # Check for module file to set field 'modules-generated'.
-  my Str $prefix = $ed-name<type-letter>:exists
+  my Str $prefix = ?$ed-name<type-letter>
         ?? $ed-name<type-letter> ~ '-' !! '';
+  my Str $type-name = $ed-name<type-name>;
   my Str $lib-path =
     [~] $*api2root, 'gnome-', $*gnome-package.Str.lc, '/lib/Gnome/';
+#note "$?LINE $*api2root, $*gnome-package.Str().lc(), $prefix, $type-name";
+#note "$?LINE $lib-path$*gnome-package.Str()/$prefix$type-name.rakumod";
+
   my Int $modules-generated =
-    "$lib-path$*gnome-package.Str()/$prefix$raku-type.rakumod".IO.r ?? 1 !! 0;
+    "$lib-path$*gnome-package.Str()/$prefix$type-name.rakumod".IO.r ?? 1 !! 0;
+
   $ed-name<checks><modules-generated> = $modules-generated;
 
   # Fill in some missing data before calling for routine search. The used call
@@ -457,13 +462,20 @@ $ed-name<checks><note> = '' unless $ed-name<checks><note>:exists;
         $routines{$rtype}{$rname}{$rfield} = $rdata{$rfield};
       }
 
-      # Only missing-type = True is stored
+      # Only missing-type = True is stored, test for :exists is enough.
       my Int $not-missing = $rdata<missing-type>:exists ?? 0 !! 1;
 
       # Add field for generation info depending on 
-      # missing parameters or version > first release
-      $routines{$rtype}{$rname}<generated> //=
-        ?$rdata<version> ?? 0 !! $not-missing +& $modules-generated +& 1;
+      # missing parameters or version > first release (when Gtk, Gsk, or Gdk)
+      if $*gnome-package.Str ~~ any(<Gtk Gsk Gdk>) {
+        $routines{$rtype}{$rname}<generated> //=
+          ?$rdata<version> ?? 0 !! $not-missing +& $modules-generated +& 1;
+      }
+
+      else {
+        $routines{$rtype}{$rname}<generated> //=
+          $not-missing +& $modules-generated +& 1;
+      }
     }
   }
 
