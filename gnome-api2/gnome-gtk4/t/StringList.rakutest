@@ -12,6 +12,8 @@ use NativeCall;
 use Gnome::Gtk4::StringList:api<2>;
 use Gnome::Gtk4::StringObject:api<2>;
 
+use Gnome::GObject::T-type:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -60,10 +62,6 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $stringlist {
-    my gchar-pptr $additions;
-    my guint $position = 0;
-    my Str $string = 'abc';
-    my guint $n-removals;
 
     #TM:1:append()
     .append('abc');
@@ -76,9 +74,9 @@ subtest 'Method tests', {
     lives-ok {.splice( 2, 0, CArray[Str].new( 'string4', 'str5'))}, '.splice()';
 
 #`{{
+#NOTE Remove from class. Use .get-string()
     #TM:0:take()
     ok .take( $string), '.take()';
-
 }}
   }
 };
@@ -89,6 +87,11 @@ subtest 'Tests for R-ListModel and ListObject classes', {
 
     #TM:1:get-n-items()
     is .get-n-items, 4, 'Gnome::Gio::ListModel .get-n-items()';
+    is .get-item-type, G_TYPE_OBJECT,
+       'Gnome::Gio::ListModel .get-item-type(): G_TYPE_OBJECT';
+
+#`{{
+#NOTE Removed from class. Use .get-object()
 
     #TM:1:get-item()
     my Gnome::Gtk4::StringObject() $so;
@@ -96,12 +99,13 @@ subtest 'Tests for R-ListModel and ListObject classes', {
       'Gnome::Gio::ListModel .get-item()';
     is $so.get-string(1), '2nd string',
       'Gnome::Gtk4::StringObject .get-string()';
- 
+}}
+
     #TM:1:get-object()
-#    my Gnome::Gtk4::StringObject() $so;
+    my Gnome::Gtk4::StringObject() $so;
     lives-ok {$so = .get-object(1)},
       'Gnome::Gio::ListModel .get-object()';
-    is $so.get-string(1), '2nd string',
+    is $so.get-string, '2nd string',
       'Gnome::Gtk4::StringObject .get-string()';
 
     nok ?.get-object(10), '10th item not available';
