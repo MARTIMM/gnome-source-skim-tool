@@ -1,0 +1,116 @@
+---
+"GSettingsSchemaSource": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::N-SettingsSchemaSource"
+  "gir-type": "record"
+  "gnome-name": "GSettingsSchemaSource"
+  "package-name": "Gnome::Gio"
+  "parent": ~
+  "record-class": "N-SettingsSchemaSource"
+  "routines": 
+    "constructors": 
+      "new-from-directory": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const gchar*"
+            "name": "directory"
+            "raku-type": "Str"
+          - 
+            "c-type": "GSettingsSchemaSource*"
+            "name": "parent"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "trusted"
+            "raku-type": "gboolean"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GSettingsSchemaSource*"
+        "return-raku-type": "N-Object"
+        "version": "2.32"
+    "functions": 
+      "get-default": 
+        "generated": 0
+        "parameters":  []
+        "return-c-type": "GSettingsSchemaSource*"
+        "return-raku-type": "N-Object"
+        "version": "2.32"
+    "methods": 
+      "list-schemas": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettingsSchemaSource*"
+            "name": "source"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "recursive"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "gchar***"
+            "name": "non-relocatable"
+            "raku-type": "gchar-pptr"
+          - 
+            "c-type": "gchar***"
+            "name": "relocatable"
+            "raku-type": "gchar-pptr"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.40"
+      "lookup": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettingsSchemaSource*"
+            "name": "source"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const gchar*"
+            "name": "schema-id"
+            "raku-type": "Str"
+          - 
+            "c-type": "gboolean"
+            "name": "recursive"
+            "raku-type": "gboolean"
+        "return-c-type": "GSettingsSchema*"
+        "return-raku-type": "N-Object"
+        "version": "2.32"
+      "ref": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettingsSchemaSource*"
+            "name": "source"
+            "raku-type": "N-Object"
+        "return-c-type": "GSettingsSchemaSource*"
+        "return-raku-type": "N-Object"
+        "version": "2.32"
+      "unref": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GSettingsSchemaSource*"
+            "name": "source"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.32"
+  "source-filename": "settingsschema"
+  "symbol-prefix": "gio,g_settings_schema_source_"
+  "type-letter": "N"
+  "type-name": "SettingsSchemaSource"
+  "version": "2.32"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...

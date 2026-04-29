@@ -1,0 +1,119 @@
+---
+"GProxy": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::R-Proxy"
+  "gir-type": "interface"
+  "gnome-name": "GProxy"
+  "parent": ~
+  "routines": 
+    "functions": 
+      "get-default-for-protocol": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const gchar*"
+            "name": "protocol"
+            "raku-type": "Str"
+        "return-c-type": "GProxy*"
+        "return-raku-type": "N-Object"
+        "version": "2.26"
+    "methods": 
+      "connect": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GProxy*"
+            "name": "proxy"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GIOStream*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GProxyAddress*"
+            "name": "proxy-address"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GIOStream*"
+        "return-raku-type": "N-Object"
+        "version": "2.26"
+      "connect-async": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GProxy*"
+            "name": "proxy"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GIOStream*"
+            "name": "connection"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GProxyAddress*"
+            "name": "proxy-address"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.26"
+      "connect-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GProxy*"
+            "name": "proxy"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GIOStream*"
+        "return-raku-type": "N-Object"
+        "version": "2.26"
+      "supports-hostname": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GProxy*"
+            "name": "proxy"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.26"
+  "source-filename": "proxy"
+  "symbol-prefix": "gio,g_proxy_"
+  "type-letter": "R"
+  "type-name": "Proxy"
+  "version": "2.26"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...

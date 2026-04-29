@@ -1,0 +1,103 @@
+---
+"GDtlsClientConnection": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::R-DtlsClientConnection"
+  "gir-type": "interface"
+  "gnome-name": "GDtlsClientConnection"
+  "parent": ~
+  "routines": 
+    "functions": 
+      "new": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDatagramBased*"
+            "name": "base-socket"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GSocketConnectable*"
+            "name": "server-identity"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GDatagramBased*"
+        "return-raku-type": "N-Object"
+        "version": "2.48"
+    "methods": 
+      "get-accepted-cas": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDtlsClientConnection*"
+            "name": "conn"
+            "raku-type": "N-Object"
+        "return-c-type": "GList*"
+        "return-raku-type": "N-Object"
+        "version": "2.48"
+      "get-server-identity": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDtlsClientConnection*"
+            "name": "conn"
+            "raku-type": "N-Object"
+        "return-c-type": "GSocketConnectable*"
+        "return-raku-type": "N-Object"
+        "version": "2.48"
+      "get-validation-flags": 
+        "deprecated-version": "2.74"
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDtlsClientConnection*"
+            "name": "conn"
+            "raku-type": "N-Object"
+        "return-c-type": "GTlsCertificateFlags"
+        "return-raku-type": "GFlag:GTlsCertificateFlags"
+        "version": "2.48"
+      "set-server-identity": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDtlsClientConnection*"
+            "name": "conn"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GSocketConnectable*"
+            "name": "identity"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.48"
+      "set-validation-flags": 
+        "deprecated-version": "2.74"
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDtlsClientConnection*"
+            "name": "conn"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GTlsCertificateFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GTlsCertificateFlags"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.48"
+  "source-filename": "dtlsclientconnection"
+  "symbol-prefix": "gio,g_dtls_client_connection_"
+  "type-letter": "R"
+  "type-name": "DtlsClientConnection"
+  "version": "2.48"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...

@@ -1,0 +1,191 @@
+---
+"GResource": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::N-Resource"
+  "gir-type": "record"
+  "gnome-name": "GResource"
+  "parent": ~
+  "record-class": "N-Resource"
+  "routines": 
+    "constructors": 
+      "new-from-data": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GBytes*"
+            "name": "data"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GResource*"
+        "return-raku-type": "N-Object"
+        "version": "2.32"
+    "functions": 
+      "load": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const gchar*"
+            "name": "filename"
+            "raku-type": "Str"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GResource*"
+        "return-raku-type": "N-Object"
+        "version": "2.32"
+    "methods": 
+      "-register": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GResource*"
+            "name": "resource"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.32"
+      "-unregister": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GResource*"
+            "name": "resource"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.32"
+      "enumerate-children": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GResource*"
+            "name": "resource"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "path"
+            "raku-type": "Str"
+          - 
+            "c-type": "GResourceLookupFlags"
+            "name": "lookup-flags"
+            "raku-type": "GFlag:GResourceLookupFlags"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "char**"
+        "return-raku-type": "gchar-pptr"
+        "version": "2.32"
+      "get-info": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GResource*"
+            "name": "resource"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "path"
+            "raku-type": "Str"
+          - 
+            "c-type": "GResourceLookupFlags"
+            "name": "lookup-flags"
+            "raku-type": "GFlag:GResourceLookupFlags"
+          - 
+            "c-type": "gsize*"
+            "name": "size"
+            "raku-type": "CArray[gsize]"
+          - 
+            "c-type": "guint32*"
+            "name": "flags"
+            "raku-type": "CArray[uint32]"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.32"
+      "lookup-data": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GResource*"
+            "name": "resource"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "path"
+            "raku-type": "Str"
+          - 
+            "c-type": "GResourceLookupFlags"
+            "name": "lookup-flags"
+            "raku-type": "GFlag:GResourceLookupFlags"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GBytes*"
+        "return-raku-type": "N-Object"
+        "version": "2.32"
+      "open-stream": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GResource*"
+            "name": "resource"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "path"
+            "raku-type": "Str"
+          - 
+            "c-type": "GResourceLookupFlags"
+            "name": "lookup-flags"
+            "raku-type": "GFlag:GResourceLookupFlags"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GInputStream*"
+        "return-raku-type": "N-Object"
+        "version": "2.32"
+      "ref": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GResource*"
+            "name": "resource"
+            "raku-type": "N-Object"
+        "return-c-type": "GResource*"
+        "return-raku-type": "N-Object"
+        "version": "2.32"
+      "unref": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GResource*"
+            "name": "resource"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.32"
+  "source-filename": "iotypes"
+  "symbol-prefix": "gio,g_resource_"
+  "type-letter": "N"
+  "type-name": "Resource"
+  "version": "2.32"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...

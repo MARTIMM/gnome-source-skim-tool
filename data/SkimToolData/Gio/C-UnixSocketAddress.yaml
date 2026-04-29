@@ -1,0 +1,121 @@
+---
+"GUnixSocketAddress": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::UnixSocketAddress"
+  "gir-type": "class"
+  "gnome-name": "GUnixSocketAddress"
+  "implement-roles": 
+    - "Gnome::Gio::R-SocketConnectable"
+  "inheritable": false
+  "parent": "SocketAddress"
+  "parent-gnome-name": "GioSocketAddress"
+  "parent-raku-name": "Gnome::Gio::SocketAddress"
+  "roles": 
+    - "Gnome::Gio::R-SocketConnectable"
+  "routines": 
+    "constructors": 
+      "new-abstract": 
+        "deprecated-version": "no version specified"
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const gchar*"
+            "name": "path"
+            "raku-type": "Str"
+          - 
+            "c-type": "gint"
+            "name": "path-len"
+            "raku-type": "gint"
+        "return-c-type": "GSocketAddress*"
+        "return-raku-type": "N-Object"
+      "new-gunixsocketaddress": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const gchar*"
+            "name": "path"
+            "raku-type": "Str"
+        "return-c-type": "GSocketAddress*"
+        "return-raku-type": "N-Object"
+        "version": "2.22"
+      "new-with-type": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const gchar*"
+            "name": "path"
+            "raku-type": "Str"
+          - 
+            "c-type": "gint"
+            "name": "path-len"
+            "raku-type": "gint"
+          - 
+            "c-type": "GUnixSocketAddressType"
+            "name": "type"
+            "raku-type": "GEnum:GUnixSocketAddressType"
+        "return-c-type": "GSocketAddress*"
+        "return-raku-type": "N-Object"
+        "version": "2.26"
+    "functions": 
+      "abstract-names-supported": 
+        "generated": 0
+        "parameters":  []
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.22"
+    "methods": 
+      "get-address-type": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GUnixSocketAddress*"
+            "name": "address"
+            "raku-type": "N-Object"
+        "return-c-type": "GUnixSocketAddressType"
+        "return-raku-type": "GEnum:GUnixSocketAddressType"
+        "version": "2.26"
+      "get-is-abstract": 
+        "deprecated-version": "no version specified"
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GUnixSocketAddress*"
+            "name": "address"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.22"
+      "get-path": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GUnixSocketAddress*"
+            "name": "address"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+        "version": "2.22"
+      "get-path-len": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GUnixSocketAddress*"
+            "name": "address"
+            "raku-type": "N-Object"
+        "return-c-type": "gsize"
+        "return-raku-type": "gsize"
+        "version": "2.22"
+  "source-filename": "unixsocketaddress"
+  "symbol-prefix": "gio,g_unix_socket_address_"
+  "type-letter": ""
+  "type-name": "UnixSocketAddress"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...

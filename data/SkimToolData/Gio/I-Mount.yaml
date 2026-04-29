@@ -1,0 +1,451 @@
+---
+"GMount": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::R-Mount"
+  "gir-type": "interface"
+  "gnome-name": "GMount"
+  "package-name": "Gnome::Gio"
+  "parent": ~
+  "routines": 
+    "methods": 
+      "can-eject": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMount*"
+            "name": "mount"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "can-unmount": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMount*"
+            "name": "mount"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "eject": 
+        "deprecated-version": "2.22"
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMount*"
+            "name": "mount"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GMountUnmountFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GMountUnmountFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "eject-finish": 
+        "deprecated-version": "2.22"
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMount*"
+            "name": "mount"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "eject-with-operation": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMount*"
+            "name": "mount"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GMountUnmountFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GMountUnmountFlags"
+          - 
+            "c-type": "GMountOperation*"
+            "name": "mount-operation"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.22"
+      "eject-with-operation-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMount*"
+            "name": "mount"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.22"
+      "get-default-location": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMount*"
+            "name": "mount"
+            "raku-type": "N-Object"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+      "get-drive": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMount*"
+            "name": "mount"
+            "raku-type": "N-Object"
+        "return-c-type": "GDrive*"
+        "return-raku-type": "N-Object"
+      "get-icon": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMount*"
+            "name": "mount"
+            "raku-type": "N-Object"
+        "return-c-type": "GIcon*"
+        "return-raku-type": "N-Object"
+      "get-name": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMount*"
+            "name": "mount"
+            "raku-type": "N-Object"
+        "return-c-type": "char*"
+        "return-raku-type": "Str"
+      "get-root": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMount*"
+            "name": "mount"
+            "raku-type": "N-Object"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+      "get-sort-key": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMount*"
+            "name": "mount"
+            "raku-type": "N-Object"
+        "return-c-type": "const gchar*"
+        "return-raku-type": "Str"
+        "version": "2.32"
+      "get-symbolic-icon": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMount*"
+            "name": "mount"
+            "raku-type": "N-Object"
+        "return-c-type": "GIcon*"
+        "return-raku-type": "N-Object"
+        "version": "2.34"
+      "get-uuid": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMount*"
+            "name": "mount"
+            "raku-type": "N-Object"
+        "return-c-type": "char*"
+        "return-raku-type": "Str"
+      "get-volume": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMount*"
+            "name": "mount"
+            "raku-type": "N-Object"
+        "return-c-type": "GVolume*"
+        "return-raku-type": "N-Object"
+      "guess-content-type": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMount*"
+            "name": "mount"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "force-rescan"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.18"
+      "guess-content-type-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMount*"
+            "name": "mount"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gchar**"
+        "return-raku-type": "gchar-pptr"
+        "version": "2.18"
+      "guess-content-type-sync": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMount*"
+            "name": "mount"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "force-rescan"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gchar**"
+        "return-raku-type": "gchar-pptr"
+        "version": "2.18"
+      "is-shadowed": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMount*"
+            "name": "mount"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.20"
+      "remount": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMount*"
+            "name": "mount"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GMountMountFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GMountMountFlags"
+          - 
+            "c-type": "GMountOperation*"
+            "name": "mount-operation"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "remount-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMount*"
+            "name": "mount"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "shadow": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMount*"
+            "name": "mount"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.20"
+      "unmount": 
+        "deprecated-version": "2.22"
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMount*"
+            "name": "mount"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GMountUnmountFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GMountUnmountFlags"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "unmount-finish": 
+        "deprecated-version": "2.22"
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMount*"
+            "name": "mount"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "unmount-with-operation": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMount*"
+            "name": "mount"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GMountUnmountFlags"
+            "name": "flags"
+            "raku-type": "GFlag:GMountUnmountFlags"
+          - 
+            "c-type": "GMountOperation*"
+            "name": "mount-operation"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.22"
+      "unmount-with-operation-finish": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMount*"
+            "name": "mount"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.22"
+      "unshadow": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GMount*"
+            "name": "mount"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.20"
+  "source-filename": "mount"
+  "symbol-prefix": "gio,g_mount_"
+  "type-letter": "R"
+  "type-name": "Mount"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...

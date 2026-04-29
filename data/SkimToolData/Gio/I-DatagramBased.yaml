@@ -1,0 +1,153 @@
+---
+"GDatagramBased": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::R-DatagramBased"
+  "gir-type": "interface"
+  "gnome-name": "GDatagramBased"
+  "parent": ~
+  "routines": 
+    "methods": 
+      "condition-check": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GDatagramBased*"
+            "name": "datagram-based"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GIOCondition"
+            "name": "condition"
+            "raku-type": "GFlag:GIOCondition "
+        "return-c-type": "GIOCondition"
+        "return-raku-type": "GFlag:GIOCondition "
+        "version": "2.48"
+      "condition-wait": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GDatagramBased*"
+            "name": "datagram-based"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GIOCondition"
+            "name": "condition"
+            "raku-type": "GFlag:GIOCondition "
+          - 
+            "c-type": "gint64"
+            "name": "timeout"
+            "raku-type": "gint64"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.48"
+      "create-source": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GDatagramBased*"
+            "name": "datagram-based"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GIOCondition"
+            "name": "condition"
+            "raku-type": "GFlag:GIOCondition "
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+        "return-c-type": "GSource*"
+        "return-raku-type": "N-Object"
+        "version": "2.48"
+      "receive-messages": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDatagramBased*"
+            "name": "datagram-based"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GInputMessage*"
+            "name": "messages"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "num-messages"
+            "raku-type": "guint"
+          - 
+            "c-type": "gint"
+            "name": "flags"
+            "raku-type": "gint"
+          - 
+            "c-type": "gint64"
+            "name": "timeout"
+            "raku-type": "gint64"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gint"
+        "return-raku-type": "gint"
+        "version": "2.48"
+      "send-messages": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GDatagramBased*"
+            "name": "datagram-based"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GOutputMessage*"
+            "name": "messages"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "num-messages"
+            "raku-type": "guint"
+          - 
+            "c-type": "gint"
+            "name": "flags"
+            "raku-type": "gint"
+          - 
+            "c-type": "gint64"
+            "name": "timeout"
+            "raku-type": "gint64"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gint"
+        "return-raku-type": "gint"
+        "version": "2.48"
+  "source-filename": "datagrambased"
+  "symbol-prefix": "gio,g_datagram_based_"
+  "type-letter": "R"
+  "type-name": "DatagramBased"
+  "version": "2.48"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...

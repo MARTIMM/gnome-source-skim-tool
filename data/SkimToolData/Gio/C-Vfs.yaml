@@ -1,0 +1,147 @@
+---
+"GVfs": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::Vfs"
+  "gir-type": "class"
+  "gnome-name": "GVfs"
+  "inheritable": false
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles":  []
+  "routines": 
+    "functions": 
+      "get-default": 
+        "generated": 0
+        "parameters":  []
+        "return-c-type": "GVfs*"
+        "return-raku-type": "N-Object"
+      "get-local": 
+        "generated": 0
+        "parameters":  []
+        "return-c-type": "GVfs*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "get-file-for-path": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GVfs*"
+            "name": "vfs"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "path"
+            "raku-type": "Str"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+      "get-file-for-uri": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GVfs*"
+            "name": "vfs"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "uri"
+            "raku-type": "Str"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+      "get-supported-uri-schemes": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GVfs*"
+            "name": "vfs"
+            "raku-type": "N-Object"
+        "return-c-type": "const gchar* const*"
+        "return-raku-type": "gchar-pptr"
+      "is-active": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GVfs*"
+            "name": "vfs"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "parse-name": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GVfs*"
+            "name": "vfs"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "parse-name"
+            "raku-type": "Str"
+        "return-c-type": "GFile*"
+        "return-raku-type": "N-Object"
+      "register-uri-scheme": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GVfs*"
+            "name": "vfs"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "scheme"
+            "raku-type": "Str"
+          - 
+            "c-type": "GVfsFileLookupFunc"
+            "name": "uri-func"
+            "raku-type": ":( N-Object $vfs, Str $identifier, gpointer $user-data )"
+          - 
+            "c-type": "gpointer"
+            "name": "uri-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GDestroyNotify"
+            "name": "uri-destroy"
+            "raku-type": ":( gpointer $data )"
+          - 
+            "c-type": "GVfsFileLookupFunc"
+            "name": "parse-name-func"
+            "raku-type": ":( N-Object $vfs, Str $identifier, gpointer $user-data )"
+          - 
+            "c-type": "gpointer"
+            "name": "parse-name-data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GDestroyNotify"
+            "name": "parse-name-destroy"
+            "raku-type": ":( gpointer $data )"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.50"
+      "unregister-uri-scheme": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GVfs*"
+            "name": "vfs"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "scheme"
+            "raku-type": "Str"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.50"
+  "source-filename": "vfs"
+  "symbol-prefix": "gio,g_vfs_"
+  "type-letter": ""
+  "type-name": "Vfs"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...

@@ -1,0 +1,84 @@
+---
+"GPollableInputStream": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gio::R-PollableInputStream"
+  "gir-type": "interface"
+  "gnome-name": "GPollableInputStream"
+  "parent": ~
+  "routines": 
+    "methods": 
+      "can-poll": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GPollableInputStream*"
+            "name": "stream"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.28"
+      "create-source": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GPollableInputStream*"
+            "name": "stream"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+        "return-c-type": "GSource*"
+        "return-raku-type": "N-Object"
+        "version": "2.28"
+      "is-readable": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GPollableInputStream*"
+            "name": "stream"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.28"
+      "read-nonblocking": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GPollableInputStream*"
+            "name": "stream"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "void*"
+            "name": "buffer"
+            "raku-type": ""
+          - 
+            "c-type": "gsize"
+            "name": "count"
+            "raku-type": "gsize"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gssize"
+        "return-raku-type": "gssize"
+  "source-filename": "pollableinputstream"
+  "symbol-prefix": "gio,g_pollable_input_stream_"
+  "type-letter": "R"
+  "type-name": "PollableInputStream"
+  "version": "2.28"
+"namespace-name": "Gio"
+"symbol-prefix": "gio,g"
+"version": "2.0"
+...
