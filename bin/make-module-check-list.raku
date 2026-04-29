@@ -213,7 +213,7 @@ sub set-legend ( --> Str ) {
     <td>Not generated, there are missing types</td></tr>
 
     <tr><td>{md-image( 'checklist-no-implement', :img)}</td>
-    <td>Will not be generated</td></tr>
+    <td>Is removed or will not be implemented</td></tr>
 
     EOLEGEND
 }
@@ -336,11 +336,22 @@ sub md-image ( Str $name, Bool :$img = False --> Str ) {
 sub make-table-entry ( Str $rname, Hash $rdata --> Str ) {
   my Str $doc = '';
   $doc ~= "| $rname |";
-  $doc ~= $rdata<generated>
+  
+  # If field 'no-implement' exists, no 'generated' field is set. In that case
+  # 'no-implement' is always 1.
+  if ?$rdata<no-implement> {
+    $doc ~= md-image('checklist-no-implement');
+  }
+
+  else {
+    $doc ~= $rdata<generated>
           ?? md-image('checklist-ok') !! md-image('checklist-implement');
+  }
+
   $doc ~= $rdata<missing-type>:exists ?? md-image('checklist-missing') !! '';
   $doc ~= $rdata<deprecated-version>:exists
           ?? md-image('checklist-deprecated') !! '';
+
   $doc ~= $rdata<version>:exists ?? "| $rdata<version> |" !! '||';
   $doc ~= $rdata<deprecated-version>:exists
           ?? "$rdata<deprecated-version> |" !! '|';
