@@ -438,7 +438,14 @@ $ed-name<checks><note> = '' unless $ed-name<checks><note>:exists;
   my Int $modules-generated =
     "$lib-path$*gnome-package.Str()/$prefix$type-name.rakumod".IO.r ?? 1 !! 0;
 
-  $ed-name<checks><modules-generated> = $modules-generated;
+  if ?$ed-name<checks><no-implement> {
+    # Remove the field when there is no implementation planned.
+    $ed-name<checks><modules-generated>:delete;
+  }
+
+  else {
+    $ed-name<checks><modules-generated> = $modules-generated;
+  }
 
   # Fill in some missing data before calling for routine search. The used call
   # .get-native-subs() from Gnome::SourceSkimTool::Code is used to generate
@@ -468,6 +475,11 @@ $ed-name<checks><note> = '' unless $ed-name<checks><note>:exists;
       # missing parameters or version > first release
       $routines{$rtype}{$rname}<generated> //=
         ?$rdata<version> ?? 0 !! $not-missing +& $modules-generated +& 1;
+
+      if ?$routines{$rtype}{$rname}<no-implement> {
+        # Remove the field when there is no implementation planned.
+        $routines{$rtype}{$rname}<generated>:delete;
+      }
     }
   }
 
