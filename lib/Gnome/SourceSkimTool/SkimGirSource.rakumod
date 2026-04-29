@@ -465,7 +465,7 @@ $ed-name<checks><note> = '' unless $ed-name<checks><note>:exists;
       my Int $not-missing = $rdata<missing-type>:exists ?? 0 !! 1;
 
       # Add field for generation info depending on 
-      # missing parameters or version > first release (when Gtk, Gsk, or Gdk)
+      # missing parameters or version > first release
       $routines{$rtype}{$rname}<generated> //=
         ?$rdata<version> ?? 0 !! $not-missing +& $modules-generated +& 1;
     }
