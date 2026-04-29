@@ -2292,7 +2292,7 @@ method save-file ( Str $filename is copy, Str $content is copy, Str $comment ) {
 
     my Bool $protect = False;
     if $*generate-code {
-      $protect = $!protected-files<c>.first($checkfname).Bool;
+      $protect = True; #$!protected-files<c>.first($checkfname).Bool;
     }
 
     elsif $*generate-doc {
