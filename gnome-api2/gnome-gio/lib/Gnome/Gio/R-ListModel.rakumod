@@ -36,7 +36,8 @@ method _add_g_list_model_signal_types ( $classname ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-item => %(:is-symbol<g_list_model_get_item>,  :returns(gpointer), :parameters([guint])),
+  #NOTE: Removed from class. Use .get-object()
+  #get-item => %(:is-symbol<g_list_model_get_item>,  :returns(gpointer), :parameters([guint])),
   get-item-type => %(:is-symbol<g_list_model_get_item_type>,  :returns(GType)),
   get-n-items => %(:is-symbol<g_list_model_get_n_items>,  :returns(guint)),
   get-object => %(:is-symbol<g_list_model_get_object>,  :returns(N-Object), :parameters([guint])),
