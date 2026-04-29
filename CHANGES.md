@@ -90,6 +90,10 @@ find . -name '*.raku*' | xargs wc -l
 * [x] Improve documentation.
 
 # Release notes
+* 2026-04-29 0.17.7
+  * Generated docs, tests and modules are now protected when existing. Changes must be compared and changed by hand. Too much might be changed after generation to risk overwriting a file.
+  * Carefully removing classes or methods and make notes in the yaml files. These are used to generate markdown files for display on martimm.github.io
+
 * 2026-04-13 0.17.6
   * Skimmer tool now accumulates info in more yaml files. This is done to gather work status of the modules. Needed to trace work on documentation, to see if new modules or routines in modules are added by Gnome, or are deprecated. The results are put in tables and are available on the [github pages website](https://martimm.github.io).
 
