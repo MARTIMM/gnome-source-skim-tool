@@ -1813,11 +1813,12 @@ method !get-method-data (
     );
   }
 
-#note "  $?LINE $function-name, miss types: $missing-type";
+#note "$?LINE $function-name, miss types: $missing-type";
+#note "$?LINE $e.attribs().gist()";
 
   my Bool $deprecated = ?$e.attribs<deprecated>;
   my Str $deprecated-version =
-    $deprecated ?? $e.attribs<deprecated-version> !! '';
+    $deprecated ?? $e.attribs<deprecated-version> // 'no version specified' !! '';
   my Str $version = $e.attribs<version> // '';
 
   ( $function-name, %(
