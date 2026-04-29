@@ -272,11 +272,12 @@ sub set-routine-info ( Hash $obj-data, Str $obj-name --> Str ) {
     $doc ~= '|-------|-|----------|-------|' ~ "\n";
     for $r<constructors>.keys.sort -> $rname {
       $doc ~= make-table-entry( $rname, $r<constructors>{$rname});
-      $notes ~= [~] '**', $rname, '**: ', $r<constructors>{$rname}<note>, "\n";
-        if ?$r<constructors>{$rname}<note>;
+      $notes ~= [~] 'constructor **', $rname, '**: ',
+                    $r<constructors>{$rname}<note>, "\n"
+             if ?$r<constructors>{$rname}<note>;
     }
 
-    $doc ~= $notes ~ "\n";
+    $doc ~= "\n<br/>$notes\n";
   }
 
   if $r<methods>:exists {
@@ -286,11 +287,11 @@ sub set-routine-info ( Hash $obj-data, Str $obj-name --> Str ) {
     $doc ~= '|-------|-|----------|-------|' ~ "\n";
     for $r<methods>.keys.sort -> $rname {
       $doc ~= make-table-entry( $rname, $r<methods>{$rname});
-      $notes ~= [~] '**', $rname, '**: ', $r<constructors>{$rname}<note>, "\n";
-        if ?$r<constructors>{$rname}<note>;
+      $notes ~= [~] 'method **', $rname, '**: ', $r<methods>{$rname}<note>, "\n"
+        if ?$r<methods>{$rname}<note>;
     }
 
-    $doc ~= $notes ~ "\n";
+    $doc ~= "\n<br/>$notes\n";
   }
 
   if $r<functions>:exists {
@@ -300,11 +301,11 @@ sub set-routine-info ( Hash $obj-data, Str $obj-name --> Str ) {
     $doc ~= '|-------|-|----------|-------|' ~ "\n";
     for $r<functions>.keys.sort -> $rname {
       $doc ~= make-table-entry( $rname, $r<functions>{$rname});
-      $notes ~= [~] '**', $rname, '**: ', $r<constructors>{$rname}<note>, "\n";
-        if ?$r<constructors>{$rname}<note>;
+      $notes ~= [~] 'function **', $rname, '**: ', $r<functions>{$rname}<note>, "\n"
+        if ?$r<functions>{$rname}<note>;
     }
 
-    $doc ~= $notes ~ "\n";
+    $doc ~= "\n<br/>$notes\n";
   }
 
   $doc ~= "\n1. Status, generated, missing values, deprecated, etc\n";
