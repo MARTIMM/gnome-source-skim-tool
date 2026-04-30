@@ -84,7 +84,8 @@ my Hash $methods = %(
   find => %(:is-symbol<gtk_string_list_find>, :returns(guint), :parameters([gchar-ptr]), ),
   remove => %(:is-symbol<gtk_string_list_remove>, :parameters([guint]), ),
   splice => %(:is-symbol<gtk_string_list_splice>, :parameters([guint, guint, gchar-pptr]), ),
-  take => %(:is-symbol<gtk_string_list_take>, :parameters([Str]), ),
+  #NOTE take not needed. use get-string()
+  #take => %(:is-symbol<gtk_string_list_take>, :parameters([Str]), ),
 );
 
 #-------------------------------------------------------------------------------
