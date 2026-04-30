@@ -72,7 +72,7 @@ say 'List item at position 2: ', $so.get-string;
 
 Get the item at C<$position>.
 
-If C<$position> is greater than the number of items in C<$list>, undefined is returned.
+If C<$position> is greater than the number of items in the list, undefined is returned.
 
 Undefined is never returned for an index that is smaller than the length of the list.
 
@@ -173,9 +173,9 @@ my Str $string = $so.get-string(1);
 =begin pod
 =head2 items-changed
 
-Emits the  I<items-changed> signal on C<$list>.
+Emits the  I<items-changed> signal on the list.
 
-This function should only be called by classes implementing B<Gnome::Gio::R-ListModel>. It has to be called after the internal representation of C<$list> has been updated, because handlers connected to this signal might query the new state of the list.
+This function should only be called by classes implementing B<Gnome::Gio::R-ListModel>. It has to be called after the internal representation of the list has been updated, because handlers connected to this signal might query the new state of the list.
 
 Implementations must only make changes to the model (as visible to its consumer) in places that will not cause problems for that consumer.  For models that are driven directly by a write API (such as B<Gnome::Gio::ListStore>), changes can be reported in response to uses of that API. For models that represent remote data, changes should only be made from a fresh mainloop dispatch.  It is particularly not permitted to make changes in response to a call to the B<Gnome::Gio::R-ListModel> consumer API.
 
@@ -185,7 +185,7 @@ Stated another way: in general, it is assumed that code making a series of acces
 method items-changed ( UInt() $position, UInt() $removed, UInt() $added )
 =end code
 
-=item $position; the position at which C<$list> changed.
+=item $position; the position at which the list changed.
 =item $removed; the number of items removed.
 =item $added; the number of items added.
 
@@ -202,7 +202,7 @@ method items-changed ( UInt() $position, UInt() $removed, UInt() $added )
 =head3 items-changed
 
 This signal is emitted whenever items were added to or removed
-from C<$list>. At C<$position>, C<$removed> items were removed and C<$added>
+from the list. At C<$position>, C<$removed> items were removed and C<$added>
 items were added in their place.
 
 Note: If B<removed != added>, the positions of all later items
@@ -219,7 +219,7 @@ method handler (
 )
 =end code
 
-=item $position; the position at which C<$list> changed.
+=item $position; the position at which the list changed.
 =item $removed; the number of items removed.
 =item $added; the number of items added.
 =item $_handle_id; The registered event handler id.
