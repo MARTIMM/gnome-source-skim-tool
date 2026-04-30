@@ -308,8 +308,10 @@ sub set-routine-info ( Hash $obj-data, Str $obj-name --> Str ) {
     $doc ~= "\n<br/>$notes\n";
   }
 
+note "$?LINE $obj-data.gist()";
+
   $doc ~= "\n1. Status, generated, missing values, deprecated, etc\n";
-  $doc ~= "2. Version of introduction, otherwise it is the release version\n";
+  $doc ~= "2. Version of introduction, otherwise it is the release version ($obj-data<version>)\n";
   $doc ~= "3. Version of deprecation and is removed in next release\n";
 
   $doc
