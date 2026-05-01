@@ -32,17 +32,12 @@ my Gnome::Gtk4::StringList $stringlist;
 
 subtest 'ISA test', {
   given $stringlist {
-    my gchar-pptr $strings;
-
     #TC:1:new-stringlist()
-    #$strings .= CArray[Str];
-    $stringlist .= new-stringlist(CArray[Str].new);
-    ok .is-valid, '.new-stringlist(CArray[Str].new)';
+    $stringlist .= new-stringlist([]);
+    ok .is-valid, '.new-stringlist([])';
 
-    #$strings = ;
-    $stringlist .= new-stringlist(CArray[Str].new( 'a string', '2nd string'));
-    ok .is-valid, '.new-stringlist(CArray[Str].new( … $strings … )';
-
+    $stringlist .= new-stringlist([ 'a string', '2nd string']);
+    ok .is-valid, '.new-stringlist([ … ])';
 
     #TM:1:get-string()
     is .get-string(0), 'a string', '.get-string(0): a string';
@@ -71,7 +66,7 @@ subtest 'Method tests', {
     lives-ok {.remove(2)}, '.remove()';
 
     #TM:0:splice()
-    lives-ok {.splice( 2, 0, CArray[Str].new( 'string4', 'str5'))}, '.splice()';
+    lives-ok {.splice( 2, 0, [ 'string4', 'str5'])}, '.splice()';
 
 #`{{
 #NOTE Remove from class. Use .get-string()
