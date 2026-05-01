@@ -76,6 +76,7 @@ multi sub MAIN ( SkimSource $gnome-package!, Str $module = '' ) {
   my @*map-search-list = ();
   my $*gnome-class = '';
   my $*work-data;
+  my $*release;
 
   my Gnome::SourceSkimTool::Prepare $prepare .= new;
 #  $*work-data<finit>( $*work-data, :label<work-data>);
@@ -110,6 +111,8 @@ multi sub MAIN ( SkimSource $gnome-package!, Str $module = '' ) {
 
     # Get the data from the yaml file
     my Hash $data = load-yaml($file.slurp);
+
+    $*release = $data<version>;
 
     for $data.keys.sort: { $^a.lc leg $^b.lc } -> $obj-name {
       # Skip non module keys
@@ -308,10 +311,10 @@ sub set-routine-info ( Hash $obj-data, Str $obj-name --> Str ) {
     $doc ~= "\n<br/>$notes\n";
   }
 
-note "$?LINE $obj-data.gist()";
+#note "$?LINE $obj-data.gist()";
 
   $doc ~= "\n1. Status, generated, missing values, deprecated, etc\n";
-  $doc ~= "2. Version of introduction, otherwise it is the release version ($obj-data<version>)\n";
+  $doc ~= "2. Version of introduction, otherwise it is the release version ($*release)\n";
   $doc ~= "3. Version of deprecation and is removed in next release\n";
 
   $doc
