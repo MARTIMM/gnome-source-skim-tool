@@ -11,19 +11,10 @@ use v6.d;
 
 B<Gnome::Gtk4::StringObject> is the type of items in a L<Gnome::Gtk4::StringList|/content-docs/api2/reference/Gtk4/StringList>.
 
-A B<Gnome::Gtk4::StringObject> is a wrapper around a B<const> char*`; it has
-a I<string> property that can be used
-for property bindings and expressions.
+A B<Gnome::Gtk4::StringObject> is a wrapper around a C<Str>; it has a I<string> property that can be used for property bindings and expressions.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/StringObject.png> :width<70%> :class<inline>
-
-=begin comment
-
-=head2 Example
-# Example use of module Gnome::Gtk4::StringObject
-
-=end comment
 
 =end pod
 
@@ -56,13 +47,6 @@ method new-stringobject ( Str $string --> Gnome::Gtk4::StringObject )
 
 =item $string; The string to wrap.
 
-=begin comment
-
-=head2 Example
-# Example for new-stringobject
-
-=end comment
-
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -80,17 +64,10 @@ method new-stringobject ( Str $string --> Gnome::Gtk4::StringObject )
 Returns the string contained in a B<Gnome::Gtk4::StringObject>.
 
 =begin code
-method get-string (--> Str )
+method get-string ( --> Str )
 =end code
 
-Return value; the string of C<$self>. 
-
-=begin comment
-
-=head2 Example
-# Example for get-string
-
-=end comment
+Return value; the string of object 
 
 =end pod
 

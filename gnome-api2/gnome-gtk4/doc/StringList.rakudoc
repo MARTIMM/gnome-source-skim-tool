@@ -11,19 +11,13 @@ use v6.d;
 
 B<Gnome::Gtk4::StringList> is a list model that wraps an array of strings.
 
-The objects in the model are of type L<Gnome::Gtk4::StringObject|/content-docs/api2/reference/Gtk4/StringObject> and have
-a "string" property that can be used inside expressions.
+The objects in the model are of type L<Gnome::Gtk4::StringObject|/content-docs/api2/reference/Gtk4/StringObject> and have a "string" property that can be used inside expressions.
 
-B<Gnome::Gtk4::StringList> is well-suited for any place where you would
-typically use a B<char>*[]`, but need a list model.
+B<Gnome::Gtk4::StringList> is well-suited for any place where you would typically use a string, but need a list model.
 
 =head3 GtkStringList as GtkBuildable
 
-The B<Gnome::Gtk4::StringList> implementation of the L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/Gtk4/R-Buildable> interface
-supports adding items directly using the `<items>` element and
-specifying `<item>` elements for each item. Each `<item>` element
-supports the regular translation attributes “translatable”,
-“context” and “comments”.
+The B<Gnome::Gtk4::StringList> implementation of the L<Gnome::Gtk4::R-Buildable|/content-docs/api2/reference/Gtk4/R-Buildable> interface supports adding items directly using the `<items>` element and specifying `<item>` elements for each item. Each `<item>` element supports the regular translation attributes “translatable”, “context” and “comments”.
 
 Here is a UI definition fragment specifying a B<Gnome::Gtk4::StringList>
 
@@ -43,18 +37,17 @@ Here is a UI definition fragment specifying a B<Gnome::Gtk4::StringList>
 
 =for image :src<asset_files/images/plantuml/StringList.png> :width<70%> :class<inline>
 
-=begin comment
-
 =head2 Example
 
 # Example use of module Gnome::Gtk4::StringList
 
 =begin code
 
+my Gnome::Gtk4::StringList $stringlist;
+$stringlist .= new-stringlist([ 'a string', '2nd string']);
+say $stringlist.get-string(1); # Shows '2nd string'
 
 =end code
-
-=end comment
 
 =end pod
 
@@ -87,13 +80,6 @@ method new-stringlist ( Array[Str] $strings --> Gnome::Gtk4::StringList )
 
 =item $strings; The strings to put in the model.
 
-=begin comment
-
-=head2 Example
-# Example for new-stringlist
-
-=end comment
-
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -110,8 +96,7 @@ method new-stringlist ( Array[Str] $strings --> Gnome::Gtk4::StringList )
 
 Appends C<$string> to the string list.
 
-The C<$string> will be copied. See
-L<.take()|#take> for a way to avoid that.
+The C<$string> will be copied.
 
 =begin code
 method append ( Str $string )
@@ -119,12 +104,22 @@ method append ( Str $string )
 
 =item $string; the string to insert.
 
-=begin comment
-
 =head2 Example
-# Example for append
 
-=end comment
+Create an empty list and append 10 strings to it.
+
+=begin code
+
+my Gnome::Gtk4::StringList $stringlist;
+$stringlist .= new-stringlist([]);
+
+for ^10 -> $i {
+  $stringlist.append("string$i");
+}
+
+say $stringlist.get-string(3); # Shows 'string3'
+
+=end code
 
 =end pod
 
@@ -132,12 +127,11 @@ method append ( Str $string )
 =begin pod
 =head2 get-string
 
-Gets the string that is at C<$position> in C<$self>.
+Gets the string that is at C<$position> in the stringlist.
 
-If C<$self> does not contain C<$position> items, undefined is returned.
+If the stringlist does not contain C<$position> items, undefined is returned.
 
-This function returns the const char *. To get the
-object wrapping it, use g_list_model_get_item().
+This function returns an C<Str>. To get the object wrapping it, use L<.get-object() from R-ListModel in Gio |/content-docs/api2/reference/Gio/R-ListModel#get-object>. That object should be of type L<Gnome::Gtk4::StringObject|/content-docs/api2/reference/Gtk4/StringObject>.
 
 =begin code
 method get-string ( UInt() $position --> Str )
@@ -147,22 +141,13 @@ method get-string ( UInt() $position --> Str )
 
 Return value; the string at the given position. 
 
-=begin comment
-
-=head2 Example
-# Example for get-string
-
-=end comment
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 remove
 
-Removes the string at C<$position> from C<$self>.
- C<$position> must be smaller than the current
-length of the list.
+Removes the string at C<$position> from the stringlist.  C<$position> must be smaller than the current length of the list.
 
 =begin code
 method remove ( UInt() $position )
@@ -170,29 +155,19 @@ method remove ( UInt() $position )
 
 =item $position; the position of the string that is to be removed.
 
-=begin comment
-
-=head2 Example
-# Example for remove
-
-=end comment
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 splice
 
-Changes C<$self> by removing C<$n-removals> strings and adding C<$additions>
-to it.
+Changes the stringlist by removing C<$n-removals> strings and adding C<$additions> to it.
 
-This function is more efficient than L<.append()|#append>
-and L<.remove()|#remove>, because it only emits the I<items-changed> signal once for the change.
+This function is more efficient than L<.append()|#append> and L<.remove()|#remove>, because it only emits the I<items-changed> signal once for the change.
 
 This function copies the strings in C<$additions>.
 
-The parameters C<$position> and C<$n-removals> must be correct (ie: C<$position> + C<$n-removals> must be less than or equal to the length
-of the list at the time this function is called).
+The parameters C<$position> and C<$n-removals> must be correct (ie: C<$position> + C<$n-removals> must be less than or equal to the length of the list at the time this function is called).
 
 =begin code
 method splice ( UInt() $position, UInt() $n-removals, Array[Str] $additions )
