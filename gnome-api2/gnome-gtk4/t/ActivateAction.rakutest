@@ -10,7 +10,9 @@ use NativeCall;
 use Test;
 
 
-use Gnome::Gtk4::ActivateAction:api<2>;
+use-ok "Gnome::Gtk4::ActivateAction:api<2>";
+
+#`{{
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -30,8 +32,6 @@ my Gnome::Gtk4::ActivateAction $activateaction;
 subtest 'ISA test', {
   given $activateaction {
 
-#`{{
-}}
   }
 };
 
@@ -53,6 +53,7 @@ subtest 'Method tests', {
 }}
   }
 };
+}}
 
 #-------------------------------------------------------------------------------
 done-testing;
