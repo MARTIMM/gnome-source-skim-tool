@@ -29,25 +29,9 @@ my Gnome::Gtk4::Adjustment $adjustment;
 
 subtest 'ISA test', {
   given $adjustment {
-    my gdouble $lower;
-    my gdouble $page-increment;
-    my gdouble $value;
-    my gdouble $step-increment;
-    my gdouble $page-size;
-    my gdouble $upper;
-
-#`{{
-    #TC:0:new-adjustment()
-    $value = '…';
-    $lower = '…';
-    $upper = '…';
-    $step-increment = '…';
-    $page-increment = '…';
-    $page-size = '…';
-    $adjustment .= new-adjustment( $value, $lower, $upper, $step-increment, $page-increment, $page-size);
-    ok .is-valid, '.new-adjustment( $value, $lower, $upper, $step-increment, $page-increment, $page-size)';
-
-}}
+    #TC:1:new-adjustment()
+    $adjustment .= new-adjustment( 2.5, 1.2, 6.8, 0.1, 1.0, 1.0);
+    ok .is-valid, '.new-adjustment()';
   }
 };
 
@@ -63,71 +47,59 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $adjustment {
-    my gdouble $upper;
-    my gdouble $page-size;
-    my gdouble $value;
-    my gdouble $lower;
-    my gdouble $page-increment;
-    my gdouble $step-increment;
+    my Num() $upper;
+    my Num() $page-size;
+    my Num() $value;
+    my Num() $lower;
+    my Num() $page-increment;
+    my Num() $step-increment;
 
 
 #`{{
     #TM:0:clamp-page()
     ok .clamp-page( $lower, $upper), '.clamp-page()';
+}}
+    #TM:1:configure()
+    lives-ok {.configure( 2.0, 1.7, 6.8, 0.1, 1.0, 1.0)}, '.configure()';
 
-    #TM:0:configure()
-    ok .configure( $value, $lower, $upper, $step-increment, $page-increment, $page-size), '.configure()';
+    #TM:1:get-minimum-increment()
+    is .get-minimum-increment(), 0.1, '.get-minimum-increment()';
 
-    #TM:0:get-minimum-increment()
-     .get-minimum-increment(), '…', '.get-minimum-increment()';
-
-    #TM:0:set-lower()
-    $lower = '…';
-    .set-lower( $lower);
-    #TM:0:get-lower()
+    #TM:1:set-lower()
+    $lower = 1.6;
+    .set-lower($lower);
+    #TM:1:get-lower()
     is .get-lower(),  $lower, '.set-lower() / .get-lower()';
 
-    #TM:0:set-page-increment()
-    $page-increment = '…';
-    .set-page-increment( $page-increment);
-    #TM:0:get-page-increment()
+    #TM:1:set-page-increment()
+    $page-increment = 1.7;
+    .set-page-increment($page-increment);
+    #TM:1:get-page-increment()
     is .get-page-increment(),  $page-increment, '.set-page-increment() / .get-page-increment()';
 
-    #TM:0:set-page-size()
-    $page-size = '…';
-    .set-page-size( $page-size);
-    #TM:0:get-page-size()
+    #TM:1:set-page-size()
+    $page-size = 1.0;
+    .set-page-size($page-size);
+    #TM:1:get-page-size()
     is .get-page-size(),  $page-size, '.set-page-size() / .get-page-size()';
 
-    #TM:0:set-step-increment()
-    $step-increment = '…';
+    #TM:1:set-step-increment()
+    $step-increment = 0.2;
     .set-step-increment( $step-increment);
-    #TM:0:get-step-increment()
+    #TM:1:get-step-increment()
     is .get-step-increment(),  $step-increment, '.set-step-increment() / .get-step-increment()';
 
-    #TM:0:set-upper()
-    $upper = '…';
+    #TM:1:set-upper()
+    $upper = 10.3;
     .set-upper( $upper);
-    #TM:0:get-upper()
+    #TM:1:get-upper()
     is .get-upper(),  $upper, '.set-upper() / .get-upper()';
 
-    #TM:0:set-value()
-    $value = '…';
+    #TM:1:set-value()
+    $value = 4.54;
     .set-value( $value);
-    #TM:0:get-value()
+    #TM:1:get-value()
     is .get-value(),  $value, '.set-value() / .get-value()';
-
-}}
-  }
-};
-
-#-------------------------------------------------------------------------------
-subtest 'Function tests', {
-  with $adjustment {
-
-
-#`{{
-}}
   }
 };
 

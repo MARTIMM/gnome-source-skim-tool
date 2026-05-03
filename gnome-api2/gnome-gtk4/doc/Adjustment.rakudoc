@@ -11,15 +11,11 @@ use v6.d;
 
 B<Gnome::Gtk4::Adjustment> is a model for a numeric value.
 
-The B<Gnome::Gtk4::Adjustment> has an associated lower and upper bound.
-It also contains step and page increments, and a page size.
+The B<Gnome::Gtk4::Adjustment> has an associated lower and upper bound. It also contains step and page increments, and a page size.
 
-Adjustments are used within several GTK widgets, including
-L<Gnome::Gtk4::SpinButton|/content-docs/api2/reference/Gtk4/SpinButton>, L<Gnome::Gtk4::Viewport|/content-docs/api2/reference/Gtk4/Viewport>, L<Gnome::Gtk4::Scrollbar|/content-docs/api2/reference/Gtk4/Scrollbar>
-and L<Gnome::Gtk4::Scale|/content-docs/api2/reference/Gtk4/Scale>.
+Adjustments are used within several GTK widgets, including L<Gnome::Gtk4::SpinButton|/content-docs/api2/reference/Gtk4/SpinButton>, L<Gnome::Gtk4::Viewport|/content-docs/api2/reference/Gtk4/Viewport>, L<Gnome::Gtk4::Scrollbar|/content-docs/api2/reference/Gtk4/Scrollbar> and L<Gnome::Gtk4::Scale|/content-docs/api2/reference/Gtk4/Scale>.
 
-The B<Gnome::Gtk4::Adjustment> object does not update the value itself. Instead
-it is left up to the owner of the B<Gnome::Gtk4::Adjustment> to control the value.
+The B<Gnome::Gtk4::Adjustment> object does not update the value itself. Instead it is left up to the owner of the B<Gnome::Gtk4::Adjustment> to control the value.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/Adjustment.png> :width<70%> :class<inline>
@@ -92,15 +88,11 @@ method new-adjustment (
 =begin pod
 =head2 clamp-page
 
-Updates the value property to ensure that the range
-between C<$lower> and C<$upper> is in the current page.
+Updates the value property to ensure that the range between C<$lower> and C<$upper> is in the current page.
 
-The current page goes from B<value> to B<value> + B<page-size>.
-If the range is larger than the page size, then only the
-start of it will be in the current page.
+The current page goes from B<value> to B<value> + B<page-size>. If the range is larger than the page size, then only the start of it will be in the current page.
 
-A I<value-changed> signal will be emitted
-if the value is changed.
+A I<value-changed> signal will be emitted if the value is changed.
 
 =begin code
 method clamp-page ( Num() $lower, Num() $upper )
@@ -124,11 +116,7 @@ method clamp-page ( Num() $lower, Num() $upper )
 
 Sets all properties of the adjustment at once.
 
-Use this function to avoid multiple emissions of the
-I<changed> signal. See
-L<.set-lower()|#set-lower> for an alternative
-way of compressing multiple emissions of
-I<changed> into one.
+Use this function to avoid multiple emissions of the I<changed> signal. See L<.set-lower()|#set-lower> for an alternative way of compressing multiple emissions of I<changed> into one.
 
 =begin code
 method configure (
@@ -306,13 +294,7 @@ Return value; The current value of the adjustment.
 
 Sets the minimum value of the adjustment.
 
-When setting multiple adjustment properties via their individual
-setters, multiple I<changed> signals will
-be emitted. However, since the emission of the
-I<changed> signal is tied to the emission
-of the I<notify> signals of the changed properties, it’s possible
-to compress the I<changed> signals into one
-by calling L<.freeze-notify() and .thaw-notify() found in Gnome::GObject::Object|/content-docs/api2/reference/GObject/Object#freeze-notify> around the calls to the individual setters.
+When setting multiple adjustment properties via their individual setters, multiple I<changed> signals will be emitted. However, since the emission of the I<changed> signal is tied to the emission of the I<notify> signals of the changed properties, it’s possible to compress the I<changed> signals into one by calling L<.freeze-notify() and .thaw-notify() found in Gnome::GObject::Object|/content-docs/api2/reference/GObject/Object#freeze-notify> around the calls to the individual setters.
 
 Alternatively, using a single L<.object-set() in Gnome::GObject::Object|/content-docs/api2/reference/GObject/Object#object-set> for all the properties to change, or using L<.configure()|#configure> has the same effect.
 
@@ -337,9 +319,7 @@ method set-lower ( Num() $lower )
 
 Sets the page increment of the adjustment.
 
-See L<.set-lower()|#set-lower> about how to compress
-multiple emissions of the I<changed>
-signal when setting multiple adjustment properties.
+See L<.set-lower()|#set-lower> about how to compress multiple emissions of the I<changed> signal when setting multiple adjustment properties.
 
 =begin code
 method set-page-increment ( Num() $page-increment )
@@ -362,9 +342,7 @@ method set-page-increment ( Num() $page-increment )
 
 Sets the page size of the adjustment.
 
-See L<.set-lower()|#set-lower> about how to compress
-multiple emissions of the I<changed>
-signal when setting multiple adjustment properties.
+See L<.set-lower()|#set-lower> about how to compress multiple emissions of the I<changed> signal when setting multiple adjustment properties.
 
 =begin code
 method set-page-size ( Num() $page-size )
@@ -387,9 +365,7 @@ method set-page-size ( Num() $page-size )
 
 Sets the step increment of the adjustment.
 
-See L<.set-lower()|#set-lower> about how to compress
-multiple emissions of the I<changed>
-signal when setting multiple adjustment properties.
+See L<.set-lower()|#set-lower> about how to compress multiple emissions of the I<changed> signal when setting multiple adjustment properties.
 
 =begin code
 method set-step-increment ( Num() $step-increment )
@@ -466,11 +442,9 @@ method set-value ( Num() $value )
 =comment -----------------------------------------------------------------------
 =head3 changed
 
-Emitted when one or more of the B<Gnome::Gtk4::Adjustment> properties have been
-changed.
+Emitted when one or more of the B<Gnome::Gtk4::Adjustment> properties have been changed.
 
-Note that the I<value> property is
-covered by the I<value-changed> signal.
+Note that the I<value> property is covered by the I<value-changed> signal.
 
 =begin code
 method handler (
