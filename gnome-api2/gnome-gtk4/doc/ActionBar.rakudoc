@@ -13,13 +13,9 @@ B<Gnome::Gtk4::ActionBar> is designed to present contextual actions.
 
 =for image :src<asset_files/images/action-bar.png> :width<30%> :class<inline>
 
-It is expected to be displayed below the content and expand
-horizontally to fill the area.
+It is expected to be displayed below the content and expand horizontally to fill the area.
 
-It allows placing children at the start or the end. In addition, it
-contains an internal centered box which is centered with respect to
-the full width of the box, even if the children at either side take
-up different amounts of space.
+It allows placing children at the start or the end. In addition, it contains an internal centered box which is centered with respect to the full width of the box, even if the children at either side take up different amounts of space.
 
 =head2 The action bar as a buildable
 
@@ -48,7 +44,8 @@ Each of the boxes contains children packed for that side.
 =begin comment
 
 =head2 Example
-# Example use of module Gnome::Gtk4::ActionBar
+
+Example use of module Gnome::Gtk4::ActionBar
 
 =end comment
 
@@ -233,9 +230,7 @@ method set-center-widget ( N-Object() $center-widget )
 
 Reveals or conceals the content of the action bar.
 
-Note: this does not show or hide C<$action-bar> in the
-I<visible defined in Gnome::Gtk4::Widget> sense, so revealing has
-no effect if the action bar is hidden.
+Note: this does not show or hide C<$action-bar> in the I<visible defined in Gnome::Gtk4::Widget> sense, so revealing has no effect if the action bar is hidden.
 
 =begin code
 method set-revealed ( Bool() $revealed )

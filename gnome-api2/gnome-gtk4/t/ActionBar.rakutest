@@ -45,6 +45,7 @@ unless %*ENV<raku_test_all>:exists {
   exit;
 }
 
+#`{{
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $actionbar {
@@ -53,7 +54,6 @@ subtest 'Method tests', {
     my N-Object $child;
 
 
-#`{{
     #TM:0:pack-end()
     ok .pack-end( $child), '.pack-end()';
 
@@ -75,19 +75,19 @@ subtest 'Method tests', {
     #TM:0:get-revealed()
     is .get-revealed(),  $revealed, '.set-revealed() / .get-revealed()';
 
-}}
   }
 };
+}}
 
+#`{{
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
   with $actionbar {
 
 
-#`{{
-}}
   }
 };
+}}
 
 #-------------------------------------------------------------------------------
 done-testing;
