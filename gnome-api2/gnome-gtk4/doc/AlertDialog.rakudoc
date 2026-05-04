@@ -1,0 +1,414 @@
+=comment Package: Gtk4, C-Source: alertdialog
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=TITLE Gnome::Gtk4::AlertDialog
+=head1 Description
+
+Collects the arguments that are needed to present a message to the user.
+
+The message is shown with the L<.choose()|#choose> function.
+
+If you don't need to wait for a button to be clicked, you can use L<.show()|#show>.
+
+=head2 Uml Diagram
+=for image :src<asset_files/images/plantuml/AlertDialog.png> :width<70%> :class<inline>
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::AlertDialog
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from an object of the same type found elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object() :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-alertdialog
+
+Creates a new B<Gnome::Gtk4::AlertDialog> object.
+
+The message will be set to the formatted string resulting from the arguments.
+
+=begin code
+method new-alertdialog ( Str $format, … --> Gnome::Gtk4::AlertDialog )
+=end code
+
+=item $format; B<printf>()`-style format string.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for new-alertdialog
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 choose
+
+Shows the alert to the user.
+
+It is ok to pass undefined for the callback if the alert does not have more than one button. A simpler API for this case is L<.show()|#show>.
+
+=begin code
+method choose ( N-Object() $parent, N-Object() $cancellable, GAsyncReadyCallback &callback, gpointer $user-data )
+=end code
+
+=item $parent; the parent window.
+=item $cancellable; a cancellable to cancel the operation.
+=item GAsyncReadyCallback &callback; a callback to call
+  when the operation is complete. The function must be specified with the following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
+=item $user-data; data to pass to C<$callback>.
+
+=begin comment
+
+=head2 Example
+# Example for choose
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 choose-finish
+
+Finishes the L<.choose()|#choose> call.
+
+=begin code
+method choose-finish ( N-Object() $result, CArray[N-Error] $err --> Int )
+=end code
+
+=item $result; the result.
+=item $err; Error object. When defined, an error can be returned when there is one.
+Use C<Pointer> when you want to ignore the error.
+.
+
+Return value; the index of the button that was clicked, or -1 if
+  the dialog was cancelled and I<cancel-button>
+  is not set. 
+
+=begin comment
+
+=head2 Example
+# Example for choose-finish
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-buttons
+
+Returns the button labels for the alert.
+
+=begin code
+method get-buttons (--> Array[Str] )
+=end code
+
+Return value; the button labels. 
+
+=begin comment
+
+=head2 Example
+# Example for get-buttons
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-cancel-button
+
+Returns the index of the cancel button.
+
+=begin code
+method get-cancel-button (--> Int )
+=end code
+
+Return value; the index of the cancel button, or -1. 
+
+=begin comment
+
+=head2 Example
+# Example for get-cancel-button
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-default-button
+
+Returns the index of the default button.
+
+=begin code
+method get-default-button (--> Int )
+=end code
+
+Return value; the index of the default button, or -1. 
+
+=begin comment
+
+=head2 Example
+# Example for get-default-button
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-detail
+
+Returns the detail text that will be shown in the alert.
+
+=begin code
+method get-detail (--> Str )
+=end code
+
+Return value; the detail text. 
+
+=begin comment
+
+=head2 Example
+# Example for get-detail
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-message
+
+Returns the message that will be shown in the alert.
+
+=begin code
+method get-message (--> Str )
+=end code
+
+Return value; the message. 
+
+=begin comment
+
+=head2 Example
+# Example for get-message
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-modal
+
+Returns whether the alert blocks interaction with the parent window while it is presented.
+
+=begin code
+method get-modal (--> Bool )
+=end code
+
+Return value; true if the alert is modal. 
+
+=begin comment
+
+=head2 Example
+# Example for get-modal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-buttons
+
+Sets the button labels for the alert.
+
+=begin code
+method set-buttons ( Array[Str] $labels )
+=end code
+
+=item $labels; the new button labels.
+
+=begin comment
+
+=head2 Example
+# Example for set-buttons
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-cancel-button
+
+Sets the index of the cancel button.
+
+See I<cancel-button> for details of how this value is used.
+
+=begin code
+method set-cancel-button ( Int() $button )
+=end code
+
+=item $button; the new cancel button.
+
+=begin comment
+
+=head2 Example
+# Example for set-cancel-button
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-default-button
+
+Sets the index of the default button.
+
+See I<default-button> for details of how this value is used.
+
+=begin code
+method set-default-button ( Int() $button )
+=end code
+
+=item $button; the new default button.
+
+=begin comment
+
+=head2 Example
+# Example for set-default-button
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-detail
+
+Sets the detail text that will be shown in the alert.
+
+=begin code
+method set-detail ( Str $detail )
+=end code
+
+=item $detail; the new detail text.
+
+=begin comment
+
+=head2 Example
+# Example for set-detail
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-message
+
+Sets the message that will be shown in the alert.
+
+=begin code
+method set-message ( Str $message )
+=end code
+
+=item $message; the new message.
+
+=begin comment
+
+=head2 Example
+# Example for set-message
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-modal
+
+Sets whether the alert blocks interaction with the parent window while it is presented.
+
+=begin code
+method set-modal ( Bool() $modal )
+=end code
+
+=item $modal; the new value.
+
+=begin comment
+
+=head2 Example
+# Example for set-modal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 show
+
+Shows the alert to the user.
+
+This function is a simpler version of L<.choose()|#choose> intended for dialogs with a single button.
+
+If you want to cancel the dialog or if the alert has more than one button, you should use that function instead and provide it with a B<Gnome::Gtk4::AlertDialog> and callback respectively.
+
+=begin code
+method show ( N-Object() $parent )
+=end code
+
+=item $parent; the parent window.
+
+=begin comment
+
+=head2 Example
+# Example for show
+
+=end comment
+
+=end pod
+

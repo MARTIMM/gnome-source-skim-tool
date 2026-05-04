@@ -1,0 +1,193 @@
+=comment Package: Gtk4, C-Source: alertdialog
+use v6.d;
+
+#TL:1:Gnome::Gtk4::AlertDialog:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+
+use Gnome::Glib::T-error:api<2>;
+use Gnome::Gtk4::AlertDialog:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::AlertDialog $alertdialog;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $alertdialog {
+    my Str $format;
+
+    #TC:1:new-alertdialog()
+    $format = 'text';
+    $alertdialog .= new-alertdialog($format);
+    ok .is-valid, '.new-alertdialog()';
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $alertdialog {
+    my Array $labels;
+    my Str $message;
+    my N-Object $parent;
+    my Str $detail;
+    my N-Object $cancellable;
+    my gpointer $user-data;
+    my N-Object $result;
+    my gint $button;
+    sub callback ( N-Object $source-object, N-Object $res, gpointer $data ) {}
+    my gboolean $modal;
+    my CArray[N-Error] $err;
+
+#`{{
+    #TM:0:choose()
+    ok .choose( $parent, $cancellable, $callback, $user-data), '.choose()';
+
+    #TM:0:choose-finish()
+    ok .choose-finish( $result, $err), '.choose-finish()';
+}}
+
+    #TM:1:set-buttons()
+    $labels = [<Open Close>];
+    lives-ok {.set-buttons( $labels)}, '.set-buttons()';
+    #TM:1:get-buttons()
+    is-deeply .get-buttons(),  $labels, '.get-buttons()';
+
+    #TM:1:set-cancel-button()
+    $button = 3;
+    lives-ok {.set-cancel-button( $button)}, '.set-cancel-button()';
+    #TM:1:get-cancel-button()
+    is .get-cancel-button(),  $button, '.get-cancel-button()';
+
+    #TM:1:set-default-button()
+    $button = 3;
+    lives-ok {.set-default-button( $button)}, '.set-default-button()';
+    #TM:1:get-default-button()
+    is .get-default-button(),  $button, '.get-default-button()';
+
+    #TM:1:set-detail()
+    $detail = 'text';
+    lives-ok {.set-detail( $detail);}, '.set-detail()';
+    #TM:1get-detail()
+    is .get-detail(),  $detail, '.get-detail()';
+
+    #TM:1:set-message()
+    $message = 'text';
+    lives-ok {.set-message($message)}, '.set-message()';
+    #TM:1:get-message()
+    is .get-message(),  $message, '.get-message()';
+
+    #TM:1:set-modal()
+    $modal = true;
+    lives-ok {.set-modal( $modal)}, '.set-modal()';
+    #TM:1:get-modal()
+    ok .get-modal(), '.get-modal()';
+
+#`{{
+    #TM:0:show()
+    ok .show( $parent), '.show()';
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::AlertDialog() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::AlertDialog;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::AlertDialog :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::AlertDialog $alertdialog .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $alertdialog.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
