@@ -90,6 +90,9 @@ find . -name '*.raku*' | xargs wc -l
 * [x] Improve documentation.
 
 # Release notes
+* 2026-05-04 0.17.8
+  * Added **Gnome::Gtk4::AlertDialog**. Available since Gtk 4.10.
+
 * 2026-04-29 0.17.7
   * Generated docs, tests and modules are now protected when existing. Changes must be compared and changed by hand. Too much might be changed after generation to risk overwriting a file.
   * Carefully removing classes or methods and make notes in the yaml files. These are used to generate markdown files for display on martimm.github.io
