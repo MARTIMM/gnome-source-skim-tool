@@ -12,6 +12,7 @@ use NativeCall;
 
 use Gnome::Gtk4::KeyvalTrigger:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -33,13 +34,13 @@ subtest 'ISA test', {
     my GFlag $modifiers;
     my guint $keyval;
 
-#`{{
     #TC:0:new-keyvaltrigger()
     $keyval = '…';
     $modifiers = …;
     $keyvaltrigger .= new-keyvaltrigger( $keyval, $modifiers);
     ok .is-valid, '.new-keyvaltrigger( $keyval, $modifiers)';
 
+#`{{
 }}
   }
 };

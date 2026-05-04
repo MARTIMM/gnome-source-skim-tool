@@ -50,11 +50,13 @@ Create an object using a native object from an object of the same type found els
 
 Creates a L<Gnome::Gtk4::ShortcutTrigger|/content-docs/api2/reference/Gtk4/ShortcutTrigger> that will trigger whenever either of the two given triggers gets triggered.
 
-Note that nesting is allowed, so if you want more than two
-alternative, create a new alternative trigger for each option.
+Note that nesting is allowed, so if you want more than two alternative, create a new alternative trigger for each option.
 
 =begin code
-method new-alternativetrigger ( N-Object() $first, N-Object() $second --> Gnome::Gtk4::AlternativeTrigger )
+method new-alternativetrigger (
+  N-Object() $first, N-Object() $second
+  --> Gnome::Gtk4::AlternativeTrigger
+)
 =end code
 
 =item $first; (transfer ownership: full) The first trigger that may trigger.
@@ -81,11 +83,9 @@ method new-alternativetrigger ( N-Object() $first, N-Object() $second --> Gnome:
 =begin pod
 =head2 get-first
 
-Gets the first of the two alternative triggers that may
-trigger this object.
+Gets the first of the two alternative triggers that may trigger this object.
 
-L<.get-second()|#get-second> will return
-the other one.
+L<.get-second()|#get-second> will return the other one.
 
 =begin code
 method get-first ( --> N-Object )
@@ -106,11 +106,9 @@ Return value; the first alternative trigger.
 =begin pod
 =head2 get-second
 
-Gets the second of the two alternative triggers that may
-trigger this object.
+Gets the second of the two alternative triggers that may trigger this object.
 
-L<.get-first()|#get-first> will return
-the other one.
+L<.get-first()|#get-first> will return the other one.
 
 =begin code
 method get-second ( --> N-Object )
