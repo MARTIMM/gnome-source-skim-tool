@@ -388,10 +388,10 @@ method convert-to-natives ( Callable $s, @params ) {
 
   # get the parameter list of subroutine $s
   my Signature $s-sig = $s.signature;
-#note "P: $s-sig.perl()";
+#note "P: $s-sig.raku()";
   my Parameter @s-params = $s-sig.params;
-#note "\@p: @params.perl()";
-#note "P: @s-params.perl()";
+#note "\@p: @params.raku()";
+#note "P: @s-params.raku()";
 
   loop ( my Int $i = 0; $i < @params.elems; $i++ ) {
     my Str $s-param-type-name = @s-params[$i + 1].defined

@@ -60,7 +60,7 @@ class Label is Gnome::N::TopLevelClassSupport {
   # is tested.
   submethod BUILD ( *%options ) {
 
-    ok 1, [~] 'Label.BUILD(', %options.perl, '), ', self.is-valid;
+    ok 1, [~] 'Label.BUILD(', %options.raku, '), ', self.is-valid;
 
     # we must check if native object is set by other parent class BUILDers
     if self.is-valid { }
@@ -135,7 +135,7 @@ class ReversedLabel is Label {
   # this method can help injecting an option before BUILDs are called.
   multi method new ( |c ) {
 
-    ok 1, [~] 'ReversedLabel.new(', c.perl, ')';
+    ok 1, [~] 'ReversedLabel.new(', c.raku, ')';
     self.bless( |c, :Label);
   }
 
@@ -144,8 +144,8 @@ class ReversedLabel is Label {
   # is tested, then the BUILD from Label where %options<text> is processed.
   submethod BUILD ( *%options ) {
 
-    ok 1, [~] 'ReversedLabel.BUILD(', %options.perl, '), ', self.is-valid;
-#note "Build reversed label: ", %options.perl;
+    ok 1, [~] 'ReversedLabel.BUILD(', %options.raku, '), ', self.is-valid;
+#note "Build reversed label: ", %options.raku;
     # native object already defined
     #return if self.is-valid;
 
@@ -173,7 +173,7 @@ class ReversedLabel2 is ReversedLabel {
   # this method can help injecting an option before BUILDs are called.
   multi method new ( |c ) {
 
-    ok 1, [~] 'ReversedLabel2.new(', c.perl, ')';
+    ok 1, [~] 'ReversedLabel2.new(', c.raku, ')';
     self.bless( |c, :Label, :ReversedLabel);
   }
 
@@ -182,8 +182,8 @@ class ReversedLabel2 is ReversedLabel {
   # is tested, then the BUILD from Label where %options<text> is processed.
   submethod BUILD ( *%options ) {
 
-    ok 1, [~] 'ReversedLabel2.BUILD(', %options.perl, '), ', self.is-valid;
-#note "Build reversed label 2: ", %options.perl;
+    ok 1, [~] 'ReversedLabel2.BUILD(', %options.raku, '), ', self.is-valid;
+#note "Build reversed label 2: ", %options.raku;
     # native object already defined
     #return if self.is-valid;
 
@@ -220,7 +220,7 @@ subtest 'Label tests', {
 #    g_type_get_instance_count($label-gtype), ', floating: ',
 #    g_object_is_floating($l1._get-native-object);
 
-#note "l1: ", $l1.perl;
+#note "l1: ", $l1.raku;
   is $l1.get-text, 'test-text', 'Label .new(:text) .get-text()';
 
 #prove6 does not see this correctly!!!
@@ -234,7 +234,7 @@ subtest 'Label tests', {
 #note 'ic l2: ', $l2.get-class-gtype, ', ref count: ',
 #    g_type_get_instance_count($l2.get-class-gtype), ', floating: ',
 #    g_object_is_floating($l2._get-native-object);
-#note "l2: ", $l2.perl;
+#note "l2: ", $l2.raku;
   is $l2.get-text, 'test-text', 'Label .new(:native-object) .get-text()';
 
   $no = $l1._get-native-object;

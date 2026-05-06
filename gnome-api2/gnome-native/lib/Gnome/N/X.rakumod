@@ -273,7 +273,7 @@ sub stringify ( *@list, Str :$join-str = ', ', *%options --> Str ) {
       }
 
       else {
-        $_.perl;
+        $_.raku;
       }
     }, ( |@list, |%options)
   )>>.Str.join($join-str)

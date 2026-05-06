@@ -18,7 +18,7 @@ my Callable $s;
 
 my N-Object $o = call-native-sub( 'gtk_button_new_with_label', Any);
 #my N-Object $o = &gtk_button_new_with_label("abc");
-note "D: ", $o.defined, ', ', $o.perl;
+note "D: ", $o.defined, ', ', $o.raku;
 note "L: ", &gtk_button_get_label($o);
 
 
@@ -27,7 +27,7 @@ sub call-native-sub ( Str $name, N-Object, $o, |c --> Any ) {
   CATCH { test-catch-exception( $_, $name); }
 
   $s = {try &::($name);}
-  note "S: ", $s.perl, ', ', $s.signature;
+  note "S: ", $s.raku, ', ', $s.signature;
 
   test-call( $s, Any, |c)
 }
