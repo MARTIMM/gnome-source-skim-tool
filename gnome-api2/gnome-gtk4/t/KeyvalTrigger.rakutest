@@ -9,7 +9,8 @@ use v6.d;
 use Test;
 use NativeCall;
 
-Gnome::Gdk4::T-enums
+use Gnome::Gdk4::T-enums:api<2>;
+use Gnome::Gdk4::T-keysyms:api<2>;
 
 use Gnome::Gtk4::KeyvalTrigger:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
@@ -35,14 +36,13 @@ subtest 'ISA test', {
     my GFlag $modifiers;
     my guint $keyval;
 
-    #TC:0:new-keyvaltrigger()
-    $keyval = '…';
-    $modifiers = …;
+    #TC:1:new-keyvaltrigger()
+    $keyval = GDK_KEY_M;
+    $modifiers = GDK_SHIFT_MASK;
+    diag "$?LINE $keyval, $modifiers";
+    
     $keyvaltrigger .= new-keyvaltrigger( $keyval, $modifiers);
     ok .is-valid, '.new-keyvaltrigger( $keyval, $modifiers)';
-
-#`{{
-}}
   }
 };
 
@@ -57,27 +57,37 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
+  my GFlag $modifiers;
+  my guint $keyval;
+
+
   with $keyvaltrigger {
+    $keyval = GDK_KEY_k;
+    $modifiers = GDK_NO_MODIFIER_MASK; #GDK_SHIFT_MASK;
+    $keyvaltrigger .= new-keyvaltrigger( $keyval, $modifiers);
+    #TM:1:get-keyval()
+    is .get-keyval(), $keyval, '.get-keyval(): test letter k';
+
+    #TM:1:get-modifiers()
+    is .get-modifiers(), $modifiers.Int, '.get-modifiers()';
 
 
-#`{{
-    #TM:0:get-keyval()
-     .get-keyval(), '…', '.get-keyval()';
+    $keyval = GDK_KEY_K;
+    $modifiers = GDK_NO_MODIFIER_MASK; #GDK_SHIFT_MASK;
+    $keyvaltrigger .= new-keyvaltrigger( $keyval, $modifiers);
+    is .get-keyval(), GDK_KEY_k, '.get-keyval(): test letter K -> k';
+    is .get-modifiers(), $modifiers.Int, '.get-modifiers()';
 
-    #TM:0:get-modifiers()
-     .get-modifiers(), '…', '.get-modifiers()';
-
-}}
-  }
-};
-
-#-------------------------------------------------------------------------------
-subtest 'Function tests', {
-  with $keyvaltrigger {
+    $keyval = GDK_KEY_K;
+    $modifiers = GDK_SHIFT_MASK;
+    $keyvaltrigger .= new-keyvaltrigger( $keyval, $modifiers);
+    is .get-keyval(), GDK_KEY_k, '.get-keyval(): test letter K -> k';
+    is .get-modifiers(), $modifiers.Int, '.get-modifiers(): GDK_SHIFT_MASK';
 
 
-#`{{
-}}
+#note "$?LINE K=", GDK_KEY_K.Int.base(2), '=', GDK_KEY_K.Int,
+#          ', k=', GDK_KEY_k.Int.base(2), '=', GDK_KEY_k.Int,
+#           ', ', .get-keyval.base(2);
   }
 };
 
