@@ -48,18 +48,23 @@ Creates a L<Gnome::Gtk4::ShortcutTrigger|/content-docs/api2/reference/Gtk4/Short
 the key with the given C<$keyval> and C<$modifiers> is pressed.
 
 =begin code
-method new-keyvaltrigger ( UInt() $keyval, UInt $modifiers --> Gnome::Gtk4::KeyvalTrigger )
+method new-keyvaltrigger (
+  UInt() $keyval, UInt $modifiers
+  --> Gnome::Gtk4::KeyvalTrigger
+)
 =end code
 
 =item $keyval; The keyval to trigger for.
 =item $modifiers; the modifiers that need to be present.
 
-=begin comment
-
 =head2 Example
-# Example for new-keyvaltrigger
 
-=end comment
+Example to initialize the object
+
+=begin code
+my Gnome::Gtk4::KeyvalTrigger $keyvaltrigger;
+$keyvaltrigger .= new-keyvaltrigger( GDK_KEY_M, GDK_SHIFT_MASK);
+=end code
 
 =end pod
 
@@ -75,21 +80,13 @@ method new-keyvaltrigger ( UInt() $keyval, UInt $modifiers --> Gnome::Gtk4::Keyv
 =begin pod
 =head2 get-keyval
 
-Gets the keyval that must be pressed to succeed
-triggering C<$self>.
+Gets the keyval that must be pressed to succeed triggering this object.
 
 =begin code
-method get-keyval (--> UInt )
+method get-keyval ( --> UInt )
 =end code
 
-Return value; the keyval. 
-
-=begin comment
-
-=head2 Example
-# Example for get-keyval
-
-=end comment
+Return value; the keyval. Note that the key value can be changed. Tests show that uppercase letters are changed to lowercase.
 
 =end pod
 
@@ -97,21 +94,13 @@ Return value; the keyval.
 =begin pod
 =head2 get-modifiers
 
-Gets the modifiers that must be present to succeed
-triggering C<$self>.
+Gets the modifiers that must be present to succeed triggering this object.
 
 =begin code
-method get-modifiers (--> UInt )
+method get-modifiers ( --> UInt )
 =end code
 
 Return value; the modifiers. 
-
-=begin comment
-
-=head2 Example
-# Example for get-modifiers
-
-=end comment
 
 =end pod
 
