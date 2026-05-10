@@ -21,7 +21,7 @@ use Gnome::N::X:api<2>;
 #Gnome::N::debug(:on);
 
 use Gnome::Gtk4::DropTargetAsync:api<2>;
-use Gnome::Gtk4::DropTarget:api<2>;
+#use Gnome::Gtk4::DropTarget:api<2>;
 use Gnome::Gtk4::DragSource:api<2>;
 use Gnome::Gtk4::Window:api<2>;
 use Gnome::Gtk4::Picture:api<2>;
@@ -179,7 +179,7 @@ note $?LINE, ', ', $value.get-string;
 }}
 
   #-----------------------------------------------------------------------------
-  method accept2 (
+  method accept (
     Gnome::Gdk4::Drop() $drop, 
     Gnome::Gtk4::DropTargetAsync() :_native-object($dt),
     --> gboolean
@@ -205,18 +205,18 @@ note $?LINE, ', ', $value.get-string;
     }
 
 #Gnome::N::debug(:on);
-    note "accept2: $accept-ok";
+    note "accept: $accept-ok";
 #    $dt.set-preload(True);
     $accept-ok
   }
 
   #-----------------------------------------------------------------------------
-  method drop2 (
+  method drop (
     Gnome::Gdk4::Drop() $drop, Rat() $x, Rat() $y,
     Gnome::Gtk4::DropTargetAsync() :_native-object($dt),
     --> gboolean
   ) {
-note "\n$?LINE drop2: $x, $y";
+note "\n$?LINE drop: $x, $y";
 
     my Array $mime-types = self.get-mimetypes($drop);
     if my Bool $drop-ok = self.check-mimetype( 'text/plain', $mime-types) {
@@ -243,7 +243,7 @@ note "$?LINE $drag.gist()";
 
     # Select one of the set flags from get-actions()
 #    $drop.finish(GDK_ACTION_COPY);
-    note "$?LINE 'drop2: $drop-ok";
+    note "$?LINE 'drop: $drop-ok";
 
     $drop-ok
   }
@@ -448,8 +448,7 @@ my Gnome::Gtk4::Picture $red = set-drag-source('red-on-256.png');
 my Gnome::Gtk4::Picture $amber = set-drag-source('amber-on-256.png');
 my Gnome::Gtk4::Picture $green = set-drag-source('green-on-256.png');
 
-#my Gnome::Gtk4::Picture $bullseye = set-drag-target1('bullseye.jpg');
-my Gnome::Gtk4::Picture $bullseye = set-drag-target2('bullseye.jpg');
+my Gnome::Gtk4::Picture $bullseye = set-drag-target('bullseye.jpg');
 
 with my Gnome::Gtk4::Grid $grid .= new-grid {
   .attach( $red,      0, 0, 1, 1);
@@ -486,49 +485,8 @@ sub set-drag-source ( Str $pic-file --> Gnome::Gtk4::Picture ) {
   $pic
 }
 
-#`{{
 #-------------------------------------------------------------------------------
-sub set-drag-target1 ( Str $pic-file --> Gnome::Gtk4::Picture ) {
-
-  my Gnome::Gtk4::Picture $pic;
-  my Gnome::Gtk4::DropTarget $target;
-
-  my Gnome::Gio::File $file .= new-for-path('./x.txt');
-  note "$?LINE File gtype = $file.get-class-gtype()";
-
-  with $target .= new-droptarget(
-    G_TYPE_STRING, GDK_ACTION_COPY +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
-  ) {
-    my $gtypes = CArray[GType].new( G_TYPE_STRING, $file.get-class-gtype);
-    .set-gtypes( $gtypes, 2);
-note "$?LINE Preload: ", .get-preload;
-
-    my Gnome::Gdk4::N-ContentFormats() $formats = .get-formats;
-    my $size = CArray[gsize].new(0);
-    my Array $mime-types = $formats.get-mime-types($size);
-
-note "$?LINE $size.gist(), $mime-types.elems()";
-    loop ( my Int $i = 0; $i < $size[0]; $i++ ) {
-      note "Mime type: ", $mime-types[$i];
-    }
-
-    .register-signal( $helper, 'accept1', 'accept');
-    .register-signal( $helper, 'drop1', 'drop');
-#    .register-signal( $helper, 'enter', 'enter');
-#    .register-signal( $helper, 'leave', 'leave');
-#    .register-signal( $helper, 'motion', 'motion');
-
-    $pic .= new-for-filename(DATA_PATH ~ $pic-file);
-    $pic.add-controller($target);
-    .clear-object;
-  }
-
-  $pic
-}
-}}
-
-#-------------------------------------------------------------------------------
-sub set-drag-target2 ( Str $pic-file --> Gnome::Gtk4::Picture ) {
+sub set-drag-target ( Str $pic-file --> Gnome::Gtk4::Picture ) {
 
   my Gnome::Gtk4::Picture $pic;
   my Gnome::Gtk4::DropTargetAsync $target;
@@ -551,8 +509,8 @@ note "$?LINE $size.gist(), $mime-types.elems()";
     }
 }}
 
-    .register-signal( $helper, 'accept2', 'accept');
-    .register-signal( $helper, 'drop2', 'drop');
+    .register-signal( $helper, 'accept', 'accept');
+    .register-signal( $helper, 'drop', 'drop');
 #    .register-signal( $helper, 'drag-enter', 'drag-enter');
 #    .register-signal( $helper, 'drag-leave', 'drag-leave');
 #    .register-signal( $helper, 'drag-motion', 'drag-motion');
