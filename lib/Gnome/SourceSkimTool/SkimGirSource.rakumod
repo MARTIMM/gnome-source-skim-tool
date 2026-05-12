@@ -96,8 +96,8 @@ method make-subgirs-from-gir ( Str $module = '' ) {
         my Str $name = self!check-pixbuf($attrs<name>);
         my $xml-file = "$*work-data<gir-module-path>C-$name.gir";
 
-        if ($xml-file.IO ~~ :!e) or
-           ($xml-file.IO.modified > $!gir-modification-time)
+#        if ($xml-file.IO ~~ :!e) or
+#           ($xml-file.IO.modified > $!gir-modification-time)
         {
           my Str $xml = qq:to/EOXML/;
             <?xml version="1.0"?>
@@ -131,8 +131,8 @@ method make-subgirs-from-gir ( Str $module = '' ) {
         my Str $name = self!check-pixbuf($attrs<name>);
         my $xml-file = "$*work-data<gir-module-path>R-$name.gir";
 
-        if ($xml-file.IO ~~ :!e) or
-           ($xml-file.IO.modified > $!gir-modification-time)
+#        if ($xml-file.IO ~~ :!e) or
+#           ($xml-file.IO.modified > $!gir-modification-time)
         {
           my Str $name-prefix = $*work-data<name-prefix>;
           $name ~~ s:i/^ $name-prefix //;
@@ -165,8 +165,8 @@ method make-subgirs-from-gir ( Str $module = '' ) {
           $name ~~ s:i/^ $name-prefix //;
           my $xml-file = "$*work-data<gir-module-path>U-$name.gir";
 
-          if ($xml-file.IO ~~ :!e) or
-            ($xml-file.IO.modified > $!gir-modification-time)
+#          if ($xml-file.IO ~~ :!e) or
+#            ($xml-file.IO.modified > $!gir-modification-time)
           {
             my Str $xml = qq:to/EOXML/;
               <?xml version="1.0"?>
@@ -194,8 +194,8 @@ method make-subgirs-from-gir ( Str $module = '' ) {
         my Str $name = self!check-pixbuf($attrs<name>);
         my $xml-file = "$*work-data<gir-module-path>I-$name.gir";
 
-        if ($xml-file.IO ~~ :!e) or
-           ($xml-file.IO.modified > $!gir-modification-time)
+#        if ($xml-file.IO ~~ :!e) or
+#           ($xml-file.IO.modified > $!gir-modification-time)
         {
           my Str $xml = qq:to/EOXML/;
             <?xml version="1.0"?>
