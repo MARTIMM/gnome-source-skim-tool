@@ -2,6 +2,8 @@
 
 use v6.d;
 
+use lib '/home/marcel/Languages/Raku/Projects/gnome-source-skim-tool/gnome-api2/gnome-gdk4/lib';
+
 use NativeCall;
 
 use Gnome::Glib::N-MainLoop:api<2>;
@@ -26,6 +28,8 @@ use Gnome::Gdk4::Drag:api<2>;
 use Gnome::Gdk4::Drop:api<2>;
 use Gnome::Gdk4::ContentProvider:api<2>;
 use Gnome::Gdk4::N-ContentFormats:api<2>;
+use Gnome::Gdk4::T-contentformats:api<2>;
+use Gnome::Gdk4::N-FileList:api<2>;
 use Gnome::Gdk4::T-enums:api<2>;
 
 use Gnome::Gio::File:api<2>;
@@ -206,11 +210,10 @@ note $?LINE, ', ', $value.get-string;
     $ok
   }
 
-##`{{
   #-----------------------------------------------------------------------------
   method enter ( Rat() $x, Rat() $y --> GFlag ) {
     note "Enter at $x, $y";
-    GDK_ACTION_COPY +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
+    GDK_ACTION_COPY   # +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
   }
 
   #-----------------------------------------------------------------------------
@@ -223,9 +226,7 @@ note $?LINE, ', ', $value.get-string;
     note "move to $x, $y";
     GDK_ACTION_COPY +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
   }
-#}}
 
-##`{{
   #-----------------------------------------------------------------------------
   method drag-enter (
     Gnome::Gdk4::Drop() $drop, Rat() $x, Rat() $y --> GFlag
@@ -246,7 +247,6 @@ note $?LINE, ', ', $value.get-string;
     note "move to $x, $y";
     GDK_ACTION_COPY +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
   }
-#}}
 }
 
 #-------------------------------------------------------------------------------
@@ -303,8 +303,20 @@ sub set-drag-target ( Str $pic-file --> Gnome::Gtk4::Picture ) {
   my Gnome::Gio::File $file .= new-for-path('./x.txt');
   note "$?LINE File gtype = $file.get-class-gtype()";
 
-  with $target .= new-droptarget( G_TYPE_INVALID, GDK_ACTION_COPY) {
-    .set-gtypes( CArray[GType].new( GDK_TYPE_FILE_LIST), 1);
+#  my Gnome::Gdk4::T-contentformats $t-cf .= new;
+  my Gnome::Gdk4::N-FileList $n-fl .=
+    new-from-array(CArray[N-Object].new($file.get-native-object));
+  note "$?LINE FileList gtype = $n-fl.get-class-gtype()";
+
+#  my Gnome::Gdk4::N-ContentFormats $formats .= new-contentformats(
+#    CArray[GType].new( 'text/plain', 'image/png'), 2
+#  ); 
+#    Gnome::Gdk4::N-ContentFormats.parse('text/plain,image/png');
+#note "$?LINE ", $formats.contain-mime-type('text/plain');
+#     new-for-gtype($n-fl.get-class-gtype);
+
+  with $target .= new-droptarget( G_TYPE_STRING, GDK_ACTION_COPY) {
+#    .set-gtypes( CArray[GType].new($n-fl.get-class-gtype), 1);
 note "$?LINE Preload: ", .get-preload;
 
     my Gnome::Gdk4::N-ContentFormats() $formats = .get-formats;
