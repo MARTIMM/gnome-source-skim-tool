@@ -68,6 +68,10 @@ method native-object-unref ( $n-native-object ) {
 
 my Hash $methods = %(
 
+  #--[Constructors]-------------------------------------------------------------
+  new-from-array => %( :type(Constructor), :is-symbol<gdk_file_list_new_from_array>, :returns(N-Object), :parameters([ CArray[N-Object], gsize]), ),
+  new-from-list => %( :type(Constructor), :is-symbol<gdk_file_list_new_from_list>, :returns(N-Object), :parameters([ N-Object]), ),
+
   #--[Methods]------------------------------------------------------------------
   get-files => %(:is-symbol<gdk_file_list_get_files>,  :returns(N-Object)),
 );
