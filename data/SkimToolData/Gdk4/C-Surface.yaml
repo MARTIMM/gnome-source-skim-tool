@@ -1,0 +1,353 @@
+---
+"Surface": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 1
+    "nbr-tests": 1
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gdk4::Surface"
+  "gir-type": "class"
+  "gnome-name": "GdkSurface"
+  "inheritable": false
+  "package-name": "Gnome::Gdk4"
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles":  []
+  "routines": 
+    "constructors": 
+      "new-popup": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkSurface*"
+            "name": "parent"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "autohide"
+            "raku-type": "gboolean"
+        "return-c-type": "GdkSurface*"
+        "return-raku-type": "N-Object"
+      "new-toplevel": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "display"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkSurface*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "beep": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkSurface*"
+            "name": "surface"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "create-cairo-context": 
+        "deprecated-version": "4.18"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkSurface*"
+            "name": "surface"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkCairoContext*"
+        "return-raku-type": "N-Object"
+      "create-gl-context": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkSurface*"
+            "name": "surface"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GdkGLContext*"
+        "return-raku-type": "N-Object"
+      "create-similar-surface": 
+        "deprecated-version": "4.12"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkSurface*"
+            "name": "surface"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "cairo_content_t"
+            "name": "content"
+            "raku-type": "GEnum:Content"
+          - 
+            "c-type": "int"
+            "name": "width"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "height"
+            "raku-type": "gint"
+        "return-c-type": "cairo_surface_t*"
+        "return-raku-type": "Cairo::cairo_surface_t"
+      "create-vulkan-context": 
+        "deprecated-version": "4.14"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkSurface*"
+            "name": "surface"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GdkVulkanContext*"
+        "return-raku-type": "N-Object"
+      "destroy": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkSurface*"
+            "name": "surface"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-cursor": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkSurface*"
+            "name": "surface"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkCursor*"
+        "return-raku-type": "N-Object"
+      "get-device-cursor": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkSurface*"
+            "name": "surface"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkDevice*"
+            "name": "device"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkCursor*"
+        "return-raku-type": "N-Object"
+      "get-device-position": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkSurface*"
+            "name": "surface"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkDevice*"
+            "name": "device"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double*"
+            "name": "x"
+            "raku-type": "CArray[gdouble]"
+          - 
+            "c-type": "double*"
+            "name": "y"
+            "raku-type": "CArray[gdouble]"
+          - 
+            "c-type": "GdkModifierType*"
+            "name": "mask"
+            "raku-type": "GFlag:GdkModifierType"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-display": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkSurface*"
+            "name": "surface"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkDisplay*"
+        "return-raku-type": "N-Object"
+      "get-frame-clock": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkSurface*"
+            "name": "surface"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkFrameClock*"
+        "return-raku-type": "N-Object"
+      "get-height": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkSurface*"
+            "name": "surface"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-mapped": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkSurface*"
+            "name": "surface"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-scale": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkSurface*"
+            "name": "surface"
+            "raku-type": "N-Object"
+        "return-c-type": "double"
+        "return-raku-type": "gdouble"
+        "version": "4.12"
+      "get-scale-factor": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkSurface*"
+            "name": "surface"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-width": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkSurface*"
+            "name": "surface"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "hide": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkSurface*"
+            "name": "surface"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "is-destroyed": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkSurface*"
+            "name": "surface"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "queue-render": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkSurface*"
+            "name": "surface"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "request-layout": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkSurface*"
+            "name": "surface"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-cursor": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkSurface*"
+            "name": "surface"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkCursor*"
+            "name": "cursor"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-device-cursor": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkSurface*"
+            "name": "surface"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkDevice*"
+            "name": "device"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkCursor*"
+            "name": "cursor"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-input-region": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkSurface*"
+            "name": "surface"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "cairo_region_t*"
+            "name": "region"
+            "raku-type": "Cairo::cairo_region_t"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-opaque-region": 
+        "deprecated-version": "4.16"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkSurface*"
+            "name": "surface"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "cairo_region_t*"
+            "name": "region"
+            "raku-type": "Cairo::cairo_region_t"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "translate-coordinates": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkSurface*"
+            "name": "from"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkSurface*"
+            "name": "to"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double*"
+            "name": "x"
+            "raku-type": "CArray[gdouble]"
+          - 
+            "c-type": "double*"
+            "name": "y"
+            "raku-type": "CArray[gdouble]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+  "source-filename": "surface"
+  "symbol-prefix": "gdk_surface_"
+  "type-letter": ""
+  "type-name": "Surface"
+"namespace-name": "Gdk"
+"symbol-prefix": "gdk"
+"version": "4.0"
+...

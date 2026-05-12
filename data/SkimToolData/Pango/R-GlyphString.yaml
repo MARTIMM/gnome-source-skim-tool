@@ -1,0 +1,250 @@
+---
+"GlyphString": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Pango::N-GlyphString"
+  "gir-type": "record"
+  "gnome-name": "PangoGlyphString"
+  "parent": ~
+  "record-class": "N-GlyphString"
+  "routines": 
+    "constructors": 
+      "new-glyphstring": 
+        "generated": 0
+        "parameters":  []
+        "return-c-type": "PangoGlyphString*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "copy": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoGlyphString*"
+            "name": "string"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoGlyphString*"
+        "return-raku-type": "N-Object"
+      "extents": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoGlyphString*"
+            "name": "glyphs"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoFont*"
+            "name": "font"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoRectangle*"
+            "name": "ink-rect"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoRectangle*"
+            "name": "logical-rect"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "extents-range": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoGlyphString*"
+            "name": "glyphs"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "start"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "end"
+            "raku-type": "gint"
+          - 
+            "c-type": "PangoFont*"
+            "name": "font"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoRectangle*"
+            "name": "ink-rect"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoRectangle*"
+            "name": "logical-rect"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "free": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoGlyphString*"
+            "name": "string"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-logical-widths": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoGlyphString*"
+            "name": "glyphs"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "text"
+            "raku-type": "Str"
+          - 
+            "c-type": "int"
+            "name": "length"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "embedding-level"
+            "raku-type": "gint"
+          - 
+            "c-type": "int*"
+            "name": "logical-widths"
+            "raku-type": "gint-ptr"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-width": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoGlyphString*"
+            "name": "glyphs"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+        "version": "1.14"
+      "index-to-x": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoGlyphString*"
+            "name": "glyphs"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "text"
+            "raku-type": "Str"
+          - 
+            "c-type": "int"
+            "name": "length"
+            "raku-type": "gint"
+          - 
+            "c-type": "PangoAnalysis*"
+            "name": "analysis"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "index"
+            "raku-type": "gint"
+          - 
+            "c-type": "gboolean"
+            "name": "trailing"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "int*"
+            "name": "x-pos"
+            "raku-type": "gint-ptr"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "index-to-x-full": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoGlyphString*"
+            "name": "glyphs"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "text"
+            "raku-type": "Str"
+          - 
+            "c-type": "int"
+            "name": "length"
+            "raku-type": "gint"
+          - 
+            "c-type": "PangoAnalysis*"
+            "name": "analysis"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoLogAttr*"
+            "name": "attrs"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "index"
+            "raku-type": "gint"
+          - 
+            "c-type": "gboolean"
+            "name": "trailing"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "int*"
+            "name": "x-pos"
+            "raku-type": "gint-ptr"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "1.50"
+      "set-size": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoGlyphString*"
+            "name": "string"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "new-len"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "x-to-index": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoGlyphString*"
+            "name": "glyphs"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "text"
+            "raku-type": "Str"
+          - 
+            "c-type": "int"
+            "name": "length"
+            "raku-type": "gint"
+          - 
+            "c-type": "PangoAnalysis*"
+            "name": "analysis"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "x-pos"
+            "raku-type": "gint"
+          - 
+            "c-type": "int*"
+            "name": "index"
+            "raku-type": "gint-ptr"
+          - 
+            "c-type": "int*"
+            "name": "trailing"
+            "raku-type": "gint-ptr"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "glyph"
+  "symbol-prefix": "pango_glyph_string_"
+  "type-letter": "N"
+  "type-name": "GlyphString"
+"namespace-name": "Pango"
+"symbol-prefix": "pango"
+"version": "1.0"
+...

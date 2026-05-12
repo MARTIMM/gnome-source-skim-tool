@@ -1,0 +1,208 @@
+---
+"Drop": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 1
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gdk4::Drop"
+  "gir-type": "class"
+  "gnome-name": "GdkDrop"
+  "inheritable": false
+  "package-name": "Gnome::Gdk4"
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles":  []
+  "routines": 
+    "methods": 
+      "finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDrop*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkDragAction"
+            "name": "action"
+            "raku-type": "GFlag:GdkDragAction"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-actions": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDrop*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkDragAction"
+        "return-raku-type": "GFlag:GdkDragAction"
+      "get-device": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDrop*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkDevice*"
+        "return-raku-type": "N-Object"
+      "get-display": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDrop*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkDisplay*"
+        "return-raku-type": "N-Object"
+      "get-drag": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDrop*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkDrag*"
+        "return-raku-type": "N-Object"
+      "get-formats": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDrop*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkContentFormats*"
+        "return-raku-type": "N-Object"
+      "get-surface": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDrop*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkSurface*"
+        "return-raku-type": "N-Object"
+      "read-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDrop*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char**"
+            "name": "mime-types"
+            "raku-type": "gchar-pptr"
+          - 
+            "c-type": "int"
+            "name": "io-priority"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "read-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDrop*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char**"
+            "name": "out-mime-type"
+            "raku-type": "gchar-pptr"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GInputStream*"
+        "return-raku-type": "N-Object"
+      "read-value-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDrop*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GType"
+            "name": "type"
+            "raku-type": "GType"
+          - 
+            "c-type": "int"
+            "name": "io-priority"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "read-value-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDrop*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "const GValue*"
+        "return-raku-type": "N-Object"
+      "status": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDrop*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkDragAction"
+            "name": "actions"
+            "raku-type": "GFlag:GdkDragAction"
+          - 
+            "c-type": "GdkDragAction"
+            "name": "preferred"
+            "raku-type": "GFlag:GdkDragAction"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "drop"
+  "symbol-prefix": "gdk_drop_"
+  "type-letter": ""
+  "type-name": "Drop"
+"namespace-name": "Gdk"
+"symbol-prefix": "gdk"
+"version": "4.0"
+...

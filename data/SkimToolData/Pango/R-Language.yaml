@@ -1,0 +1,107 @@
+---
+"Language": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 1
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Pango::N-Language"
+  "gir-type": "record"
+  "gnome-name": "PangoLanguage"
+  "parent": ~
+  "record-class": "N-Language"
+  "routines": 
+    "functions": 
+      "from-string": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "language"
+            "raku-type": "Str"
+        "return-c-type": "PangoLanguage*"
+        "return-raku-type": "N-Object"
+      "get-default": 
+        "generated": 0
+        "parameters":  []
+        "return-c-type": "PangoLanguage*"
+        "return-raku-type": "N-Object"
+        "version": "1.16"
+      "get-preferred": 
+        "generated": 0
+        "parameters":  []
+        "return-c-type": "PangoLanguage**"
+        "return-raku-type": "N-Object"
+        "version": "1.48"
+    "methods": 
+      "get-sample-string": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLanguage*"
+            "name": "language"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-scripts": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "PangoLanguage*"
+            "name": "language"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int*"
+            "name": "num-scripts"
+            "raku-type": "gint-ptr"
+        "return-c-type": "const PangoScript*"
+        "return-raku-type": "GEnum:PangoScript "
+        "version": "1.22"
+      "includes-script": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "PangoLanguage*"
+            "name": "language"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoScript"
+            "name": "script"
+            "raku-type": "GEnum:PangoScript "
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "1.4"
+      "matches": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLanguage*"
+            "name": "language"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "range-list"
+            "raku-type": "Str"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "to-string": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLanguage*"
+            "name": "language"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+  "source-filename": "types"
+  "symbol-prefix": "pango_language_"
+  "type-letter": "N"
+  "type-name": "Language"
+"namespace-name": "Pango"
+"symbol-prefix": "pango"
+"version": "1.0"
+...

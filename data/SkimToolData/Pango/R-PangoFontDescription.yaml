@@ -1,0 +1,421 @@
+---
+"FontDescription": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Pango::N-FontDescription"
+  "gir-type": "record"
+  "gnome-name": "PangoFontDescription"
+  "parent": ~
+  "record-class": "N-FontDescription"
+  "routines": 
+    "constructors": 
+      "new-fontdescription": 
+        "generated": 0
+        "parameters":  []
+        "return-c-type": "PangoFontDescription*"
+        "return-raku-type": "N-Object"
+    "functions": 
+      "from-string": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "str"
+            "raku-type": "Str"
+        "return-c-type": "PangoFontDescription*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "better-match": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const PangoFontDescription*"
+            "name": "old-match"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const PangoFontDescription*"
+            "name": "new-match"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "copy": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoFontDescription*"
+        "return-raku-type": "N-Object"
+      "copy-static": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoFontDescription*"
+        "return-raku-type": "N-Object"
+      "equal": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const PangoFontDescription*"
+            "name": "desc1"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const PangoFontDescription*"
+            "name": "desc2"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "free": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-family": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-gravity": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoGravity"
+        "return-raku-type": "GEnum:PangoGravity"
+        "version": "1.16"
+      "get-set-fields": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "const PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoFontMask"
+        "return-raku-type": "GFlag:PangoFontMask "
+      "get-size": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+        "return-c-type": "gint"
+        "return-raku-type": "gint"
+      "get-size-is-absolute": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "1.8"
+      "get-stretch": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "const PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoStretch"
+        "return-raku-type": "GEnum:PangoStretch "
+      "get-style": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "const PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoStyle"
+        "return-raku-type": "GEnum:PangoStyle "
+      "get-variant": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "const PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoVariant"
+        "return-raku-type": "GEnum:PangoVariant "
+      "get-variations": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+        "version": "1.42"
+      "get-weight": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "const PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoWeight"
+        "return-raku-type": "GEnum:PangoWeight "
+      "hash": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+        "return-c-type": "guint"
+        "return-raku-type": "guint"
+      "merge": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const PangoFontDescription*"
+            "name": "desc-to-merge"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "replace-existing"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "merge-static": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const PangoFontDescription*"
+            "name": "desc-to-merge"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "replace-existing"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-absolute-size": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double"
+            "name": "size"
+            "raku-type": "gdouble"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "1.8"
+      "set-family": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "family"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-family-static": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "family"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-gravity": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoGravity"
+            "name": "gravity"
+            "raku-type": "GEnum:PangoGravity"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "1.16"
+      "set-size": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint"
+            "name": "size"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-stretch": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoStretch"
+            "name": "stretch"
+            "raku-type": "GEnum:PangoStretch "
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-style": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoStyle"
+            "name": "style"
+            "raku-type": "GEnum:PangoStyle "
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-variant": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoVariant"
+            "name": "variant"
+            "raku-type": "GEnum:PangoVariant "
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-variations": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "variations"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "1.42"
+      "set-variations-static": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "variations"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "1.42"
+      "set-weight": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoWeight"
+            "name": "weight"
+            "raku-type": "GEnum:PangoWeight "
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "to-filename": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+        "return-c-type": "char*"
+        "return-raku-type": "Str"
+      "to-string": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+        "return-c-type": "char*"
+        "return-raku-type": "Str"
+      "unset-fields": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoFontMask"
+            "name": "to-unset"
+            "raku-type": "GFlag:PangoFontMask "
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "font"
+  "symbol-prefix": "pango_font_description_"
+  "type-letter": "N"
+  "type-name": "FontDescription"
+"namespace-name": "Pango"
+"symbol-prefix": "pango"
+"version": "1.0"
+...

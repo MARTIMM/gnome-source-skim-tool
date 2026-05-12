@@ -1,0 +1,912 @@
+---
+"Layout": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 1
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Pango::Layout"
+  "gir-type": "class"
+  "gnome-name": "PangoLayout"
+  "inheritable": false
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles":  []
+  "routines": 
+    "constructors": 
+      "new-layout": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoLayout*"
+        "return-raku-type": "N-Object"
+    "functions": 
+      "deserialize": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GBytes*"
+            "name": "bytes"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoLayoutDeserializeFlags"
+            "name": "flags"
+            "raku-type": "GFlag:PangoLayoutDeserializeFlags"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "PangoLayout*"
+        "return-raku-type": "N-Object"
+        "version": "1.50"
+    "methods": 
+      "context-changed": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "copy": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "src"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoLayout*"
+        "return-raku-type": "N-Object"
+      "get-alignment": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoAlignment"
+        "return-raku-type": "GEnum:PangoAlignment"
+      "get-attributes": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoAttrList*"
+        "return-raku-type": "N-Object"
+      "get-auto-dir": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "1.4"
+      "get-baseline": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+        "version": "1.22"
+      "get-caret-pos": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "index"
+            "raku-type": "gint"
+          - 
+            "c-type": "PangoRectangle*"
+            "name": "strong-pos"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoRectangle*"
+            "name": "weak-pos"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "1.50"
+      "get-character-count": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "gint"
+        "return-raku-type": "gint"
+        "version": "1.30"
+      "get-context": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoContext*"
+        "return-raku-type": "N-Object"
+      "get-cursor-pos": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "index"
+            "raku-type": "gint"
+          - 
+            "c-type": "PangoRectangle*"
+            "name": "strong-pos"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoRectangle*"
+            "name": "weak-pos"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-direction": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "index"
+            "raku-type": "gint"
+        "return-c-type": "PangoDirection"
+        "return-raku-type": "GEnum:PangoDirection"
+        "version": "1.46"
+      "get-ellipsize": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoEllipsizeMode"
+        "return-raku-type": "GEnum:PangoEllipsizeMode"
+        "version": "1.6"
+      "get-extents": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoRectangle*"
+            "name": "ink-rect"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoRectangle*"
+            "name": "logical-rect"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-font-description": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "const PangoFontDescription*"
+        "return-raku-type": "N-Object"
+        "version": "1.8"
+      "get-height": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+        "version": "1.20"
+      "get-indent": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-iter": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoLayoutIter*"
+        "return-raku-type": "N-Object"
+      "get-justify": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-justify-last-line": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "1.50"
+      "get-line": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "line"
+            "raku-type": "gint"
+        "return-c-type": "PangoLayoutLine*"
+        "return-raku-type": "N-Object"
+      "get-line-count": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-line-readonly": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "line"
+            "raku-type": "gint"
+        "return-c-type": "PangoLayoutLine*"
+        "return-raku-type": "N-Object"
+        "version": "1.16"
+      "get-line-spacing": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "float"
+        "return-raku-type": "gfloat"
+        "version": "1.44"
+      "get-lines": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "GSList*"
+        "return-raku-type": "N-Object"
+      "get-lines-readonly": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "GSList*"
+        "return-raku-type": "N-Object"
+        "version": "1.16"
+      "get-log-attrs": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoLogAttr**"
+            "name": "attrs"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint*"
+            "name": "n-attrs"
+            "raku-type": "gint-ptr"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-log-attrs-readonly": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint*"
+            "name": "n-attrs"
+            "raku-type": "gint-ptr"
+        "return-c-type": "const PangoLogAttr*"
+        "return-raku-type": "N-Object"
+        "version": "1.30"
+      "get-pixel-extents": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoRectangle*"
+            "name": "ink-rect"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoRectangle*"
+            "name": "logical-rect"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-pixel-size": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int*"
+            "name": "width"
+            "raku-type": "gint-ptr"
+          - 
+            "c-type": "int*"
+            "name": "height"
+            "raku-type": "gint-ptr"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-serial": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "guint"
+        "return-raku-type": "guint"
+        "version": "1.32.4"
+      "get-single-paragraph-mode": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-size": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int*"
+            "name": "width"
+            "raku-type": "gint-ptr"
+          - 
+            "c-type": "int*"
+            "name": "height"
+            "raku-type": "gint-ptr"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-spacing": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-tabs": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoTabArray*"
+        "return-raku-type": "N-Object"
+      "get-text": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-unknown-glyphs-count": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+        "version": "1.16"
+      "get-width": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-wrap": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoWrapMode"
+        "return-raku-type": "GEnum:PangoWrapMode"
+      "index-to-line-x": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "index"
+            "raku-type": "gint"
+          - 
+            "c-type": "gboolean"
+            "name": "trailing"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "int*"
+            "name": "line"
+            "raku-type": "gint-ptr"
+          - 
+            "c-type": "int*"
+            "name": "x-pos"
+            "raku-type": "gint-ptr"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "index-to-pos": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "index"
+            "raku-type": "gint"
+          - 
+            "c-type": "PangoRectangle*"
+            "name": "pos"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "is-ellipsized": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "1.16"
+      "is-wrapped": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "1.16"
+      "move-cursor-visually": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "strong"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "int"
+            "name": "old-index"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "old-trailing"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "direction"
+            "raku-type": "gint"
+          - 
+            "c-type": "int*"
+            "name": "new-index"
+            "raku-type": "gint-ptr"
+          - 
+            "c-type": "int*"
+            "name": "new-trailing"
+            "raku-type": "gint-ptr"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "serialize": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoLayoutSerializeFlags"
+            "name": "flags"
+            "raku-type": "GFlag:PangoLayoutSerializeFlags"
+        "return-c-type": "GBytes*"
+        "return-raku-type": "N-Object"
+        "version": "1.50"
+      "set-alignment": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoAlignment"
+            "name": "alignment"
+            "raku-type": "GEnum:PangoAlignment"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-attributes": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoAttrList*"
+            "name": "attrs"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-auto-dir": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "auto-dir"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "1.4"
+      "set-ellipsize": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoEllipsizeMode"
+            "name": "ellipsize"
+            "raku-type": "GEnum:PangoEllipsizeMode"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "1.6"
+      "set-font-description": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const PangoFontDescription*"
+            "name": "desc"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-height": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "height"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "1.20"
+      "set-indent": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "indent"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-justify": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "justify"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-justify-last-line": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "justify"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "1.50"
+      "set-line-spacing": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "float"
+            "name": "factor"
+            "raku-type": "gfloat"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "1.44"
+      "set-markup": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "markup"
+            "raku-type": "Str"
+          - 
+            "c-type": "int"
+            "name": "length"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-markup-with-accel": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "markup"
+            "raku-type": "Str"
+          - 
+            "c-type": "int"
+            "name": "length"
+            "raku-type": "gint"
+          - 
+            "c-type": "gunichar"
+            "name": "accel-marker"
+            "raku-type": "gunichar"
+          - 
+            "c-type": "gunichar*"
+            "name": "accel-char"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-single-paragraph-mode": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "setting"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-spacing": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "spacing"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-tabs": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoTabArray*"
+            "name": "tabs"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-text": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "text"
+            "raku-type": "Str"
+          - 
+            "c-type": "int"
+            "name": "length"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-width": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "width"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-wrap": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoWrapMode"
+            "name": "wrap"
+            "raku-type": "GEnum:PangoWrapMode"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "write-to-file": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoLayoutSerializeFlags"
+            "name": "flags"
+            "raku-type": "GFlag:PangoLayoutSerializeFlags"
+          - 
+            "c-type": "const char*"
+            "name": "filename"
+            "raku-type": "Str"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "1.50"
+      "xy-to-index": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoLayout*"
+            "name": "layout"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "x"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "y"
+            "raku-type": "gint"
+          - 
+            "c-type": "int*"
+            "name": "index"
+            "raku-type": "gint-ptr"
+          - 
+            "c-type": "int*"
+            "name": "trailing"
+            "raku-type": "gint-ptr"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+  "source-filename": "layout"
+  "symbol-prefix": "pango_layout_"
+  "type-letter": ""
+  "type-name": "Layout"
+"namespace-name": "Pango"
+"symbol-prefix": "pango"
+"version": "1.0"
+...

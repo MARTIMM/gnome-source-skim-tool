@@ -1,0 +1,215 @@
+---
+"Font": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Pango::Font"
+  "gir-type": "class"
+  "gnome-name": "PangoFont"
+  "inheritable": false
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles":  []
+  "routines": 
+    "functions": 
+      "descriptions-free": 
+        "deprecated-version": "1.56"
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoFontDescription**"
+            "name": "descs"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "n-descs"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "deserialize": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoContext*"
+            "name": "context"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GBytes*"
+            "name": "bytes"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "PangoFont*"
+        "return-raku-type": "N-Object"
+        "version": "1.50"
+    "methods": 
+      "describe": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoFont*"
+            "name": "font"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoFontDescription*"
+        "return-raku-type": "N-Object"
+      "describe-with-absolute-size": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoFont*"
+            "name": "font"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoFontDescription*"
+        "return-raku-type": "N-Object"
+        "version": "1.14"
+      "get-coverage": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoFont*"
+            "name": "font"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoLanguage*"
+            "name": "language"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoCoverage*"
+        "return-raku-type": "N-Object"
+      "get-face": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoFont*"
+            "name": "font"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoFontFace*"
+        "return-raku-type": "N-Object"
+        "version": "1.46"
+      "get-features": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "PangoFont*"
+            "name": "font"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "hb_feature_t*"
+            "name": "features"
+            "raku-type": ""
+          - 
+            "c-type": "guint"
+            "name": "len"
+            "raku-type": "guint"
+          - 
+            "c-type": "guint*"
+            "name": "num-features"
+            "raku-type": "gint-ptr"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "1.44"
+      "get-font-map": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoFont*"
+            "name": "font"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoFontMap*"
+        "return-raku-type": "N-Object"
+        "version": "1.10"
+      "get-glyph-extents": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "PangoFont*"
+            "name": "font"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoGlyph"
+            "name": "glyph"
+            "raku-type": ""
+          - 
+            "c-type": "PangoRectangle*"
+            "name": "ink-rect"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoRectangle*"
+            "name": "logical-rect"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-hb-font": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "PangoFont*"
+            "name": "font"
+            "raku-type": "N-Object"
+        "return-c-type": "hb_font_t*"
+        "return-raku-type": ""
+        "version": "1.44"
+      "get-languages": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoFont*"
+            "name": "font"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoLanguage**"
+        "return-raku-type": "N-Object"
+        "version": "1.50"
+      "get-metrics": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoFont*"
+            "name": "font"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoLanguage*"
+            "name": "language"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoFontMetrics*"
+        "return-raku-type": "N-Object"
+      "has-char": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoFont*"
+            "name": "font"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gunichar"
+            "name": "wc"
+            "raku-type": "gunichar"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "1.44"
+      "serialize": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoFont*"
+            "name": "font"
+            "raku-type": "N-Object"
+        "return-c-type": "GBytes*"
+        "return-raku-type": "N-Object"
+        "version": "1.50"
+  "source-filename": "font"
+  "symbol-prefix": "pango_font_"
+  "type-letter": ""
+  "type-name": "Font"
+"namespace-name": "Pango"
+"symbol-prefix": "pango"
+"version": "1.0"
+...

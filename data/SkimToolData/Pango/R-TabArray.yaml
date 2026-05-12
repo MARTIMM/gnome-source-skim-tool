@@ -1,0 +1,253 @@
+---
+"TabArray": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 1
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Pango::N-TabArray"
+  "gir-type": "record"
+  "gnome-name": "PangoTabArray"
+  "parent": ~
+  "record-class": "N-TabArray"
+  "routines": 
+    "constructors": 
+      "new-tabarray": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "gint"
+            "name": "initial-size"
+            "raku-type": "gint"
+          - 
+            "c-type": "gboolean"
+            "name": "positions-in-pixels"
+            "raku-type": "gboolean"
+        "return-c-type": "PangoTabArray*"
+        "return-raku-type": "N-Object"
+      "new-with-positions": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "gint"
+            "name": "size"
+            "raku-type": "gint"
+          - 
+            "c-type": "gboolean"
+            "name": "positions-in-pixels"
+            "raku-type": "gboolean"
+          - 
+            "c-type": "PangoTabAlign"
+            "name": "first-alignment"
+            "raku-type": "GEnum:PangoTabAlign "
+          - 
+            "c-type": "gint"
+            "name": "first-position"
+            "raku-type": "gint"
+          - 
+            "c-type": "…"
+            "name": "…"
+            "raku-type": "…"
+        "return-c-type": "PangoTabArray*"
+        "return-raku-type": "N-Object"
+        "variable-list": true
+    "functions": 
+      "from-string": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "text"
+            "raku-type": "Str"
+        "return-c-type": "PangoTabArray*"
+        "return-raku-type": "N-Object"
+        "version": "1.50"
+    "methods": 
+      "copy": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoTabArray*"
+            "name": "src"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoTabArray*"
+        "return-raku-type": "N-Object"
+      "free": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoTabArray*"
+            "name": "tab-array"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-decimal-point": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoTabArray*"
+            "name": "tab-array"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "tab-index"
+            "raku-type": "gint"
+        "return-c-type": "gunichar"
+        "return-raku-type": "gunichar"
+        "version": "1.50"
+      "get-positions-in-pixels": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoTabArray*"
+            "name": "tab-array"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-size": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoTabArray*"
+            "name": "tab-array"
+            "raku-type": "N-Object"
+        "return-c-type": "gint"
+        "return-raku-type": "gint"
+      "get-tab": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "PangoTabArray*"
+            "name": "tab-array"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint"
+            "name": "tab-index"
+            "raku-type": "gint"
+          - 
+            "c-type": "PangoTabAlign*"
+            "name": "alignment"
+            "raku-type": "GEnum:PangoTabAlign "
+          - 
+            "c-type": "gint*"
+            "name": "location"
+            "raku-type": "gint-ptr"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-tabs": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "PangoTabArray*"
+            "name": "tab-array"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoTabAlign**"
+            "name": "alignments"
+            "raku-type": "GEnum:PangoTabAlign "
+          - 
+            "c-type": "gint**"
+            "name": "locations"
+            "raku-type": "gint-ptr"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "resize": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "PangoTabArray*"
+            "name": "tab-array"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint"
+            "name": "new-size"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "set-decimal-point": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoTabArray*"
+            "name": "tab-array"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "tab-index"
+            "raku-type": "gint"
+          - 
+            "c-type": "gunichar"
+            "name": "decimal-point"
+            "raku-type": "gunichar"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "1.50"
+      "set-positions-in-pixels": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoTabArray*"
+            "name": "tab-array"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gboolean"
+            "name": "positions-in-pixels"
+            "raku-type": "gboolean"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "1.50"
+      "set-tab": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "PangoTabArray*"
+            "name": "tab-array"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gint"
+            "name": "tab-index"
+            "raku-type": "gint"
+          - 
+            "c-type": "PangoTabAlign"
+            "name": "alignment"
+            "raku-type": "GEnum:PangoTabAlign "
+          - 
+            "c-type": "gint"
+            "name": "location"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "sort": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoTabArray*"
+            "name": "tab-array"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "1.50"
+      "to-string": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoTabArray*"
+            "name": "tab-array"
+            "raku-type": "N-Object"
+        "return-c-type": "char*"
+        "return-raku-type": "Str"
+        "version": "1.50"
+  "source-filename": "tabs"
+  "symbol-prefix": "pango_tab_array_"
+  "type-letter": "N"
+  "type-name": "TabArray"
+"namespace-name": "Pango"
+"symbol-prefix": "pango"
+"version": "1.0"
+...

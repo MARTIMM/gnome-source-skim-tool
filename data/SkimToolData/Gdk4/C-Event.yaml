@@ -1,0 +1,265 @@
+---
+"Event": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gdk4::Event"
+  "gir-type": "class"
+  "gnome-name": "GdkEvent"
+  "inheritable": false
+  "package-name": "Gnome::Gdk4"
+  "parent": ~
+  "parent-gnome-name": ""
+  "parent-raku-name": ""
+  "roles":  []
+  "routines": 
+    "methods": 
+      "-get-angle": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event1"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event2"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double*"
+            "name": "angle"
+            "raku-type": "CArray[gdouble]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "-get-center": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event1"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event2"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double*"
+            "name": "x"
+            "raku-type": "CArray[gdouble]"
+          - 
+            "c-type": "double*"
+            "name": "y"
+            "raku-type": "CArray[gdouble]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "-get-distance": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event1"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event2"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double*"
+            "name": "distance"
+            "raku-type": "CArray[gdouble]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-axes": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double**"
+            "name": "axes"
+            "raku-type": "CArray[gdouble]"
+          - 
+            "c-type": "guint*"
+            "name": "n-axes"
+            "raku-type": "gint-ptr"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-axis": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkAxisUse"
+            "name": "axis-use"
+            "raku-type": "GEnum:GdkAxisUse"
+          - 
+            "c-type": "double*"
+            "name": "value"
+            "raku-type": "CArray[gdouble]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-device": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkDevice*"
+        "return-raku-type": "N-Object"
+      "get-device-tool": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkDeviceTool*"
+        "return-raku-type": "N-Object"
+      "get-display": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkDisplay*"
+        "return-raku-type": "N-Object"
+      "get-event-sequence": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkEventSequence*"
+        "return-raku-type": "N-Object"
+      "get-event-type": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkEventType"
+        "return-raku-type": "GEnum:GdkEventType "
+      "get-history": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint*"
+            "name": "out-n-coords"
+            "raku-type": "gint-ptr"
+        "return-c-type": "GdkTimeCoord*"
+        "return-raku-type": "N-Object"
+      "get-modifier-state": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkModifierType"
+        "return-raku-type": "GFlag:GdkModifierType"
+      "get-pointer-emulated": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-position": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "double*"
+            "name": "x"
+            "raku-type": "CArray[gdouble]"
+          - 
+            "c-type": "double*"
+            "name": "y"
+            "raku-type": "CArray[gdouble]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-seat": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkSeat*"
+        "return-raku-type": "N-Object"
+      "get-surface": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkSurface*"
+        "return-raku-type": "N-Object"
+      "get-time": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event"
+            "raku-type": "N-Object"
+        "return-c-type": "guint32"
+        "return-raku-type": "guint32"
+      "ref": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkEvent*"
+        "return-raku-type": "N-Object"
+      "triggers-context-menu": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "unref": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "events"
+  "symbol-prefix": "gdk_event_"
+  "type-letter": ""
+  "type-name": "Event"
+"namespace-name": "Gdk"
+"symbol-prefix": "gdk"
+"version": "4.0"
+...

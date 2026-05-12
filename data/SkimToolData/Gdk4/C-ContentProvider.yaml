@@ -1,0 +1,172 @@
+---
+"ContentProvider": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 1
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gdk4::ContentProvider"
+  "gir-type": "class"
+  "gnome-name": "GdkContentProvider"
+  "inheritable": false
+  "package-name": "Gnome::Gdk4"
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles":  []
+  "routines": 
+    "constructors": 
+      "new-for-bytes": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "mime-type"
+            "raku-type": "Str"
+          - 
+            "c-type": "GBytes*"
+            "name": "bytes"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkContentProvider*"
+        "return-raku-type": "N-Object"
+      "new-for-value": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GValue*"
+            "name": "value"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkContentProvider*"
+        "return-raku-type": "N-Object"
+      "new-typed": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GType"
+            "name": "type"
+            "raku-type": "GType"
+          - 
+            "c-type": "…"
+            "name": "…"
+            "raku-type": "…"
+        "return-c-type": "GdkContentProvider*"
+        "return-raku-type": "N-Object"
+        "variable-list": true
+      "new-union": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkContentProvider**"
+            "name": "providers"
+            "raku-type": "CArray[N-Object]"
+          - 
+            "c-type": "gsize"
+            "name": "n-providers"
+            "raku-type": "gsize"
+        "return-c-type": "GdkContentProvider*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "content-changed": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkContentProvider*"
+            "name": "provider"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-value": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkContentProvider*"
+            "name": "provider"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GValue*"
+            "name": "value"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "ref-formats": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkContentProvider*"
+            "name": "provider"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkContentFormats*"
+        "return-raku-type": "N-Object"
+      "ref-storable-formats": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkContentProvider*"
+            "name": "provider"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkContentFormats*"
+        "return-raku-type": "N-Object"
+      "write-mime-type-async": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkContentProvider*"
+            "name": "provider"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "mime-type"
+            "raku-type": "Str"
+          - 
+            "c-type": "GOutputStream*"
+            "name": "stream"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "io-priority"
+            "raku-type": "gint"
+          - 
+            "c-type": "GCancellable*"
+            "name": "cancellable"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncReadyCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $source-object, N-Object $res, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "user-data"
+            "raku-type": "gpointer"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "write-mime-type-finish": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkContentProvider*"
+            "name": "provider"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GAsyncResult*"
+            "name": "result"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+  "source-filename": "contentprovider"
+  "symbol-prefix": "gdk_content_provider_"
+  "type-letter": ""
+  "type-name": "ContentProvider"
+"namespace-name": "Gdk"
+"symbol-prefix": "gdk"
+"version": "4.0"
+...

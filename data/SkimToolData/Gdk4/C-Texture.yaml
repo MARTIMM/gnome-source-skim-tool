@@ -1,0 +1,193 @@
+---
+"Texture": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 1
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gdk4::Texture"
+  "gir-type": "class"
+  "gnome-name": "GdkTexture"
+  "implement-roles": 
+    - "Gnome::Gdk4::R-Paintable"
+  "inheritable": false
+  "package-name": "Gnome::Gdk4"
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles": 
+    - "Gnome::Gdk4::R-Paintable"
+  "routines": 
+    "constructors": 
+      "new-for-pixbuf": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkPixbuf*"
+            "name": "pixbuf"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkTexture*"
+        "return-raku-type": "N-Object"
+      "new-from-bytes": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GBytes*"
+            "name": "bytes"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GdkTexture*"
+        "return-raku-type": "N-Object"
+        "version": "4.6"
+      "new-from-file": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GFile*"
+            "name": "file"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GdkTexture*"
+        "return-raku-type": "N-Object"
+      "new-from-filename": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "path"
+            "raku-type": "Str"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GdkTexture*"
+        "return-raku-type": "N-Object"
+        "version": "4.6"
+      "new-from-resource": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "resource-path"
+            "raku-type": "Str"
+        "return-c-type": "GdkTexture*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "download": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkTexture*"
+            "name": "texture"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guchar*"
+            "name": "data"
+            "raku-type": "Str"
+          - 
+            "c-type": "gsize"
+            "name": "stride"
+            "raku-type": "gsize"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-color-state": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkTexture*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkColorState*"
+        "return-raku-type": "N-Object"
+        "version": "4.16"
+      "get-format": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkTexture*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkMemoryFormat"
+        "return-raku-type": "GEnum:GdkMemoryFormat"
+        "version": "4.10"
+      "get-height": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkTexture*"
+            "name": "texture"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-width": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkTexture*"
+            "name": "texture"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "save-to-png": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkTexture*"
+            "name": "texture"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "filename"
+            "raku-type": "Str"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "save-to-png-bytes": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkTexture*"
+            "name": "texture"
+            "raku-type": "N-Object"
+        "return-c-type": "GBytes*"
+        "return-raku-type": "N-Object"
+        "version": "4.6"
+      "save-to-tiff": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkTexture*"
+            "name": "texture"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "filename"
+            "raku-type": "Str"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "4.6"
+      "save-to-tiff-bytes": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkTexture*"
+            "name": "texture"
+            "raku-type": "N-Object"
+        "return-c-type": "GBytes*"
+        "return-raku-type": "N-Object"
+        "version": "4.6"
+  "source-filename": "texture"
+  "symbol-prefix": "gdk_texture_"
+  "type-letter": ""
+  "type-name": "Texture"
+"namespace-name": "Gdk"
+"symbol-prefix": "gdk"
+"version": "4.0"
+...

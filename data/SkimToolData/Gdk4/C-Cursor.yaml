@@ -1,0 +1,129 @@
+---
+"Cursor": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gdk4::Cursor"
+  "gir-type": "class"
+  "gnome-name": "GdkCursor"
+  "inheritable": false
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles":  []
+  "routines": 
+    "constructors": 
+      "new-from-callback": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkCursorGetTextureCallback"
+            "name": "callback"
+            "raku-type": ":( N-Object $cursor, gint $cursor-size, gdouble $scale, gint-ptr $width, gint-ptr $height, gint-ptr $hotspot-x, gint-ptr $hotspot-y, gpointer $data )"
+          - 
+            "c-type": "gpointer"
+            "name": "data"
+            "raku-type": "gpointer"
+          - 
+            "c-type": "GDestroyNotify"
+            "name": "destroy"
+            "raku-type": ":( gpointer $data )"
+          - 
+            "c-type": "GdkCursor*"
+            "name": "fallback"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkCursor*"
+        "return-raku-type": "N-Object"
+        "version": "4.16"
+      "new-from-name": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "name"
+            "raku-type": "Str"
+          - 
+            "c-type": "GdkCursor*"
+            "name": "fallback"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkCursor*"
+        "return-raku-type": "N-Object"
+      "new-from-texture": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkTexture*"
+            "name": "texture"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "hotspot-x"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "hotspot-y"
+            "raku-type": "gint"
+          - 
+            "c-type": "GdkCursor*"
+            "name": "fallback"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkCursor*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "get-fallback": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkCursor*"
+            "name": "cursor"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkCursor*"
+        "return-raku-type": "N-Object"
+      "get-hotspot-x": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkCursor*"
+            "name": "cursor"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-hotspot-y": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkCursor*"
+            "name": "cursor"
+            "raku-type": "N-Object"
+        "return-c-type": "int"
+        "return-raku-type": "gint"
+      "get-name": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkCursor*"
+            "name": "cursor"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-texture": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkCursor*"
+            "name": "cursor"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkTexture*"
+        "return-raku-type": "N-Object"
+  "source-filename": "cursor"
+  "symbol-prefix": "gdk_cursor_"
+  "type-letter": ""
+  "type-name": "Cursor"
+"namespace-name": "Gdk"
+"symbol-prefix": "gdk"
+"version": "4.0"
+...

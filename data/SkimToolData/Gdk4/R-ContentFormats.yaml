@@ -1,0 +1,250 @@
+---
+"ContentFormats": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 1
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gdk4::N-ContentFormats"
+  "gir-type": "record"
+  "gnome-name": "GdkContentFormats"
+  "package-name": "Gnome::Gdk4"
+  "parent": ~
+  "record-class": "N-ContentFormats"
+  "routines": 
+    "constructors": 
+      "new-contentformats": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const char**"
+            "name": "mime-types"
+            "raku-type": "gchar-pptr"
+          - 
+            "c-type": "guint"
+            "name": "n-mime-types"
+            "raku-type": "guint"
+        "return-c-type": "GdkContentFormats*"
+        "return-raku-type": "N-Object"
+      "new-for-gtype": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GType"
+            "name": "type"
+            "raku-type": "GType"
+        "return-c-type": "GdkContentFormats*"
+        "return-raku-type": "N-Object"
+    "functions": 
+      "parse": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "string"
+            "raku-type": "Str"
+        "return-c-type": "GdkContentFormats*"
+        "return-raku-type": "N-Object"
+        "version": "4.4"
+    "methods": 
+      "contain-gtype": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GdkContentFormats*"
+            "name": "formats"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GType"
+            "name": "type"
+            "raku-type": "GType"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "contain-mime-type": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GdkContentFormats*"
+            "name": "formats"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "mime-type"
+            "raku-type": "Str"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-gtypes": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "const GdkContentFormats*"
+            "name": "formats"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gsize*"
+            "name": "n-gtypes"
+            "raku-type": "CArray[gsize]"
+        "return-c-type": "const GType*"
+        "return-raku-type": ""
+      "get-mime-types": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GdkContentFormats*"
+            "name": "formats"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "gsize*"
+            "name": "n-mime-types"
+            "raku-type": "CArray[gsize]"
+        "return-c-type": "const char* const*"
+        "return-raku-type": "gchar-pptr"
+      "is-empty": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkContentFormats*"
+            "name": "formats"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "4.18"
+      "match": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GdkContentFormats*"
+            "name": "first"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GdkContentFormats*"
+            "name": "second"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "match-gtype": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GdkContentFormats*"
+            "name": "first"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GdkContentFormats*"
+            "name": "second"
+            "raku-type": "N-Object"
+        "return-c-type": "GType"
+        "return-raku-type": "GType"
+      "match-mime-type": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const GdkContentFormats*"
+            "name": "first"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GdkContentFormats*"
+            "name": "second"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "print": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkContentFormats*"
+            "name": "formats"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GString*"
+            "name": "string"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "ref": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkContentFormats*"
+            "name": "formats"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkContentFormats*"
+        "return-raku-type": "N-Object"
+      "to-string": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkContentFormats*"
+            "name": "formats"
+            "raku-type": "N-Object"
+        "return-c-type": "char*"
+        "return-raku-type": "Str"
+      "union": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkContentFormats*"
+            "name": "first"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const GdkContentFormats*"
+            "name": "second"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkContentFormats*"
+        "return-raku-type": "N-Object"
+      "union-deserialize-gtypes": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkContentFormats*"
+            "name": "formats"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkContentFormats*"
+        "return-raku-type": "N-Object"
+      "union-deserialize-mime-types": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkContentFormats*"
+            "name": "formats"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkContentFormats*"
+        "return-raku-type": "N-Object"
+      "union-serialize-gtypes": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkContentFormats*"
+            "name": "formats"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkContentFormats*"
+        "return-raku-type": "N-Object"
+      "union-serialize-mime-types": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkContentFormats*"
+            "name": "formats"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkContentFormats*"
+        "return-raku-type": "N-Object"
+      "unref": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkContentFormats*"
+            "name": "formats"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+  "source-filename": "types"
+  "symbol-prefix": "gdk_content_formats_"
+  "type-letter": "N"
+  "type-name": "ContentFormats"
+"namespace-name": "Gdk"
+"symbol-prefix": "gdk"
+"version": "4.0"
+...

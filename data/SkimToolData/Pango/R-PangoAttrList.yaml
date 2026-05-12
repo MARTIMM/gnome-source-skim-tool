@@ -1,0 +1,212 @@
+---
+"AttrList": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Pango::N-AttrList"
+  "gir-type": "record"
+  "gnome-name": "PangoAttrList"
+  "parent": ~
+  "record-class": "N-AttrList"
+  "routines": 
+    "constructors": 
+      "new-attrlist": 
+        "generated": 0
+        "parameters":  []
+        "return-c-type": "PangoAttrList*"
+        "return-raku-type": "N-Object"
+    "functions": 
+      "from-string": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "text"
+            "raku-type": "Str"
+        "return-c-type": "PangoAttrList*"
+        "return-raku-type": "N-Object"
+        "version": "1.50"
+    "methods": 
+      "change": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoAttrList*"
+            "name": "list"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoAttribute*"
+            "name": "attr"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "copy": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoAttrList*"
+            "name": "list"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoAttrList*"
+        "return-raku-type": "N-Object"
+      "equal": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoAttrList*"
+            "name": "list"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoAttrList*"
+            "name": "other-list"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "1.46"
+      "filter": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoAttrList*"
+            "name": "list"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoAttrFilterFunc"
+            "name": "func"
+            "raku-type": ":( N-Object $attribute, gpointer $user-data )"
+          - 
+            "c-type": "gpointer"
+            "name": "data"
+            "raku-type": "gpointer"
+        "return-c-type": "PangoAttrList*"
+        "return-raku-type": "N-Object"
+        "version": "1.2"
+      "get-attributes": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoAttrList*"
+            "name": "list"
+            "raku-type": "N-Object"
+        "return-c-type": "GSList*"
+        "return-raku-type": "N-Object"
+        "version": "1.44"
+      "get-iterator": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoAttrList*"
+            "name": "list"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoAttrIterator*"
+        "return-raku-type": "N-Object"
+      "insert": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoAttrList*"
+            "name": "list"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoAttribute*"
+            "name": "attr"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "insert-before": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoAttrList*"
+            "name": "list"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoAttribute*"
+            "name": "attr"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "ref": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoAttrList*"
+            "name": "list"
+            "raku-type": "N-Object"
+        "return-c-type": "PangoAttrList*"
+        "return-raku-type": "N-Object"
+        "version": "1.10"
+      "splice": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoAttrList*"
+            "name": "list"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "PangoAttrList*"
+            "name": "other"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "pos"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "len"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "to-string": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoAttrList*"
+            "name": "list"
+            "raku-type": "N-Object"
+        "return-c-type": "char*"
+        "return-raku-type": "Str"
+        "version": "1.50"
+      "unref": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoAttrList*"
+            "name": "list"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "update": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "PangoAttrList*"
+            "name": "list"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int"
+            "name": "pos"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "remove"
+            "raku-type": "gint"
+          - 
+            "c-type": "int"
+            "name": "add"
+            "raku-type": "gint"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "1.44"
+  "source-filename": "attributes"
+  "symbol-prefix": "pango_attr_list_"
+  "type-letter": "N"
+  "type-name": "AttrList"
+"namespace-name": "Pango"
+"symbol-prefix": "pango"
+"version": "1.0"
+...

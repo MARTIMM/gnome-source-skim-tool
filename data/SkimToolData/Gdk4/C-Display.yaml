@@ -1,0 +1,390 @@
+---
+"Display": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 1
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::Gdk4::Display"
+  "gir-type": "class"
+  "gnome-name": "GdkDisplay"
+  "inheritable": false
+  "package-name": "Gnome::Gdk4"
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles":  []
+  "routines": 
+    "functions": 
+      "get-default": 
+        "generated": 1
+        "parameters":  []
+        "return-c-type": "GdkDisplay*"
+        "return-raku-type": "N-Object"
+      "open": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "display-name"
+            "raku-type": "Str"
+        "return-c-type": "GdkDisplay*"
+        "return-raku-type": "N-Object"
+    "methods": 
+      "beep": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "display"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "close": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "display"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "create-gl-context": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GdkGLContext*"
+        "return-raku-type": "N-Object"
+        "version": "4.6"
+      "device-is-grabbed": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "display"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkDevice*"
+            "name": "device"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "flush": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "display"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "get-app-launch-context": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "display"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkAppLaunchContext*"
+        "return-raku-type": "N-Object"
+      "get-clipboard": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "display"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkClipboard*"
+        "return-raku-type": "N-Object"
+      "get-default-seat": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "display"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkSeat*"
+        "return-raku-type": "N-Object"
+      "get-dmabuf-formats": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "display"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkDmabufFormats*"
+        "return-raku-type": "N-Object"
+        "version": "4.14"
+      "get-monitor-at-surface": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "display"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkSurface*"
+            "name": "surface"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkMonitor*"
+        "return-raku-type": "N-Object"
+      "get-monitors": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "self"
+            "raku-type": "N-Object"
+        "return-c-type": "GListModel*"
+        "return-raku-type": "N-Object"
+      "get-name": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "display"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "get-primary-clipboard": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "display"
+            "raku-type": "N-Object"
+        "return-c-type": "GdkClipboard*"
+        "return-raku-type": "N-Object"
+      "get-setting": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "display"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "name"
+            "raku-type": "Str"
+          - 
+            "c-type": "GValue*"
+            "name": "value"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "get-startup-notification-id": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "display"
+            "raku-type": "N-Object"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+      "is-closed": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "display"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "is-composited": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "display"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "is-rgba": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "display"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "list-seats": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "display"
+            "raku-type": "N-Object"
+        "return-c-type": "GList*"
+        "return-raku-type": "N-Object"
+      "map-keycode": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "display"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "keycode"
+            "raku-type": "guint"
+          - 
+            "c-type": "GdkKeymapKey**"
+            "name": "keys"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint**"
+            "name": "keyvals"
+            "raku-type": "gint-ptr"
+          - 
+            "c-type": "int*"
+            "name": "n-entries"
+            "raku-type": "gint-ptr"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "map-keyval": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "display"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "keyval"
+            "raku-type": "guint"
+          - 
+            "c-type": "GdkKeymapKey**"
+            "name": "keys"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "int*"
+            "name": "n-keys"
+            "raku-type": "gint-ptr"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "notify-startup-complete": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "display"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "const char*"
+            "name": "startup-id"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "prepare-gl": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "self"
+            "raku-type": "N-Object"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "4.4"
+      "put-event": 
+        "deprecated-version": "4.10"
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "display"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "GdkEvent*"
+            "name": "event"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "supports-input-shapes": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "display"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+      "supports-shadow-width": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "display"
+            "raku-type": "N-Object"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "4.14"
+      "sync": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "display"
+            "raku-type": "N-Object"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+      "translate-key": 
+        "generated": 1
+        "parameters": 
+          - 
+            "c-type": "GdkDisplay*"
+            "name": "display"
+            "raku-type": "N-Object"
+          - 
+            "c-type": "guint"
+            "name": "keycode"
+            "raku-type": "guint"
+          - 
+            "c-type": "GdkModifierType"
+            "name": "state"
+            "raku-type": "GFlag:GdkModifierType"
+          - 
+            "c-type": "int"
+            "name": "group"
+            "raku-type": "gint"
+          - 
+            "c-type": "guint*"
+            "name": "keyval"
+            "raku-type": "gint-ptr"
+          - 
+            "c-type": "int*"
+            "name": "effective-group"
+            "raku-type": "gint-ptr"
+          - 
+            "c-type": "int*"
+            "name": "level"
+            "raku-type": "gint-ptr"
+          - 
+            "c-type": "GdkModifierType*"
+            "name": "consumed"
+            "raku-type": "GFlag:GdkModifierType"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+  "source-filename": "display"
+  "symbol-prefix": "gdk_display_"
+  "type-letter": ""
+  "type-name": "Display"
+"namespace-name": "Gdk"
+"symbol-prefix": "gdk"
+"version": "4.0"
+...
