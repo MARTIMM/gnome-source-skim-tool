@@ -26,7 +26,6 @@ use Gnome::N::X:api<2>;
 use Gnome::Pango::N-LayoutIter:api<2>;
 use Gnome::Pango::N-LayoutLine:api<2>;
 #use Gnome::Pango::N-LogAttr:api<2>;
-use Gnome::Pango::N-Rectangle:api<2>;
 use Gnome::Pango::N-TabArray:api<2>;
 #use Gnome::Pango::T-attributes:api<2>;
 #use Gnome::Pango::T-break:api<2>;
