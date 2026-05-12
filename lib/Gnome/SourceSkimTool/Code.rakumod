@@ -954,6 +954,14 @@ method get-repo-data-path ( Str $class-name --> Str ) {
     when m/ GObject / {
       $path ~= 'GObject/';
     }
+
+    when m/ PangoCairo / {
+      $path ~= 'PangoCairo/';
+    }
+
+    when m/ Pango / {
+      $path ~= 'Pango/';
+    }
   }
 
   $path
