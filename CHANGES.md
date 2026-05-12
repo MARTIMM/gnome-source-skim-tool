@@ -92,6 +92,8 @@ find . -name '*.raku*' | xargs wc -l
 # Release notes
 * 2026-05-04 0.17.8
   * Added **Gnome::Gtk4::AlertDialog**. Available since Gtk 4.10.
+  * Modify module documents of all distributions
+  * Bug fixed in `Gnome::Pango` distribution. **Gnome::Pango::N-Rectord** referenced as a module but now is a struct defined in **Gnome::Pango::T-types**. Pushed a new Pango version 0.1.15.
 
 * 2026-04-29 0.17.7
   * Generated docs, tests and modules are now protected when existing. Changes must be compared and changed by hand. Too much might be changed after generation to risk overwriting a file.
