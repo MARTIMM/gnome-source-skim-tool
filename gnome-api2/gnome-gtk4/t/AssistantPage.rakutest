@@ -30,12 +30,17 @@ my Gnome::Gtk4::Assistant $assistant;
 #-------------------------------------------------------------------------------
 
 subtest 'ISA test', {
-  $assistant .= new-assistant;
+  lives-ok {$assistant .= new-assistant}, 'Create an assistant';
+  my Gnome::Gtk4::Frame $frame;
+  lives-ok {$frame.= new-frame}, 'Create a page';
+  my Int $index;
+  lives-ok {$index = $assistant.append-page($frame)}, 'Append the page';
+
   my N-Object $p .= new;
-  $assistant.get-page($p);
-  $assistantpage = $p;
+  $assistantpage = $assistant.get-page($frame);
+#  diag $assistantpage.gist;
   given $assistantpage {
-    nok .is-valid, '$assistant.get-page(): no page set';
+    ok .is-valid, '$assistant.get-page(): a page is set';
   }
 };
 
