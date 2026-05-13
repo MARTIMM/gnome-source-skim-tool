@@ -27,12 +27,12 @@ my Gnome::Gtk4::Application $application;
 my Gnome::Gtk4::ApplicationWindow $applicationwindow;
 
 my Str $application-id;
-my GApplicationFlags $flags;
+my GFlag $flags;
 
 $application-id = 'io.mt.xyz';
 $flags = G_APPLICATION_DEFAULT_FLAGS;
-$application .= new-application( $application-id, $flags);
-note $application.is-valid;
+lives-ok {$application .= new-application( $application-id, $flags)},
+  'Create application';
 
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
@@ -40,9 +40,14 @@ note $application.is-valid;
 
 subtest 'ISA test', {
   given $applicationwindow {
+    #`{{
+      Gnome error message:
+      (process:15899): Gtk-CRITICAL **: 17:59:22.137: New application windows must be added after the GApplication::startup signal has been emitted.
+    }}
+
     #TC:1:new-applicationwindow()
     $applicationwindow .= new-applicationwindow($application);
-    ok .is-valid, '.new-applicationwindow( $application)';
+    ok .is-valid, '.new-applicationwindow($application)';
   }
 };
 
