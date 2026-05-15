@@ -92,10 +92,9 @@ class Helper {
     $ds.set-icon( $pic.get-paintable, -20, 20);
   }
 
-
   #-----------------------------------------------------------------------------
   method accept (
-    Gnome::Gdk4::Drop() $drop, 
+    Gnome::Gdk4::Drop() $drop,
     Gnome::Gtk4::DropTarget() :_native-object($dt),
     --> gboolean
   ) {
