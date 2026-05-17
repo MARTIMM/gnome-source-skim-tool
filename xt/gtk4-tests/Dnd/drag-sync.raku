@@ -65,6 +65,7 @@ class Helper {
   }
 
 #`{{
+# commented because content is set below
   #-----------------------------------------------------------------------------
   method prepare (
     Rat() $x, Rat() $y,
@@ -74,12 +75,11 @@ class Helper {
   ) {
     note "$?LINE prepare: $x, $y, $pic.gist()";
 
-    my Blob $sa = $color.encode;
-    my Gnome::Glib::N-Bytes $bytes .= new-bytes( $sa, $sa.elems);
-    my Gnome::Gdk4::ContentProvider $cp .= new-for-bytes(
-      "text/plain", $bytes
+     my Gnome::Gdk4::ContentProvider $cp .= new-typed(
+      G_TYPE_STRING, gchar-ptr, $color
     );
 
+    # Must return native content provider object
     $cp.get-native-object-no-reffing
   }
 }}
@@ -214,46 +214,6 @@ note $?LINE, ', ', $value.get-string;
 
     $ok
   }
-
-#`{{
-  #-----------------------------------------------------------------------------
-  method enter ( Rat() $x, Rat() $y --> GFlag ) {
-    note "Enter at $x, $y";
-    GDK_ACTION_COPY   # +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
-  }
-
-  #-----------------------------------------------------------------------------
-  method leave ( ) {
-    note "Left";
-  }
-
-  #-----------------------------------------------------------------------------
-  method motion ( Rat() $x, Rat() $y --> GFlag ) {
-    note "move to $x, $y";
-    GDK_ACTION_COPY +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
-  }
-
-  #-----------------------------------------------------------------------------
-  method drag-enter (
-    Gnome::Gdk4::Drop() $drop, Rat() $x, Rat() $y --> GFlag
-  ) {
-    note "Enter at $x, $y";
-    GDK_ACTION_COPY +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
-  }
-
-  #-----------------------------------------------------------------------------
-  method drag-leave ( Gnome::Gdk4::Drop() $drop ) {
-    note "Left";
-  }
-
-  #-----------------------------------------------------------------------------
-  method drag-motion (
-    Gnome::Gdk4::Drop() $drop, Rat() $x, Rat() $y --> GFlag
-  ) {
-    note "move to $x, $y";
-    GDK_ACTION_COPY +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
-  }
-}}
 }
 
 #-------------------------------------------------------------------------------
@@ -262,13 +222,10 @@ my Gnome::Gtk4::Picture $red = set-drag-source('red-on-256.png');
 my Gnome::Gtk4::Picture $amber = set-drag-source('amber-on-256.png');
 my Gnome::Gtk4::Picture $green = set-drag-source('green-on-256.png');
 
-#my Gnome::Gtk4::Picture $bullseye = set-drag-target('bullseye.jpg');
-
 with my Gnome::Gtk4::Grid $grid .= new-grid {
   .attach( $red,      0, 0, 1, 1);
   .attach( $green,    1, 0, 1, 1);
   .attach( $amber,    2, 0, 1, 1);
-#  .attach( $bullseye, 0, 1, 3, 3);
 }
 
 with my Gnome::Gtk4::Window $window .= new-window {
@@ -290,13 +247,13 @@ sub set-drag-source ( Str $pic-file --> Gnome::Gtk4::Picture ) {
   $pic .= new-for-filename(DATA_PATH ~ $pic-file);
   $pic.set-size-request( 100, 100);
   with my Gnome::Gtk4::DragSource $source .= new-dragsource {
-#    .register-signal( $helper, 'prepare', 'prepare', :$pic, :color($pic-file));
+    # Possible to set content provider in 'prepare()' or below.
+    #.register-signal( $helper, 'prepare', 'prepare', :$pic, :color($pic-file));
     .register-signal( $helper, 'drag-begin', 'drag-begin', :$pic);
   }
 
-#  my Blob $sa = $pic-file.encode;
-#  my Gnome::Glib::N-Bytes $bytes .= new-bytes( $sa, $sa.elems);
-#  my Gnome::Gdk4::ContentProvider $cp .= new-for-bytes( "text/plain", $bytes);
+  # Set content. Can use multiple strings. Interface has variable list solved
+  # by providing pairs of type/value. Inthis case gchar-ptr/$pic-file
   my Gnome::Gdk4::ContentProvider $cp .= new-typed(
     G_TYPE_STRING, gchar-ptr, $pic-file
   );
