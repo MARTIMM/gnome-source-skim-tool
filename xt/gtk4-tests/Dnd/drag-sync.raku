@@ -15,7 +15,7 @@ use Gnome::Glib::T-error:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::X:api<2>;
-#Gnome::N::debug(:on);
+Gnome::N::debug(:on);
 
 use Gnome::Gtk4::DropTarget:api<2>;
 use Gnome::Gtk4::DragSource:api<2>;
@@ -31,6 +31,7 @@ use Gnome::Gdk4::N-ContentFormats:api<2>;
 use Gnome::Gdk4::T-contentformats:api<2>;
 use Gnome::Gdk4::N-FileList:api<2>;
 use Gnome::Gdk4::T-enums:api<2>;
+use Gnome::Gdk4::T-drag:api<2>;
 
 use Gnome::Gio::File:api<2>;
 #use Gnome::Gio::FileIcon:api<2>;
@@ -39,8 +40,6 @@ use Gnome::Gio::Task:api<2>;
 use Gnome::GObject::T-type:api<2>;
 use Gnome::GObject::N-Value:api<2>;
 use Gnome::GObject::T-value:api<2>;
-
-use Gnome::Gio::Task:api<2>;
 
 #`{{
   See also:
@@ -92,6 +91,28 @@ class Helper {
   ) {
     note "$?LINE drag-begin: $drag.gist(), $pic.gist()";
     $ds.set-icon( $pic.get-paintable, -20, 20);
+  }
+
+  #-----------------------------------------------------------------------------
+  method drag-end (
+    Gnome::Gtk4::DragSource() $ds,
+    Gnome::Gdk4::Drag() $drag,
+    Bool() $delete-data,
+    gpointer $
+#    Gnome::Gtk4::Picture :$pic,
+  ) {
+    note "$?LINE drag-end: $delete-data";
+#    $ds.set-icon( $pic.get-paintable, -20, 20);
+  }
+
+  #-----------------------------------------------------------------------------
+  method drag-cancel (
+    Gnome::Gtk4::DragSource() $ds,
+    Gnome::Gdk4::Drag() $drag,
+    UInt $reason,
+#    Gnome::Gtk4::Picture :$pic,
+  ) {
+    note "$?LINE drag-cancel: $reason";
   }
 
 #`{{
@@ -250,6 +271,8 @@ sub set-drag-source ( Str $pic-file --> Gnome::Gtk4::Picture ) {
     # Possible to set content provider in 'prepare()' or below.
     #.register-signal( $helper, 'prepare', 'prepare', :$pic, :color($pic-file));
     .register-signal( $helper, 'drag-begin', 'drag-begin', :$pic);
+    .register-signal( $helper, 'drag-end', 'drag-end');
+#    .register-signal( $helper, 'drag-cancel', 'drag-cancel');
   }
 
   # Set content. Can use multiple strings. Interface has variable list solved

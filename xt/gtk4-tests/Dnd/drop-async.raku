@@ -10,27 +10,24 @@ use v6.d;
 use NativeCall;
 
 use Gnome::Glib::N-MainLoop:api<2>;
-use Gnome::Glib::N-Bytes:api<2>;
 use Gnome::Glib::N-Error:api<2>;
 use Gnome::Glib::T-error:api<2>;
 
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
-use Gnome::N::X:api<2>;
+#use Gnome::N::X:api<2>;
 #Gnome::N::debug(:on);
 
-use Gnome::Gtk4::DropTargetAsync:api<2>;
-#use Gnome::Gtk4::DropTarget:api<2>;
-use Gnome::Gtk4::DragSource:api<2>;
 use Gnome::Gtk4::Window:api<2>;
 use Gnome::Gtk4::Picture:api<2>;
 use Gnome::Gtk4::Grid:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
+use Gnome::Gtk4::DropTargetAsync:api<2>;
 
 use Gnome::Gdk4::Drag:api<2>;
 use Gnome::Gdk4::Drop:api<2>;
-use Gnome::Gdk4::ContentProvider:api<2>;
+#use Gnome::Gdk4::ContentProvider:api<2>;
 use Gnome::Gdk4::N-ContentFormats:api<2>;
 use Gnome::Gdk4::T-enums:api<2>;
 
@@ -42,13 +39,12 @@ use Gnome::GObject::T-type:api<2>;
 use Gnome::GObject::N-Value:api<2>;
 use Gnome::GObject::T-value:api<2>;
 
-use Gnome::Gio::Task:api<2>;
-
 #`{{
   See also:
   https://docs.gtk.org/gtk4/drag-and-drop.html
   https://docs.gtk.org/gdk4/struct.ContentFormats.html
   https://ssalewski.de/gtkprogramming.html#_drag_and_drop_dnd
+  https://www.reddit.com/r/GTK/comments/w8ai6j/how_to_make_drag_and_drop_in_gtk4/
 }}
 
 #my Gnome::Gio::File $f .= new-for-path('abc.txt');
@@ -209,7 +205,7 @@ note "$?LINE $drop.gist(), $result.gist(), $result.get-name()";
   CONTROL { when CX::Warn {  note .gist; #`{{.resume;}} } }
   CATCH { default { .message.note; .backtrace.concise.note } }
 
-#note "get-data actions: ", $drop.get-actions.fmt('0x%04x');
+note "get-data actions: ", $drop.get-actions.fmt('0x%04x');
 #note "get-data is COPY: ", $drop.get-actions.fmt('0x%04x') ?& GDK_ACTION_COPY;
 
   my $e = CArray[N-Error].new(N-Error);
@@ -221,11 +217,14 @@ note "$?LINE $drop.gist(), $result.gist(), $result.get-name()";
 
 note "$?LINE v: $v.gist(), $v.get-native-object.gist()";
 note "$?LINE v: $v.get-string()";
-    $drop.finish(GDK_ACTION_COPY);
+
+note $?LINE;
+    $drop.read-value-finish( $result, gpointer);
+note $?LINE;
   }
 
   else {
-note "$?LINE Error: $e[0].message()";
+note "$?LINE Error";
   }
 }
 
@@ -259,20 +258,14 @@ note "$?LINE Error: ", $e[0].message if ?$e[0];
 
   my $used-mimetype = CArray[Str].new;
   $drop.read-finish( $result, $used-mimetype, gpointer);
+  note "$?LINE Used mimetype for action is $used-mimetype[0]";
 }
 
 #-------------------------------------------------------------------------------
 my Helper $helper .= new;
-#my Gnome::Gtk4::Picture $red = set-drag-source('red-on-256.png');
-#my Gnome::Gtk4::Picture $amber = set-drag-source('amber-on-256.png');
-#my Gnome::Gtk4::Picture $green = set-drag-source('green-on-256.png');
-
 my Gnome::Gtk4::Picture $bullseye = set-drag-target('bullseye.jpg');
 
 with my Gnome::Gtk4::Grid $grid .= new-grid {
-#  .attach( $red,      0, 0, 1, 1);
-#  .attach( $green,    1, 0, 1, 1);
-#  .attach( $amber,    2, 0, 1, 1);
   .attach( $bullseye, 0, 1, 3, 3);
 }
 
@@ -284,45 +277,26 @@ with my Gnome::Gtk4::Window $window .= new-window {
   .present;
 }
 
-#Gnome::N::debug(:on);
-
 $main-loop.run;
 say 'done it';
-
-#`{{
-#-------------------------------------------------------------------------------
-sub set-drag-source ( Str $pic-file --> Gnome::Gtk4::Picture ) {
-  my Gnome::Gtk4::Picture $pic;
-  $pic .= new-for-filename(DATA_PATH ~ $pic-file);
-  with my Gnome::Gtk4::DragSource $source .= new-dragsource {
-    .register-signal( $helper, 'prepare', 'prepare', :$pic, :color($pic-file));
-    .register-signal( $helper, 'drag-begin', 'drag-begin', :$pic);
-  }
-
-  $pic.add-controller($source);
-  $source.clear-object;
-
-  $pic
-}
-}}
   
 #-------------------------------------------------------------------------------
+# Create a bullseye where the data must be dragged to.
 sub set-drag-target ( Str $pic-file --> Gnome::Gtk4::Picture ) {
 
   my Gnome::Gtk4::Picture $pic;
   my Gnome::Gtk4::DropTargetAsync $target;
 
+  # The data may be of the content type
   my Gnome::Gdk4::N-ContentFormats $formats .= new-contentformats(
     CArray[Str].new(<text/plain text/uri-list>), 1
   );
 
+  # The drop target only handles a copy action
   with $target .= new-droptargetasync( $formats, GDK_ACTION_COPY) {
-#note "$?LINE Preload: ", .get-preload;
-
     my Gnome::Gdk4::N-ContentFormats() $formats = .get-formats;
     my $size = CArray[gsize].new(0);
     my Array $mime-types = $formats.get-mime-types($size);
-note "$?LINE $size.gist(), $mime-types.elems()";
     loop ( my Int $i = 0; $i < $size[0]; $i++ ) {
       note "Mime type: ", $mime-types[$i];
     }
@@ -340,58 +314,3 @@ note "$?LINE $size.gist(), $mime-types.elems()";
 
   $pic
 }
-
-
-
-
-
-=finish
-https://www.reddit.com/r/GTK/comments/w8ai6j/how_to_make_drag_and_drop_in_gtk4/
-
---------------------------------------------------------------------------------
-#include <gtk/gtk.h>
-
-static gboolean drop(GtkDropTarget *target,
-                     const GValue  *value,
-                     double         x,
-                     double         y,
-                     gpointer       data){
-    printf("test\n");
-    return TRUE;
-}
-
-static void
-activate (GtkApplication* app,
-          gpointer        user_data)
-{
-    GtkWidget *window;
-
-    window = gtk_application_window_new (app);
-    gtk_window_set_title (GTK_WINDOW (window), "Window");
-    gtk_window_set_default_size (GTK_WINDOW (window), 200, 200);
-
-    GtkDropTarget* dnd = gtk_drop_target_new(GDK_TYPE_FILE_LIST,GDK_ACTION_COPY);
-
-    g_signal_connect (dnd, "drop", G_CALLBACK (drop), NULL);
-    gtk_widget_add_controller(window,GTK_EVENT_CONTROLLER(dnd));
-
-    gtk_widget_show (window);
-}
-
-int
-main (int    argc,
-      char **argv)
-{
-    GtkApplication *app;
-    int status;
-
-    app = gtk_application_new ("org.gtk.example", G_APPLICATION_FLAGS_NONE);
-    g_signal_connect (app, "activate", G_CALLBACK (activate), NULL);
-    status = g_application_run (G_APPLICATION (app), argc, argv);
-    g_object_unref (app);
-
-    return status;
-}
-
-
---------------------------------------------------------------------------------
