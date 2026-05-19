@@ -72,29 +72,10 @@ class Helper {
     Gnome::Gtk4::DropTargetAsync() :_native-object($dt),
     --> gboolean
   ) {
-#    my Bool $accept-ok = False;
-#    $drop.set-gtypes( CArray[GType].new($f.get-class-gtype), 1);
+    my Bool $accept-ok;
+    $accept-ok = self.check-mimetype( 'text/plain', self.get-mimetypes($drop));
 
-    my Array $mime-types = self.get-mimetypes($drop);
-    if my Bool $accept-ok = self.check-mimetype( 'text/plain', $mime-types) {
-      self.show-mimetypes($mime-types);
-
-#    my Gnome::Gdk4::N-ContentFormats() $formats = $drop.get-formats;
-#    my $size = CArray[gsize].new(0);
-#    my Array $mime-types = $formats.get-mime-types($size);
-#note "\n\n$?LINE accept2: $size.gist(), $mime-types.elems()";
-#    loop ( my Int $i = 0; $i < $size[0]; $i++ ) {
-#      note "accept2: Mime type: ", $mime-types[$i];
-#      if $mime-types[$i] ~~ m/ text / {
-#        my GFlag $flags = $drop.get-actions;
-#        $accept-ok = True if $flags ?& GDK_ACTION_COPY;
-#        last;
-#      }
-    }
-
-#Gnome::N::debug(:on);
     note "accept: $accept-ok";
-#    $dt.set-preload(True);
     $accept-ok
   }
 
@@ -111,9 +92,8 @@ note "\n$?LINE drop: $x, $y";
       self.show-mimetypes($mime-types);
 
       my Gnome::Gdk4::Drag() $drag = $drop.get-drag;
-note "$?LINE $drag.gist()";
       if $drag.is-valid {
-        note 'drop2: inside job';
+        note 'drop: inside job';
         $drop.read-value-async(
           G_TYPE_STRING, 1, gpointer, &get-data-value-async, gpointer
         );
@@ -122,9 +102,12 @@ note "$?LINE $drag.gist()";
       }
 
       else {
-        note 'drop2: package from abroad';
-        $drop.read-async(
-          CArray[Str].new('text/plain'), 1, gpointer, &get-data-async, gpointer
+        note 'drop: package from abroad';
+#        $drop.read-async(
+#          CArray[Str].new(<text/plain text/uri-list>), 0, gpointer, &get-data-async, gpointer
+#        );
+        $drop.read-value-async(
+          G_TYPE_STRING, 1, gpointer, &get-data-value-async, gpointer
         );
       }
     }
@@ -153,12 +136,14 @@ note "$?LINE $drag.gist()";
     }
   }
 
+#`{{
   #-----------------------------------------------------------------------------
   method show-actions ( GFlag $actions ) {
     for GDK_ACTION_COPY, GDK_ACTION_MOVE, GDK_ACTION_LINK -> $action {
       note "Action $action found" if $actions &? $action;
     }
   }
+}}
 
   #-----------------------------------------------------------------------------
   method check-mimetype (
@@ -178,7 +163,8 @@ note "$?LINE $drag.gist()";
   #-----------------------------------------------------------------------------
   method enter ( Rat() $x, Rat() $y --> GFlag ) {
     note "Enter at $x, $y";
-    GDK_ACTION_COPY +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
+
+    GDK_ACTION_COPY;# +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
   }
 
   #-----------------------------------------------------------------------------
@@ -189,7 +175,7 @@ note "$?LINE $drag.gist()";
   #-----------------------------------------------------------------------------
   method motion ( Rat() $x, Rat() $y --> GFlag ) {
     note "move to $x, $y";
-    GDK_ACTION_COPY +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
+    GDK_ACTION_COPY;# +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
   }
 
   #-----------------------------------------------------------------------------
@@ -197,7 +183,7 @@ note "$?LINE $drag.gist()";
     Gnome::Gdk4::Drop() $drop, Rat() $x, Rat() $y --> GFlag
   ) {
     note "Enter at $x, $y";
-    GDK_ACTION_COPY +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
+    GDK_ACTION_COPY;# +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
   }
 
   #-----------------------------------------------------------------------------
@@ -210,11 +196,12 @@ note "$?LINE $drag.gist()";
     Gnome::Gdk4::Drop() $drop, Rat() $x, Rat() $y --> GFlag
   ) {
     note "move to $x, $y";
-    GDK_ACTION_COPY +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
+    GDK_ACTION_COPY;# +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
   }
 }
 
 #-------------------------------------------------------------------------------
+# Set by read-value-async().
 sub get-data-value-async (
   Gnome::Gdk4::Drop() $drop, Gnome::Gio::Task() $result, gpointer $
 ) {
@@ -243,8 +230,10 @@ note "$?LINE Error: $e[0].message()";
 }
 
 #-------------------------------------------------------------------------------
+# Set by read-async(). Callback function is typed as AsyncReadyCallback from Gio
+# capture is :( N-Object, N-Object, gpointer)
 sub get-data-async (
-  Gnome::Gdk4::Drop() $drop, Gnome::Gio::Task() $result, gpointer $p
+  Gnome::Gdk4::Drop() $drop, Gnome::Gio::Task() $result, gpointer $
 ) {
 
 note "$?LINE $drop.gist(), $result.gist(), $result.get-name()";
@@ -264,11 +253,12 @@ note "$?LINE v: $value.gist()";
 note "$?LINE v: $value.get-string()";
   }
 
-#  else {
-#note "$?LINE Error: $e[0].message()" if ?$e[0];
-#  }
+  else {
+note "$?LINE Error: ", $e[0].message if ?$e[0];
+  }
 
-  $drop.finish(GDK_ACTION_COPY);
+  my $used-mimetype = CArray[Str].new;
+  $drop.read-finish( $result, $used-mimetype, gpointer);
 }
 
 #-------------------------------------------------------------------------------
@@ -341,7 +331,7 @@ note "$?LINE $size.gist(), $mime-types.elems()";
     .register-signal( $helper, 'drop', 'drop');
     .register-signal( $helper, 'drag-enter', 'drag-enter');
     .register-signal( $helper, 'drag-leave', 'drag-leave');
-#    .register-signal( $helper, 'drag-motion', 'drag-motion');
+    .register-signal( $helper, 'drag-motion', 'drag-motion');
 
     $pic .= new-for-filename(DATA_PATH ~ $pic-file);
     $pic.add-controller($target);

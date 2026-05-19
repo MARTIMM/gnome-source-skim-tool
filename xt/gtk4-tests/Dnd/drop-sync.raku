@@ -304,8 +304,8 @@ sub set-drag-target ( Str $pic-file --> Gnome::Gtk4::Picture ) {
   my Gnome::Gtk4::Picture $pic;
   my Gnome::Gtk4::DropTarget $target;
 
-  my Gnome::Gio::File $file .= new-for-path('./x.txt');
-  note "$?LINE File gtype = $file.get-class-gtype()";
+#  my Gnome::Gio::File $file .= new-for-path('./x.txt');
+#  note "$?LINE File gtype = $file.get-class-gtype()";
 
 #  my Gnome::Gdk4::T-contentformats $t-cf .= new;
 #  my Gnome::Gdk4::N-FileList $n-fl .=
