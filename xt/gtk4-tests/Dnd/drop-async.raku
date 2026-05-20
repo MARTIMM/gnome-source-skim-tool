@@ -68,10 +68,11 @@ class Helper {
     Gnome::Gtk4::DropTargetAsync() :_native-object($dt),
     --> gboolean
   ) {
+    note "\nstart drop, data acceptable";
     my Bool $accept-ok;
     $accept-ok = self.check-mimetype( 'text/plain', self.get-mimetypes($drop));
 
-    note "accept: $accept-ok";
+    note "drop data acceptable";
     $accept-ok
   }
 
@@ -81,11 +82,11 @@ class Helper {
     Gnome::Gtk4::DropTargetAsync() :_native-object($dt),
     --> gboolean
   ) {
-note "\n$?LINE drop: $x, $y";
+    note "drop package at $x, $y";
 
     my Array $mime-types = self.get-mimetypes($drop);
     if my Bool $drop-ok = self.check-mimetype( 'text/plain', $mime-types) {
-      self.show-mimetypes($mime-types);
+#      self.show-mimetypes($mime-types);
 
       my Gnome::Gdk4::Drag() $drag = $drop.get-drag;
       if $drag.is-valid {
@@ -110,7 +111,7 @@ note "\n$?LINE drop: $x, $y";
 
     # Select one of the set flags from get-actions()
 #    $drop.finish(GDK_ACTION_COPY);
-    note "$?LINE 'drop: $drop-ok";
+#    note "$?LINE 'drop: $drop-ok";
 
     $drop-ok
   }
@@ -126,20 +127,10 @@ note "\n$?LINE drop: $x, $y";
 
   #-----------------------------------------------------------------------------
   method show-mimetypes ( Array $mime-types ) {
-
     for @$mime-types -> $mime-type {
-      note "show-mimetypes: Mime type: $mime-type";
+      note "  Mime type: $mime-type";
     }
   }
-
-#`{{
-  #-----------------------------------------------------------------------------
-  method show-actions ( GFlag $actions ) {
-    for GDK_ACTION_COPY, GDK_ACTION_MOVE, GDK_ACTION_LINK -> $action {
-      note "Action $action found" if $actions &? $action;
-    }
-  }
-}}
 
   #-----------------------------------------------------------------------------
   method check-mimetype (
@@ -156,37 +147,42 @@ note "\n$?LINE drop: $x, $y";
     $ok
   }
 
+#`{{
   #-----------------------------------------------------------------------------
   method enter ( Rat() $x, Rat() $y --> GFlag ) {
-    note "Enter at $x, $y";
+    note "enter drop area  at $x, $y";
 
     GDK_ACTION_COPY;# +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
   }
 
   #-----------------------------------------------------------------------------
   method leave ( ) {
-    note "Left";
+    note "feft drop area";
   }
+}}
 
+#`{{ Works!
   #-----------------------------------------------------------------------------
   method motion ( Rat() $x, Rat() $y --> GFlag ) {
     note "move to $x, $y";
     GDK_ACTION_COPY;# +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
   }
+}}
 
   #-----------------------------------------------------------------------------
   method drag-enter (
     Gnome::Gdk4::Drop() $drop, Rat() $x, Rat() $y --> GFlag
   ) {
-    note "Enter at $x, $y";
+    note "enter drop area at $x, $y";
     GDK_ACTION_COPY;# +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
   }
 
   #-----------------------------------------------------------------------------
   method drag-leave ( Gnome::Gdk4::Drop() $drop ) {
-    note "Left";
+    note "left drop area";
   }
 
+#`{{ Works!
   #-----------------------------------------------------------------------------
   method drag-motion (
     Gnome::Gdk4::Drop() $drop, Rat() $x, Rat() $y --> GFlag
@@ -194,6 +190,7 @@ note "\n$?LINE drop: $x, $y";
     note "move to $x, $y";
     GDK_ACTION_COPY;# +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
   }
+}}
 }
 
 #-------------------------------------------------------------------------------
@@ -297,16 +294,16 @@ sub set-drag-target ( Str $pic-file --> Gnome::Gtk4::Picture ) {
   with $target .= new-droptargetasync( $formats, GDK_ACTION_COPY) {
     my Gnome::Gdk4::N-ContentFormats() $formats = .get-formats;
     my $size = CArray[gsize].new(0);
-    my Array $mime-types = $formats.get-mime-types($size);
-    loop ( my Int $i = 0; $i < $size[0]; $i++ ) {
-      note "Mime type: ", $mime-types[$i];
-    }
+#    my Array $mime-types = $formats.get-mime-types($size);
+#    loop ( my Int $i = 0; $i < $size[0]; $i++ ) {
+#      note "Mime type: ", $mime-types[$i];
+#    }
 
     .register-signal( $helper, 'accept', 'accept');
     .register-signal( $helper, 'drop', 'drop');
     .register-signal( $helper, 'drag-enter', 'drag-enter');
     .register-signal( $helper, 'drag-leave', 'drag-leave');
-    .register-signal( $helper, 'drag-motion', 'drag-motion');
+#    .register-signal( $helper, 'drag-motion', 'drag-motion');
 
     $pic .= new-for-filename(DATA_PATH ~ $pic-file);
     $pic.add-controller($target);
