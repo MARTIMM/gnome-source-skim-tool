@@ -219,8 +219,9 @@ note "$?LINE v: $v.gist(), $v.get-native-object.gist()";
 note "$?LINE v: $v.get-string()";
 
 note $?LINE;
-    $drop.read-value-finish( $result, gpointer);
-note $?LINE;
+    my $e = CArray[N-Error].new;
+    $drop.read-value-finish( $result, $e);
+note "$?LINE Result: ", $e[0].defined ?? $e[0].message !! 'ok';
   }
 
   else {
