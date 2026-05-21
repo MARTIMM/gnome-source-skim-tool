@@ -1,0 +1,113 @@
+=comment Package: Gdk4, C-Source: events
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=TITLE Gnome::Gdk4::PadEvent
+=head1 Description
+
+An event related to a pad-based device.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gdk4::PadEvent
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from an object of the same type found elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object() :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-axis-value
+
+Extracts the information from a pad strip or ring event.
+
+=begin code
+method get-axis-value ( Array[Int] $index, Num() $value )
+=end code
+
+=item $index; (transfer ownership: full) Return location for the axis index.
+=item $value; (transfer ownership: full) Return location for the axis value.
+
+=begin comment
+
+=head2 Example
+# Example for get-axis-value
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-button
+
+Extracts information about the pressed button from
+a pad event.
+
+=begin code
+method get-button (--> UInt )
+=end code
+
+Return value; the button of C<$event>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-button
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-group-mode
+
+Extracts group and mode information from a pad event.
+
+=begin code
+method get-group-mode ( Array[Int] $group, Array[Int] $mode )
+=end code
+
+=item $group; (transfer ownership: full) return location for the group.
+=item $mode; (transfer ownership: full) return location for the mode.
+
+=begin comment
+
+=head2 Example
+# Example for get-group-mode
+
+=end comment
+
+=end pod
+

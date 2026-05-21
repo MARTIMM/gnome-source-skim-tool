@@ -1,0 +1,151 @@
+=comment Package: Gdk4, C-Source: events
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=TITLE Gnome::Gdk4::ScrollEvent
+=head1 Description
+
+An event related to a scrolling motion.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gdk4::ScrollEvent
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from an object of the same type found elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object() :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-deltas
+
+Extracts the scroll deltas of a scroll event.
+
+The deltas will be zero unless the scroll direction
+is C<GDK_SCROLL_SMOOTH>.
+
+For the representation unit of these deltas, see
+L<.get-unit()|#get-unit>.
+
+=begin code
+method get-deltas ( Num() $delta-x, Num() $delta-y )
+=end code
+
+=item $delta-x; (transfer ownership: full) return location for x scroll delta.
+=item $delta-y; (transfer ownership: full) return location for y scroll delta.
+
+=begin comment
+
+=head2 Example
+# Example for get-deltas
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-direction
+This function is not yet available
+
+Extracts the direction of a scroll event.
+
+=begin code
+method get-direction (--> GdkScrollDirection  )
+=end code
+
+Return value; the scroll direction of C<$event>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-direction
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-unit
+This function is not yet available
+
+Extracts the scroll delta unit of a scroll event.
+
+The unit will always be C<GDK_SCROLL_UNIT_WHEEL> if the scroll direction is not
+C<GDK_SCROLL_SMOOTH>.
+
+=begin code
+method get-unit (--> GdkScrollUnit  )
+=end code
+
+Return value; the scroll unit.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-unit
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-stop
+
+Check whether a scroll event is a stop scroll event.
+
+Scroll sequences with smooth scroll information may provide
+a stop scroll event once the interaction with the device finishes,
+e.g. by lifting a finger. This stop scroll event is the signal
+that a widget may trigger kinetic scrolling based on the current
+velocity.
+
+Stop scroll events always have a delta of 0/0.
+
+=begin code
+method is-stop (--> Bool )
+=end code
+
+Return value; C<True> if the event is a scroll stop event. 
+
+=begin comment
+
+=head2 Example
+# Example for is-stop
+
+=end comment
+
+=end pod
+

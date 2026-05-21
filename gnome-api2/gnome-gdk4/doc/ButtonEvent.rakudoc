@@ -1,0 +1,68 @@
+=comment Package: Gdk4, C-Source: events
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=TITLE Gnome::Gdk4::ButtonEvent
+=head1 Description
+
+An event related to a button on a pointer device.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gdk4::ButtonEvent
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from an object of the same type found elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object() :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-button
+
+Extract the button number from a button event.
+
+=begin code
+method get-button (--> UInt )
+=end code
+
+Return value; the button of C<$event>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-button
+
+=end comment
+
+=end pod
+

@@ -1,0 +1,232 @@
+=comment Package: Gdk4, C-Source: events
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=TITLE Gnome::Gdk4::KeyEvent
+=head1 Description
+
+An event related to a key-based device.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gdk4::KeyEvent
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from an object of the same type found elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object() :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-consumed-modifiers
+
+Extracts the consumed modifiers from a key event.
+
+=begin code
+method get-consumed-modifiers (--> UInt )
+=end code
+
+Return value; the consumed modifiers or C<$event>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-consumed-modifiers
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-keycode
+
+Extracts the keycode from a key event.
+
+=begin code
+method get-keycode (--> UInt )
+=end code
+
+Return value; the keycode of C<$event>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-keycode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-keyval
+
+Extracts the keyval from a key event.
+
+=begin code
+method get-keyval (--> UInt )
+=end code
+
+Return value; the keyval of C<$event>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-keyval
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-layout
+
+Extracts the layout from a key event.
+
+=begin code
+method get-layout (--> UInt )
+=end code
+
+Return value; the layout of C<$event>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-layout
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-level
+
+Extracts the shift level from a key event.
+
+=begin code
+method get-level (--> UInt )
+=end code
+
+Return value; the shift level of C<$event>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-level
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-match
+
+Gets a keyval and modifier combination that will match
+the event.
+
+See L<.matches()|#matches>.
+
+=begin code
+method get-match ( Array[Int] $keyval, UInt $modifiers --> Bool )
+=end code
+
+=item $keyval; (transfer ownership: full) return location for a keyval.
+=item $modifiers; (transfer ownership: full) return location for modifiers.
+
+Return value; C<True> on success. 
+
+=begin comment
+
+=head2 Example
+# Example for get-match
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-modifier
+
+Extracts whether the key event is for a modifier key.
+
+=begin code
+method is-modifier (--> Bool )
+=end code
+
+Return value; C<True> if the C<$event> is for a modifier key. 
+
+=begin comment
+
+=head2 Example
+# Example for is-modifier
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 matches
+This function is not yet available
+
+Matches a key event against a keyval and modifiers.
+
+This is typically used to trigger keyboard shortcuts such as Ctrl-C.
+
+Partial matches are possible where the combination matches
+if the currently active group is ignored.
+
+Note that we ignore Caps Lock for matching.
+
+=begin code
+method matches ( UInt() $keyval, UInt $modifiers --> GdkKeyMatch  )
+=end code
+
+=item $keyval; the keyval to match.
+=item $modifiers; the modifiers to match.
+
+Return value; a C<enumeration GdkKeyMatch defined in Gnome::Gdk4::T-events> value describing whether C<$event> matches. 
+
+=begin comment
+
+=head2 Example
+# Example for matches
+
+=end comment
+
+=end pod
+

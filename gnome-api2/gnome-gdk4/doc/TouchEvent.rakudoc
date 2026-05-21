@@ -1,0 +1,68 @@
+=comment Package: Gdk4, C-Source: events
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=TITLE Gnome::Gdk4::TouchEvent
+=head1 Description
+
+An event related to a touch-based device.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gdk4::TouchEvent
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from an object of the same type found elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object() :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-emulating-pointer
+
+Extracts whether a touch event is emulating a pointer event.
+
+=begin code
+method get-emulating-pointer (--> Bool )
+=end code
+
+Return value; C<True> if C<$event> is emulating. 
+
+=begin comment
+
+=head2 Example
+# Example for get-emulating-pointer
+
+=end comment
+
+=end pod
+

@@ -1,0 +1,69 @@
+=comment Package: Gdk4, C-Source: events
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=TITLE Gnome::Gdk4::FocusEvent
+=head1 Description
+
+An event related to a keyboard focus change.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gdk4::FocusEvent
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from an object of the same type found elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object() :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-in
+
+Extracts whether this event is about focus entering or
+leaving the surface.
+
+=begin code
+method get-in (--> Bool )
+=end code
+
+Return value; C<True> of the focus is entering. 
+
+=begin comment
+
+=head2 Example
+# Example for get-in
+
+=end comment
+
+=end pod
+

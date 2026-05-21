@@ -1,0 +1,68 @@
+=comment Package: Gdk4, C-Source: events
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=TITLE Gnome::Gdk4::DNDEvent
+=head1 Description
+
+An event related to drag and drop operations.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gdk4::DNDEvent
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from an object of the same type found elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object() :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-drop
+
+Gets the L<Gnome::Gdk4::Drop|/content-docs/api2/reference/Gdk4/Drop> object from a DND event.
+
+=begin code
+method get-drop (--> N-Object )
+=end code
+
+Return value; the drop. 
+
+=begin comment
+
+=head2 Example
+# Example for get-drop
+
+=end comment
+
+=end pod
+

@@ -1,0 +1,112 @@
+=comment Package: Gdk4, C-Source: events
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=TITLE Gnome::Gdk4::CrossingEvent
+=head1 Description
+
+An event caused by a pointing device moving between surfaces.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gdk4::CrossingEvent
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from an object of the same type found elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object() :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-detail
+This function is not yet available
+
+Extracts the notify detail from a crossing event.
+
+=begin code
+method get-detail (--> GdkNotifyType  )
+=end code
+
+Return value; the notify detail of C<$event>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-detail
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-focus
+
+Checks if the C<$event> surface is the focus surface.
+
+=begin code
+method get-focus (--> Bool )
+=end code
+
+Return value; C<True> if the surface is the focus surface. 
+
+=begin comment
+
+=head2 Example
+# Example for get-focus
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-mode
+This function is not yet available
+
+Extracts the crossing mode from a crossing event.
+
+=begin code
+method get-mode (--> GdkCrossingMode  )
+=end code
+
+Return value; the mode of C<$event>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-mode
+
+=end comment
+
+=end pod
+

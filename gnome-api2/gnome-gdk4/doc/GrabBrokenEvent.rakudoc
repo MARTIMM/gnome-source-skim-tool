@@ -1,0 +1,89 @@
+=comment Package: Gdk4, C-Source: events
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=TITLE Gnome::Gdk4::GrabBrokenEvent
+=head1 Description
+
+An event related to a broken windowing system grab.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gdk4::GrabBrokenEvent
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from an object of the same type found elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object() :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-grab-surface
+
+Extracts the grab surface from a grab broken event.
+
+=begin code
+method get-grab-surface (--> N-Object )
+=end code
+
+Return value; the grab surface of C<$event>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-grab-surface
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-implicit
+
+Checks whether the grab broken event is for an implicit grab.
+
+=begin code
+method get-implicit (--> Bool )
+=end code
+
+Return value; C<True> if the an implicit grab was broken. 
+
+=begin comment
+
+=head2 Example
+# Example for get-implicit
+
+=end comment
+
+=end pod
+
