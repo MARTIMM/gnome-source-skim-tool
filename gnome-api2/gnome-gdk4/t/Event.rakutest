@@ -1,0 +1,217 @@
+=comment Package: Gdk4, C-Source: events
+use v6.d;
+
+#TL:1:Gnome::Gdk4::Event:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+
+use Gnome::Gdk4::Event:api<2>;
+#use Gnome::Gdk4::N-TimeCoord:api<2>;
+#use Gnome::Gdk4::T-device:api<2>;
+use Gnome::Gdk4::T-enums:api<2>;
+use Gnome::Gdk4::T-events:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gdk4::Event $event;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $event {
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $event {
+    my CArray[gdouble] $axes;
+    my CArray[gdouble] $y;
+    my gint-ptr $out-n-coords;
+    my CArray[gdouble] $angle;
+    my CArray[gdouble] $distance;
+    my GdkAxisUse $axis-use;
+    my CArray[gdouble] $value;
+    my CArray[gdouble] $x;
+    my gint-ptr $n-axes;
+    my N-Object $event2;
+
+
+#`{{
+    #TM:0:-get-angle()
+    ok .-get-angle( $event2, $angle), '.-get-angle()';
+
+    #TM:0:-get-center()
+    ok .-get-center( $event2, $x, $y), '.-get-center()';
+
+    #TM:0:-get-distance()
+    ok .-get-distance( $event2, $distance), '.-get-distance()';
+
+    #TM:0:get-axes()
+    is .get-axes( $axes, $n-axes), '…', '.get-axes()';
+
+    #TM:0:get-axis()
+    is .get-axis( $axis-use, $value), '…', '.get-axis()';
+
+    #TM:0:get-device()
+     .get-device(), '…', '.get-device()';
+
+    #TM:0:get-device-tool()
+     .get-device-tool(), '…', '.get-device-tool()';
+
+    #TM:0:get-display()
+     .get-display(), '…', '.get-display()';
+
+    #TM:0:get-event-sequence()
+     .get-event-sequence(), '…', '.get-event-sequence()';
+
+    #TM:0:get-event-type()
+     .get-event-type(), '…', '.get-event-type()';
+
+    #TM:0:get-history()
+    is .get-history( $out-n-coords), '…', '.get-history()';
+
+    #TM:0:get-modifier-state()
+     .get-modifier-state(), '…', '.get-modifier-state()';
+
+    #TM:0:get-pointer-emulated()
+     .get-pointer-emulated(), '…', '.get-pointer-emulated()';
+
+    #TM:0:get-position()
+    is .get-position( $x, $y), '…', '.get-position()';
+
+    #TM:0:get-seat()
+     .get-seat(), '…', '.get-seat()';
+
+    #TM:0:get-surface()
+     .get-surface(), '…', '.get-surface()';
+
+    #TM:0:get-time()
+     .get-time(), '…', '.get-time()';
+
+    #TM:0:ref()
+    ok .ref(), '.ref()';
+
+    #TM:0:triggers-context-menu()
+    ok .triggers-context-menu(), '.triggers-context-menu()';
+
+    #TM:0:unref()
+    ok .unref(), '.unref()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $event {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gdk4::Event() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gdk4::Event;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gdk4::Event :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gdk4::Event $event .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $event.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

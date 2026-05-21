@@ -1,0 +1,235 @@
+=comment Package: Gdk4, C-Source: events
+use v6.d;
+
+#TL:1:Gnome::Gdk4::T-events:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+
+use Gnome::Gdk4::ProximityEvent:api<2>;
+use Gnome::Gdk4::T-events:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+
+my Gnome::Gdk4::T-events $events .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $events {
+    my CArray[gdouble] $angle;
+    my CArray[gdouble] $distance;
+    my N-Object $event1;
+    my N-Object $event2;
+    my CArray[gdouble] $x;
+    my CArray[gdouble] $y;
+
+
+#`{{
+    #TM:0:events-get-angle()
+    ok .events-get-angle( $event1, $event2, $angle), '.events-get-angle()';
+
+    #TM:0:events-get-center()
+    ok .events-get-center( $event1, $event2, $x, $y), '.events-get-center()';
+
+    #TM:0:events-get-distance()
+    ok .events-get-distance( $event1, $event2, $distance), '.events-get-distance()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GdkCrossingMode
+subtest 'GdkCrossingMode', {
+  is GDK_CROSSING_NORMAL.value, 0, 'enum GDK_CROSSING_NORMAL = 0';
+
+  is GDK_CROSSING_GRAB.value, 1, 'enum GDK_CROSSING_GRAB = 1';
+
+  is GDK_CROSSING_UNGRAB.value, 2, 'enum GDK_CROSSING_UNGRAB = 2';
+
+  is GDK_CROSSING_GTK_GRAB.value, 3, 'enum GDK_CROSSING_GTK_GRAB = 3';
+
+  is GDK_CROSSING_GTK_UNGRAB.value, 4, 'enum GDK_CROSSING_GTK_UNGRAB = 4';
+
+  is GDK_CROSSING_STATE_CHANGED.value, 5, 'enum GDK_CROSSING_STATE_CHANGED = 5';
+
+  is GDK_CROSSING_TOUCH_BEGIN.value, 6, 'enum GDK_CROSSING_TOUCH_BEGIN = 6';
+
+  is GDK_CROSSING_TOUCH_END.value, 7, 'enum GDK_CROSSING_TOUCH_END = 7';
+
+  is GDK_CROSSING_DEVICE_SWITCH.value, 8, 'enum GDK_CROSSING_DEVICE_SWITCH = 8';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GdkEventType
+subtest 'GdkEventType', {
+  is GDK_DELETE.value, 0, 'enum GDK_DELETE = 0';
+
+  is GDK_MOTION_NOTIFY.value, 1, 'enum GDK_MOTION_NOTIFY = 1';
+
+  is GDK_BUTTON_PRESS.value, 2, 'enum GDK_BUTTON_PRESS = 2';
+
+  is GDK_BUTTON_RELEASE.value, 3, 'enum GDK_BUTTON_RELEASE = 3';
+
+  is GDK_KEY_PRESS.value, 4, 'enum GDK_KEY_PRESS = 4';
+
+  is GDK_KEY_RELEASE.value, 5, 'enum GDK_KEY_RELEASE = 5';
+
+  is GDK_ENTER_NOTIFY.value, 6, 'enum GDK_ENTER_NOTIFY = 6';
+
+  is GDK_LEAVE_NOTIFY.value, 7, 'enum GDK_LEAVE_NOTIFY = 7';
+
+  is GDK_FOCUS_CHANGE.value, 8, 'enum GDK_FOCUS_CHANGE = 8';
+
+  is GDK_PROXIMITY_IN.value, 9, 'enum GDK_PROXIMITY_IN = 9';
+
+  is GDK_PROXIMITY_OUT.value, 10, 'enum GDK_PROXIMITY_OUT = 10';
+
+  is GDK_DRAG_ENTER.value, 11, 'enum GDK_DRAG_ENTER = 11';
+
+  is GDK_DRAG_LEAVE.value, 12, 'enum GDK_DRAG_LEAVE = 12';
+
+  is GDK_DRAG_MOTION.value, 13, 'enum GDK_DRAG_MOTION = 13';
+
+  is GDK_DROP_START.value, 14, 'enum GDK_DROP_START = 14';
+
+  is GDK_SCROLL.value, 15, 'enum GDK_SCROLL = 15';
+
+  is GDK_GRAB_BROKEN.value, 16, 'enum GDK_GRAB_BROKEN = 16';
+
+  is GDK_TOUCH_BEGIN.value, 17, 'enum GDK_TOUCH_BEGIN = 17';
+
+  is GDK_TOUCH_UPDATE.value, 18, 'enum GDK_TOUCH_UPDATE = 18';
+
+  is GDK_TOUCH_END.value, 19, 'enum GDK_TOUCH_END = 19';
+
+  is GDK_TOUCH_CANCEL.value, 20, 'enum GDK_TOUCH_CANCEL = 20';
+
+  is GDK_TOUCHPAD_SWIPE.value, 21, 'enum GDK_TOUCHPAD_SWIPE = 21';
+
+  is GDK_TOUCHPAD_PINCH.value, 22, 'enum GDK_TOUCHPAD_PINCH = 22';
+
+  is GDK_PAD_BUTTON_PRESS.value, 23, 'enum GDK_PAD_BUTTON_PRESS = 23';
+
+  is GDK_PAD_BUTTON_RELEASE.value, 24, 'enum GDK_PAD_BUTTON_RELEASE = 24';
+
+  is GDK_PAD_RING.value, 25, 'enum GDK_PAD_RING = 25';
+
+  is GDK_PAD_STRIP.value, 26, 'enum GDK_PAD_STRIP = 26';
+
+  is GDK_PAD_GROUP_MODE.value, 27, 'enum GDK_PAD_GROUP_MODE = 27';
+
+  is GDK_TOUCHPAD_HOLD.value, 28, 'enum GDK_TOUCHPAD_HOLD = 28';
+
+  is GDK_EVENT_LAST.value, 29, 'enum GDK_EVENT_LAST = 29';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GdkKeyMatch
+subtest 'GdkKeyMatch', {
+  is GDK_KEY_MATCH_NONE.value, 0, 'enum GDK_KEY_MATCH_NONE = 0';
+
+  is GDK_KEY_MATCH_PARTIAL.value, 1, 'enum GDK_KEY_MATCH_PARTIAL = 1';
+
+  is GDK_KEY_MATCH_EXACT.value, 2, 'enum GDK_KEY_MATCH_EXACT = 2';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GdkNotifyType
+subtest 'GdkNotifyType', {
+  is GDK_NOTIFY_ANCESTOR.value, 0, 'enum GDK_NOTIFY_ANCESTOR = 0';
+
+  is GDK_NOTIFY_VIRTUAL.value, 1, 'enum GDK_NOTIFY_VIRTUAL = 1';
+
+  is GDK_NOTIFY_INFERIOR.value, 2, 'enum GDK_NOTIFY_INFERIOR = 2';
+
+  is GDK_NOTIFY_NONLINEAR.value, 3, 'enum GDK_NOTIFY_NONLINEAR = 3';
+
+  is GDK_NOTIFY_NONLINEAR_VIRTUAL.value, 4, 'enum GDK_NOTIFY_NONLINEAR_VIRTUAL = 4';
+
+  is GDK_NOTIFY_UNKNOWN.value, 5, 'enum GDK_NOTIFY_UNKNOWN = 5';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GdkScrollDirection
+subtest 'GdkScrollDirection', {
+  is GDK_SCROLL_UP.value, 0, 'enum GDK_SCROLL_UP = 0';
+
+  is GDK_SCROLL_DOWN.value, 1, 'enum GDK_SCROLL_DOWN = 1';
+
+  is GDK_SCROLL_LEFT.value, 2, 'enum GDK_SCROLL_LEFT = 2';
+
+  is GDK_SCROLL_RIGHT.value, 3, 'enum GDK_SCROLL_RIGHT = 3';
+
+  is GDK_SCROLL_SMOOTH.value, 4, 'enum GDK_SCROLL_SMOOTH = 4';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GdkScrollUnit
+subtest 'GdkScrollUnit', {
+  is GDK_SCROLL_UNIT_WHEEL.value, 0, 'enum GDK_SCROLL_UNIT_WHEEL = 0';
+
+  is GDK_SCROLL_UNIT_SURFACE.value, 1, 'enum GDK_SCROLL_UNIT_SURFACE = 1';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GdkTouchpadGesturePhase
+subtest 'GdkTouchpadGesturePhase', {
+  is GDK_TOUCHPAD_GESTURE_PHASE_BEGIN.value, 0, 'enum GDK_TOUCHPAD_GESTURE_PHASE_BEGIN = 0';
+
+  is GDK_TOUCHPAD_GESTURE_PHASE_UPDATE.value, 1, 'enum GDK_TOUCHPAD_GESTURE_PHASE_UPDATE = 1';
+
+  is GDK_TOUCHPAD_GESTURE_PHASE_END.value, 2, 'enum GDK_TOUCHPAD_GESTURE_PHASE_END = 2';
+
+  is GDK_TOUCHPAD_GESTURE_PHASE_CANCEL.value, 3, 'enum GDK_TOUCHPAD_GESTURE_PHASE_CANCEL = 3';
+
+};
+
+#-------------------------------------------------------------------------------
+#--[Constants]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'constants', {
+#TE:1:GDK_EVENT_STOP
+is GDK_EVENT_STOP, true, "constant GDK_EVENT_STOP = true";
+
+#TE:1:GDK_PRIORITY_REDRAW
+is GDK_PRIORITY_REDRAW, 120, "constant GDK_PRIORITY_REDRAW = 120";
+
+#TE:1:GDK_EVENT_PROPAGATE
+is GDK_EVENT_PROPAGATE, false, "constant GDK_EVENT_PROPAGATE = false";
+
+#TE:1:GDK_BUTTON_MIDDLE
+is GDK_BUTTON_MIDDLE, 2, "constant GDK_BUTTON_MIDDLE = 2";
+
+#TE:1:GDK_BUTTON_SECONDARY
+is GDK_BUTTON_SECONDARY, 3, "constant GDK_BUTTON_SECONDARY = 3";
+
+#TE:1:GDK_BUTTON_PRIMARY
+is GDK_BUTTON_PRIMARY, 1, "constant GDK_BUTTON_PRIMARY = 1";
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
