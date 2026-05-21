@@ -47,9 +47,9 @@ $c = ?$o<c>;  # generate code
 $d = ?$o<d>;  # generate docs
 $t = ?$o<t>;  # generate tests
 
-my Bool $*overwrite = ?$o<o>;   # Automatic (over)write. When choice is missing,
-                                # the choices are presented to skip or make
-                                # a new version
+my Bool $*overwrite = ?$o<o>;   # Automatic (over)write. When this options is
+                                # missing, the choices are presented to skip or
+                                # make a new version
 
 if $h {
   USAGE;
@@ -148,6 +148,9 @@ sub USAGE ( ) {
               'AboutDialog.rakutest' and 'T-aboutdialog.rakutest' in the
               'gnome-gtk3/t' tree to test the modules 'AboutDialog.rakumod'
               and 'T-aboutdialog.rakumod'.
+      o       Overwrite the files ignoring the changes ever made. This will
+              only apply to tests and module files. Docs have most of the time
+              many changes made to it to risk overwriting those.
       v       Show some extra info while stumping. Default False.
 
     Arguments

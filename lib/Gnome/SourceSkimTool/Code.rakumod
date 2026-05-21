@@ -2299,6 +2299,7 @@ method save-file ( Str $filename is copy, Str $content is copy, Str $comment ) {
     $checkfname ~~ s/ '.' <-[.]>+ $//;
 #note "$?LINE $basename, $checkfname";
 
+#`{{
     my Bool $protect = False;
     if $*generate-code {
       $protect = True; #$!protected-files<c>.first($checkfname).Bool;
@@ -2313,9 +2314,11 @@ method save-file ( Str $filename is copy, Str $content is copy, Str $comment ) {
       # Now always protect test files
       $protect = True; #$!protected-files<t>.first($checkfname).Bool;
     }
+}}
 
+#`{{
     my Str $a;
-    if $protect {
+    if $protect and not $*overwrite {
       say "\nFile $basename found, new version(v) or skip(s)";
        $a = prompt "[v,s] s is default> ";
     }
@@ -2330,10 +2333,21 @@ method save-file ( Str $filename is copy, Str $content is copy, Str $comment ) {
         $a = prompt "[o,v,s] s is default> ";
       }
     }
+}}
+    my Str $a;
+    if $*overwrite {
+      $a = 'o';
+    }
+
+    else {
+      say "\nFile $basename found, new version(v) or skip(s)";
+      $a = prompt "[v,s] s is default> ";
+    }
+
 
     given $a.lc {
       when 'o' { # o - overwrite
-        $save-it = !$protect and True;
+        $save-it = True;
       }
 
       when 'v' { # v - version
