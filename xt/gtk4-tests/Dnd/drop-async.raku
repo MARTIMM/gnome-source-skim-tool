@@ -206,24 +206,13 @@ note "get-data actions: ", $drop.get-actions.fmt('0x%04x');
 #note "get-data is COPY: ", $drop.get-actions.fmt('0x%04x') ?& GDK_ACTION_COPY;
 
   my $e = CArray[N-Error].new(N-Error);
-  my gpointer $p = $result.propagate-pointer($e);
-  if ?$p {
-    my Gnome::GObject::N-Value $v .= new(
-      :native-object(nativecast( N-Object, $p))
-    );
+  my N-Value $nv = nativecast( N-Value, $drop.read-value-finish( $result, $e));
+note "$?LINE Result: ", $e[0].defined ?? $e[0].message !! 'ok';
+  my Gnome::GObject::N-Value $v .= new(:native-object($nv));
 
 note "$?LINE v: $v.gist(), $v.get-native-object.gist()";
 note "$?LINE v: $v.get-string()";
 
-note $?LINE;
-    my $e = CArray[N-Error].new;
-    $drop.read-value-finish( $result, $e);
-note "$?LINE Result: ", $e[0].defined ?? $e[0].message !! 'ok';
-  }
-
-  else {
-note "$?LINE Error";
-  }
 }
 
 #-------------------------------------------------------------------------------
