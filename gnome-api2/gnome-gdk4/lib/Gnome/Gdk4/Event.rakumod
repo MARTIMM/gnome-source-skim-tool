@@ -71,6 +71,7 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
+  # NOTE get-angle and others are prefixed like _get_angle. Not possible here!
   get-angle => %(:is-symbol<gdk_event__get_angle>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, CArray[gdouble]]), ),
   get-center => %(:is-symbol<gdk_event__get_center>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, CArray[gdouble], CArray[gdouble]]), ),
   get-distance => %(:is-symbol<gdk_event__get_distance>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, CArray[gdouble]]), ),
