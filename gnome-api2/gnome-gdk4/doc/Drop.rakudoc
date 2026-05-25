@@ -11,18 +11,14 @@ use v6.d;
 
 The B<Gnome::Gdk4::Drop> object represents the target of an ongoing DND operation.
 
-Possible drop sites get informed about the status of the ongoing drag
-operation with events of type C<GDK_DRAG_ENTER>, C<GDK_DRAG_LEAVE>,
-C<GDK_DRAG_MOTION> and C<GDK_DROP_START>. The B<Gnome::Gdk4::Drop> object can be obtained
-from these L<Gnome::Gdk4::Event|/content-docs/api2/reference/Gdk4/Gnome> types using L<.get-drop() in class Gnome|/content-docs/api2/reference/Gdk4/Gnome#get-drop>.
+Possible drop sites get informed about the status of the ongoing drag operation with events of type C<GDK_DRAG_ENTER>, C<GDK_DRAG_LEAVE>, C<GDK_DRAG_MOTION>, and C<GDK_DROP_START>. The B<Gnome::Gdk4::Drop> object can be obtained from these L<Gnome::Gdk4::Event|/content-docs/api2/reference/Gdk4/Event> types using L<.get-drop() in class Gnome::Gdk4::DNDEvent|/content-docs/api2/reference/Gdk4/DNDEvent#get-drop>.
 
-The actual data transfer is initiated from the target side via an async
-read, using one of the B<Gnome::Gdk4::Drop> methods for this purpose:
-L<.read-async()|#read-async> or L<.read-value-async()|#read-value-async>.
+The actual data transfer is initiated from the target side via an async read, using one of the B<Gnome::Gdk4::Drop> methods for this purpose: L<.read-async()|#read-async> or L<.read-value-async()|#read-value-async>.
 
-GTK provides a higher level abstraction based on top of these functions,
-and so they are not normally needed in GTK applications. See the
-"Drag and Drop" section of the GTK documentation for more information.
+GTK provides a higher level abstraction based on top of these functions, and so they are not normally needed in GTK applications. See the "Drag and Drop" section of the GTK documentation for more information.
+
+=head2 Uml Diagram
+=for image :src<asset_files/images/plantuml/Drop.png> :width<70%> :class<inline>
 
 =begin comment
 
@@ -64,21 +60,13 @@ Create an object using a native object from an object of the same type found els
 
 Ends the drag operation after a drop.
 
-The C<$action> must be a single action selected from the actions
-available via L<.get-actions()|#get-actions>.
+The C<$action> must be a single action selected from the actions available via L<.get-actions()|#get-actions>.
 
 =begin code
 method finish ( UInt $action )
 =end code
 
 =item $action; the action performed by the destination or 0 if the drop failed.
-
-=begin comment
-
-=head2 Example
-# Example for finish
-
-=end comment
 
 =end pod
 
@@ -88,31 +76,15 @@ method finish ( UInt $action )
 
 Returns the possible actions for this B<Gnome::Gdk4::Drop>.
 
-If this value contains multiple actions - i.e.
-L<.DragAction.is-unique().DragAction.is-unique() in package Gnome::Gdk4|/content-docs/api2/reference/Gdk4/T-drop#DragAction.is-unique> returns C<False> for the result -
-L<.finish()|#finish> must choose the action to use when
-accepting the drop. This will only happen if you passed
-C<GDK_ACTION_ASK> as one of the possible actions in
-L<.status()|#status>. C<GDK_ACTION_ASK> itself will not
-be included in the actions returned by this function.
+If this value contains multiple actions - i.e. L<.drag-action-is-unique() in package Gnome::Gdk4::T-drag|/content-docs/api2/reference/Gdk4/T-drag#drag-action-is-unique> returns C<False> for the result - L<.finish()|#finish> must choose the action to use when accepting the drop. This will only happen if you passed C<GDK_ACTION_ASK> as one of the possible actions in L<.status()|#status>. C<GDK_ACTION_ASK> itself will not be included in the actions returned by this function.
 
-This value may change over the lifetime of the B<Gnome::Gdk4::Drop>
-both as a response to source side actions as well as to calls to
-L<.status()|#status> or L<.finish()|#finish>. The source
-side will not change this value anymore once a drop has started.
+This value may change over the lifetime of the B<Gnome::Gdk4::Drop> both as a response to source side actions as well as to calls to L<.status()|#status> or L<.finish()|#finish>. The source side will not change this value anymore once a drop has started.
 
 =begin code
-method get-actions (--> UInt )
+method get-actions ( --> UInt )
 =end code
 
 Return value; The possible B<GdkDragActions>. 
-
-=begin comment
-
-=head2 Example
-# Example for get-actions
-
-=end comment
 
 =end pod
 
@@ -123,17 +95,10 @@ Return value; The possible B<GdkDragActions>.
 Returns the L<Gnome::Gdk4::Device|/content-docs/api2/reference/Gdk4/Device> performing the drop.
 
 =begin code
-method get-device (--> N-Object )
+method get-device ( --> N-Object )
 =end code
 
-Return value; The L<Gnome::Gdk4::Device|/content-docs/api2/reference/Gdk4/Device> performing the drop.. 
-
-=begin comment
-
-=head2 Example
-# Example for get-device
-
-=end comment
+Return value; The L<Gnome::Gdk4::Device|/content-docs/api2/reference/Gdk4/Device> performing the drop.
 
 =end pod
 
@@ -144,17 +109,10 @@ Return value; The L<Gnome::Gdk4::Device|/content-docs/api2/reference/Gdk4/Device
 Gets the L<Gnome::Gdk4::Display|/content-docs/api2/reference/Gdk4/Display> that C<$self> was created for.
 
 =begin code
-method get-display (--> N-Object )
+method get-display ( --> N-Object )
 =end code
 
 Return value; a L<Gnome::Gdk4::Display|/content-docs/api2/reference/Gdk4/Display>. 
-
-=begin comment
-
-=head2 Example
-# Example for get-display
-
-=end comment
 
 =end pod
 
@@ -162,23 +120,15 @@ Return value; a L<Gnome::Gdk4::Display|/content-docs/api2/reference/Gdk4/Display
 =begin pod
 =head2 get-drag
 
-If this is an in-app drag-and-drop operation, returns the L<Gnome::Gdk4::Drag|/content-docs/api2/reference/Gdk4/Drag>
-that corresponds to this drop.
+If this is an in-app drag-and-drop operation, returns the L<Gnome::Gdk4::Drag|/content-docs/api2/reference/Gdk4/Drag> object that corresponds to this drop.
 
 If it is not, undefined is returned.
 
 =begin code
-method get-drag (--> N-Object )
+method get-drag ( --> N-Object )
 =end code
 
 Return value; the corresponding L<Gnome::Gdk4::Drag|/content-docs/api2/reference/Gdk4/Drag>. 
-
-=begin comment
-
-=head2 Example
-# Example for get-drag
-
-=end comment
 
 =end pod
 
@@ -186,21 +136,13 @@ Return value; the corresponding L<Gnome::Gdk4::Drag|/content-docs/api2/reference
 =begin pod
 =head2 get-formats
 
-Returns the B<Gnome::Gdk4::N-ContentFormats> that the drop offers the data
-to be read in.
+Returns the B<Gnome::Gdk4::N-ContentFormats> that the drop offers the data to be read in.
 
 =begin code
-method get-formats (--> N-Object )
+method get-formats ( --> N-Object )
 =end code
 
-Return value; The possible B<Gnome::Gdk4::N-ContentFormats>. 
-
-=begin comment
-
-=head2 Example
-# Example for get-formats
-
-=end comment
+Return value; The possible B<Gnome::Gdk4::N-ContentFormats>.  
 
 =end pod
 
@@ -211,17 +153,10 @@ Return value; The possible B<Gnome::Gdk4::N-ContentFormats>.
 Returns the L<Gnome::Gdk4::Surface|/content-docs/api2/reference/Gdk4/Surface> performing the drop.
 
 =begin code
-method get-surface (--> N-Object )
+method get-surface ( --> N-Object )
 =end code
 
 Return value; The L<Gnome::Gdk4::Surface|/content-docs/api2/reference/Gdk4/Surface> performing the drop.. 
-
-=begin comment
-
-=head2 Example
-# Example for get-surface
-
-=end comment
 
 =end pod
 
@@ -233,23 +168,18 @@ Asynchronously read the dropped data from a B<Gnome::Gdk4::Drop>
 in a format that complies with one of the mime types.
 
 =begin code
-method read-async ( Array[Str] $mime-types, Int() $io-priority, N-Object() $cancellable, GAsyncReadyCallback &callback, gpointer $user-data )
+method read-async (
+  Array[Str] $mime-types, Int() $io-priority,
+  N-Object() $cancellable, GAsyncReadyCallback &callback,
+  gpointer $user-data
+)
 =end code
 
-=item $mime-types; 
-  pointer to an array of mime types.
+=item $mime-types; pointer to an array of mime types.
 =item $io-priority; the I/O priority for the read operation.
 =item $cancellable; optional L<Gnome::Gio::Cancellable|/content-docs/api2/reference/Gio/Cancellable> object.
-=item GAsyncReadyCallback &callback; a B<Gnome::Gio::T-iotypes> to call when
-  the request is satisfied. The function must be specified with the following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
+=item GAsyncReadyCallback &callback; a B<Gnome::Gio::T-iotypes> to call when   the request is satisfied. The function must be specified with the following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
 =item $user-data; the data to pass to C<$callback>.
-
-=begin comment
-
-=head2 Example
-# Example for read-async
-
-=end comment
 
 =end pod
 
@@ -259,31 +189,22 @@ method read-async ( Array[Str] $mime-types, Int() $io-priority, N-Object() $canc
 
 Finishes an async drop read operation.
 
-Note that you must not use blocking read calls on the returned stream
-in the GTK thread, since some platforms might require communication with
-GTK to complete the data transfer. You can use async APIs such as
-g_input_stream_read_bytes_async().
+Note that you must not use blocking read calls on the returned stream in the GTK thread, since some platforms might require communication with GTK to complete the data transfer. You can use async APIs such as C<Gnome::Gio::InputStream.read_bytes_async()>.
 
 See L<.read-async()|#read-async>.
 
 =begin code
-method read-finish ( N-Object() $result, Array[Str] $out-mime-type, CArray[N-Error] $err --> N-Object )
+method read-finish (
+  N-Object() $result, Array[Str] $out-mime-type, CArray[N-Error] $err
+  --> N-Object
+)
 =end code
 
 =item $result; a L<Gnome::Gio::R-AsyncResult|/content-docs/api2/reference/Gio/R-AsyncResult>.
 =item $out-mime-type; (transfer ownership: full) return location for the used mime type.
-=item $err; Error object. When defined, an error can be returned when there is one.
-Use C<Pointer> when you want to ignore the error.
-.
+=item $err; Error object. When defined, an error can be returned when there is one. Use C<Pointer> when you want to ignore the error.
 
 Return value; the L<Gnome::Gio::InputStream|/content-docs/api2/reference/Gio/InputStream>. 
-
-=begin comment
-
-=head2 Example
-# Example for read-finish
-
-=end comment
 
 =end pod
 
@@ -291,19 +212,17 @@ Return value; the L<Gnome::Gio::InputStream|/content-docs/api2/reference/Gio/Inp
 =begin pod
 =head2 read-value-async
 
-Asynchronously request the drag operation's contents converted
-to the given C<$type>.
+Asynchronously request the drag operation's contents converted to the given C<$type>.
 
-When the operation is finished C<$callback> will be called. You must
-then call L<.read-value-finish()|#read-value-finish> to get the resulting
-B<Gnome::GObject::N-Value>.
+When the operation is finished C<$callback> will be called. You must then call L<.read-value-finish()|#read-value-finish> to get the resulting B<Gnome::GObject::N-Value>.
 
-For local drag-and-drop operations that are available in the given
-B<Gnome::GObject::Drop>, the value will be copied directly. Otherwise, GDK will
-try to use L<.content-deserialize-async().content-deserialize-async() in package Gnome::Gdk4|/content-docs/api2/reference/Gdk4/T-drop#content-deserialize-async> to convert the data.
+For local drag-and-drop operations that are available in the given B<Gnome::GObject::Drop>, the value will be copied directly. Otherwise, GDK will try to use L<.content-deserialize-async().content-deserialize-async() in package Gnome::Gdk4|/content-docs/api2/reference/Gdk4/T-drop#content-deserialize-async> to convert the data.
 
 =begin code
-method read-value-async ( GType $type, Int() $io-priority, N-Object() $cancellable, GAsyncReadyCallback &callback, gpointer $user-data )
+method read-value-async (
+  GType $type, Int() $io-priority, N-Object() $cancellable,
+  GAsyncReadyCallback &callback, gpointer $user-data
+)
 =end code
 
 =item $type; a B<Gnome::GObject::Drop> to read.
@@ -311,13 +230,6 @@ method read-value-async ( GType $type, Int() $io-priority, N-Object() $cancellab
 =item $cancellable; optional L<Gnome::Gio::Cancellable|/content-docs/api2/reference/Gio/Cancellable> object, undefined to ignore..
 =item GAsyncReadyCallback &callback; callback to call when the request is satisfied. The function must be specified with the following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
 =item $user-data; the data to pass to callback function.
-
-=begin comment
-
-=head2 Example
-# Example for read-value-async
-
-=end comment
 
 =end pod
 
@@ -330,22 +242,16 @@ Finishes an async drop read.
 See L<.read-value-async()|#read-value-async>.
 
 =begin code
-method read-value-finish ( N-Object() $result, CArray[N-Error] $err --> N-Object )
+method read-value-finish (
+  N-Object() $result, CArray[N-Error] $err
+  --> N-Object
+)
 =end code
 
 =item $result; a L<Gnome::Gio::R-AsyncResult|/content-docs/api2/reference/Gio/R-AsyncResult>.
-=item $err; Error object. When defined, an error can be returned when there is one.
-Use C<Pointer> when you want to ignore the error.
-.
+=item $err; Error object. When defined, an error can be returned when there is one. Use C<Pointer> when you want to ignore the error.
 
 Return value; a B<Gnome::GObject::N-Value> containing the result.. 
-
-=begin comment
-
-=head2 Example
-# Example for read-value-finish
-
-=end comment
 
 =end pod
 
@@ -355,17 +261,11 @@ Return value; a B<Gnome::GObject::N-Value> containing the result..
 
 Selects all actions that are potentially supported by the destination.
 
-When calling this function, do not restrict the passed in actions to
-the ones provided by L<.get-actions()|#get-actions>. Those actions may
-change in the future, even depending on the actions you provide here.
+When calling this function, do not restrict the passed in actions to the ones provided by L<.get-actions()|#get-actions>. Those actions may change in the future, even depending on the actions you provide here.
 
-The C<$preferred> action is a hint to the drag-and-drop mechanism about which
-action to use when multiple actions are possible.
+The C<$preferred> action is a hint to the drag-and-drop mechanism about which action to use when multiple actions are possible.
 
-This function should be called by drag destinations in response to
-C<GDK_DRAG_ENTER> or C<GDK_DRAG_MOTION> events. If the destination does
-not yet know the exact actions it supports, it should set any possible
-actions first and then later call this function again.
+This function should be called by drag destinations in response to C<GDK_DRAG_ENTER> or C<GDK_DRAG_MOTION> events. If the destination does not yet know the exact actions it supports, it should set any possible actions first and then later call this function again.
 
 =begin code
 method status ( UInt $actions, UInt $preferred )
@@ -375,13 +275,6 @@ method status ( UInt $actions, UInt $preferred )
    that a drop will not be accepted.
 =item $preferred; A unique action that's a member of C<$actions> indicating the
    preferred action.
-
-=begin comment
-
-=head2 Example
-# Example for status
-
-=end comment
 
 =end pod
 
