@@ -29,11 +29,11 @@ use Gnome::Gdk4::Drop:api<2>;
 use Gnome::Gdk4::ContentProvider:api<2>;
 use Gnome::Gdk4::N-ContentFormats:api<2>;
 use Gnome::Gdk4::T-contentformats:api<2>;
-use Gnome::Gdk4::N-FileList:api<2>;
+#use Gnome::Gdk4::N-FileList:api<2>;
 use Gnome::Gdk4::T-enums:api<2>;
 use Gnome::Gdk4::T-drag:api<2>;
 
-use Gnome::Gio::File:api<2>;
+#use Gnome::Gio::File:api<2>;
 #use Gnome::Gio::FileIcon:api<2>;
 use Gnome::Gio::Task:api<2>;
 

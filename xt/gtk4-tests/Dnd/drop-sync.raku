@@ -230,22 +230,18 @@ note $?LINE, ', ', $value.get-string;
   }
 
   #-----------------------------------------------------------------------------
-  method drag-enter (
-    Gnome::Gdk4::Drop() $drop, Rat() $x, Rat() $y --> GFlag
-  ) {
+  method drag-enter ( Rat() $x, Rat() $y --> GFlag ) {
     note "Enter at $x, $y";
     GDK_ACTION_COPY +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
   }
 
   #-----------------------------------------------------------------------------
-  method drag-leave ( Gnome::Gdk4::Drop() $drop ) {
+  method drag-leave ( ) {
     note "Left";
   }
 
   #-----------------------------------------------------------------------------
-  method drag-motion (
-    Gnome::Gdk4::Drop() $drop, Rat() $x, Rat() $y --> GFlag
-  ) {
+  method drag-motion ( Rat() $x, Rat() $y --> GFlag ) {
     note "move to $x, $y";
     GDK_ACTION_COPY +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
   }
