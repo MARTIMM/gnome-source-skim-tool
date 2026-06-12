@@ -22,8 +22,6 @@ use GnomeTools::Gio::Menu;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 
-
-
 constant Widget = Gnome::Gtk4::Widget;
 constant Frame = Gnome::Gtk4::Frame;
 constant ShortcutController = Gnome::Gtk4::ShortcutController;

@@ -14,7 +14,7 @@ use Gnome::Gtk4::ShortcutTrigger:api<2>;
 use Gnome::Gtk4::CallbackAction:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
 
-use Gnome::Gdk4::T-enums:api<2>;
+#use Gnome::Gdk4::T-enums:api<2>;
 
 use Gnome::Gio::SimpleAction:api<2>;
 #use GnomeTools::Gio::Menu;
@@ -45,10 +45,9 @@ class Helper {
   }
 }
 
-
 #-------------------------------------------------------------------------------
 class SCTest {
-  constant APP_ID = 'ShortcutTest.myapp';
+#  constant APP_ID = 'ShortcutTest.myapp';
 
 #  has GnomeTools::Gtk::Application $!application;
   has Helper $!helper;
@@ -91,23 +90,3 @@ my SCTest $app .= new;
 $main-loop.run;
 
 say 'done it';
-
-
-
-
-
-
-
-
-
-=finish
-
-#-------------------------------------------------------------------------------
-I usually use actions for that, but there seems to be another way:
-
-    create a Gtk.ShortcutController
-    add the controller to your widget (window?) with Gtk.Widget.add_controller
-    create a Gtk.Shortcut.new
-        use Gtk.ShortcutTrigger.parse_string to create the trigger from a keyboard shortcut description
-        use a Gtk.CallbackAction.new for the shortcutaction (this is where you specify printmsg as callback, but make sure it maches this signature: Gtk.ShortcutFunc)
-    add the shortcut to the controller with Gtk.ShortcutController.add_shortcut
