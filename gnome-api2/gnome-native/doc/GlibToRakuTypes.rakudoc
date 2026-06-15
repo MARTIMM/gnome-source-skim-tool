@@ -1,7 +1,6 @@
 use v6.d;
 
 =begin pod
-
 =TITLE Gnome::N::GlibToRakuTypes
 =head1 Description
 
@@ -11,39 +10,52 @@ For almost all of the (unsigned) integer types, one can use B<Int> or B<UInt>. W
 
 Also there is an automatic mapping from B<Num> to B<gfloat> which is like a Raku type B<num32>. Furthermore The Raku B<Rat> type is mapped to B<gdouble> whih is represented as B<num64> in Raku.
 
+
 =head2 Special types
+
 =item GEnum; An integer used to refer to native enumerations.
 =item GFlag; An unsigned integer to be used as a mask of bits.
 =item GQuark; An unsigned integer to be used in the native error system.
 =item GType; An unsigned integer to be used as a type number. There are a series of fixed numbers but the classes get a type number when instantiated.
 =item gunichar; Classifies a Unicode character by type.
 
+
 =head2 Pointers to character string
+
 =item char-ppptr; A pointer to an array of strings. Used by the native functions to return string arrays.
 =item char-pptr; A pointer to a character string.
 =item gchar-ppptr; Like char-ppptr. Documentation of Gnome is not always concequent in the use of types.
 =item gchar-pptr; Like char-pptr.
 =item gchar-ptr; A character string. The Raku B<Str> type can be used for this.
 
+
 =head2 Pointers to integer
+
 =item int-ptr; A pointer to an integer. Used by the native functions to return an integer.
 =item gint-ptr; Like int-ptr
 
+
 =head2 Special pointers
+
 =item void-ptr; Used when nothing is returned from a function.
 =item gpointer; A pointer to some object.
 
-=head1 Simple types
-=item gboolean; An integer value being 0 or 1. You can use the B<Bool> type for it.
 
+=head2 Simple types
+
+=item gboolean; An integer value being 0 or 1. You can use the B<Bool> type for it.
 =item gchar; An 8 bit number for a character
 =item guchar; The Raku type B<UInt> can be used.
 
+
 =head2 Floating point
+
 =item gdouble; A large floating point number. The modules will translate Raku type B<Rat> to this type.
 =item gfloat; A smaller floating point value. The modules will translate Raku type B<Num> to this type.
 
+
 =head2 Integer types
+
 =item gint; An integer. The Raku type B<Int> can be used.
 =item gint16; a 16 bit integer. The Raku type B<Int> can be used.
 =item gint32; a 32 bit integer. The Raku type B<Int> can be used.
@@ -52,11 +64,15 @@ Also there is an automatic mapping from B<Num> to B<gfloat> which is like a Raku
 =item glong; A large integer. The Raku type B<Int> can be used.
 =item gshort; A small integer. The Raku type B<Int> can be used.
 
+
 =head2 Special integer types
+
 =item gsize; An unsigned integer use for sizes. The Raku type B<UInt> can be used.
 =item gssize; An integer also used for sizes The Raku type B<Int> can be used.
 
+
 =head2 Unsigned integer types
+
 =item guint; An unsigned integer. The Raku type B<UInt> can be used.
 =item guint16; A 16 bit unsigned integer. The Raku type B<UInt> can be used.
 =item guint32; A 32 bit unsigned integer. The Raku type B<UInt> can be used.
