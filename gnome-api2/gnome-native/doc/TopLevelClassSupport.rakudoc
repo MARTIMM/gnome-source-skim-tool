@@ -1,7 +1,5 @@
-#TL:1:Gnome::N:TopLevelClassSupport:
 use v6.d;
 
-=comment -----------------------------------------------------------------------
 =begin pod
 =TITLE Gnome::N::TopLevelClassSupport
 =head1 Description
@@ -22,7 +20,6 @@ also is Mu;
 =end code
 
 =comment -----------------------------------------------------------------------
-=begin pod
 =head1 Methods
 =head2 new
 
@@ -42,6 +39,7 @@ method new ( :$native-object! )
 Method to get the native object wrapped in the Raku objects.
 
 Example where the native object is retrieved from a B<Gnome::Gtk3::Window> object.
+
 =begin code
   my Gnome::Gtk3::Window $w;
   my N-Object() $no = $w;
@@ -57,6 +55,7 @@ method N-Object ( --> N-Object )
 Method to wrap a native object into a Raku object
 
 Example;
+
 =begin code
 my N-Object $no = …;  # native object from somewhere
 my Gnome::Gtk3::Window() $w = $no;
@@ -120,32 +119,5 @@ Clear the error and return data to memory pool. The error object is not valid af
 method clear-object ()
 =end code
 
-method clear-object ( ) {
-  note "Try to clear object ", $!n-native-object.^name if $Gnome::N::x-debug;
-
-  if $!is-valid {
-    self.native-object-unref($!n-native-object)
-      if $!n-native-object.defined and $!n-native-object.^name eq 'Gnome::N::N-Object';
-
-    # Always True for Lists
-    $!is-valid = $!n-native-object.^name ~~ any(
-        <Gnome::Glib::List::N-GList Gnome::Glib::SList::N-GSList>
-      ) ?? True !! False;
-    $!n-native-object = N-Object;
-
-#`{{
-}}
-    if self.^name ~~ m/ '::' Builder $/ {
-      loop ( my Int $i; $i < $builders.elems; $i++ ) {
-        next if $builders.is-valid;
-        note "Remove builder object" if $Gnome::N::x-debug;
-        $builders.splice( $i, 1);
-        last;
-      }
-    }
-  }
-
-  note 'Object cleared' if $Gnome::N::x-debug;
-}
-
 =end pod
+
