@@ -1,0 +1,151 @@
+#TL:1:Gnome::N:TopLevelClassSupport:
+use v6.d;
+
+=comment -----------------------------------------------------------------------
+=begin pod
+=TITLE Gnome::N::TopLevelClassSupport
+=head1 Description
+
+Top most class providing internally used methods and subroutines.
+
+The class B<Gnome::N::TopLevelClassSupport>, is the class at the top of the food chain. Most, if not all, are inheriting from this class. Its purpose is to provide convenience methods, processing and storing native objects, etcetera.
+
+Most of the time, if not ever, you will not have to use any of this and can be read by interested souls only.
+
+=head2 Declaration
+
+Its declaration is a bit different than normally done in Raku. It is done this way to prevent clashes from the B<Any> class.
+
+=begin code
+unit class Gnome::N::TopLevelClassSupport;
+also is Mu;
+=end code
+
+=comment -----------------------------------------------------------------------
+=begin pod
+=head1 Methods
+=head2 new
+
+Please note that this class is never instantiated directly but is used indirectly when child classes are instantiated.
+
+=head3 :native-object
+
+Create a Raku object using a native object from elsewhere. $native-object can be a N-Object or a Raku object like C< Gnome::Gtk3::Button>.
+
+=begin code
+method new ( :$native-object! )
+=end code
+
+=comment -----------------------------------------------------------------------
+=head2 N-Object
+
+Method to get the native object wrapped in the Raku objects.
+
+Example where the native object is retrieved from a B<Gnome::Gtk3::Window> object.
+=begin code
+  my Gnome::Gtk3::Window $w;
+  my N-Object() $no = $w;
+=end code
+
+=begin code
+method N-Object ( --> N-Object )
+=end code
+
+=comment -----------------------------------------------------------------------
+=head2 COERCE
+
+Method to wrap a native object into a Raku object
+
+Example;
+=begin code
+my N-Object $no = …;  # native object from somewhere
+my Gnome::Gtk3::Window() $w = $no;
+=end code
+
+=begin code
+method COERCE( $no --> Mu )
+=end code
+
+=comment -----------------------------------------------------------------------
+=head2 get-class-gtype
+
+Get glib type code of this native object which is set when the native object was created.
+
+=begin code
+method get-class-gtype ( --> GType )
+=end code
+
+=comment -----------------------------------------------------------------------
+=head2 get-class-name
+
+Return native class name.
+
+=begin code
+method get-class-name ( --> Str )
+=end code
+
+=comment -----------------------------------------------------------------------
+=head2 native-object-ref
+
+Absolute method needed to be defined in all child classes to do reference count administration.
+
+=begin code
+  method native-object-ref ( $n-native-object ) { !!! }
+=end code
+
+=comment -----------------------------------------------------------------------
+=head2 native-object-unref
+
+Absolute method needed to be defined in all child classes to do reference count administration.
+
+=begin code
+method native-object-unref ( $n-native-object ) { !!! }
+=end code
+
+=comment -----------------------------------------------------------------------
+=head2 is-valid
+
+Returns True if native object is valid. When C<False>, the native object is undefined and errors will occur when this instance is used.
+
+=begin code
+method is-valid ( --> Bool )
+=end code
+
+=comment -----------------------------------------------------------------------
+=head2 clear-object
+
+Clear the error and return data to memory pool. The error object is not valid after this call and C<is-valid()> will return C<False>.
+
+=begin code
+method clear-object ()
+=end code
+
+method clear-object ( ) {
+  note "Try to clear object ", $!n-native-object.^name if $Gnome::N::x-debug;
+
+  if $!is-valid {
+    self.native-object-unref($!n-native-object)
+      if $!n-native-object.defined and $!n-native-object.^name eq 'Gnome::N::N-Object';
+
+    # Always True for Lists
+    $!is-valid = $!n-native-object.^name ~~ any(
+        <Gnome::Glib::List::N-GList Gnome::Glib::SList::N-GSList>
+      ) ?? True !! False;
+    $!n-native-object = N-Object;
+
+#`{{
+}}
+    if self.^name ~~ m/ '::' Builder $/ {
+      loop ( my Int $i; $i < $builders.elems; $i++ ) {
+        next if $builders.is-valid;
+        note "Remove builder object" if $Gnome::N::x-debug;
+        $builders.splice( $i, 1);
+        last;
+      }
+    }
+  }
+
+  note 'Object cleared' if $Gnome::N::x-debug;
+}
+
+=end pod

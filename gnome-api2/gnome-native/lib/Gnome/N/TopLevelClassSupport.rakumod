@@ -3,21 +3,23 @@ use v6.d;
 
 #-------------------------------------------------------------------------------
 =begin pod
-
-=head1 Gnome::N::TopLevelClassSupport
+=TITLE Gnome::N::TopLevelClassSupport
+=head1 Description
 
 Top most class providing internally used methods and subroutines.
 
+The class B<Gnome::N::TopLevelClassSupport>, is the class at the top of the food chain. Most, if not all, are inheriting from this class. Its purpose is to provide convenience methods, processing and storing native objects, etcetera.
 
-=head1 Description
+Most of the time, if not ever, you will not have to use any of this and can be read by interested souls only.
 
-The B<Gnome::N::TopLevelClassSupport> is the class at the top of the food chain. Most, if not all, are inheriting from this class. Its purpose is to provide convenience methods, processing and storing native objects, etcetera.
-
-=head1 Synopsis
 =head2 Declaration
 
-  unit class Gnome::N::TopLevelClassSupport;
+Its declaration is a bit different than normally done in Raku. It is done this way to prevent clashes from the B<Any> class.
 
+=begin code
+unit class Gnome::N::TopLevelClassSupport;
+also is Mu;
+=end code
 
 =end pod
 
@@ -34,6 +36,8 @@ unit class Gnome::N::TopLevelClassSupport:auth<github:MARTIMM>:api<2>;
 also is Mu;
 
 #===============================================================================
+# experiment code with append from Any with that found somewere in a
+# Glib module to prevent a clash.
 #multi method append ( $p1 where $p1.^name ~~ m/ 'N-SList' /, gpointer ) { ... }
 
 #-------------------------------------------------------------------------------
@@ -59,7 +63,7 @@ my Array $builders = [];
 my Bool $test-mode;
 my Hash $widget-type-counters = %();
 
-#`{{ !!!! DON'T DO THIS !!!!
+#`{{ !!!! DON'T DO THIS !!!! Keep this in as a warning!!!!
 #-------------------------------------------------------------------------------
 # this new() method is defined to cleanup first in case of an assignement
 # like '$c .= new(...);', the native object, if any must be cleared first.
