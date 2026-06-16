@@ -1,0 +1,44 @@
+use v6.d;
+
+=begin pod
+=TITLE Gnome::N::GnomeRoutineCaller
+=head1 Description
+
+The purpose of this class is to make a connection between the hash entries, defined in every generated class, and the native calls in the Gnome libraries, represented by each entry in the Hash.
+
+When a native call is found and a call object is made, it is stored temporarely in the same Hash so this work does not have to be done a second time for the particular routine in the same run of the program.
+
+A few examples taken from B<Gnome::Gdk4::ContentProvider> shows a definition of a constructor and one of a method definition;
+
+=begin code 
+new-for-bytes => %(
+  :type(Constructor), :is-symbol<gdk_content_provider_new_for_bytes>,
+  :returns(N-Object), :parameters([ Str, N-Object])
+),
+
+get-value => %(
+  :is-symbol<gdk_content_provider_get_value>,  :returns(gboolean),
+  :cnv-return(Bool), :parameters([N-Object, CArray[N-Error]])
+),
+=end code
+
+The entries in the hash is selected by a key which is the name of the method used in Raku. The value in the C<is-symbol> field is the real name in the Gnome library. The C<type> field is a means to handle the entry by this module. The rest of the fields speak for themselves.
+
+However, when looking in the documentation of Gnome, you will e.g. see;
+
+=begin code
+gboolean
+gdk_content_provider_get_value (
+  GdkContentProvider* provider,
+  GValue* value,
+  GError** error
+)
+=end code
+
+A keen observer will notice that there are 3 parameters needed while the hash entry only specify 2!. Well, the first parameter of the native calls, when acting as a method, is always the native object of that particular class, in this case the content provider. So, to save space, the first argument is left out and will be inserted when a call is made.
+
+All native objects are having the C<N-Object> type, no matter what. The constructor will create one and stores it in the Raku object.
+
+The API of the methods in this module will not be documented because it is of no value for the normal use.
+
+=end pod
