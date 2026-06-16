@@ -60,7 +60,7 @@ submethod BUILD ( Str :$!library, Str :$!sub-prefix = '' ) {
     $gui-initialized,
 
     # Check for Application from Gio. That one inherits from Object.
-    # Application from Gtk3 inherits from Gio, so this test is always ok.
+    # Application from Gtk3/Gtk4 inherits from Gio, so this test is always ok.
     ?(self.^mro[0..*-3].gist ~~ m/'(Application) (Object)'/);
 
   self.gtk-initialize unless $may-not-initialize-gui;
