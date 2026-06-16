@@ -6,9 +6,12 @@ use v6.d;
 
 Top most class providing internally used methods and subroutines.
 
-The class B<Gnome::N::TopLevelClassSupport>, is the class at the top of the food chain. Most, if not all, are inheriting from this class. Its purpose is to provide convenience methods, processing and storing native objects, etcetera.
+The class B<Gnome::N::TopLevelClassSupport>, is the class at the top of the food chain. Most classes, if not all, are inheriting from this class. Its purpose is to provide convenience methods, processing and storing native objects, etcetera.
 
-Most of the time, if not ever, you will not have to use any of this and can be read by interested souls only.
+Most of the time, if not ever, you will not use any of this and can be read by interested souls only. Some exceptions:
+=item C<.is-valid()>; Check if an object is valid.
+=item C<.clear-object()>; Destroy an object, i.e. its native object within the Raku object.
+=item C<.new(:$native-object)>; Instanciation of a Raku object using a native object from elsewhere.
 
 =head2 Declaration
 
