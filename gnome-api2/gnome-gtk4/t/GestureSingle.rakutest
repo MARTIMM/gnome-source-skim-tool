@@ -12,7 +12,8 @@ use NativeCall;
 
 #use Gnome::Gdk4::N-EventSequence:api<2>;
 #use Gnome::Gdk4::T-events:api<2>;
-use Gnome::Gtk4::GestureSingle:api<2>;
+use Gnome::Gtk4::GestureClick:api<2>;
+#use Gnome::Gtk4::GestureSingle:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -23,19 +24,8 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
-my Gnome::Gtk4::GestureSingle $gesturesingle;
-
-#-------------------------------------------------------------------------------
-#--[Class init tests]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-subtest 'ISA test', {
-  given $gesturesingle {
-
-#`{{
-}}
-  }
-};
+# GestureClick inherits from GestureSingle
+my Gnome::Gtk4::GestureClick $gestureclick;
 
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -48,48 +38,36 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
-  with $gesturesingle {
-    my gboolean $exclusive;
-    my guint $button;
-    my gboolean $touch-only;
+  $gestureclick .= new-gestureclick();
+  with $gestureclick {
+    my Bool $exclusive;
+    my UInt $button;
+    my Bool $touch-only;
 
-
-#`{{
-    #TM:0:get-current-button()
-     .get-current-button(), '…', '.get-current-button()';
-
-    #TM:0:get-current-sequence()
-     .get-current-sequence(), '…', '.get-current-sequence()';
-
-    #TM:0:set-button()
-    $button = '…';
-    .set-button( $button);
-    #TM:0:get-button()
+    #TM:1:set-button()
+    $button = 2;
+    .set-button($button);
+    #TM:1:get-button()
     is .get-button(),  $button, '.set-button() / .get-button()';
 
-    #TM:0:set-exclusive()
-    $exclusive = '…';
+    #TM:1:set-exclusive()
+    $exclusive = True;
     .set-exclusive( $exclusive);
-    #TM:0:get-exclusive()
+    #TM:1:get-exclusive()
     is .get-exclusive(),  $exclusive, '.set-exclusive() / .get-exclusive()';
 
-    #TM:0:set-touch-only()
-    $touch-only = '…';
+    #TM:1:get-current-button(). No events yet -> 0
+    is .get-current-button(), 0, '.get-current-button()';
+
+    #TM:1:set-touch-only()
+    $touch-only = True;
     .set-touch-only( $touch-only);
-    #TM:0:get-touch-only()
+    #TM:1:get-touch-only()
     is .get-touch-only(),  $touch-only, '.set-touch-only() / .get-touch-only()';
 
-}}
-  }
-};
-
-#-------------------------------------------------------------------------------
-subtest 'Function tests', {
-  with $gesturesingle {
-
-
-#`{{
-}}
+    #TM:0:get-current-sequence(), No events yet -> undefined
+    my N-Object $no = .get-current-sequence();
+    ok !$no, '.get-current-sequence()';
   }
 };
 
