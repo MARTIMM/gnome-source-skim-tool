@@ -12,8 +12,8 @@ use Gnome::N::X:api<2>;
 #Gnome::N::debug(:on);
 
 
-constant \Window = Gnome::Gtk4::Window;
-constant \Button = Gnome::Gtk4::Button;
+constant Window = Gnome::Gtk4::Window;
+constant Button = Gnome::Gtk4::Button;
 
 
 my Gnome::Glib::N-MainLoop $main-loop .= new-mainloop( N-Object, True);
@@ -40,7 +40,7 @@ with my Window $window .= new-window {
   .register-signal( $sh, 'stopit', 'close-request');
   .set-title('My new window');
   .set-child($button);
-  .show;
+  .present;
 }
 
 $main-loop.run;

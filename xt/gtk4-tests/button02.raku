@@ -64,7 +64,7 @@ with my Window $window .= new-window {
   .register-signal( $sh, 'stopit', 'close-request');
   .set-title('Hello GTK!');
   .set-child($grid);
-  .show;
+  .present;
 }
 
 #note "Set up time: ", now - $t0;          # 0.27102656
