@@ -11,21 +11,55 @@ use v6.d;
 
 B<Gnome::Gtk4::GestureClick> is a L<Gnome::Gtk4::Gesture|/content-docs/api2/reference/Gtk4/Gesture> implementation for clicks.
 
-It is able to recognize multiple clicks on a nearby zone, which
-can be listened for through the I<pressed>
-signal. Whenever time or distance between clicks exceed the GTK
-defaults, I<stopped> is emitted, and the
-click counter is reset.
+It is able to recognize multiple clicks on a nearby zone, which can be listened for through the I<pressed> signal. Whenever time or distance between clicks exceed the GTK defaults, I<stopped> is emitted, and the click counter is reset.
 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/GestureClick.png> :width<70%> :class<inline>
 
-=begin comment
-
 =head2 Example
-# Example use of module Gnome::Gtk4::GestureClick
 
-=end comment
+Example use of B<Gnome::Gtk4::GestureClick>. The code below shows a helper class to handle the mouse button presses in method C<.press()>. Double click will show a single button first ($nbr-buttons = 1), then 2 buttons  ($nbr-buttons = 2). To process that properly, it is suggested above to also register the I<stopped> event.
+
+Normally only button 1 is set to trigger. To change that for other buttons, L<.set-button() from Gnome::Gtk4::GestureSingle|/content-docs/api2/reference/Gtk4/Gesture> must be used. To set it to 0, it will trigger any button. L<.get-button() from Gnome::Gtk4::GestureSingle|/content-docs/api2/reference/Gtk4/Gesture> will only return what is set by C<.set-button()>.
+
+=begin code
+
+class SH {
+  has Int $!click-count = 0;
+
+  method stopit ( --> gboolean ) { … }
+
+  method stopped ( ) {
+    say "button is pressed $!click-count times";
+    $!click-count = 0;
+  }
+
+  method press (
+    Int $nbr-buttons, Rat() $x, Rat() $y,
+    GestureClick() :_native-object($gc)
+  ) {
+    $!click-count = $nbr-buttons;
+    say "$gc.get-current-button() mouse button is pressed";
+  }
+}
+
+my SH $sh .= new;
+
+with my GestureClick $click-gesture .= new-gestureclick {
+  $click-gesture.set-button(0);
+  .register-signal( $sh, 'press', 'pressed');
+  .register-signal( $sh, 'stopped', 'stopped');
+}
+
+with my Window $window .= new-window {
+  .register-signal( $sh, 'stopit', 'close-request');
+  .add-controller($click-gesture);
+
+  .set-title('My mouse buttons test window');
+  .present;
+}
+
+=end code
 
 =end pod
 
