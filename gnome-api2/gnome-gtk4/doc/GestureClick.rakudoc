@@ -20,7 +20,7 @@ It is able to recognize multiple clicks on a nearby zone, which can be listened 
 
 Example use of B<Gnome::Gtk4::GestureClick>. The code below shows a helper class to handle the mouse button presses in method C<.press()>. Double click will show a single button first ($nbr-buttons = 1), then 2 buttons  ($nbr-buttons = 2). To process that properly, it is suggested above to also register the I<stopped> event.
 
-Normally only button 1 is set to trigger. To change that for other buttons, L<.set-button() from Gnome::Gtk4::GestureSingle|/content-docs/api2/reference/Gtk4/Gesture> must be used. To set it to 0, it will trigger any button. L<.get-button() from Gnome::Gtk4::GestureSingle|/content-docs/api2/reference/Gtk4/Gesture> will only return what is set by C<.set-button()>.
+Normally only button 1 is set to trigger. To change that for other buttons, L<.set-button() from Gnome::Gtk4::GestureSingle|/content-docs/api2/reference/Gtk4/GestureSingle> must be used. To set it to 0, it will trigger any button. L<.get-button() from Gnome::Gtk4::GestureSingle|/content-docs/api2/reference/Gtk4/GestureSingle> will only return what is set by C<.set-button()>.
 
 =begin code
 
