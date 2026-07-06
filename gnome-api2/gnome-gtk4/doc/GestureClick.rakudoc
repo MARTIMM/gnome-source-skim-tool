@@ -84,19 +84,11 @@ Create an object using a native object from an object of the same type found els
 =begin pod
 =head2 new-gestureclick
 
-Returns a newly created L<Gnome::Gtk4::Gesture|/content-docs/api2/reference/Gtk4/Gesture> that recognizes
-single and multiple presses.
+Returns a newly created L<Gnome::Gtk4::Gesture|/content-docs/api2/reference/Gtk4/Gesture> that recognizes single and multiple presses.
 
 =begin code
 method new-gestureclick ( --> Gnome::Gtk4::GestureClick )
 =end code
-
-=begin comment
-
-=head2 Example
-# Example for new-gestureclick
-
-=end comment
 
 =end pod
 
@@ -119,7 +111,6 @@ method handler (
   gdouble $y,
   Int :$_handle_id,
   N-GObject :$_native-object,
-  Gnome::Gtk4::GestureClick :$_widget,
   *%user-options
 )
 =end code
@@ -131,21 +122,10 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::GestureClick> object.
 =item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
-=begin comment
-
-=head2 Example
-# Example for signal pressed
-
-=end comment
-
 =comment -----------------------------------------------------------------------
 =head3 released
 
-Emitted when a button or touch is released.
- C<$n-press> will report the number of press that is paired to
-this event, note that I<stopped> may
-have been emitted between the press and its release, C<$n-press>
-will only start over at the next press.
+Emitted when a button or touch is released.  C<$n-press> will report the number of press that is paired to this event, note that I<stopped> may have been emitted between the press and its release, C<$n-press> will only start over at the next press.
 
 =begin code
 method handler (
@@ -154,7 +134,6 @@ method handler (
   gdouble $y,
   Int :$_handle_id,
   N-GObject :$_native-object,
-  Gnome::Gtk4::GestureClick :$_widget,
   *%user-options
 )
 =end code
@@ -166,13 +145,6 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::GestureClick> object.
 =item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
-=begin comment
-
-=head2 Example
-# Example for signal released
-
-=end comment
-
 =comment -----------------------------------------------------------------------
 =head3 stopped
 
@@ -182,7 +154,6 @@ Emitted whenever any time/distance threshold has been exceeded.
 method handler (
   Int :$_handle_id,
   N-GObject :$_native-object,
-  Gnome::Gtk4::GestureClick :$_widget,
   *%user-options
 )
 =end code
@@ -191,32 +162,19 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::GestureClick> object.
 =item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
-=begin comment
-
-=head2 Example
-# Example for signal stopped
-
-=end comment
-
 =comment -----------------------------------------------------------------------
 =head3 unpaired-release
 
-Emitted whenever the gesture receives a release
-event that had no previous corresponding press.
-
-Due to implicit grabs, this can only happen on situations
-where input is grabbed elsewhere mid-press or the pressed
-widget voluntarily relinquishes its implicit grab.
+Emitted whenever the gesture receives a release event that had no previous corresponding press. Due to implicit grabs, this can only happen on situations where input is grabbed elsewhere mid-press or the pressed widget voluntarily relinquishes its implicit grab.
 
 =begin code
 method handler (
   gdouble $x,
   gdouble $y,
   guint $button,
-   $sequence,
+  N-GObject $sequence,
   Int :$_handle_id,
   N-GObject :$_native-object,
-  Gnome::Gtk4::GestureClick :$_widget,
   *%user-options
 )
 =end code
@@ -224,17 +182,10 @@ method handler (
 =item $x; X coordinate of the event.
 =item $y; Y coordinate of the event.
 =item $button; Button being released.
-=item $sequence; Sequence being released.
+=item $sequence; Sequence being released, a native L<Gnome::Gdk4::N-EventSequence|/content-docs/api2/reference/Gdk4/N-EventSequence>.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::GestureClick> object.
 =item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
-
-=begin comment
-
-=head2 Example
-# Example for signal unpaired-release
-
-=end comment
 
 =end pod
 
