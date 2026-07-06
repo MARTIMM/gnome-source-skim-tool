@@ -31,17 +31,13 @@ my Gnome::Gtk4::GestureClick $gestureclick;
 subtest 'ISA test', {
   given $gestureclick {
 
-#`{{
     #TC:0:new-gestureclick()
 
     $gestureclick .= new-gestureclick();
     ok .is-valid, '.new-gestureclick()';
-
-}}
   }
 };
 
-#-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 # set environment variable 'raku-test-all' if rest must be tested too.
@@ -49,26 +45,6 @@ unless %*ENV<raku_test_all>:exists {
   done-testing;
   exit;
 }
-
-#-------------------------------------------------------------------------------
-subtest 'Method tests', {
-  with $gestureclick {
-
-
-#`{{
-}}
-  }
-};
-
-#-------------------------------------------------------------------------------
-subtest 'Function tests', {
-  with $gestureclick {
-
-
-#`{{
-}}
-  }
-};
 
 #-------------------------------------------------------------------------------
 done-testing;
