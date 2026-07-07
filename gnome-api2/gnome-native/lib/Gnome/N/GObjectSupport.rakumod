@@ -14,19 +14,6 @@ unit role Gnome::N::GObjectSupport:auth<github:MARTIMM>:api<2>;
 
 my Hash $signal-types = {};
 
-#`{{
-#-------------------------------------------------------------------------------
-method _set-native-object ( $n-native-object ) {
-  if ? $n-native-object {
-    # when object is set, create signal object too
-    #$!g-signal .= new(:g-object($n-native-object));
-  }
-
-  # now call the one from TopLevelClassSupport
-  callsame
-}
-}}
-
 #-------------------------------------------------------------------------------
 method native-object-ref ( $n-native-object --> N-Object ) {
   if _g_object_is_floating($n-native-object) {
@@ -92,110 +79,6 @@ method add-signal-types ( Str $module-name, *%signal-descriptions --> Bool ) {
 
 #-------------------------------------------------------------------------------
 #TM:2:register-signal:
-=begin pod
-=head2 register-signal
-
-Register a handler to process a signal or an event. There are several types of callbacks which can be handled by this regstration. They can be controlled by using a named argument with a special name.
-
-  method register-signal (
-    $handler-object, Str:D $handler-name,
-    Str:D $signal-name, *%user-options
-    --> Int
-  )
-
-=item $handler-object; The object wherein the handler is defined.
-=item $handler-name; The name of the method.
-=begin item
-$signal-name; The name of the event to be handled. Each gtk object has its own series of signals.
-=end item
-
-=begin item
-%user-options; Any other user data in whatever type provided as one or more named arguments. These arguments are provided to the user handler when an event for the handler is fired. The names starting with '_' are reserved to provide other info to the user.
-
-The following reserved named arguments are available;
-  =item C<:$_handler-id>; The handler id which is returned from the registration
-  =item C<:$_native-object>; The native object provided by the caller.
-  =begin code
-    method some-button-click-handler (
-      …,
-      Gnome::Gtk3::Button() :_native-object($button)
-    ) {
-      …
-    }
-  =end code
-=end item
-
-The method returns a handler id which can be used for example to disconnect the callback later.
-
-=head3 Callback handlers
-
-=begin item
-Simple handlers; e.g. a click event handler has only named arguments and are optional.
-=end item
-
-=begin item
-Complex handlers (only a bit) also have positional arguments and B<MUST> be typed because they are checked to create a signature for the call to a native subroutine. You can use the raku native types like C<int32> but several types are automatically converted to native types. The types such as gboolean, etc are defined in B<Gnome::N::GlibToRakuTypes>.
-  =begin table
-  Raku type | Native glib type | Native Raku type
-  ===============================================
-  Bool      | gboolean         | int32
-  UInt      | guint            | uint32/uint64
-  Int       | gint             | int32/int64
-  Num       | gfloat           | num32
-  Rat       | gdouble          | num64
-  =end table
-=end item
-
-=begin item
-Some handlers must return a value and is used by the calling process. You B<MUST> describe this too in the andlers API, otherwise the returned value is thrown away.
-=end item
-
-=begin item
-Any user options are provided via named arguments from the call to C<register-signal()>.
-=end item
-
-=head3 Example 1
-
-An example of a registration and the handlers signature to handle a button click event.
-
-  # Handler class with callback methods
-  class ButtonHandlers {
-    method click-button (
-      Gnome::Gtk3::Button() :_native-object($button),
-      Int :$_handler_id, :$my-option ) {
-      …
-    }
-  }
-
-  $button.register-signal(
-    ButtonHandlers.new, 'click-button', 'clicked', :my-option(…)
-  );
-
-
-=head3 Example 2
-
-An example where a keyboard press is handled.
-
-  # Handler class with callback methods
-  class KeyboardHandlers {
-    method keyboard-handler (
-      N-GdkEvent $event,
-      Int :$_handler_id, :$my-option
-      Gnome::Gtk3::Window() :_native-object($bwindow),
-      --> gboolean
-    ) {
-      …
-
-    }
-  }
-
-  $window.register-signal(
-    KeyboardHandlers.new, 'keyboard-handler',
-    'key-press-event', :my-option(…)
-  );
-
-
-=end pod
 
 method register-signal (
   Mu $handler-object, Str:D $handler-name, Str:D $signal-name, *%user-options
@@ -409,7 +292,6 @@ method register-signal (
     # Set the handler for the specified signal
     state %shkeys = %( :&w0, :&w1, :&w2, :&w3, :&w4, :&w5, :&w6);
     my $no = self._get-native-object-no-reffing;
-#note "$?LINE $no.gist()";
     $handler-id = self._convert_g_signal_connect_object(
       $no, $signal-name, $sh, %shkeys{$signal-type}
     );
@@ -443,18 +325,16 @@ method _convert_g_signal_connect_object (
   # then process all parameters of the callback. Skip the first which is the
   # instance which is not needed in the argument list to the handler.
   for $user-handler.signature.params[1..*-1] -> $p {
-#note "$?LINE ", $p.name;
     # Named arguments are skipped. Also skip undefined names.
     next if $p.named;
     next if $p.name ~~ Nil;       # seems to be possible
     next if $p.name eq '%_';      # only at the end I think
 
-    @sub-parameter-list.push(self!convert-type($p.type));
+    @sub-parameter-list.push: self!convert-type($p.type);
   }
 
   # finish with data pointer argument which is ignored
-#  @sub-parameter-list.push(Parameter.new(type => gpointer));
-  @sub-parameter-list.push(self!convert-type(gpointer));
+  @sub-parameter-list.push: self!convert-type(gpointer);
 
   # create signature from user handler, test for return value
   my Signature $sub-signature;
@@ -498,22 +378,17 @@ method _convert_g_signal_connect_object (
   state $ptr = cglobal( gobject-lib(), 'g_signal_connect_object', Pointer);
 
   my Callable $f = nativecast( $signature, $ptr);
-#note "$?LINE F: $f.gist()";
 
   note [~] "Calling: .g_signal_connect_object\(\n",
     "  $instance.gist(),\n",
     "  '$detailed-signal',\n",
     "  $provided-handler.gist(),\n",
     "  Pointer,\n",
-#    "  OpaquePointer,\n",
     "  0\n",
     ');'  if $Gnome::N::x-debug;
 
   # returns the signal id
-
-#note "$?LINE F: $instance.gist(), $detailed-signal, $provided-handler.gist()";
   my $v = $f( $instance, $detailed-signal, $provided-handler, Pointer, 0);
-#note "$?LINE V: $v, ", $v.WHAT;
   $v
 }
 
@@ -525,7 +400,6 @@ method !convert-type ( Mu $type, Bool :$type-only = False --> Any ) {
   my $t = $type.^name;
   $t ~~ s/\(.*?\)//;
 
-#note "$?LINE type: $type-only, ", $type.^name, ", $t";
   given $t {
     when 'Bool' { $converted-type = gboolean; }
     when 'UInt' { $converted-type = guint; }
@@ -537,11 +411,9 @@ method !convert-type ( Mu $type, Bool :$type-only = False --> Any ) {
     when /^ Gnome '::' / { $converted-type = N-Object; }
 
     # Assume that all other class types have a Gnome class parent
- #   default { $converted-type = N-Object; }
     default { $converted-type = $type; }
   }
 
-#note "$?LINE converted type: $t -> ", $converted-type.^name;
   if $type-only {
     $converted-type
   }
@@ -555,16 +427,8 @@ method !convert-type ( Mu $type, Bool :$type-only = False --> Any ) {
 #--[Native subs]----------------------------------------------------------------
 #-------------------------------------------------------------------------------
 #TM:1:_g_object_ref:
-#`{{
-=begin pod
-=head2 [g_] object_ref
-
-Increases the reference count of this object and returns the same object.
-
-  method g_object_ref ( --> N-Object )
-
-=end pod
-}}
+#TM:1:_g_object_ref_sink:
+#TM:1:_g_object_is_floating:
 
 sub _g_object_ref ( N-Object $object --> N-Object )
   is native(&gobject-lib)
@@ -583,26 +447,6 @@ sub _g_object_is_floating ( N-Object $object --> gboolean )
 
 #-------------------------------------------------------------------------------
 #TM:1:_g_object_unref:
-#`{{
-=begin pod
-=head2 [g_] object_unref
-
-Decreases the reference count of the native object. When its reference count drops to 0, the object is finalized (i.e. its memory is freed).
-
-When the object has a floating reference because it is not added to a container or it is not a toplevel window, the reference is first sunk followed by C<g_object_unref()>.
-
-  method g_object_unref ( )
-
-=item N-Object $object; a native I<GObject>.
-
-=end pod
-
-sub g_object_unref ( N-Object $object is copy ) {
-
-  $object = g_object_ref_sink($object) if g_object_is_floating($object);
-  _g_object_unref($object)
-}
-}}
 
 sub _g_object_unref ( N-Object $object )
   is native(&gobject-lib)
