@@ -67,7 +67,7 @@ Complex handlers (only a bit) also have positional arguments and B<MUST> be type
 =end item
 
 =begin item
-Some handlers must return a value and is used by the calling process. You B<MUST> describe this too in the andlers API, otherwise the returned value is thrown away.
+Some handlers must return a value and is used by the calling process. You B<MUST> describe this too in the handlers API, otherwise the returned value is thrown away.
 =end item
 
 =begin item
@@ -93,12 +93,15 @@ $button.register-signal(
 );
 =end code
 
+=comment #TODO example is for Gtk 3 not Gtk 4
+
+=begin comment
 
 =head3 Example 2
 
 An example where a keyboard press is handled.
 
-=begin code
+= begin code
 # Handler class with callback methods
 class KeyboardHandlers {
   method keyboard-handler (
@@ -117,6 +120,46 @@ $window.register-signal(
   'key-press-event', :my-option(…)
 );
 
-=end code
+= end code
+
+=end comment
 
 =end pod
+
+#-------------------------------------------------------------------------------
+#--[Native subs]----------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TM:1:_g_object_ref:
+#`{{
+=begin pod
+=head2 [g_] object_ref
+
+Increases the reference count of this object and returns the same object.
+
+  method g_object_ref ( --> N-Object )
+
+=end pod
+}}
+
+#-------------------------------------------------------------------------------
+#TM:1:_g_object_unref:
+#`{{
+=begin pod
+=head2 [g_] object_unref
+
+Decreases the reference count of the native object. When its reference count drops to 0, the object is finalized (i.e. its memory is freed).
+
+When the object has a floating reference because it is not added to a container or it is not a toplevel window, the reference is first sunk followed by C<g_object_unref()>.
+
+  method g_object_unref ( )
+
+=item N-Object $object; a native I<GObject>.
+
+=end pod
+
+sub g_object_unref ( N-Object $object is copy ) {
+
+  $object = g_object_ref_sink($object) if g_object_is_floating($object);
+  _g_object_unref($object)
+}
+}}
