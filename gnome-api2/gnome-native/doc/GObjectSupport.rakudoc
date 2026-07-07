@@ -1,13 +1,122 @@
 
+use v6.d;
+
 =begin pod
-=TITLE Gnome::N::GnomeRoutineCaller
+
+=TITLE Gnome::N::GObjectSupport
 =head1 Description
 
-This class is a helper class to support methods which do not fit in B<Gnome::GObject::Object>. It mostly deals with signals.
+This class is a helper class to support methods which do not fit in B<Gnome::GObject::Object>. It mostly deals with signals. Most important method used all the time is C<.register-signal()>.
 
-=head1 Methods
-=head2 new(:build-id)
+=head2 register-signal
+
+Register a handler to process a signal or an event. There are several types of callbacks which can be handled by this registration. They can be controlled by using a named argument with a special name.
+
+=begin code
+method register-signal (
+  $handler-object, Str:D $handler-name,
+  Str:D $signal-name, *%user-options
+  --> Int
+)
+=end code
+
+=item $handler-object; The object wherein the handler is defined.
+=item $handler-name; The name of the method.
+=begin item
+$signal-name; The name of the event to be handled. Each gtk object has its own series of signals.
+=end item
+
+=begin item
+%user-options; Any other user data in whatever type provided as one or more named arguments. These arguments are provided to the user handler when an event for the handler is fired. The names starting with '_' are reserved to provide other info to the user.
+
+The following reserved named arguments are available;
+=item2 C<:$_handler-id>; The handler id which is returned from the registration
+=item2 C<:$_native-object>; The native object provided by the caller.
+
+=begin code
+method some-button-click-handler (
+  …,
+  Gnome::Gtk3::Button() :_native-object($button)
+) {
+  …
+}
+=end code
+
+=end item
+
+The method returns a handler id which can be used for example to disconnect the callback later.
+
+=head3 Callback handlers
+
+=begin item
+Simple handlers; e.g. a click event handler has only named arguments and are optional.
+=end item
+
+=begin item
+Complex handlers (only a bit) also have positional arguments and B<MUST> be typed because they are checked to create a signature for the call to a native subroutine. You can use the raku native types like C<int32> but several types are automatically converted to native types. The types such as gboolean, etc are defined in B<Gnome::N::GlibToRakuTypes>.
+
+=begin table
+  Raku type | Native glib type | Native Raku type
+  ===============================================
+  Bool      | gboolean         | int32
+  UInt      | guint            | uint32/uint64
+  Int       | gint             | int32/int64
+  Num       | gfloat           | num32
+  Rat       | gdouble          | num64
+=end table
+=end item
+
+=begin item
+Some handlers must return a value and is used by the calling process. You B<MUST> describe this too in the andlers API, otherwise the returned value is thrown away.
+=end item
+
+=begin item
+Any user options are provided via named arguments from the call to C<register-signal()>.
+=end item
+
+=head3 Example 1
+
+An example of a registration and the handlers signature to handle a button click event.
+
+=begin code
+# Handler class with callback methods
+class ButtonHandlers {
+  method click-button (
+    Gnome::Gtk3::Button() :_native-object($button),
+    Int :$_handler_id, :$my-option ) {
+    …
+  }
+}
+
+$button.register-signal(
+  ButtonHandlers.new, 'click-button', 'clicked', :my-option(…)
+);
+=end code
 
 
+=head3 Example 2
+
+An example where a keyboard press is handled.
+
+=begin code
+# Handler class with callback methods
+class KeyboardHandlers {
+  method keyboard-handler (
+    N-GdkEvent $event,
+    Int :$_handler_id, :$my-option
+    Gnome::Gtk3::Window() :_native-object($bwindow),
+    --> gboolean
+  ) {
+    …
+
+  }
+}
+
+$window.register-signal(
+  KeyboardHandlers.new, 'keyboard-handler',
+  'key-press-event', :my-option(…)
+);
+
+=end code
 
 =end pod
