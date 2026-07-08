@@ -114,28 +114,28 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-object => %( :type(Constructor), :is-symbol<g_object_new>, :returns(gpointer), :variable-list, :parameters([ GType, Str])),
+  #new-object => %( :type(Constructor), :is-symbol<g_object_new>, :returns(gpointer), :variable-list, :parameters([ GType, Str])),
   #new-valist => %( :type(Constructor), :is-symbol<g_object_new_valist>, :returns(N-Object), :parameters([ GType, Str, ])),
-  new-with-properties => %( :type(Constructor), :is-symbol<g_object_new_with_properties>, :returns(N-Object), :parameters([ GType, guint, gchar-pptr, N-Object])),
+  #new-with-properties => %( :type(Constructor), :is-symbol<g_object_new_with_properties>, :returns(N-Object), :parameters([ GType, guint, gchar-pptr, N-Object])),
 
   #--[Methods]------------------------------------------------------------------
-  add-toggle-ref => %(:is-symbol<g_object_add_toggle_ref>,  :parameters([:( gpointer $data, N-Object $object, gboolean $is-last-ref ), gpointer])),
-  add-weak-pointer => %(:is-symbol<g_object_add_weak_pointer>,  :parameters([CArray[gpointer]])),
+  #add-toggle-ref => %(:is-symbol<g_object_add_toggle_ref>,  :parameters([:( gpointer $data, N-Object $object, gboolean $is-last-ref ), gpointer])),
+  #add-weak-pointer => %(:is-symbol<g_object_add_weak_pointer>,  :parameters([CArray[gpointer]])),
   #bind-property => %(:is-symbol<g_object_bind_property>,  :returns(N-Object), :parameters([Str, gpointer, Str, GFlag])),
   #bind-property-full => %(:is-symbol<g_object_bind_property_full>,  :returns(N-Object), :parameters([Str, gpointer, Str, GFlag, :( N-Object $binding, N-Object $from-value, N-Object $to-value, gpointer $user-data --> gboolean ), :( N-Object $binding, N-Object $from-value, N-Object $to-value, gpointer $user-data --> gboolean ), gpointer, ])),
   #bind-property-with-closures => %(:is-symbol<g_object_bind_property_with_closures>,  :returns(N-Object), :parameters([Str, gpointer, Str, GFlag, N-Closure , N-Closure ])),
-  connect => %(:is-symbol<g_object_connect>, :variable-list,  :returns(gpointer), :parameters([Str])),
-  disconnect => %(:is-symbol<g_object_disconnect>, :variable-list,  :parameters([Str])),
+  #connect => %(:is-symbol<g_object_connect>, :variable-list,  :returns(gpointer), :parameters([Str])),
+  #disconnect => %(:is-symbol<g_object_disconnect>, :variable-list,  :parameters([Str])),
   #dup-data => %(:is-symbol<g_object_dup_data>,  :returns(gpointer), :parameters([Str, , gpointer])),
   #dup-qdata => %(:is-symbol<g_object_dup_qdata>,  :returns(gpointer), :parameters([GQuark, , gpointer])),
-  force-floating => %(:is-symbol<g_object_force_floating>, ),
-  freeze-notify => %(:is-symbol<g_object_freeze_notify>, ),
+  #force-floating => %(:is-symbol<g_object_force_floating>, ),
+  #freeze-notify => %(:is-symbol<g_object_freeze_notify>, ),
   get => %(:is-symbol<g_object_get>, :variable-list,  :parameters([Str])),
   get-data => %(:is-symbol<g_object_get_data>,  :returns(gpointer), :parameters([Str])),
   get-property => %(:is-symbol<g_object_get_property>,  :parameters([Str, N-Object])),
   get-qdata => %(:is-symbol<g_object_get_qdata>,  :returns(gpointer), :parameters([GQuark])),
   #get-valist => %(:is-symbol<g_object_get_valist>,  :parameters([Str, ])),
-  getv => %(:is-symbol<g_object_getv>,  :parameters([guint, gchar-pptr, N-Object])),
+  #getv => %(:is-symbol<g_object_getv>,  :parameters([guint, gchar-pptr, N-Object])),
   is-floating => %(:is-symbol<g_object_is_floating>,  :returns(gboolean), :cnv-return(Bool)),
   notify => %(:is-symbol<g_object_notify>,  :parameters([Str])),
   notify-by-pspec => %(:is-symbol<g_object_notify_by_pspec>,  :parameters([N-Object])),
@@ -160,8 +160,8 @@ my Hash $methods = %(
   thaw-notify => %(:is-symbol<g_object_thaw_notify>, ),
   unref => %(:is-symbol<g_object_unref>, ),
   #watch-closure => %(:is-symbol<g_object_watch_closure>,  :parameters([N-Closure ])),
-  weak-ref => %(:is-symbol<g_object_weak_ref>,  :parameters([:( gpointer $data, N-Object $where-the-object-was ), gpointer])),
-  weak-unref => %(:is-symbol<g_object_weak_unref>,  :parameters([:( gpointer $data, N-Object $where-the-object-was ), gpointer])),
+  #weak-ref => %(:is-symbol<g_object_weak_ref>,  :parameters([:( gpointer $data, N-Object $where-the-object-was ), gpointer])),
+  #weak-unref => %(:is-symbol<g_object_weak_unref>,  :parameters([:( gpointer $data, N-Object $where-the-object-was ), gpointer])),
 
   #--[Functions]----------------------------------------------------------------
   compat-control => %( :type(Function), :is-symbol<g_object_compat_control>,  :returns(gsize), :parameters([ gsize, gpointer])),
