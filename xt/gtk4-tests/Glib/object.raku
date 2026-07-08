@@ -2,7 +2,7 @@ use v6.d;
 
 use NativeCall;
 use Test;
-use lib "gnome-api2/gnome-gobject/lib";#, "gnome-api2/gnome-native/lib";
+#use lib "gnome-api2/gnome-gobject/lib";#, "gnome-api2/gnome-native/lib";
 
 use Gnome::GObject::N-Value:api<2>;
 use Gnome::GObject::T-type:api<2>;
