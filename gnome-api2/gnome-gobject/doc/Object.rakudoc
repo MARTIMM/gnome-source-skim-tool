@@ -5,10 +5,10 @@ use v6.d;
 =TITLE Gnome::GObject::Object
 =end pod
 
+
 #-------------------------------------------------------------------------------
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
-
 =begin pod
 
 =head1 Description
@@ -28,6 +28,10 @@ Since GLib 2.72, all GObjects are guaranteed to be aligned to at least the align
 =end comment
 
 =end pod
+
+#`{{
+#NOTE many methods are disabled and doc commented out.
+#NOTE not very interesting to create a standalone object.
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
@@ -65,7 +69,10 @@ Similarly, C<gfloat> is promoted to C<gdouble>, so you must ensure that the valu
 Since GLib 2.72, all GObjects are guaranteed to be aligned to at least the alignment of the largest basic GLib type (typically this is C<guint64> or C<gdouble>). If you need larger alignment for an element in a GObject, you should allocate it on the heap (aligned), or arrange for your GObject to be appropriately padded.
 
 =begin code
-method new-object ( GType $object-type, Str $first-property-name, … --> Gnome::GObject::Object )
+method new-object (
+  GType $object-type, Str $first-property-name, …
+  --> Gnome::GObject::Object
+)
 =end code
 
 =item $object-type; the type id of the GObject subtype to instantiate.
@@ -115,6 +122,7 @@ method new-with-properties ( GType $object-type, UInt() $n-properties, Array[Str
 =item $values; the values of each property to be set.
 
 =end pod
+}}
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
@@ -124,6 +132,7 @@ method new-with-properties ( GType $object-type, UInt() $n-properties, Array[Str
 =head1 Methods
 =end pod
 
+#`{{
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 add-toggle-ref
@@ -170,13 +179,14 @@ method add-weak-pointer ( Array $weak-pointer-location )
  of a pointer..
 
 =end pod
+}}
 
+#`{{
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 bind-property
 
-Creates a binding between C<$source_property> on C<$source> and C<$target_property>
-on C<$target>.
+Creates a binding between C<$source_property> on C<$source> and <$target_property> on C<$target>.
 
 Whenever the C<$source_property> is changed the C<$target_property> is updated using the same value. For instance:
 
@@ -287,7 +297,8 @@ Return value; the GBinding instance representing the
 
 
 =end pod
-
+}}
+#`{{
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 connect
@@ -351,7 +362,8 @@ method disconnect ( Str $signal-spec, … )
  followed by C<Nil>. Note that each argument must be specified as a type followed by its value!
 
 =end pod
-
+}}
+#`{{
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 dup-data
@@ -441,6 +453,7 @@ method freeze-notify ( )
 
 
 =end pod
+}}
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -1225,6 +1238,128 @@ Return value; a
  array should be freed with g_free() when you are done with
  it.. 
 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 register-signal
+
+Note: This method is a convenience method not defined by Gnome in the Object class. The method is defined in L<Gnome::N::GObjectSupport|/content-docs/api2//reference/N/GObjectSupport#register-signal>.
+
+Register a handler to process a signal or an event. There are several types of callbacks which can be handled by this registration. They can be controlled by using a named argument with a special name.
+
+=begin code
+method register-signal (
+  $handler-object, Str:D $handler-name,
+  Str:D $signal-name, *%user-options
+  --> Int
+)
+=end code
+
+=item $handler-object; The object wherein the handler is defined.
+=item $handler-name; The name of the method.
+=begin item
+$signal-name; The name of the event to be handled. Each gtk object has its own series of signals.
+=end item
+
+=begin item
+%user-options; Any other user data in whatever type provided as one or more named arguments. These arguments are provided to the user handler when an event for the handler is fired. The names starting with '_' are reserved to provide other info to the user.
+
+The following reserved named arguments are available;
+=item2 C<:$_handler-id>; The handler id which is returned from the registration
+=item2 C<:$_native-object>; The native object provided by the caller.
+
+=begin code
+method some-button-click-handler (
+  …,
+  Gnome::Gtk3::Button() :_native-object($button)
+) {
+  …
+}
+=end code
+
+=end item
+
+The method returns a handler id which can be used for example to disconnect the callback later.
+
+=head3 Callback handlers
+
+=begin item
+Simple handlers; e.g. a click event handler has only named arguments and are optional.
+=end item
+
+=begin item
+Complex handlers (only a bit) also have positional arguments and B<MUST> be typed because they are checked to create a signature for the call to a native subroutine. You can use the raku native types like C<int32> but several types are automatically converted to native types. The types such as gboolean, etc are defined in B<Gnome::N::GlibToRakuTypes>.
+
+=begin table
+  Raku type | Native glib type | Native Raku type
+  ===============================================
+  Bool      | gboolean         | int32
+  UInt      | guint            | uint32/uint64
+  Int       | gint             | int32/int64
+  Num       | gfloat           | num32
+  Rat       | gdouble          | num64
+=end table
+=end item
+
+=begin item
+Some handlers must return a value and is used by the calling process. You B<MUST> describe this too in the handlers API, otherwise the returned value is thrown away.
+=end item
+
+=begin item
+Any user options are provided via named arguments from the call to C<register-signal()>.
+=end item
+
+=head3 Example 1
+
+An example of a registration and the handlers signature to handle a button click event.
+
+=begin code
+# Handler class with callback methods
+class ButtonHandlers {
+  method click-button (
+    Gnome::Gtk3::Button() :_native-object($button),
+    Int :$_handler_id, :$my-option ) {
+    …
+  }
+}
+
+$button.register-signal(
+  ButtonHandlers.new, 'click-button', 'clicked', :my-option(…)
+);
+=end code
+
+=comment #TODO example is for Gtk 3 not Gtk 4
+
+=begin comment
+
+=head3 Example 2
+
+An example where a keyboard press is handled.
+
+= begin code
+# Handler class with callback methods
+class KeyboardHandlers {
+  method keyboard-handler (
+    N-GdkEvent $event,
+    Int :$_handler_id, :$my-option
+    Gnome::Gtk3::Window() :_native-object($bwindow),
+    --> gboolean
+  ) {
+    …
+
+  }
+}
+
+$window.register-signal(
+  KeyboardHandlers.new, 'keyboard-handler',
+  'key-press-event', :my-option(…)
+);
+
+= end code
+
+=end comment
 
 =end pod
 
