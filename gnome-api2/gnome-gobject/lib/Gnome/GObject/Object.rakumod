@@ -12,7 +12,7 @@ use NativeCall;
 
 #use :api<2>;
 #use Gnome::GObject::N-Closure:api<2>;
-use Gnome::GObject::T-value:api<2>;
+#use Gnome::GObject::T-value:api<2>;
 #use Gnome::GObject::T-Binding:api<2>;
 use Gnome::N::GObjectSupport:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -116,13 +116,13 @@ my Hash $methods = %(
   #--[Constructors]-------------------------------------------------------------
   new-object => %( :type(Constructor), :is-symbol<g_object_new>, :returns(gpointer), :variable-list, :parameters([ GType, Str])),
   #new-valist => %( :type(Constructor), :is-symbol<g_object_new_valist>, :returns(N-Object), :parameters([ GType, Str, ])),
-  new-with-properties => %( :type(Constructor), :is-symbol<g_object_new_with_properties>, :returns(N-Object), :parameters([ GType, guint, gchar-pptr, N-Value])),
+  new-with-properties => %( :type(Constructor), :is-symbol<g_object_new_with_properties>, :returns(N-Object), :parameters([ GType, guint, gchar-pptr, N-Object])),
 
   #--[Methods]------------------------------------------------------------------
   add-toggle-ref => %(:is-symbol<g_object_add_toggle_ref>,  :parameters([:( gpointer $data, N-Object $object, gboolean $is-last-ref ), gpointer])),
   add-weak-pointer => %(:is-symbol<g_object_add_weak_pointer>,  :parameters([CArray[gpointer]])),
   #bind-property => %(:is-symbol<g_object_bind_property>,  :returns(N-Object), :parameters([Str, gpointer, Str, GFlag])),
-  #bind-property-full => %(:is-symbol<g_object_bind_property_full>,  :returns(N-Object), :parameters([Str, gpointer, Str, GFlag, :( N-Object $binding, N-Value $from-value, N-Value $to-value, gpointer $user-data --> gboolean ), :( N-Object $binding, N-Value $from-value, N-Value $to-value, gpointer $user-data --> gboolean ), gpointer, ])),
+  #bind-property-full => %(:is-symbol<g_object_bind_property_full>,  :returns(N-Object), :parameters([Str, gpointer, Str, GFlag, :( N-Object $binding, N-Object $from-value, N-Object $to-value, gpointer $user-data --> gboolean ), :( N-Object $binding, N-Object $from-value, N-Object $to-value, gpointer $user-data --> gboolean ), gpointer, ])),
   #bind-property-with-closures => %(:is-symbol<g_object_bind_property_with_closures>,  :returns(N-Object), :parameters([Str, gpointer, Str, GFlag, N-Closure , N-Closure ])),
   connect => %(:is-symbol<g_object_connect>, :variable-list,  :returns(gpointer), :parameters([Str])),
   disconnect => %(:is-symbol<g_object_disconnect>, :variable-list,  :parameters([Str])),
@@ -132,10 +132,10 @@ my Hash $methods = %(
   freeze-notify => %(:is-symbol<g_object_freeze_notify>, ),
   get => %(:is-symbol<g_object_get>, :variable-list,  :parameters([Str])),
   get-data => %(:is-symbol<g_object_get_data>,  :returns(gpointer), :parameters([Str])),
-  get-property => %(:is-symbol<g_object_get_property>,  :parameters([Str, N-Value])),
+  get-property => %(:is-symbol<g_object_get_property>,  :parameters([Str, N-Object])),
   get-qdata => %(:is-symbol<g_object_get_qdata>,  :returns(gpointer), :parameters([GQuark])),
   #get-valist => %(:is-symbol<g_object_get_valist>,  :parameters([Str, ])),
-  getv => %(:is-symbol<g_object_getv>,  :parameters([guint, gchar-pptr, N-Value])),
+  getv => %(:is-symbol<g_object_getv>,  :parameters([guint, gchar-pptr, N-Object])),
   is-floating => %(:is-symbol<g_object_is_floating>,  :returns(gboolean), :cnv-return(Bool)),
   notify => %(:is-symbol<g_object_notify>,  :parameters([Str])),
   notify-by-pspec => %(:is-symbol<g_object_notify_by_pspec>,  :parameters([N-Object])),
@@ -149,11 +149,11 @@ my Hash $methods = %(
   set => %(:is-symbol<g_object_set>, :variable-list,  :parameters([Str])),
   set-data => %(:is-symbol<g_object_set_data>,  :parameters([Str, gpointer])),
   #set-data-full => %(:is-symbol<g_object_set_data_full>,  :parameters([Str, gpointer, ])),
-  set-property => %(:is-symbol<g_object_set_property>,  :parameters([Str, N-Value])),
+  set-property => %(:is-symbol<g_object_set_property>,  :parameters([Str, N-Object])),
   set-qdata => %(:is-symbol<g_object_set_qdata>,  :parameters([GQuark, gpointer])),
   #set-qdata-full => %(:is-symbol<g_object_set_qdata_full>,  :parameters([GQuark, gpointer, ])),
   #set-valist => %(:is-symbol<g_object_set_valist>,  :parameters([Str, ])),
-  setv => %(:is-symbol<g_object_setv>,  :parameters([guint, gchar-pptr, N-Value])),
+  setv => %(:is-symbol<g_object_setv>,  :parameters([guint, gchar-pptr, N-Object])),
   steal-data => %(:is-symbol<g_object_steal_data>,  :returns(gpointer), :parameters([Str])),
   steal-qdata => %(:is-symbol<g_object_steal_qdata>,  :returns(gpointer), :parameters([GQuark])),
   take-ref => %(:is-symbol<g_object_take_ref>,  :returns(gpointer)),
