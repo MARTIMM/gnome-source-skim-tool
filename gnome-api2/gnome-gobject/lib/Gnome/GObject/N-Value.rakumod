@@ -60,10 +60,8 @@ submethod BUILD ( *%options ) {
       self.init(%options<type>);
     }
 
-    else {
-      # only after creating the native-object, the gtype is known
-      self._set-class-info('GValue');
-    }
+    # only after creating the native-object, the gtype is known
+    self._set-class-info('GValue');
   }
 }
 
