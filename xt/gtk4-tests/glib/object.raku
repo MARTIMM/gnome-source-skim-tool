@@ -4,13 +4,15 @@ use NativeCall;
 use Test;
 use lib "gnome-api2/gnome-gobject/lib", "gnome-api2/gnome-native/lib";
 
-use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::GObject::N-Value:api<2>;
 use Gnome::GObject::T-type:api<2>;
 use Gnome::GObject::T-value:api<2>;
 
 use Gnome::Gtk4::Label:api<2>;
 
+use Gnome::Glib::T-quark:api<2>;
+
+use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::X:api<2>;
 #Gnome::N::debug(:on);
@@ -45,13 +47,15 @@ subtest 'Test properties of Gnome::Gtk4::Label', {
     .get-property( 'lines', $gv1);
     is $gv1.get-int, -1, '.get-property() lines property';
 
-    my $nv1 = CArray[gboolean].new;#(gboolean);
-    my $nv2 = CArray[gboolean].new;#(gboolean);
+#`{{
+    my $nv1 = CArray[gboolean].new;
+    my $nv2 = CArray[gboolean].new;
     .get(
       'wrap', CArray[gboolean], $nv1, Str, 'justify', CArray[gboolean], $nv2
     );
     ok ! $nv1[0], '.get() wrap property';
     ok ! $nv2[0], '.get() justify property';
+}}
   }
 }
 
@@ -60,10 +64,17 @@ subtest 'Test storage of data', {
   with my Gnome::Gtk4::Label $label .= new-label {
     $gv1 .= new(:type(G_TYPE_INT));
     $gv1.set-int(12345);
-    $label.set-data( 'my-data', $gv1);
+    .set-data( 'my-data', $gv1);
 
-    $gv2 = $label.get-data('my-data');
+    $gv2 = .get-data('my-data');
     is $gv2.get-int, 12345, '.set-data() / .get-data() stored N-Value';
+
+    $gv1.set-int(54321);
+    .set-data( 'my-data2', $gv1);
+    my Gnome::Glib::T-quark $tq .= new;
+    my GQuark $q = $tq.from-string('my-data2');
+    $gv2 = .get-qdata($q);
+    is $gv2.get-int, 54321, '.get-qdata() stored N-Value retrieved with quark';
   }
 }
 
