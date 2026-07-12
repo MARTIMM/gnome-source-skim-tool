@@ -31,13 +31,7 @@ Since GLib 2.72, all GObjects are guaranteed to be aligned to at least the align
 
 #`{{
 #NOTE many methods are disabled and doc commented out.
-#NOTE not very interesting to create a standalone object.
-
-#-------------------------------------------------------------------------------
-#--[Class Initialization]-------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-=begin pod
+#NOTE not ver, C<.set()>, et al
 =head1 Class initialization
 
 =head2 new
@@ -438,6 +432,7 @@ method force-floating ( )
 
 
 =end pod
+}}
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -451,9 +446,7 @@ This is necessary for accessors that modify multiple properties to prevent prema
 method freeze-notify ( )
 =end code
 
-
 =end pod
-}}
 
 #`{{
 #-------------------------------------------------------------------------------
@@ -502,7 +495,7 @@ method get ( Str $first-property-name, … )
 =begin pod
 =head2 get-data
 
-Gets a named field from the objects table of associations (see C<.set-data()>).
+Gets a named field from the objects table of associations (see L<.set-data()|#set-data>).
 
 =begin code
 method get-data ( Str $key --> gpointer )
@@ -510,9 +503,7 @@ method get-data ( Str $key --> gpointer )
 
 =item $key; name of the key for that association.
 
-Return value; the data if found,
- or C<Nil> if no such data exists.. 
-
+Return value; the data if found, or C<Nil> if no such data exists.
 
 =end pod
 
@@ -524,14 +515,11 @@ Gets a property of an object.
 
 The C<$value> can be:
 
- - an empty GValue initialized by %G_VALUE_INIT, which will be
- automatically initialized with the expected type of the property
- (since GLib 2.60)
- - a GValue initialized with the expected type of the property
- - a GValue initialized with a type to which the expected type
- of the property can be transformed
+=item an empty GValue, which will be automatically initialized with the expected type of the property (since GLib 2.60)
+=item a GValue initialized with the expected type of the property.
+=item a GValue initialized with a type to which the expected type of the property can be transformed.
 
-In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling g_value_unset().
+In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling L<.unset()|#unset>.
 
 Note that C<.get-property()> is really intended for language bindings, C<.get()> is much more convenient for C programming.
 
@@ -541,6 +529,24 @@ method get-property ( Str $property-name, CArray[N-Value] $value )
 
 =item $property-name; the name of the property to get.
 =item $value; return location for the property value.
+
+=head3 Example
+
+Get the label property of a B<Gnome::Gtk4::Label> object.
+
+=begin code
+with my Gnome::Gtk4::Label $label .= new-label {
+  my Gnome::GObject::N-Value() $property-value .= new(:type(G_TYPE_STRING));
+
+  $property-value.set-string('My label text');
+  .set-property( 'label', $property-value);
+
+  .get-property( 'label', $property-value);
+  say 'Label string is ", $property-value.get-string;
+}
+=end code
+
+Please note that most, if not all, properties of the classes are accessable using the class getters and setters. In the case above, C<.set-text()> and C<.get-text()> methods defined in the B<Gnome::Gtk4::Label> class.
 
 =end pod
 
@@ -987,6 +993,7 @@ method setv ( UInt() $n-properties, Array[Str] $names, CArray[N-Value] $values )
 =end pod
 }}
 
+#`{{
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 steal-data
@@ -1048,9 +1055,10 @@ method steal-qdata ( UInt $quark --> gpointer )
 
 Return value; The user data pointer set, or C<Nil>. 
 
-
 =end pod
+}}
 
+#`{{
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 take-ref
@@ -1076,8 +1084,8 @@ method take-ref (--> gpointer )
 
 Return value;  C<$object>. 
 
-
 =end pod
+}}
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -1097,6 +1105,7 @@ method thaw-notify ( )
 
 =end pod
 
+#`{{
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 unref
@@ -1161,7 +1170,9 @@ method weak-unref ( &notify, gpointer $data )
 =item $data; data to search for.
 
 =end pod
+}}
 
+#`{{
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -1256,6 +1267,7 @@ Return value; a
 
 
 =end pod
+}}
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -1389,7 +1401,8 @@ $window.register-signal(
 =comment -----------------------------------------------------------------------
 =head3 notify
 
-The notify signal is emitted on an object when one of its properties has its value set through C<.set-property()>, C<.set()>, et al.
+The notify signal is emitted on an object when one of its properties has its value set through C<.set-property()>.
+=comment , C<.set()>, et al.
 
 Note that getting this signal doesn’t itself guarantee that the value of the property has actually changed. When it is emitted is determined by the derived GObject class. If the implementor did not create the property with
 %G_PARAM_EXPLICIT_NOTIFY, then any call to C<.set-property()> results in I<notify> being emitted, even if the new value is the same as the old.
