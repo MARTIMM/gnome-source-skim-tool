@@ -561,6 +561,7 @@ Return value; The user data pointer set, or C<Nil>.
 
 =end pod
 
+#`{{
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-valist
@@ -598,7 +599,8 @@ method getv ( UInt() $n-properties, Array[Str] $names, CArray[N-Value] $values )
 =item $values; the values of each property to get.
 
 =end pod
-
+}}
+#`{{
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 is-floating
@@ -612,8 +614,8 @@ method is-floating (--> Bool )
 
 Return value; C<True> if C<$object> has a floating reference. 
 
-
 =end pod
+}}
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -621,8 +623,7 @@ Return value; C<True> if C<$object> has a floating reference.
 
 Emits a "notify" signal for the property C<$property_name> on C<$object>.
 
-When possible, eg. when signaling a property change from within the class that registered the property, you should use C<.notify-by-pspec()>
-instead.
+=comment When possible, eg. when signaling a property change from within the class that registered the property, you should use C<.notify-by-pspec()> instead.
 
 Note that emission of the notify signal may be blocked with C<.freeze-notify()>. In this case, the signal emissions are queued and will be emitted (in reverse order) when C<.thaw-notify()> is called.
 
@@ -634,6 +635,7 @@ method notify ( Str $property-name )
 
 =end pod
 
+#`{{
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 notify-by-pspec
@@ -684,7 +686,8 @@ method notify-by-pspec ( N-Object() $pspec )
 =item $pspec; the GParamSpec of a property installed on the class of C<$object>..
 
 =end pod
-
+}}
+#`{{
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 ref
@@ -756,12 +759,14 @@ method remove-weak-pointer ( Array $weak-pointer-location )
  of a pointer..
 
 =end pod
+}}
 
+#`{{
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 replace-data
 
-Compares the user data for the key C<$key> on C<$object> with C<$oldval>, and if they are the same, replaces C<$oldval> with C<$newval>.
+Compares the user data for the key C<$key> on this object with C<$oldval>, and if they are the same, replaces C<$oldval> with C<$newval>.
 
 This is like a typical atomic compare-and-exchange operation, for user data on an object.
 
@@ -812,7 +817,9 @@ Return value; C<True> if the existing value for C<$quark> was replaced
 
 
 =end pod
+}}
 
+#`{{
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 run-dispose
@@ -825,9 +832,10 @@ This function should only be called from object system implementations.
 method run-dispose ( )
 =end code
 
-
 =end pod
+}}
 
+#`{{
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set
@@ -848,6 +856,7 @@ method set ( Str $first-property-name, … )
  name/value pairs, followed by C<Nil>. Note that each argument must be specified as a type followed by its value!
 
 =end pod
+}}
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -870,6 +879,7 @@ method set-data ( Str $key, gpointer $data )
 
 =end pod
 
+#`{{
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-data-full
@@ -887,6 +897,7 @@ method set-data-full ( Str $key, gpointer $data, … )
 =item destroy; function to call when the association is destroyed. Note that each argument must be specified as a type followed by its value!
 
 =end pod
+}}
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -922,6 +933,7 @@ method set-qdata ( UInt $quark, gpointer $data )
 
 =end pod
 
+#`{{
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-qdata-full
@@ -973,6 +985,7 @@ method setv ( UInt() $n-properties, Array[Str] $names, CArray[N-Value] $values )
 =item $values; the values of each property to be set.
 
 =end pod
+}}
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -999,8 +1012,8 @@ Return value; the data if found, or C<Nil>
 
 This function gets back user data pointers stored via C<.set-qdata()> and removes the C<$data> from object without invoking its destroy() function (if any was set).
 Usually, calling this function is only required to update user data pointers with a destroy notifier, for example:
-=begin comment
 
+=begin comment
 void object_add_to_user_list (GObject *object,
  const gchar *new_string)
 {
