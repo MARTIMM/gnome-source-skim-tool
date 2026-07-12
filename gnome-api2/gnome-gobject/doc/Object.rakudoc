@@ -554,7 +554,7 @@ Please note that most, if not all, properties of the classes are accessable usin
 =begin pod
 =head2 get-qdata
 
-This function gets back user data pointers stored via C<.set-qdata()>.
+This function gets back user data pointers stored via L<.set-qdata()|#set-qdata>.
 
 =begin code
 method get-qdata ( UInt $quark --> gpointer )
@@ -627,7 +627,7 @@ Return value; C<True> if C<$object> has a floating reference.
 =begin pod
 =head2 notify
 
-Emits a "notify" signal for the property C<$property_name> on C<$object>.
+Emits a "notify" signal for the property C<$property_name> in this object.
 
 =comment When possible, eg. when signaling a property change from within the class that registered the property, you should use C<.notify-by-pspec()> instead.
 
@@ -870,11 +870,9 @@ method set ( Str $first-property-name, … )
 
 Each object carries around a table of associations from strings to pointers. This function lets you set an association.
 
-If the object already had an association with that name,
-the old association will be destroyed.
+If the object already had an association with that name, the old association will be destroyed.
 
-Internally, the C<$key> is converted to a GQuark using g_quark_from_string().
-This means a copy of C<$key> is kept permanently (even after C<$object> has been finalized) — so it is recommended to only use a small, bounded set of values for C<$key> in your program, to avoid the GQuark storage growing unbounded.
+Internally, the C<$key> is converted to a GQuark using L<.from-string() in Gnome::Glib::T-quark|content-docs/api2/reference/Glib/T-quark#from-string>.This means a copy of C<$key> is kept permanently (even after this native object has been deleted) — so it is recommended to only use a small, bounded set of values for C<$key> in your program, to avoid the GQuark storage growing unbounded.
 
 =begin code
 method set-data ( Str $key, gpointer $data )
@@ -882,6 +880,36 @@ method set-data ( Str $key, gpointer $data )
 
 =item $key; name of the key.
 =item $data; data to associate with that key.
+
+=head3 Example
+
+A label object is used to store extra data in the form of an N-Value structure. The example shows the use of C<.set-data()>, L<.get-data()|#get-data>. Also the methods L<.set-qdata()|#set-qdata>, L<.get-qdata()|#get-qdata> are shown.
+
+=begin code
+with my Gnome::Gtk4::Label $label .= new-label {
+  my Gnome::GObject::N-Value() $extra-data .= new(:type(G_TYPE_INT));
+
+  # Store
+  $extra-data.set-int(12345);
+  .set-data( 'my-data', $extra-data);
+
+  # Retrieve
+  $extra-data = .get-data('my-data');
+  say "The stored integer is ", $extra-data.get-int;
+
+  # Same using a quark
+  my Gnome::Glib::T-quark $tq .= new;
+  my GQuark $q = $tq.from-string('my-data2');
+
+  # Store
+  $extra-data.set-int(54321);
+  .set-qdata( $q, $extra-data);
+
+  # Retrieve
+  $extra-data = .get-qdata($q);
+  say "$extra-data.get-int, 54321, '.set-qdata() / .get-qdata() stored N-Value with quark';
+}
+=end code
 
 =end pod
 
@@ -924,11 +952,9 @@ method set-property ( Str $property-name, CArray[N-Value] $value )
 =begin pod
 =head2 set-qdata
 
-This sets an opaque, named pointer on an object.
-The name is specified through a GQuark (retrieved e.g. via g_quark_from_static_string()), and the pointer can be gotten back from the C<$object> with C<.get-qdata()>
-until the C<$object> is finalized.
-Setting a previously set user data pointer, overrides (frees)
-the old pointer set, using C<NULL> as pointer essentially removes the data stored.
+This sets an opaque, named pointer on an object. The name is specified through a GQuark (retrieved e.g. via .from-string()), and the pointer can be gotten back from the C<$object> with C<.get-qdata()> until the object is finalized.
+
+Setting a previously set user data pointer, overrides (frees) the old pointer set, using C<NULL> as pointer essentially removes the data stored.
 
 =begin code
 method set-qdata ( UInt $quark, gpointer $data )
@@ -1091,8 +1117,7 @@ Return value;  C<$object>.
 =begin pod
 =head2 thaw-notify
 
-Reverts the effect of a previous call to C<.freeze-notify()>. The freeze count is decreased on C<$object>
-and when it reaches zero, queued "notify" signals are emitted.
+Reverts the effect of a previous call to C<.freeze-notify()>. The freeze count is decreased on C<$object> and when it reaches zero, queued "notify" signals are emitted.
 
 Duplicate notifications for each property are squashed so that at most one I<notify> signal is emitted for each property, in the reverse order in which they have been queued.
 
@@ -1422,18 +1447,16 @@ It is important to note that you must use canonical parameter names as detail st
 
 =begin code
 method handler (
-   $pspec,
+  N-Object $pspec,
   Int :$_handle_id,
   Gnome::GObject::Object() :$_native-object,
-  Gnome::GObject::Object :$_widget,
   *%user-options
 )
 =end code
 
-=item $pspec; the GParamSpec of the property which changed..
+=item $pspec; the GParamSpec of the property which changed.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =end pod
