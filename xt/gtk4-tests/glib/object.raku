@@ -6,7 +6,7 @@ use lib "gnome-api2/gnome-gobject/lib", "gnome-api2/gnome-native/lib";
 
 use Gnome::GObject::N-Value:api<2>;
 use Gnome::GObject::T-type:api<2>;
-use Gnome::GObject::T-value:api<2>;
+#use Gnome::GObject::T-value:api<2>;
 
 use Gnome::Gtk4::Label:api<2>;
 
@@ -24,8 +24,8 @@ use Gnome::N::X:api<2>;
 my Gnome::GObject::N-Value() $gv1;
 my Gnome::GObject::N-Value() $gv2;
 
-my N-Value() $ngv1;
-my N-Value() $ngv2;
+#my N-Value() $ngv1;
+#my N-Value() $ngv2;
 
 #-------------------------------------------------------------------------------
 subtest 'Test properties of Gnome::Gtk4::Label', {
@@ -75,7 +75,6 @@ subtest 'Test storage of data', {
     .set-qdata( $q, $gv1);
     $gv2 = .get-qdata($q);
     is $gv2.get-int, 54321, '.set-qdata() / .get-qdata() stored N-Value with quark';
-
   }
 }
 
