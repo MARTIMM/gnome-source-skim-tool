@@ -44,14 +44,26 @@ submethod BUILD ( *%options ) {
   # Initialize helper
   $!routine-caller .= new(:library(gobject-lib()));
 
-  # Prevent creating wrong widgets
-  if self.^name eq 'Gnome::GObject::Value' {
-    # If already initialized using ':$native-object', ':$build-id', or
-    # any '.new*()' constructor, the object is valid.
-    note "Native object not defined, .is-valid() will return False" if $Gnome::N::x-debug and !self.is-valid;
+  # Prevent creating wrong objects
+  if self.^name eq 'Gnome::GObject::N-Value' {
+    if self.is-valid {
+      # If already initialized using ':$native-object', or
+      # any '.new*()' constructor, the object is valid.
+      note "Native object defined" if $Gnome::N::x-debug;
+    }
 
-    # only after creating the native-object, the gtype is known
-    self._set-class-info('GValue');
+    # Added to make initialization simpler
+    elsif %options<type>:exists {
+      # All native objects are stored as an N-Object.
+      self._set-native-object(nativecast( N-Object, N-Value.new));
+      self.unset;
+      self.init(%options<type>);
+    }
+
+    else {
+      # only after creating the native-object, the gtype is known
+      self._set-class-info('GValue');
+    }
   }
 }
 
