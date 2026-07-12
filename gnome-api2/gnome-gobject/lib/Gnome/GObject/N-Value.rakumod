@@ -67,9 +67,14 @@ submethod BUILD ( *%options ) {
   }
 }
 
-method COERCE ( N-Value $no --> Gnome::GObject::N-Value ) {
+multi method COERCE ( N-Value $no --> Gnome::GObject::N-Value ) {
   note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
   self.new(:native-object($no));
+}
+
+multi method COERCE ( gpointer $no --> Gnome::GObject::N-Value ) {
+  note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
+  self.new(:native-object(nativecast( N-Object, $no)));
 }
 
 # Next two methods need checks for proper referencing or cleanup 
