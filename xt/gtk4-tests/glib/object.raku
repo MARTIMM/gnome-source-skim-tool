@@ -56,6 +56,18 @@ subtest 'Test properties of Gnome::Gtk4::Label', {
 }
 
 #-------------------------------------------------------------------------------
+subtest 'Test storage of data', {
+  with my Gnome::Gtk4::Label $label .= new-label {
+    $gv1 .= new(:type(G_TYPE_INT));
+    $gv1.set-int(12345);
+    $label.set-data( 'my-data', $gv1);
+
+    $gv2 = $label.get-data('my-data');
+    is $gv2.get-int, 12345, '.set-data() / .get-data() stored N-Value';
+  }
+}
+
+#-------------------------------------------------------------------------------
 done-testing;
 
 =finish
