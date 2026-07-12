@@ -69,14 +69,24 @@ subtest 'Test storage of data', {
     $gv2 = .get-data('my-data');
     is $gv2.get-int, 12345, '.set-data() / .get-data() stored N-Value';
 
-    $gv1.set-int(54321);
-    .set-data( 'my-data2', $gv1);
     my Gnome::Glib::T-quark $tq .= new;
     my GQuark $q = $tq.from-string('my-data2');
+    $gv1.set-int(54321);
+    .set-qdata( $q, $gv1);
     $gv2 = .get-qdata($q);
-    is $gv2.get-int, 54321, '.get-qdata() stored N-Value retrieved with quark';
+    is $gv2.get-int, 54321, '.set-qdata() / .get-qdata() stored N-Value with quark';
+
   }
 }
+
+#`{{
+#-------------------------------------------------------------------------------
+subtest 'Test referencing', {
+  with my Gnome::Gtk4::Label $label .= new-label {
+    note "$?LINE ", .is-floating, ' .is-floating() label is floating';
+  }
+}
+}}
 
 #-------------------------------------------------------------------------------
 done-testing;
