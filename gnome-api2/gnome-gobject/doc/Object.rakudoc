@@ -455,6 +455,7 @@ method freeze-notify ( )
 =end pod
 }}
 
+#`{{
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get
@@ -464,25 +465,26 @@ Gets properties of an object.
 In general, a copy is made of the property contents and the caller is responsible for freeing the memory in the appropriate manner for the type, for instance by calling g_free() or C<.unref()>.
 
 Here is an example of using C<.get()> to get the contents of three properties: an integer, a string and an object:
-=begin comment
 
- gint intval;
- guint64 uint64val;
- gchar *strval;
- GObject *objval;
+=begin code
+use NativeCall;
 
- g_object_get (my_object,
- "int-property", &intval,
- "uint64-property", &uint64val,
- "str-property", &strval,
- "obj-property", &objval,
- NULL);
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::Gtk4::Label:api<2>;
 
- // Do something with intval, uint64val, strval, objval
 
- g_free (strval);
- g_object_unref (objval);
-=end comment
+with my Gnome::Gtk4::Label $label .= new-label {
+  .set-text('abc def');
+
+  my $nv1 = CArray[gboolean].new;
+  my $nv2 = CArray[gboolean].new;
+  .get(
+    'wrap', CArray[gboolean], $nv1, Str, 'justify', CArray[gboolean], $nv2
+  );
+  ok ! $nv1[0], '.get() wrap property';
+  ok ! $nv2[0], '.get() justify property';
+
+=end code
 
 
 =begin code
@@ -494,6 +496,7 @@ method get ( Str $first-property-name, … )
  name/return location pairs, followed by C<Nil>. Note that each argument must be specified as a type followed by its value!
 
 =end pod
+}}
 
 #-------------------------------------------------------------------------------
 =begin pod
