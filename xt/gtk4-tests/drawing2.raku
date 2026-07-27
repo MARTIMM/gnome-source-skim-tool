@@ -14,9 +14,10 @@ use Gnome::Gdk4::Texture:api<2>;
 use Gnome::Gdk4::T-rgba:api<2>;
 
 use Gnome::Gtk4::Snapshot:api<2>;
-use Gnome::Gtk4::Image:api<2>;
+#use Gnome::Gtk4::Image:api<2>;
 use Gnome::Gtk4::Window:api<2>;
 use Gnome::Gtk4::Frame:api<2>;
+use Gnome::Gtk4::Picture:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -88,10 +89,12 @@ $rect-pic.init( 0, 0, $width, $height);
 constant xc = 100.0;
 constant yc = 100.0;
 constant radius = 100.0;
-constant angle1 = 45.0  * (pi/180.0);   # angles are specified
-constant angle2 = 180.0 * (pi/180.0);   # in radians
+constant angle1 = 10.0  * (pi/180.0);   # angles are specified
+constant angle2 = 280.0 * (pi/180.0);   # in radians
 
-my Cairo::cairo_t $arc-pic = nativecast(Cairo::cairo_t,$snapshot.append-cairo($rect-pic));
+my Cairo::cairo_t $arc-pic = nativecast(
+  Cairo::cairo_t,$snapshot.append-cairo($rect-pic)
+);
 
 with Cairo::Context.new($arc-pic) {
   .line_width = 10.0;
@@ -116,23 +119,25 @@ with Cairo::Context.new($arc-pic) {
 # Now we are finished drawing and create a texture to be able to set an image. A
 # texture has the paintable role.
 my N-Size() $n-size .= new( :$width, :$height);
-my Gnome::Gdk4::Texture() $texture = $snapshot.to-paintable($n-size);
-with my Gnome::Gtk4::Image $image .= new-from-paintable($texture) {
-  .set-size-request( $width, $height);
+my Gnome::Gdk4::Texture() $paint = $snapshot.free-to-paintable($n-size);
+
+with my Gnome::Gtk4::Picture $pic .= new-picture {
+#  .set-size-request( $width, $height);
+  .set-paintable($paint);
 }
 
-with my Gnome::Gtk4::Frame $grid .= new-frame('My Drawing') {
+with my Gnome::Gtk4::Frame $frame .= new-frame('My Drawing') {
   .set-margin-start(50);
   .set-margin-end(50);
   .set-margin-top(50);
   .set-margin-bottom(50);
-  .set-child($image);
+  .set-child($pic);
 }
 
 with my Window $window .= new-window {
   .register-signal( SH.new, 'stopit', 'close-request');
   .set-title('My new window');
-  .set-child($grid);
+  .set-child($frame);
   .set-size-request( 200, 200);
 
   .present;

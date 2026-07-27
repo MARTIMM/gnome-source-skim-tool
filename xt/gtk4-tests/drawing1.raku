@@ -9,9 +9,10 @@ use Gnome::Graphene::T-point:api<2>;
 use Gnome::Glib::N-MainLoop:api<2>;
 
 use Gnome::Gdk4::T-rgba:api<2>;
+use Gnome::Gdk4::Texture:api<2>;
 
 use Gnome::Gtk4::Snapshot:api<2>;
-use Gnome::Gtk4::Image:api<2>;
+use Gnome::Gtk4::Picture:api<2>;
 use Gnome::Gtk4::Window:api<2>;
 use Gnome::Gtk4::Frame:api<2>;
 
@@ -33,25 +34,25 @@ class DrawingColors {
     $!height = 200;
     $!w = $!width/2;
     $!h = $!height/2;
+note "$?LINE $!width, $!height, $!w, $!h";
 
     #---------------------------------------------------------------------------
-    my Gnome::Gtk4::Image $image .= new-image;
-    $image.set-size-request( $!width, $!height);
-  
+    my Gnome::Gtk4::Picture $pic = self.set-image;
+
     with my Gnome::Gtk4::Frame $frame .= new-frame('My Drawing') {
       .set-margin-start(50);
       .set-margin-end(50);
       .set-margin-top(50);
       .set-margin-bottom(50);
-      .set-child($image);
+      #.set-size-request( $!width, $!height);
+
+      .set-child($pic);
     }
 
     with my Gnome::Gtk4::Window $window .= new-window {
       .register-signal( self, 'stopit', 'close-request');
       .set-title('My new window');
       .set-child($frame);
-
-      self.set-image($image);
 
       .present;
     }
@@ -69,26 +70,38 @@ class DrawingColors {
   }
 
   #-----------------------------------------------------------------------------
-  method set-image ( Gnome::Gtk4::Image $image ) {
+  method set-image ( --> Gnome::Gtk4::Picture ) {
+    my Gnome::Gtk4::Picture $pic .= new-picture;
+#    $pic.set-size-request( $!width, $!height);
 
     my Gnome::Gtk4::Snapshot $snapshot .= new-snapshot;
-    self.add-col-rect( $snapshot, 0,   0,   $!w, $!h, 1, 0, 1, 0.9);
-    self.add-col-rect( $snapshot, $!w, 0,   $!w, $!h, 0, 1, 0, 0.8);
-    self.add-col-rect( $snapshot, 0,   $!h, $!w, $!h, 0, 0, 1, 1);
-    self.add-col-rect( $snapshot, $!w, $!h, $!w, $!h, 1, 1, 0, 1);
+    self.add-col-rect( $snapshot, 0,   0,   1, 0, 1, 0.9);
+    self.add-col-rect( $snapshot, $!w, 0,   0, 1, 0, 0.8);
+    self.add-col-rect( $snapshot, 0,   $!h, 0, 0, 1, 1);
+    self.add-col-rect( $snapshot, $!w, $!h, 1, 1, 0, 1);
 
-    $image.set-from-paintable($snapshot.free-to-paintable(N-Size));
+    my N-Size $size .= new( :$!width, :$!height);
+note "$?LINE size: $size.gist()";
+    my Gnome::Gdk4::Texture() $paint .= new(
+      :native-object($snapshot.free-to-paintable($size))
+    );
+note "$?LINE height: $paint.get-intrinsic-height()";
+
+#    $pic.set-from-paintable($paint);
+    $pic.set-paintable($paint);
+
+    $pic
   }
 
   #-----------------------------------------------------------------------------
   method add-col-rect(
     Gnome::Gtk4::Snapshot $snapshot,
-    Num() $x, Num() $y, Num() $w, Num() $h,
+    Num() $x, Num() $y,
     Num() $red, Num() $green, Num() $blue, Num() $alpha
   ) {
     my N-Rect() $r .= new(
       :origin(N-Point.new( :$x, :$y)),
-      :size( N-Size.new( :width($w), :height($h))),
+      :size( N-Size.new( :width($!w), :height($!h))),
     );
 
     my N-RGBA $c .= new( :$red, :$green, :$blue, :$alpha);
