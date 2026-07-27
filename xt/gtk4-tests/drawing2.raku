@@ -126,7 +126,7 @@ with my Gnome::Gtk4::Picture $pic .= new-picture {
   .set-paintable($paint);
 }
 
-with my Gnome::Gtk4::Frame $frame .= new-frame('My Drawing') {
+with my Gnome::Gtk4::Frame $frame .= new-frame('Snapshot Cairo') {
   .set-margin-start(50);
   .set-margin-end(50);
   .set-margin-top(50);
@@ -136,7 +136,7 @@ with my Gnome::Gtk4::Frame $frame .= new-frame('My Drawing') {
 
 with my Window $window .= new-window {
   .register-signal( SH.new, 'stopit', 'close-request');
-  .set-title('My new window');
+  .set-title('Drawing example');
   .set-child($frame);
   .set-size-request( 200, 200);
 

@@ -39,7 +39,7 @@ note "$?LINE $!width, $!height, $!w, $!h";
     #---------------------------------------------------------------------------
     my Gnome::Gtk4::Picture $pic = self.set-image;
 
-    with my Gnome::Gtk4::Frame $frame .= new-frame('My Drawing') {
+    with my Gnome::Gtk4::Frame $frame .= new-frame('Snapshot rectangles') {
       .set-margin-start(50);
       .set-margin-end(50);
       .set-margin-top(50);
@@ -51,7 +51,7 @@ note "$?LINE $!width, $!height, $!w, $!h";
 
     with my Gnome::Gtk4::Window $window .= new-window {
       .register-signal( self, 'stopit', 'close-request');
-      .set-title('My new window');
+      .set-title('Drawing example');
       .set-child($frame);
 
       .present;
