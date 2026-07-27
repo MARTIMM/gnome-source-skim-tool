@@ -164,10 +164,10 @@ my Hash $methods = %(
   #weak-unref => %(:is-symbol<g_object_weak_unref>,  :parameters([:( gpointer $data, N-Object $where-the-object-was ), gpointer])),
 
   #--[Functions]----------------------------------------------------------------
-  compat-control => %( :type(Function), :is-symbol<g_object_compat_control>,  :returns(gsize), :parameters([ gsize, gpointer])),
-  interface-find-property => %( :type(Function), :is-symbol<g_object_interface_find_property>,  :returns(N-Object), :parameters([ gpointer, Str])),
-  interface-install-property => %( :type(Function), :is-symbol<g_object_interface_install_property>,  :parameters([ gpointer, N-Object])),
-  interface-list-properties => %( :type(Function), :is-symbol<g_object_interface_list_properties>,  :returns(CArray[N-Object]), :parameters([ gpointer, gint-ptr])),
+  #compat-control => %( :type(Function), :is-symbol<g_object_compat_control>,  :returns(gsize), :parameters([ gsize, gpointer])),
+  #interface-find-property => %( :type(Function), :is-symbol<g_object_interface_find_property>,  :returns(N-Object), :parameters([ gpointer, Str])),
+  #interface-install-property => %( :type(Function), :is-symbol<g_object_interface_install_property>,  :parameters([ gpointer, N-Object])),
+  #interface-list-properties => %( :type(Function), :is-symbol<g_object_interface_list_properties>,  :returns(CArray[N-Object]), :parameters([ gpointer, gint-ptr])),
 );
 
 #-------------------------------------------------------------------------------
