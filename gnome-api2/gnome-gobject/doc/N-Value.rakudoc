@@ -2,7 +2,7 @@
 use v6.d;
 
 =begin pod
-=head1 Gnome::GObject::Value
+=TITLE Gnome::GObject::N-Value
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -11,20 +11,14 @@ use v6.d;
 
 =begin pod
 
-![](images/value.png)
-
 =head1 Description
 
-An opaque structure used to hold different types of values.
+The native object is an opaque structure used to hold different types of values.
 
-The data within the structure has protected scope: it is accessible only
-to functions within a B<Gnome::GObject::N-TypeValueTable> structure, or implementations of
-the g_value_*() API. That is, code portions which implement new fundamental
-types.
+The data within the structure has protected scope: it is accessible only to functions within a special structure, or implementations of the C<N-Value> API. That is, code portions which implement new fundamental types.
 
-B<Gnome::GObject::N-Value> users cannot make any assumptions about how data is stored
-within the 2 element C<$data> union, and the C<$g_type> member should
-only be accessed through the G_VALUE_TYPE() macro.
+B<Gnome::GObject::N-Value> users cannot make any assumptions about how data is stored within the 2 members of the structure and should only be accessed through the G_VALUE_TYPE() macro.
+
 =begin comment
 =head2 Example
   … text …
@@ -32,25 +26,6 @@ only be accessed through the G_VALUE_TYPE() macro.
 =end comment
 
 =end pod
-
-#-------------------------------------------------------------------------------
-#--[Record Structure Documentation]---------------------------------------------
-#-------------------------------------------------------------------------------
-
-=begin pod
-=head1 Record N-Value
-
-  class N-Value:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-    has GType $.g-type;
-    has gchar-pptr $.data;
-  }
-
-=item g-type; 
-=item data; 
-
-=end pod
-
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
