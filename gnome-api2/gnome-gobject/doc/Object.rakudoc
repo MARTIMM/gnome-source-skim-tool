@@ -3,6 +3,7 @@ use v6.d;
 
 =begin pod
 =TITLE Gnome::GObject::Object
+=comment SUBTITLE Gnome Object System
 =end pod
 
 
@@ -1344,17 +1345,17 @@ Simple handlers; e.g. a click event handler has only named arguments and are opt
 
 =begin item
 Complex handlers (only a bit) also have positional arguments and B<MUST> be typed because they are checked to create a signature for the call to a native subroutine. You can use the raku native types like C<int32> but several types are automatically converted to native types. The types such as gboolean, etc are defined in B<Gnome::N::GlibToRakuTypes>.
+=end item
 
-=begin table
+=begin table :!toc :caption('')
   Raku type | Native glib type | Native Raku type
-  ===============================================
+  ==========|==================|=================
   Bool      | gboolean         | int32
   UInt      | guint            | uint32/uint64
   Int       | gint             | int32/int64
   Num       | gfloat           | num32
   Rat       | gdouble          | num64
 =end table
-=end item
 
 =begin item
 Some handlers must return a value and is used by the calling process. You B<MUST> describe this too in the handlers API, otherwise the returned value is thrown away.
