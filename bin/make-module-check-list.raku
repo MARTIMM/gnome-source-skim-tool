@@ -17,6 +17,7 @@ use Gnome::SourceSkimTool::ConstEnumType;
 
 use Gnome::Versions;
 
+my Bool $*revisit-docs;
 #-------------------------------------------------------------------------------
 multi sub MAIN ( ) {
 
@@ -139,10 +140,11 @@ multi sub MAIN ( SkimSource $gnome-package!, Str $module = '' ) {
       }
 
       else {
-        $doc ~= set-module-info( $obj-data, $md-file);
-        $doc ~= set-routine-info( $obj-data, $obj-name);
+        $*revisit-docs = False;
+        my Str $doc-ri = set-routine-info( $obj-data, $obj-name);
+        my Str $doc-mi = set-module-info( $obj-data, $md-file);
 
-        $doc ~= set-legend;
+        $doc ~= [~] $doc-mi, $doc-ri, set-legend;
 
         note "save $md-file";
         $md-file.IO.spurt($doc);
@@ -230,7 +232,7 @@ sub set-module-info ( Hash $obj-data, Str $md-file is copy --> Str ) {
   $md-file ~~ s/ \. md $//;
 
   my Str $doc = Q:qq:to/EOINFO/;
-    # Module Checklist
+    # $obj-data<class-name> Checklist
 
     Checklist for module $obj-data<class-name> to show the progress of deveopment or whether it is deprecated. Most of the modules are generated but documentation needs to be checked for typos and mistakes. Also examples may be added. Not much will be done for deprecated modules. You might be interested in the [GnomeTools distribution](/content-docs/GnomeTools/index.html) where some of the deprecated modules are rewritten.
 
@@ -242,15 +244,17 @@ sub set-module-info ( Hash $obj-data, Str $md-file is copy --> Str ) {
     |-|-|-|-|
     EOINFO
 
+#`{{
   $doc ~= "|Module generated|"
         ~ ($checks<modules-generated>
             ?? md-image('checklist-ok')
             !! md-image('checklist-implement')
           ) ~ "|$md-file.rakumod\n";
+}}
   $doc ~= "|Documentation corrected|"
-        ~ ($checks<handcorrected-docs>
-            ?? md-image('checklist-ok')
-            !! md-image('checklist-implement')
+        ~ ($*revisit-docs
+            ?? md-image('checklist-implement')
+            !! md-image('checklist-ok')
           ) ~ "|$md-file.rakudoc\n";
   $doc ~= "|Tests completed|"
         ~ (?$checks<nbr-tests>
@@ -351,6 +355,9 @@ sub make-table-entry ( Str $rname, Hash $rdata --> Str ) {
   else {
     $doc ~= $rdata<generated>
           ?? md-image('checklist-ok') !! md-image('checklist-implement');
+
+    # Flag to reset 'Documentation corrected';
+    $*revisit-docs = True unless $rdata<generated>;
   }
 
   $doc ~= $rdata<missing-type>:exists ?? md-image('checklist-missing') !! '';
