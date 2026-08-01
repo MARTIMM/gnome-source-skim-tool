@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::AboutDialog
 =head1 Description
 
@@ -17,6 +17,8 @@ The shown information includes the programs' logo, name, copyright, website and 
 An about dialog is typically opened when the user selects the B<About> option from the B<Help> menu. All parts of the dialog are optional.
 
 =for image :src<asset_files/images/aboutdialog.png> :width<30%> :class<inline>
+
+=place file://asset_files/images/aboutdialog.png
 
 About dialogs often contain links and email addresses. <Gnome::Gtk4::AboutDialog> displays these as clickable links. By default, it calls L<.launch() in class FileLauncher|/content-docs/api2/reference/Gtk4/FileLauncher#launch> when a user clicks one. The behaviour can be overridden with the I<activate-link> signal.
 
@@ -56,13 +58,14 @@ B<Gnome::Gtk4::AboutDialog> has a single CSS node with the name B<window> and st
 # Example use of module Gnome::Gtk4::AboutDialog
 =end comment
 
-=end pod
+=end rakudoc
+=finish
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -73,10 +76,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-aboutdialog
 
 Creates a new B<Gnome::Gtk4::AboutDialog>.
@@ -92,18 +95,18 @@ method new-aboutdialog ( --> Gnome::Gtk4::AboutDialog )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-credit-section
 
 Creates a new section in the "Credits" page.
@@ -122,10 +125,10 @@ method add-credit-section ( Str $section-name, Array[Str] $people )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-artists
 
 Returns the names of the artists which are displayed in the credits page.
@@ -144,10 +147,10 @@ Return value; A
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-authors
 
 Returns the names of the authors which are displayed
@@ -167,10 +170,10 @@ Return value; A
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-comments
 
 Returns the comments string.
@@ -188,10 +191,10 @@ Return value; The comments.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-copyright
 
 Returns the copyright string.
@@ -209,10 +212,10 @@ Return value; The copyright string.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-documenters
 
 Returns the name of the documenters which are displayed
@@ -232,10 +235,10 @@ Return value; A
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-license
 
 Returns the license information.
@@ -253,10 +256,10 @@ Return value; The license information.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-license-type
 
 Retrieves the license type.
@@ -274,10 +277,10 @@ Return value; a  enumeration C<License> from C<Gnome::Gtk4::T-aboutdialog>  valu
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-logo
 
 Returns the paintable displayed as logo in the about dialog.
@@ -297,10 +300,10 @@ Return value; the paintable displayed as
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-logo-icon-name
 
 Returns the icon name displayed as logo in the about dialog.
@@ -319,10 +322,10 @@ Return value; the icon name displayed as logo,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-program-name
 
 Returns the program name displayed in the about dialog.
@@ -340,10 +343,10 @@ Return value; The program name.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-system-information
 
 Returns the system information that is shown in the about dialog.
@@ -361,10 +364,10 @@ Return value; the system information.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-translator-credits
 
 Returns the translator credits string which is displayed
@@ -383,10 +386,10 @@ Return value; The translator credits string.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-version
 
 Returns the version string.
@@ -404,10 +407,10 @@ Return value; The version string.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-website
 
 Returns the website URL.
@@ -425,10 +428,10 @@ Return value; The website URL.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-website-label
 
 Returns the label used for the website link.
@@ -446,10 +449,10 @@ Return value; The label used for the website link.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-wrap-license
 
 Returns whether the license text in the about dialog is
@@ -468,10 +471,10 @@ Return value; C<True> if the license text is wrapped.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-artists
 
 Sets the names of the artists to be displayed
@@ -491,10 +494,10 @@ method set-artists ( Array[Str] $artists )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-authors
 
 Sets the names of the authors which are displayed
@@ -513,10 +516,10 @@ method set-authors ( Array[Str] $authors )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-comments
 
 Sets the comments string to display in the about dialog.
@@ -536,10 +539,10 @@ method set-comments ( Str $comments )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-copyright
 
 Sets the copyright string to display in the about dialog.
@@ -559,10 +562,10 @@ method set-copyright ( Str $copyright )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-documenters
 
 Sets the names of the documenters which are displayed
@@ -582,10 +585,10 @@ method set-documenters ( Array[Str] $documenters )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-license
 
 Sets the license information to be displayed in the
@@ -606,10 +609,10 @@ method set-license ( Str $license )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-license-type
 
 Sets the license of the application showing the about dialog from a list of known licenses.
@@ -630,10 +633,10 @@ method set-license-type ( GtkLicense $license-type )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-logo
 
 Sets the logo in the about dialog.
@@ -651,10 +654,10 @@ method set-logo ( N-Object() $logo )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-logo-icon-name
 
 Sets $icon-name to be displayed as logo in the about dialog.
@@ -672,10 +675,10 @@ method set-logo-icon-name ( Str $icon-name )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-program-name
 
 Sets the name to display in the about dialog.
@@ -695,10 +698,10 @@ method set-program-name ( Str $name )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-system-information
 
 Sets the system information to be displayed in the about
@@ -722,10 +725,10 @@ method set-system-information ( Str $system-information )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-translator-credits
 
 Sets the translator credits string which is displayed in
@@ -759,10 +762,10 @@ method set-translator-credits ( Str $translator-credits )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-version
 
 Sets the version string to display in the about dialog.
@@ -780,10 +783,10 @@ method set-version ( Str $version )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-website
 
 Sets the URL to use for the website link.
@@ -801,10 +804,10 @@ method set-website ( Str $website )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-website-label
 
 Sets the label to be used for the website link.
@@ -822,10 +825,10 @@ method set-website-label ( Str $website-label )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-wrap-license
 
 Sets whether the license text in the about dialog should be
@@ -844,13 +847,13 @@ method set-wrap-license ( Bool() $wrap-license )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -885,5 +888,5 @@ Return value; C<True> if the link has been activated
 
 =end comment
 
-=end pod
+=end rakudoc
 
