@@ -251,6 +251,9 @@ sub set-module-info ( Hash $obj-data, Str $md-file is copy --> Str ) {
             !! md-image('checklist-implement')
           ) ~ "|$md-file.rakumod\n";
 }}
+  # Use $*revisit-docs instead of $checks<handcorrected-docs> because
+  # when in later versions Gnome adds methods, those methods might
+  # not yet been documented. This influences this flag in make-table-entry().
   $doc ~= "|Documentation corrected|"
         ~ ($*revisit-docs
             ?? md-image('checklist-implement')
