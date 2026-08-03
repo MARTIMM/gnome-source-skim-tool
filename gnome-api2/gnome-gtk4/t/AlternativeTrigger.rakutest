@@ -9,7 +9,7 @@ use v6.d;
 use NativeCall;
 use Test;
 
-
+use Gnome::Gtk4::ShortcutTrigger:api<2>;
 use Gnome::Gtk4::AlternativeTrigger:api<2>;
 
 use Gnome::Gdk4::T-enums:api<2>;
@@ -29,25 +29,25 @@ use Gnome::N::X:api<2>;
 
 #Gnome::N::debug(:on);
 my Gnome::Gtk4::AlternativeTrigger $alternativetrigger;
+#my Gnome::Gtk4::ShortcutTrigger $shortcuttrigger1;
+#my Gnome::Gtk4::ShortcutTrigger $shortcuttrigger1;
 
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 subtest 'ISA test', {
-  given $alternativetrigger {
-    my N-Object $first;
-    my N-Object $second;
+  my Gnome::Gtk4::ShortcutTrigger $first .= parse-string('<CTRL>F5');
+  my Gnome::Gtk4::ShortcutTrigger $second .= parse-string('<ALT>A');
 
-#`{{
-    #TC:0:new-alternativetrigger()
-    $first = …;
-    $second = …;
-    $alternativetrigger .= new-alternativetrigger( $first, $second);
-    ok .is-valid, '.new-alternativetrigger( $first, $second)';
+  #TC:1:new-alternativetrigger()
+  $alternativetrigger .= parse-string('<CTRL>F5|<SHIFT>8');
+  ok $alternativetrigger.is-valid,
+    '$alternativetrigger = $first.parse-string("<CTRL>F5|<SHIFT>8");';
 
-}}
-  }
+  $alternativetrigger .= new-alternativetrigger( $first, $second);
+  ok $alternativetrigger.is-valid,
+    ".new-alternativetrigger( '$first.to-string()', '$second.to-string()')";
 };
 
 #-------------------------------------------------------------------------------
@@ -62,15 +62,19 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $alternativetrigger {
+    my Gnome::Gtk4::ShortcutTrigger() $trigger;
+    
+    #TM:1:get-first()
+    $trigger = .get-first;
+    my Str $s = $trigger.to-string;
+    is $s, '<Control>F5', '.get-first() returns <Control>F5';
 
+    #TM:1:get-second()
+    $trigger = .get-second;
+    $s = $trigger.to-string;
+    is $s, '<Alt>a', '.get-second() returns <Alt>a';
 
 #`{{
-    #TM:0:get-first()
-     .get-first(), '…', '.get-first()';
-
-    #TM:0:get-second()
-     .get-second(), '…', '.get-second()';
-
 }}
   }
 };
