@@ -11,7 +11,12 @@ use NativeCall;
 
 
 #use Gnome::Gdk4::T-Events:api<2>;
+use Gnome::Gtk4::Window:api<2>;
 use Gnome::Gtk4::ShortcutTrigger:api<2>;
+#use Gnome::Gtk4::AlternativeTrigger:api<2>;
+
+use Gnome::Gdk4::Display:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -22,20 +27,24 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
-my Gnome::Gtk4::ShortcutTrigger $shortcuttrigger;
+my Gnome::Gtk4::ShortcutTrigger $shortcuttrigger1;
+my Gnome::Gtk4::ShortcutTrigger $shortcuttrigger2;
+#my Gnome::Gtk4::AlternativeTrigger $trigger3;
+#$trigger3 .= parse-string('<CTRL>z|<ALT>z');
+#note .compare($trigger3);
 
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 subtest 'ISA test', {
-  given $shortcuttrigger {
-    my Str $string;
+  given $shortcuttrigger1 {
+    my Str $string = 'F6';
+
+    #TM:1:parse-string()
+    ok .parse-string($string).is-valid, '.parse-string()';
 
 #`{{
-    #TM:0:parse-string()
-    ok .parse-string( $string), '.parse-string()';
-
 }}
   }
 };
@@ -51,39 +60,59 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
-  with $shortcuttrigger {
-    my N-Object() $display;
-    my gpointer $trigger2;
-    my N-Object $string;
-    my Bool() $enable-mnemonics;
-    my N-Object() $event;
+  $shortcuttrigger1 .= parse-string('<CTRL>F5');
+  $shortcuttrigger2 .= parse-string('<CTRL>z');
 
+  with $shortcuttrigger1 {
+    my Gnome::Gtk4::Window $window .= new-window;
+    my Gnome::Gdk4::Display() $display = $window.get-display;
+#    my N-Object $string;
+#    my N-Object() $event;
+    my Int $v;
+    my Str $s;
+
+    #TM:1:compare()
+    lives-ok {
+      $v = .compare($shortcuttrigger2);
+      diag ".compare() returns $v";
+    }, ".compare()";
+
+
+    #TM:1:equal()
+    ok !.equal($shortcuttrigger2), '.equal()';
+
+    #TM:1:hash()
+    lives-ok {
+      $v = .hash();
+      diag ".hash() returns $v";
+    }, '.hash()';
 
 #`{{
-    #TM:0:compare()
-    ok .compare( $trigger2), '.compare()';
-
-    #TM:0:equal()
-    ok .equal( $trigger2), '.equal()';
-
-    #TM:0:hash()
-    ok .hash(), '.hash()';
-
     #TM:0:print()
-    ok .print( $string), '.print()';
+    ok .print($string), '.print()';
+}}
 
+#`{{
     #TM:0:print-label()
     ok .print-label( $display, $string), '.print-label()';
+}}
 
-    #TM:0:to-label()
-    ok .to-label( $display), '.to-label()';
+    #TM:1:to-label()
+    lives-ok {
+      $s = .to-label($display);
+      diag ".to-label() returns $s";
+    }, '.to-label()';
 
-    #TM:0:to-string()
-    ok .to-string(), '.to-string()';
+    #TM:1:to-string()
+    lives-ok {
+      $s = .to-string();
+      diag ".to-string() returns $s";
+    }, '.to-string()';
 
+#`{{
     #TM:0:trigger()
-    ok .trigger( $event, $enable-mnemonics), '.trigger()';
-
+    lives-ok {
+      my $v = .trigger( $event, False), '.trigger()';
 }}
   }
 };
