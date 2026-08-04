@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::ListItem
 =head1 Description
 
@@ -35,13 +35,13 @@ B<Gnome::Gtk4::ListItem> objects exist in 2 stages:
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -52,18 +52,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-accessible-description
 
 Gets the accessible description of C<$self>.
@@ -81,10 +81,10 @@ Return value; the accessible description.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-accessible-label
 
 Gets the accessible label of C<$self>.
@@ -102,10 +102,10 @@ Return value; the accessible label.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-activatable
 
 Checks if a list item has been set to be activatable via
@@ -124,10 +124,10 @@ Return value; C<True> if the item is activatable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child
 
 Gets the child previously set via C<.set-child()> or
@@ -146,10 +146,10 @@ Return value; The child.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-focusable
 
 Checks if a list item has been set to be focusable via
@@ -168,10 +168,10 @@ Return value; C<True> if the item is focusable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-item
 
 Gets the model item that associated with C<$self>.
@@ -191,10 +191,10 @@ Return value; The item displayed.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-position
 
 Gets the position in the model that C<$self> currently displays.
@@ -214,10 +214,10 @@ Return value; The position of this item.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-selectable
 
 Checks if a list item has been set to be selectable via
@@ -238,10 +238,10 @@ Return value; C<True> if the item is selectable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-selected
 
 Checks if the item is displayed as selected.
@@ -262,10 +262,10 @@ Return value; C<True> if the item is selected..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-accessible-description
 
 Sets the accessible description for the list item,
@@ -277,10 +277,10 @@ method set-accessible-description ( Str $description )
 
 =item $description; the description.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-accessible-label
 
 Sets the accessible label for the list item,
@@ -292,10 +292,10 @@ method set-accessible-label ( Str $label )
 
 =item $label; the label.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-activatable
 
 Sets C<$self> to be activatable.
@@ -314,10 +314,10 @@ method set-activatable ( Bool() $activatable )
 
 =item $activatable; if the item should be activatable.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-child
 
 Sets the child to be used for this listitem.
@@ -332,10 +332,10 @@ method set-child ( N-Object() $child )
 
 =item $child; The list item's child or undefined to unset.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-focusable
 
 Sets C<$self> to be focusable.
@@ -354,10 +354,10 @@ method set-focusable ( Bool() $focusable )
 
 =item $focusable; if the item should be focusable.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-selectable
 
 Sets C<$self> to be selectable.
@@ -379,5 +379,5 @@ method set-selectable ( Bool() $selectable )
 
 =item $selectable; if the item should be selectable.
 
-=end pod
+=end rakudoc
 

@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::LinkButton
 =head1 Description
 
@@ -46,13 +46,13 @@ B<Gnome::Gtk4::LinkButton> uses the C<GTK_ACCESSIBLE_ROLE_LINK> role.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -63,10 +63,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-linkbutton
 
 Creates a new B<Gnome::Gtk4::LinkButton> with the URI as its text.
@@ -84,10 +84,10 @@ method new-linkbutton ( Str $uri --> Gnome::Gtk4::LinkButton )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-with-label
 
 Creates a new B<Gnome::Gtk4::LinkButton> containing a label.
@@ -106,18 +106,18 @@ method new-with-label ( Str $uri, Str $label --> Gnome::Gtk4::LinkButton )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-uri
 
 Retrieves the URI of the B<Gnome::Gtk4::LinkButton>.
@@ -136,10 +136,10 @@ Return value; a valid URI. The returned string is owned by the link button
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-visited
 
 Retrieves the “visited” state of the B<Gnome::Gtk4::LinkButton>.
@@ -162,10 +162,10 @@ Return value; C<True> if the link has been visited, C<False> otherwise.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-uri
 
 Sets C<$uri> as the URI where the B<Gnome::Gtk4::LinkButton> points.
@@ -185,10 +185,10 @@ method set-uri ( Str $uri )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-visited
 
 Sets the “visited” state of the B<Gnome::Gtk4::LinkButton>.
@@ -208,13 +208,13 @@ method set-visited ( Bool() $visited )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -251,5 +251,5 @@ Return value; C<True> if the signal has been handled
 
 =end comment
 
-=end pod
+=end rakudoc
 

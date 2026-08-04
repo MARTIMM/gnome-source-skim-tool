@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::LayoutManager
 =head1 Description
 
@@ -69,13 +69,13 @@ updated, in order to queue a new size measuring and allocation.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -86,18 +86,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 allocate
 
 Assigns the given C<$width>, C<$height>, and C<$baseline> to
@@ -120,10 +120,10 @@ method allocate ( N-Object() $widget, Int() $width, Int() $height, Int() $baseli
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-layout-child
 
 Retrieves a L<Gnome::Gtk4::LayoutChild|/content-docs/api2/reference/Gtk4/LayoutChild> instance for the B<Gnome::Gtk4::LayoutManager>,
@@ -150,10 +150,10 @@ Return value; a L<Gnome::Gtk4::LayoutChild|/content-docs/api2/reference/Gtk4/Lay
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-request-mode
 
 Retrieves the request mode of C<$manager>.
@@ -171,10 +171,10 @@ Return value; a C<enumeration GtkSizeRequestMode defined in Gnome::Gtk4::T-enums
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-widget
 
 Retrieves the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> using the given B<Gnome::Gtk4::LayoutManager>.
@@ -192,10 +192,10 @@ Return value; a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 layout-changed
 
 Queues a resize on the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> using C<$manager>, if any.
@@ -214,10 +214,10 @@ method layout-changed ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 measure
 
 Measures the size of the C<$widget> using C<$manager>, for the
@@ -254,5 +254,5 @@ method measure ( N-Object() $widget, GtkOrientation $orientation, Int() $for-siz
 
 =end comment
 
-=end pod
+=end rakudoc
 

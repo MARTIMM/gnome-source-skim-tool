@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Label
 =head1 Description
 
@@ -191,13 +191,13 @@ L<.get-current-uri()|#get-current-uri> function.
 # Example use of module Gnome::Gtk4::Label
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -208,10 +208,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-label
 
 Creates a new label with the given text inside it.
@@ -231,10 +231,10 @@ method new-label ( Str $str --> Gnome::Gtk4::Label )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-with-mnemonic
 
 Creates a new B<Gnome::Gtk4::Label>, containing the text in C<$str>.
@@ -266,18 +266,18 @@ method new-with-mnemonic ( Str $str --> Gnome::Gtk4::Label )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-attributes
 
 Gets the label's attribute list.
@@ -302,10 +302,10 @@ Return value; the attribute list.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-current-uri
 
 Returns the URI for the currently active link in the label.
@@ -330,10 +330,10 @@ Return value; the currently active URI.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-ellipsize
 
 Returns the ellipsizing position of the label.
@@ -353,10 +353,10 @@ Return value; C<enumeration PangoEllipsizeMode defined in Gnome::Pango::T-layout
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-extra-menu
 
 Gets the extra menu model of C<$label>.
@@ -376,10 +376,10 @@ Return value; the menu model.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-justify
 
 Returns the justification of the label.
@@ -399,10 +399,10 @@ Return value; C<enumeration GtkJustification defined in Gnome::Gtk4::T-enums>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-label
 
 Fetches the text from a label.
@@ -424,10 +424,10 @@ Return value; the text of the label widget. This string is
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-layout
 
 Gets the L<Gnome::Pango::Layout|/content-docs/api2/reference/Pango/Layout> used to display the label.
@@ -451,10 +451,10 @@ Return value; the L<Gnome::Pango::Layout|/content-docs/api2/reference/Pango/Layo
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-layout-offsets
 
 Obtains the coordinates where the label will draw its L<Gnome::Pango::Layout|/content-docs/api2/reference/Pango/Layout>.
@@ -479,10 +479,10 @@ method get-layout-offsets ( Array[Int] $x, Array[Int] $y )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-lines
 
 Gets the number of lines to which an ellipsized, wrapping
@@ -503,10 +503,10 @@ Return value; The number of lines.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-max-width-chars
 
 Retrieves the desired maximum width of C<$label>, in characters.
@@ -526,10 +526,10 @@ Return value; the maximum width of the label in characters..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-mnemonic-keyval
 
 Return the mnemonic accelerator.
@@ -551,10 +551,10 @@ Return value; GDK keyval usable for accelerators, or B<Gnome::Gdk4::T-keysyms>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-mnemonic-widget
 
 Retrieves the target of the mnemonic (keyboard shortcut) of this
@@ -576,10 +576,10 @@ Return value; the target of the label’s mnemonic,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-natural-wrap-mode
 
 Returns line wrap mode used by the label.
@@ -599,10 +599,10 @@ Return value; the natural line wrap mode.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-selectable
 
 Returns whether the label is selectable.
@@ -620,10 +620,10 @@ Return value; C<True> if the user can copy text from the label.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-selection-bounds
 
 Gets the selected range of characters in the label.
@@ -644,10 +644,10 @@ Return value; C<True> if selection is non-empty.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-single-line-mode
 
 Returns whether the label is in single line mode.
@@ -665,10 +665,10 @@ Return value; C<True> when the label is in single line mode..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-tabs
 
 Gets the tabs for C<$self>.
@@ -691,10 +691,10 @@ Return value; copy of default tab array,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-text
 
 Fetches the text from a label.
@@ -717,10 +717,10 @@ Return value; the text in the label widget. This is the internal
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-use-markup
 
 Returns whether the label’s text is interpreted as Pango markup.
@@ -740,10 +740,10 @@ Return value; C<True> if the label’s text will be parsed for markup..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-use-underline
 
 Returns whether an embedded underlines in the label indicate mnemonics.
@@ -764,10 +764,10 @@ Return value; C<True> whether an embedded underline in the label indicates
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-width-chars
 
 Retrieves the desired width of C<$label>, in characters.
@@ -787,10 +787,10 @@ Return value; the width of the label in characters..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-wrap
 
 Returns whether lines in the label are automatically wrapped.
@@ -810,10 +810,10 @@ Return value; C<True> if the lines of the label are automatically wrapped..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-wrap-mode
 
 Returns line wrap mode used by the label.
@@ -833,10 +833,10 @@ Return value; the line wrap mode.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-xalign
 
 Gets the B<xalign> of the label.
@@ -856,10 +856,10 @@ Return value; the xalign property.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-yalign
 
 Gets the B<yalign> of the label.
@@ -879,10 +879,10 @@ Return value; the yalign property.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 select-region
 
 Selects a range of characters in the label, if the label is selectable.
@@ -904,10 +904,10 @@ method select-region ( Int() $start-offset, Int() $end-offset )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-attributes
 
 Apply attributes to the label text.
@@ -932,10 +932,10 @@ method set-attributes ( N-Object $attrs )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-ellipsize
 
 Sets the mode used to ellipsize the text.
@@ -956,10 +956,10 @@ method set-ellipsize ( PangoEllipsizeMode $mode )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-extra-menu
 
 Sets a menu model to add when constructing
@@ -978,10 +978,10 @@ method set-extra-menu ( N-Object() $model )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-justify
 
 Sets the alignment of the lines in the text of the label relative to
@@ -1006,10 +1006,10 @@ method set-justify ( GtkJustification $jtype )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-label
 
 Sets the text of the label.
@@ -1031,10 +1031,10 @@ method set-label ( Str $str )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-lines
 
 Sets the number of lines to which an ellipsized, wrapping label
@@ -1056,10 +1056,10 @@ method set-lines ( Int() $lines )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-markup
 
 Sets the labels text and attributes from markup.
@@ -1092,10 +1092,10 @@ method set-markup ( Str $str )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-markup-with-mnemonic
 
 Sets the labels text, attributes and mnemonic from markup.
@@ -1121,10 +1121,10 @@ method set-markup-with-mnemonic ( Str $str )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-max-width-chars
 
 Sets the desired maximum width in characters of C<$label> to C<$n-chars>.
@@ -1142,10 +1142,10 @@ method set-max-width-chars ( Int() $n-chars )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-mnemonic-widget
 
 Associate the label with its mnemonic target.
@@ -1179,10 +1179,10 @@ method set-mnemonic-widget ( N-Object() $widget )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-natural-wrap-mode
 
 Select the line wrapping for the natural size request.
@@ -1203,10 +1203,10 @@ method set-natural-wrap-mode ( GtkNaturalWrapMode $wrap-mode )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-selectable
 
 Makes text in the label selectable.
@@ -1227,10 +1227,10 @@ method set-selectable ( Bool() $setting )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-single-line-mode
 
 Sets whether the label is in single line mode.
@@ -1248,10 +1248,10 @@ method set-single-line-mode ( Bool() $single-line-mode )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-tabs
 
 Sets the default tab stops for paragraphs in C<$self>.
@@ -1269,10 +1269,10 @@ method set-tabs ( N-Object $tabs )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-text
 
 Sets the text within the B<Gnome::Gtk4::Label> widget.
@@ -1301,10 +1301,10 @@ method set-text ( Str $str )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-text-with-mnemonic
 
 Sets the label’s text from the string C<$str>.
@@ -1327,10 +1327,10 @@ method set-text-with-mnemonic ( Str $str )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-use-markup
 
 Sets whether the text of the label contains markup.
@@ -1350,10 +1350,10 @@ method set-use-markup ( Bool() $setting )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-use-underline
 
 Sets whether underlines in the text indicate mnemonics.
@@ -1371,10 +1371,10 @@ method set-use-underline ( Bool() $setting )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-width-chars
 
 Sets the desired width in characters of C<$label> to C<$n-chars>.
@@ -1392,10 +1392,10 @@ method set-width-chars ( Int() $n-chars )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-wrap
 
 Toggles line wrapping within the B<Gnome::Gtk4::Label> widget.
@@ -1423,10 +1423,10 @@ method set-wrap ( Bool() $wrap )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-wrap-mode
 
 Controls how line wrapping is done.
@@ -1451,10 +1451,10 @@ method set-wrap-mode ( PangoWrapMode $wrap-mode )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-xalign
 
 Sets the B<xalign> of the label.
@@ -1474,10 +1474,10 @@ method set-xalign ( Num() $xalign )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-yalign
 
 Sets the B<yalign> of the label.
@@ -1497,13 +1497,13 @@ method set-yalign ( Num() $yalign )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -1652,5 +1652,5 @@ method handler (
 </object>
 =end code
 
-=end pod
+=end rakudoc
 

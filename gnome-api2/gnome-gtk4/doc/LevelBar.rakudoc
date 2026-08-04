@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::LevelBar
 =head1 Description
 
@@ -119,13 +119,13 @@ B<Gnome::Gtk4::LevelBar> uses the C<GTK_ACCESSIBLE_ROLE_METER> role.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -136,10 +136,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-levelbar
 
 Creates a new B<Gnome::Gtk4::LevelBar>.
@@ -155,10 +155,10 @@ method new-levelbar ( --> Gnome::Gtk4::LevelBar )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-for-interval
 
 Creates a new B<Gnome::Gtk4::LevelBar> for the specified interval.
@@ -177,18 +177,18 @@ method new-for-interval ( Num() $min-value, Num() $max-value --> Gnome::Gtk4::Le
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-offset-value
 
 Adds a new offset marker on C<$self> at the position specified by C<$value>.
@@ -215,10 +215,10 @@ method add-offset-value ( Str $name, Num() $value )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-inverted
 
 Returns whether the levelbar is inverted.
@@ -236,10 +236,10 @@ Return value; C<True> if the level bar is inverted.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-max-value
 
 Returns the B<max>-value` of the B<Gnome::Gtk4::LevelBar>.
@@ -257,10 +257,10 @@ Return value; a positive value.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-min-value
 
 Returns the B<min>-value` of the B<Gnome::Gtk4::LevelBar>.
@@ -278,10 +278,10 @@ Return value; a positive value.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-mode
 
 Returns the B<mode> of the B<Gnome::Gtk4::LevelBar>.
@@ -299,10 +299,10 @@ Return value; a C<enumeration GtkLevelBarMode defined in Gnome::Gtk4::T-enums>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-offset-value
 
 Fetches the value specified for the offset marker C<$name> in C<$self>.
@@ -323,10 +323,10 @@ Return value; C<True> if the specified offset is found.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-value
 
 Returns the B<value> of the B<Gnome::Gtk4::LevelBar>.
@@ -345,10 +345,10 @@ Return value; a value in the interval between
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-offset-value
 
 Removes an offset marker from a B<Gnome::Gtk4::LevelBar>.
@@ -369,10 +369,10 @@ method remove-offset-value ( Str $name )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-inverted
 
 Sets whether the B<Gnome::Gtk4::LevelBar> is inverted.
@@ -390,10 +390,10 @@ method set-inverted ( Bool() $inverted )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-max-value
 
 Sets the B<max>-value` of the B<Gnome::Gtk4::LevelBar>.
@@ -414,10 +414,10 @@ method set-max-value ( Num() $value )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-min-value
 
 Sets the B<min>-value` of the B<Gnome::Gtk4::LevelBar>.
@@ -438,10 +438,10 @@ method set-min-value ( Num() $value )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-mode
 
 Sets the B<mode> of the B<Gnome::Gtk4::LevelBar>.
@@ -459,10 +459,10 @@ method set-mode ( GtkLevelBarMode $mode )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-value
 
 Sets the value of the B<Gnome::Gtk4::LevelBar>.
@@ -481,13 +481,13 @@ method set-value ( Num() $value )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -524,5 +524,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

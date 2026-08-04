@@ -6,7 +6,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::ListView
 =head1 Description
 
@@ -75,13 +75,13 @@ items use the C<GTK_ACCESSIBLE_ROLE_LIST_ITEM> role.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -92,10 +92,10 @@ Create an object using a native object from an object of the same type found els
 
   method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-listview
 
 Creates a new B<Gnome::Gtk4::ListView> that uses the given C<$factory> for
@@ -118,19 +118,19 @@ method new-listview ( N-Object() $model, N-Object() $factory --> Gnome::Gtk4::Li
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-enable-rubberband
 
 Returns whether rows can be selected by dragging with the mouse.
@@ -148,10 +148,10 @@ Return value; C<True> if rubberband selection is enabled.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-factory
 
 Gets the factory that's currently used to populate list items.
@@ -169,10 +169,10 @@ Return value; The factory in use.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-header-factory
 
 Gets the factory that's currently used to populate section headers.
@@ -190,10 +190,10 @@ Return value; The factory in use.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-model
 
 Gets the model that's currently used to read the items displayed.
@@ -210,10 +210,10 @@ Return value; The model in use.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-show-separators
 
 Returns whether the list box should show separators
@@ -231,10 +231,10 @@ Return value; C<True> if the list box shows separators.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-single-click-activate
 
 Returns whether rows will be activated on single click and
@@ -252,10 +252,10 @@ Return value; C<True> if rows are activated on single click.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-tab-behavior
 
 Gets the behavior set for the <kbd>Tab</kbd> key.
@@ -272,10 +272,10 @@ Return value; The behavior of the <kbd>Tab</kbd> key.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 scroll-to
 
 Scrolls to the item at the given position and performs the actions
@@ -300,10 +300,10 @@ method scroll-to ( UInt() $pos, UInt $flags, N-Object $scroll )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-enable-rubberband
 
 Sets whether selections can be changed by dragging with the mouse.
@@ -320,10 +320,10 @@ method set-enable-rubberband ( Bool() $enable-rubberband )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-factory
 
 Sets the L<Gnome::Gtk4::ListItemFactory|/content-docs/api2/reference/Gtk4/ListItemFactory> to use for populating list items.
@@ -345,10 +345,10 @@ with $list-view .= new-listview( N-Object, N-Object) {
 }
 =end code
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-header-factory
 
 Sets the L<Gnome::Gtk4::ListItemFactory|/content-docs/api2/reference/Gtk4/ListItemFactory> to use for populating the
@@ -368,10 +368,10 @@ method set-header-factory ( N-Object() $factory )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-model
 
 Sets the model to use.
@@ -437,10 +437,10 @@ activate_cb (GtkListView  *list,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-show-separators
 
 Sets whether the list box should show separators
@@ -452,10 +452,10 @@ method set-show-separators ( Bool() $show-separators )
 
 =item $show-separators; C<True> to show separators.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-single-click-activate
 
 Sets whether rows should be activated on single click and
@@ -473,10 +473,10 @@ list_view = gtk_list_view_new (create_model (),
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-tab-behavior
 
 Sets the behavior of the <kbd>Tab</kbd> and <kbd>Shift</kbd>+<kbd>Tab</kbd> keys.
@@ -487,13 +487,13 @@ method set-tab-behavior ( GtkListTabBehavior $tab-behavior )
 
 =item $tab-behavior; The desired tab behavior.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -519,5 +519,5 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::ListView> object.
 =item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
-=end pod
+=end rakudoc
 

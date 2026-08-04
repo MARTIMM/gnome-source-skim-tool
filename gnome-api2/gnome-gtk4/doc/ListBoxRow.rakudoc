@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::ListBoxRow
 =head1 Description
 
@@ -21,13 +21,13 @@ B<Gnome::Gtk4::ListBoxRow> is the kind of widget that can be added to a L<Gnome:
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -38,10 +38,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-listboxrow
 
 Creates a new B<Gnome::Gtk4::ListBoxRow>.
@@ -57,18 +57,18 @@ method new-listboxrow ( --> Gnome::Gtk4::ListBoxRow )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 changed
 
 Marks C<$row> as changed, causing any state that depends on this
@@ -101,10 +101,10 @@ method changed ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-activatable
 
 Gets whether the row is activatable.
@@ -122,10 +122,10 @@ Return value; C<True> if the row is activatable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child
 
 Gets the child widget of C<$row>.
@@ -143,10 +143,10 @@ Return value; the child widget of C<$row>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-header
 
 Returns the current header of the C<$row>.
@@ -169,10 +169,10 @@ Return value; the current header.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-index
 
 Gets the current index of the C<$row> in its L<Gnome::Gtk4::ListBox|/content-docs/api2/reference/Gtk4/ListBox> container.
@@ -190,10 +190,10 @@ Return value; the index of the C<$row>, or -1 if the C<$row> is not in a listbox
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-selectable
 
 Gets whether the row can be selected.
@@ -211,10 +211,10 @@ Return value; C<True> if the row is selectable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-selected
 
 Returns whether the child is currently selected in its
@@ -233,10 +233,10 @@ Return value; C<True> if C<$row> is selected.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-activatable
 
 Set whether the row is activatable.
@@ -254,10 +254,10 @@ method set-activatable ( Bool() $activatable )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-child
 
 Sets the child widget of C<$self>.
@@ -275,10 +275,10 @@ method set-child ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-header
 
 Sets the current header of the C<$row>.
@@ -301,10 +301,10 @@ method set-header ( N-Object() $header )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-selectable
 
 Set whether the row can be selected.
@@ -322,13 +322,13 @@ method set-selectable ( Bool() $selectable )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -360,5 +360,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

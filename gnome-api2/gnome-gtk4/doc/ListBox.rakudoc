@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::ListBox
 =head1 Description
 
@@ -68,13 +68,13 @@ the C<GTK_ACCESSIBLE_ROLE_LIST_ITEM> role.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -85,10 +85,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-listbox
 
 Creates a new B<Gnome::Gtk4::ListBox> container.
@@ -104,18 +104,18 @@ method new-listbox ( --> Gnome::Gtk4::ListBox )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append
 
 Append a widget to the list.
@@ -136,10 +136,10 @@ method append ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 bind-model
 
 Binds C<$model> to C<$box>.
@@ -175,10 +175,10 @@ method bind-model ( N-List() $model, GtkListBoxCreateWidgetFunc &create-widget-f
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 drag-highlight-row
 
 Add a drag highlight to a row.
@@ -204,10 +204,10 @@ method drag-highlight-row ( N-Object() $row )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 drag-unhighlight-row
 
 If a row has previously been highlighted via C<.drag-highlight-row()>,
@@ -224,10 +224,10 @@ method drag-unhighlight-row ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-activate-on-single-click
 
 Returns whether rows activate on single clicks.
@@ -245,10 +245,10 @@ Return value; C<True> if rows are activated on single click, C<False> otherwise.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-adjustment
 
 Gets the adjustment (if any) that the widget uses to
@@ -267,10 +267,10 @@ Return value; the adjustment.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-row-at-index
 
 Gets the n-th child in the list (not counting headers).
@@ -293,10 +293,10 @@ Return value; the child L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-row-at-y
 
 Gets the row at the C<$y> position.
@@ -316,10 +316,10 @@ Return value; the row.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-selected-row
 
 Gets the selected row, or undefined if no rows are selected.
@@ -341,10 +341,10 @@ Return value; the selected row.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-selected-rows
 
 Creates a list of all selected children.
@@ -364,10 +364,10 @@ Return value;
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-selection-mode
 
 Gets the selection mode of the listbox.
@@ -385,10 +385,10 @@ Return value; a C<enumeration GtkSelectionMode defined in Gnome::Gtk4::T-enums>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-show-separators
 
 Returns whether the list box should show separators
@@ -407,10 +407,10 @@ Return value; C<True> if the list box shows separators.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert
 
 Insert the C<$child> into the C<$box> at C<$position>.
@@ -434,10 +434,10 @@ method insert ( N-Object() $child, Int() $position )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 invalidate-filter
 
 Update the filtering for all rows.
@@ -459,10 +459,10 @@ method invalidate-filter ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 invalidate-headers
 
 Update the separators for all rows.
@@ -482,10 +482,10 @@ method invalidate-headers ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 invalidate-sort
 
 Update the sorting for all rows.
@@ -505,10 +505,10 @@ method invalidate-sort ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 prepend
 
 Prepend a widget to the list.
@@ -529,10 +529,10 @@ method prepend ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove
 
 Removes a child from C<$box>.
@@ -550,10 +550,10 @@ method remove ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-all
 
 Removes all rows from C<$box>.
@@ -571,10 +571,10 @@ method remove-all ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 select-all
 
 Select all children of C<$box>, if the selection mode allows it.
@@ -590,10 +590,10 @@ method select-all ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 select-row
 
 Make C<$row> the currently selected row.
@@ -611,10 +611,10 @@ method select-row ( N-Object() $row )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 selected-foreach
 
 Calls a function for each selected child.
@@ -635,10 +635,10 @@ method selected-foreach ( GtkListBoxForeachFunc &func, gpointer $data )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-activate-on-single-click
 
 If C<$single> is C<True>, rows will be activated when you click on them,
@@ -657,10 +657,10 @@ method set-activate-on-single-click ( Bool() $single )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-adjustment
 
 Sets the adjustment (if any) that the widget uses to
@@ -687,10 +687,10 @@ method set-adjustment ( N-Object() $adjustment )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-filter-func
 
 By setting a filter function on the C<$box> one can decide dynamically which
@@ -722,10 +722,10 @@ method set-filter-func ( GtkListBoxFilterFunc &filter-func, gpointer $user-data,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-header-func
 
 Sets a header function.
@@ -769,10 +769,10 @@ method set-header-func ( GtkListBoxUpdateHeaderFunc &update-header, gpointer $us
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-placeholder
 
 Sets the placeholder widget that is shown in the list when
@@ -791,10 +791,10 @@ method set-placeholder ( N-Object() $placeholder )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-selection-mode
 
 Sets how selection works in the listbox.
@@ -812,10 +812,10 @@ method set-selection-mode ( GtkSelectionMode $mode )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-show-separators
 
 Sets whether the list box should show separators
@@ -834,10 +834,10 @@ method set-show-separators ( Bool() $show-separators )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-sort-func
 
 Sets a sort function.
@@ -868,10 +868,10 @@ method set-sort-func ( GtkListBoxSortFunc &sort-func, gpointer $user-data, GDest
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unselect-all
 
 Unselect all children of C<$box>, if the selection mode allows it.
@@ -887,10 +887,10 @@ method unselect-all ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unselect-row
 
 Unselects a single row of C<$box>, if the selection mode allows it.
@@ -908,13 +908,13 @@ method unselect-row ( N-Object() $row )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -1139,5 +1139,5 @@ list[.separators][.rich-list][.navigation-sidebar]
 
 =end comment
 
-=end pod
+=end rakudoc
 
