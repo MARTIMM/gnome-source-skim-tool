@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::FlowBox
 =head1 Description
 
@@ -67,13 +67,13 @@ uses the C<GTK_ACCESSIBLE_ROLE_GRID_CELL> role.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -84,10 +84,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-flowbox
 
 Creates a B<Gnome::Gtk4::FlowBox>.
@@ -103,18 +103,18 @@ method new-flowbox ( --> Gnome::Gtk4::FlowBox )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append
 
 Adds C<$child> to the end of C<$self>.
@@ -137,10 +137,10 @@ method append ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 bind-model
 
 Binds C<$model> to C<$box>.
@@ -175,10 +175,10 @@ method bind-model ( N-List() $model, GtkFlowBoxCreateWidgetFunc &create-widget-f
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-activate-on-single-click
 
 Returns whether children activate on single clicks.
@@ -197,10 +197,10 @@ Return value; C<True> if children are activated on single click,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child-at-index
 
 Gets the nth child in the C<$box>.
@@ -222,10 +222,10 @@ Return value; the child widget, which will
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child-at-pos
 
 Gets the child in the ( C<$x>, C<$y>) position.
@@ -250,10 +250,10 @@ Return value; the child widget, which will
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-column-spacing
 
 Gets the horizontal spacing.
@@ -271,10 +271,10 @@ Return value; the horizontal spacing.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-homogeneous
 
 Returns whether the box is homogeneous.
@@ -292,10 +292,10 @@ Return value; C<True> if the box is homogeneous..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-max-children-per-line
 
 Gets the maximum number of children per line.
@@ -313,10 +313,10 @@ Return value; the maximum number of children per line.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-min-children-per-line
 
 Gets the minimum number of children per line.
@@ -334,10 +334,10 @@ Return value; the minimum number of children per line.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-row-spacing
 
 Gets the vertical spacing.
@@ -355,10 +355,10 @@ Return value; the vertical spacing.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-selected-children
 
 Creates a list of all selected children.
@@ -378,10 +378,10 @@ Return value;
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-selection-mode
 
 Gets the selection mode of C<$box>.
@@ -399,10 +399,10 @@ Return value; the C<enumeration GtkSelectionMode defined in Gnome::Gtk4::T-enums
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert
 
 Inserts the C<$widget> into C<$box> at C<$position>.
@@ -427,10 +427,10 @@ method insert ( N-Object() $widget, Int() $position )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 invalidate-filter
 
 Updates the filtering for all children.
@@ -452,10 +452,10 @@ method invalidate-filter ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 invalidate-sort
 
 Updates the sorting for all children.
@@ -473,10 +473,10 @@ method invalidate-sort ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 prepend
 
 Adds C<$child> to the start of C<$self>.
@@ -499,10 +499,10 @@ method prepend ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove
 
 Removes a child from C<$box>.
@@ -520,10 +520,10 @@ method remove ( N-Object() $widget )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-all
 
 Removes all children from C<$box>.
@@ -541,10 +541,10 @@ method remove-all ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 select-all
 
 Select all children of C<$box>, if the selection
@@ -561,10 +561,10 @@ method select-all ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 select-child
 
 Selects a single child of C<$box>, if the selection
@@ -583,10 +583,10 @@ method select-child ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 selected-foreach
 
 Calls a function for each selected child.
@@ -608,10 +608,10 @@ method selected-foreach ( GtkFlowBoxForeachFunc &func, gpointer $data )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-activate-on-single-click
 
 If C<$single> is C<True>, children will be activated when you click
@@ -630,10 +630,10 @@ method set-activate-on-single-click ( Bool() $single )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-column-spacing
 
 Sets the horizontal space to add between children.
@@ -651,10 +651,10 @@ method set-column-spacing ( UInt() $spacing )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-filter-func
 
 By setting a filter function on the C<$box> one can decide dynamically
@@ -687,10 +687,10 @@ method set-filter-func ( GtkFlowBoxFilterFunc &filter-func, gpointer $user-data,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-hadjustment
 
 Hooks up an adjustment to focus handling in C<$box>.
@@ -719,10 +719,10 @@ method set-hadjustment ( N-Object() $adjustment )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-homogeneous
 
 Sets whether or not all children of C<$box> are given
@@ -742,10 +742,10 @@ method set-homogeneous ( Bool() $homogeneous )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-max-children-per-line
 
 Sets the maximum number of children to request and
@@ -768,10 +768,10 @@ method set-max-children-per-line ( UInt() $n-children )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-min-children-per-line
 
 Sets the minimum number of children to line up
@@ -790,10 +790,10 @@ method set-min-children-per-line ( UInt() $n-children )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-row-spacing
 
 Sets the vertical space to add between children.
@@ -811,10 +811,10 @@ method set-row-spacing ( UInt() $spacing )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-selection-mode
 
 Sets how selection works in C<$box>.
@@ -832,10 +832,10 @@ method set-selection-mode ( GtkSelectionMode $mode )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-sort-func
 
 By setting a sort function on the C<$box>, one can dynamically
@@ -865,10 +865,10 @@ method set-sort-func ( GtkFlowBoxSortFunc &sort-func, gpointer $user-data, GDest
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-vadjustment
 
 Hooks up an adjustment to focus handling in C<$box>.
@@ -897,10 +897,10 @@ method set-vadjustment ( N-Object() $adjustment )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unselect-all
 
 Unselect all children of C<$box>, if the selection
@@ -917,10 +917,10 @@ method unselect-all ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unselect-child
 
 Unselects a single child of C<$box>, if the selection
@@ -939,13 +939,13 @@ method unselect-child ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -1172,5 +1172,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

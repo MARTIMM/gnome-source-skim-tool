@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Frame
 =head1 Description
 
@@ -68,13 +68,13 @@ B<Gnome::Gtk4::Frame> uses the B<GTK_ACCESSIBLE_ROLE_GROUP> role.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -85,10 +85,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-frame
 
 Creates a new B<Gnome::Gtk4::Frame>, with optional label C<$label>.
@@ -108,18 +108,18 @@ method new-frame ( Str $label --> Gnome::Gtk4::Frame )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child
 
 Gets the child widget of C<$frame>.
@@ -137,10 +137,10 @@ Return value; the child widget of C<$frame>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-label
 
 Returns the frame labels text.
@@ -163,10 +163,10 @@ Return value; the text in the label, or undefined if there
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-label-align
 
 Retrieves the X alignment of the frame’s label.
@@ -184,10 +184,10 @@ Return value; the frames X alignment.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-label-widget
 
 Retrieves the label widget for the frame.
@@ -205,10 +205,10 @@ Return value; the label widget.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-child
 
 Sets the child widget of C<$frame>.
@@ -226,10 +226,10 @@ method set-child ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-label
 
 Creates a new L<Gnome::Gtk4::Label|/content-docs/api2/reference/Gtk4/Label> with the C<$label> and sets it as the frame's
@@ -248,10 +248,10 @@ method set-label ( Str $label )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-label-align
 
 Sets the X alignment of the frame widget’s label.
@@ -273,10 +273,10 @@ method set-label-align ( Num() $xalign )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-label-widget
 
 Sets the label widget for the frame.
@@ -297,5 +297,5 @@ method set-label-widget ( N-Object() $label-widget )
 
 =end comment
 
-=end pod
+=end rakudoc
 

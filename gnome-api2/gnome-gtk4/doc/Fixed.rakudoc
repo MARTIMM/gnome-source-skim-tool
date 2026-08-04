@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Fixed
 =head1 Description
 
@@ -57,13 +57,13 @@ widget. But you should be aware of the tradeoffs.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -74,10 +74,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-fixed
 
 Creates a new B<Gnome::Gtk4::Fixed>.
@@ -93,18 +93,18 @@ method new-fixed ( --> Gnome::Gtk4::Fixed )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child-position
 
 Retrieves the translation transformation of the
@@ -127,10 +127,10 @@ method get-child-position ( N-Object() $widget, Num() $x, Num() $y )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child-transform
 
 Retrieves the transformation for C<$widget> set using
@@ -151,10 +151,10 @@ Return value; a B<Gnome::Gsk4::N-Transform>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 move
 
 Sets a translation transformation to the given C<$x> and C<$y>
@@ -175,10 +175,10 @@ method move ( N-Object() $widget, Num() $x, Num() $y )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 put
 
 Adds a widget to a B<Gnome::Gtk4::Fixed> at the given position.
@@ -198,10 +198,10 @@ method put ( N-Object() $widget, Num() $x, Num() $y )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove
 
 Removes a child from C<$fixed>.
@@ -219,10 +219,10 @@ method remove ( N-Object() $widget )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-child-transform
 
 Sets the transformation for C<$widget>.
@@ -245,5 +245,5 @@ method set-child-transform ( N-Object() $widget, N-Object $transform )
 
 =end comment
 
-=end pod
+=end rakudoc
 

@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::FlowBoxChild
 =head1 Description
 
@@ -21,13 +21,13 @@ B<Gnome::Gtk4::FlowBoxChild> is the kind of widget that can be added to a L<Gnom
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -38,10 +38,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-flowboxchild
 
 Creates a new B<Gnome::Gtk4::FlowBoxChild>.
@@ -59,18 +59,18 @@ method new-flowboxchild ( --> Gnome::Gtk4::FlowBoxChild )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 changed
 
 Marks C<$child> as changed, causing any state that depends on this
@@ -104,10 +104,10 @@ method changed ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child
 
 Gets the child widget of C<$self>.
@@ -125,10 +125,10 @@ Return value; the child widget of C<$self>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-index
 
 Gets the current index of the C<$child> in its L<Gnome::Gtk4::FlowBox|/content-docs/api2/reference/Gtk4/FlowBox> container.
@@ -147,10 +147,10 @@ Return value; the index of the C<$child>, or -1 if the C<$child> is not
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-selected
 
 Returns whether the C<$child> is currently selected in its
@@ -169,10 +169,10 @@ Return value; C<True> if C<$child> is selected.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-child
 
 Sets the child widget of C<$self>.
@@ -190,13 +190,13 @@ method set-child ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -232,5 +232,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

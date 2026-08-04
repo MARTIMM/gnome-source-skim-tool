@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::FileFilter
 =head1 Description
 
@@ -67,13 +67,13 @@ rules:
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -84,10 +84,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-filefilter
 
 Creates a new B<Gnome::Gtk4::FileFilter> with no rules added to it.
@@ -117,10 +117,10 @@ method new-filefilter ( --> Gnome::Gtk4::FileFilter )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-gvariant
 
 Deserialize a file filter from a B<Gnome::Glib::N-Variant>.
@@ -141,18 +141,18 @@ method new-from-gvariant ( N-Object $variant --> Gnome::Gtk4::FileFilter )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-mime-type
 
 Adds a rule allowing a given mime type to C<$filter>.
@@ -170,10 +170,10 @@ method add-mime-type ( Str $mime-type )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-pattern
 
 Adds a rule allowing a shell style glob to a filter.
@@ -195,10 +195,10 @@ method add-pattern ( Str $pattern )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-pixbuf-formats
 
 Adds a rule allowing image files in the formats supported
@@ -218,10 +218,10 @@ method add-pixbuf-formats ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-suffix
 
 Adds a suffix match rule to a filter.
@@ -245,10 +245,10 @@ method add-suffix ( Str $suffix )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-attributes
 
 Gets the attributes that need to be filled in for the L<Gnome::Gio::FileInfo|/content-docs/api2/reference/Gio/FileInfo>
@@ -271,10 +271,10 @@ Return value; the attributes.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-name
 
 Gets the human-readable name for the filter.
@@ -294,10 +294,10 @@ Return value; The human-readable name of the filter.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-name
 
 Sets a human-readable name of the filter.
@@ -319,10 +319,10 @@ method set-name ( Str $name )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 to-gvariant
 
 Serialize a file filter to an B<a>{sv}` variant.
@@ -340,5 +340,5 @@ Return value; a new, floating, B<Gnome::Glib::N-Variant>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
