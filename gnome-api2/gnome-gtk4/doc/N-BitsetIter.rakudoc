@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::N-BitsetIter
 =head1 Description
 
@@ -23,13 +23,13 @@ or L<.BitsetIter.init-at().BitsetIter.init-at() in package Gnome::Gtk4|/content-
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -40,18 +40,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-value
 
 Gets the current value that C<$iter> points to.
@@ -72,10 +72,10 @@ Return value; The current value pointer to by C<$iter>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-valid
 
 Checks if C<$iter> points to a valid value.
@@ -93,10 +93,10 @@ Return value; C<True> if C<$iter> points to a valid value.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 next
 
 Moves C<$iter> to the next value in the set.
@@ -119,10 +119,10 @@ Return value; C<True> if a next value existed.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 previous
 
 Moves C<$iter> to the previous value in the set.
@@ -145,18 +145,18 @@ Return value; C<True> if a previous value existed.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-at
 
 Initializes C<$iter> to point to C<$target>.
@@ -182,10 +182,10 @@ Return value; C<True> if a value was found..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-first
 
 Initializes an iterator for C<$set> and points it to the first
@@ -210,10 +210,10 @@ Return value; C<True> if C<$set> isn't empty..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-last
 
 Initializes an iterator for C<$set> and points it to the last
@@ -238,5 +238,5 @@ Return value; C<True> if C<$set> isn't empty..
 
 =end comment
 
-=end pod
+=end rakudoc
 

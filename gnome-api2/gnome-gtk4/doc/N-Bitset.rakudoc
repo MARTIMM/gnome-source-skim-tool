@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::N-Bitset
 =head1 Description
 
@@ -51,13 +51,13 @@ An example use of module bitset is to show a selection of listview entries. @pos
   # Set the selection with the same mask as its selected items.
   $selection-type.set-selection( $bitset, $bitset);
 =end code
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -68,10 +68,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-empty
 
 Creates a new empty bitset.
@@ -87,10 +87,10 @@ method new-empty ( --> Gnome::Gtk4::Bitset )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-range
 
 Creates a bitset with the given range set.
@@ -109,18 +109,18 @@ method new-range ( UInt() $start, UInt() $n-items --> Gnome::Gtk4::Bitset )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add
 
 Adds C<$value> to C<$self> if it wasn't part of it before.
@@ -141,10 +141,10 @@ Return value; C<True> if C<$value> was not part of C<$self> and C<$self>
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-range
 
 Adds all values from C<$start> (inclusive) to C<$start> + C<$n-items>
@@ -164,10 +164,10 @@ method add-range ( UInt() $start, UInt() $n-items )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-range-closed
 
 Adds the closed range [ C<$first>, C<$last>], so C<$first>, C<$last> and all
@@ -187,10 +187,10 @@ method add-range-closed ( UInt() $first, UInt() $last )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-rectangle
 
 Interprets the values as a 2-dimensional boolean grid with the given C<$stride>
@@ -212,10 +212,10 @@ method add-rectangle ( UInt() $start, UInt() $width, UInt() $height, UInt() $str
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 contains
 
 Checks if the given C<$value> has been added to C<$self>
@@ -235,10 +235,10 @@ Return value; C<True> if C<$self> contains C<$value>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 copy
 
 Creates a copy of C<$self>.
@@ -257,10 +257,10 @@ Return value; A new bitset that contains the same
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 difference
 
 Sets C<$self> to be the symmetric difference of C<$self> and C<$other>.
@@ -285,10 +285,10 @@ method difference ( N-Object $other )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 equals
 
 Returns C<True> if C<$self> and C<$other> contain the same values.
@@ -308,10 +308,10 @@ Return value; C<True> if C<$self> and C<$other> contain the same values.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-maximum
 
 Returns the largest value in C<$self>.
@@ -331,10 +331,10 @@ Return value; The largest value in C<$self>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-minimum
 
 Returns the smallest value in C<$self>.
@@ -354,10 +354,10 @@ Return value; The smallest value in C<$self>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-nth
 
 Returns the value of the C<$nth> item in self.
@@ -379,10 +379,10 @@ Return value; the value of the C<$nth> item in C<$self>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-size
 
 Gets the number of values that were added to the set.
@@ -407,10 +407,10 @@ Return value; The number of values in the set..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-size-in-range
 
 Gets the number of values that are part of the set from C<$first> to C<$last>
@@ -436,10 +436,10 @@ Return value; The number of values in the set from C<$first> to C<$last>..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 intersect
 
 Sets C<$self> to be the intersection of C<$self> and C<$other>.
@@ -462,10 +462,10 @@ method intersect ( N-Object $other )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-empty
 
 Check if no value is contained in bitset.
@@ -483,10 +483,10 @@ Return value; C<True> if C<$self> is empty.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ref
 
 Acquires a reference on the given B<Gnome::Gtk4::N-Bitset>.
@@ -504,10 +504,10 @@ Return value; the B<Gnome::Gtk4::N-Bitset> with an additional reference.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove
 
 Removes C<$value> from C<$self> if it was part of it before.
@@ -528,10 +528,10 @@ Return value; C<True> if C<$value> was part of C<$self> and C<$self>
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-all
 
 Removes all values from the bitset so that it is empty again.
@@ -547,10 +547,10 @@ method remove-all ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-range
 
 Removes all values from C<$start> (inclusive) to C<$start> + C<$n-items> (exclusive)
@@ -570,10 +570,10 @@ method remove-range ( UInt() $start, UInt() $n-items )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-range-closed
 
 Removes the closed range [ C<$first>, C<$last>], so C<$first>, C<$last> and all
@@ -593,10 +593,10 @@ method remove-range-closed ( UInt() $first, UInt() $last )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-rectangle
 
 Interprets the values as a 2-dimensional boolean grid with the given C<$stride>
@@ -618,10 +618,10 @@ method remove-rectangle ( UInt() $start, UInt() $width, UInt() $height, UInt() $
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 shift-left
 
 Shifts all values in C<$self> to the left by C<$amount>.
@@ -641,10 +641,10 @@ method shift-left ( UInt() $amount )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 shift-right
 
 Shifts all values in C<$self> to the right by C<$amount>.
@@ -664,10 +664,10 @@ method shift-right ( UInt() $amount )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 splice
 
 This is a support function for L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> handling, by mirroring
@@ -696,10 +696,10 @@ method splice ( UInt() $position, UInt() $removed, UInt() $added )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 subtract
 
 Sets C<$self> to be the subtraction of C<$other> from C<$self>.
@@ -722,10 +722,10 @@ method subtract ( N-Object $other )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 union
 
 Sets C<$self> to be the union of C<$self> and C<$other>.
@@ -748,10 +748,10 @@ method union ( N-Object $other )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unref
 
 Releases a reference on the given B<Gnome::Gtk4::N-Bitset>.
@@ -770,5 +770,5 @@ method unref ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 

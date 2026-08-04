@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::N-AccessibleList
 =head1 Description
 
@@ -18,13 +18,13 @@ A boxed type which wraps a list of references to GtkAccessible objects.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -35,10 +35,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-array
 
 Allocates a new list of accessible instances.
@@ -57,10 +57,10 @@ method new-from-array ( N-Object() $accessibles, Int() $n-accessibles --> Gnome:
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-list
 
 Allocates a new B<Gnome::Gtk4::N-AccessibleList>, doing a shallow copy of the
@@ -79,18 +79,18 @@ method new-from-list ( N-List() $list --> Gnome::Gtk4::AccessibleList )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-objects
 
 Gets the list of objects this boxed type holds
@@ -108,5 +108,5 @@ Return value; a shallow copy of the objects.
 
 =end comment
 
-=end pod
+=end rakudoc
 

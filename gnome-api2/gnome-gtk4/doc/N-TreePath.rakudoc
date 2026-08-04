@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::N-TreePath
 =head1 Description
 
@@ -18,13 +18,13 @@ An opaque structure representing a path to a row in a model.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
@@ -37,10 +37,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-treepath
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -59,10 +59,10 @@ method new-treepath ( --> Gnome::Gtk4::TreePath )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-first
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -82,10 +82,10 @@ method new-first ( --> Gnome::Gtk4::TreePath )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-indices
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -106,10 +106,10 @@ method new-from-indices ( Int() $first-index, … --> Gnome::Gtk4::TreePath )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-indicesv
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -130,10 +130,10 @@ method new-from-indicesv ( Array[Int] $indices, Int() $length --> Gnome::Gtk4::T
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-string
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -158,18 +158,18 @@ method new-from-string ( Str $path --> Gnome::Gtk4::TreePath )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-index
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -191,10 +191,10 @@ method append-index ( Int() $index )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 compare
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -220,10 +220,10 @@ Return value; the relative positions of C<$a> and C<$b>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 copy
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -243,10 +243,10 @@ Return value; a new B<Gnome::Gtk4::N-TreePath>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 down
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -264,10 +264,10 @@ method down ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -285,10 +285,10 @@ method free ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-depth
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -308,10 +308,10 @@ Return value; The depth of C<$path>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-indices
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -336,10 +336,10 @@ Return value; The current indices.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-indices-with-depth
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -367,10 +367,10 @@ Return value; The current
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-ancestor
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -392,10 +392,10 @@ Return value; C<True> if C<$descendant> is contained inside C<$path>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-descendant
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -417,10 +417,10 @@ Return value; C<True> if C<$ancestor> contains C<$path> somewhere below it.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 next
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -438,10 +438,10 @@ method next ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 prepend-index
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -463,10 +463,10 @@ method prepend-index ( Int() $index )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 prev
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -488,10 +488,10 @@ Return value; C<True> if C<$path> has a previous node, and
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 to-string
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -516,10 +516,10 @@ Return value; A newly-allocated string.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 up
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -539,5 +539,5 @@ Return value; C<True> if C<$path> has a parent, and the move was made.
 
 =end comment
 
-=end pod
+=end rakudoc
 

@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::N-TextIter
 =head1 Description
 
@@ -23,13 +23,13 @@ related to the text widget and how they work together.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -40,18 +40,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 assign
 
 Assigns the value of C<$other> to C<$iter>.
@@ -74,10 +74,10 @@ method assign ( N-Object $other )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 backward-char
 
 Moves backward by one character offset.
@@ -99,10 +99,10 @@ Return value; whether movement was possible.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 backward-chars
 
 Moves C<$count> characters backward, if possible.
@@ -130,10 +130,10 @@ Return value; whether C<$iter> moved and is dereferenceable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 backward-cursor-position
 
 Like L<.forward-cursor-position()|#forward-cursor-position>, but moves backward.
@@ -151,10 +151,10 @@ Return value; C<True> if we moved.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 backward-cursor-positions
 
 Moves up to C<$count> cursor positions.
@@ -176,10 +176,10 @@ Return value; C<True> if we moved and the new position is dereferenceable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 backward-find-char
 
 Same as L<.forward-find-char()|#forward-find-char>,
@@ -202,10 +202,10 @@ Return value; whether a match was found.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 backward-line
 
 Moves C<$iter> to the start of the previous line.
@@ -230,10 +230,10 @@ Return value; whether C<$iter> moved.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 backward-lines
 
 Moves C<$count> lines backward, if possible.
@@ -262,10 +262,10 @@ Return value; whether C<$iter> moved and is dereferenceable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 backward-search
 
 Same as L<.forward-search()|#forward-search>, but moves backward.
@@ -291,10 +291,10 @@ Return value; whether a match was found.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 backward-sentence-start
 
 Moves backward to the previous sentence start.
@@ -318,10 +318,10 @@ Return value; C<True> if C<$iter> moved and is not the end iterator.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 backward-sentence-starts
 
 Calls L<.backward-sentence-start()|#backward-sentence-start> up to C<$count> times.
@@ -343,10 +343,10 @@ Return value; C<True> if C<$iter> moved and is not the end iterator.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 backward-to-tag-toggle
 
 Moves backward to the next toggle (on or off) of the C<$tag>, or to the next toggle of any tag if C<$tag> is undefined.
@@ -372,10 +372,10 @@ Return value; whether we found a tag toggle before C<$iter>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 backward-visible-cursor-position
 
 Moves C<$iter> backward to the previous visible cursor position.
@@ -395,10 +395,10 @@ Return value; C<True> if we moved and the new position is dereferenceable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 backward-visible-cursor-positions
 
 Moves up to C<$count> visible cursor positions.
@@ -420,10 +420,10 @@ Return value; C<True> if we moved and the new position is dereferenceable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 backward-visible-line
 
 Moves C<$iter> to the start of the previous visible line.
@@ -448,10 +448,10 @@ Return value; whether C<$iter> moved.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 backward-visible-lines
 
 Moves C<$count> visible lines backward, if possible.
@@ -480,10 +480,10 @@ Return value; whether C<$iter> moved and is dereferenceable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 backward-visible-word-start
 
 Moves backward to the previous visible word start.
@@ -507,10 +507,10 @@ Return value; C<True> if C<$iter> moved and is not the end iterator.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 backward-visible-word-starts
 
 Calls L<.backward-visible-word-start()|#backward-visible-word-start> up to C<$count> times.
@@ -530,10 +530,10 @@ Return value; C<True> if C<$iter> moved and is not the end iterator.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 backward-word-start
 
 Moves backward to the previous word start.
@@ -557,10 +557,10 @@ Return value; C<True> if C<$iter> moved and is not the end iterator.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 backward-word-starts
 
 Calls L<.backward-word-start()|#backward-word-start> up to C<$count> times.
@@ -580,10 +580,10 @@ Return value; C<True> if C<$iter> moved and is not the end iterator.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 can-insert
 
 Considering the default editability of the buffer, and tags that
@@ -610,10 +610,10 @@ Return value; whether text inserted at C<$iter> would be editable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 compare
 
 A qsort()-style function that returns negative if C<$lhs> is less than C<$rhs>, positive if C<$lhs> is greater than C<$rhs>, and 0 if they’re equal.
@@ -636,10 +636,10 @@ Return value; -1 if C<$lhs> is less than C<$rhs>, 1 if C<$lhs> is greater, 0 if 
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 copy
 
 Creates a dynamically-allocated copy of an iterator.
@@ -663,10 +663,10 @@ Return value; a copy of the C<$iter>, free with L<.free()|#free>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 editable
 
 Returns whether the character at C<$iter> is within an editable region
@@ -698,10 +698,10 @@ Return value; whether C<$iter> is inside an editable range.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ends-line
 
 Returns C<True> if C<$iter> points to the start of the paragraph
@@ -729,10 +729,10 @@ Return value; whether C<$iter> is at the end of a line.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ends-sentence
 
 Determines whether C<$iter> ends a sentence.
@@ -753,10 +753,10 @@ Return value; C<True> if C<$iter> is at the end of a sentence..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ends-tag
 
 Returns C<True> if C<$tag> is toggled off at exactly this point.
@@ -784,10 +784,10 @@ Return value; whether C<$iter> is the end of a range tagged with C<$tag>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ends-word
 
 Determines whether C<$iter> ends a natural-language word.
@@ -808,10 +808,10 @@ Return value; C<True> if C<$iter> is at the end of a word.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 equal
 
 Tests whether two iterators are equal, using the fastest possible
@@ -837,10 +837,10 @@ Return value; C<True> if the iterators point to the same place in the buffer.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 forward-char
 
 Moves C<$iter> forward by one character offset.
@@ -864,10 +864,10 @@ Return value; whether C<$iter> moved and is dereferenceable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 forward-chars
 
 Moves C<$count> characters if possible.
@@ -894,10 +894,10 @@ Return value; whether C<$iter> moved and is dereferenceable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 forward-cursor-position
 
 Moves C<$iter> forward by a single cursor position.
@@ -929,10 +929,10 @@ Return value; C<True> if we moved and the new position is dereferenceable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 forward-cursor-positions
 
 Moves up to C<$count> cursor positions.
@@ -954,10 +954,10 @@ Return value; C<True> if we moved and the new position is dereferenceable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 forward-find-char
 
 Advances C<$iter>, calling C<$pred> on each character.
@@ -982,10 +982,10 @@ Return value; whether a match was found.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 forward-line
 
 Moves C<$iter> to the start of the next line.
@@ -1008,10 +1008,10 @@ Return value; whether C<$iter> can be dereferenced.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 forward-lines
 
 Moves C<$count> lines forward, if possible.
@@ -1040,10 +1040,10 @@ Return value; whether C<$iter> moved and is dereferenceable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 forward-search
 
 Searches forward for C<$str>.
@@ -1075,10 +1075,10 @@ Return value; whether a match was found.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 forward-sentence-end
 
 Moves forward to the next sentence end.
@@ -1102,10 +1102,10 @@ Return value; C<True> if C<$iter> moved and is not the end iterator.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 forward-sentence-ends
 
 Calls L<.forward-sentence-end()|#forward-sentence-end> C<$count> times.
@@ -1127,10 +1127,10 @@ Return value; C<True> if C<$iter> moved and is not the end iterator.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 forward-to-end
 
 Moves C<$iter> forward to the “end iterator”, which points
@@ -1150,10 +1150,10 @@ method forward-to-end ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 forward-to-line-end
 
 Moves the iterator to point to the paragraph delimiter characters.
@@ -1181,10 +1181,10 @@ Return value; C<True> if we moved and the new location is not the end iterator.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 forward-to-tag-toggle
 
 Moves forward to the next toggle (on or off) of the C<$tag>, or to the next toggle of any tag if C<$tag> is undefined.
@@ -1210,10 +1210,10 @@ Return value; whether we found a tag toggle after C<$iter>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 forward-visible-cursor-position
 
 Moves C<$iter> forward to the next visible cursor position.
@@ -1233,10 +1233,10 @@ Return value; C<True> if we moved and the new position is dereferenceable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 forward-visible-cursor-positions
 
 Moves up to C<$count> visible cursor positions.
@@ -1258,10 +1258,10 @@ Return value; C<True> if we moved and the new position is dereferenceable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 forward-visible-line
 
 Moves C<$iter> to the start of the next visible line.
@@ -1284,10 +1284,10 @@ Return value; whether C<$iter> can be dereferenced.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 forward-visible-lines
 
 Moves C<$count> visible lines forward, if possible.
@@ -1316,10 +1316,10 @@ Return value; whether C<$iter> moved and is dereferenceable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 forward-visible-word-end
 
 Moves forward to the next visible word end.
@@ -1343,10 +1343,10 @@ Return value; C<True> if C<$iter> moved and is not the end iterator.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 forward-visible-word-ends
 
 Calls L<.forward-visible-word-end()|#forward-visible-word-end> up to C<$count> times.
@@ -1366,10 +1366,10 @@ Return value; C<True> if C<$iter> moved and is not the end iterator.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 forward-word-end
 
 Moves forward to the next word end.
@@ -1393,10 +1393,10 @@ Return value; C<True> if C<$iter> moved and is not the end iterator.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 forward-word-ends
 
 Calls L<.forward-word-end()|#forward-word-end> up to C<$count> times.
@@ -1416,10 +1416,10 @@ Return value; C<True> if C<$iter> moved and is not the end iterator.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free
 
 Free an iterator allocated on the heap.
@@ -1439,10 +1439,10 @@ method free ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-buffer
 
 Returns the L<Gnome::Gtk4::TextBuffer|/content-docs/api2/reference/Gtk4/TextBuffer> this iterator is associated with.
@@ -1460,10 +1460,10 @@ Return value; the buffer.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-bytes-in-line
 
 Returns the number of bytes in the line containing C<$iter>,
@@ -1482,10 +1482,10 @@ Return value; number of bytes in the line.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-char
 
 The Unicode character at this iterator is returned.
@@ -1511,10 +1511,10 @@ Return value; a Unicode character, or 0 if C<$iter> is not dereferenceable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-chars-in-line
 
 Returns the number of characters in the line containing C<$iter>,
@@ -1533,10 +1533,10 @@ Return value; number of characters in the line.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child-anchor
 
 If the location at C<$iter> contains a child anchor, the
@@ -1557,10 +1557,10 @@ Return value; the anchor at C<$iter>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-language
 
 Returns the language in effect at C<$iter>.
@@ -1581,10 +1581,10 @@ Return value; language in effect at C<$iter>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-line
 
 Returns the line number containing the iterator.
@@ -1605,10 +1605,10 @@ Return value; a line number.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-line-index
 
 Returns the byte index of the iterator, counting
@@ -1631,10 +1631,10 @@ Return value; distance from start of line, in bytes.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-line-offset
 
 Returns the character offset of the iterator,
@@ -1655,10 +1655,10 @@ Return value; offset from start of line.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-marks
 
 Returns a list of all L<Gnome::Gtk4::TextMark|/content-docs/api2/reference/Gtk4/TextMark> at this location.
@@ -1683,10 +1683,10 @@ Return value;
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-offset
 
 Returns the character offset of an iterator.
@@ -1709,10 +1709,10 @@ Return value; a character offset.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-paintable
 
 If the element at C<$iter> is a paintable, the paintable is returned.
@@ -1732,10 +1732,10 @@ Return value; the paintable at C<$iter>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-slice
 
 Returns the text in the given range.
@@ -1764,10 +1764,10 @@ Return value; slice of text from the buffer.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-tags
 
 Returns a list of tags that apply to C<$iter>, in ascending order of
@@ -1792,10 +1792,10 @@ Return value; list of
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-text
 
 Returns text in the given range.
@@ -1821,10 +1821,10 @@ Return value; array of characters from the buffer.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-toggled-tags
 
 Returns a list of L<Gnome::Gtk4::TextTag|/content-docs/api2/reference/Gtk4/TextTag> that are toggled on or off at this
@@ -1852,10 +1852,10 @@ Return value; tags
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-visible-line-index
 
 Returns the number of bytes from the start of the
@@ -1876,10 +1876,10 @@ Return value; byte index of C<$iter> with respect to the start of the line.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-visible-line-offset
 
 Returns the offset in characters from the start of the
@@ -1900,10 +1900,10 @@ Return value; offset in visible characters from the start of the line.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-visible-slice
 
 Returns visible text in the given range.
@@ -1928,10 +1928,10 @@ Return value; slice of text from the buffer.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-visible-text
 
 Returns visible text in the given range.
@@ -1957,10 +1957,10 @@ range.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 has-tag
 
 Returns C<True> if C<$iter> points to a character that is part
@@ -1984,10 +1984,10 @@ Return value; whether C<$iter> is tagged with C<$tag>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 in-range
 
 Checks whether C<$iter> falls in the range [ C<$start>, C<$end>).
@@ -2009,10 +2009,10 @@ Return value; C<True> if C<$iter> is in the range.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 inside-sentence
 
 Determines whether C<$iter> is inside a sentence (as opposed to in
@@ -2035,10 +2035,10 @@ Return value; C<True> if C<$iter> is inside a sentence..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 inside-word
 
 Determines whether the character pointed by C<$iter> is part of a
@@ -2064,10 +2064,10 @@ Return value; C<True> if C<$iter> is inside a word.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-cursor-position
 
 Determine if C<$iter> is at a cursor position.
@@ -2089,10 +2089,10 @@ Return value; C<True> if the cursor can be placed at C<$iter>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-end
 
 Returns C<True> if C<$iter> is the end iterator.
@@ -2114,10 +2114,10 @@ Return value; whether C<$iter> is the end iterator.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-start
 
 Returns C<True> if C<$iter> is the first iterator in the buffer.
@@ -2135,10 +2135,10 @@ Return value; whether C<$iter> is the first in the buffer.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 order
 
 Swaps the value of C<$first> and C<$second> if C<$second> comes before C<$first> in the buffer.
@@ -2163,10 +2163,10 @@ method order ( N-Object $second )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-line
 
 Moves iterator C<$iter> to the start of the line C<$line-number>.
@@ -2187,10 +2187,10 @@ method set-line ( Int() $line-number )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-line-index
 
 Same as L<.set-line-offset()|#set-line-offset>, but works with a
@@ -2211,10 +2211,10 @@ method set-line-index ( Int() $byte-on-line )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-line-offset
 
 Moves C<$iter> within a line, to a new character (not byte) offset.
@@ -2237,10 +2237,10 @@ method set-line-offset ( Int() $char-on-line )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-offset
 
 Sets C<$iter> to point to C<$char-offset>.
@@ -2260,10 +2260,10 @@ method set-offset ( Int() $char-offset )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-visible-line-index
 
 Like L<.set-line-index()|#set-line-index>, but the index is in visible
@@ -2283,10 +2283,10 @@ method set-visible-line-index ( Int() $byte-on-line )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-visible-line-offset
 
 Like L<.set-line-offset()|#set-line-offset>, but the offset is in visible
@@ -2306,10 +2306,10 @@ method set-visible-line-offset ( Int() $char-on-line )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 starts-line
 
 Returns C<True> if C<$iter> begins a paragraph.
@@ -2333,10 +2333,10 @@ Return value; whether C<$iter> begins a line.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 starts-sentence
 
 Determines whether C<$iter> begins a sentence.
@@ -2357,10 +2357,10 @@ Return value; C<True> if C<$iter> is at the start of a sentence..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 starts-tag
 
 Returns C<True> if C<$tag> is toggled on at exactly this point.
@@ -2388,10 +2388,10 @@ Return value; whether C<$iter> is the start of a range tagged with C<$tag>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 starts-word
 
 Determines whether C<$iter> begins a natural-language word.
@@ -2412,10 +2412,10 @@ Return value; C<True> if C<$iter> is at the start of a word.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 toggles-tag
 
 Gets whether a range with C<$tag> applied to it begins
@@ -2439,5 +2439,5 @@ Return value; whether C<$tag> is toggled on or off at C<$iter>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
