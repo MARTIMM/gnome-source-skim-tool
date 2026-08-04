@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::ProgressBar
 =head1 Description
 
@@ -67,13 +67,13 @@ B<Gnome::Gtk4::ProgressBar> uses the C<GTK_ACCESSIBLE_ROLE_PROGRESS_BAR> role.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -84,10 +84,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-progressbar
 
 Creates a new B<Gnome::Gtk4::ProgressBar>.
@@ -103,18 +103,18 @@ method new-progressbar ( --> Gnome::Gtk4::ProgressBar )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-ellipsize
 
 Returns the ellipsizing position of the progress bar.
@@ -134,10 +134,10 @@ Return value; C<enumeration PangoEllipsizeMode defined in Gnome::Pango::T-layout
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-fraction
 
 Returns the current fraction of the task that’s been completed.
@@ -155,10 +155,10 @@ Return value; a fraction from 0.0 to 1.0.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-inverted
 
 Returns whether the progress bar is inverted.
@@ -176,10 +176,10 @@ Return value; C<True> if the progress bar is inverted.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-pulse-step
 
 Retrieves the pulse step.
@@ -199,10 +199,10 @@ Return value; a fraction from 0.0 to 1.0.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-show-text
 
 Returns whether the B<Gnome::Gtk4::ProgressBar> shows text.
@@ -222,10 +222,10 @@ Return value; C<True> if text is shown in the progress bar.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-text
 
 Retrieves the text that is displayed with the progress bar.
@@ -246,10 +246,10 @@ Return value; the text.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 pulse
 
 Indicates that some progress has been made, but you don’t know how much.
@@ -270,10 +270,10 @@ method pulse ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-ellipsize
 
 Sets the mode used to ellipsize the text.
@@ -294,10 +294,10 @@ method set-ellipsize ( PangoEllipsizeMode $mode )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-fraction
 
 Causes the progress bar to “fill in” the given fraction
@@ -318,10 +318,10 @@ method set-fraction ( Num() $fraction )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-inverted
 
 Sets whether the progress bar is inverted.
@@ -342,10 +342,10 @@ method set-inverted ( Bool() $inverted )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-pulse-step
 
 Sets the fraction of total progress bar length to move the
@@ -367,10 +367,10 @@ method set-pulse-step ( Num() $fraction )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-show-text
 
 Sets whether the progress bar will show text next to the bar.
@@ -396,10 +396,10 @@ method set-show-text ( Bool() $show-text )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-text
 
 Causes the given C<$text> to appear next to the progress bar.
@@ -427,5 +427,5 @@ method set-text ( Str $text )
 
 =end comment
 
-=end pod
+=end rakudoc
 

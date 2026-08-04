@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::PrintUnixDialog
 =head1 Description
 
@@ -77,13 +77,13 @@ dialog and print are added.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -94,10 +94,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-printunixdialog
 
 Creates a new B<Gnome::Gtk4::PrintUnixDialog>.
@@ -116,18 +116,18 @@ method new-printunixdialog ( Str $title, N-Object() $parent --> Gnome::Gtk4::Pri
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-custom-tab
 
 Adds a custom tab to the print dialog.
@@ -146,10 +146,10 @@ method add-custom-tab ( N-Object() $child, N-Object() $tab-label )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-current-page
 
 Gets the current page of the B<Gnome::Gtk4::PrintUnixDialog>.
@@ -167,10 +167,10 @@ Return value; the current page of C<$dialog>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-embed-page-setup
 
 Gets whether to embed the page setup.
@@ -188,10 +188,10 @@ Return value; whether to embed the page setup.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-has-selection
 
 Gets whether there is a selection.
@@ -209,10 +209,10 @@ Return value; whether there is a selection.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-manual-capabilities
 This function is not yet available
 
@@ -231,10 +231,10 @@ Return value; the printing capabilities.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-page-setup
 
 Gets the page setup that is used by the B<Gnome::Gtk4::PrintUnixDialog>.
@@ -252,10 +252,10 @@ Return value; the page setup of C<$dialog>..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-page-setup-set
 
 Gets whether a page setup was set by the user.
@@ -273,10 +273,10 @@ Return value; whether a page setup was set by user..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-selected-printer
 
 Gets the currently selected printer.
@@ -294,10 +294,10 @@ Return value; the currently selected printer.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-settings
 
 Gets a new L<Gnome::Gtk4::PrintSettings|/content-docs/api2/reference/Gtk4/PrintSettings> object that represents the
@@ -319,10 +319,10 @@ Return value; a new L<Gnome::Gtk4::PrintSettings|/content-docs/api2/reference/Gt
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-support-selection
 
 Gets whether the print dialog allows user to print a selection.
@@ -340,10 +340,10 @@ Return value; whether the application supports print of selection.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-current-page
 
 Sets the current page number.
@@ -364,10 +364,10 @@ method set-current-page ( Int() $current-page )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-embed-page-setup
 
 Embed page size combo box and orientation combo box into page setup page.
@@ -385,10 +385,10 @@ method set-embed-page-setup ( Bool() $embed )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-has-selection
 
 Sets whether a selection exists.
@@ -406,10 +406,10 @@ method set-has-selection ( Bool() $has-selection )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-manual-capabilities
 
 This lets you specify the printing capabilities your application
@@ -433,10 +433,10 @@ method set-manual-capabilities ( UInt $capabilities )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-page-setup
 
 Sets the page setup of the B<Gnome::Gtk4::PrintUnixDialog>.
@@ -454,10 +454,10 @@ method set-page-setup ( N-Object() $page-setup )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-settings
 
 Sets the L<Gnome::Gtk4::PrintSettings|/content-docs/api2/reference/Gtk4/PrintSettings> for the B<Gnome::Gtk4::PrintUnixDialog>.
@@ -479,10 +479,10 @@ method set-settings ( N-Object() $settings )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-support-selection
 
 Sets whether the print dialog allows user to print a selection.
@@ -500,5 +500,5 @@ method set-support-selection ( Bool() $support-selection )
 
 =end comment
 
-=end pod
+=end rakudoc
 

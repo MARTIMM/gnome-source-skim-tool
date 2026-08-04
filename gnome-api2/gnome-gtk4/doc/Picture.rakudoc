@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Picture
 =head1 Description
 
@@ -62,13 +62,13 @@ B<Gnome::Gtk4::Picture> uses the B<GTK_ACCESSIBLE_ROLE_IMG> role.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -79,10 +79,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-picture
 
 Creates a new empty B<Gnome::Gtk4::Picture> widget.
@@ -98,10 +98,10 @@ method new-picture ( --> Gnome::Gtk4::Picture )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-for-file
 
 Creates a new B<Gnome::Gtk4::Picture> displaying the given C<$file>.
@@ -126,10 +126,10 @@ method new-for-file ( N-Object() $file --> Gnome::Gtk4::Picture )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-for-filename
 
 Creates a new B<Gnome::Gtk4::Picture> displaying the file C<$filename>.
@@ -150,10 +150,10 @@ method new-for-filename ( Str $filename --> Gnome::Gtk4::Picture )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-for-paintable
 
 Creates a new B<Gnome::Gtk4::Picture> displaying C<$paintable>.
@@ -174,10 +174,10 @@ method new-for-paintable ( N-Object() $paintable --> Gnome::Gtk4::Picture )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-for-pixbuf
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.12>
@@ -202,10 +202,10 @@ method new-for-pixbuf ( N-Object() $pixbuf --> Gnome::Gtk4::Picture )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-for-resource
 
 Creates a new B<Gnome::Gtk4::Picture> displaying the resource at C<$resource-path>.
@@ -226,18 +226,18 @@ method new-for-resource ( Str $resource-path --> Gnome::Gtk4::Picture )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-alternative-text
 
 Gets the alternative textual description of the picture.
@@ -257,10 +257,10 @@ Return value; the alternative textual description of C<$self>..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-can-shrink
 
 Returns whether the B<Gnome::Gtk4::Picture> respects its contents size.
@@ -278,10 +278,10 @@ Return value; C<True> if the picture can be made smaller than its contents.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-content-fit
 
 Returns the fit mode for the content of the B<Gnome::Gtk4::Picture>.
@@ -301,10 +301,10 @@ Return value; the content fit mode.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-file
 
 Gets the L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File> currently displayed if C<$self> is displaying a file.
@@ -325,10 +325,10 @@ Return value; The L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File> 
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-keep-aspect-ratio
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.8>
@@ -348,10 +348,10 @@ Return value; C<True> if the self tries to keep the contents' aspect ratio.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-paintable
 
 Gets the L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable> being displayed by the B<Gnome::Gtk4::Picture>.
@@ -369,10 +369,10 @@ Return value; the displayed paintable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-alternative-text
 
 Sets an alternative textual description for the picture contents.
@@ -396,10 +396,10 @@ method set-alternative-text ( Str $alternative-text )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-can-shrink
 
 If set to C<True>, the C<$self> can be made smaller than its contents.
@@ -426,10 +426,10 @@ method set-can-shrink ( Bool() $can-shrink )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-content-fit
 
 Sets how the content should be resized to fit the B<Gnome::Gtk4::Picture>.
@@ -449,10 +449,10 @@ method set-content-fit ( GtkContentFit $content-fit )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-file
 
 Makes C<$self> load and display C<$file>.
@@ -472,10 +472,10 @@ method set-file ( N-Object() $file )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-filename
 
 Makes C<$self> load and display the given C<$filename>.
@@ -495,10 +495,10 @@ method set-filename ( Str $filename )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-keep-aspect-ratio
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.8>
@@ -525,10 +525,10 @@ method set-keep-aspect-ratio ( Bool() $keep-aspect-ratio )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-paintable
 
 Makes C<$self> display the given C<$paintable>.
@@ -550,10 +550,10 @@ method set-paintable ( N-Object() $paintable )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-pixbuf
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.12>
@@ -575,10 +575,10 @@ GtkWidget *widget = gtk_picture_new_for_filename ("myfile.png");
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-resource
 
 Makes C<$self> load and display the resource at the given C<$resource-path>.
@@ -591,5 +591,5 @@ method set-resource ( Str $resource-path )
 
 =item $resource-path; the resource to set.
 
-=end pod
+=end rakudoc
 

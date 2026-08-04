@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Popover
 =head1 Description
 
@@ -99,13 +99,13 @@ used) and no box-shadow.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -116,10 +116,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-popover
 
 Creates a new B<Gnome::Gtk4::Popover>.
@@ -135,18 +135,18 @@ method new-popover ( --> Gnome::Gtk4::Popover )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-autohide
 
 Returns whether the popover is modal.
@@ -167,10 +167,10 @@ Return value; C<True> if C<$popover> is modal.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-cascade-popdown
 
 Returns whether the popover will close after a modal child is closed.
@@ -188,10 +188,10 @@ Return value; C<True> if C<$popover> will close after a modal child..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child
 
 Gets the child widget of C<$popover>.
@@ -209,10 +209,10 @@ Return value; the child widget of C<$popover>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-has-arrow
 
 Gets whether this popover is showing an arrow
@@ -231,10 +231,10 @@ Return value; whether the popover has an arrow.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-mnemonics-visible
 
 Gets whether mnemonics are visible.
@@ -253,10 +253,10 @@ Return value; C<True> if mnemonics are supposed to be visible
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-offset
 
 Gets the offset previous set with L<.set-offset()()|#set-offset()>.
@@ -275,10 +275,10 @@ method get-offset ( Array[Int] $x-offset, Array[Int] $y-offset )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-pointing-to
 
 Gets the rectangle that the popover points to.
@@ -303,10 +303,10 @@ Return value; C<True> if a rectangle to point to was set..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-position
 
 Returns the preferred position of C<$popover>.
@@ -324,10 +324,10 @@ Return value; The preferred position..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 popdown
 
 Pops C<$popover> down.
@@ -346,10 +346,10 @@ method popdown ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 popup
 
 Pops C<$popover> up.
@@ -365,10 +365,10 @@ method popup ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 present
 
 Allocate a size for the B<Gnome::Gtk4::Popover>.
@@ -390,10 +390,10 @@ method present ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-autohide
 
 Sets whether C<$popover> is modal.
@@ -419,10 +419,10 @@ method set-autohide ( Bool() $autohide )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-cascade-popdown
 
 If C<$cascade-popdown> is C<True>, the popover will be
@@ -443,10 +443,10 @@ method set-cascade-popdown ( Bool() $cascade-popdown )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-child
 
 Sets the child widget of C<$popover>.
@@ -464,10 +464,10 @@ method set-child ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-default-widget
 
 Sets the default widget of a B<Gnome::Gtk4::Popover>.
@@ -490,10 +490,10 @@ method set-default-widget ( N-Object() $widget )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-has-arrow
 
 Sets whether this popover should draw an arrow
@@ -512,10 +512,10 @@ method set-has-arrow ( Bool() $has-arrow )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-mnemonics-visible
 
 Sets whether mnemonics should be visible.
@@ -533,10 +533,10 @@ method set-mnemonics-visible ( Bool() $mnemonics-visible )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-offset
 
 Sets the offset to use when calculating the position
@@ -559,10 +559,10 @@ method set-offset ( Int() $x-offset, Int() $y-offset )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-pointing-to
 
 Sets the rectangle that C<$popover> points to.
@@ -582,10 +582,10 @@ method set-pointing-to ( N-Object $rect )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-position
 
 Sets the preferred position for C<$popover> to appear.
@@ -610,13 +610,13 @@ method set-position ( GtkPositionType $position )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -671,5 +671,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

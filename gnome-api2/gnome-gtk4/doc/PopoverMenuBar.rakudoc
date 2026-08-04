@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::PopoverMenuBar
 =head1 Description
 
@@ -50,13 +50,13 @@ the menus use the C<GTK_ACCESSIBLE_ROLE_MENU> role.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -67,10 +67,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-model
 
 Creates a B<Gnome::Gtk4::PopoverMenuBar> from a L<Gnome::Gio::MenuModel|/content-docs/api2/reference/Gio/MenuModel>.
@@ -88,18 +88,18 @@ method new-from-model ( N-Object() $model --> Gnome::Gtk4::PopoverMenuBar )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-child
 
 Adds a custom widget to a generated menubar.
@@ -123,10 +123,10 @@ Return value; C<True> if C<$id> was found and the widget added.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-menu-model
 
 Returns the model from which the contents of C<$bar> are taken.
@@ -144,10 +144,10 @@ Return value; a L<Gnome::Gio::MenuModel|/content-docs/api2/reference/Gio/MenuMod
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-child
 
 Removes a widget that has previously been added with
@@ -168,10 +168,10 @@ Return value; C<True> if the widget was removed.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-menu-model
 
 Sets a menu model from which C<$bar> should take
@@ -190,5 +190,5 @@ method set-menu-model ( N-Object() $model )
 
 =end comment
 
-=end pod
+=end rakudoc
 

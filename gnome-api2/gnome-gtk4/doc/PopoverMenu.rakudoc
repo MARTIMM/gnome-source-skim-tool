@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::PopoverMenu
 =head1 Description
 
@@ -111,13 +111,13 @@ action they are connected to.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -128,10 +128,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-model
 
 Creates a B<Gnome::Gtk4::PopoverMenu> and populates it according to C<$model>.
@@ -161,10 +161,10 @@ method new-from-model ( N-Object() $model --> Gnome::Gtk4::PopoverMenu )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-model-full
 
 Creates a B<Gnome::Gtk4::PopoverMenu> and populates it according to C<$model>.
@@ -189,18 +189,18 @@ method new-from-model-full ( N-Object() $model, UInt $flags --> Gnome::Gtk4::Pop
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-child
 
 Adds a custom widget to a generated menu.
@@ -224,10 +224,10 @@ Return value; C<True> if C<$id> was found and the widget added.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-flags
 
 Returns the flags that C<$popover> uses to create/display a menu from its model.
@@ -245,10 +245,10 @@ Return value; the C<bit field GtkPopoverMenuFlags defined in Gnome::Gtk4::T-enum
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-menu-model
 
 Returns the menu model used to populate the popover.
@@ -266,10 +266,10 @@ Return value; the menu model of C<$popover>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-child
 
 Removes a widget that has previously been added with
@@ -290,10 +290,10 @@ Return value; C<True> if the widget was removed.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-flags
 
 Sets the flags that C<$popover> uses to create/display a menu from its model.
@@ -327,10 +327,10 @@ method set-flags ( UInt $flags )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-menu-model
 
 Sets a new menu model on C<$popover>.
@@ -345,5 +345,5 @@ method set-menu-model ( N-Object() $model )
 
 =item $model; a L<Gnome::Gio::MenuModel|/content-docs/api2/reference/Gio/MenuModel>.
 
-=end pod
+=end rakudoc
 

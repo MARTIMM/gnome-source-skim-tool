@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Paned
 =head1 Description
 
@@ -89,13 +89,13 @@ gtk_widget_set_size_request (frame2, 50, -1);
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -106,10 +106,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-paned
 
 Creates a new B<Gnome::Gtk4::Paned> widget.
@@ -127,18 +127,18 @@ method new-paned ( GtkOrientation $orientation --> Gnome::Gtk4::Paned )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-end-child
 
 Retrieves the end child of the given B<Gnome::Gtk4::Paned>.
@@ -156,10 +156,10 @@ Return value; the end child widget.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-position
 
 Obtains the position of the divider between the two panes.
@@ -177,10 +177,10 @@ Return value; the position of the divider, in pixels.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-resize-end-child
 
 Returns whether the I<end-child> can be resized.
@@ -198,10 +198,10 @@ Return value; true if the end child is resizable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-resize-start-child
 
 Returns whether the I<start-child> can be resized.
@@ -219,10 +219,10 @@ Return value; true if the start child is resizable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-shrink-end-child
 
 Returns whether the I<end-child> can shrink.
@@ -240,10 +240,10 @@ Return value; true if the end child is shrinkable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-shrink-start-child
 
 Returns whether the I<start-child> can shrink.
@@ -261,10 +261,10 @@ Return value; true if the start child is shrinkable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-start-child
 
 Retrieves the start child of the given B<Gnome::Gtk4::Paned>.
@@ -282,10 +282,10 @@ Return value; the start child widget.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-wide-handle
 
 Gets whether the separator should be wide.
@@ -303,10 +303,10 @@ Return value; C<True> if the paned should have a wide handle.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-end-child
 
 Sets the end child of C<$paned> to C<$child>.
@@ -326,10 +326,10 @@ method set-end-child ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-position
 
 Sets the position of the divider between the two panes.
@@ -348,10 +348,10 @@ method set-position ( Int() $position )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-resize-end-child
 
 Sets whether the I<end-child> can be resized.
@@ -369,10 +369,10 @@ method set-resize-end-child ( Bool() $resize )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-resize-start-child
 
 Sets whether the I<start-child> can be resized.
@@ -390,10 +390,10 @@ method set-resize-start-child ( Bool() $resize )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-shrink-end-child
 
 Sets whether the I<end-child> can shrink.
@@ -411,10 +411,10 @@ method set-shrink-end-child ( Bool() $resize )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-shrink-start-child
 
 Sets whether the I<start-child> can shrink.
@@ -432,10 +432,10 @@ method set-shrink-start-child ( Bool() $resize )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-start-child
 
 Sets the start child of C<$paned> to C<$child>.
@@ -455,10 +455,10 @@ method set-start-child ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-wide-handle
 
 Sets whether the separator should be wide.
@@ -476,13 +476,13 @@ method set-wide-handle ( Bool() $wide )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -689,5 +689,5 @@ Return value;
 
 =end comment
 
-=end pod
+=end rakudoc
 

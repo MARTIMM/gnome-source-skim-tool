@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::PropertyExpression
 =head1 Description
 
@@ -21,13 +21,13 @@ A L<Gnome::GObject::Object|/content-docs/api2/reference/GObject/Object> property
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -38,10 +38,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-propertyexpression
 
 Creates an expression that looks up a property.
@@ -72,10 +72,10 @@ method new-propertyexpression ( GType $this-type, N-Object() $expression, Str $p
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-for-pspec
 
 Creates an expression that looks up a property.
@@ -103,18 +103,18 @@ method new-for-pspec ( N-Object() $expression, N-Object() $pspec --> Gnome::Gtk4
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-expression
 
 Gets the expression specifying the object of
@@ -133,10 +133,10 @@ Return value; the object expression.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-pspec
 
 Gets the L<Gnome::GObject::ParamSpec|/content-docs/api2/reference/GObject/ParamSpec> specifying the property of
@@ -155,5 +155,5 @@ Return value; the L<Gnome::GObject::ParamSpec|/content-docs/api2/reference/GObje
 
 =end comment
 
-=end pod
+=end rakudoc
 

@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::PrintOperation
 =head1 Description
 
@@ -83,13 +83,13 @@ are useful when implementing a print preview.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -100,10 +100,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-printoperation
 
 Creates a new B<Gnome::Gtk4::PrintOperation>.
@@ -119,18 +119,18 @@ method new-printoperation ( --> Gnome::Gtk4::PrintOperation )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 cancel
 
 Cancels a running print operation.
@@ -150,10 +150,10 @@ method cancel ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 draw-page-finish
 
 Signal that drawing of particular page is complete.
@@ -174,10 +174,10 @@ method draw-page-finish ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-default-page-setup
 
 Returns the default page setup.
@@ -195,10 +195,10 @@ Return value; the default page setup.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-embed-page-setup
 
 Gets whether page setup selection combos are embedded
@@ -216,10 +216,10 @@ Return value; whether page setup selection combos are embedded.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-error
 
 Call this when the result of a print operation is
@@ -246,10 +246,10 @@ Use C<Pointer> when you want to ignore the error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-has-selection
 
 Gets whether there is a selection.
@@ -267,10 +267,10 @@ Return value; whether there is a selection.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-n-pages-to-print
 
 Returns the number of pages that will be printed.
@@ -297,10 +297,10 @@ Return value; the number of pages that will be printed.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-print-settings
 
 Returns the current print settings.
@@ -322,10 +322,10 @@ Return value; the current print settings of C<$op>..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-status
 
 Returns the status of the print operation.
@@ -345,10 +345,10 @@ Return value; the status of the print operation.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-status-string
 
 Returns a string representation of the status of the
@@ -374,10 +374,10 @@ Return value; a string representation of the status
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-support-selection
 
 Gets whether the application supports print of selection
@@ -395,10 +395,10 @@ Return value; whether the application supports print of selection.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-finished
 
 A convenience function to find out if the print operation
@@ -424,10 +424,10 @@ Return value; C<True>, if the print operation is finished..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 run
 
 Runs the print operation.
@@ -514,10 +514,10 @@ Return value; the result of the print operation. A return value of
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-allow-async
 
 Sets whether C<.run()> may return
@@ -539,10 +539,10 @@ method set-allow-async ( Bool() $allow-async )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-current-page
 
 Sets the current page.
@@ -565,10 +565,10 @@ method set-current-page ( Int() $current-page )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-custom-tab-label
 
 Sets the label for the tab holding custom widgets.
@@ -586,10 +586,10 @@ method set-custom-tab-label ( Str $label )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-default-page-setup
 
 Makes C<$default-page-setup> the default page setup for C<$op>.
@@ -611,10 +611,10 @@ method set-default-page-setup ( N-Object() $default-page-setup )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-defer-drawing
 
 Sets up the B<Gnome::Gtk4::PrintOperation> to wait for calling of
@@ -636,10 +636,10 @@ method set-defer-drawing ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-embed-page-setup
 
 Embed page size combo box and orientation combo box into page setup page.
@@ -659,10 +659,10 @@ method set-embed-page-setup ( Bool() $embed )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-export-filename
 
 Sets up the B<Gnome::Gtk4::PrintOperation> to generate a file instead
@@ -689,10 +689,10 @@ method set-export-filename ( Str $filename )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-has-selection
 
 Sets whether there is a selection to print.
@@ -714,10 +714,10 @@ method set-has-selection ( Bool() $has-selection )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-job-name
 
 Sets the name of the print job.
@@ -741,10 +741,10 @@ method set-job-name ( Str $job-name )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-n-pages
 
 Sets the number of pages in the document.
@@ -772,10 +772,10 @@ method set-n-pages ( Int() $n-pages )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-print-settings
 
 Sets the print settings for C<$op>.
@@ -796,10 +796,10 @@ method set-print-settings ( N-Object() $print-settings )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-show-progress
 
 If C<$show-progress> is C<True>, the print operation will show
@@ -818,10 +818,10 @@ method set-show-progress ( Bool() $show-progress )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-support-selection
 
 Sets whether selection is supported by B<Gnome::Gtk4::PrintOperation>.
@@ -839,10 +839,10 @@ method set-support-selection ( Bool() $support-selection )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-track-print-status
 
 If track_status is C<True>, the print operation will try to continue
@@ -867,10 +867,10 @@ method set-track-print-status ( Bool() $track-status )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-unit
 
 Sets up the transformation for the cairo context obtained from
@@ -890,10 +890,10 @@ method set-unit ( GtkUnit $unit )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-use-full-page
 
 If C<$full-page> is C<True>, the transformation for the cairo context
@@ -917,13 +917,13 @@ method set-use-full-page ( Bool() $full-page )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -1362,5 +1362,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 
