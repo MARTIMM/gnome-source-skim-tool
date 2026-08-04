@@ -12,7 +12,7 @@ use v6.d;
 B<Gnome::Gtk4::LockButton> is a widget to obtain and revoke authorizations
 needed to operate the controls.
 
-=for image :src<asset_files/images/lock-button.png> :width<30%> :class<inline>
+=for Image :src<asset_files/images/lock-button.png> :width<30%> :class<inline>
 
 It is typically used in preference dialogs or control panels.
 
@@ -24,19 +24,19 @@ L<Gnome::Gio::Permission|/content-docs/api2/reference/Gio/Permission>, use B<pol
 If the user is not currently allowed to perform the action, but can
 obtain the permission, the widget looks like this:
 
-=for image :src<asset_files/images/lockbutton-locked.png> :width<30%> :class<inline>
+=for Image :src<asset_files/images/lockbutton-locked.png> :width<30%> :class<inline>
 
 and the user can click the button to request the permission. Depending
 on the platform, this may pop up an authentication dialog or ask the user
 to authenticate in some other way. Once the user has obtained the permission,
 the widget changes to this:
 
-=for image :src<asset_files/images/lockbutton-unlocked.png> :width<30%> :class<inline>
+=for Image :src<asset_files/images/lockbutton-unlocked.png> :width<30%> :class<inline>
 
 and the permission can be dropped again by clicking the button. If the user
 is not able to obtain the permission at all, the widget looks like this:
 
-=for image :src<asset_files/images/lockbutton-sorry.png> :width<30%> :class<inline>
+=for Image :src<asset_files/images/lockbutton-sorry.png> :width<30%> :class<inline>
 
 If the user has the permission and cannot drop it, the button is hidden.
 
@@ -48,7 +48,7 @@ I<tooltip-unlock> and
 I<tooltip-not-authorized> properties.
 
 =head2 Uml Diagram
-=for image :src<asset_files/images/plantuml/LockButton.png> :width<70%> :class<inline>
+=for Image :src<asset_files/images/plantuml/LockButton.png> :width<70%> :class<inline>
 
 =begin comment
 

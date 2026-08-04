@@ -12,13 +12,22 @@ use v6.d;
 A L<Gnome::Gtk4::ShortcutTrigger|/content-docs/api2/reference/Gtk4/ShortcutTrigger> that combines two triggers. The B<Gnome::Gtk4::AlternativeTrigger> triggers when either of two trigger. This can be cascaded to combine more than two triggers.
 
 =head2 Uml Diagram
-=for image :src<asset_files/images/plantuml/AlternativeTrigger.png> :width<70%> :class<inline>
+=for Image :src<asset_files/images/plantuml/AlternativeTrigger.png> :width<70%> :class<inline>
 
 =head3 Example
-# Example use of module Gnome::Gtk4::AlternativeTrigger
+
+Example use of module Gnome::Gtk4::AlternativeTrigger
 
 =begin code
+my Gnome::Gtk4::ShortcutTrigger $first .= parse-string('<CTRL>F5');
+my Gnome::Gtk4::ShortcutTrigger $second .= parse-string('<ALT>A');
+$alternativetrigger .= new-alternativetrigger( $first, $second);
+ok $alternativetrigger.is-valid,
+  ".new-alternativetrigger( '$first.to-string()', '$second.to-string()')";
+=end code
 
+=begin code
+$alternativetrigger .= parse-string('<CTRL>F5|<SHIFT>8');
 =end code
 
 =end rakudoc
