@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::TreeSelection
 =head1 Description
 
@@ -45,13 +45,13 @@ select_row on an already selected row).
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
@@ -64,18 +64,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 count-selected-rows
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -95,10 +95,10 @@ Return value; The number of rows selected..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-mode
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -119,10 +119,10 @@ Return value; the current selection mode.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-select-function
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -142,10 +142,10 @@ Return value; The function..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-selected
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -172,10 +172,10 @@ Return value; TRUE, if there is a selected node..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-selected-rows
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -207,10 +207,10 @@ Return value; A B<Gnome::Glib::N-List> containing a B<Gnome::Gtk4::N-TreePath> f
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-tree-view
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -230,10 +230,10 @@ Return value; A L<Gnome::Gtk4::TreeView|/content-docs/api2/reference/Gtk4/TreeVi
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-user-data
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -253,10 +253,10 @@ Return value; The user data..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 iter-is-selected
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -278,10 +278,10 @@ Return value; C<True>, if C<$iter> is selected.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 path-is-selected
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -304,10 +304,10 @@ Return value; C<True> if C<$path> is selected..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 select-all
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -326,10 +326,10 @@ method select-all ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 select-iter
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -349,10 +349,10 @@ method select-iter ( N-Object $iter )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 select-path
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -372,10 +372,10 @@ method select-path ( N-Object $path )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 select-range
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -396,10 +396,10 @@ method select-range ( N-Object $start-path, N-Object $end-path )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 selected-foreach
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -422,10 +422,10 @@ method selected-foreach ( GtkTreeSelectionForeachFunc &func, gpointer $data )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-mode
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -447,10 +447,10 @@ method set-mode ( GtkSelectionMode $type )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-select-function
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -477,10 +477,10 @@ method set-select-function ( GtkTreeSelectionFunc &func, gpointer $data, GDestro
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unselect-all
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -498,10 +498,10 @@ method unselect-all ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unselect-iter
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -521,10 +521,10 @@ method unselect-iter ( N-Object $iter )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unselect-path
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -544,10 +544,10 @@ method unselect-path ( N-Object $path )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unselect-range
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -569,13 +569,13 @@ method unselect-range ( N-Object $start-path, N-Object $end-path )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -606,5 +606,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

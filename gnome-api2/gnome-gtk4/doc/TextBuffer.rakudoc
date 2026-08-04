@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::TextBuffer
 =head1 Description
 
@@ -29,13 +29,13 @@ content, see L<.set-enable-undo()|#set-enable-undo>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -46,10 +46,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-textbuffer
 
 Creates a new text buffer.
@@ -67,18 +67,18 @@ method new-textbuffer ( N-Object() $table --> Gnome::Gtk4::TextBuffer )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-mark
 
 Adds the mark at position C<$where>.
@@ -104,10 +104,10 @@ method add-mark ( N-Object() $mark, N-Object $where )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-selection-clipboard
 
 Adds C<$clipboard> to the list of clipboards in which the selection
@@ -129,10 +129,10 @@ method add-selection-clipboard ( N-Object() $clipboard )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 apply-tag
 
 Emits the “apply-tag” signal on C<$buffer>.
@@ -155,10 +155,10 @@ method apply-tag ( N-Object() $tag, N-Object $start, N-Object $end )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 apply-tag-by-name
 
 Emits the “apply-tag” signal on C<$buffer>.
@@ -182,10 +182,10 @@ method apply-tag-by-name ( Str $name, N-Object $start, N-Object $end )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 backspace
 
 Performs the appropriate action as if the user hit the delete
@@ -217,10 +217,10 @@ Return value; C<True> if the buffer was modified.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 begin-irreversible-action
 
 Denotes the beginning of an action that may not be undone.
@@ -246,10 +246,10 @@ method begin-irreversible-action ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 begin-user-action
 
 Called to indicate that the buffer operations between here and a
@@ -282,10 +282,10 @@ method begin-user-action ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 copy-clipboard
 
 Copies the currently-selected text to a clipboard.
@@ -303,10 +303,10 @@ method copy-clipboard ( N-Object() $clipboard )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 create-child-anchor
 
 Creates and inserts a child anchor.
@@ -333,10 +333,10 @@ Return value; the created child anchor.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 create-mark
 
 Creates a mark at position C<$where>.
@@ -376,10 +376,10 @@ Return value; the new L<Gnome::Gtk4::TextMark|/content-docs/api2/reference/Gtk4/
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 create-tag
 
 Creates a tag and adds it to the tag table for C<$buffer>.
@@ -413,10 +413,10 @@ Return value; a new tag.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 cut-clipboard
 
 Copies the currently-selected text to a clipboard,
@@ -436,10 +436,10 @@ method cut-clipboard ( N-Object() $clipboard, Bool() $default-editable )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 delete
 
 Deletes text between C<$start> and C<$end>.
@@ -467,10 +467,10 @@ method delete ( N-Object $start, N-Object $end )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 delete-interactive
 
 Deletes all editable text in the given range.
@@ -497,10 +497,10 @@ Return value; whether some text was actually deleted.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 delete-mark
 
 Deletes C<$mark>, so that it’s no longer located anywhere in the
@@ -529,10 +529,10 @@ method delete-mark ( N-Object() $mark )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 delete-mark-by-name
 
 Deletes the mark named C<$name>; the mark must exist.
@@ -552,10 +552,10 @@ method delete-mark-by-name ( Str $name )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 delete-selection
 
 Deletes the range between the “insert” and “selection_bound” marks,
@@ -580,10 +580,10 @@ Return value; whether there was a non-empty selection to delete.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 end-irreversible-action
 
 Denotes the end of an action that may not be undone.
@@ -609,10 +609,10 @@ method end-irreversible-action ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 end-user-action
 
 Ends a user-visible operation.
@@ -632,10 +632,10 @@ method end-user-action ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-bounds
 
 Retrieves the first and last iterators in the buffer, i.e. the
@@ -655,10 +655,10 @@ method get-bounds ( N-Object $start, N-Object $end )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-can-redo
 
 Gets whether there is a redoable action in the history.
@@ -676,10 +676,10 @@ Return value; C<True> if there is a redoable action.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-can-undo
 
 Gets whether there is an undoable action in the history.
@@ -697,10 +697,10 @@ Return value; C<True> if there is an undoable action.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-char-count
 
 Gets the number of characters in the buffer.
@@ -724,10 +724,10 @@ Return value; number of characters in the buffer.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-enable-undo
 
 Gets whether the buffer is saving modifications to the buffer
@@ -750,10 +750,10 @@ Return value; C<True> if undoing and redoing changes to the buffer is allowed..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-end-iter
 
 Initializes C<$iter> with the “end iterator,” one past the last valid
@@ -778,10 +778,10 @@ method get-end-iter ( N-Object $iter )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-has-selection
 
 Indicates whether the buffer has some text currently selected.
@@ -799,10 +799,10 @@ Return value; C<True> if the there is text selected.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-insert
 
 Returns the mark that represents the cursor (insertion point).
@@ -824,10 +824,10 @@ Return value; insertion point mark.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-iter-at-child-anchor
 
 Obtains the location of C<$anchor> within C<$buffer>.
@@ -846,10 +846,10 @@ method get-iter-at-child-anchor ( N-Object $iter, N-Object() $anchor )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-iter-at-line
 
 Initializes C<$iter> to the start of the given line.
@@ -873,10 +873,10 @@ Return value; whether the exact position has been found.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-iter-at-line-index
 
 Obtains an iterator pointing to C<$byte-index> within the given line.
@@ -904,10 +904,10 @@ Return value; whether the exact position has been found.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-iter-at-line-offset
 
 Obtains an iterator pointing to C<$char-offset> within the given line.
@@ -936,10 +936,10 @@ Return value; whether the exact position has been found.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-iter-at-mark
 
 Initializes C<$iter> with the current position of C<$mark>.
@@ -958,10 +958,10 @@ method get-iter-at-mark ( N-Object $iter, N-Object() $mark )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-iter-at-offset
 
 Initializes C<$iter> to a position C<$char-offset> chars from the start
@@ -985,10 +985,10 @@ method get-iter-at-offset ( N-Object $iter, Int() $char-offset )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-line-count
 
 Obtains the number of lines in the buffer.
@@ -1008,10 +1008,10 @@ Return value; number of lines in the buffer.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-mark
 
 Returns the mark named C<$name> in buffer C<$buffer>, or undefined if no such
@@ -1032,10 +1032,10 @@ Return value; a L<Gnome::Gtk4::TextMark|/content-docs/api2/reference/Gtk4/TextMa
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-max-undo-levels
 
 Gets the maximum number of undo levels to perform.
@@ -1057,10 +1057,10 @@ Return value; The max number of undo levels allowed (0 indicates unlimited)..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-modified
 
 Indicates whether the buffer has been modified since the last call
@@ -1082,10 +1082,10 @@ Return value; C<True> if the buffer has been modified.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-selection-bound
 
 Returns the mark that represents the selection bound.
@@ -1114,10 +1114,10 @@ Return value; selection bound mark.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-selection-bounds
 
 Returns C<True> if some text is selected; places the bounds
@@ -1144,10 +1144,10 @@ Return value; whether the selection has nonzero length.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-selection-content
 
 Get a content provider for this buffer.
@@ -1168,10 +1168,10 @@ Return value; a new L<Gnome::Gdk4::ContentProvider|/content-docs/api2/reference/
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-slice
 
 Returns the text in the range [ C<$start>, C<$end>).
@@ -1202,10 +1202,10 @@ Return value; an allocated UTF-8 string.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-start-iter
 
 Initialized C<$iter> with the first position in the text buffer.
@@ -1226,10 +1226,10 @@ method get-start-iter ( N-Object $iter )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-tag-table
 
 Get the L<Gnome::Gtk4::TextTagTable|/content-docs/api2/reference/Gtk4/TextTagTable> associated with this buffer.
@@ -1247,10 +1247,10 @@ Return value; the buffer’s tag table.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-text
 
 Returns the text in the range [ C<$start>, C<$end>).
@@ -1279,10 +1279,10 @@ Return value; an allocated UTF-8 string.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert
 
 Inserts C<$len> bytes of C<$text> at position C<$iter>.
@@ -1309,10 +1309,10 @@ method insert ( N-Object $iter, Str $text, Int() $len )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-at-cursor
 
 Inserts C<$text> in C<$buffer>.
@@ -1334,10 +1334,10 @@ method insert-at-cursor ( Str $text, Int() $len )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-child-anchor
 
 Inserts a child widget anchor into the text buffer at C<$iter>.
@@ -1368,10 +1368,10 @@ method insert-child-anchor ( N-Object $iter, N-Object() $anchor )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-interactive
 
 Inserts C<$text> in C<$buffer>.
@@ -1402,10 +1402,10 @@ Return value; whether text was actually inserted.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-interactive-at-cursor
 
 Inserts C<$text> in C<$buffer>.
@@ -1433,10 +1433,10 @@ Return value; whether text was actually inserted.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-markup
 
 Inserts the text in C<$markup> at position C<$iter>.
@@ -1460,10 +1460,10 @@ method insert-markup ( N-Object $iter, Str $markup, Int() $len )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-paintable
 
 Inserts an image into the text buffer at C<$iter>.
@@ -1490,10 +1490,10 @@ method insert-paintable ( N-Object $iter, N-Object() $paintable )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-range
 
 Copies text, tags, and paintables between C<$start> and C<$end>
@@ -1522,10 +1522,10 @@ method insert-range ( N-Object $iter, N-Object $start, N-Object $end )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-range-interactive
 
 Copies text, tags, and paintables between C<$start> and C<$end>
@@ -1555,10 +1555,10 @@ Return value; whether an insertion was possible at C<$iter>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-with-tags
 
 Inserts C<$text> into C<$buffer> at C<$iter>, applying the list of tags to
@@ -1586,10 +1586,10 @@ method insert-with-tags ( N-Object $iter, Str $text, Int() $len, N-Object() $fir
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-with-tags-by-name
 
 Inserts C<$text> into C<$buffer> at C<$iter>, applying the list of tags to
@@ -1615,10 +1615,10 @@ method insert-with-tags-by-name ( N-Object $iter, Str $text, Int() $len, Str $fi
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 move-mark
 
 Moves C<$mark> to the new location C<$where>.
@@ -1640,10 +1640,10 @@ method move-mark ( N-Object() $mark, N-Object $where )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 move-mark-by-name
 
 Moves the mark named C<$name> (which must exist) to location C<$where>.
@@ -1664,10 +1664,10 @@ method move-mark-by-name ( Str $name, N-Object $where )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 paste-clipboard
 
 Pastes the contents of a clipboard.
@@ -1695,10 +1695,10 @@ method paste-clipboard ( N-Object() $clipboard, N-Object $override-location, Boo
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 place-cursor
 
 This function moves the “insert” and “selection_bound” marks
@@ -1724,10 +1724,10 @@ method place-cursor ( N-Object $where )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 redo
 
 Redoes the next redoable action on the buffer, if there is one.
@@ -1743,10 +1743,10 @@ method redo ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-all-tags
 
 Removes all tags in the range between C<$start> and C<$end>.
@@ -1770,10 +1770,10 @@ method remove-all-tags ( N-Object $start, N-Object $end )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-selection-clipboard
 
 Removes a L<Gnome::Gdk4::Clipboard|/content-docs/api2/reference/Gdk4/Clipboard> added with
@@ -1793,10 +1793,10 @@ method remove-selection-clipboard ( N-Object() $clipboard )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-tag
 
 Emits the “remove-tag” signal.
@@ -1820,10 +1820,10 @@ method remove-tag ( N-Object() $tag, N-Object $start, N-Object $end )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-tag-by-name
 
 Emits the “remove-tag” signal.
@@ -1847,10 +1847,10 @@ method remove-tag-by-name ( Str $name, N-Object $start, N-Object $end )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 select-range
 
 This function moves the “insert” and “selection_bound” marks
@@ -1877,10 +1877,10 @@ method select-range ( N-Object $ins, N-Object $bound )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-enable-undo
 
 Sets whether or not to enable undoable actions in the text buffer.
@@ -1908,10 +1908,10 @@ method set-enable-undo ( Bool() $enable-undo )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-max-undo-levels
 
 Sets the maximum number of undo levels to perform.
@@ -1933,10 +1933,10 @@ method set-max-undo-levels ( UInt() $max-undo-levels )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-modified
 
 Used to keep track of whether the buffer has been
@@ -1962,10 +1962,10 @@ method set-modified ( Bool() $setting )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-text
 
 Deletes current contents of C<$buffer>, and inserts C<$text> instead. This is
@@ -1989,10 +1989,10 @@ method set-text ( Str $text, Int() $len )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 undo
 
 Undoes the last undoable action on the buffer, if there is one.
@@ -2008,13 +2008,13 @@ method undo ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -2522,5 +2522,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

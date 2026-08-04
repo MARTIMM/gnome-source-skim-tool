@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::TreeModelSort
 =head1 Description
 
@@ -120,13 +120,13 @@ selection_changed (GtkTreeSelection *selection, gpointer data)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
@@ -139,10 +139,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-with-model
 
 Creates a new B<Gnome::Gtk4::TreeModelSort>, with C<$child-model> as the child model.
@@ -160,18 +160,18 @@ method new-with-model ( N-Object() $child-model --> Gnome::Gtk4::TreeModelSort )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 clear-cache
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -194,10 +194,10 @@ method clear-cache ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 convert-child-iter-to-iter
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -223,10 +223,10 @@ valid iterator pointer to a visible row in the child model..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 convert-child-path-to-path
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -250,10 +250,10 @@ Return value; A newly allocated B<Gnome::Gtk4::N-TreePath>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 convert-iter-to-child-iter
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -274,10 +274,10 @@ method convert-iter-to-child-iter ( N-Object $child-iter, N-Object $sorted-iter 
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 convert-path-to-child-path
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -303,10 +303,10 @@ Return value; A newly allocated B<Gnome::Gtk4::N-TreePath>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-model
 
 Returns the model the B<Gnome::Gtk4::TreeModelSort> is sorting.
@@ -324,10 +324,10 @@ Return value; the "child model" being sorted.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 iter-is-valid
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -352,10 +352,10 @@ Return value; C<True> if the iter is valid, C<False> if the iter is invalid..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 reset-default-sort-func
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -376,5 +376,5 @@ method reset-default-sort-func ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 

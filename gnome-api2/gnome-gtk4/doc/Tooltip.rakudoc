@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Tooltip
 =head1 Description
 
@@ -47,13 +47,13 @@ little more work:
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -64,18 +64,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-custom
 
 Replaces the widget packed into the tooltip with C<$custom-widget>. C<$custom-widget> does not get destroyed when the tooltip goes
@@ -97,10 +97,10 @@ method set-custom ( N-Object() $custom-widget )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-icon
 
 Sets the icon of the tooltip (which is in front of the text) to be C<$paintable>.  If C<$paintable> is undefined, the image will be hidden.
@@ -118,10 +118,10 @@ method set-icon ( N-Object() $paintable )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-icon-from-gicon
 
 Sets the icon of the tooltip (which is in front of the text)
@@ -141,10 +141,10 @@ method set-icon-from-gicon ( N-Object() $gicon )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-icon-from-icon-name
 
 Sets the icon of the tooltip (which is in front of the text) to be
@@ -164,10 +164,10 @@ method set-icon-from-icon-name ( Str $icon-name )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-markup
 
 Sets the text of the tooltip to be C<$markup>.
@@ -188,10 +188,10 @@ method set-markup ( Str $markup )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-text
 
 Sets the text of the tooltip to be C<$text>.
@@ -212,10 +212,10 @@ method set-text ( Str $text )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-tip-area
 
 Sets the area of the widget, where the contents of this tooltip apply,
@@ -240,5 +240,5 @@ method set-tip-area ( N-Object $rect )
 
 =end comment
 
-=end pod
+=end rakudoc
 

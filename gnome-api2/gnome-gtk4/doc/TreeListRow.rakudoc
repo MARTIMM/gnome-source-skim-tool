@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::TreeListRow
 =head1 Description
 
@@ -31,13 +31,13 @@ makes it possible to sort trees properly.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -48,18 +48,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child-row
 
 If C<$self> is not expanded or C<$position> is greater than the
@@ -80,10 +80,10 @@ Return value; the child in C<$position>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-children
 
 If the row is expanded, gets the model holding the children of C<$self>.
@@ -106,10 +106,10 @@ Return value; The model containing the children.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-depth
 
 Gets the depth of this row.
@@ -134,10 +134,10 @@ Return value; The depth of this row.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-expanded
 
 Gets if a row is currently expanded.
@@ -155,10 +155,10 @@ Return value; C<True> if the row is expanded.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-item
 
 Gets the item corresponding to this row,
@@ -178,10 +178,10 @@ Return value; The item
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-parent
 
 Gets the row representing the parent for C<$self>.
@@ -209,10 +209,10 @@ Return value; The parent of C<$self>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-position
 
 Returns the position in the L<Gnome::Gtk4::TreeListModel|/content-docs/api2/reference/Gtk4/TreeListModel> that C<$self> occupies
@@ -231,10 +231,10 @@ Return value; The position in the model.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-expandable
 
 Checks if a row can be expanded.
@@ -258,10 +258,10 @@ Return value; C<True> if the row is expandable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-expanded
 
 Expands or collapses a row.
@@ -286,5 +286,5 @@ method set-expanded ( Bool() $expanded )
 
 =end comment
 
-=end pod
+=end rakudoc
 

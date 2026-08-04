@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::TreeStore
 =head1 Description
 
@@ -46,13 +46,13 @@ gtk_tree_store_new (3, G_TYPE_INT, G_TYPE_STRING, GDK_TYPE_TEXTURE);
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
@@ -65,10 +65,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-treestore
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -112,10 +112,10 @@ method new-treestore ( Int() $n-columns, … --> Gnome::Gtk4::TreeStore )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 newv
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -138,18 +138,18 @@ method newv ( Int() $n-columns, … --> Gnome::Gtk4::TreeStore )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -177,10 +177,10 @@ method append ( N-Object $iter, N-Object $parent )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 clear
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -198,10 +198,10 @@ method clear ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -233,10 +233,10 @@ method insert ( N-Object $iter, N-Object $parent, Int() $position )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-after
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -270,10 +270,10 @@ method insert-after ( N-Object $iter, N-Object $parent, N-Object $sibling )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-before
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -307,10 +307,10 @@ method insert-before ( N-Object $iter, N-Object $parent, N-Object $sibling )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-with-values
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -360,10 +360,10 @@ method insert-with-values ( N-Object $iter, N-Object $parent, Int() $position, �
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-with-valuesv
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -391,10 +391,10 @@ method insert-with-valuesv ( N-Object $iter, N-Object $parent, Int() $position, 
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-ancestor
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -417,10 +417,10 @@ Return value; true if C<$iter> is an ancestor of C<$descendant>, and false other
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 iter-depth
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -445,10 +445,10 @@ Return value; The depth of the position pointed by the iterator.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 iter-is-valid
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -473,10 +473,10 @@ Return value; true if the iter is valid, and false otherwise.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 move-after
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -502,10 +502,10 @@ method move-after ( N-Object $iter, N-Object $position )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 move-before
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -531,10 +531,10 @@ method move-before ( N-Object $iter, N-Object $position )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 prepend
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -561,10 +561,10 @@ method prepend ( N-Object $iter, N-Object $parent )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -589,10 +589,10 @@ Return value; true if C<$iter> is still valid, and false otherwise.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 reorder
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -618,10 +618,10 @@ method reorder ( N-Object $parent, Array[Int] $new-order )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -653,10 +653,10 @@ method set ( N-Object $iter, … )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-column-types
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -685,10 +685,10 @@ method set-column-types ( Int() $n-columns, … )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-valist
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -709,10 +709,10 @@ method set-valist ( N-Object $iter, … )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-value
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -737,10 +737,10 @@ method set-value ( N-Object $iter, Int() $column, N-Object $value )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-valuesv
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -768,10 +768,10 @@ method set-valuesv ( N-Object $iter, Array[Int] $columns, N-Object $values, Int(
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 swap
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -794,5 +794,5 @@ method swap ( N-Object $a, N-Object $b )
 
 =end comment
 
-=end pod
+=end rakudoc
 

@@ -1,15 +1,15 @@
 =comment Package: Gtk4, C-Source: treemodel
 use v6.d;
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::T-treemodel
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -18,13 +18,13 @@ Initialization of a type class is simple and only needed when the standalone fun
 
   method new ( )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Record Structure Documentation]---------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-TreeIter
 
   class N-TreeIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
@@ -40,39 +40,39 @@ Initialization of a type class is simple and only needed when the standalone fun
 =item user-data2; model-specific data
 =item user-data3; model-specific data
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Record Structure]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-TreePath
 
 This is an opaque type of which fields are not available.
 
   class N-TreePath:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Record Structure]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-TreeRowReference
 
 This is an opaque type of which fields are not available.
 
   class N-TreeRowReference:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Bitfields]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Bitfields
 
 =head2 GtkTreeModelFlags
@@ -88,13 +88,13 @@ this section.
   emitted by the tree
 =item C<GTK_TREE_MODEL_LIST_ONLY>; the model is a list only, and never
   has children
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Callback Functions]---------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Callback Functions
 =head2 TreeModelForeachFunc
 
@@ -108,17 +108,17 @@ this section.
 =item $iter; the current B<Gnome::Gtk4::T-treemodel>
 =item $data; The user data passed to gtk_tree_model_foreach()
 
-=end pod
+=end rakudoc
 #-------------------------------------------------------------------------------
 #--[Standalone Functions]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Standalone Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 tree-row-reference-deleted
 
 Lets a set of row reference created by
@@ -139,10 +139,10 @@ method tree-row-reference-deleted ( N-Object() $proxy, N-Object $path )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 tree-row-reference-inserted
 
 Lets a set of row reference created by
@@ -163,10 +163,10 @@ method tree-row-reference-inserted ( N-Object() $proxy, N-Object $path )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 tree-row-reference-reordered
 
 Lets a set of row reference created by
@@ -189,5 +189,5 @@ method tree-row-reference-reordered ( N-Object() $proxy, N-Object $path, N-Objec
 
 =end comment
 
-=end pod
+=end rakudoc
 

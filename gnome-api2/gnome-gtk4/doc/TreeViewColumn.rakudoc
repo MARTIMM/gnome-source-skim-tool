@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::TreeViewColumn
 =head1 Description
 
@@ -30,13 +30,13 @@ about the CSS node structure for treeviews and their headers.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
@@ -49,10 +49,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-treeviewcolumn
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -70,10 +70,10 @@ method new-treeviewcolumn ( --> Gnome::Gtk4::TreeViewColumn )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-with-area
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -93,10 +93,10 @@ method new-with-area ( N-Object() $area --> Gnome::Gtk4::TreeViewColumn )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-with-attributes
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -139,18 +139,18 @@ method new-with-attributes ( Str $title, N-Object() $cell, … --> Gnome::Gtk4::
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-attribute
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -179,10 +179,10 @@ method add-attribute ( N-Object() $cell-renderer, Str $attribute, Int() $column 
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 cell-get-position
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -210,10 +210,10 @@ Return value; C<True> if C<$cell> belongs to C<$tree-column>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 cell-get-size
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -237,10 +237,10 @@ method cell-get-size ( Array[Int] $x-offset, Array[Int] $y-offset, Array[Int] $w
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 cell-is-visible
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -262,10 +262,10 @@ Return value; C<True>, if any of the cells packed into the C<$tree-column> are c
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 cell-set-cell-data
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -291,10 +291,10 @@ method cell-set-cell-data ( N-Object() $tree-model, N-Object $iter, Bool() $is-e
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 clear
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -312,10 +312,10 @@ method clear ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 clear-attributes
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -336,10 +336,10 @@ method clear-attributes ( N-Object() $cell-renderer )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 clicked
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -357,10 +357,10 @@ method clicked ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 focus-cell
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -381,10 +381,10 @@ method focus-cell ( N-Object() $cell )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-alignment
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -405,10 +405,10 @@ Return value; The current alignent of C<$tree-column>..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-button
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -428,10 +428,10 @@ Return value; The button for the column header..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-clickable
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -451,10 +451,10 @@ Return value; C<True> if user can click the column header..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-expand
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -474,10 +474,10 @@ Return value; C<True> if the column expands to fill available space..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-fixed-width
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -498,10 +498,10 @@ Return value; The fixed width of the column..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-max-width
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -522,10 +522,10 @@ Return value; The maximum width of the C<$tree-column>..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-min-width
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -546,10 +546,10 @@ Return value; The minimum width of the C<$tree-column>..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-reorderable
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -569,10 +569,10 @@ Return value; C<True> if the C<$tree-column> can be reordered by the user..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-resizable
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -592,10 +592,10 @@ Return value; C<True>, if the C<$tree-column> can be resized..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-sizing
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -615,10 +615,10 @@ Return value; The type of C<$tree-column>..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-sort-column-id
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -642,10 +642,10 @@ Return value; the current C<$sort-column-id> for this column, or -1 if
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-sort-indicator
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -665,10 +665,10 @@ Return value; whether the sort indicator arrow is displayed.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-sort-order
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -688,10 +688,10 @@ Return value; the sort order the sort indicator is indicating.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-spacing
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -711,10 +711,10 @@ Return value; the spacing of C<$tree-column>..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-title
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -735,10 +735,10 @@ modified or freed..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-tree-view
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -761,10 +761,10 @@ Return value; The tree view wherein C<$column>
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-visible
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -785,10 +785,10 @@ the tree will show the column..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-widget
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -810,10 +810,10 @@ Return value; The L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-width
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -833,10 +833,10 @@ Return value; The current width of C<$tree-column>..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-x-offset
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -856,10 +856,10 @@ Return value; The current X offset of C<$tree-column>..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 pack-end
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -882,10 +882,10 @@ method pack-end ( N-Object() $cell, Bool() $expand )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 pack-start
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -908,10 +908,10 @@ method pack-start ( N-Object() $cell, Bool() $expand )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 queue-resize
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -930,10 +930,10 @@ method queue-resize ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-alignment
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -955,10 +955,10 @@ method set-alignment ( Num() $xalign )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-attributes
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -983,10 +983,10 @@ method set-attributes ( N-Object() $cell-renderer, … )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-cell-data-func
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1015,10 +1015,10 @@ method set-cell-data-func ( N-Object() $cell-renderer, GtkTreeCellDataFunc &func
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-clickable
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1039,10 +1039,10 @@ method set-clickable ( Bool() $clickable )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-expand
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1068,10 +1068,10 @@ method set-expand ( Bool() $expand )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-fixed-width
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1100,10 +1100,10 @@ method set-fixed-width ( Int() $fixed-width )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-max-width
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1126,10 +1126,10 @@ method set-max-width ( Int() $max-width )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-min-width
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1150,10 +1150,10 @@ method set-min-width ( Int() $min-width )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-reorderable
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1174,10 +1174,10 @@ method set-reorderable ( Bool() $reorderable )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-resizable
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1202,10 +1202,10 @@ method set-resizable ( Bool() $resizable )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-sizing
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1225,10 +1225,10 @@ method set-sizing ( GtkTreeViewColumnSizing $type )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-sort-column-id
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1249,10 +1249,10 @@ method set-sort-column-id ( Int() $sort-column-id )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-sort-indicator
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1275,10 +1275,10 @@ method set-sort-indicator ( Bool() $setting )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-sort-order
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1308,10 +1308,10 @@ method set-sort-order ( GtkSortType $order )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-spacing
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1332,10 +1332,10 @@ method set-spacing ( Int() $spacing )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-title
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1356,10 +1356,10 @@ method set-title ( Str $title )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-visible
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1379,10 +1379,10 @@ method set-visible ( Bool() $visible )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-widget
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1403,13 +1403,13 @@ method set-widget ( N-Object() $widget )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -1437,5 +1437,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

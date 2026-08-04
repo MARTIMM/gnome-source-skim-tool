@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Text
 =head1 Description
 
@@ -83,13 +83,13 @@ to accessibility.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -100,10 +100,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-text
 
 Creates a new B<Gnome::Gtk4::Text>.
@@ -119,10 +119,10 @@ method new-text ( --> Gnome::Gtk4::Text )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-with-buffer
 
 Creates a new B<Gnome::Gtk4::Text> with the specified text buffer.
@@ -140,18 +140,18 @@ method new-with-buffer ( N-Object() $buffer --> Gnome::Gtk4::Text )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 compute-cursor-extents
 
 Determine the positions of the strong and weak cursors if the
@@ -180,10 +180,10 @@ method compute-cursor-extents ( Int() $position, N-Object $strong, N-Object $wea
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-activates-default
 
 Returns whether pressing Enter will activate
@@ -204,10 +204,10 @@ Return value; C<True> if the B<Gnome::Gtk4::Text> will activate the default widg
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-attributes
 
 Gets the attribute list that was set on the B<Gnome::Gtk4::Text>.
@@ -227,10 +227,10 @@ Return value; the attribute list.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-buffer
 
 Get the L<Gnome::Gtk4::EntryBuffer|/content-docs/api2/reference/Gtk4/EntryBuffer> object which holds the text for
@@ -249,10 +249,10 @@ Return value; A L<Gnome::Gtk4::EntryBuffer|/content-docs/api2/reference/Gtk4/Ent
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-enable-emoji-completion
 
 Returns whether Emoji completion is enabled for this
@@ -271,10 +271,10 @@ Return value; C<True> if Emoji completion is enabled.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-extra-menu
 
 Gets the menu model for extra items in the context menu.
@@ -294,10 +294,10 @@ Return value; the menu model.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-input-hints
 
 Gets the input hints of the B<Gnome::Gtk4::Text>.
@@ -315,10 +315,10 @@ Return value; No documentation about its value and use.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-input-purpose
 
 Gets the input purpose of the B<Gnome::Gtk4::Text>.
@@ -336,10 +336,10 @@ Return value; No documentation about its value and use.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-invisible-char
 
 Retrieves the character displayed when visibility is set to false.
@@ -362,10 +362,10 @@ Return value; the current invisible char, or 0, if C<$text> does not
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-max-length
 
 Retrieves the maximum allowed length of the text in C<$self>.
@@ -389,10 +389,10 @@ Return value; the maximum allowed number of characters
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-overwrite-mode
 
 Gets whether text is overwritten when typing in the B<Gnome::Gtk4::Text>.
@@ -412,10 +412,10 @@ Return value; whether the text is overwritten when typing.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-placeholder-text
 
 Retrieves the text that will be displayed when C<$self> is empty and unfocused
@@ -435,10 +435,10 @@ Return value; the placeholder text.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-propagate-text-width
 
 Returns whether the B<Gnome::Gtk4::Text> will grow and shrink
@@ -457,10 +457,10 @@ Return value; C<True> if C<$self> will propagate the text width.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-tabs
 
 Gets the tabstops that were set on the B<Gnome::Gtk4::Text>.
@@ -480,10 +480,10 @@ Return value; the tabstops.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-text-length
 
 Retrieves the current length of the text in C<$self>.
@@ -505,10 +505,10 @@ Return value; the current number of characters
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-truncate-multiline
 
 Returns whether the B<Gnome::Gtk4::Text> will truncate multi-line text
@@ -527,10 +527,10 @@ Return value; C<True> if C<$self> will truncate multi-line text.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-visibility
 
 Retrieves whether the text in C<$self> is visible.
@@ -548,10 +548,10 @@ Return value; C<True> if the text is currently visible.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 grab-focus-without-selecting
 
 Causes C<$self> to have keyboard focus.
@@ -575,10 +575,10 @@ Return value; C<True> if focus is now inside C<$self>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-activates-default
 
 If C<$activates> is C<True>, pressing Enter will activate
@@ -601,10 +601,10 @@ method set-activates-default ( Bool() $activates )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-attributes
 
 Sets attributes that are applied to the text.
@@ -622,10 +622,10 @@ method set-attributes ( N-Object $attrs )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-buffer
 
 Set the L<Gnome::Gtk4::EntryBuffer|/content-docs/api2/reference/Gtk4/EntryBuffer> object which holds the text for
@@ -644,10 +644,10 @@ method set-buffer ( N-Object() $buffer )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-enable-emoji-completion
 
 Sets whether Emoji completion is enabled.
@@ -669,10 +669,10 @@ method set-enable-emoji-completion ( Bool() $enable-emoji-completion )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-extra-menu
 
 Sets a menu model to add when constructing
@@ -691,10 +691,10 @@ method set-extra-menu ( N-Object() $model )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-input-hints
 
 Sets input hints that allow input methods
@@ -713,10 +713,10 @@ method set-input-hints ( UInt $hints )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-input-purpose
 
 Sets the input purpose of the B<Gnome::Gtk4::Text>.
@@ -737,10 +737,10 @@ method set-input-purpose ( GtkInputPurpose $purpose )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-invisible-char
 
 Sets the character to use when in “password mode”.
@@ -763,10 +763,10 @@ method set-invisible-char ( UInt() $ch )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-max-length
 
 Sets the maximum allowed length of the contents of the widget.
@@ -792,10 +792,10 @@ method set-max-length ( Int() $length )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-overwrite-mode
 
 Sets whether the text is overwritten when typing
@@ -814,10 +814,10 @@ method set-overwrite-mode ( Bool() $overwrite )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-placeholder-text
 
 Sets text to be displayed in C<$self> when it is empty.
@@ -839,10 +839,10 @@ method set-placeholder-text ( Str $text )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-propagate-text-width
 
 Sets whether the B<Gnome::Gtk4::Text> should grow and shrink with the content.
@@ -860,10 +860,10 @@ method set-propagate-text-width ( Bool() $propagate-text-width )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-tabs
 
 Sets tabstops that are applied to the text.
@@ -881,10 +881,10 @@ method set-tabs ( N-Object $tabs )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-truncate-multiline
 
 Sets whether the B<Gnome::Gtk4::Text> should truncate multi-line text
@@ -903,10 +903,10 @@ method set-truncate-multiline ( Bool() $truncate-multiline )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-visibility
 
 Sets whether the contents of the B<Gnome::Gtk4::Text> are visible or not.
@@ -938,10 +938,10 @@ method set-visibility ( Bool() $visible )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unset-invisible-char
 
 Unsets the invisible char.
@@ -960,13 +960,13 @@ method unset-invisible-char ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -1331,5 +1331,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

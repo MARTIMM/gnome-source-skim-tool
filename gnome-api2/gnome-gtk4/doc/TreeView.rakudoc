@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::TreeView
 =head1 Description
 
@@ -108,13 +108,13 @@ For the drop target location during DND, a subnode with name B<dndtarget> is use
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
@@ -127,10 +127,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-treeview
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -148,10 +148,10 @@ method new-treeview ( --> Gnome::Gtk4::TreeView )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-with-model
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -171,18 +171,18 @@ method new-with-model ( N-Object() $model --> Gnome::Gtk4::TreeView )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-column
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -206,10 +206,10 @@ Return value; The number of columns in C<$tree-view> after appending..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 collapse-all
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -227,10 +227,10 @@ method collapse-all ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 collapse-row
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -252,10 +252,10 @@ Return value; C<True> if the row was collapsed..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 columns-autosize
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -274,10 +274,10 @@ method columns-autosize ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 convert-bin-window-to-tree-coords
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -301,10 +301,10 @@ method convert-bin-window-to-tree-coords ( Int() $bx, Int() $by, Array[Int] $tx,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 convert-bin-window-to-widget-coords
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -327,10 +327,10 @@ method convert-bin-window-to-widget-coords ( Int() $bx, Int() $by, Array[Int] $w
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 convert-tree-to-bin-window-coords
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -354,10 +354,10 @@ method convert-tree-to-bin-window-coords ( Int() $tx, Int() $ty, Array[Int] $bx,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 convert-tree-to-widget-coords
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -381,10 +381,10 @@ method convert-tree-to-widget-coords ( Int() $tx, Int() $ty, Array[Int] $wx, Arr
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 convert-widget-to-bin-window-coords
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -407,10 +407,10 @@ method convert-widget-to-bin-window-coords ( Int() $wx, Int() $wy, Array[Int] $b
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 convert-widget-to-tree-coords
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -434,10 +434,10 @@ method convert-widget-to-tree-coords ( Int() $wx, Int() $wy, Array[Int] $tx, Arr
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 create-row-drag-icon
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -460,10 +460,10 @@ Return value; a newly-allocated surface of the drag icon..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 enable-model-drag-dest
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -486,10 +486,10 @@ method enable-model-drag-dest ( N-Object $formats, UInt $actions )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 enable-model-drag-source
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -513,10 +513,10 @@ method enable-model-drag-source ( UInt $start-button-mask, N-Object $formats, UI
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 expand-all
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -534,10 +534,10 @@ method expand-all ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 expand-row
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -560,10 +560,10 @@ Return value; C<True> if the row existed and had children.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 expand-to-path
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -583,10 +583,10 @@ method expand-to-path ( N-Object $path )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-activate-on-single-click
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -606,10 +606,10 @@ Return value; C<True> if row-activated will be emitted on a single click.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-background-area
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -638,10 +638,10 @@ method get-background-area ( N-Object $path, N-Object() $column, N-Object $rect 
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-cell-area
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -671,10 +671,10 @@ method get-cell-area ( N-Object $path, N-Object() $column, N-Object $rect )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-column
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -697,10 +697,10 @@ position is outside the range of columns..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-columns
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -721,10 +721,10 @@ Return value; A list of L<Gnome::Gtk4::TreeViewColumn|/content-docs/api2/referen
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-cursor
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -752,10 +752,10 @@ method get-cursor ( N-Object $path, N-Object() $focus-column )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-dest-row-at-pos
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -785,10 +785,10 @@ is indeed the case..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-drag-dest-row
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -809,10 +809,10 @@ method get-drag-dest-row ( N-Object $path, GtkTreeViewDropPosition $pos )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-enable-search
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -833,10 +833,10 @@ Return value; whether or not to let the user search interactively.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-enable-tree-lines
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -857,10 +857,10 @@ otherwise..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-expander-column
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -882,10 +882,10 @@ Return value; The expander column..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-fixed-height-mode
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -905,10 +905,10 @@ Return value; C<True> if C<$tree-view> is in fixed height mode.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-grid-lines
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -929,10 +929,10 @@ are enabled..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-headers-clickable
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -952,10 +952,10 @@ Return value; C<True> if all header columns are clickable, otherwise C<False>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-headers-visible
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -975,10 +975,10 @@ Return value; Whether the headers are visible or not..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-hover-expand
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -998,10 +998,10 @@ Return value; C<True> if C<$tree-view> is in hover expansion mode.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-hover-selection
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1021,10 +1021,10 @@ Return value; C<True> if C<$tree-view> is in hover selection mode.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-level-indentation
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1045,10 +1045,10 @@ Return value; the amount of extra indentation for child levels in C<$tree-view>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-model
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1069,10 +1069,10 @@ Return value; A L<Gnome::Gtk4::R-TreeModel|/content-docs/api2/reference/Gtk4/R-T
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-n-columns
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1092,10 +1092,10 @@ Return value; The number of columns in the C<$tree-view>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-path-at-pos
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1140,10 +1140,10 @@ Return value; C<True> if a row exists at that coordinate..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-reorderable
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1164,10 +1164,10 @@ Return value; C<True> if the tree can be reordered..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-row-separator-func
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1187,10 +1187,10 @@ Return value; the current row separator function..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-rubber-banding
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1212,10 +1212,10 @@ Return value; C<True> if rubber banding in C<$tree-view> is enabled..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-search-column
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1235,10 +1235,10 @@ Return value; the column the interactive search code searches in..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-search-entry
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1260,10 +1260,10 @@ Return value; the entry currently in use as search entry..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-search-equal-func
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1283,10 +1283,10 @@ Return value; the currently used compare function for the search code..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-selection
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1306,10 +1306,10 @@ Return value; A L<Gnome::Gtk4::TreeSelection|/content-docs/api2/reference/Gtk4/T
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-show-expanders
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1330,10 +1330,10 @@ otherwise..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-tooltip-column
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1355,10 +1355,10 @@ used, or -1 if this is disabled..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-tooltip-context
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1395,10 +1395,10 @@ Return value; whether or not the given tooltip context points to a row.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-visible-range
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1424,10 +1424,10 @@ Return value; C<True>, if valid paths were placed in C<$start-path> and C<$end-p
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-visible-rect
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1451,10 +1451,10 @@ method get-visible-rect ( N-Object $visible-rect )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-column
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1480,10 +1480,10 @@ Return value; The number of columns in C<$tree-view> after insertion..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-column-with-attributes
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1511,10 +1511,10 @@ Return value; The number of columns in C<$tree-view> after insertion..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-column-with-data-func
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1546,10 +1546,10 @@ Return value; number of columns in the tree view post-insert.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-blank-at-pos
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1597,10 +1597,10 @@ C<False> otherwise..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-rubber-banding-active
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1622,10 +1622,10 @@ done in C<$tree-view>..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 map-expanded-rows
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1646,10 +1646,10 @@ method map-expanded-rows ( GtkTreeViewMappingFunc &func, gpointer $data )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 move-column-after
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1670,10 +1670,10 @@ method move-column-after ( N-Object() $column, N-Object() $base-column )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-column
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1695,10 +1695,10 @@ Return value; The number of columns in C<$tree-view> after removing..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 row-activated
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1719,10 +1719,10 @@ method row-activated ( N-Object $path, N-Object() $column )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 row-expanded
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1744,10 +1744,10 @@ Return value; C<True> if #path is expanded..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 scroll-to-cell
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1785,10 +1785,10 @@ method scroll-to-cell ( N-Object $path, N-Object() $column, Bool() $use-align, N
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 scroll-to-point
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1815,10 +1815,10 @@ method scroll-to-point ( Int() $tree-x, Int() $tree-y )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-activate-on-single-click
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1839,10 +1839,10 @@ method set-activate-on-single-click ( Bool() $single )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-column-drag-function
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1870,10 +1870,10 @@ method set-column-drag-function ( GtkTreeViewColumnDropFunc &func, gpointer $use
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-cursor
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1904,10 +1904,10 @@ method set-cursor ( N-Object $path, N-Object() $focus-column, Bool() $start-edit
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-cursor-on-cell
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1941,10 +1941,10 @@ method set-cursor-on-cell ( N-Object $path, N-Object() $focus-column, N-Object()
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-drag-dest-row
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1966,10 +1966,10 @@ method set-drag-dest-row ( N-Object $path, GtkTreeViewDropPosition $pos )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-enable-search
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1993,10 +1993,10 @@ method set-enable-search ( Bool() $enable-search )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-enable-tree-lines
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -2017,10 +2017,10 @@ method set-enable-tree-lines ( Bool() $enabled )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-expander-column
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -2045,10 +2045,10 @@ method set-expander-column ( N-Object() $column )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-fixed-height-mode
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -2072,10 +2072,10 @@ method set-fixed-height-mode ( Bool() $enable )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-grid-lines
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -2096,10 +2096,10 @@ enable..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-headers-clickable
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -2119,10 +2119,10 @@ method set-headers-clickable ( Bool() $setting )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-headers-visible
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -2142,10 +2142,10 @@ method set-headers-visible ( Bool() $headers-visible )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-hover-expand
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -2167,10 +2167,10 @@ method set-hover-expand ( Bool() $expand )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-hover-selection
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -2193,10 +2193,10 @@ method set-hover-selection ( Bool() $hover )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-level-indentation
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -2220,10 +2220,10 @@ method set-level-indentation ( Int() $indentation )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-model
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -2245,10 +2245,10 @@ method set-model ( N-Object() $model )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-reorderable
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -2281,10 +2281,10 @@ method set-reorderable ( Bool() $reorderable )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-row-separator-func
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -2308,10 +2308,10 @@ method set-row-separator-func ( GtkTreeViewRowSeparatorFunc &func, gpointer $dat
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-rubber-banding
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -2333,10 +2333,10 @@ method set-rubber-banding ( Bool() $enable )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-search-column
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -2364,10 +2364,10 @@ method set-search-column ( Int() $column )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-search-entry
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -2389,10 +2389,10 @@ method set-search-entry ( N-Object() $entry )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-search-equal-func
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -2416,10 +2416,10 @@ method set-search-equal-func ( GtkTreeViewSearchEqualFunc &search-equal-func, gp
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-show-expanders
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -2444,10 +2444,10 @@ method set-show-expanders ( Bool() $enabled )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-tooltip-cell
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -2480,10 +2480,10 @@ method set-tooltip-cell ( N-Object() $tooltip, N-Object $path, N-Object() $colum
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-tooltip-column
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -2511,10 +2511,10 @@ method set-tooltip-column ( Int() $column )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-tooltip-row
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -2537,10 +2537,10 @@ method set-tooltip-row ( N-Object() $tooltip, N-Object $path )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unset-rows-drag-dest
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -2560,10 +2560,10 @@ method unset-rows-drag-dest ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unset-rows-drag-source
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -2583,13 +2583,13 @@ method unset-rows-drag-source ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -3048,5 +3048,5 @@ Return value;
 
 =end comment
 
-=end pod
+=end rakudoc
 

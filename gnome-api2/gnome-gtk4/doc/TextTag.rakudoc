@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::TextTag
 =head1 Description
 
@@ -38,13 +38,13 @@ They are maintained by GTK and you should not set them independently.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -55,10 +55,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-texttag
 
 Creates a B<Gnome::Gtk4::TextTag>.
@@ -76,18 +76,18 @@ method new-texttag ( Str $name --> Gnome::Gtk4::TextTag )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 changed
 
 Emits the I<tag-changed defined in TextTagTable> signal on the
@@ -109,10 +109,10 @@ method changed ( Bool() $size-changed )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-priority
 
 Get the tag priority.
@@ -130,10 +130,10 @@ Return value; The tag’s priority..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-priority
 
 Sets the priority of a B<Gnome::Gtk4::TextTag>.
@@ -164,5 +164,5 @@ method set-priority ( Int() $priority )
 
 =end comment
 
-=end pod
+=end rakudoc
 

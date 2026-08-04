@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::TextTagTable
 =head1 Description
 
@@ -42,13 +42,13 @@ An example of a UI definition fragment specifying tags:
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -59,10 +59,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-texttagtable
 
 Creates a new B<Gnome::Gtk4::TextTagTable>.
@@ -80,18 +80,18 @@ method new-texttagtable ( --> Gnome::Gtk4::TextTagTable )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add
 
 Add a tag to the table.
@@ -115,10 +115,10 @@ Return value; C<True> on success..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 foreach
 
 Calls C<$func> on each tag in C<$table>, with user data C<$data>.
@@ -140,10 +140,10 @@ method foreach ( GtkTextTagTableForeach &func, gpointer $data )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-size
 
 Returns the size of the table (number of tags)
@@ -161,10 +161,10 @@ Return value; number of tags in C<$table>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 lookup
 
 Look up a named tag.
@@ -184,10 +184,10 @@ Return value; The tag.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove
 
 Remove a tag from the table.
@@ -210,13 +210,13 @@ method remove ( N-Object() $tag )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -305,5 +305,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

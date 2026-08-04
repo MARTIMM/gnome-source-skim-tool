@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::TextMark
 =head1 Description
 
@@ -53,13 +53,13 @@ function.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -70,10 +70,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-textmark
 
 Creates a text mark.
@@ -102,18 +102,18 @@ method new-textmark ( Str $name, Bool() $left-gravity --> Gnome::Gtk4::TextMark 
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-buffer
 
 Gets the buffer this mark is located inside.
@@ -133,10 +133,10 @@ Return value; the mark’s L<Gnome::Gtk4::TextBuffer|/content-docs/api2/referenc
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-deleted
 
 Returns C<True> if the mark has been removed from its buffer.
@@ -157,10 +157,10 @@ Return value; whether the mark is deleted.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-left-gravity
 
 Determines whether the mark has left gravity.
@@ -178,10 +178,10 @@ Return value; C<True> if the mark has left gravity, C<False> otherwise.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-name
 
 Returns the mark name.
@@ -201,10 +201,10 @@ Return value; mark name.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-visible
 
 Returns C<True> if the mark is visible.
@@ -224,10 +224,10 @@ Return value; C<True> if visible.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-visible
 
 No documentation of method.
@@ -245,5 +245,5 @@ method set-visible ( Bool() $setting )
 
 =end comment
 
-=end pod
+=end rakudoc
 

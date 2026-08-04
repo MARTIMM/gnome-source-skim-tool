@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::TreeExpander
 =head1 Description
 
@@ -67,13 +67,13 @@ Toggling it will change the B<GTK_ACCESSIBLE_STATE_EXPANDED> state.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -84,10 +84,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-treeexpander
 
 Creates a new B<Gnome::Gtk4::TreeExpander>
@@ -103,18 +103,18 @@ method new-treeexpander ( --> Gnome::Gtk4::TreeExpander )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child
 
 Gets the child widget displayed by C<$self>.
@@ -132,10 +132,10 @@ Return value; The child displayed by C<$self>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-hide-expander
 
 Gets whether the TreeExpander should be hidden in a GtkTreeListRow.
@@ -153,10 +153,10 @@ Return value; TRUE if the expander icon should be hidden. Otherwise FALSE..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-indent-for-depth
 
 TreeExpander indents each level of depth with an additional indent.
@@ -174,10 +174,10 @@ Return value; TRUE if the child should be indented . Otherwise FALSE..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-indent-for-icon
 
 TreeExpander indents the child by the width of an expander-icon if it is not expandable.
@@ -195,10 +195,10 @@ Return value; TRUE if the child should be indented when not expandable. Otherwis
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-item
 
 Forwards the item set on the L<Gnome::Gtk4::TreeListRow|/content-docs/api2/reference/Gtk4/TreeListRow> that C<$self> is managing.
@@ -218,10 +218,10 @@ Return value; The item of the row.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-list-row
 
 Gets the list row managed by C<$self>.
@@ -239,10 +239,10 @@ Return value; The list row displayed by C<$self>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-child
 
 Sets the content widget to display.
@@ -260,10 +260,10 @@ method set-child ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-hide-expander
 
 Sets whether the expander icon should be visible in a GtkTreeListRow.
@@ -282,10 +282,10 @@ treeexpander
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-indent-for-depth
 
 Sets if the TreeExpander should indent the child according to its depth.
@@ -301,10 +301,10 @@ gtk_tree_list_row_get_item (gtk_tree_expander_get_list_row (@self));
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-indent-for-icon
 
 Sets if the TreeExpander should indent the child by the width of an expander-icon when it is not expandable.
@@ -315,10 +315,10 @@ method set-indent-for-icon ( Bool() $indent-for-icon )
 
 =item $indent-for-icon; TRUE if the child should be indented without expander. Otherwise FALSE..
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-list-row
 
 Sets the tree list row that this expander should manage.
@@ -329,5 +329,5 @@ method set-list-row ( N-Object() $list-row )
 
 =item $list-row; a L<Gnome::Gtk4::TreeListRow|/content-docs/api2/reference/Gtk4/TreeListRow>.
 
-=end pod
+=end rakudoc
 

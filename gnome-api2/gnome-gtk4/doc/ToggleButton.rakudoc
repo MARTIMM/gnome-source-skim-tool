@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::ToggleButton
 =head1 Description
 
@@ -96,13 +96,13 @@ make_toggles (void)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -113,10 +113,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-togglebutton
 
 Creates a new toggle button.
@@ -134,10 +134,10 @@ method new-togglebutton ( --> Gnome::Gtk4::ToggleButton )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-with-label
 
 Creates a new toggle button with a text label.
@@ -155,10 +155,10 @@ method new-with-label ( Str $label --> Gnome::Gtk4::ToggleButton )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-with-mnemonic
 
 Creates a new B<Gnome::Gtk4::ToggleButton> containing a label.
@@ -180,18 +180,18 @@ method new-with-mnemonic ( Str $label --> Gnome::Gtk4::ToggleButton )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-active
 
 Queries a B<Gnome::Gtk4::ToggleButton> and returns its current state.
@@ -212,10 +212,10 @@ Return value; whether the button is pressed.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-active
 
 Sets the status of the toggle button.
@@ -239,10 +239,10 @@ method set-active ( Bool() $is-active )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-group
 
 Adds C<$self> to the group of C<$group>.
@@ -271,10 +271,10 @@ method set-group ( N-Object() $group )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 toggled
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -292,13 +292,13 @@ method toggled ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -326,5 +326,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

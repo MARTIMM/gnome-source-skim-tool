@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::TextView
 =head1 Description
 
@@ -55,13 +55,13 @@ B<Gnome::Gtk4::TextView> uses the C<GTK_ACCESSIBLE_ROLE_TEXT_BOX> role.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -72,10 +72,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-textview
 
 Creates a new B<Gnome::Gtk4::TextView>.
@@ -96,10 +96,10 @@ method new-textview ( --> Gnome::Gtk4::TextView )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-with-buffer
 
 Creates a new B<Gnome::Gtk4::TextView> widget displaying the buffer C<$buffer>.
@@ -122,18 +122,18 @@ method new-with-buffer ( N-Object() $buffer --> Gnome::Gtk4::TextView )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-child-at-anchor
 
 Adds a child widget in the text buffer, at the given C<$anchor>.
@@ -152,10 +152,10 @@ method add-child-at-anchor ( N-Object() $child, N-Object() $anchor )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-overlay
 
 Adds C<$child> at a fixed coordinate in the B<Gnome::Gtk4::TextView>'s text window.
@@ -183,10 +183,10 @@ method add-overlay ( N-Object() $child, Int() $xpos, Int() $ypos )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 backward-display-line
 
 Moves the given C<$iter> backward by one display (wrapped) line.
@@ -214,10 +214,10 @@ Return value; C<True> if C<$iter> was moved and is not on the end iterator.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 backward-display-line-start
 
 Moves the given C<$iter> backward to the next display line start.
@@ -245,10 +245,10 @@ Return value; C<True> if C<$iter> was moved and is not on the end iterator.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 buffer-to-window-coords
 
 Converts buffer coordinates to window coordinates.
@@ -270,10 +270,10 @@ method buffer-to-window-coords ( GtkTextWindowType $win, Int() $buffer-x, Int() 
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 forward-display-line
 
 Moves the given C<$iter> forward by one display (wrapped) line.
@@ -301,10 +301,10 @@ Return value; C<True> if C<$iter> was moved and is not on the end iterator.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 forward-display-line-end
 
 Moves the given C<$iter> forward to the next display line end.
@@ -332,10 +332,10 @@ Return value; C<True> if C<$iter> was moved and is not on the end iterator.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-accepts-tab
 
 Returns whether pressing the <kbd>Tab</kbd> key inserts a tab characters.
@@ -356,10 +356,10 @@ Return value; C<True> if pressing the Tab key inserts a tab character,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-bottom-margin
 
 Gets the bottom margin for text in the C<$text-view>.
@@ -377,10 +377,10 @@ Return value; bottom margin in pixels.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-buffer
 
 Returns the L<Gnome::Gtk4::TextBuffer|/content-docs/api2/reference/Gtk4/TextBuffer> being displayed by this text view.
@@ -401,10 +401,10 @@ Return value; a L<Gnome::Gtk4::TextBuffer|/content-docs/api2/reference/Gtk4/Text
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-cursor-locations
 
 Determine the positions of the strong and weak cursors if the
@@ -443,10 +443,10 @@ method get-cursor-locations ( N-Object $iter, N-Object $strong, N-Object $weak )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-cursor-visible
 
 Find out whether the cursor should be displayed.
@@ -464,10 +464,10 @@ Return value; whether the insertion mark is visible.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-editable
 
 Returns the default editability of the B<Gnome::Gtk4::TextView>.
@@ -487,10 +487,10 @@ Return value; whether text is editable by default.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-extra-menu
 
 Gets the menu model that gets added to the context menu
@@ -509,10 +509,10 @@ Return value; the menu model.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-gutter
 
 Gets a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> that has previously been set as gutter.
@@ -536,10 +536,10 @@ Return value; a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-indent
 
 Gets the default indentation of paragraphs in C<$text-view>.
@@ -560,10 +560,10 @@ Return value; number of pixels of indentation.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-input-hints
 
 Gets the B<input>-hints` of the B<Gnome::Gtk4::TextView>.
@@ -581,10 +581,10 @@ Return value; No documentation about its value and use.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-input-purpose
 
 Gets the B<input>-purpose` of the B<Gnome::Gtk4::TextView>.
@@ -602,10 +602,10 @@ Return value; No documentation about its value and use.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-iter-at-location
 
 Retrieves the iterator at buffer coordinates C<$x> and C<$y>.
@@ -632,10 +632,10 @@ Return value; C<True> if the position is over text.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-iter-at-position
 
 Retrieves the iterator pointing to the character at buffer
@@ -670,10 +670,10 @@ Return value; C<True> if the position is over text.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-iter-location
 
 Gets a rectangle which roughly contains the character at C<$iter>.
@@ -696,10 +696,10 @@ method get-iter-location ( N-Object $iter, N-Object $location )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-justification
 
 Gets the default justification of paragraphs in C<$text-view>.
@@ -719,10 +719,10 @@ Return value; default justification.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-left-margin
 
 Gets the default left margin size of paragraphs in the C<$text-view>.
@@ -742,10 +742,10 @@ Return value; left margin in pixels.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-line-at-y
 
 Gets the B<Gnome::Gtk4::N-TextIter> at the start of the line containing
@@ -769,10 +769,10 @@ method get-line-at-y ( N-Object $target-iter, Int() $y, Array[Int] $line-top )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-line-yrange
 
 Gets the y coordinate of the top of the line containing C<$iter>,
@@ -796,10 +796,10 @@ method get-line-yrange ( N-Object $iter, Array[Int] $y, Array[Int] $height )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-ltr-context
 
 Gets the L<Gnome::Pango::Context|/content-docs/api2/reference/Pango/Context> that is used for rendering LTR directed
@@ -820,10 +820,10 @@ Return value; a L<Gnome::Pango::Context|/content-docs/api2/reference/Pango/Conte
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-monospace
 
 Gets whether the B<Gnome::Gtk4::TextView> uses monospace styling.
@@ -841,10 +841,10 @@ Return value; C<True> if monospace fonts are desired.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-overwrite
 
 Returns whether the B<Gnome::Gtk4::TextView> is in overwrite mode or not.
@@ -862,10 +862,10 @@ Return value; whether C<$text-view> is in overwrite mode or not..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-pixels-above-lines
 
 Gets the default number of pixels to put above paragraphs.
@@ -886,10 +886,10 @@ Return value; default number of pixels above paragraphs.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-pixels-below-lines
 
 Gets the default number of pixels to put below paragraphs.
@@ -910,10 +910,10 @@ Return value; default number of blank pixels below paragraphs.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-pixels-inside-wrap
 
 Gets the default number of pixels to put between wrapped lines
@@ -932,10 +932,10 @@ Return value; default number of pixels of blank space between wrapped lines.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-right-margin
 
 Gets the default right margin for text in C<$text-view>.
@@ -955,10 +955,10 @@ Return value; right margin in pixels.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-rtl-context
 
 Gets the L<Gnome::Pango::Context|/content-docs/api2/reference/Pango/Context> that is used for rendering RTL directed
@@ -979,10 +979,10 @@ Return value; a L<Gnome::Pango::Context|/content-docs/api2/reference/Pango/Conte
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-tabs
 
 Gets the default tabs for C<$text-view>.
@@ -1006,10 +1006,10 @@ Return value; copy of default tab array,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-top-margin
 
 Gets the top margin for text in the C<$text-view>.
@@ -1027,10 +1027,10 @@ Return value; top margin in pixels.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-visible-rect
 
 Fills C<$visible-rect> with the currently-visible
@@ -1052,10 +1052,10 @@ method get-visible-rect ( N-Object $visible-rect )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-wrap-mode
 
 Gets the line wrapping for the view.
@@ -1073,10 +1073,10 @@ Return value; the line wrap setting.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 im-context-filter-keypress
 
 Allow the B<Gnome::Gtk4::TextView> input method to internally handle key press
@@ -1127,10 +1127,10 @@ Return value; C<True> if the input method handled the key event..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 move-mark-onscreen
 
 Moves a mark within the buffer so that it's
@@ -1151,10 +1151,10 @@ Return value; C<True> if the mark moved (wasn’t already onscreen).
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 move-overlay
 
 Updates the position of a child.
@@ -1176,10 +1176,10 @@ method move-overlay ( N-Object() $child, Int() $xpos, Int() $ypos )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 move-visually
 
 Move the iterator a given number of characters visually, treating
@@ -1212,10 +1212,10 @@ Return value; C<True> if C<$iter> moved and is not on the end iterator.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 place-cursor-onscreen
 
 Moves the cursor to the currently visible region of the
@@ -1234,10 +1234,10 @@ Return value; C<True> if the cursor had to be moved..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove
 
 Removes a child widget from C<$text-view>.
@@ -1255,10 +1255,10 @@ method remove ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 reset-cursor-blink
 
 Ensures that the cursor is shown.
@@ -1281,10 +1281,10 @@ method reset-cursor-blink ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 reset-im-context
 
 Reset the input method context of the text view if needed.
@@ -1303,10 +1303,10 @@ method reset-im-context ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 scroll-mark-onscreen
 
 Scrolls C<$text-view> the minimum distance such that C<$mark> is contained
@@ -1325,10 +1325,10 @@ method scroll-mark-onscreen ( N-Object() $mark )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 scroll-to-iter
 
 Scrolls C<$text-view> so that C<$iter> is on the screen in the position
@@ -1367,10 +1367,10 @@ Return value; C<True> if scrolling occurred.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 scroll-to-mark
 
 Scrolls C<$text-view> so that C<$mark> is on the screen in the position
@@ -1400,10 +1400,10 @@ method scroll-to-mark ( N-Object() $mark, Num() $within-margin, Bool() $use-alig
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-accepts-tab
 
 Sets the behavior of the text widget when the <kbd>Tab</kbd> key is pressed.
@@ -1429,10 +1429,10 @@ method set-accepts-tab ( Bool() $accepts-tab )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-bottom-margin
 
 Sets the bottom margin for text in C<$text-view>.
@@ -1453,10 +1453,10 @@ method set-bottom-margin ( Int() $bottom-margin )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-buffer
 
 Sets C<$buffer> as the buffer being displayed by C<$text-view>.
@@ -1479,10 +1479,10 @@ method set-buffer ( N-Object() $buffer )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-cursor-visible
 
 Toggles whether the insertion point should be displayed.
@@ -1506,10 +1506,10 @@ method set-cursor-visible ( Bool() $setting )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-editable
 
 Sets the default editability of the B<Gnome::Gtk4::TextView>.
@@ -1530,10 +1530,10 @@ method set-editable ( Bool() $setting )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-extra-menu
 
 Sets a menu model to add when constructing the context
@@ -1554,10 +1554,10 @@ method set-extra-menu ( N-Object() $model )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-gutter
 
 Places C<$widget> into the gutter specified by C<$win>.
@@ -1578,10 +1578,10 @@ method set-gutter ( GtkTextWindowType $win, N-Object() $widget )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-indent
 
 Sets the default indentation for paragraphs in C<$text-view>.
@@ -1601,10 +1601,10 @@ method set-indent ( Int() $indent )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-input-hints
 
 Sets the B<input>-hints` of the B<Gnome::Gtk4::TextView>.
@@ -1625,10 +1625,10 @@ method set-input-hints ( UInt $hints )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-input-purpose
 
 Sets the B<input>-purpose` of the B<Gnome::Gtk4::TextView>.
@@ -1649,10 +1649,10 @@ method set-input-purpose ( GtkInputPurpose $purpose )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-justification
 
 Sets the default justification of text in C<$text-view>.
@@ -1672,10 +1672,10 @@ method set-justification ( GtkJustification $justification )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-left-margin
 
 Sets the default left margin for text in C<$text-view>.
@@ -1698,10 +1698,10 @@ method set-left-margin ( Int() $left-margin )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-monospace
 
 Sets whether the B<Gnome::Gtk4::TextView> should display text in
@@ -1720,10 +1720,10 @@ method set-monospace ( Bool() $monospace )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-overwrite
 
 Changes the B<Gnome::Gtk4::TextView> overwrite mode.
@@ -1741,10 +1741,10 @@ method set-overwrite ( Bool() $overwrite )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-pixels-above-lines
 
 Sets the default number of blank pixels above paragraphs in C<$text-view>.
@@ -1764,10 +1764,10 @@ method set-pixels-above-lines ( Int() $pixels-above-lines )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-pixels-below-lines
 
 Sets the default number of pixels of blank space
@@ -1788,10 +1788,10 @@ method set-pixels-below-lines ( Int() $pixels-below-lines )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-pixels-inside-wrap
 
 Sets the default number of pixels of blank space to leave between
@@ -1812,10 +1812,10 @@ method set-pixels-inside-wrap ( Int() $pixels-inside-wrap )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-right-margin
 
 Sets the default right margin for text in the text view.
@@ -1838,10 +1838,10 @@ method set-right-margin ( Int() $right-margin )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-tabs
 
 Sets the default tab stops for paragraphs in C<$text-view>.
@@ -1861,10 +1861,10 @@ method set-tabs ( N-Object $tabs )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-top-margin
 
 Sets the top margin for text in C<$text-view>.
@@ -1885,10 +1885,10 @@ method set-top-margin ( Int() $top-margin )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-wrap-mode
 
 Sets the line wrapping for the view.
@@ -1906,10 +1906,10 @@ method set-wrap-mode ( GtkWrapMode $wrap-mode )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 starts-display-line
 
 Determines whether C<$iter> is at the start of a display line.
@@ -1932,10 +1932,10 @@ Return value; C<True> if C<$iter> begins a wrapped line.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 window-to-buffer-coords
 
 Converts coordinates on the window identified by C<$win> to buffer
@@ -1958,13 +1958,13 @@ method window-to-buffer-coords ( GtkTextWindowType $win, Int() $window-x, Int() 
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -2479,5 +2479,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

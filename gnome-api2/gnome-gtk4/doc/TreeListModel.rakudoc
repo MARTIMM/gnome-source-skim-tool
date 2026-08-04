@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::TreeListModel
 =head1 Description
 
@@ -21,13 +21,13 @@ B<Gnome::Gtk4::TreeListModel> is a list model that can create child models on de
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -38,10 +38,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-treelistmodel
 
 Creates a new empty B<Gnome::Gtk4::TreeListModel> displaying C<$root>
@@ -66,18 +66,18 @@ method new-treelistmodel ( N-List() $root, Bool() $passthrough, Bool() $autoexpa
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-autoexpand
 
 Gets whether the model is set to automatically expand new rows
@@ -99,10 +99,10 @@ Return value; C<True> if the model is set to autoexpand.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child-row
 
 Gets the row item corresponding to the child at index C<$position> for C<$self>'s root model.
@@ -127,10 +127,10 @@ Return value; the child in C<$position>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-model
 
 Gets the root model that C<$self> was created with.
@@ -148,10 +148,10 @@ Return value; the root model.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-passthrough
 
 Gets whether the model is passing through original row items.
@@ -178,10 +178,10 @@ Return value; C<True> if the model is passing through original row items.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-row
 
 Gets the row object for the given row.
@@ -217,10 +217,10 @@ Return value; The row item.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-autoexpand
 
 Sets whether the model should autoexpand.
@@ -242,5 +242,5 @@ method set-autoexpand ( Bool() $autoexpand )
 
 =end comment
 
-=end pod
+=end rakudoc
 
