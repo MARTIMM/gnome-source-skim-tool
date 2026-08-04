@@ -16,18 +16,18 @@ A L<Gnome::Gtk4::ShortcutTrigger|/content-docs/api2/reference/Gtk4/ShortcutTrigg
 
 =head3 Example
 
-Example use of module Gnome::Gtk4::AlternativeTrigger
+Two examples to set a B<Gnome::Gtk4::AlternativeTrigger> object. The first example uses the the constructor of this class, the second uses the parser method of its parent class L<B<Gnome::Gtk4::ShortcutTrigger>|/content-docs/api2/reference/Gtk4/ShortcutTrigger.html#parse-string>.
 
 =begin code
 my Gnome::Gtk4::ShortcutTrigger $first .= parse-string('<CTRL>F5');
 my Gnome::Gtk4::ShortcutTrigger $second .= parse-string('<ALT>A');
-$alternativetrigger .= new-alternativetrigger( $first, $second);
-ok $alternativetrigger.is-valid,
-  ".new-alternativetrigger( '$first.to-string()', '$second.to-string()')";
+my Gnome::Gtk4::AlternativeTrigger $alternativetrigger .=
+   new-alternativetrigger( $first, $second);
 =end code
 
 =begin code
-$alternativetrigger .= parse-string('<CTRL>F5|<SHIFT>8');
+my Gnome::Gtk4::AlternativeTrigger $alternativetrigger .=
+   parse-string('<CTRL>F5|<SHIFT>8');
 =end code
 
 =end rakudoc
