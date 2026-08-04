@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gdk4::Event
 =head1 Description
 
@@ -24,13 +24,13 @@ B<Gnome::Gdk4::Event> structs are immutable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -41,18 +41,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 -get-angle
 
 Returns the relative angle from C<$event1> to C<$event2>.
@@ -80,10 +80,10 @@ Return value; C<True> if the angle could be calculated..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 -get-center
 
 Returns the point halfway between the events' positions.
@@ -108,10 +108,10 @@ Return value; C<True> if the center could be calculated..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 -get-distance
 
 Returns the distance between the event locations.
@@ -135,10 +135,10 @@ Return value; C<True> if the distance could be calculated..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-axes
 
 Extracts all axis values from an event.
@@ -162,10 +162,10 @@ Return value; C<True> on success, otherwise C<False>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-axis
 
 Extract the axis value for a particular axis use from
@@ -190,10 +190,10 @@ Return value; C<True> if the specified axis was found, otherwise C<False>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-device
 
 Returns the device of an event.
@@ -211,10 +211,10 @@ Return value; a L<Gnome::Gdk4::Device|/content-docs/api2/reference/Gdk4/Device>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-device-tool
 
 Returns a L<Gnome::Gdk4::DeviceTool|/content-docs/api2/reference/Gdk4/DeviceTool> representing the tool that
@@ -241,10 +241,10 @@ Return value; The current device tool.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-display
 
 Retrieves the display associated to the C<$event>.
@@ -262,10 +262,10 @@ Return value; a L<Gnome::Gdk4::Display|/content-docs/api2/reference/Gdk4/Display
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-event-sequence
 
 Returns the event sequence to which the event belongs.
@@ -286,10 +286,10 @@ Return value; the event sequence that the event belongs to.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-event-type
 This function is not yet available
 
@@ -308,10 +308,10 @@ Return value; a B<Gnome::Gdk4::Event>Type.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-history
 
 Retrieves the history of the device that C<$event> is for, as a list of
@@ -340,10 +340,10 @@ Return value; an
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-modifier-state
 
 Returns the modifier state field of an event.
@@ -361,10 +361,10 @@ Return value; the modifier state of C<$event>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-pointer-emulated
 
 Returns whether this event is an 'emulated' pointer event.
@@ -384,10 +384,10 @@ Return value; C<True> if this event is emulated.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-position
 
 Extract the event surface relative x/y coordinates from an event.
@@ -410,10 +410,10 @@ Return value; whether the positions were set.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-seat
 
 Returns the seat that originated the event.
@@ -431,10 +431,10 @@ Return value; a L<Gnome::Gdk4::Seat|/content-docs/api2/reference/Gdk4/Seat>..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-surface
 
 Extracts the surface associated with an event.
@@ -452,10 +452,10 @@ Return value; The L<Gnome::Gdk4::Surface|/content-docs/api2/reference/Gdk4/Surfa
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-time
 
 Returns the timestamp of C<$event>.
@@ -476,10 +476,10 @@ Return value; timestamp field from C<$event>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ref
 
 Increase the ref count of C<$event>.
@@ -497,10 +497,10 @@ Return value; C<$event>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 triggers-context-menu
 
 Returns whether a B<Gnome::Gdk4::Event> should trigger a context menu,
@@ -529,10 +529,10 @@ Return value; C<True> if the event should trigger a context menu..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unref
 
 Decrease the ref count of C<$event>.
@@ -550,5 +550,5 @@ method unref ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 

@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gdk4::Display
 =head1 Description
 
@@ -31,13 +31,13 @@ be accessed with L<.get-monitor-at-surface()|#get-monitor-at-surface> and simila
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -48,18 +48,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 beep
 
 Emits a short beep on C<$display>
@@ -75,10 +75,10 @@ method beep ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 close
 
 Closes the connection to the windowing system for the given display.
@@ -96,10 +96,10 @@ method close ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 create-gl-context
 
 Creates a new L<Gnome::Gdk4::GLContext|/content-docs/api2/reference/Gdk4/GLContext> for the B<Gnome::Gdk4::Display>.
@@ -129,10 +129,10 @@ Return value; the newly created L<Gnome::Gdk4::GLContext|/content-docs/api2/refe
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 device-is-grabbed
 
 Returns C<True> if there is an ongoing grab on C<$device> for C<$display>.
@@ -152,10 +152,10 @@ Return value; C<True> if there is a grab in effect for C<$device>..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 flush
 
 Flushes any requests queued for the windowing system.
@@ -180,10 +180,10 @@ method flush ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-app-launch-context
 
 Returns a L<Gnome::Gdk4::AppLaunchContext|/content-docs/api2/reference/Gdk4/AppLaunchContext> suitable for launching
@@ -202,10 +202,10 @@ Return value; a new L<Gnome::Gdk4::AppLaunchContext|/content-docs/api2/reference
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-clipboard
 
 Gets the clipboard used for copy/paste operations.
@@ -223,10 +223,10 @@ Return value; the display's clipboard.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-default-seat
 
 Returns the default L<Gnome::Gdk4::Seat|/content-docs/api2/reference/Gdk4/Seat> for this display.
@@ -247,10 +247,10 @@ Return value; the default seat..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-monitor-at-surface
 
 Gets the monitor in which the largest area of C<$surface>
@@ -275,10 +275,10 @@ Return value; the monitor with the largest
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-monitors
 
 Gets the list of monitors associated with this display.
@@ -302,10 +302,10 @@ Return value; a L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-Lis
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-name
 
 Gets the name of the display.
@@ -324,10 +324,10 @@ Return value; a string representing the display name. This string is owned
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-primary-clipboard
 
 Gets the clipboard used for the primary selection.
@@ -348,10 +348,10 @@ Return value; the primary clipboard.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-setting
 
 Retrieves a desktop-wide setting such as double-click time
@@ -374,10 +374,10 @@ Return value; C<True> if the setting existed and a value was stored
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-startup-notification-id
 
 Gets the startup notification ID for a Wayland display, or undefined
@@ -396,10 +396,10 @@ Return value; the startup notification ID for C<$display>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-closed
 
 Finds out if the display has been closed.
@@ -417,10 +417,10 @@ Return value; C<True> if the display is closed..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-composited
 
 Returns whether surfaces can reasonably be expected to have
@@ -449,10 +449,10 @@ Return value; Whether surfaces with RGBA visuals can reasonably
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-rgba
 
 Returns whether surfaces on this C<$display> are created with an
@@ -481,10 +481,10 @@ Return value; C<True> if surfaces are created with an alpha channel or
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 list-seats
 
 Returns the list of seats known to C<$display>.
@@ -503,10 +503,10 @@ Return value; the
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 map-keycode
 
 Returns the keyvals bound to C<$keycode>.
@@ -539,10 +539,10 @@ Return value; C<True> if there were any entries.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 map-keyval
 
 Obtains a list of keycode/group/level combinations that will
@@ -579,10 +579,10 @@ Return value; C<True> if keys were found and returned.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 notify-startup-complete
 
 Indicates to the GUI environment that the application has
@@ -607,10 +607,10 @@ method notify-startup-complete ( Str $startup-id )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 prepare-gl
 
 Checks that OpenGL is available for C<$self> and ensures that it is
@@ -645,10 +645,10 @@ Return value; C<True> if the display supports OpenGL.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 put-event
 
 Appends the given event onto the front of the event
@@ -670,10 +670,10 @@ method put-event ( N-Object() $event )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 supports-input-shapes
 
 Returns C<True> if the display supports input shapes.
@@ -696,10 +696,10 @@ Return value; C<True> if surfaces with modified input shape are supported.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 sync
 
 Flushes any requests queued for the windowing system and waits until all
@@ -724,10 +724,10 @@ method sync ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 translate-key
 
 Translates the contents of a B<GdkEventKey> into a keyval, effective group,
@@ -771,18 +771,18 @@ Return value; C<True> if there was a keyval bound to keycode/state/group..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-default
 
 Gets the default B<Gnome::Gdk4::Display>.
@@ -805,10 +805,10 @@ Return value; a B<Gnome::Gdk4::Display>, or undefined if
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 open
 
 Opens a display.
@@ -830,13 +830,13 @@ Return value; a B<Gnome::Gdk4::Display>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -972,5 +972,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

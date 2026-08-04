@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gdk4::N-ContentFormats
 =head1 Description
 
@@ -49,13 +49,13 @@ endeavor.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -66,10 +66,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-contentformats
 
 Creates a new B<Gnome::Gdk4::N-ContentFormats> from an array of mime types.
@@ -93,10 +93,10 @@ method new-contentformats ( Array[Str] $mime-types, UInt() $n-mime-types --> Gno
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-for-gtype
 
 Creates a new B<Gnome::Gdk4::N-ContentFormats> for a given B<Gnome::GObject::ContentFormats>.
@@ -114,18 +114,18 @@ method new-for-gtype ( GType $type --> Gnome::Gdk4::ContentFormats )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 contain-gtype
 
 Checks if a given B<Gnome::GObject::ContentFormats> is part of the given C<$formats>.
@@ -145,10 +145,10 @@ Return value; C<True> if the B<Gnome::GObject::ContentFormats> was found.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 contain-mime-type
 
 Checks if a given mime type is part of the given C<$formats>.
@@ -168,10 +168,10 @@ Return value; C<True> if the mime_type was found.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-gtypes
 This function is not yet available
 
@@ -194,10 +194,10 @@ method get-gtypes ( Array[gsize] $n-gtypes )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-mime-types
 
 Gets the mime types included in C<$formats>.
@@ -223,10 +223,10 @@ Return value;
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 match
 
 Checks if C<$first> and C<$second> have any matching formats.
@@ -246,10 +246,10 @@ Return value; C<True> if a matching format was found..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 match-gtype
 
 Finds the first B<Gnome::GObject::ContentFormats> from C<$first> that is also contained
@@ -272,10 +272,10 @@ Return value; The first common B<Gnome::GObject::ContentFormats> or C<G_TYPE_INV
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 match-mime-type
 
 Finds the first mime type from C<$first> that is also contained
@@ -298,10 +298,10 @@ Return value; The first common mime type or undefined if none.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 print
 
 Prints the given C<$formats> into a string for human consumption.
@@ -322,10 +322,10 @@ method print ( N-Object $string )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ref
 
 Increases the reference count of a B<Gnome::Gdk4::N-ContentFormats> by one.
@@ -343,10 +343,10 @@ Return value; the passed in B<Gnome::Gdk4::N-ContentFormats>..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 to-string
 
 Prints the given C<$formats> into a human-readable string.
@@ -369,10 +369,10 @@ Return value; a new string.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 union
 
 Append all missing types from C<$second> to C<$first>, in the order
@@ -393,10 +393,10 @@ Return value; a new B<Gnome::Gdk4::N-ContentFormats>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 union-deserialize-gtypes
 
 Add GTypes for mime types in C<$formats> for which deserializers are
@@ -415,10 +415,10 @@ Return value; a new B<Gnome::Gdk4::N-ContentFormats>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 union-deserialize-mime-types
 
 Add mime types for GTypes in C<$formats> for which deserializers are
@@ -437,10 +437,10 @@ Return value; a new B<Gnome::Gdk4::N-ContentFormats>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 union-serialize-gtypes
 
 Add GTypes for the mime types in C<$formats> for which serializers are
@@ -459,10 +459,10 @@ Return value; a new B<Gnome::Gdk4::N-ContentFormats>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 union-serialize-mime-types
 
 Add mime types for GTypes in C<$formats> for which serializers are
@@ -481,10 +481,10 @@ Return value; a new B<Gnome::Gdk4::N-ContentFormats>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unref
 
 Decreases the reference count of a B<Gnome::Gdk4::N-ContentFormats> by one.
@@ -502,18 +502,18 @@ method unref ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 parse
 
 Parses the given C<$string> into B<Gnome::Gdk4::N-ContentFormats> and
@@ -540,5 +540,5 @@ Return value; the content formats if C<$string> is valid.
 
 =end comment
 
-=end pod
+=end rakudoc
 

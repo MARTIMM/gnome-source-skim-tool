@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gdk4::TouchpadEvent
 =head1 Description
 
@@ -23,13 +23,13 @@ processed by the system, resulting in these events.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -40,18 +40,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-deltas
 
 Extracts delta information from a touchpad event.
@@ -70,10 +70,10 @@ method get-deltas ( Num() $dx, Num() $dy )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-gesture-phase
 This function is not yet available
 
@@ -92,10 +92,10 @@ Return value; the gesture phase of C<$event>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-n-fingers
 
 Extracts the number of fingers from a touchpad event.
@@ -113,10 +113,10 @@ Return value; the number of fingers for C<$event>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-pinch-angle-delta
 
 Extracts the angle delta from a touchpad pinch event.
@@ -134,10 +134,10 @@ Return value; the angle delta of C<$event>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-pinch-scale
 
 Extracts the scale from a touchpad pinch event.
@@ -155,5 +155,5 @@ Return value; the scale of C<$event>.
 
 =end comment
 
-=end pod
+=end rakudoc
 

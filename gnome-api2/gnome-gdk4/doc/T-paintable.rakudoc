@@ -1,15 +1,15 @@
 =comment Package: Gdk4, C-Source: paintable
 use v6.d;
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gdk4::T-paintable
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -18,12 +18,12 @@ Initialization of a type class is simple and only needed when the standalone fun
 
   method new ( )
 
-=end pod
+=end rakudoc
 #-------------------------------------------------------------------------------
 #--[Bitfields]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Bitfields
 
 =head2 GdkPaintableFlags
@@ -38,18 +38,18 @@ Implementations use these for optimizations such as caching.
 =item C<GDK_PAINTABLE_STATIC_CONTENTS>; The content is immutable.
   The I<invalidate-contents> signal will never be
   emitted.
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Standalone Functions]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Standalone Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 paintable-new-empty
 
 Returns a paintable that has the given intrinsic size and draws nothing.
@@ -76,5 +76,5 @@ Return value; a L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-P
 
 =end comment
 
-=end pod
+=end rakudoc
 

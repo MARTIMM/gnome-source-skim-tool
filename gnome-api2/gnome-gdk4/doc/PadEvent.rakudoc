@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gdk4::PadEvent
 =head1 Description
 
@@ -18,13 +18,13 @@ An event related to a pad-based device.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -35,18 +35,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-axis-value
 
 Extracts the information from a pad strip or ring event.
@@ -65,10 +65,10 @@ method get-axis-value ( Array[Int] $index, Num() $value )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-button
 
 Extracts information about the pressed button from
@@ -87,10 +87,10 @@ Return value; the button of C<$event>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-group-mode
 
 Extracts group and mode information from a pad event.
@@ -109,5 +109,5 @@ method get-group-mode ( Array[Int] $group, Array[Int] $mode )
 
 =end comment
 
-=end pod
+=end rakudoc
 

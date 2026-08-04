@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gdk4::N-ContentFormatsBuilder
 =head1 Description
 
@@ -19,13 +19,13 @@ new B<Gnome::Gdk4::N-ContentFormats>, and should not be kept around.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -36,10 +36,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-contentformatsbuilder
 
 Create a new B<Gnome::Gdk4::N-ContentFormatsBuilder> object.
@@ -58,18 +58,18 @@ method new-contentformatsbuilder ( --> Gnome::Gdk4::ContentFormatsBuilder )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-formats
 
 Appends all formats from C<$formats> to C<$builder>, skipping those that
@@ -88,10 +88,10 @@ method add-formats ( N-Object $formats )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-gtype
 
 Appends C<$type> to C<$builder> if it has not already been added.
@@ -109,10 +109,10 @@ method add-gtype ( GType $type )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-mime-type
 
 Appends C<$mime-type> to C<$builder> if it has not already been added.
@@ -130,10 +130,10 @@ method add-mime-type ( Str $mime-type )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free-to-formats
 
 Creates a new B<Gnome::Gdk4::N-ContentFormats> from the current state of the
@@ -153,10 +153,10 @@ Return value; the newly created B<Gnome::Gdk4::N-ContentFormats>
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ref
 
 Acquires a reference on the given C<$builder>.
@@ -178,10 +178,10 @@ Return value; the given B<Gnome::Gdk4::N-ContentFormatsBuilder>
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 to-formats
 
 Creates a new B<Gnome::Gdk4::N-ContentFormats> from the given C<$builder>.
@@ -206,10 +206,10 @@ Return value; the newly created B<Gnome::Gdk4::N-ContentFormats>
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unref
 
 Releases a reference on the given C<$builder>.
@@ -225,5 +225,5 @@ method unref ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 

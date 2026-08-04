@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gdk4::N-Rectangle
 =head1 Description
 
@@ -32,13 +32,13 @@ volumes in 2D and 3D.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -49,18 +49,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 contains-point
 
 Returns C<True> if C<$rect> contains the point described by C<$x> and C<$y>.
@@ -81,10 +81,10 @@ Return value; C<True> if C<$rect> contains the point.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 equal
 
 Checks if the two given rectangles are equal.
@@ -104,10 +104,10 @@ Return value; C<True> if the rectangles are equal..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 intersect
 
 Calculates the intersection of two rectangles.
@@ -135,10 +135,10 @@ Return value; C<True> if the rectangles intersect..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 union
 
 Calculates the union of two rectangles.
@@ -164,5 +164,5 @@ method union ( N-Object $src2, N-Object $dest )
 
 =end comment
 
-=end pod
+=end rakudoc
 

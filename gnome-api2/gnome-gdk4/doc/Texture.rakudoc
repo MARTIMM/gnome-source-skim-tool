@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gdk4::Texture
 =head1 Description
 
@@ -31,13 +31,13 @@ L<.ref() in class Gnome|/content-docs/api2/reference/GObject/Gnome#ref>, and con
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -48,10 +48,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-for-pixbuf
 
 Creates a new texture object representing the L<Gnome::GdkPixbuf::Pixbuf|/content-docs/api2/reference/GdkPixbuf/Pixbuf>.
@@ -73,10 +73,10 @@ method new-for-pixbuf ( N-Object() $pixbuf --> Gnome::Gdk4::Texture )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-bytes
 
 Creates a new texture by loading an image from memory,
@@ -106,10 +106,10 @@ Use C<Pointer> when you want to ignore the error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-file
 
 Creates a new texture by loading an image from a file.
@@ -139,10 +139,10 @@ Use C<Pointer> when you want to ignore the error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-filename
 
 Creates a new texture by loading an image from a file.
@@ -172,10 +172,10 @@ Use C<Pointer> when you want to ignore the error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-resource
 
 Creates a new texture by loading an image from a resource.
@@ -205,18 +205,18 @@ method new-from-resource ( Str $resource-path --> Gnome::Gdk4::Texture )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 download
 
 Downloads the C<$texture> into local memory.
@@ -255,10 +255,10 @@ method download ( Str $data, Int() $stride )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-height
 
 Returns the height of the C<$texture>, in pixels.
@@ -276,10 +276,10 @@ Return value; the height of the B<Gnome::Gdk4::Texture>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-width
 
 Returns the width of C<$texture>, in pixels.
@@ -297,10 +297,10 @@ Return value; the width of the B<Gnome::Gdk4::Texture>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 save-to-png
 
 Store the given C<$texture> to the C<$filename> as a PNG file.
@@ -326,10 +326,10 @@ Return value; C<True> if saving succeeded, C<False> on failure..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 save-to-png-bytes
 
 Store the given C<$texture> in memory as a PNG file.
@@ -360,10 +360,10 @@ Return value; a newly allocated B<Gnome::Glib::N-Bytes> containing PNG data.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 save-to-tiff
 
 Store the given C<$texture> to the C<$filename> as a TIFF file.
@@ -385,10 +385,10 @@ Return value; C<True> if saving succeeded, C<False> on failure..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 save-to-tiff-bytes
 
 Store the given C<$texture> in memory as a TIFF file.
@@ -417,5 +417,5 @@ Return value; a newly allocated B<Gnome::Glib::N-Bytes> containing TIFF data.
 
 =end comment
 
-=end pod
+=end rakudoc
 

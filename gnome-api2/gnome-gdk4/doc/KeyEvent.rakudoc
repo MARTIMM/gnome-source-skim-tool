@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gdk4::KeyEvent
 =head1 Description
 
@@ -18,13 +18,13 @@ An event related to a key-based device.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -35,18 +35,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-consumed-modifiers
 
 Extracts the consumed modifiers from a key event.
@@ -64,10 +64,10 @@ Return value; the consumed modifiers or C<$event>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-keycode
 
 Extracts the keycode from a key event.
@@ -85,10 +85,10 @@ Return value; the keycode of C<$event>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-keyval
 
 Extracts the keyval from a key event.
@@ -106,10 +106,10 @@ Return value; the keyval of C<$event>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-layout
 
 Extracts the layout from a key event.
@@ -127,10 +127,10 @@ Return value; the layout of C<$event>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-level
 
 Extracts the shift level from a key event.
@@ -148,10 +148,10 @@ Return value; the shift level of C<$event>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-match
 
 Gets a keyval and modifier combination that will match
@@ -175,10 +175,10 @@ Return value; C<True> on success.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-modifier
 
 Extracts whether the key event is for a modifier key.
@@ -196,10 +196,10 @@ Return value; C<True> if the C<$event> is for a modifier key.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 matches
 This function is not yet available
 
@@ -228,5 +228,5 @@ Return value; a C<enumeration GdkKeyMatch defined in Gnome::Gdk4::T-events> valu
 
 =end comment
 
-=end pod
+=end rakudoc
 

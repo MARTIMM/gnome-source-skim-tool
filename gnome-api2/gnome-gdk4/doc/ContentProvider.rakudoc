@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gdk4::ContentProvider
 =head1 Description
 
@@ -26,13 +26,13 @@ to add support for application-specific data formats.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -43,10 +43,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-for-bytes
 
 Create a content provider that provides the given C<$bytes> as data for
@@ -66,10 +66,10 @@ method new-for-bytes ( Str $mime-type, N-Object $bytes --> Gnome::Gdk4::ContentP
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-for-value
 
 Create a content provider that provides the given C<$value>.
@@ -87,10 +87,10 @@ method new-for-value ( N-Object $value --> Gnome::Gdk4::ContentProvider )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-typed
 
 Create a content provider that provides the value of the given C<$type>.
@@ -112,10 +112,10 @@ method new-typed ( GType $type, … --> Gnome::Gdk4::ContentProvider )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-union
 
 Creates a content provider that represents all the given C<$providers>.
@@ -149,18 +149,18 @@ method new-union ( N-Object() $providers, Int() $n-providers --> Gnome::Gdk4::Co
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 content-changed
 
 Emits the I<content-changed> signal.
@@ -176,10 +176,10 @@ method content-changed ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-value
 
 Gets the contents of C<$provider> stored in C<$value>.
@@ -209,10 +209,10 @@ Return value; C<True> if the value was set successfully. Otherwise
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ref-formats
 
 Gets the formats that the provider can provide its current contents in.
@@ -230,10 +230,10 @@ Return value; The formats of the provider.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ref-storable-formats
 
 Gets the formats that the provider suggests other applications to store
@@ -256,10 +256,10 @@ Return value; The storable formats of the provider.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 write-mime-type-async
 
 Asynchronously writes the contents of C<$provider> to C<$stream> in the given C<$mime-type>.
@@ -292,10 +292,10 @@ method write-mime-type-async ( Str $mime-type, N-Object() $stream, Int() $io-pri
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 write-mime-type-finish
 
 Finishes an asynchronous write operation.
@@ -321,13 +321,13 @@ Return value; C<True> if the operation was completed successfully. Otherwise
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -355,5 +355,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

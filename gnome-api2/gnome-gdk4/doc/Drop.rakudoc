@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gdk4::Drop
 =head1 Description
 
@@ -27,13 +27,13 @@ GTK provides a higher level abstraction based on top of these functions, and so 
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -44,18 +44,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 finish
 
 Ends the drag operation after a drop.
@@ -68,10 +68,10 @@ method finish ( UInt $action )
 
 =item $action; the action performed by the destination or 0 if the drop failed.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-actions
 
 Returns the possible actions for this B<Gnome::Gdk4::Drop>.
@@ -86,10 +86,10 @@ method get-actions ( --> UInt )
 
 Return value; The possible B<GdkDragActions>. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-device
 
 Returns the L<Gnome::Gdk4::Device|/content-docs/api2/reference/Gdk4/Device> performing the drop.
@@ -100,10 +100,10 @@ method get-device ( --> N-Object )
 
 Return value; The L<Gnome::Gdk4::Device|/content-docs/api2/reference/Gdk4/Device> performing the drop.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-display
 
 Gets the L<Gnome::Gdk4::Display|/content-docs/api2/reference/Gdk4/Display> that C<$self> was created for.
@@ -114,10 +114,10 @@ method get-display ( --> N-Object )
 
 Return value; a L<Gnome::Gdk4::Display|/content-docs/api2/reference/Gdk4/Display>. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-drag
 
 If this is an in-app drag-and-drop operation, returns the L<Gnome::Gdk4::Drag|/content-docs/api2/reference/Gdk4/Drag> object that corresponds to this drop.
@@ -130,10 +130,10 @@ method get-drag ( --> N-Object )
 
 Return value; the corresponding L<Gnome::Gdk4::Drag|/content-docs/api2/reference/Gdk4/Drag>. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-formats
 
 Returns the B<Gnome::Gdk4::N-ContentFormats> that the drop offers the data to be read in.
@@ -144,10 +144,10 @@ method get-formats ( --> N-Object )
 
 Return value; The possible B<Gnome::Gdk4::N-ContentFormats>.  
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-surface
 
 Returns the L<Gnome::Gdk4::Surface|/content-docs/api2/reference/Gdk4/Surface> performing the drop.
@@ -158,10 +158,10 @@ method get-surface ( --> N-Object )
 
 Return value; The L<Gnome::Gdk4::Surface|/content-docs/api2/reference/Gdk4/Surface> performing the drop.. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 read-async
 
 Asynchronously read the dropped data from a B<Gnome::Gdk4::Drop>
@@ -181,10 +181,10 @@ method read-async (
 =item GAsyncReadyCallback &callback; a B<Gnome::Gio::T-iotypes> to call when   the request is satisfied. The function must be specified with the following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
 =item $user-data; the data to pass to C<$callback>.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 read-finish
 
 Finishes an async drop read operation.
@@ -206,10 +206,10 @@ method read-finish (
 
 Return value; the L<Gnome::Gio::InputStream|/content-docs/api2/reference/Gio/InputStream>. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 read-value-async
 
 Asynchronously request the drag operation's contents converted to the given C<$type>.
@@ -231,10 +231,10 @@ method read-value-async (
 =item GAsyncReadyCallback &callback; callback to call when the request is satisfied. The function must be specified with the following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
 =item $user-data; the data to pass to callback function.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 read-value-finish
 
 Finishes an async drop read.
@@ -253,10 +253,10 @@ method read-value-finish (
 
 Return value; a B<Gnome::GObject::N-Value> containing the result.. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 status
 
 Selects all actions that are potentially supported by the destination.
@@ -276,5 +276,5 @@ method status ( UInt $actions, UInt $preferred )
 =item $preferred; A unique action that's a member of C<$actions> indicating the
    preferred action.
 
-=end pod
+=end rakudoc
 

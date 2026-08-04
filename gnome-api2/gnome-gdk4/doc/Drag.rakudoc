@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gdk4::Drag
 =head1 Description
 
@@ -25,13 +25,13 @@ GTK provides a higher level abstraction based on top of these functions, and so 
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -42,18 +42,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 drop-done
 
 Informs GDK that the drop ended.
@@ -70,10 +70,10 @@ method drop-done ( Bool() $success )
 
 =item $success; whether the drag was ultimatively successful.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-actions
 
 Determines the bitmask of possible actions proposed by the source.
@@ -84,10 +84,10 @@ method get-actions ( --> UInt )
 
 Return value; the C<bit field GdkDragAction defined in Gnome::Gdk4::T-enums> flags.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-content
 
 Returns the L<Gnome::Gdk4::ContentProvider|/content-docs/api2/reference/Gdk4/ContentProvider> associated to the B<Gnome::Gdk4::Drag> object.
@@ -98,10 +98,10 @@ method get-content ( --> N-Object )
 
 Return value; The L<Gnome::Gdk4::ContentProvider|/content-docs/api2/reference/Gdk4/ContentProvider> associated to C<$drag>.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-device
 
 Returns the L<Gnome::Gdk4::Device|/content-docs/api2/reference/Gdk4/Device> associated to the B<Gnome::Gdk4::Drag> object.
@@ -112,10 +112,10 @@ method get-device ( --> N-Object )
 
 Return value; The L<Gnome::Gdk4::Device|/content-docs/api2/reference/Gdk4/Device> associated to C<$drag>.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-display
 
 Gets the L<Gnome::Gdk4::Display|/content-docs/api2/reference/Gdk4/Display> that the drag object was created for.
@@ -126,10 +126,10 @@ method get-display ( --> N-Object )
 
 Return value; a L<Gnome::Gdk4::Display|/content-docs/api2/reference/Gdk4/Display>. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-drag-surface
 
 Returns the surface on which the drag icon should be rendered during the drag operation.
@@ -142,10 +142,10 @@ method get-drag-surface ( --> N-Object )
 
 Return value; the drag surface. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-formats
 
 Retrieves the formats supported by this B<Gnome::Gdk4::Drag> object.
@@ -170,10 +170,10 @@ if $mime-types.first( 'text/plain', :k) {
 
 =end code
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-selected-action
 
 Determines the action chosen by the drag destination.
@@ -184,10 +184,10 @@ method get-selected-action ( --> UInt )
 
 Return value; a C<bit field GdkDragAction defined in Gnome::Gdk4::T-enums> value. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-surface
 
 Returns the L<Gnome::Gdk4::Surface|/content-docs/api2/reference/Gdk4/Surface> where the drag originates.
@@ -198,10 +198,10 @@ method get-surface ( --> N-Object )
 
 Return value; The L<Gnome::Gdk4::Surface|/content-docs/api2/reference/Gdk4/Surface> where the drag originates. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-hotspot
 
 Sets the position of the drag surface that will be kept under the cursor hotspot.
@@ -215,18 +215,18 @@ method set-hotspot ( Int() $hot-x, Int() $hot-y )
 =item $hot-x; x coordinate of the drag surface hotspot.
 =item $hot-y; y coordinate of the drag surface hotspot.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 begin
 
 Starts a drag and creates a new drag context for it.
@@ -254,13 +254,13 @@ method begin (
 
 Return value; a newly created B<Gnome::Gdk4::Drag>. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -321,5 +321,5 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gdk4::Drag> object.
 =item %user-options; A list of named arguments provided by L<.register-signal() in class Gnome|/content-docs/api2/reference/GObject/Gnome#register-signal>.
 
-=end pod
+=end rakudoc
 
