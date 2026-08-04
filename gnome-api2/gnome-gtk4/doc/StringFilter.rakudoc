@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::StringFilter
 =head1 Description
 
@@ -33,13 +33,13 @@ L<.set-ignore-case()|#set-ignore-case>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -50,10 +50,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-stringfilter
 
 Creates a new string filter.
@@ -74,18 +74,18 @@ method new-stringfilter ( N-Object() $expression --> Gnome::Gtk4::StringFilter )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-expression
 
 Gets the expression that the string filter uses to
@@ -104,10 +104,10 @@ Return value; a L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expr
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-ignore-case
 
 Returns whether the filter ignores case differences.
@@ -125,10 +125,10 @@ Return value; C<True> if the filter ignores case.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-match-mode
 
 Returns the match mode that the filter is using.
@@ -146,10 +146,10 @@ Return value; the match mode of the filter.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-search
 
 Gets the search term.
@@ -167,10 +167,10 @@ Return value; The search term.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-expression
 
 Sets the expression that the string filter uses to
@@ -191,10 +191,10 @@ method set-expression ( N-Object() $expression )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-ignore-case
 
 Sets whether the filter ignores case differences.
@@ -212,10 +212,10 @@ method set-ignore-case ( Bool() $ignore-case )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-match-mode
 
 Sets the match mode for the filter.
@@ -233,10 +233,10 @@ method set-match-mode ( GtkStringFilterMatchMode $mode )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-search
 
 Sets the string to search for.
@@ -255,5 +255,5 @@ method set-search ( Str $search )
 
 =end comment
 
-=end pod
+=end rakudoc
 

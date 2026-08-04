@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::SingleSelection
 =head1 Description
 
@@ -27,13 +27,13 @@ underlying sort model will preserve the selection.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -44,10 +44,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-singleselection
 
 Creates a new selection to handle C<$model>.
@@ -65,18 +65,18 @@ method new-singleselection ( N-List() $model --> Gnome::Gtk4::SingleSelection )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-autoselect
 
 Checks if autoselect has been enabled or disabled via
@@ -95,10 +95,10 @@ Return value; C<True> if autoselect is enabled.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-can-unselect
 
 If C<True>, gtk_selection_model_unselect_item() is supported and allows
@@ -117,10 +117,10 @@ Return value; C<True> to support unselecting.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-model
 
 Gets the model that C<$self> is wrapping.
@@ -138,10 +138,10 @@ Return value; The model being wrapped.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-selected
 
 Gets the position of the selected item.
@@ -161,10 +161,10 @@ Return value; The position of the selected item.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-selected-item
 
 Gets the selected item.
@@ -184,10 +184,10 @@ Return value; The selected item.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-autoselect
 
 Enables or disables autoselect.
@@ -209,10 +209,10 @@ method set-autoselect ( Bool() $autoselect )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-can-unselect
 
 If C<True>, unselecting the current item via
@@ -235,10 +235,10 @@ method set-can-unselect ( Bool() $can-unselect )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-model
 
 Sets the model that C<$self> should wrap.
@@ -258,10 +258,10 @@ method set-model ( N-List() $model )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-selected
 
 Selects the item at the given position.
@@ -286,5 +286,5 @@ method set-selected ( UInt() $position )
 
 =end comment
 
-=end pod
+=end rakudoc
 

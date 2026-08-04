@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::SearchEntry
 =head1 Description
 
@@ -59,13 +59,13 @@ B<Gnome::Gtk4::SearchEntry> uses the C<GTK_ACCESSIBLE_ROLE_SEARCH_BOX> role.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -76,10 +76,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-searchentry
 
 Creates a B<Gnome::Gtk4::SearchEntry>.
@@ -95,18 +95,18 @@ method new-searchentry ( --> Gnome::Gtk4::SearchEntry )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-input-hints
 
 Gets the input purpose for C<$entry>.
@@ -124,10 +124,10 @@ Return value; The input hints.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-input-purpose
 
 Gets the input purpose of C<$entry>.
@@ -145,10 +145,10 @@ Return value; The input hints.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-key-capture-widget
 
 Gets the widget that C<$entry> is capturing key events from.
@@ -166,10 +166,10 @@ Return value; The key capture widget..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-placeholder-text
 
 Gets the placeholder text associated with C<$entry>.
@@ -187,10 +187,10 @@ Return value; The placeholder text..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-search-delay
 
 Get the delay to be used between the last keypress and the
@@ -209,10 +209,10 @@ Return value; a delay in milliseconds..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-input-hints
 
 Sets the input hints for C<$entry>.
@@ -230,10 +230,10 @@ method set-input-hints ( UInt $hints )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-input-purpose
 
 Sets the input purpose of C<$entry>.
@@ -251,10 +251,10 @@ method set-input-purpose ( GtkInputPurpose $purpose )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-key-capture-widget
 
 Sets C<$widget> as the widget that C<$entry> will capture key
@@ -288,10 +288,10 @@ method set-key-capture-widget ( N-Object() $widget )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-placeholder-text
 
 Sets the placeholder text associated with C<$entry>.
@@ -308,10 +308,10 @@ entry.search
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-search-delay
 
 Set the delay to be used between the last keypress and the
@@ -323,13 +323,13 @@ method set-search-delay ( UInt() $delay )
 
 =item $delay; a delay in milliseconds.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -467,5 +467,5 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::SearchEntry> object.
 =item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
-=end pod
+=end rakudoc
 

@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::SignalAction
 =head1 Description
 
@@ -24,13 +24,13 @@ and they are expected to be defined with the C<G_SIGNAL_ACTION> flag.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -41,10 +41,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-signalaction
 
 Creates an action that when activated, emits the given action signal
@@ -65,18 +65,18 @@ method new-signalaction ( Str $signal-name --> Gnome::Gtk4::SignalAction )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-signal-name
 
 Returns the name of the signal that will be emitted.
@@ -94,5 +94,5 @@ Return value; the name of the signal to emit.
 
 =end comment
 
-=end pod
+=end rakudoc
 

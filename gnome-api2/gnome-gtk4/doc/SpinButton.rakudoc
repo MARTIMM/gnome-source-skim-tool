@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::SpinButton
 =head1 Description
 
@@ -86,13 +86,13 @@ B<Gnome::Gtk4::SpinButton> uses the C<GTK_ACCESSIBLE_ROLE_SPIN_BUTTON> role.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -103,10 +103,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-spinbutton
 
 Creates a new B<Gnome::Gtk4::SpinButton>.
@@ -127,10 +127,10 @@ method new-spinbutton ( N-Object() $adjustment, Num() $climb-rate, UInt() $digit
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-with-range
 
 Creates a new B<Gnome::Gtk4::SpinButton> with the given properties.
@@ -162,18 +162,18 @@ method new-with-range ( Num() $min, Num() $max, Num() $step --> Gnome::Gtk4::Spi
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 configure
 
 Changes the properties of an existing spin button.
@@ -197,10 +197,10 @@ method configure ( N-Object() $adjustment, Num() $climb-rate, UInt() $digits )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-activates-default
 
 Retrieves the value set by L<.set-activates-default()|#set-activates-default>.
@@ -218,10 +218,10 @@ Return value; C<True> if the spin button will activate the default widget.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-adjustment
 
 Get the adjustment associated with a B<Gnome::Gtk4::SpinButton>.
@@ -239,10 +239,10 @@ Return value; the L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Ad
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-climb-rate
 
 Returns the acceleration rate for repeated changes.
@@ -260,10 +260,10 @@ Return value; the acceleration rate.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-digits
 
 Fetches the precision of C<$spin-button>.
@@ -281,10 +281,10 @@ Return value; the current precision.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-increments
 
 Gets the current step and page the increments
@@ -306,10 +306,10 @@ method get-increments ( Num() $step, Num() $page )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-numeric
 
 Returns whether non-numeric text can be typed into the spin button.
@@ -327,10 +327,10 @@ Return value; C<True> if only numeric text can be entered.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-range
 
 Gets the range allowed for C<$spin-button>.
@@ -351,10 +351,10 @@ method get-range ( Num() $min, Num() $max )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-snap-to-ticks
 
 Returns whether the values are corrected to the nearest step.
@@ -372,10 +372,10 @@ Return value; C<True> if values are snapped to the nearest step.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-update-policy
 
 Gets the update behavior of a spin button.
@@ -395,10 +395,10 @@ Return value; the current update policy.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-value
 
 Get the value in the C<$spin-button>.
@@ -416,10 +416,10 @@ Return value; the value of C<$spin-button>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-value-as-int
 
 Get the value C<$spin-button> represented as an integer.
@@ -437,10 +437,10 @@ Return value; the value of C<$spin-button>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-wrap
 
 Returns whether the spin button’s value wraps around to the
@@ -460,10 +460,10 @@ Return value; C<True> if the spin button wraps around.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-activates-default
 
 Sets whether activating the spin button will activate the default
@@ -484,10 +484,10 @@ method set-activates-default ( Bool() $activates-default )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-adjustment
 
 Replaces the L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment> associated with C<$spin-button>.
@@ -505,10 +505,10 @@ method set-adjustment ( N-Object() $adjustment )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-climb-rate
 
 Sets the acceleration rate for repeated changes when you
@@ -527,10 +527,10 @@ method set-climb-rate ( Num() $climb-rate )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-digits
 
 Set the precision to be displayed by C<$spin-button>.
@@ -551,10 +551,10 @@ method set-digits ( UInt() $digits )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-increments
 
 Sets the step and page increments for spin_button.
@@ -576,10 +576,10 @@ method set-increments ( Num() $step, Num() $page )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-numeric
 
 Sets the flag that determines if non-numeric text can be typed
@@ -598,10 +598,10 @@ method set-numeric ( Bool() $numeric )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-range
 
 Sets the minimum and maximum allowable values for C<$spin-button>.
@@ -623,10 +623,10 @@ method set-range ( Num() $min, Num() $max )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-snap-to-ticks
 
 Sets the policy as to whether values are corrected to the
@@ -646,10 +646,10 @@ method set-snap-to-ticks ( Bool() $snap-to-ticks )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-update-policy
 
 Sets the update behavior of a spin button.
@@ -670,10 +670,10 @@ method set-update-policy ( GtkSpinButtonUpdatePolicy $policy )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-value
 
 Sets the value of C<$spin-button>.
@@ -691,10 +691,10 @@ method set-value ( Num() $value )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-wrap
 
 Sets the flag that determines if a spin button value wraps
@@ -714,10 +714,10 @@ method set-wrap ( Bool() $wrap )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 spin
 
 Increment or decrement a spin button’s value in a specified
@@ -737,10 +737,10 @@ method spin ( GtkSpinType $direction, Num() $increment )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 update
 
 Manually force an update of the spin button.
@@ -756,13 +756,13 @@ method update ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -999,5 +999,5 @@ spinbutton.horizontal
 
 =end comment
 
-=end pod
+=end rakudoc
 

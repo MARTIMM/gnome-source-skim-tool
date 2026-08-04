@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::ShortcutLabel
 =head1 Description
 
@@ -23,13 +23,13 @@ The main use case for B<Gnome::Gtk4::ShortcutLabel> is inside a L<Gnome::Gtk4::S
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -40,10 +40,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-shortcutlabel
 
 Creates a new B<Gnome::Gtk4::ShortcutLabel> with C<$accelerator> set.
@@ -61,18 +61,18 @@ method new-shortcutlabel ( Str $accelerator --> Gnome::Gtk4::ShortcutLabel )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-accelerator
 
 Retrieves the current accelerator of C<$self>.
@@ -90,10 +90,10 @@ Return value; the current accelerator..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-disabled-text
 
 Retrieves the text that is displayed when no accelerator is set.
@@ -112,10 +112,10 @@ accelerator is set..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-accelerator
 
 Sets the accelerator to be displayed by C<$self>.
@@ -133,10 +133,10 @@ method set-accelerator ( Str $accelerator )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-disabled-text
 
 Sets the text to be displayed by C<$self> when no accelerator is set.
@@ -154,5 +154,5 @@ method set-disabled-text ( Str $disabled-text )
 
 =end comment
 
-=end pod
+=end rakudoc
 

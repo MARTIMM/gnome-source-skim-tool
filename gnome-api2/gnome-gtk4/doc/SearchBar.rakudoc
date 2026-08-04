@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::SearchBar
 =head1 Description
 
@@ -65,13 +65,13 @@ B<Gnome::Gtk4::SearchBar> uses the C<GTK_ACCESSIBLE_ROLE_SEARCH> role.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -82,10 +82,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-searchbar
 
 Creates a B<Gnome::Gtk4::SearchBar>.
@@ -104,18 +104,18 @@ method new-searchbar ( --> Gnome::Gtk4::SearchBar )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 connect-entry
 
 Connects the L<Gnome::Gtk4::R-Editable|/content-docs/api2/reference/Gtk4/R-Editable> widget passed as the one to be used in
@@ -138,10 +138,10 @@ method connect-entry ( N-Object() $entry )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child
 
 Gets the child widget of C<$bar>.
@@ -159,10 +159,10 @@ Return value; the child widget of C<$bar>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-key-capture-widget
 
 Gets the widget that C<$bar> is capturing key events from.
@@ -180,10 +180,10 @@ Return value; The key capture widget..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-search-mode
 
 Returns whether the search mode is on or off.
@@ -201,10 +201,10 @@ Return value; whether search mode is toggled on.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-show-close-button
 
 Returns whether the close button is shown.
@@ -222,10 +222,10 @@ Return value; whether the close button is shown.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-child
 
 Sets the child widget of C<$bar>.
@@ -243,10 +243,10 @@ method set-child ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-key-capture-widget
 
 Sets C<$widget> as the widget that C<$bar> will capture key events
@@ -275,10 +275,10 @@ method set-key-capture-widget ( N-Object() $widget )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-search-mode
 
 Switches the search mode on or off.
@@ -296,10 +296,10 @@ method set-search-mode ( Bool() $search-mode )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-show-close-button
 
 Shows or hides the close button.
@@ -321,5 +321,5 @@ method set-show-close-button ( Bool() $visible )
 
 =end comment
 
-=end pod
+=end rakudoc
 

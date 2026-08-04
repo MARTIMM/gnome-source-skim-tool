@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::ScrolledWindow
 =head1 Description
 
@@ -88,13 +88,13 @@ Starting from GTK 4.12, B<Gnome::Gtk4::ScrolledWindow> uses the B<GTK_ACCESSIBLE
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -105,10 +105,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-scrolledwindow
 
 Creates a new scrolled window.
@@ -124,18 +124,18 @@ method new-scrolledwindow ( --> Gnome::Gtk4::ScrolledWindow )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child
 
 Gets the child widget of C<$scrolled-window>.
@@ -157,10 +157,10 @@ Return value; the child widget of C<$scrolled-window>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-hadjustment
 
 Returns the horizontal scrollbar’s adjustment.
@@ -181,10 +181,10 @@ Return value; the horizontal L<Gnome::Gtk4::Adjustment|/content-docs/api2/refere
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-has-frame
 
 Gets whether the scrolled window draws a frame.
@@ -202,10 +202,10 @@ Return value; C<True> if the C<$scrolled-window> has a frame.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-hscrollbar
 
 Returns the horizontal scrollbar of C<$scrolled-window>.
@@ -223,10 +223,10 @@ Return value; the horizontal scrollbar of the scrolled window..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-kinetic-scrolling
 
 Returns the specified kinetic scrolling behavior.
@@ -244,10 +244,10 @@ Return value; the scrolling behavior flags..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-max-content-height
 
 Returns the maximum content height set.
@@ -265,10 +265,10 @@ Return value; the maximum content height, or -1.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-max-content-width
 
 Returns the maximum content width set.
@@ -286,10 +286,10 @@ Return value; the maximum content width, or -1.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-min-content-height
 
 Gets the minimal content height of C<$scrolled-window>.
@@ -307,10 +307,10 @@ Return value; the minimal content height.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-min-content-width
 
 Gets the minimum content width of C<$scrolled-window>.
@@ -328,10 +328,10 @@ Return value; the minimum content width.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-overlay-scrolling
 
 Returns whether overlay scrolling is enabled for this scrolled window.
@@ -349,10 +349,10 @@ Return value; C<True> if overlay scrolling is enabled.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-placement
 
 Gets the placement of the contents with respect to the scrollbars.
@@ -370,10 +370,10 @@ Return value; the current placement value..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-policy
 
 Retrieves the current policy values for the horizontal and vertical
@@ -397,10 +397,10 @@ method get-policy ( GtkPolicyType $hscrollbar-policy, GtkPolicyType $vscrollbar-
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-propagate-natural-height
 
 Reports whether the natural height of the child will be calculated
@@ -419,10 +419,10 @@ Return value; whether natural height propagation is enabled..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-propagate-natural-width
 
 Reports whether the natural width of the child will be calculated
@@ -441,10 +441,10 @@ Return value; whether natural width propagation is enabled..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-vadjustment
 
 Returns the vertical scrollbar’s adjustment.
@@ -465,10 +465,10 @@ Return value; the vertical L<Gnome::Gtk4::Adjustment|/content-docs/api2/referenc
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-vscrollbar
 
 Returns the vertical scrollbar of C<$scrolled-window>.
@@ -486,10 +486,10 @@ Return value; the vertical scrollbar of the scrolled window..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-child
 
 Sets the child widget of C<$scrolled-window>.
@@ -511,10 +511,10 @@ method set-child ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-hadjustment
 
 Sets the L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment> for the horizontal scrollbar.
@@ -532,10 +532,10 @@ method set-hadjustment ( N-Object() $hadjustment )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-has-frame
 
 Changes the frame drawn around the contents of C<$scrolled-window>.
@@ -553,10 +553,10 @@ method set-has-frame ( Bool() $has-frame )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-kinetic-scrolling
 
 Turns kinetic scrolling on or off.
@@ -577,10 +577,10 @@ method set-kinetic-scrolling ( Bool() $kinetic-scrolling )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-max-content-height
 
 Sets the maximum height that C<$scrolled-window> should keep visible.
@@ -604,10 +604,10 @@ method set-max-content-height ( Int() $height )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-max-content-width
 
 Sets the maximum width that C<$scrolled-window> should keep visible.
@@ -631,10 +631,10 @@ method set-max-content-width ( Int() $width )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-min-content-height
 
 Sets the minimum height that C<$scrolled-window> should keep visible.
@@ -658,10 +658,10 @@ method set-min-content-height ( Int() $height )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-min-content-width
 
 Sets the minimum width that C<$scrolled-window> should keep visible.
@@ -685,10 +685,10 @@ method set-min-content-width ( Int() $width )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-overlay-scrolling
 
 Enables or disables overlay scrolling for this scrolled window.
@@ -706,10 +706,10 @@ method set-overlay-scrolling ( Bool() $overlay-scrolling )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-placement
 
 Sets the placement of the contents with respect to the scrollbars
@@ -736,10 +736,10 @@ method set-placement ( GtkCornerType $window-placement )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-policy
 
 Sets the scrollbar policy for the horizontal and vertical scrollbars.
@@ -765,10 +765,10 @@ method set-policy ( GtkPolicyType $hscrollbar-policy, GtkPolicyType $vscrollbar-
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-propagate-natural-height
 
 Sets whether the natural height of the child should be calculated
@@ -787,10 +787,10 @@ method set-propagate-natural-height ( Bool() $propagate )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-propagate-natural-width
 
 Sets whether the natural width of the child should be calculated
@@ -809,10 +809,10 @@ method set-propagate-natural-width ( Bool() $propagate )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-vadjustment
 
 Sets the L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adjustment> for the vertical scrollbar.
@@ -830,10 +830,10 @@ method set-vadjustment ( N-Object() $vadjustment )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unset-placement
 
 Unsets the placement of the contents with respect to the scrollbars.
@@ -852,13 +852,13 @@ method unset-placement ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -1004,5 +1004,5 @@ Return value;
 
 =end comment
 
-=end pod
+=end rakudoc
 

@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Shortcut
 =head1 Description
 
@@ -35,13 +35,13 @@ for display purposes or by allowing shortcuts to be configured.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -52,10 +52,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-shortcut
 
 Creates a new B<Gnome::Gtk4::Shortcut> that is triggered by C<$trigger> and then activates C<$action>.
@@ -75,10 +75,10 @@ method new-shortcut ( N-Object() $trigger, N-Object() $action --> Gnome::Gtk4::S
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-with-arguments
 
 Creates a new B<Gnome::Gtk4::Shortcut> that is triggered by C<$trigger> and then activates C<$action> with arguments given by C<$format-string>.
@@ -101,18 +101,18 @@ method new-with-arguments ( N-Object() $trigger, N-Object() $action, Str $format
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-action
 
 Gets the action that is activated by this shortcut.
@@ -130,10 +130,10 @@ Return value; the action.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-arguments
 
 Gets the arguments that are passed when activating the shortcut.
@@ -151,10 +151,10 @@ Return value; the arguments.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-trigger
 
 Gets the trigger used to trigger C<$self>.
@@ -172,10 +172,10 @@ Return value; the trigger used.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-action
 
 Sets the new action for C<$self> to be C<$action>.
@@ -194,10 +194,10 @@ method set-action ( N-Object() $action )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-arguments
 
 Sets the arguments to pass when activating the shortcut.
@@ -215,10 +215,10 @@ method set-arguments ( N-Object $args )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-trigger
 
 Sets the new trigger for C<$self> to be C<$trigger>.
@@ -237,5 +237,5 @@ method set-trigger ( N-Object() $trigger )
 
 =end comment
 
-=end pod
+=end rakudoc
 

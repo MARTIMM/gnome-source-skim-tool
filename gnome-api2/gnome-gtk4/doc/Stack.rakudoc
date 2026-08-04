@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Stack
 =head1 Description
 
@@ -68,13 +68,13 @@ pages, which are the accessible parent objects of the child widgets.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -85,10 +85,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-stack
 
 Creates a new B<Gnome::Gtk4::Stack>.
@@ -104,18 +104,18 @@ method new-stack ( --> Gnome::Gtk4::Stack )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-child
 
 Adds a child to C<$stack>.
@@ -135,10 +135,10 @@ Return value; the L<Gnome::Gtk4::StackPage|/content-docs/api2/reference/Gtk4/Sta
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-named
 
 Adds a child to C<$stack>.
@@ -161,10 +161,10 @@ Return value; the L<Gnome::Gtk4::StackPage|/content-docs/api2/reference/Gtk4/Sta
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-titled
 
 Adds a child to C<$stack>.
@@ -189,10 +189,10 @@ Return value; the L<Gnome::Gtk4::StackPage|/content-docs/api2/reference/Gtk4/Sta
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child-by-name
 
 Finds the child with the name given as the argument.
@@ -215,10 +215,10 @@ Return value; the requested child
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-hhomogeneous
 
 Gets whether C<$stack> is horizontally homogeneous.
@@ -236,10 +236,10 @@ Return value; whether C<$stack> is horizontally homogeneous..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-interpolate-size
 
 Returns whether the B<Gnome::Gtk4::Stack> is set up to interpolate between
@@ -258,10 +258,10 @@ Return value; C<True> if child sizes are interpolated.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-page
 
 Returns the L<Gnome::Gtk4::StackPage|/content-docs/api2/reference/Gtk4/StackPage> object for C<$child>.
@@ -281,10 +281,10 @@ Return value; the L<Gnome::Gtk4::StackPage|/content-docs/api2/reference/Gtk4/Sta
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-pages
 
 Returns a L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> that contains the pages of the stack.
@@ -306,10 +306,10 @@ Return value; a L<Gnome::Gtk4::R-SelectionModel|/content-docs/api2/reference/Gtk
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-transition-duration
 
 Returns the amount of time (in milliseconds) that
@@ -328,10 +328,10 @@ Return value; the transition duration.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-transition-running
 
 Returns whether the C<$stack> is currently in a transition from one page to
@@ -350,10 +350,10 @@ Return value; C<True> if the transition is currently running, C<False> otherwise
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-transition-type
 
 Gets the type of animation that will be used
@@ -372,10 +372,10 @@ Return value; the current transition type of C<$stack>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-vhomogeneous
 
 Gets whether C<$stack> is vertically homogeneous.
@@ -393,10 +393,10 @@ Return value; whether C<$stack> is vertically homogeneous..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-visible-child
 
 Gets the currently visible child of C<$stack>.
@@ -416,10 +416,10 @@ Return value; the visible child of the B<Gnome::Gtk4::Stack>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-visible-child-name
 
 Returns the name of the currently visible child of C<$stack>.
@@ -440,10 +440,10 @@ Return value; the name of the visible child
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove
 
 Removes a child widget from C<$stack>.
@@ -461,10 +461,10 @@ method remove ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-hhomogeneous
 
 Sets the B<Gnome::Gtk4::Stack> to be horizontally homogeneous or not.
@@ -486,10 +486,10 @@ method set-hhomogeneous ( Bool() $hhomogeneous )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-interpolate-size
 
 Sets whether or not C<$stack> will interpolate its size when
@@ -513,10 +513,10 @@ method set-interpolate-size ( Bool() $interpolate-size )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-transition-duration
 
 Sets the duration that transitions between pages in C<$stack>
@@ -535,10 +535,10 @@ method set-transition-duration ( UInt() $duration )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-transition-type
 
 Sets the type of animation that will be used for
@@ -563,10 +563,10 @@ method set-transition-type ( GtkStackTransitionType $transition )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-vhomogeneous
 
 Sets the B<Gnome::Gtk4::Stack> to be vertically homogeneous or not.
@@ -588,10 +588,10 @@ method set-vhomogeneous ( Bool() $vhomogeneous )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-visible-child
 
 Makes C<$child> the visible child of C<$stack>.
@@ -617,10 +617,10 @@ method set-visible-child ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-visible-child-full
 
 Makes the child with the given name visible.
@@ -643,10 +643,10 @@ method set-visible-child-full ( Str $name, GtkStackTransitionType $transition )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-visible-child-name
 
 Makes the child with the given name visible.
@@ -672,5 +672,5 @@ method set-visible-child-name ( Str $name )
 
 =end comment
 
-=end pod
+=end rakudoc
 

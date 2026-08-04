@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Scale
 =head1 Description
 
@@ -101,13 +101,13 @@ B<Gnome::Gtk4::Scale> uses the C<GTK_ACCESSIBLE_ROLE_SLIDER> role.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -118,10 +118,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-scale
 
 Creates a new B<Gnome::Gtk4::Scale>.
@@ -141,10 +141,10 @@ method new-scale ( GtkOrientation $orientation, N-Object() $adjustment --> Gnome
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-with-range
 
 Creates a new scale widget with a range from C<$min> to C<$max>.
@@ -174,18 +174,18 @@ method new-with-range ( GtkOrientation $orientation, Num() $min, Num() $max, Num
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-mark
 
 Adds a mark at C<$value>.
@@ -217,10 +217,10 @@ method add-mark ( Num() $value, GtkPositionType $position, Str $markup )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 clear-marks
 
 Removes any marks that have been added.
@@ -236,10 +236,10 @@ method clear-marks ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-digits
 
 Gets the number of decimal places that are displayed in the value.
@@ -257,10 +257,10 @@ Return value; the number of decimal places that are displayed.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-draw-value
 
 Returns whether the current value is displayed as a string
@@ -279,10 +279,10 @@ Return value; whether the current value is displayed as a string.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-has-origin
 
 Returns whether the scale has an origin.
@@ -300,10 +300,10 @@ Return value; C<True> if the scale has an origin..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-layout
 
 Gets the L<Gnome::Pango::Layout|/content-docs/api2/reference/Pango/Layout> used to display the scale.
@@ -326,10 +326,10 @@ Return value; the L<Gnome::Pango::Layout|/content-docs/api2/reference/Pango/Layo
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-layout-offsets
 
 Obtains the coordinates where the scale will draw the
@@ -355,10 +355,10 @@ method get-layout-offsets ( Array[Int] $x, Array[Int] $y )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-value-pos
 
 Gets the position in which the current value is displayed.
@@ -376,10 +376,10 @@ Return value; the position in which the current value is displayed.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-digits
 
 Sets the number of decimal places that are displayed in the value.
@@ -409,10 +409,10 @@ method set-digits ( Int() $digits )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-draw-value
 
 Specifies whether the current value is displayed as a string next
@@ -431,10 +431,10 @@ method set-draw-value ( Bool() $draw-value )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-format-value-func
 
  C<$func> allows you to change how the scale value is displayed.
@@ -460,10 +460,10 @@ method set-format-value-func ( GtkScaleFormatValueFunc &func, gpointer $user-dat
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-has-origin
 
 Sets whether the scale has an origin.
@@ -485,10 +485,10 @@ method set-has-origin ( Bool() $has-origin )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-value-pos
 
 Sets the position in which the current value is displayed.
@@ -506,5 +506,5 @@ method set-value-pos ( GtkPositionType $pos )
 
 =end comment
 
-=end pod
+=end rakudoc
 

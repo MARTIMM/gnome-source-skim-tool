@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::StringSorter
 =head1 Description
 
@@ -28,13 +28,13 @@ L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -45,10 +45,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-stringsorter
 
 Creates a new string sorter that compares items using the given C<$expression>.
@@ -69,18 +69,18 @@ method new-stringsorter ( N-Object() $expression --> Gnome::Gtk4::StringSorter )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-collation
 This function is not yet available
 
@@ -99,10 +99,10 @@ Return value; The collation method.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-expression
 
 Gets the expression that is evaluated to obtain strings from items.
@@ -120,10 +120,10 @@ Return value; a L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expr
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-ignore-case
 
 Gets whether the sorter ignores case differences.
@@ -141,10 +141,10 @@ Return value; C<True> if C<$self> is ignoring case differences.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-collation
 
 Sets the collation method to use for sorting.
@@ -162,10 +162,10 @@ method set-collation ( GtkCollation  $collation )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-expression
 
 Sets the expression that is evaluated to obtain strings from items.
@@ -178,10 +178,10 @@ method set-expression ( N-Object() $expression )
 
 =item $expression; a L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression>.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-ignore-case
 
 Sets whether the sorter will ignore case differences.
@@ -192,5 +192,5 @@ method set-ignore-case ( Bool() $ignore-case )
 
 =item $ignore-case; C<True> to ignore case differences.
 
-=end pod
+=end rakudoc
 

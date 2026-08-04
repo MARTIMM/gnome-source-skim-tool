@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Scrollbar
 =head1 Description
 
@@ -63,13 +63,13 @@ B<Gnome::Gtk4::Scrollbar> uses the C<GTK_ACCESSIBLE_ROLE_SCROLLBAR> role.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -80,10 +80,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-scrollbar
 
 Creates a new scrollbar with the given orientation.
@@ -103,18 +103,18 @@ method new-scrollbar ( GtkOrientation $orientation, N-Object() $adjustment --> G
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-adjustment
 
 Returns the scrollbar's adjustment.
@@ -132,10 +132,10 @@ Return value; the scrollbar's adjustment.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-adjustment
 
 Makes the scrollbar use the given adjustment.
@@ -153,5 +153,5 @@ method set-adjustment ( N-Object() $adjustment )
 
 =end comment
 
-=end pod
+=end rakudoc
 

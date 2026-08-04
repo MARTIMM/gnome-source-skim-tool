@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::StringObject
 =head1 Description
 
@@ -16,13 +16,13 @@ A B<Gnome::Gtk4::StringObject> is a wrapper around a C<Str>; it has a I<string> 
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/StringObject.png> :width<70%> :class<inline>
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -33,10 +33,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-stringobject
 
 Wraps a string in an object for use with L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel>.
@@ -47,18 +47,18 @@ method new-stringobject ( Str $string --> Gnome::Gtk4::StringObject )
 
 =item $string; The string to wrap.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-string
 
 Returns the string contained in a B<Gnome::Gtk4::StringObject>.
@@ -69,5 +69,5 @@ method get-string ( --> Str )
 
 Return value; the string of object 
 
-=end pod
+=end rakudoc
 

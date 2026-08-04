@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Snapshot
 =head1 Description
 
@@ -32,13 +32,13 @@ B<Gnome::Gtk4::Snapshot>, use L<.newsnapshot()|#newsnapshot>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -49,10 +49,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-snapshot
 
 Creates a new B<Gnome::Gtk4::Snapshot>.
@@ -68,18 +68,18 @@ method new-snapshot ( --> Gnome::Gtk4::Snapshot )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-border
 
 Appends a stroked border rectangle inside the given C<$outline>.
@@ -103,10 +103,10 @@ method append-border ( N-Object $outline, Num() $border-width, N-Object $border-
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-cairo
 
 Creates a new B<Cairo::cairo_t> and appends it to the current
@@ -128,10 +128,10 @@ Return value; a B<Cairo::cairo_t> suitable for drawing the contents of
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-color
 
 Creates a new render node drawing the C<$color> into the
@@ -154,10 +154,10 @@ method append-color ( N-Object $color, N-Object $bounds )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-conic-gradient
 
 Appends a conic gradient node with the given stops to C<$snapshot>.
@@ -180,10 +180,10 @@ method append-conic-gradient ( N-Object $bounds, N-Object $center, Num() $rotati
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-fill
 
 A convenience method to fill a path with a color.
@@ -207,10 +207,10 @@ method append-fill ( N-Object $path, GskFillRule $fill-rule, N-Object $color )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-inset-shadow
 
 Appends an inset shadow into the box given by C<$outline>.
@@ -233,10 +233,10 @@ method append-inset-shadow ( N-Object $outline, N-Object $color, Num() $dx, Num(
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-layout
 
 No documentation of method.
@@ -255,10 +255,10 @@ method append-layout ( N-Object() $layout, N-Object $color )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-linear-gradient
 
 Appends a linear gradient node with the given stops to C<$snapshot>.
@@ -280,10 +280,10 @@ method append-linear-gradient ( N-Object $bounds, N-Object $start-point, N-Objec
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-node
 
 Appends C<$node> to the current render node of C<$snapshot>,
@@ -305,10 +305,10 @@ method append-node ( N-Object() $node )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-outset-shadow
 
 Appends an outset shadow node around the box given by C<$outline>.
@@ -331,10 +331,10 @@ method append-outset-shadow ( N-Object $outline, N-Object $color, Num() $dx, Num
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-radial-gradient
 
 Appends a radial gradient node with the given stops to C<$snapshot>.
@@ -359,10 +359,10 @@ method append-radial-gradient ( N-Object $bounds, N-Object $center, Num() $hradi
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-repeating-linear-gradient
 
 Appends a repeating linear gradient node with the given stops to C<$snapshot>.
@@ -384,10 +384,10 @@ method append-repeating-linear-gradient ( N-Object $bounds, N-Object $start-poin
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-repeating-radial-gradient
 
 Appends a repeating radial gradient node with the given stops to C<$snapshot>.
@@ -412,10 +412,10 @@ method append-repeating-radial-gradient ( N-Object $bounds, N-Object $center, Nu
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-scaled-texture
 
 Creates a new render node drawing the C<$texture>
@@ -441,10 +441,10 @@ method append-scaled-texture ( N-Object() $texture, GskScalingFilter $filter, N-
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-stroke
 
 A convenience method to stroke a path with a color.
@@ -468,10 +468,10 @@ method append-stroke ( N-Object $path, N-Object $stroke, N-Object $color )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-texture
 
 Creates a new render node drawing the C<$texture>
@@ -496,10 +496,10 @@ method append-texture ( N-Object() $texture, N-Object $bounds )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free-to-node
 
 Returns the node that was constructed by C<$snapshot>
@@ -520,10 +520,10 @@ Return value; a newly-created L<Gnome::Gsk4::RenderNode|/content-docs/api2/refer
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free-to-paintable
 
 Returns a paintable for the node that was
@@ -545,10 +545,10 @@ Return value; a newly-created L<Gnome::Gsk4::GLShader|/content-docs/api2/referen
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 gl-shader-pop-texture
 
 Removes the top element from the stack of render nodes and
@@ -569,10 +569,10 @@ method gl-shader-pop-texture ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 perspective
 
 Applies a perspective projection transform.
@@ -592,10 +592,10 @@ method perspective ( Num() $depth )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 pop
 
 Removes the top element from the stack of render nodes,
@@ -612,10 +612,10 @@ method pop ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 push-blend
 
 Blends together two images with the given blend mode.
@@ -641,10 +641,10 @@ method push-blend ( GskBlendMode $blend-mode )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 push-blur
 
 Blurs an image.
@@ -664,10 +664,10 @@ method push-blur ( Num() $radius )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 push-clip
 
 Clips an image to a rectangle.
@@ -687,10 +687,10 @@ method push-clip ( N-Object $bounds )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 push-color-matrix
 
 Modifies the colors of an image by applying an affine transformation
@@ -719,10 +719,10 @@ method push-color-matrix ( N-Object $color-matrix, N-Object $color-offset )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 push-cross-fade
 
 Snapshots a cross-fade operation between two images with the
@@ -748,10 +748,10 @@ method push-cross-fade ( Num() $progress )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 push-debug
 
 Inserts a debug node with a message.
@@ -774,10 +774,10 @@ method push-debug ( Str $message, … )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 push-fill
 
 Fills the area given by C<$path> and C<$fill-rule> with an image and discards everything
@@ -802,10 +802,10 @@ method push-fill ( N-Object $path, GskFillRule $fill-rule )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 push-gl-shader
 
 Push a L<Gnome::Gsk4::GLShaderNode|/content-docs/api2/reference/Gsk4/GLShaderNode>.
@@ -858,10 +858,10 @@ method push-gl-shader ( N-Object() $shader, N-Object $bounds, N-Object $take-arg
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 push-mask
 
 Until the first call to L<.pop()|#pop>, the
@@ -885,10 +885,10 @@ method push-mask ( GskMaskMode $mask-mode )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 push-opacity
 
 Modifies the opacity of an image.
@@ -908,10 +908,10 @@ method push-opacity ( Num() $opacity )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 push-repeat
 
 Creates a node that repeats the child node.
@@ -933,10 +933,10 @@ method push-repeat ( N-Object $bounds, N-Object $child-bounds )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 push-rounded-clip
 
 Clips an image to a rounded rectangle.
@@ -956,10 +956,10 @@ method push-rounded-clip ( N-Object $bounds )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 push-shadow
 
 Applies a shadow to an image.
@@ -980,10 +980,10 @@ method push-shadow ( N-Object $shadow, Int() $n-shadows )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 push-stroke
 
 Strokes the given C<$path> with the attributes given by C<$stroke> and
@@ -1012,10 +1012,10 @@ method push-stroke ( N-Object $path, N-Object $stroke )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 render-background
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1041,10 +1041,10 @@ method render-background ( N-Object() $context, Num() $x, Num() $y, Num() $width
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 render-focus
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1070,10 +1070,10 @@ method render-focus ( N-Object() $context, Num() $x, Num() $y, Num() $width, Num
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 render-frame
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1099,10 +1099,10 @@ method render-frame ( N-Object() $context, Num() $x, Num() $y, Num() $width, Num
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 render-insertion-cursor
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1127,10 +1127,10 @@ method render-insertion-cursor ( N-Object() $context, Num() $x, Num() $y, N-Obje
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 render-layout
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1155,10 +1155,10 @@ method render-layout ( N-Object() $context, Num() $x, Num() $y, N-Object() $layo
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 restore
 
 Restores C<$snapshot> to the state saved by a preceding call to
@@ -1176,10 +1176,10 @@ method restore ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 rotate
 
 Rotates @ C<$snapshot>'s coordinate system by C<$angle> degrees in 2D space -
@@ -1201,10 +1201,10 @@ method rotate ( Num() $angle )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 rotate3d
 
 Rotates C<$snapshot>'s coordinate system by C<$angle> degrees around C<$axis>.
@@ -1225,10 +1225,10 @@ method rotate3d ( Num() $angle, N-Object $axis )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 save
 
 Makes a copy of the current state of C<$snapshot> and saves it
@@ -1255,10 +1255,10 @@ method save ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 scale
 
 Scales C<$snapshot>'s coordinate system in 2-dimensional space by
@@ -1280,10 +1280,10 @@ method scale ( Num() $factor-x, Num() $factor-y )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 scale3d
 
 Scales C<$snapshot>'s coordinate system by the given factors.
@@ -1303,10 +1303,10 @@ method scale3d ( Num() $factor-x, Num() $factor-y, Num() $factor-z )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 to-node
 
 Returns the render node that was constructed
@@ -1334,10 +1334,10 @@ Return value; the constructed L<Gnome::Gsk4::RenderNode|/content-docs/api2/refer
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 to-paintable
 
 Returns a paintable encapsulating the render node
@@ -1363,10 +1363,10 @@ Return value; a new L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 transform
 
 Transforms C<$snapshot>'s coordinate system with the given C<$transform>.
@@ -1384,10 +1384,10 @@ method transform ( N-Object $transform )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 transform-matrix
 
 Transforms C<$snapshot>'s coordinate system with the given C<$matrix>.
@@ -1405,10 +1405,10 @@ method transform-matrix ( N-Object $matrix )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 translate
 
 Translates C<$snapshot>'s coordinate system by C<$point> in 2-dimensional space.
@@ -1426,10 +1426,10 @@ method translate ( N-Object $point )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 translate3d
 
 Translates C<$snapshot>'s coordinate system by C<$point>.
@@ -1447,5 +1447,5 @@ method translate3d ( N-Object $point )
 
 =end comment
 
-=end pod
+=end rakudoc
 

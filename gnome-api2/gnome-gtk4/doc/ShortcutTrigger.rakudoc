@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::ShortcutTrigger
 =head1 Description
 
@@ -24,7 +24,9 @@ have to replace it with a new one.
 =head2 Uml Diagram
 =for image :src<asset_files/images/plantuml/ShortcutTrigger.png> :width<70%> :class<inline>
 
-=head3 Example use of a ShortcutTrigger
+=head3 Example
+
+Example use of a ShortcutTrigger.
 
 =begin code
 my Gnome::Gtk4::ShortcutTrigger $st .= parse-string('F11');
@@ -46,13 +48,13 @@ with my Gnome::Gtk4::Frame $frame .= new-frame('Shortcut key test') {
 }
 =end code
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -63,10 +65,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 parse-string
 
 Tries to parse the given string into a trigger. On success, the parsed trigger is returned. When parsing failed, undefined is returned.
@@ -88,18 +90,18 @@ method parse-string ( Str $string --> Gnome::Gtk4::ShortcutTrigger )
 
 =item $string; the string to parse.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 compare
 
 The object and the argument must each be of the same B<Gnome::Gtk4::ShortcutTrigger> type.
@@ -114,10 +116,10 @@ Return value; An integer less than, equal to, or greater than zero if
   the object is found, respectively, to be less than, to match,
   or be greater than C<$trigger>.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 equal
 
 Checks if the object and the argument C<$trigger> trigger under the same conditions. The both must be of the same B<Gnome::Gtk4::ShortcutTrigger> type.
@@ -130,10 +132,10 @@ method equal ( N-Object() $trigger --> Bool )
 
 Return value; C<True> if the object and C<$trigger> are equal. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 hash
 
 Generates a hash value for a B<Gnome::Gtk4::ShortcutTrigger>.
@@ -146,11 +148,11 @@ method hash (--> UInt )
 
 Return value; a hash value.
 
-=end pod
+=end rakudoc
 
 #`{{
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 print
 
 Prints the given trigger into a string for the developer. This is meant for debugging and logging.
@@ -163,10 +165,10 @@ method print ( N-Object $string )
 
 =item $string; a B<Gnome::Glib::N-String> to print into
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 print-label
 
 Prints the given trigger into a string.
@@ -188,11 +190,11 @@ Return value; C<True> if something was printed or C<False> if the
   trigger did not have a textual representation suitable
   for end users.. 
 
-=end pod
+=end rakudoc
 }}
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 to-label
 
 Gets textual representation for the given trigger.
@@ -221,10 +223,10 @@ my Str $s = $trigger.to-label($display);
 say $s;  # Ctrl+F5
 =end code
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 to-string
 
 Prints the given trigger into a human-readable string.
@@ -245,11 +247,11 @@ my Str $s = $trigger.to-string();
 say $s;  # <Control>F5
 =end code
 
-=end pod
+=end rakudoc
 
 #`{{
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 trigger
 This function is not yet available
 

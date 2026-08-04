@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::ShortcutAction
 =head1 Description
 
@@ -47,13 +47,13 @@ GTK provides various actions:
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -64,10 +64,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 parse-string
 
 Tries to parse the given string into an action.
@@ -96,18 +96,18 @@ method parse-string ( Str $string --> Gnome::Gtk4::ShortcutAction )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 activate
 
 Activates the action on the C<$widget> with the given C<$args>.
@@ -135,10 +135,10 @@ Return value; C<True> if this action was activated successfully.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 print
 
 Prints the given action into a string for the developer.
@@ -161,10 +161,10 @@ method print ( N-Object $string )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 to-string
 
 Prints the given action into a human-readable string.
@@ -185,5 +185,5 @@ Return value; a new string.
 
 =end comment
 
-=end pod
+=end rakudoc
 

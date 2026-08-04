@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::StringList
 =head1 Description
 
@@ -49,13 +49,13 @@ say $stringlist.get-string(1); # Shows '2nd string'
 
 =end code
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -66,10 +66,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-stringlist
 
 Creates a new B<Gnome::Gtk4::StringList> with the given C<$strings>.
@@ -80,18 +80,18 @@ method new-stringlist ( Array[Str] $strings --> Gnome::Gtk4::StringList )
 
 =item $strings; The strings to put in the model.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append
 
 Appends C<$string> to the string list.
@@ -121,10 +121,10 @@ say $stringlist.get-string(3); # Shows 'string3'
 
 =end code
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-string
 
 Gets the string that is at C<$position> in the stringlist.
@@ -141,10 +141,10 @@ method get-string ( UInt() $position --> Str )
 
 Return value; the string at the given position. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove
 
 Removes the string at C<$position> from the stringlist.  C<$position> must be smaller than the current length of the list.
@@ -155,10 +155,10 @@ method remove ( UInt() $position )
 
 =item $position; the position of the string that is to be removed.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 splice
 
 Changes the stringlist by removing C<$n-removals> strings and adding C<$additions> to it.
@@ -184,12 +184,12 @@ method splice ( UInt() $position, UInt() $n-removals, Array[Str] $additions )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #`{{
 #NOTE take not needed. use get-string()
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 take
 
 Adds C<$string> to self at the end, and takes
@@ -216,6 +216,6 @@ method take ( Str $string )
 
 =end comment
 
-=end pod
+=end rakudoc
 }}
 

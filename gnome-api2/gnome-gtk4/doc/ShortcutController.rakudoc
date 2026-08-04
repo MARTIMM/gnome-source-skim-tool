@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::ShortcutController
 =head1 Description
 
@@ -61,13 +61,13 @@ for triggers.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -78,10 +78,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-shortcutcontroller
 
 Creates a new shortcut controller.
@@ -97,10 +97,10 @@ method new-shortcutcontroller ( --> Gnome::Gtk4::ShortcutController )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-for-model
 
 Creates a new shortcut controller that takes its shortcuts from
@@ -123,18 +123,18 @@ method new-for-model ( N-List() $model --> Gnome::Gtk4::ShortcutController )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-shortcut
 
 Adds C<$shortcut> to the list of shortcuts handled by C<$self>.
@@ -155,10 +155,10 @@ method add-shortcut ( N-Object() $shortcut )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-mnemonics-modifiers
 
 Gets the mnemonics modifiers for when this controller activates its shortcuts.
@@ -176,10 +176,10 @@ Return value; the controller's mnemonics modifiers.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-scope
 
 Gets the scope for when this controller activates its shortcuts.
@@ -199,10 +199,10 @@ Return value; the controller's scope.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-shortcut
 
 Removes C<$shortcut> from the list of shortcuts handled by C<$self>.
@@ -223,10 +223,10 @@ method remove-shortcut ( N-Object() $shortcut )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-mnemonics-modifiers
 
 Sets the controller to use the given modifier for mnemonics.
@@ -256,10 +256,10 @@ method set-mnemonics-modifiers ( UInt $modifiers )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-scope
 
 Sets the controller to have the given C<$scope>.
@@ -285,5 +285,5 @@ method set-scope ( GtkShortcutScope $scope )
 
 =end comment
 
-=end pod
+=end rakudoc
 
