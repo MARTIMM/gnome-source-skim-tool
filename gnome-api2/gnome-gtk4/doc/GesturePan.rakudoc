@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::GesturePan
 =head1 Description
 
@@ -34,13 +34,13 @@ events are received, containing the offset in the given axis.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -51,10 +51,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-gesturepan
 
 Returns a newly created L<Gnome::Gtk4::Gesture|/content-docs/api2/reference/Gtk4/Gesture> that recognizes pan gestures.
@@ -72,18 +72,18 @@ method new-gesturepan ( GtkOrientation $orientation --> Gnome::Gtk4::GesturePan 
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-orientation
 
 Returns the orientation of the pan gestures that this C<$gesture> expects.
@@ -101,10 +101,10 @@ Return value; the expected orientation for pan gestures.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-orientation
 
 Sets the orientation to be expected on pan gestures.
@@ -122,13 +122,13 @@ method set-orientation ( GtkOrientation $orientation )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -160,5 +160,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

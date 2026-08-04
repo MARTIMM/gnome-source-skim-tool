@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::GestureClick
 =head1 Description
 
@@ -61,13 +61,13 @@ with my Window $window .= new-window {
 
 =end code
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -78,10 +78,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-gestureclick
 
 Returns a newly created L<Gnome::Gtk4::Gesture|/content-docs/api2/reference/Gtk4/Gesture> that recognizes single and multiple presses.
@@ -90,13 +90,13 @@ Returns a newly created L<Gnome::Gtk4::Gesture|/content-docs/api2/reference/Gtk4
 method new-gestureclick ( --> Gnome::Gtk4::GestureClick )
 =end code
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -187,5 +187,5 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::GestureClick> object.
 =item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
-=end pod
+=end rakudoc
 

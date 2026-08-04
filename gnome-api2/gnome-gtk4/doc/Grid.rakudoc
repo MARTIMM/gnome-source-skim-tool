@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Grid
 =head1 Description
 
@@ -105,13 +105,13 @@ Starting from GTK 4.12, B<Gnome::Gtk4::Grid> uses the B<GTK_ACCESSIBLE_ROLE_GENE
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -122,10 +122,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-grid
 
 Creates a new grid widget.
@@ -141,18 +141,18 @@ method new-grid ( --> Gnome::Gtk4::Grid )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 attach
 
 Adds a widget to the grid.
@@ -178,10 +178,10 @@ method attach ( N-Object() $child, Int() $column, Int() $row, Int() $width, Int(
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 attach-next-to
 
 Adds a widget to the grid.
@@ -211,10 +211,10 @@ method attach-next-to ( N-Object() $child, N-Object() $sibling, GtkPositionType 
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-baseline-row
 
 Returns which row defines the global baseline of C<$grid>.
@@ -232,10 +232,10 @@ Return value; the row index defining the global baseline.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child-at
 
 Gets the child of C<$grid> whose area covers the grid
@@ -257,10 +257,10 @@ Return value; the child at the given position.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-column-homogeneous
 
 Returns whether all columns of C<$grid> have the same width.
@@ -278,10 +278,10 @@ Return value; whether all columns of C<$grid> have the same width..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-column-spacing
 
 Returns the amount of space between the columns of C<$grid>.
@@ -299,10 +299,10 @@ Return value; the column spacing of C<$grid>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-row-baseline-position
 
 Returns the baseline position of C<$row>.
@@ -324,10 +324,10 @@ Return value; the baseline position of C<$row>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-row-homogeneous
 
 Returns whether all rows of C<$grid> have the same height.
@@ -345,10 +345,10 @@ Return value; whether all rows of C<$grid> have the same height..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-row-spacing
 
 Returns the amount of space between the rows of C<$grid>.
@@ -366,10 +366,10 @@ Return value; the row spacing of C<$grid>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-column
 
 Inserts a column at the specified position.
@@ -391,10 +391,10 @@ method insert-column ( Int() $position )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-next-to
 
 Inserts a row or column at the specified position.
@@ -419,10 +419,10 @@ method insert-next-to ( N-Object() $sibling, GtkPositionType $side )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-row
 
 Inserts a row at the specified position.
@@ -444,10 +444,10 @@ method insert-row ( Int() $position )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 query-child
 
 Queries the attach points and spans of C<$child> inside the given B<Gnome::Gtk4::Grid>.
@@ -469,10 +469,10 @@ method query-child ( N-Object() $child, Array[Int] $column, Array[Int] $row, Arr
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove
 
 Removes a child from C<$grid>.
@@ -493,10 +493,10 @@ method remove ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-column
 
 Removes a column from the grid.
@@ -519,10 +519,10 @@ method remove-column ( Int() $position )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-row
 
 Removes a row from the grid.
@@ -545,10 +545,10 @@ method remove-row ( Int() $position )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-baseline-row
 
 Sets which row defines the global baseline for the entire grid.
@@ -570,10 +570,10 @@ method set-baseline-row ( Int() $row )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-column-homogeneous
 
 Sets whether all columns of C<$grid> will have the same width.
@@ -591,10 +591,10 @@ method set-column-homogeneous ( Bool() $homogeneous )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-column-spacing
 
 Sets the amount of space between columns of C<$grid>.
@@ -612,10 +612,10 @@ method set-column-spacing ( UInt() $spacing )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-row-baseline-position
 
 Sets how the baseline should be positioned on C<$row> of the
@@ -637,10 +637,10 @@ method set-row-baseline-position ( Int() $row, GtkBaselinePosition $pos )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-row-homogeneous
 
 Sets whether all rows of C<$grid> will have the same height.
@@ -658,10 +658,10 @@ method set-row-homogeneous ( Bool() $homogeneous )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-row-spacing
 
 Sets the amount of space between rows of C<$grid>.
@@ -679,5 +679,5 @@ method set-row-spacing ( UInt() $spacing )
 
 =end comment
 
-=end pod
+=end rakudoc
 

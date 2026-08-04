@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::GLArea
 =head1 Description
 
@@ -127,13 +127,13 @@ you should use the I<create-context> signal.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -144,10 +144,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-glarea
 
 Creates a new B<Gnome::Gtk4::GLArea> widget.
@@ -163,18 +163,18 @@ method new-glarea ( --> Gnome::Gtk4::GLArea )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 attach-buffers
 
 Binds buffers to the framebuffer.
@@ -198,10 +198,10 @@ method attach-buffers ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-allowed-apis
 This function is not yet available
 
@@ -222,10 +222,10 @@ Return value; the allowed APIs.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-api
 This function is not yet available
 
@@ -246,10 +246,10 @@ Return value; the currently used API.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-auto-render
 
 Returns whether the area is in auto render mode or not.
@@ -267,10 +267,10 @@ Return value; C<True> if the C<$area> is auto rendering, C<False> otherwise.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-context
 
 Retrieves the L<Gnome::Gdk4::GLContext|/content-docs/api2/reference/Gdk4/GLContext> used by C<$area>.
@@ -288,10 +288,10 @@ Return value; the L<Gnome::Gdk4::GLContext|/content-docs/api2/reference/Gdk4/GLC
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-error
 
 Gets the current error set on the C<$area>.
@@ -309,10 +309,10 @@ Return value; the B<Gnome::Glib::N-Error>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-has-depth-buffer
 
 Returns whether the area has a depth buffer.
@@ -330,10 +330,10 @@ Return value; C<True> if the C<$area> has a depth buffer, C<False> otherwise.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-has-stencil-buffer
 
 Returns whether the area has a stencil buffer.
@@ -351,10 +351,10 @@ Return value; C<True> if the C<$area> has a stencil buffer, C<False> otherwise.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-required-version
 
 Retrieves the required version of OpenGL.
@@ -375,10 +375,10 @@ method get-required-version ( Array[Int] $major, Array[Int] $minor )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-use-es
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.12>
@@ -401,10 +401,10 @@ Return value; C<True> if the B<Gnome::Gtk4::GLArea> should create an OpenGL ES c
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 make-current
 
 Ensures that the L<Gnome::Gdk4::GLContext|/content-docs/api2/reference/Gdk4/GLContext> used by C<$area> is associated with
@@ -425,10 +425,10 @@ method make-current ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 queue-render
 
 Marks the currently rendered data (if any) as invalid, and queues
@@ -452,10 +452,10 @@ method queue-render ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-allowed-apis
 
 Sets the allowed APIs to create a context with.
@@ -478,10 +478,10 @@ method set-allowed-apis ( UInt $apis )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-auto-render
 
 Sets whether the B<Gnome::Gtk4::GLArea> is in auto render mode.
@@ -509,10 +509,10 @@ method set-auto-render ( Bool() $auto-render )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-error
 
 Sets an error on the area which will be shown instead of the
@@ -534,10 +534,10 @@ method set-error ( N-Object $error )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-has-depth-buffer
 
 Sets whether the B<Gnome::Gtk4::GLArea> should use a depth buffer.
@@ -559,10 +559,10 @@ method set-has-depth-buffer ( Bool() $has-depth-buffer )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-has-stencil-buffer
 
 Sets whether the B<Gnome::Gtk4::GLArea> should use a stencil buffer.
@@ -584,10 +584,10 @@ method set-has-stencil-buffer ( Bool() $has-stencil-buffer )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-required-version
 
 Sets the required version of OpenGL to be used when creating
@@ -609,10 +609,10 @@ method set-required-version ( Int() $major, Int() $minor )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-use-es
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.12>
@@ -635,13 +635,13 @@ method set-use-es ( Bool() $use-es )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -750,5 +750,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

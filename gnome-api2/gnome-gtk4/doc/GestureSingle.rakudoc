@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::GestureSingle
 =head1 Description
 
@@ -22,13 +22,13 @@ By default gestures react to both C<GDK_BUTTON_PRIMARY> and touch events. L<.set
 
 An example is given in L<Gnome::Gtk4::GestureClick|/content-docs/api2/reference/Gtk4/GestureClick> documentation.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -39,18 +39,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-button
 
 Returns the button number this object listens for. If this is 0, the gesture reacts to any button press.
@@ -61,10 +61,10 @@ method get-button ( --> UInt )
 
 Return value; The button number, or 0 for any button. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-current-button
 
 Returns the button number currently interacting with C<$gesture>, or 0 if there is none.
@@ -75,10 +75,10 @@ method get-current-button ( --> UInt )
 
 Return value; The current button number. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-current-sequence
 
 Returns the event sequence currently interacting with this object. This is only meaningful if L<.is-active() in class Gesture|/content-docs/api2/reference/Gtk4/Gesture#is-active> returns C<True>.
@@ -89,10 +89,10 @@ method get-current-sequence ( --> N-Object )
 
 Return value; the current sequence. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-exclusive
 
 Gets whether a gesture is exclusive. For more information, see L<.set-exclusive()|#set-exclusive>.
@@ -103,10 +103,10 @@ method get-exclusive ( --> Bool )
 
 Return value; Whether the gesture is exclusive. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-touch-only
 
 Returns C<True> if the gesture is only triggered by touch events.
@@ -117,10 +117,10 @@ method get-touch-only ( --> Bool )
 
 Return value; C<True> if the gesture only handles touch events. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-button
 
 Sets the button number C<$gesture> listens to. If non-0, every button press from a different button number will be ignored. Touch events implicitly match with button 1.
@@ -131,10 +131,10 @@ method set-button ( UInt() $button )
 
 =item $button; button number to listen to, or 0 for any button.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-exclusive
 
 Sets whether C<$gesture> is exclusive. An exclusive gesture will only handle pointer and "pointer emulated" touch events, so at any given time, there is only one sequence able to interact with those.
@@ -145,10 +145,10 @@ method set-exclusive ( Bool() $exclusive )
 
 =item $exclusive; C<True> to make C<$gesture> exclusive.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-touch-only
 
 Sets whether to handle only touch events. If C<$touch-only> is C<True>, C<$gesture> will only handle events of type C<GDK_TOUCH_BEGIN>, C<GDK_TOUCH_UPDATE> or C<GDK_TOUCH_END>. If C<False>, mouse events will be handled too.
@@ -159,5 +159,5 @@ method set-touch-only ( Bool() $touch-only )
 
 =item $touch-only; whether C<$gesture> handles only touch events.
 
-=end pod
+=end rakudoc
 

@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::GridView
 =head1 Description
 
@@ -45,13 +45,13 @@ use the C<GTK_ACCESSIBLE_ROLE_GRID_CELL> role.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -62,10 +62,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-gridview
 
 Creates a new B<Gnome::Gtk4::GridView> that uses the given C<$factory> for
@@ -88,18 +88,18 @@ method new-gridview ( N-Object() $model, N-Object() $factory --> Gnome::Gtk4::Gr
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-enable-rubberband
 
 Returns whether rows can be selected by dragging with the mouse.
@@ -117,10 +117,10 @@ Return value; C<True> if rubberband selection is enabled.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-factory
 
 Gets the factory that's currently used to populate list items.
@@ -138,10 +138,10 @@ Return value; The factory in use.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-max-columns
 
 Gets the maximum number of columns that the grid will use.
@@ -159,10 +159,10 @@ Return value; The maximum number of columns.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-min-columns
 
 Gets the minimum number of columns that the grid will use.
@@ -180,10 +180,10 @@ Return value; The minimum number of columns.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-model
 
 Gets the model that's currently used to read the items displayed.
@@ -201,10 +201,10 @@ Return value; The model in use.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-single-click-activate
 
 Returns whether items will be activated on single click and
@@ -223,10 +223,10 @@ Return value; C<True> if items are activated on single click.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-tab-behavior
 
 Gets the behavior set for the <kbd>Tab</kbd> key.
@@ -244,10 +244,10 @@ Return value; The behavior of the <kbd>Tab</kbd> key.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 scroll-to
 
 Scrolls to the item at the given position and performs the actions
@@ -273,10 +273,10 @@ method scroll-to ( UInt() $pos, UInt $flags, N-Object $scroll )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-enable-rubberband
 
 Sets whether selections can be changed by dragging with the mouse.
@@ -294,10 +294,10 @@ method set-enable-rubberband ( Bool() $enable-rubberband )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-factory
 
 Sets the L<Gnome::Gtk4::ListItemFactory|/content-docs/api2/reference/Gtk4/ListItemFactory> to use for populating list items.
@@ -315,10 +315,10 @@ method set-factory ( N-Object() $factory )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-max-columns
 
 Sets the maximum number of columns to use.
@@ -341,10 +341,10 @@ method set-max-columns ( UInt() $max-columns )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-min-columns
 
 Sets the minimum number of columns to use.
@@ -367,10 +367,10 @@ method set-min-columns ( UInt() $min-columns )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-model
 
 Sets the model to use.
@@ -390,10 +390,10 @@ method set-model ( N-Object() $model )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-single-click-activate
 
 Sets whether items should be activated on single click and
@@ -416,10 +416,10 @@ gridview
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-tab-behavior
 
 Sets the behavior of the <kbd>Tab</kbd> and <kbd>Shift</kbd>+<kbd>Tab</kbd> keys.
@@ -436,13 +436,13 @@ grid_view = gtk_grid_view_new (create_model (),
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -470,5 +470,5 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::GridView> object.
 =item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
-=end pod
+=end rakudoc
 

@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Gesture
 =head1 Description
 
@@ -109,13 +109,13 @@ do to enable this support are:
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -126,18 +126,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-bounding-box
 
 If there are touch sequences being currently handled by C<$gesture>,
@@ -167,10 +167,10 @@ Return value; C<True> if there are active touches, C<False> otherwise.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-bounding-box-center
 
 If there are touch sequences being currently handled by C<$gesture>,
@@ -195,10 +195,10 @@ Return value; C<False> if no active touches are present, C<True> otherwise.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-device
 
 Returns the logical L<Gnome::Gdk4::Device|/content-docs/api2/reference/Gdk4/Device> that is currently operating
@@ -219,10 +219,10 @@ Return value; a L<Gnome::Gdk4::Device|/content-docs/api2/reference/Gdk4/Device>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-group
 
 Returns all gestures in the group of C<$gesture>
@@ -241,10 +241,10 @@ Return value; The list
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-last-event
 
 Returns the last event that was processed for C<$sequence>.
@@ -267,10 +267,10 @@ Return value; The last event from C<$sequence>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-last-updated-sequence
 
 Returns the B<Gnome::Gdk4::N-EventSequence> that was last updated on C<$gesture>.
@@ -288,10 +288,10 @@ Return value; The last updated sequence.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-point
 
 If C<$sequence> is currently being interpreted by C<$gesture>,
@@ -317,10 +317,10 @@ Return value; C<True> if C<$sequence> is currently interpreted.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-sequence-state
 
 Returns the C<$sequence> state, as seen by C<$gesture>.
@@ -340,10 +340,10 @@ Return value; The sequence state in C<$gesture>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-sequences
 
 Returns the list of B<GdkEventSequences> currently being interpreted
@@ -365,10 +365,10 @@ Return value; A list
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 group
 
 Adds C<$gesture> to the same group than C<$group-gesture>.
@@ -402,10 +402,10 @@ method group ( N-Object() $gesture )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 handles-sequence
 
 Returns C<True> if C<$gesture> is currently handling events
@@ -426,10 +426,10 @@ Return value; C<True> if C<$gesture> is handling C<$sequence>, C<False> otherwis
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-active
 
 Returns C<True> if the gesture is currently active.
@@ -450,10 +450,10 @@ Return value; C<True> if gesture is active.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-grouped-with
 
 Returns C<True> if both gestures pertain to the same group.
@@ -473,10 +473,10 @@ Return value; whether the gestures are grouped.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-recognized
 
 Returns C<True> if the gesture is currently recognized.
@@ -497,10 +497,10 @@ Return value; C<True> if gesture is recognized.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-sequence-state
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10.>
@@ -566,10 +566,10 @@ Return value; C<True> if C<$sequence> is handled by C<$gesture>,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-state
 
 Sets the state of all sequences that C<$gesture> is currently
@@ -633,10 +633,10 @@ Return value; C<True> if the state of at least one sequence
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ungroup
 
 Separates C<$gesture> into an isolated group.
@@ -652,13 +652,13 @@ method ungroup ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -828,5 +828,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

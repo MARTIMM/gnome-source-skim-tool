@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::GestureStylus
 =head1 Description
 
@@ -24,13 +24,13 @@ stylus events.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -41,10 +41,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-gesturestylus
 
 Creates a new B<Gnome::Gtk4::GestureStylus>.
@@ -60,18 +60,18 @@ method new-gesturestylus ( --> Gnome::Gtk4::GestureStylus )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-axes
 
 Returns the current values for the requested C<$axes>.
@@ -97,10 +97,10 @@ Return value; C<True> if there is a current value for the axes.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-axis
 
 Returns the current value for the requested C<$axis>.
@@ -126,10 +126,10 @@ Return value; C<True> if there is a current value for the axis.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-backlog
 
 Returns the accumulated backlog of tracking information.
@@ -162,10 +162,10 @@ Return value; C<True> if there is a backlog to unfold in the current state..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-device-tool
 
 Returns the L<Gnome::Gdk4::DeviceTool|/content-docs/api2/reference/Gdk4/DeviceTool> currently driving input through this gesture.
@@ -188,10 +188,10 @@ Return value; The current stylus tool.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-stylus-only
 
 Checks whether the gesture is for styluses only.
@@ -212,10 +212,10 @@ Return value; C<True> if the gesture is only for stylus events.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-stylus-only
 
 Sets the state of stylus-only
@@ -236,13 +236,13 @@ method set-stylus-only ( Bool() $stylus-only )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -361,5 +361,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

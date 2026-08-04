@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::GridLayout
 =head1 Description
 
@@ -34,13 +34,13 @@ single row or column, you should consider using L<Gnome::Gtk4::BoxLayout|/conten
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -51,10 +51,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-gridlayout
 
 Creates a new B<Gnome::Gtk4::GridLayout>.
@@ -70,18 +70,18 @@ method new-gridlayout ( --> Gnome::Gtk4::GridLayout )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-baseline-row
 
 Retrieves the row set with C<.set-baseline-row()>.
@@ -99,10 +99,10 @@ Return value; the global baseline row.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-column-homogeneous
 
 Checks whether all columns of C<$grid> should have the same width.
@@ -120,10 +120,10 @@ Return value; C<True> if the columns are homogeneous, and C<False> otherwise.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-column-spacing
 
 Retrieves the spacing set with C<.set-column-spacing()>.
@@ -141,10 +141,10 @@ Return value; the spacing between consecutive columns.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-row-baseline-position
 
 Returns the baseline position of C<$row>.
@@ -169,10 +169,10 @@ Return value; the baseline position of C<$row>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-row-homogeneous
 
 Checks whether all rows of C<$grid> should have the same height.
@@ -190,10 +190,10 @@ Return value; C<True> if the rows are homogeneous, and C<False> otherwise.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-row-spacing
 
 Retrieves the spacing set with C<.set-row-spacing()>.
@@ -211,10 +211,10 @@ Return value; the spacing between consecutive rows.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-baseline-row
 
 Sets which row defines the global baseline for the entire grid.
@@ -236,10 +236,10 @@ method set-baseline-row ( Int() $row )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-column-homogeneous
 
 Sets whether all columns of C<$grid> should have the same width.
@@ -257,10 +257,10 @@ method set-column-homogeneous ( Bool() $homogeneous )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-column-spacing
 
 Sets the amount of space to insert between consecutive columns.
@@ -278,10 +278,10 @@ method set-column-spacing ( UInt() $spacing )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-row-baseline-position
 
 Sets how the baseline should be positioned on C<$row> of the
@@ -301,10 +301,10 @@ method set-row-baseline-position ( Int() $row, GtkBaselinePosition $pos )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-row-homogeneous
 
 Sets whether all rows of C<$grid> should have the same height.
@@ -322,10 +322,10 @@ method set-row-homogeneous ( Bool() $homogeneous )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-row-spacing
 
 Sets the amount of space to insert between consecutive rows.
@@ -343,5 +343,5 @@ method set-row-spacing ( UInt() $spacing )
 
 =end comment
 
-=end pod
+=end rakudoc
 
