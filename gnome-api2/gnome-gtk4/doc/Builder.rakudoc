@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Builder
 =head1 Description
 
@@ -280,13 +280,13 @@ for details.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -297,10 +297,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-builder
 
 Creates a new empty builder object.
@@ -321,10 +321,10 @@ method new-builder ( --> Gnome::Gtk4::Builder )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-file
 
 Parses the UI definition in the file C<$filename>.
@@ -346,10 +346,10 @@ method new-from-file ( Str $filename --> Gnome::Gtk4::Builder )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-resource
 
 Parses the UI definition at C<$resource-path>.
@@ -370,10 +370,10 @@ method new-from-resource ( Str $resource-path --> Gnome::Gtk4::Builder )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-string
 
 Parses the UI definition in C<$string>.
@@ -399,18 +399,18 @@ method new-from-string ( Str $string, Int() $length --> Gnome::Gtk4::Builder )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-from-file
 
 Parses a file containing a UI definition and merges it with
@@ -450,10 +450,10 @@ Return value; C<True> on success, C<False> if an error occurred.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-from-resource
 
 Parses a resource file containing a UI definition
@@ -490,10 +490,10 @@ Return value; C<True> on success, C<False> if an error occurred.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-from-string
 
 Parses a string containing a UI definition and merges it
@@ -531,10 +531,10 @@ Return value; C<True> on success, C<False> if an error occurred.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-objects-from-file
 
 Parses a file containing a UI definition building only the
@@ -568,10 +568,10 @@ Return value; C<True> on success, C<False> if an error occurred.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-objects-from-resource
 
 Parses a resource file containing a UI definition, building
@@ -605,10 +605,10 @@ Return value; C<True> on success, C<False> if an error occurred.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-objects-from-string
 
 Parses a string containing a UI definition, building only the
@@ -641,10 +641,10 @@ Return value; C<True> on success, C<False> if an error occurred.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 create-closure
 
 Creates a closure to invoke the function called C<$function-name>.
@@ -675,10 +675,10 @@ Return value; A new closure for invoking C<$function-name>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 expose-object
 
 Add C<$object> to the C<$builder> object pool so it can be
@@ -703,10 +703,10 @@ method expose-object ( Str $name, N-Object() $object )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 extend-with-template
 
 Main private entry point for building composite components
@@ -736,10 +736,10 @@ Return value; A positive value on success, 0 if an error occurred.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-current-object
 
 Gets the current object set via C<.set-current-object()>.
@@ -757,10 +757,10 @@ Return value; the current object.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-object
 
 Gets the object named C<$name>.
@@ -783,10 +783,10 @@ Return value; the object named C<$name>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-objects
 
 Gets all objects that have been constructed by C<$builder>.
@@ -810,10 +810,10 @@ Return value; a
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-scope
 
 Gets the scope in use that was set via C<.set-scope()>.
@@ -831,10 +831,10 @@ Return value; the current scope.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-translation-domain
 
 Gets the translation domain of C<$builder>.
@@ -852,10 +852,10 @@ Return value; the translation domain.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-type-from-name
 
 Looks up a type by name.
@@ -880,10 +880,10 @@ Return value; the B<Gnome::GObject::Builder> found for C<$type-name> or C<G_TYPE
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-current-object
 
 Sets the current object for the C<$builder>.
@@ -909,10 +909,10 @@ method set-current-object ( N-Object() $current-object )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-scope
 
 Sets the scope the builder should operate in.
@@ -932,10 +932,10 @@ method set-scope ( N-Object() $scope )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-translation-domain
 
 Sets the translation domain of C<$builder>.
@@ -953,10 +953,10 @@ method set-translation-domain ( Str $domain )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 value-from-string
 
 Demarshals a value from a string.
@@ -991,10 +991,10 @@ Return value; C<True> on success.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 value-from-string-type
 
 Demarshals a value from a string.
@@ -1028,5 +1028,5 @@ Return value; C<True> on success.
 
 =end comment
 
-=end pod
+=end rakudoc
 

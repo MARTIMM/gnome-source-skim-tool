@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::BoxLayout
 =head1 Description
 
@@ -34,13 +34,13 @@ you can use the I<spacing> property.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -51,10 +51,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-boxlayout
 
 Creates a new B<Gnome::Gtk4::BoxLayout>.
@@ -72,18 +72,18 @@ method new-boxlayout ( GtkOrientation $orientation --> Gnome::Gtk4::BoxLayout )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-baseline-child
 
 Gets the value set by C<.set-baseline-child()>.
@@ -102,10 +102,10 @@ Return value; the index of the child that determines the baseline
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-baseline-position
 
 Gets the value set by C<.set-baseline-position()>.
@@ -123,10 +123,10 @@ Return value; the baseline position.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-homogeneous
 
 Returns whether the layout is set to be homogeneous.
@@ -144,10 +144,10 @@ Return value; C<True> if the layout is homogeneous.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-spacing
 
 Returns the space that C<$box-layout> puts between children.
@@ -165,10 +165,10 @@ Return value; the spacing of the layout.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-baseline-child
 
 Sets the index of the child that determines the baseline
@@ -187,10 +187,10 @@ method set-baseline-child ( Int() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-baseline-position
 
 Sets the baseline position of a box layout.
@@ -214,10 +214,10 @@ method set-baseline-position ( GtkBaselinePosition $position )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-homogeneous
 
 Sets whether the box layout will allocate the same
@@ -229,10 +229,10 @@ method set-homogeneous ( Bool() $homogeneous )
 
 =item $homogeneous; C<True> to set the box layout as homogeneous.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-spacing
 
 Sets how much spacing to put between children.
@@ -243,5 +243,5 @@ method set-spacing ( UInt() $spacing )
 
 =item $spacing; the spacing to apply between children.
 
-=end pod
+=end rakudoc
 

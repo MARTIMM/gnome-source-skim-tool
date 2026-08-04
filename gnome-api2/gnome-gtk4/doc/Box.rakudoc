@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Box
 =head1 Description
 
@@ -54,13 +54,13 @@ Starting from GTK 4.12, B<Gnome::Gtk4::Box> uses the B<GTK_ACCESSIBLE_ROLE_GENER
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -71,10 +71,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-box
 
 Creates a new B<Gnome::Gtk4::Box>.
@@ -93,18 +93,18 @@ method new-box ( GtkOrientation $orientation, Int() $spacing --> Gnome::Gtk4::Bo
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append
 
 Adds C<$child> as the last child to C<$box>.
@@ -122,10 +122,10 @@ method append ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-baseline-child
 
 Gets the value set by C<.set-baseline-child()>.
@@ -143,10 +143,10 @@ Return value; the baseline child.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-baseline-position
 
 Gets the value set by C<.set-baseline-position()>.
@@ -164,10 +164,10 @@ Return value; the baseline position.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-homogeneous
 
 Returns whether the box is homogeneous (all children are the
@@ -186,10 +186,10 @@ Return value; C<True> if the box is homogeneous..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-spacing
 
 Gets the value set by C<.set-spacing()>.
@@ -207,10 +207,10 @@ Return value; spacing between children.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-child-after
 
 Inserts C<$child> in the position after C<$sibling> in the list
@@ -232,10 +232,10 @@ method insert-child-after ( N-Object() $child, N-Object() $sibling )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 prepend
 
 Adds C<$child> as the first child to C<$box>.
@@ -253,10 +253,10 @@ method prepend ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove
 
 Removes a child widget from C<$box>.
@@ -278,10 +278,10 @@ method remove ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 reorder-child-after
 
 Moves C<$child> to the position after C<$sibling> in the list
@@ -303,10 +303,10 @@ method reorder-child-after ( N-Object() $child, N-Object() $sibling )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-baseline-child
 
 Sets the baseline child of a box.
@@ -326,10 +326,10 @@ method set-baseline-child ( Int() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-baseline-position
 
 Sets the baseline position of a box.
@@ -352,10 +352,10 @@ method set-baseline-position ( GtkBaselinePosition $position )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-homogeneous
 
 Sets whether or not all children of C<$box> are given equal space
@@ -368,10 +368,10 @@ method set-homogeneous ( Bool() $homogeneous )
 =item $homogeneous; a boolean value, C<True> to create equal allotments,
   C<False> for variable allotments.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-spacing
 
 Sets the number of pixels to place between children of C<$box>.
@@ -382,5 +382,5 @@ method set-spacing ( Int() $spacing )
 
 =item $spacing; the number of pixels to put between children.
 
-=end pod
+=end rakudoc
 

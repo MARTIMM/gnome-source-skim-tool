@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Button
 =head1 Description
 
@@ -50,13 +50,13 @@ B<Gnome::Gtk4::Button> uses the C<GTK_ACCESSIBLE_ROLE_BUTTON> role.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -67,10 +67,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-button
 
 Creates a new B<Gnome::Gtk4::Button> widget.
@@ -88,10 +88,10 @@ method new-button ( --> Gnome::Gtk4::Button )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-icon-name
 
 Creates a new button containing an icon from the current icon theme.
@@ -113,10 +113,10 @@ method new-from-icon-name ( Str $icon-name --> Gnome::Gtk4::Button )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-with-label
 
 Creates a B<Gnome::Gtk4::Button> widget with a L<Gnome::Gtk4::Label|/content-docs/api2/reference/Gtk4/Label> child.
@@ -134,10 +134,10 @@ method new-with-label ( Str $label --> Gnome::Gtk4::Button )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-with-mnemonic
 
 Creates a new B<Gnome::Gtk4::Button> containing a label.
@@ -162,18 +162,18 @@ method new-with-mnemonic ( Str $label --> Gnome::Gtk4::Button )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-can-shrink
 
 Retrieves whether the button can be smaller than the natural
@@ -192,10 +192,10 @@ Return value; true if the button can shrink, and false otherwise.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child
 
 Gets the child widget of C<$button>.
@@ -213,10 +213,10 @@ Return value; the child widget of C<$button>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-has-frame
 
 Returns whether the button has a frame.
@@ -234,10 +234,10 @@ Return value; C<True> if the button has a frame.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-icon-name
 
 Returns the icon name of the button.
@@ -259,10 +259,10 @@ Return value; The icon name set via L<.set-icon-name()|#set-icon-name>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-label
 
 Fetches the text from the label of the button.
@@ -285,10 +285,10 @@ by the widget and must not be modified or freed..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-use-underline
 
 gets whether underlines are interpreted as mnemonics.
@@ -309,10 +309,10 @@ Return value; C<True> if an embedded underline in the button label
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-can-shrink
 
 Sets whether the button size can be smaller than the natural size of
@@ -335,10 +335,10 @@ method set-can-shrink ( Bool() $can-shrink )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-child
 
 Sets the child widget of C<$button>.
@@ -362,10 +362,10 @@ method set-child ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-has-frame
 
 Sets the style of the button.
@@ -385,10 +385,10 @@ method set-has-frame ( Bool() $has-frame )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-icon-name
 
 Adds a L<Gnome::Gtk4::Image|/content-docs/api2/reference/Gtk4/Image> with the given icon name as a child.
@@ -409,10 +409,10 @@ method set-icon-name ( Str $icon-name )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-label
 
 Sets the text of the label of the button to C<$label>.
@@ -432,10 +432,10 @@ method set-label ( Str $label )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-use-underline
 
 Sets whether to use underlines as mnemonics.
@@ -456,13 +456,13 @@ method set-use-underline ( Bool() $use-underline )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -507,5 +507,5 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Button> object.
 =item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
-=end pod
+=end rakudoc
 
