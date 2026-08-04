@@ -210,13 +210,14 @@ method document-constructors (
     # test here.
     $method-name ~~ s:g/ '-' (\d) /$0/ if $method-name ~~ m/ '-' \d /;
 
+#`{{
     # add-example-code() returns a key
     my Str $ex-key = $!dtxt.add-example-code(Q:s:to/EOEX/);
 
       =head2 Example
       # Example for $method-name
       EOEX
-
+}}
     $doc ~= Q:c:s:h:to/EOSUB/;
       {HLSEPARATOR}
       =begin pod
@@ -234,8 +235,6 @@ method document-constructors (
       =end code
 
       $items-doc
-
-      $ex-key
       =end pod
 
       EOSUB
@@ -346,13 +345,14 @@ method _document-native-subs ( Hash $hcs, Str :$routine-type --> Str ) {
 
 #note "$?LINE $curr-function<missing-type>, {$curr-function<missing-type> ?? "\n#`\{\{\n" !! ''}";
 
+#`{{
     # add-example-code() returns a key
     my Str $ex-key = $!dtxt.add-example-code(qq:to/EOEX/);
 
       =head2 Example
       # Example for $native-sub
       EOEX
-
+}}
     $doc ~= qq:to/EOSUB/;
       {HLSEPARATOR}
       =begin pod
@@ -369,7 +369,6 @@ method _document-native-subs ( Hash $hcs, Str :$routine-type --> Str ) {
 
       $items-doc$returns-doc
 
-      $ex-key
       =end pod
 
       EOSUB
@@ -732,14 +731,14 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 
     for $signals.keys.sort -> $signal-name {
       my Hash $curr-signal := $signals{$signal-name};
-
+#`{{
       # add-example-code() returns a key
       my Str $ex-key = $!dtxt.add-example-code(qq:to/EOEX/);
 
         =head2 Example
         # Example for signal $signal-name
         EOEX
-
+}}
       $doc ~= qq:to/EOSIG/;
 
         {HLPODSEPARATOR}
@@ -811,7 +810,7 @@ note "$?LINE ", qq:to/EOSIG/;
         =item \%user-options; A list of named arguments provided by [method@GObject.Object.register-signal].
         EOSIG
       $doc ~= $returns-doc;
-      $doc ~= "\n$ex-key\n";
+#      $doc ~= "\n$ex-key\n";
     }
 
     $doc ~= "=end pod\n\n";
