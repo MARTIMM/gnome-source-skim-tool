@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::NumericSorter
 =head1 Description
 
@@ -24,13 +24,13 @@ L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -41,10 +41,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-numericsorter
 
 Creates a new numeric sorter using the given C<$expression>.
@@ -65,18 +65,18 @@ method new-numericsorter ( N-Object() $expression --> Gnome::Gtk4::NumericSorter
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-expression
 
 Gets the expression that is evaluated to obtain numbers from items.
@@ -94,10 +94,10 @@ Return value; a L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expr
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-sort-order
 
 Gets whether this sorter will sort smaller numbers first.
@@ -115,10 +115,10 @@ Return value; the order of the numbers.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-expression
 
 Sets the expression that is evaluated to obtain numbers from items.
@@ -142,10 +142,10 @@ method set-expression ( N-Object() $expression )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-sort-order
 
 Sets whether to sort smaller numbers before larger ones.
@@ -163,5 +163,5 @@ method set-sort-order ( GtkSortType $sort-order )
 
 =end comment
 
-=end pod
+=end rakudoc
 

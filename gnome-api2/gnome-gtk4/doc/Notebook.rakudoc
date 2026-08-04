@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Notebook
 =head1 Description
 
@@ -114,13 +114,13 @@ B<Gnome::Gtk4::Notebook> uses the following roles:
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -131,10 +131,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-notebook
 
 Creates a new B<Gnome::Gtk4::Notebook> widget with no pages.
@@ -150,18 +150,18 @@ method new-notebook ( --> Gnome::Gtk4::Notebook )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-page
 
 Appends a page to C<$notebook>.
@@ -184,10 +184,10 @@ Return value; the index (starting from 0) of the appended
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-page-menu
 
 Appends a page to C<$notebook>, specifying the widget to use as the
@@ -217,10 +217,10 @@ Return value; the index (starting from 0) of the appended
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 detach-tab
 
 Removes the child from the notebook.
@@ -243,10 +243,10 @@ method detach-tab ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-action-widget
 
 Gets one of the action widgets.
@@ -270,10 +270,10 @@ Return value; The action widget
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-current-page
 
 Returns the page number of the current page.
@@ -293,10 +293,10 @@ Return value; the index (starting from 0) of the current
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-group-name
 
 Gets the current group name for C<$notebook>.
@@ -315,10 +315,10 @@ Return value; the group name,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-menu-label
 
 Retrieves the menu label widget of the page containing C<$child>.
@@ -340,10 +340,10 @@ Return value; the menu label, or undefined
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-menu-label-text
 
 Retrieves the text of the menu label for the page containing C<$child>.
@@ -366,10 +366,10 @@ Return value; the text of the tab label, or undefined if
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-n-pages
 
 Gets the number of pages in a notebook.
@@ -387,10 +387,10 @@ Return value; the number of pages in the notebook.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-nth-page
 
 Returns the child widget contained in page number C<$page-num>.
@@ -412,10 +412,10 @@ is out of bounds.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-page
 
 Returns the L<Gnome::Gtk4::NotebookPage|/content-docs/api2/reference/Gtk4/NotebookPage> for C<$child>.
@@ -435,10 +435,10 @@ Return value; the L<Gnome::Gtk4::NotebookPage|/content-docs/api2/reference/Gtk4/
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-pages
 
 Returns a L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> that contains the pages of the notebook.
@@ -461,10 +461,10 @@ Return value; a
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-scrollable
 
 Returns whether the tab label area has arrows for scrolling.
@@ -482,10 +482,10 @@ Return value; C<True> if arrows for scrolling are present.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-show-border
 
 Returns whether a bevel will be drawn around the notebook pages.
@@ -503,10 +503,10 @@ Return value; C<True> if the bevel is drawn.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-show-tabs
 
 Returns whether the tabs of the notebook are shown.
@@ -524,10 +524,10 @@ Return value; C<True> if the tabs are shown.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-tab-detachable
 
 Returns whether the tab contents can be detached from C<$notebook>.
@@ -547,10 +547,10 @@ Return value; C<True> if the tab is detachable..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-tab-label
 
 Returns the tab label widget for the page C<$child>.
@@ -573,10 +573,10 @@ Return value; the tab label.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-tab-label-text
 
 Retrieves the text of the tab label for the page containing C<$child>.
@@ -598,10 +598,10 @@ Return value; the text of the tab label, or undefined if
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-tab-pos
 
 Gets the edge at which the tabs are drawn.
@@ -619,10 +619,10 @@ Return value; the edge at which the tabs are drawn.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-tab-reorderable
 
 Gets whether the tab can be reordered via drag and drop or not.
@@ -642,10 +642,10 @@ Return value; C<True> if the tab is reorderable..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-page
 
 Insert a page into C<$notebook> at the given position.
@@ -670,10 +670,10 @@ Return value; the index (starting from 0) of the inserted
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-page-menu
 
 Insert a page into C<$notebook> at the given position, specifying
@@ -705,10 +705,10 @@ Return value; the index (starting from 0) of the inserted
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 next-page
 
 Switches to the next page.
@@ -726,10 +726,10 @@ method next-page ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 page-num
 
 Finds the index of the page which contains the given child
@@ -751,10 +751,10 @@ Return value; the index of the page containing C<$child>, or
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 popup-disable
 
 Disables the popup menu.
@@ -770,10 +770,10 @@ method popup-disable ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 popup-enable
 
 Enables the popup menu.
@@ -792,10 +792,10 @@ method popup-enable ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 prepend-page
 
 Prepends a page to C<$notebook>.
@@ -818,10 +818,10 @@ Return value; the index (starting from 0) of the prepended
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 prepend-page-menu
 
 Prepends a page to C<$notebook>, specifying the widget to use as the
@@ -851,10 +851,10 @@ Return value; the index (starting from 0) of the prepended
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 prev-page
 
 Switches to the previous page.
@@ -872,10 +872,10 @@ method prev-page ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-page
 
 Removes a page from the notebook given its index
@@ -895,10 +895,10 @@ method remove-page ( Int() $page-num )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 reorder-child
 
 Reorders the page containing C<$child>, so that it appears in position C<$position>.
@@ -920,10 +920,10 @@ method reorder-child ( N-Object() $child, Int() $position )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-action-widget
 
 Sets C<$widget> as one of the action widgets.
@@ -946,10 +946,10 @@ method set-action-widget ( N-Object() $widget, GtkPackType $pack-type )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-current-page
 
 Switches to the page number C<$page-num>.
@@ -975,10 +975,10 @@ method set-current-page ( Int() $page-num )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-group-name
 
 Sets a group name for C<$notebook>.
@@ -1001,10 +1001,10 @@ method set-group-name ( Str $group-name )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-menu-label
 
 Changes the menu label for the page containing C<$child>.
@@ -1023,10 +1023,10 @@ method set-menu-label ( N-Object() $child, N-Object() $menu-label )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-menu-label-text
 
 Creates a new label and sets it as the menu label of C<$child>.
@@ -1045,10 +1045,10 @@ method set-menu-label-text ( N-Object() $child, Str $menu-text )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-scrollable
 
 Sets whether the tab label area will have arrows for
@@ -1067,10 +1067,10 @@ method set-scrollable ( Bool() $scrollable )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-show-border
 
 Sets whether a bevel will be drawn around the notebook pages.
@@ -1090,10 +1090,10 @@ method set-show-border ( Bool() $show-border )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-show-tabs
 
 Sets whether to show the tabs for the notebook or not.
@@ -1111,10 +1111,10 @@ method set-show-tabs ( Bool() $show-tabs )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-tab-detachable
 
 Sets whether the tab can be detached from C<$notebook> to another
@@ -1178,10 +1178,10 @@ method set-tab-detachable ( N-Object() $child, Bool() $detachable )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-tab-label
 
 Changes the tab label for C<$child>.
@@ -1204,10 +1204,10 @@ method set-tab-label ( N-Object() $child, N-Object() $tab-label )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-tab-label-text
 
 Creates a new label and sets it as the tab label for the page
@@ -1227,10 +1227,10 @@ method set-tab-label-text ( N-Object() $child, Str $tab-text )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-tab-pos
 
 Sets the edge at which the tabs are drawn.
@@ -1248,10 +1248,10 @@ method set-tab-pos ( GtkPositionType $pos )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-tab-reorderable
 
 Sets whether the notebook tab can be reordered
@@ -1271,13 +1271,13 @@ method set-tab-reorderable ( N-Object() $child, Bool() $reorderable )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -1576,5 +1576,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 
