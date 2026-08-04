@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Pango::Layout
 =head1 Description
 
@@ -54,13 +54,13 @@ and simply treat the results of a B<Gnome::Pango::Layout> as a list of lines.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -71,10 +71,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-layout
 
 Create a new B<Gnome::Pango::Layout> object with attributes initialized to
@@ -93,18 +93,18 @@ method new-layout ( N-Object() $context --> Gnome::Pango::Layout \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 context-changed
 
 Forces recomputation of any state in the B<Gnome::Pango::Layout> that
@@ -124,10 +124,10 @@ method context-changed ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 copy
 
 Creates a deep copy-by-value of the layout.
@@ -148,10 +148,10 @@ Return value; the newly allocated B<Gnome::Pango::Layout>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-alignment
 
 Gets the alignment for the layout: how partial lines are
@@ -170,10 +170,10 @@ Return value; the alignment.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-attributes
 
 Gets the attribute list for the layout, if any.
@@ -191,10 +191,10 @@ Return value; a B<Gnome::Pango::N-AttrList>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-auto-dir
 
 Gets whether to calculate the base direction for the layout
@@ -216,10 +216,10 @@ Return value; C<True> if the bidirectional base direction
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-baseline
 
 Gets the Y position of baseline of the first line in C<$layout>.
@@ -237,10 +237,10 @@ Return value; baseline of first line, from top of C<$layout>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-caret-pos
 
 Given an index within a layout, determines the positions that of the
@@ -270,10 +270,10 @@ method get-caret-pos ( Int() $index, N-Object $strong-pos, N-Object $weak-pos )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-character-count
 
 Returns the number of Unicode characters in the
@@ -293,10 +293,10 @@ Return value; the number of Unicode characters
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-context
 
 Retrieves the B<Gnome::Pango::Context> used for this layout.
@@ -314,10 +314,10 @@ Return value; the B<Gnome::Pango::Context> for the layout.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-cursor-pos
 
 Given an index within a layout, determines the positions that of the
@@ -363,10 +363,10 @@ method get-cursor-pos ( Int() $index, N-Object $strong-pos, N-Object $weak-pos )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-direction
 
 Gets the text direction at the given character position in C<$layout>.
@@ -386,10 +386,10 @@ Return value; the text direction at C<$index>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-ellipsize
 
 Gets the type of ellipsization being performed for C<$layout>.
@@ -412,10 +412,10 @@ Return value; the current ellipsization mode for C<$layout>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-extents
 
 Computes the logical and ink extents of C<$layout>.
@@ -445,10 +445,10 @@ method get-extents ( N-Object $ink-rect, N-Object $logical-rect )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-font-description
 
 Gets the font description for the layout, if any.
@@ -468,10 +468,10 @@ Return value; a pointer to the
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-height
 
 Gets the height of layout used for ellipsization.
@@ -492,10 +492,10 @@ Return value; the height, in Pango units if positive,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-indent
 
 Gets the paragraph indent width in Pango units.
@@ -515,10 +515,10 @@ Return value; the indent in Pango units.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-iter
 
 Returns an iterator to iterate over the visual extents of the layout.
@@ -536,10 +536,10 @@ Return value; the new B<Gnome::Pango::T-layout>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-justify
 
 Gets whether each complete line should be stretched to fill the entire
@@ -558,10 +558,10 @@ Return value; the justify value.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-justify-last-line
 
 Gets whether the last line should be stretched
@@ -580,10 +580,10 @@ Return value; the justify value.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-line
 
 Retrieves a particular line from a B<Gnome::Pango::Layout>.
@@ -610,10 +610,10 @@ Return value; the requested B<Gnome::Pango::N-LayoutLine>,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-line-count
 
 Retrieves the count of lines for the C<$layout>.
@@ -631,10 +631,10 @@ Return value; the line count.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-line-readonly
 
 Retrieves a particular line from a B<Gnome::Pango::Layout>.
@@ -662,10 +662,10 @@ Return value; the requested B<Gnome::Pango::N-LayoutLine>,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-line-spacing
 
 Gets the line spacing factor of C<$layout>.
@@ -685,10 +685,10 @@ Return value; No documentation about its value and use.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-lines
 
 Returns the lines of the C<$layout> as a list.
@@ -712,10 +712,10 @@ Return value; a B<Gnome::Glib::N-SList>
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-lines-readonly
 
 Returns the lines of the C<$layout> as a list.
@@ -741,10 +741,10 @@ Return value; a B<Gnome::Glib::N-SList>
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-log-attrs
 
 Retrieves an array of logical attributes for each character in
@@ -770,10 +770,10 @@ method get-log-attrs ( N-Object $attrs, Array[Int] $n-attrs )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-log-attrs-readonly
 
 Retrieves an array of logical attributes for each character in
@@ -804,10 +804,10 @@ Return value; an array of logical attributes.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-pixel-extents
 
 Computes the logical and ink extents of C<$layout> in device units.
@@ -833,10 +833,10 @@ method get-pixel-extents ( N-Object $ink-rect, N-Object $logical-rect )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-pixel-size
 
 Determines the logical width and height of a B<Gnome::Pango::Layout> in device
@@ -860,10 +860,10 @@ method get-pixel-size ( Array[Int] $width, Array[Int] $height )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-serial
 
 Returns the current serial number of C<$layout>.
@@ -892,10 +892,10 @@ Return value; The current serial number of C<$layout>..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-single-paragraph-mode
 
 Obtains whether C<$layout> is in single paragraph mode.
@@ -916,10 +916,10 @@ Return value; C<True> if the layout does not break paragraphs
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-size
 
 Determines the logical width and height of a B<Gnome::Pango::Layout> in Pango
@@ -941,10 +941,10 @@ method get-size ( Array[Int] $width, Array[Int] $height )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-spacing
 
 Gets the amount of spacing between the lines of the layout.
@@ -962,10 +962,10 @@ Return value; the spacing in Pango units.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-tabs
 
 Gets the current B<Gnome::Pango::N-TabArray> used by this layout.
@@ -988,10 +988,10 @@ Return value; a copy of the tabs for this layout.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-text
 
 Gets the text in the layout.
@@ -1011,10 +1011,10 @@ Return value; the text in the C<$layout>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-unknown-glyphs-count
 
 Counts the number of unknown glyphs in C<$layout>.
@@ -1037,10 +1037,10 @@ Return value; The number of unknown glyphs in C<$layout>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-width
 
 Gets the width to which the lines of the B<Gnome::Pango::Layout> should wrap.
@@ -1058,10 +1058,10 @@ Return value; the width in Pango units, or -1 if no width set..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-wrap
 
 Gets the wrap mode for the layout.
@@ -1082,10 +1082,10 @@ Return value; active wrap mode..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 index-to-line-x
 
 Converts from byte C<$index-> within the C<$layout> to line and X position.
@@ -1112,10 +1112,10 @@ method index-to-line-x ( Int() $index, Bool() $trailing, Array[Int] $line, Array
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 index-to-pos
 
 Converts from an index within a B<Gnome::Pango::Layout> to the onscreen position
@@ -1140,10 +1140,10 @@ method index-to-pos ( Int() $index, N-Object $pos )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-ellipsized
 
 Queries whether the layout had to ellipsize any paragraphs.
@@ -1167,10 +1167,10 @@ Return value; C<True> if any paragraphs had to be ellipsized,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-wrapped
 
 Queries whether the layout had to wrap any paragraphs.
@@ -1194,10 +1194,10 @@ Return value; C<True> if any paragraphs had to be wrapped, C<False>
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 move-cursor-visually
 
 Computes a new cursor position from an old position and a direction.
@@ -1247,10 +1247,10 @@ method move-cursor-visually ( Bool() $strong, Int() $old-index, Int() $old-trail
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 serialize
 
 Serializes the C<$layout> for later deserialization via C<.Layout.deserialize()>.
@@ -1277,10 +1277,10 @@ Return value; a B<Gnome::Glib::N-Bytes> containing the serialized form of C<$lay
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-alignment
 
 Sets the alignment for the layout: how partial lines are
@@ -1301,10 +1301,10 @@ method set-alignment ( PangoAlignment $alignment )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-attributes
 
 Sets the text attributes for a layout object.
@@ -1324,10 +1324,10 @@ method set-attributes ( N-Object $attrs )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-auto-dir
 
 Sets whether to calculate the base direction
@@ -1361,10 +1361,10 @@ method set-auto-dir ( Bool() $auto-dir )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-ellipsize
 
 Sets the type of ellipsization being performed for C<$layout>.
@@ -1396,10 +1396,10 @@ method set-ellipsize ( PangoEllipsizeMode $ellipsize )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-font-description
 
 Sets the default font description for the layout.
@@ -1421,10 +1421,10 @@ method set-font-description ( N-Object $desc )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-height
 
 Sets the height to which the B<Gnome::Pango::Layout> should be ellipsized at.
@@ -1466,10 +1466,10 @@ method set-height ( Int() $height )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-indent
 
 Sets the width in Pango units to indent each paragraph.
@@ -1496,10 +1496,10 @@ method set-indent ( Int() $indent )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-justify
 
 Sets whether each complete line should be stretched to fill the
@@ -1533,10 +1533,10 @@ method set-justify ( Bool() $justify )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-justify-last-line
 
 Sets whether the last line should be stretched to fill the
@@ -1560,10 +1560,10 @@ method set-justify-last-line ( Bool() $justify )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-line-spacing
 
 Sets a factor for line spacing.
@@ -1596,10 +1596,10 @@ method set-line-spacing ( Num() $factor )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-markup
 
 Sets the layout text and attribute list from marked-up text.
@@ -1626,10 +1626,10 @@ method set-markup ( Str $markup, Int() $length )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-markup-with-accel
 
 Sets the layout text and attribute list from marked-up text.
@@ -1664,10 +1664,10 @@ method set-markup-with-accel ( Str $markup, Int() $length, UInt() $accel-marker,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-single-paragraph-mode
 
 Sets the single paragraph mode of C<$layout>.
@@ -1692,10 +1692,10 @@ method set-single-paragraph-mode ( Bool() $setting )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-spacing
 
 Sets the amount of spacing in Pango units between
@@ -1728,10 +1728,10 @@ method set-spacing ( Int() $spacing )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-tabs
 
 Sets the tabs to use for C<$layout>, overriding the default tabs.
@@ -1761,10 +1761,10 @@ method set-tabs ( N-Object $tabs )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-text
 
 Sets the text of the layout.
@@ -1795,10 +1795,10 @@ method set-text ( Str $text, Int() $length )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-width
 
 Sets the width to which the lines of the B<Gnome::Pango::Layout> should wrap or
@@ -1820,10 +1820,10 @@ method set-width ( Int() $width )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-wrap
 
 Sets the wrap mode.
@@ -1847,10 +1847,10 @@ method set-wrap ( PangoWrapMode $wrap )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 write-to-file
 
 A convenience method to serialize a layout to a file.
@@ -1882,10 +1882,10 @@ Return value; C<True> if saving was successful.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 xy-to-index
 
 Converts from X and Y position within a layout to the byte index to the
@@ -1919,18 +1919,18 @@ Return value; C<True> if the coordinates were inside text, C<False> otherwise.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 deserialize
 
 Loads data previously created via C<.serialize()>.
@@ -1961,5 +1961,5 @@ Return value; a new B<Gnome::Pango::Layout>.
 
 =end comment
 
-=end pod
+=end rakudoc
 

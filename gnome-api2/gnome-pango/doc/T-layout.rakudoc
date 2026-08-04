@@ -1,15 +1,15 @@
 =comment Package: Pango, C-Source: layout
 use v6.d;
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Pango::T-layout
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Record Structure Documentation]---------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-LayoutLine
 
   class N-LayoutLine:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
@@ -30,26 +30,26 @@ use v6.d;
 =item is-paragraph-start; #TRUE if this is the first line of the paragraph
 =item resolved-dir; #Resolved PangoDirection of line
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Record Structure]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-LayoutIter
 
 This is an opaque type of which fields are not available.
 
   class N-LayoutIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Enumerations]---------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Enumerations
 
 =head2 PangoAlignment
@@ -101,13 +101,13 @@ segmentation algorithm.
 =item C<PANGO_WRAP_CHAR>; wrap lines at character boundaries.
 =item C<PANGO_WRAP_WORD_CHAR>; wrap lines at word boundaries, but fall back to
   character boundaries if there is not enough space for a full word.
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Bitfields]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Bitfields
 
 =head2 PangoLayoutDeserializeFlags
@@ -129,5 +129,5 @@ New members may be added to this enumeration over time.
 =item C<PANGO_LAYOUT_SERIALIZE_DEFAULT>; Default behavior
 =item C<PANGO_LAYOUT_SERIALIZE_CONTEXT>; Include context information
 =item C<PANGO_LAYOUT_SERIALIZE_OUTPUT>; Include information about the formatted output
-=end pod
+=end rakudoc
 

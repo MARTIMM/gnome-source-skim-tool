@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Pango::N-LayoutLine
 =head1 Description
 
@@ -23,13 +23,13 @@ attributes, or settings of the parent B<Gnome::Pango::Layout> are modified.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -40,18 +40,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-extents
 
 Computes the logical and ink extents of a layout line.
@@ -75,10 +75,10 @@ method get-extents ( N-Object $ink-rect, N-Object $logical-rect )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-height
 
 Computes the height of the line, as the maximum of the heights
@@ -102,10 +102,10 @@ method get-height ( Array[Int] $height )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-length
 
 Returns the length of the line, in bytes.
@@ -123,10 +123,10 @@ Return value; the length of the line.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-pixel-extents
 
 Computes the logical and ink extents of C<$layout-line> in device units.
@@ -152,10 +152,10 @@ method get-pixel-extents ( N-Object $ink-rect, N-Object $logical-rect )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-resolved-direction
 
 Returns the resolved direction of the line.
@@ -173,10 +173,10 @@ Return value; the resolved direction of the line.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-start-index
 
 Returns the start index of the line, as byte index
@@ -195,10 +195,10 @@ Return value; the start index of the line.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-x-ranges
 
 Gets a list of visual ranges corresponding to a given logical range.
@@ -235,10 +235,10 @@ method get-x-ranges ( Int() $start-index, Int() $end-index, Array[Int] $ranges, 
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 index-to-x
 
 Converts an index within a line to a X position.
@@ -260,10 +260,10 @@ method index-to-x ( Int() $index, Bool() $trailing, Array[Int] $x-pos )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-paragraph-start
 
 Returns whether this is the first line of the paragraph.
@@ -281,10 +281,10 @@ Return value; C<True> if this is the first line.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ref
 
 Increase the reference count of a B<Gnome::Pango::N-LayoutLine> by one.
@@ -302,10 +302,10 @@ Return value; the line passed in..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unref
 
 Decrease the reference count of a B<Gnome::Pango::N-LayoutLine> by one.
@@ -324,10 +324,10 @@ method unref ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 x-to-index
 
 Converts from x offset to the byte index of the corresponding character
@@ -362,5 +362,5 @@ Return value; C<False> if C<$x-pos> was outside the line, C<True> if inside.
 
 =end comment
 
-=end pod
+=end rakudoc
 

@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Pango::Context
 =head1 Description
 
@@ -25,13 +25,13 @@ To obtain a B<Gnome::Pango::Context>, use C<.create-context()> in class C<Gnome:
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -42,10 +42,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-context
 
 Creates a new B<Gnome::Pango::Context> initialized to default values.
@@ -71,18 +71,18 @@ method new-context ( --> Gnome::Pango::Context \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 changed
 
 Forces a change in the context, which will cause any B<Gnome::Pango::Layout>
@@ -104,10 +104,10 @@ method changed ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-base-dir
 
 Retrieves the base direction for the context.
@@ -127,10 +127,10 @@ Return value; the base direction for the context..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-base-gravity
 
 Retrieves the base gravity for the context.
@@ -150,10 +150,10 @@ Return value; the base gravity for the context..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-font-description
 
 Retrieve the default font description for the context.
@@ -172,10 +172,10 @@ Return value; a pointer to the context's default font
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-font-map
 
 Gets the B<Gnome::Pango::FontMap> used to look up fonts for this context.
@@ -195,10 +195,10 @@ Return value; the font map for the.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-gravity
 
 Retrieves the gravity for the context.
@@ -221,10 +221,10 @@ Return value; the resolved gravity for the context..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-gravity-hint
 
 Retrieves the gravity hint for the context.
@@ -244,10 +244,10 @@ Return value; the gravity hint for the context..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-language
 
 Retrieves the global language tag for the context.
@@ -265,10 +265,10 @@ Return value; the global language tag..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-matrix
 
 Gets the transformation matrix that will be applied when
@@ -292,10 +292,10 @@ Return value; the matrix, or undefined if no
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-metrics
 
 Get overall metric information for a particular font description.
@@ -332,10 +332,10 @@ Return value; a B<Gnome::Pango::N-FontMetrics> object. The caller must call
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-round-glyph-positions
 
 Returns whether font rendering with this context should
@@ -354,10 +354,10 @@ Return value; No documentation about its value and use.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-serial
 
 Returns the current serial number of C<$context>.
@@ -386,10 +386,10 @@ Return value; The current serial number of C<$context>..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 list-families
 
 List all families for a context.
@@ -410,10 +410,10 @@ method list-families ( N-Object() $families, Array[Int] $n-families )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 load-font
 
 Loads the font in one of the fontmaps in the context
@@ -435,10 +435,10 @@ Return value; the newly allocated B<Gnome::Pango::Font>
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 load-fontset
 
 Load a set of fonts in the context that can be used to render
@@ -461,10 +461,10 @@ Return value; the newly allocated
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-base-dir
 
 Sets the base direction for the context.
@@ -489,10 +489,10 @@ method set-base-dir ( PangoDirection $direction )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-base-gravity
 
 Sets the base gravity for the context.
@@ -512,10 +512,10 @@ method set-base-gravity ( PangoGravity $gravity )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-font-description
 
 Set the default font description for the context
@@ -533,10 +533,10 @@ method set-font-description ( N-Object $desc )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-font-map
 
 Sets the font map to be searched when fonts are looked-up
@@ -559,10 +559,10 @@ method set-font-map ( N-Object() $font-map )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-gravity-hint
 
 Sets the gravity hint for the context.
@@ -585,10 +585,10 @@ method set-gravity-hint ( PangoGravityHint $hint )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-language
 
 Sets the global language tag for the context.
@@ -609,10 +609,10 @@ method set-language ( N-Object $language )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-matrix
 
 Sets the transformation matrix that will be applied when rendering
@@ -638,10 +638,10 @@ matrix. (No matrix set is the same as setting the identity matrix.)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-round-glyph-positions
 
 Sets whether font rendering with this context should
@@ -667,5 +667,5 @@ method set-round-glyph-positions ( Bool() $round-positions )
 
 =end comment
 
-=end pod
+=end rakudoc
 

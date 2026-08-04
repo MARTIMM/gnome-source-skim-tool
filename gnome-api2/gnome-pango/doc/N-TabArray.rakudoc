@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Pango::N-TabArray
 
 =head1 Description
@@ -23,25 +23,25 @@ a character to use as decimal point.
 
 =end comment
 
-=end pod
+=end rakudoc
 #-------------------------------------------------------------------------------
 #--[Record Structure]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-TabArray
 
 This is an opaque type of which fields are not available.
 
   class N-TabArray:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -52,10 +52,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-tabarray
 
 Creates an array of C<$initial-size> tab stops.
@@ -77,10 +77,10 @@ method new-tabarray ( Int() $initial-size, Bool() $positions-in-pixels --> Gnome
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-with-positions
 This function is not yet available
 
@@ -106,18 +106,18 @@ method new-with-positions ( Int() $size, Bool() $positions-in-pixels, PangoTabAl
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 copy
 
 Copies a B<Gnome::Pango::N-TabArray>.
@@ -136,10 +136,10 @@ Return value; the newly allocated B<Gnome::Pango::N-TabArray>, which should
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free
 
 Frees a tab array and associated resources.
@@ -155,10 +155,10 @@ method free ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-decimal-point
 
 Gets the Unicode character to use as decimal point.
@@ -185,10 +185,10 @@ Return value; No documentation about its value and use.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-positions-in-pixels
 
 Returns C<True> if the tab positions are in pixels,
@@ -207,10 +207,10 @@ Return value; whether positions are in pixels..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-size
 
 Gets the number of tab stops in C<$tab-array>.
@@ -228,10 +228,10 @@ Return value; the number of tab stops in the array..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-tab
 
 Gets the alignment and position of a tab stop.
@@ -251,10 +251,10 @@ method get-tab ( Int() $tab-index, PangoTabAlign $alignment, Array[Int] $locatio
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-tabs
 
 If non-undefined, C<$alignments> and C<$locations> are filled with allocated
@@ -279,10 +279,10 @@ method get-tabs ( PangoTabAlign $alignments, Array[Int] $locations )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 resize
 
 Resizes a tab array.
@@ -303,10 +303,10 @@ method resize ( Int() $new-size )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-decimal-point
 
 Sets the Unicode character to use as decimal point.
@@ -332,10 +332,10 @@ method set-decimal-point ( Int() $tab-index, UInt() $decimal-point )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-positions-in-pixels
 
 Sets whether positions in this array are specified in
@@ -354,10 +354,10 @@ method set-positions-in-pixels ( Bool() $positions-in-pixels )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-tab
 
 Sets the alignment and location of a tab stop.
@@ -377,10 +377,10 @@ method set-tab ( Int() $tab-index, PangoTabAlign $alignment, Int() $location )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 sort
 
 Utility function to ensure that the tab stops are in increasing order.
@@ -396,10 +396,10 @@ method sort ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 to-string
 
 Serializes a B<Gnome::Pango::N-TabArray> to a string.
@@ -424,18 +424,18 @@ Return value; a newly allocated string.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 from-string
 
 Deserializes a B<Gnome::Pango::N-TabArray> from a string.
@@ -458,5 +458,5 @@ Return value; a new B<Gnome::Pango::N-TabArray>.
 
 =end comment
 
-=end pod
+=end rakudoc
 

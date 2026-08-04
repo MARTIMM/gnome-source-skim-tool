@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Pango::N-LayoutIter
 
 =head1 Description
@@ -24,25 +24,25 @@ The U<Gnome::Pango::N-LayoutIter> structure is opaque, and has no user-visible f
 
 =end comment
 
-=end pod
+=end rakudoc
 #-------------------------------------------------------------------------------
 #--[Record Structure]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-LayoutIter
 
 This is an opaque type of which fields are not available.
 
   class N-LayoutIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -53,18 +53,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 at-last-line
 
 Determines whether C<$iter> is on the last line of the layout.
@@ -82,10 +82,10 @@ Return value; C<True> if C<$iter> is on the last line.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 copy
 
 Copies a U<Gnome::Pango::N-LayoutIter>.
@@ -103,10 +103,10 @@ Return value; the newly allocated U<Gnome::Pango::N-LayoutIter>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free
 
 Frees an iterator that's no longer in use.
@@ -122,10 +122,10 @@ method free ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-baseline
 
 Gets the Y position of the current line's baseline, in layout
@@ -146,10 +146,10 @@ Return value; baseline of current line.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-char-extents
 This function is not yet available
 
@@ -174,10 +174,10 @@ method get-char-extents ( CArray[N-Rectangle]  $logical-rect )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-cluster-extents
 This function is not yet available
 
@@ -199,10 +199,10 @@ method get-cluster-extents ( CArray[N-Rectangle]  $ink-rect, CArray[N-Rectangle]
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-index
 
 Gets the current byte index.
@@ -225,10 +225,10 @@ Return value; current byte index.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-layout
 
 Gets the layout associated with a U<Gnome::Pango::N-LayoutIter>.
@@ -246,10 +246,10 @@ Return value; the layout associated with C<$iter>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-layout-extents
 This function is not yet available
 
@@ -269,10 +269,10 @@ method get-layout-extents ( CArray[N-Rectangle]  $ink-rect, CArray[N-Rectangle] 
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-line
 
 Gets the current line.
@@ -294,10 +294,10 @@ Return value; the current line.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-line-extents
 This function is not yet available
 
@@ -322,10 +322,10 @@ method get-line-extents ( CArray[N-Rectangle]  $ink-rect, CArray[N-Rectangle]  $
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-line-readonly
 
 Gets the current line for read-only access.
@@ -348,10 +348,10 @@ Return value; the current line, that should not be
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-line-yrange
 
 Divides the vertical space in the B<Gnome::Pango::Layout> being iterated over
@@ -380,10 +380,10 @@ method get-line-yrange ( Array[Int] $y0, Array[Int] $y1 )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-run
 This function is not yet available
 
@@ -408,10 +408,10 @@ method get-run ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-run-baseline
 
 Gets the Y position of the current run's baseline, in layout
@@ -435,10 +435,10 @@ Return value; No documentation about its value and use.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-run-extents
 This function is not yet available
 
@@ -460,10 +460,10 @@ method get-run-extents ( CArray[N-Rectangle]  $ink-rect, CArray[N-Rectangle]  $l
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-run-readonly
 This function is not yet available
 
@@ -489,10 +489,10 @@ method get-run-readonly ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 next-char
 
 Moves C<$iter> forward to the next character in visual order.
@@ -512,10 +512,10 @@ Return value; whether motion was possible.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 next-cluster
 
 Moves C<$iter> forward to the next cluster in visual order.
@@ -535,10 +535,10 @@ Return value; whether motion was possible.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 next-line
 
 Moves C<$iter> forward to the start of the next line.
@@ -558,10 +558,10 @@ Return value; whether motion was possible.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 next-run
 
 Moves C<$iter> forward to the next run in visual order.
@@ -581,5 +581,5 @@ Return value; whether motion was possible.
 
 =end comment
 
-=end pod
+=end rakudoc
 
