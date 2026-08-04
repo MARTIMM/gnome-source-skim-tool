@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Range
 =head1 Description
 
@@ -29,13 +29,13 @@ B<Gnome::Gtk4::Range> provides properties and methods for setting a
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -46,18 +46,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-adjustment
 
 Get the adjustment which is the “model” object for B<Gnome::Gtk4::Range>.
@@ -75,10 +75,10 @@ Return value; a L<Gnome::Gtk4::Adjustment|/content-docs/api2/reference/Gtk4/Adju
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-fill-level
 
 Gets the current position of the fill level indicator.
@@ -96,10 +96,10 @@ Return value; The current fill level.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-flippable
 
 Gets whether the B<Gnome::Gtk4::Range> respects text direction.
@@ -119,10 +119,10 @@ Return value; C<True> if the range is flippable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-inverted
 
 Gets whether the range is inverted.
@@ -142,10 +142,10 @@ Return value; C<True> if the range is inverted.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-range-rect
 
 This function returns the area that contains the range’s trough,
@@ -166,10 +166,10 @@ method get-range-rect ( N-Object $range-rect )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-restrict-to-fill-level
 
 Gets whether the range is restricted to the fill level.
@@ -187,10 +187,10 @@ Return value; C<True> if C<$range> is restricted to the fill level..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-round-digits
 
 Gets the number of digits to round the value to when
@@ -211,10 +211,10 @@ Return value; the number of digits to round to.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-show-fill-level
 
 Gets whether the range displays the fill level graphically.
@@ -232,10 +232,10 @@ Return value; C<True> if C<$range> shows the fill level..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-slider-range
 
 This function returns sliders range along the long dimension,
@@ -257,10 +257,10 @@ method get-slider-range ( Array[Int] $slider-start, Array[Int] $slider-end )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-slider-size-fixed
 
 This function is useful mainly for B<Gnome::Gtk4::Range> subclasses.
@@ -280,10 +280,10 @@ Return value; whether the range’s slider has a fixed size..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-value
 
 Gets the current value of the range.
@@ -301,10 +301,10 @@ Return value; current value of the range..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-adjustment
 
 Sets the adjustment to be used as the “model” object for the B<Gnome::Gtk4::Range>
@@ -330,10 +330,10 @@ method set-adjustment ( N-Object() $adjustment )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-fill-level
 
 Set the new position of the fill level indicator.
@@ -367,10 +367,10 @@ method set-fill-level ( Num() $fill-level )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-flippable
 
 Sets whether the B<Gnome::Gtk4::Range> respects text direction.
@@ -393,10 +393,10 @@ method set-flippable ( Bool() $flippable )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-increments
 
 Sets the step and page sizes for the range.
@@ -419,10 +419,10 @@ method set-increments ( Num() $step, Num() $page )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-inverted
 
 Sets whether to invert the range.
@@ -445,10 +445,10 @@ method set-inverted ( Bool() $setting )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-range
 
 Sets the allowable values in the B<Gnome::Gtk4::Range>.
@@ -471,10 +471,10 @@ method set-range ( Num() $min, Num() $max )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-restrict-to-fill-level
 
 Sets whether the slider is restricted to the fill level.
@@ -495,10 +495,10 @@ method set-restrict-to-fill-level ( Bool() $restrict-to-fill-level )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-round-digits
 
 Sets the number of digits to round the value to when
@@ -519,10 +519,10 @@ method set-round-digits ( Int() $round-digits )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-show-fill-level
 
 Sets whether a graphical fill level is show on the trough.
@@ -543,10 +543,10 @@ method set-show-fill-level ( Bool() $show-fill-level )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-slider-size-fixed
 
 Sets whether the range’s slider has a fixed size, or a size that
@@ -567,10 +567,10 @@ method set-slider-size-fixed ( Bool() $size-fixed )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-value
 
 Sets the current value of the range.
@@ -592,13 +592,13 @@ method set-value ( Num() $value )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -727,5 +727,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

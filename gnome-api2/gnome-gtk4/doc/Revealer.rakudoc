@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Revealer
 =head1 Description
 
@@ -41,13 +41,13 @@ tree, regardless of the state of the revealer widget.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -58,10 +58,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-revealer
 
 Creates a new B<Gnome::Gtk4::Revealer>.
@@ -77,18 +77,18 @@ method new-revealer ( --> Gnome::Gtk4::Revealer )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child
 
 Gets the child widget of C<$revealer>.
@@ -106,10 +106,10 @@ Return value; the child widget of C<$revealer>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child-revealed
 
 Returns whether the child is fully revealed.
@@ -130,10 +130,10 @@ Return value; C<True> if the child is fully revealed.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-reveal-child
 
 Returns whether the child is currently revealed.
@@ -156,10 +156,10 @@ Return value; C<True> if the child is revealed..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-transition-duration
 
 Returns the amount of time (in milliseconds) that
@@ -178,10 +178,10 @@ Return value; the transition duration.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-transition-type
 
 Gets the type of animation that will be used
@@ -200,10 +200,10 @@ Return value; the current transition type of C<$revealer>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-child
 
 Sets the child widget of C<$revealer>.
@@ -221,10 +221,10 @@ method set-child ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-reveal-child
 
 Tells the B<Gnome::Gtk4::Revealer> to reveal or conceal its child.
@@ -245,10 +245,10 @@ method set-reveal-child ( Bool() $reveal-child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-transition-duration
 
 Sets the duration that transitions will take.
@@ -266,10 +266,10 @@ method set-transition-duration ( UInt() $duration )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-transition-type
 
 Sets the type of animation that will be used for
@@ -290,5 +290,5 @@ method set-transition-type ( GtkRevealerTransitionType $transition )
 
 =end comment
 
-=end pod
+=end rakudoc
 
