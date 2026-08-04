@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::GdkPixbuf::Pixbuf
 
 =head1 Description
@@ -155,13 +155,13 @@ to a socket or store it in a database.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -172,10 +172,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-gdkpixbuf
 
 Creates a new >GdkPixbufB< structure and allocates a buffer for it.
@@ -202,10 +202,10 @@ method new-gdkpixbuf ( GdkColorspace $colorspace, Bool() $has-alpha, Int() $bits
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-bytes
 
 Creates a new B<Gnome::GdkPixbuf::Pixbuf> out of in-memory readonly image data.
@@ -234,10 +234,10 @@ method new-from-bytes ( N-Object $data, GdkColorspace $colorspace, Bool() $has-a
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-data
 
 Creates a new B<Gnome::GdkPixbuf::Pixbuf> out of in-memory image data.
@@ -274,10 +274,10 @@ drops to zero, or undefined if the data should not be freed. Tthe function must 
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-file
 
 Creates a new pixbuf by loading an image from a file.
@@ -310,10 +310,10 @@ Use C<Pointer> when you want to ignore the error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-file-at-scale
 
 Creates a new pixbuf by loading an image from a file.
@@ -359,10 +359,10 @@ Use C<Pointer> when you want to ignore the error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-file-at-size
 
 Creates a new pixbuf by loading an image from a file.
@@ -403,10 +403,10 @@ Use C<Pointer> when you want to ignore the error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-resource
 
 Creates a new pixbuf by loading an image from an resource.
@@ -429,10 +429,10 @@ Use C<Pointer> when you want to ignore the error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-resource-at-scale
 
 Creates a new pixbuf by loading an image from an resource.
@@ -466,10 +466,10 @@ Use C<Pointer> when you want to ignore the error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-stream
 
 Creates a new pixbuf by loading an image from an input stream.
@@ -502,10 +502,10 @@ Use C<Pointer> when you want to ignore the error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-stream-at-scale
 
 Creates a new pixbuf by loading an image from an input stream.
@@ -549,10 +549,10 @@ Use C<Pointer> when you want to ignore the error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-stream-finish
 
 Finishes an asynchronous pixbuf creation operation started with
@@ -574,10 +574,10 @@ Use C<Pointer> when you want to ignore the error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-xpm-data
 
 Creates a new pixbuf by parsing XPM data in memory.
@@ -598,18 +598,18 @@ method new-from-xpm-data ( Array[Str] $data --> Gnome::GdkPixbuf::Pixbuf \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-alpha
 
 Takes an existing pixbuf and adds an alpha channel to it.
@@ -644,10 +644,10 @@ Return value; A newly-created pixbuf.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 apply-embedded-orientation
 
 Takes an existing pixbuf and checks for the presence of an
@@ -674,10 +674,10 @@ Return value; A newly-created pixbuf.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 composite
 This function is not yet available
 
@@ -717,10 +717,10 @@ method composite ( N-Object() $dest, Int() $dest-x, Int() $dest-y, Int() $dest-w
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 composite-color
 This function is not yet available
 
@@ -763,10 +763,10 @@ method composite-color ( N-Object() $dest, Int() $dest-x, Int() $dest-y, Int() $
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 composite-color-simple
 This function is not yet available
 
@@ -795,10 +795,10 @@ Return value; the new pixbuf.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 copy
 
 Creates a new >GdkPixbufB< with a copy of the information in the specified
@@ -820,10 +820,10 @@ Return value; A newly-created pixbuf.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 copy-area
 
 Copies a rectangular area from >src_pixbufB< to >dest_pixbufB<.
@@ -853,10 +853,10 @@ method copy-area ( Int() $src-x, Int() $src-y, Int() $width, Int() $height, N-Ob
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 copy-options
 
 Copies the key/value pair options attached to a >GdkPixbufB< to another
@@ -881,10 +881,10 @@ Return value; C<True> on success..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 fill
 
 Clears a pixbuf to the given RGBA value, converting the RGBA value into
@@ -907,10 +907,10 @@ method fill ( UInt() $pixel )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 flip
 
 Flips a pixbuf horizontally or vertically and returns the
@@ -931,10 +931,10 @@ Return value; the new pixbuf.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-bits-per-sample
 
 Queries the number of bits per color sample in a pixbuf.
@@ -952,10 +952,10 @@ Return value; Number of bits per color sample..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-byte-length
 
 Returns the length of the pixel data, in bytes.
@@ -973,10 +973,10 @@ Return value; The length of the pixel data..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-colorspace
 
 Queries the color space of a pixbuf.
@@ -994,10 +994,10 @@ Return value; Color space..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-has-alpha
 
 Queries whether a pixbuf has an alpha channel (opacity information).
@@ -1015,10 +1015,10 @@ Return value; C<True> if it has an alpha channel, C<False> otherwise..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-height
 
 Queries the height of a pixbuf.
@@ -1036,10 +1036,10 @@ Return value; Height in pixels..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-n-channels
 
 Queries the number of channels of a pixbuf.
@@ -1057,10 +1057,10 @@ Return value; Number of channels..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-option
 
 Looks up C<$key> in the list of options that may have been attached to the C<$pixbuf> when it was loaded, or that may have been attached by another
@@ -1093,10 +1093,10 @@ Return value; the value associated with >keyB<.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-options
 
 Returns a >GHashTableB< with a list of all the options that may have been
@@ -1117,10 +1117,10 @@ Return value; a B<Gnome::Glib::N-HashTable>
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-pixels
 
 Queries a pointer to the pixel data of a pixbuf.
@@ -1144,10 +1144,10 @@ Return value; A pointer to the pixbuf's pixel data..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-pixels-with-length
 
 Queries a pointer to the pixel data of a pixbuf.
@@ -1174,10 +1174,10 @@ pixel data..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-rowstride
 
 Queries the rowstride of a pixbuf, which is the number of bytes between
@@ -1196,10 +1196,10 @@ Return value; Distance between row starts..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-width
 
 Queries the width of a pixbuf.
@@ -1217,10 +1217,10 @@ Return value; Width in pixels..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-subpixbuf
 
 Creates a new pixbuf which represents a sub-region of >src_pixbufB<.
@@ -1251,10 +1251,10 @@ Return value; a new pixbuf.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 read-pixel-bytes
 
 Provides a B<Gnome::Glib::N-Bytes> buffer containing the raw pixel data; the data
@@ -1279,10 +1279,10 @@ Return value; A new reference to a read-only copy of
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 read-pixels
 
 Provides a read-only pointer to the raw pixel data.
@@ -1303,10 +1303,10 @@ Return value; a read-only pointer to the raw pixel data.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-option
 
 Removes the key/value pair option attached to a >GdkPixbufB<.
@@ -1326,10 +1326,10 @@ Return value; C<True> if an option was removed, C<False> if not..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 rotate-simple
 This function is not yet available
 
@@ -1353,10 +1353,10 @@ Return value; the new pixbuf.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 saturate-and-pixelate
 
 Modifies saturation and optionally pixelates >srcB<, placing the result in
@@ -1389,10 +1389,10 @@ method saturate-and-pixelate ( N-Object() $dest, Num() $saturation, Bool() $pixe
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 save
 This function is not yet available
 
@@ -1489,10 +1489,10 @@ Return value; C<True> on success, and C<False> otherwise.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 save-to-buffer
 This function is not yet available
 
@@ -1531,10 +1531,10 @@ Return value; whether an error was set.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 save-to-bufferv
 
 Vector version of >C<.save-to-buffer()>B<.
@@ -1567,10 +1567,10 @@ Return value; whether an error was set.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 save-to-callback
 This function is not yet available
 
@@ -1606,10 +1606,10 @@ Return value; whether an error was set.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 save-to-callbackv
 
 Vector version of >C<.save-to-callback()>B<.
@@ -1644,10 +1644,10 @@ Return value; whether an error was set.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 save-to-stream
 This function is not yet available
 
@@ -1683,10 +1683,10 @@ Return value; C<True> if the pixbuf was saved successfully, C<False> if an
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 save-to-stream-async
 This function is not yet available
 
@@ -1718,10 +1718,10 @@ method save-to-stream-async ( N-Object() $stream, Str $type, N-Object() $cancell
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 save-to-streamv
 
 Saves >pixbufB< to an output stream.
@@ -1754,10 +1754,10 @@ Return value; C<True> if the pixbuf was saved successfully, C<False> if an
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 save-to-streamv-async
 This function is not yet available
 
@@ -1790,10 +1790,10 @@ method save-to-streamv-async ( N-Object() $stream, Str $type, Array[Str] $option
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 savev
 
 Vector version of >C<.save()>B<.
@@ -1825,10 +1825,10 @@ Return value; whether an error was set.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 scale
 This function is not yet available
 
@@ -1866,10 +1866,10 @@ method scale ( N-Object() $dest, Int() $dest-x, Int() $dest-y, Int() $dest-width
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 scale-simple
 This function is not yet available
 
@@ -1909,10 +1909,10 @@ Return value; the new pixbuf.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-option
 
 Attaches a key/value pair as an option to a >GdkPixbufB<.
@@ -1936,18 +1936,18 @@ Return value; C<True> on success.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 calculate-rowstride
 
 Calculates the rowstride that an image created with those values would
@@ -1975,10 +1975,10 @@ Return value; the rowstride for the given values, or -1 in case of error..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-file-info
 
 Parses an image file far enough to determine its format and size.
@@ -2001,10 +2001,10 @@ Return value; A >GdkPixbufFormatB< describing
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-file-info-async
 This function is not yet available
 
@@ -2034,10 +2034,10 @@ method get-file-info-async ( Str $filename, N-Object() $cancellable, …, gpoint
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-file-info-finish
 
 Finishes an asynchronous pixbuf parsing operation started with
@@ -2064,10 +2064,10 @@ Return value; A >GdkPixbufFormatB< describing the
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-formats
 
 Obtains the available information about the image formats supported
@@ -2087,10 +2087,10 @@ Return value; A list of
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-modules
 
 Initalizes the gdk-pixbuf loader modules referenced by the >loaders.cacheB<
@@ -2125,10 +2125,10 @@ Return value; No documentation about its value and use.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-stream-async
 This function is not yet available
 
@@ -2157,10 +2157,10 @@ method new-from-stream-async ( N-Object() $stream, N-Object() $cancellable, …,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-stream-at-scale-async
 This function is not yet available
 
@@ -2191,10 +2191,10 @@ method new-from-stream-at-scale-async ( N-Object() $stream, Int() $width, Int() 
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 save-to-stream-finish
 
 Finishes an asynchronous pixbuf save operation started with
@@ -2218,5 +2218,5 @@ Return value; C<True> if the pixbuf was saved successfully, C<False> if an error
 
 =end comment
 
-=end pod
+=end rakudoc
 
