@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::ConstraintLayout
 =head1 Description
 
@@ -190,13 +190,13 @@ Finally, it's also possible to use simple arithmetic operators:
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -207,10 +207,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-constraintlayout
 
 Creates a new B<Gnome::Gtk4::ConstraintLayout> layout manager.
@@ -226,18 +226,18 @@ method new-constraintlayout ( --> Gnome::Gtk4::ConstraintLayout )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-constraint
 
 Adds a constraint to the layout manager.
@@ -267,10 +267,10 @@ method add-constraint ( Array[Int] $constraint )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-constraints-from-description
 
 Creates a list of constraints from a VFL description.
@@ -303,10 +303,10 @@ Return value; the list of
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-constraints-from-descriptionv
 
 Creates a list of constraints from a VFL description.
@@ -416,10 +416,10 @@ Return value; the list of
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-guide
 
 Adds a guide to B<layout>.
@@ -443,10 +443,10 @@ method add-guide ( N-Object() $guide )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 observe-constraints
 
 Returns a L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> to track the constraints that are
@@ -473,10 +473,10 @@ Return value; a
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 observe-guides
 
 Returns a L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> to track the guides that are
@@ -503,10 +503,10 @@ Return value; a
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-all-constraints
 
 Removes all constraints from the layout manager.
@@ -522,10 +522,10 @@ method remove-all-constraints ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-constraint
 
 Removes B<constraint> from the layout manager,
@@ -544,10 +544,10 @@ method remove-constraint ( Array[Int] $constraint )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-guide
 
 Removes B<guide> from the layout manager,
@@ -566,5 +566,5 @@ method remove-guide ( N-Object() $guide )
 
 =end comment
 
-=end pod
+=end rakudoc
 

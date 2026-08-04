@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Constraint
 =head1 Description
 
@@ -36,13 +36,13 @@ instance are immutable after creation.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -53,10 +53,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-constraint
 
 Creates a new constraint representing a relation between a layout
@@ -82,10 +82,10 @@ method new-constraint ( gpointer $target, GtkConstraintAttribute $target-attribu
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-constant
 
 Creates a new constraint representing a relation between a layout
@@ -108,18 +108,18 @@ method new-constant ( gpointer $target, GtkConstraintAttribute $target-attribute
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-constant
 
 Retrieves the constant factor added to the source attributes' value.
@@ -137,10 +137,10 @@ Return value; a constant factor.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-multiplier
 
 Retrieves the multiplication factor applied to the source
@@ -159,10 +159,10 @@ Return value; a multiplication factor.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-relation
 
 The order relation between the terms of the constraint.
@@ -180,10 +180,10 @@ Return value; a relation type.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-source
 
 Retrieves the L<Gnome::Gtk4::ConstraintLayout|/content-docs/api2/reference/Gnome::Gtk4::R-ConstraintTarget> used as the source for the
@@ -205,10 +205,10 @@ Return value; the source of the constraint.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-source-attribute
 
 Retrieves the attribute of the source to be read by the constraint.
@@ -226,10 +226,10 @@ Return value; the source's attribute.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-strength
 
 Retrieves the strength of the constraint.
@@ -247,10 +247,10 @@ Return value; the strength value.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-target
 
 Retrieves the L<Gnome::Gtk4::ConstraintLayout|/content-docs/api2/reference/Gnome::Gtk4::R-ConstraintTarget> used as the target for
@@ -272,10 +272,10 @@ Return value; a L<Gnome::Gtk4::R-ConstraintTarget|/content-docs/api2/reference/G
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-target-attribute
 
 Retrieves the attribute of the target to be set by the constraint.
@@ -293,10 +293,10 @@ Return value; the target's attribute.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-attached
 
 Checks whether the constraint is attached to a L<Gnome::Gtk4::ConstraintLayout|/content-docs/api2/reference/Gtk4/ConstraintLayout>,
@@ -315,10 +315,10 @@ Return value; C<True> if the constraint is attached.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-constant
 
 Checks whether the constraint describes a relation between an attribute
@@ -337,10 +337,10 @@ Return value; C<True> if the constraint is a constant relation.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-required
 
 Checks whether the constraint is a required relation for solving the
@@ -359,5 +359,5 @@ Return value; C<True> if the constraint is required.
 
 =end comment
 
-=end pod
+=end rakudoc
 

@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::ConstantExpression
 =head1 Description
 
@@ -21,13 +21,13 @@ A constant value in a L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -38,10 +38,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-constantexpression
 
 Creates a L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression> that evaluates to the
@@ -61,10 +61,10 @@ method new-constantexpression ( GType $value-type, … --> Gnome::Gtk4::Constant
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-for-value
 
 Creates an expression that always evaluates to the given B<value>.
@@ -82,18 +82,18 @@ method new-for-value ( N-Object $value --> Gnome::Gtk4::ConstantExpression )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-value
 
 Gets the value that a constant expression evaluates to.
@@ -111,5 +111,5 @@ Return value; the value.
 
 =end comment
 
-=end pod
+=end rakudoc
 

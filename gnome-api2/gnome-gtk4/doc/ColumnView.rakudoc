@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::ColumnView
 =head1 Description
 
@@ -72,13 +72,13 @@ the C<GTK_ACCESSIBLE_ROLE_GRID_CELL> role
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -89,10 +89,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-columnview
 
 Creates a new B<Gnome::Gtk4::ColumnView>.
@@ -113,18 +113,18 @@ method new-columnview ( N-Object() $model --> Gnome::Gtk4::ColumnView )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-column
 
 Appends the C<$column> to the end of the columns in C<$self>.
@@ -143,10 +143,10 @@ method append-column ( N-Object() $column )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-columns
 
 Gets the list of columns in this column view.
@@ -167,10 +167,10 @@ Return value; The list managing the columns.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-enable-rubberband
 
 Returns whether rows can be selected by dragging with the mouse.
@@ -188,10 +188,10 @@ Return value; C<True> if rubberband selection is enabled.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-header-factory
 
 Gets the factory that's currently used to populate section headers.
@@ -209,10 +209,10 @@ Return value; The factory in use.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-model
 
 Gets the model that's currently used to read the items displayed.
@@ -230,10 +230,10 @@ Return value; The model in use.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-reorderable
 
 Returns whether columns are reorderable.
@@ -251,10 +251,10 @@ Return value; C<True> if columns are reorderable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-row-factory
 
 Gets the factory set via L<.set-row-factory()|#set-row-factory>.
@@ -272,10 +272,10 @@ Return value; The factory.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-show-column-separators
 
 Returns whether the list should show separators
@@ -294,10 +294,10 @@ Return value; C<True> if the list shows column separators.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-show-row-separators
 
 Returns whether the list should show separators
@@ -316,10 +316,10 @@ Return value; C<True> if the list shows separators.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-single-click-activate
 
 Returns whether rows will be activated on single click and
@@ -338,10 +338,10 @@ Return value; C<True> if rows are activated on single click.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-sorter
 
 Returns a special sorter that reflects the users sorting
@@ -369,10 +369,10 @@ Return value; the L<Gnome::Gtk4::Sorter|/content-docs/api2/reference/Gtk4/Sorter
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-tab-behavior
 
 Gets the behavior set for the <kbd>Tab</kbd> key.
@@ -390,10 +390,10 @@ Return value; The behavior of the <kbd>Tab</kbd> key.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-column
 
 Inserts a column at the given position in the columns of C<$self>.
@@ -414,10 +414,10 @@ method insert-column ( UInt() $position, N-Object() $column )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-column
 
 Removes the C<$column> from the list of columns of C<$self>.
@@ -435,10 +435,10 @@ method remove-column ( N-Object() $column )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 scroll-to
 
 Scroll to the row at the given position - or cell if a column is
@@ -466,10 +466,10 @@ method scroll-to ( UInt() $pos, N-Object() $column, UInt $flags, N-Object $scrol
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-enable-rubberband
 
 Sets whether selections can be changed by dragging with the mouse.
@@ -487,10 +487,10 @@ method set-enable-rubberband ( Bool() $enable-rubberband )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-header-factory
 
 Sets the L<Gnome::Gtk4::ListItemFactory|/content-docs/api2/reference/Gtk4/ListItemFactory> to use for populating the
@@ -512,10 +512,10 @@ method set-header-factory ( N-Object() $factory )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-model
 
 Sets the model to use.
@@ -535,10 +535,10 @@ method set-model ( N-Object() $model )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-reorderable
 
 Sets whether columns should be reorderable by dragging.
@@ -556,10 +556,10 @@ method set-reorderable ( Bool() $reorderable )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-row-factory
 
 Sets the factory used for configuring rows. The factory must be for configuring
@@ -590,10 +590,10 @@ columnview[.column-separators][.rich-list][.navigation-sidebar][.data-table]
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-show-column-separators
 
 Sets whether the list should show separators
@@ -615,10 +615,10 @@ gtk_column_view_set_model (view, selection);
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-show-row-separators
 
 Sets whether the list should show separators
@@ -630,10 +630,10 @@ method set-show-row-separators ( Bool() $show-row-separators )
 
 =item $show-row-separators; C<True> to show row separators.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-single-click-activate
 
 Sets whether rows should be activated on single click and
@@ -645,10 +645,10 @@ method set-single-click-activate ( Bool() $single-click-activate )
 
 =item $single-click-activate; C<True> to activate items on single click.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-tab-behavior
 
 Sets the behavior of the <kbd>Tab</kbd> and <kbd>Shift</kbd>+<kbd>Tab</kbd> keys.
@@ -659,10 +659,10 @@ method set-tab-behavior ( GtkListTabBehavior $tab-behavior )
 
 =item $tab-behavior; The desired tab behavior.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 sort-by-column
 
 Sets the sorting of the view.
@@ -685,13 +685,13 @@ method sort-by-column ( N-Object() $column, GtkSortType $direction )
 =item $column; the L<Gnome::Gtk4::ColumnViewColumn|/content-docs/api2/reference/Gtk4/ColumnViewColumn> to sort by.
 =item $direction; the direction to sort in.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -719,5 +719,5 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::ColumnView> object.
 =item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
-=end pod
+=end rakudoc
 

@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::CenterBox
 =head1 Description
 
@@ -54,13 +54,13 @@ Starting from GTK 4.12, B<Gnome::Gtk4::CenterBox> uses the B<GTK_ACCESSIBLE_ROLE
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -71,10 +71,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-centerbox
 
 Creates a new B<Gnome::Gtk4::CenterBox>.
@@ -90,18 +90,18 @@ method new-centerbox ( --> Gnome::Gtk4::CenterBox )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-baseline-position
 
 Gets the value set by C<.set-baseline-position()>.
@@ -119,10 +119,10 @@ Return value; the baseline position.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-center-widget
 
 Gets the center widget, or undefined if there is none.
@@ -140,10 +140,10 @@ Return value; the center widget..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-end-widget
 
 Gets the end widget, or undefined if there is none.
@@ -161,10 +161,10 @@ Return value; the end widget..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-shrink-center-last
 
 Gets whether C<$self> shrinks the center widget after other children.
@@ -182,10 +182,10 @@ Return value; whether to shrink the center widget after others.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-start-widget
 
 Gets the start widget, or undefined if there is none.
@@ -203,10 +203,10 @@ Return value; the start widget..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-baseline-position
 
 Sets the baseline position of a center box.
@@ -229,10 +229,10 @@ method set-baseline-position ( GtkBaselinePosition $position )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-center-widget
 
 Sets the center widget.
@@ -252,10 +252,10 @@ method set-center-widget ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-end-widget
 
 Sets the end widget.
@@ -275,10 +275,10 @@ method set-end-widget ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-shrink-center-last
 
 Sets whether to shrink the center widget after other children.
@@ -296,10 +296,10 @@ method set-shrink-center-last ( Bool() $shrink-center-last )
 
 =item $shrink-center-last; whether to shrink the center widget after others.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-start-widget
 
 Sets the start widget.
@@ -312,5 +312,5 @@ method set-start-widget ( N-Object() $child )
 
 =item $child; the new start widget.
 
-=end pod
+=end rakudoc
 

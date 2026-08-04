@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Calendar
 =head1 Description
 
@@ -56,13 +56,13 @@ Marked day labels get the :selected state assigned.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -73,10 +73,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-calendar
 
 Creates a new calendar, with the current date being selected.
@@ -92,18 +92,18 @@ method new-calendar ( --> Gnome::Gtk4::Calendar )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 clear-marks
 
 Remove all visual markers.
@@ -119,10 +119,10 @@ method clear-marks ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-date
 
 Returns a B<Gnome::Glib::N-DateTime> representing the shown
@@ -143,10 +143,10 @@ Return value; the B<Gnome::Glib::N-DateTime> representing the shown date.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-day
 
 Gets the day of the selected date.
@@ -164,10 +164,10 @@ Return value; the day of the selected date..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-day-is-marked
 
 Returns if the C<$day> of the C<$calendar> is already marked.
@@ -187,10 +187,10 @@ Return value; whether the day is marked..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-month
 
 Gets the month of the selected date.
@@ -208,10 +208,10 @@ Return value; The month of the selected date (as a number between 0 and 11)..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-show-day-names
 
 Returns whether C<$self> is currently showing the names
@@ -233,10 +233,10 @@ Return value; Whether the calendar shows day names..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-show-heading
 
 Returns whether C<$self> is currently showing the heading.
@@ -257,10 +257,10 @@ Return value; Whether the calendar is showing a heading..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-show-week-numbers
 
 Returns whether C<$self> is showing week numbers right
@@ -282,10 +282,10 @@ Return value; Whether the calendar is showing week numbers..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-year
 
 Gets the year of the selected date.
@@ -303,10 +303,10 @@ Return value; the year of the selected date..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 mark-day
 
 Places a visual marker on a particular day of the current month.
@@ -324,10 +324,10 @@ method mark-day ( UInt() $day )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 select-day
 
 Switches to C<$date>'s year and month and select its day.
@@ -345,10 +345,10 @@ method select-day ( N-Object $date )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-day
 
 Sets the day for the selected date.
@@ -369,10 +369,10 @@ method set-day ( Int() $day )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-month
 
 Sets the month for the selected date.
@@ -393,10 +393,10 @@ method set-month ( Int() $month )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-show-day-names
 
 Sets whether the calendar shows day names.
@@ -414,10 +414,10 @@ method set-show-day-names ( Bool() $value )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-show-heading
 
 Sets whether the calendar should show a heading.
@@ -438,10 +438,10 @@ method set-show-heading ( Bool() $value )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-show-week-numbers
 
 Sets whether week numbers are shown in the calendar.
@@ -459,10 +459,10 @@ method set-show-week-numbers ( Bool() $value )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-year
 
 Sets the year for the selected date.
@@ -484,10 +484,10 @@ method set-year ( Int() $year )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unmark-day
 
 Removes the visual marker from a particular day.
@@ -512,13 +512,13 @@ calendar.view
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -611,5 +611,5 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::Calendar> object.
 =item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
-=end pod
+=end rakudoc
 

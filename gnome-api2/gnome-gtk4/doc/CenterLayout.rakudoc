@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::CenterLayout
 =head1 Description
 
@@ -27,13 +27,13 @@ The center widget is centered regarding the full width of the layout's.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -44,10 +44,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-centerlayout
 
 Creates a new B<Gnome::Gtk4::CenterLayout>.
@@ -63,18 +63,18 @@ method new-centerlayout ( --> Gnome::Gtk4::CenterLayout )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-baseline-position
 
 Returns the baseline position of the layout.
@@ -92,10 +92,10 @@ Return value; The current baseline position of C<$self>..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-center-widget
 
 Returns the center widget of the layout.
@@ -113,10 +113,10 @@ Return value; the current center widget of C<$self>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-end-widget
 
 Returns the end widget of the layout.
@@ -134,10 +134,10 @@ Return value; the current end widget of C<$self>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-orientation
 
 Gets the current orienration of the layout manager.
@@ -155,10 +155,10 @@ Return value; The current orientation of C<$self>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-shrink-center-last
 
 Gets whether C<$self> shrinks the center widget after other children.
@@ -176,10 +176,10 @@ Return value; whether to shrink the center widget after others.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-start-widget
 
 Returns the start widget of the layout.
@@ -197,10 +197,10 @@ Return value; The current start widget of C<$self>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-baseline-position
 
 Sets the new baseline position of C<$self>
@@ -218,10 +218,10 @@ method set-baseline-position ( GtkBaselinePosition $baseline-position )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-center-widget
 
 Sets the new center widget of C<$self>.
@@ -241,10 +241,10 @@ method set-center-widget ( N-Object() $widget )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-end-widget
 
 Sets the new end widget of C<$self>.
@@ -264,10 +264,10 @@ method set-end-widget ( N-Object() $widget )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-orientation
 
 Sets the orientation of C<$self>.
@@ -285,10 +285,10 @@ method set-orientation ( GtkOrientation $orientation )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-shrink-center-last
 
 Sets whether to shrink the center widget after other children.
@@ -306,10 +306,10 @@ method set-shrink-center-last ( Bool() $shrink-center-last )
 
 =item $shrink-center-last; whether to shrink the center widget after others.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-start-widget
 
 Sets the new start widget of C<$self>.
@@ -322,5 +322,5 @@ method set-start-widget ( N-Object() $widget )
 
 =item $widget; the new start widget.
 
-=end pod
+=end rakudoc
 

@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::CssProvider
 =head1 Description
 
@@ -49,13 +49,13 @@ I<parsing-error> signal.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -66,10 +66,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-cssprovider
 
 Returns a newly created B<Gnome::Gtk4::CssProvider>.
@@ -85,18 +85,18 @@ method new-cssprovider ( --> Gnome::Gtk4::CssProvider )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 load-from-bytes
 
 Loads C<$data> into C<$css-provider>.
@@ -116,10 +116,10 @@ method load-from-bytes ( N-Object $data )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 load-from-data
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.12>
@@ -142,10 +142,10 @@ method load-from-data ( Str $data, Int() $length )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 load-from-file
 
 Loads the data contained in C<$file> into C<$css-provider>.
@@ -165,10 +165,10 @@ method load-from-file ( N-Object() $file )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 load-from-path
 
 Loads the data contained in C<$path> into C<$css-provider>.
@@ -188,10 +188,10 @@ method load-from-path ( Str $path )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 load-from-resource
 
 Loads the data contained in the resource at C<$resource-path> into
@@ -212,10 +212,10 @@ method load-from-resource ( Str $resource-path )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 load-from-string
 
 Loads C<$string> into C<$css-provider>.
@@ -235,10 +235,10 @@ method load-from-string ( Str $string )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 load-named
 
 Loads a theme from the usual theme paths.
@@ -262,10 +262,10 @@ method load-named ( Str $name, Str $variant )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 to-string
 
 Converts the C<$provider> into a string representation in CSS
@@ -282,13 +282,13 @@ method to-string (--> Str )
 
 Return value; a new string representing the C<$provider>.. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -325,5 +325,5 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::CssProvider> object.
 =item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
-=end pod
+=end rakudoc
 

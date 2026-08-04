@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::CheckButton
 =head1 Description
 
@@ -71,13 +71,13 @@ B<Gnome::Gtk4::CheckButton> uses the C<GTK_ACCESSIBLE_ROLE_CHECKBOX> role.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -88,10 +88,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-checkbutton
 
 Creates a new B<Gnome::Gtk4::CheckButton>.
@@ -107,10 +107,10 @@ method new-checkbutton ( --> Gnome::Gtk4::CheckButton )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-with-label
 
 Creates a new B<Gnome::Gtk4::CheckButton> with the given text.
@@ -128,10 +128,10 @@ method new-with-label ( Str $label --> Gnome::Gtk4::CheckButton )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-with-mnemonic
 
 Creates a new B<Gnome::Gtk4::CheckButton> with the given text and a mnemonic.
@@ -150,18 +150,18 @@ method new-with-mnemonic ( Str $label --> Gnome::Gtk4::CheckButton )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-active
 
 Returns whether the check button is active.
@@ -179,10 +179,10 @@ Return value; whether the check button is active.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child
 
 Gets the child widget of C<$button> or undefined if [property C<$CheckButton>:label] is set.
@@ -200,10 +200,10 @@ Return value; the child widget of C<$button>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-inconsistent
 
 Returns whether the check button is in an inconsistent state.
@@ -221,10 +221,10 @@ Return value; C<True> if C<$check-button> is currently in an inconsistent state.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-label
 
 Returns the label of the check button or undefined if [property C<$CheckButton>:child] is set.
@@ -243,10 +243,10 @@ Return value; The label C<$self> shows next
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-use-underline
 
 Returns whether underlines in the label indicate mnemonics.
@@ -266,10 +266,10 @@ Return value; The value of the I<use-underline> property.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-active
 
 Changes the check buttons active state.
@@ -287,10 +287,10 @@ method set-active ( Bool() $setting )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-child
 
 Sets the child widget of C<$button>.
@@ -314,10 +314,10 @@ method set-child ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-group
 
 Adds C<$self> to the group of C<$group>.
@@ -350,10 +350,10 @@ method set-group ( N-Object() $group )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-inconsistent
 
 Sets the B<Gnome::Gtk4::CheckButton> to inconsistent state.
@@ -374,10 +374,10 @@ method set-inconsistent ( Bool() $inconsistent )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-label
 
 Sets the text of C<$self>.
@@ -400,10 +400,10 @@ method set-label ( Str $label )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-use-underline
 
 Sets whether underlines in the label indicate mnemonics.
@@ -425,13 +425,13 @@ method set-use-underline ( Bool() $setting )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -487,5 +487,5 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::CheckButton> object.
 =item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
-=end pod
+=end rakudoc
 
