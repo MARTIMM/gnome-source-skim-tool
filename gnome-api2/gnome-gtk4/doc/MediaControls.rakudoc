@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::MediaControls
 =head1 Description
 
@@ -25,13 +25,13 @@ Usually, B<Gnome::Gtk4::MediaControls> is used as part of L<Gnome::Gtk4::Video|/
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -42,10 +42,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-mediacontrols
 
 Creates a new B<Gnome::Gtk4::MediaControls> managing the C<$stream> passed to it.
@@ -63,18 +63,18 @@ method new-mediacontrols ( N-Object() $stream --> Gnome::Gtk4::MediaControls )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-media-stream
 
 Gets the media stream managed by C<$controls> or undefined if none.
@@ -92,10 +92,10 @@ Return value; The media stream managed by C<$controls>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-media-stream
 
 Sets the stream that is controlled by C<$controls>.
@@ -113,5 +113,5 @@ method set-media-stream ( N-Object() $stream )
 
 =end comment
 
-=end pod
+=end rakudoc
 

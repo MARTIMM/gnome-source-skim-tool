@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::MenuButton
 =head1 Description
 
@@ -83,13 +83,13 @@ B<Gnome::Gtk4::MenuButton> uses the C<GTK_ACCESSIBLE_ROLE_BUTTON> role.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -100,10 +100,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-menubutton
 
 Creates a new B<Gnome::Gtk4::MenuButton> widget with downwards-pointing
@@ -123,18 +123,18 @@ method new-menubutton ( --> Gnome::Gtk4::MenuButton )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-active
 
 Returns whether the menu button is active.
@@ -152,10 +152,10 @@ Return value; TRUE if the button is active.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-always-show-arrow
 
 Gets whether to show a dropdown arrow even when using an icon or a custom
@@ -175,10 +175,10 @@ child..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-can-shrink
 
 Retrieves whether the button can be smaller than the natural
@@ -197,10 +197,10 @@ Return value; true if the button can shrink, and false otherwise.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child
 
 Gets the child widget of C<$menu-button>.
@@ -218,10 +218,10 @@ Return value; the child widget of C<$menu-button>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-direction
 
 Returns the direction the popup will be pointing at when popped up.
@@ -239,10 +239,10 @@ Return value; a C<enumeration GtkArrowType defined in Gnome::Gtk4::T-enums> valu
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-has-frame
 
 Returns whether the button has a frame.
@@ -260,10 +260,10 @@ Return value; C<True> if the button has a frame.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-icon-name
 
 Gets the name of the icon shown in the button.
@@ -281,10 +281,10 @@ Return value; the name of the icon shown in the button.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-label
 
 Gets the label shown in the button
@@ -302,10 +302,10 @@ Return value; the label shown in the button.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-menu-model
 
 Returns the L<Gnome::Gio::MenuModel|/content-docs/api2/reference/Gio/MenuModel> used to generate the popup.
@@ -323,10 +323,10 @@ Return value; a L<Gnome::Gio::MenuModel|/content-docs/api2/reference/Gio/MenuMod
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-popover
 
 Returns the L<Gnome::Gtk4::Popover|/content-docs/api2/reference/Gtk4/Popover> that pops out of the button.
@@ -347,10 +347,10 @@ Return value; a L<Gnome::Gtk4::Popover|/content-docs/api2/reference/Gtk4/Popover
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-primary
 
 Returns whether the menu button acts as a primary menu.
@@ -368,10 +368,10 @@ Return value; C<True> if the button is a primary menu.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-use-underline
 
 Returns whether an embedded underline in the text indicates a
@@ -391,10 +391,10 @@ Return value; C<True> whether an embedded underline in the text indicates
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 popdown
 
 Dismiss the menu.
@@ -410,10 +410,10 @@ method popdown ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 popup
 
 Pop up the menu.
@@ -429,10 +429,10 @@ method popup ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-active
 
 Sets whether the menu button is active.
@@ -450,10 +450,10 @@ method set-active ( Bool() $active )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-always-show-arrow
 
 Sets whether to show a dropdown arrow even when using an icon or a custom
@@ -473,10 +473,10 @@ or a custom child.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-can-shrink
 
 Sets whether the button size can be smaller than the natural size of
@@ -499,10 +499,10 @@ method set-can-shrink ( Bool() $can-shrink )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-child
 
 Sets the child widget of C<$menu-button>.
@@ -527,10 +527,10 @@ method set-child ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-create-popup-func
 
 Sets C<$func> to be called when a popup is about to be shown.
@@ -561,10 +561,10 @@ method set-create-popup-func ( GtkMenuButtonCreatePopupFunc &func, gpointer $use
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-direction
 
 Sets the direction in which the popup will be popped up.
@@ -591,10 +591,10 @@ method set-direction ( GtkArrowType $direction )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-has-frame
 
 Sets the style of the button.
@@ -612,10 +612,10 @@ method set-has-frame ( Bool() $has-frame )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-icon-name
 
 Sets the name of an icon to show inside the menu button.
@@ -640,10 +640,10 @@ method set-icon-name ( Str $icon-name )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-label
 
 Sets the label to show inside the menu button.
@@ -667,10 +667,10 @@ method set-label ( Str $label )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-menu-model
 
 Sets the L<Gnome::Gio::MenuModel|/content-docs/api2/reference/Gio/MenuModel> from which the popup will be constructed.
@@ -698,10 +698,10 @@ method set-menu-model ( N-Object() $menu-model )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-popover
 
 Sets the L<Gnome::Gtk4::Popover|/content-docs/api2/reference/Gtk4/Popover> that will be popped up when the C<$menu-button> is clicked.
@@ -724,10 +724,10 @@ method set-popover ( N-Object() $popover )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-primary
 
 Sets whether menu button acts as a primary menu.
@@ -747,10 +747,10 @@ method set-primary ( Bool() $primary )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-use-underline
 
 If true, an underline in the text indicates a mnemonic.
@@ -768,13 +768,13 @@ method set-use-underline ( Bool() $use-underline )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -805,5 +805,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

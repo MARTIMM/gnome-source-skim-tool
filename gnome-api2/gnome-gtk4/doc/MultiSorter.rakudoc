@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::MultiSorter
 =head1 Description
 
@@ -25,13 +25,13 @@ the second is tried next, and so on.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -42,10 +42,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-multisorter
 
 Creates a new multi sorter.
@@ -66,18 +66,18 @@ method new-multisorter ( --> Gnome::Gtk4::MultiSorter )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append
 
 Add C<$sorter> to C<$self> to use for sorting at the end.
@@ -97,10 +97,10 @@ method append ( N-Object() $sorter )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove
 
 Removes the sorter at the given C<$position> from the list of sorter
@@ -121,5 +121,5 @@ method remove ( UInt() $position )
 
 =end comment
 
-=end pod
+=end rakudoc
 
