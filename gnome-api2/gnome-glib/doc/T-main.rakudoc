@@ -1,15 +1,15 @@
 =comment Package: Glib, C-Source: main
 use v6.d;
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Glib::T-main
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -18,38 +18,38 @@ Initialization of a type class is simple and only needed when the standalone fun
 
   method new ( )
 
-=end pod
+=end rakudoc
 #-------------------------------------------------------------------------------
 #--[Record Structure]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-MainLoop
 
 This is an opaque type of which fields are not available.
 
   class N-MainLoop:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Record Structure]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-MainContext
 
 This is an opaque type of which fields are not available.
 
   class N-MainContext:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Record Structure Documentation]---------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-SourceCallbackFuncs
 
   class N-SourceCallbackFuncs:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
@@ -63,13 +63,13 @@ This is an opaque type of which fields are not available.
 =item unref; 
 =item get; 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Record Structure Documentation]---------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-SourceFuncs
 
   class N-SourceFuncs:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
@@ -89,13 +89,13 @@ This is an opaque type of which fields are not available.
 =item closure-callback; . Enumeration of type ( gpointer $user-data --> gboolean ).
 =item closure-marshal; . Enumeration of type ( ).
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Record Structure Documentation]---------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-Source
 
   class N-Source:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
@@ -129,13 +129,13 @@ This is an opaque type of which fields are not available.
 =item name; 
 =item priv; 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Constants]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Constants
 
 =head2 G_PRIORITY_DEFAULT
@@ -183,13 +183,13 @@ the B<Gnome::Glib::N-Source> in the main loop.
 
 Use this macro as the return value of a B<Gnome::Glib::T-main> to remove
 the B<Gnome::Glib::N-Source> from the main loop.
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Bitfields]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Bitfields
 
 =head2 GMainContextFlags
@@ -202,13 +202,13 @@ of a B<Gnome::Glib::N-MainContext>.
 free the thread to process other jobs. That's useful if you're using
 B<g_main_context_{prepare,query,check,dispatch}> to integrate GMainContext in
 other event loops.
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Callback Functions]---------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Callback Functions
 =head2 SourceOnceFunc
 
@@ -267,17 +267,17 @@ other event loops.
 :( )
 =end code
 
-=end pod
+=end rakudoc
 #-------------------------------------------------------------------------------
 #--[Standalone Functions]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Standalone Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 child-watch-add
 This function is not yet available
 
@@ -321,10 +321,10 @@ Return value; the ID (greater than 0) of the event source..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 child-watch-add-full
 This function is not yet available
 
@@ -374,10 +374,10 @@ Return value; the ID (greater than 0) of the event source..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 child-watch-source-new
 This function is not yet available
 
@@ -438,10 +438,10 @@ Return value; the newly-created child watch source.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 clear-handle-id
 
 Clears a numeric handler, such as a B<Gnome::Glib::N-Source> ID.
@@ -468,10 +468,10 @@ method clear-handle-id ( Array[Int] $tag-ptr, &clear-func )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-current-time
 
 Equivalent to the UNIX gettimeofday() function, but portable.
@@ -491,10 +491,10 @@ method get-current-time ( N-Object $result )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-monotonic-time
 
 Queries the system monotonic time.
@@ -521,10 +521,10 @@ Return value; the monotonic time, in microseconds.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-real-time
 
 Queries the system wall-clock time.
@@ -550,10 +550,10 @@ Return value; the number of microseconds since January 1, 1970 UTC..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 idle-add
 
 Adds a function to be called whenever there are no higher priority
@@ -587,10 +587,10 @@ Return value; the ID (greater than 0) of the event source..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 idle-add-full
 
 Adds a function to be called whenever there are no higher priority
@@ -627,10 +627,10 @@ Return value; the ID (greater than 0) of the event source..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 idle-add-once
 
 Adds a function to be called whenever there are no higher priority
@@ -658,10 +658,10 @@ Return value; the ID (greater than 0) of the event source.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 idle-remove-by-data
 
 Removes the idle function with the given data.
@@ -681,10 +681,10 @@ Return value; C<True> if an idle source was found and removed..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 idle-source-new
 
 Creates a new idle source.
@@ -708,10 +708,10 @@ Return value; the newly-created idle source.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 main-context-default
 
 Returns the global-default main context. This is the main context
@@ -732,10 +732,10 @@ Return value; the global-default main context..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 main-context-get-thread-default
 
 Gets the thread-default B<Gnome::Glib::N-MainContext> for this thread. Asynchronous
@@ -764,10 +764,10 @@ undefined if the thread-default context is the global-default main context..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 main-context-ref-thread-default
 
 Gets the thread-default B<Gnome::Glib::N-MainContext> for this thread, as with
@@ -791,10 +791,10 @@ Return value; the thread-default B<Gnome::Glib::N-MainContext>. Unref
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 main-current-source
 
 Returns the currently firing source for this thread.
@@ -812,10 +812,10 @@ Return value; The currently firing source or undefined..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 main-depth
 
 Returns the depth of the stack of calls to
@@ -937,10 +937,10 @@ Return value; The main loop recursion level in the current thread.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 source-remove
 
 Removes the source with the given ID from the default main context. You must
@@ -978,10 +978,10 @@ Return value; C<True> if the source was found and removed..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 source-remove-by-funcs-user-data
 
 Removes a source from the default main loop context given the
@@ -1004,10 +1004,10 @@ Return value; C<True> if a source was found and removed..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 source-remove-by-user-data
 
 Removes a source from the default main loop context given the user
@@ -1029,10 +1029,10 @@ Return value; C<True> if a source was found and removed..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 source-set-name-by-id
 
 Sets the name of a source using its ID.
@@ -1066,10 +1066,10 @@ method source-set-name-by-id ( UInt() $tag, Str $name )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 timeout-add
 
 Sets a function to be called at regular intervals, with the default
@@ -1123,10 +1123,10 @@ Return value; the ID (greater than 0) of the event source..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 timeout-add-full
 
 Sets a function to be called at regular intervals, with the given
@@ -1175,10 +1175,10 @@ Return value; the ID (greater than 0) of the event source..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 timeout-add-once
 
 Sets a function to be called after C<$interval> milliseconds have elapsed,
@@ -1207,10 +1207,10 @@ Return value; the ID (greater than 0) of the event source.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 timeout-add-seconds
 
 Sets a function to be called at regular intervals with the default
@@ -1254,10 +1254,10 @@ Return value; the ID (greater than 0) of the event source..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 timeout-add-seconds-full
 
 Sets a function to be called at regular intervals, with C<$priority>.
@@ -1320,10 +1320,10 @@ Return value; the ID (greater than 0) of the event source..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 timeout-add-seconds-once
 
 This function behaves like g_timeout_add_once() but with a range in seconds.
@@ -1345,10 +1345,10 @@ Return value; the ID (greater than 0) of the event source.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 timeout-source-new
 
 Creates a new timeout source.
@@ -1375,10 +1375,10 @@ Return value; the newly-created timeout source.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 timeout-source-new-seconds
 
 Creates a new timeout source.
@@ -1408,5 +1408,5 @@ Return value; the newly-created timeout source.
 
 =end comment
 
-=end pod
+=end rakudoc
 

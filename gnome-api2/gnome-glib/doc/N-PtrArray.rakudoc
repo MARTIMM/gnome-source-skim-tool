@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Glib::N-PtrArray
 
 =head1 Description
@@ -19,13 +19,13 @@ Contains the public fields of a pointer array.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -36,18 +36,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add
 
 Adds a pointer to the end of the pointer array. The array will grow
@@ -67,10 +67,10 @@ method add ( N-Object $array, gpointer $data )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 copy
 
 Makes a full (deep) copy of a B<Gnome::Glib::N-PtrArray>.
@@ -102,10 +102,10 @@ Return value; a deep copy of the initial B<Gnome::Glib::N-PtrArray>..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 extend
 
 Adds all pointers of C<$array> to the end of the array C<$array-to-extend>.
@@ -136,10 +136,10 @@ method extend ( N-Object $array-to-extend, N-Object $array, &func, gpointer $use
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 extend-and-steal
 
 Adds all the pointers in C<$array> to the end of C<$array-to-extend>, transferring
@@ -164,10 +164,10 @@ method extend-and-steal ( N-Object $array-to-extend, N-Object $array )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 find
 
 Checks whether C<$needle> exists in C<$haystack>. If the element is found, C<True> is
@@ -196,10 +196,10 @@ Return value; C<True> if C<$needle> is one of the elements of C<$haystack>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 find-with-equal-func
 
 Checks whether C<$needle> exists in C<$haystack>, using the given C<$equal-func>.
@@ -232,10 +232,10 @@ Return value; C<True> if C<$needle> is one of the elements of C<$haystack>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 foreach
 
 Calls a function for each element of a B<Gnome::Glib::N-PtrArray>. C<$func> must not
@@ -256,10 +256,10 @@ method foreach ( N-Object $array, &func, gpointer $user-data )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free
 
 Frees the memory allocated for the B<Gnome::Glib::N-PtrArray>. If C<$free-seg> is C<True>
@@ -294,10 +294,10 @@ Return value; the pointer array if C<$free-seg> is
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert
 
 Inserts an element into the pointer array at the given index. The
@@ -318,10 +318,10 @@ method insert ( N-Object $array, Int() $index, gpointer $data )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new
 
 Creates a new B<Gnome::Glib::N-PtrArray> with a reference count of 1.
@@ -339,10 +339,10 @@ Return value; the new B<Gnome::Glib::N-PtrArray>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-full
 
 Creates a new B<Gnome::Glib::N-PtrArray> with C<$reserved-size> pointers preallocated
@@ -369,10 +369,10 @@ Return value; A new B<Gnome::Glib::N-PtrArray>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-with-free-func
 
 Creates a new B<Gnome::Glib::N-PtrArray> with a reference count of 1 and use C<$element-free-func> for freeing each element when the array is destroyed
@@ -394,10 +394,10 @@ Return value; A new B<Gnome::Glib::N-PtrArray>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ref
 
 Atomically increments the reference count of C<$array> by one.
@@ -418,10 +418,10 @@ Return value; The passed in B<Gnome::Glib::N-PtrArray>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove
 
 Removes the first occurrence of the given pointer from the pointer
@@ -449,10 +449,10 @@ Return value; C<True> if the pointer is removed, C<False> if the pointer
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-fast
 
 Removes the first occurrence of the given pointer from the pointer
@@ -480,10 +480,10 @@ Return value; C<True> if the pointer was found in the array.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-index
 
 Removes the pointer at the given index from the pointer array.
@@ -508,10 +508,10 @@ Return value; the pointer which was removed.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-index-fast
 
 Removes the pointer at the given index from the pointer array.
@@ -538,10 +538,10 @@ Return value; the pointer which was removed.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-range
 
 Removes the given number of pointers starting at the given index
@@ -566,10 +566,10 @@ Return value; the C<$array>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-free-func
 
 Sets a function for freeing each element when C<$array> is destroyed
@@ -591,10 +591,10 @@ method set-free-func ( N-Object $array, &element-free-func )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-size
 
 Sets the size of the array. When making the array larger,
@@ -616,10 +616,10 @@ method set-size ( N-Object $array, Int() $length )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 sized-new
 
 Creates a new B<Gnome::Glib::N-PtrArray> with C<$reserved-size> pointers preallocated
@@ -642,10 +642,10 @@ Return value; the new B<Gnome::Glib::N-PtrArray>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 sort
 
 Sorts the array, using C<$compare-func> which should be a qsort()-style
@@ -700,10 +700,10 @@ method sort ( N-Object $array, &compare-func )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 sort-with-data
 
 Like C<.sort()>, but the comparison function has an extra
@@ -777,10 +777,10 @@ method sort-with-data ( N-Object $array, &compare-func, gpointer $user-data )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 steal
 
 Frees the data in the array and resets the size to zero, while
@@ -845,10 +845,10 @@ Return value; the element data, which should be
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 steal-index
 
 Removes the pointer at the given index from the pointer array.
@@ -871,10 +871,10 @@ Return value; the pointer which was removed.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 steal-index-fast
 
 Removes the pointer at the given index from the pointer array.
@@ -900,10 +900,10 @@ Return value; the pointer which was removed.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unref
 
 Atomically decrements the reference count of C<$array> by one. If the
@@ -924,5 +924,5 @@ method unref ( N-Object $array )
 
 =end comment
 
-=end pod
+=end rakudoc
 

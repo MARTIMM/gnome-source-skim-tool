@@ -1,15 +1,15 @@
 =comment Package: Glib, C-Source: variant
 use v6.d;
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Glib::T-variant
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -18,25 +18,25 @@ Initialization of a type class is simple and only needed when the standalone fun
 
   method new ( )
 
-=end pod
+=end rakudoc
 #-------------------------------------------------------------------------------
 #--[Record Structure]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-Variant
 
 This is an opaque type of which fields are not available.
 
   class N-Variant:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Record Structure Documentation]---------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-VariantIter
 
   class N-VariantIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
@@ -46,39 +46,39 @@ This is an opaque type of which fields are not available.
 
 =item x; 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Record Structure]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-VariantBuilder
 
 This is an opaque type of which fields are not available.
 
   class N-VariantBuilder:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Record Structure]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-VariantDict
 
 This is an opaque type of which fields are not available.
 
   class N-VariantDict:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Enumerations]---------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Enumerations
 
 =head2 GVariantParseError
@@ -103,18 +103,18 @@ Error codes returned by parsing text-format GVariants.
 =item C<G_VARIANT_PARSE_ERROR_UNTERMINATED_STRING_CONSTANT>; unterminated string constant
 =item C<G_VARIANT_PARSE_ERROR_VALUE_EXPECTED>; no value given
 =item C<G_VARIANT_PARSE_ERROR_RECURSION>; variant was too deeply nested; B<Gnome::Glib::T-variant> is only guaranteed to handle nesting up to 64 levels (Since: 2.64)
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Standalone Functions]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Standalone Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 variant-is-object-path
 
 Determines if a given string is a valid D-Bus object path.  You
@@ -141,10 +141,10 @@ Return value; C<True> if C<$string> is a D-Bus object path.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 variant-is-signature
 
 Determines if a given string is a valid D-Bus type signature.  You
@@ -169,10 +169,10 @@ Return value; C<True> if C<$string> is a D-Bus type signature.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 variant-parse
 
 Parses a B<Gnome::Glib::T-variant> from a text representation.
@@ -232,10 +232,10 @@ Return value; a non-floating reference to a B<Gnome::Glib::T-variant>, or undefi
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 variant-parse-error-print-context
 
 Pretty-prints a message showing the context of a B<Gnome::Glib::T-variant> parse
@@ -286,5 +286,5 @@ Return value; the printed message.
 
 =end comment
 
-=end pod
+=end rakudoc
 

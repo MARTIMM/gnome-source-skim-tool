@@ -1,15 +1,15 @@
 =comment Package: Glib, C-Source: error
 use v6.d;
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Glib::T-error
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -18,13 +18,13 @@ Initialization of a type class is simple and only needed when the standalone fun
 
   method new ( )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Record Structure Documentation]---------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-Error
 
   class N-Error:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
@@ -38,13 +38,13 @@ Initialization of a type class is simple and only needed when the standalone fun
 =item code; error code, e.g. C<G_FILE_ERROR_NOENT>
 =item message; human-readable informative error message
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Callback Functions]---------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Callback Functions
 =head2 ErrorClearFunc
 
@@ -74,17 +74,17 @@ Initialization of a type class is simple and only needed when the standalone fun
 =item src-error; source extended error
 =item dest-error; destination extended error
 
-=end pod
+=end rakudoc
 #-------------------------------------------------------------------------------
 #--[Standalone Functions]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Standalone Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 clear-error
 
 If C<$err> or * C<$err> is undefined, does nothing. Otherwise,
@@ -105,10 +105,10 @@ Use C<Pointer> when you want to ignore the error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 prefix-error
 This function is not yet available
 
@@ -134,10 +134,10 @@ method prefix-error ( N-Object $err, Str $format, … )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 prefix-error-literal
 
 Prefixes C<$prefix> to an existing error message. If C<$err> or * C<$err> is
@@ -157,10 +157,10 @@ method prefix-error-literal ( N-Object $err, Str $prefix )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 propagate-error
 
 If C<$dest> is undefined, free C<$src>; otherwise, moves C<$src> into * C<$dest>.
@@ -185,10 +185,10 @@ method propagate-error ( N-Object $dest, N-Object $src )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 propagate-prefixed-error
 This function is not yet available
 
@@ -212,10 +212,10 @@ method propagate-prefixed-error ( N-Object $dest, N-Object $src, Str $format, �
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-error
 This function is not yet available
 
@@ -239,10 +239,10 @@ method set-error ( N-Object $err, UInt $domain, Int() $code, Str $format, … )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-error-literal
 
 Does nothing if C<$err> is undefined; if C<$err> is non-undefined, then * C<$err>
@@ -267,5 +267,5 @@ method set-error-literal ( N-Object $err, UInt $domain, Int() $code, Str $messag
 
 =end comment
 
-=end pod
+=end rakudoc
 

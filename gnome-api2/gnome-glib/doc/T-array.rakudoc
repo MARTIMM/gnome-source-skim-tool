@@ -1,15 +1,15 @@
 =comment Package: Glib, C-Source: array
 use v6.d;
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Glib::T-array
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -18,25 +18,25 @@ Initialization of a type class is simple and only needed when the standalone fun
 
   method new ( )
 
-=end pod
+=end rakudoc
 #-------------------------------------------------------------------------------
 #--[Record Structure]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-Bytes
 
 This is an opaque type of which fields are not available.
 
   class N-Bytes:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Record Structure Documentation]---------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-Array
 
   class N-Array:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
@@ -50,13 +50,13 @@ This is an opaque type of which fields are not available.
 =item len; the number of elements in the B<Gnome::Glib::N-Array> not including the
     possible terminating zero element.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Record Structure Documentation]---------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-PtrArray
 
   class N-PtrArray:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
@@ -69,13 +69,13 @@ This is an opaque type of which fields are not available.
     array grows
 =item len; number of pointers in the array
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Record Structure Documentation]---------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-ByteArray
 
   class N-ByteArray:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
@@ -88,18 +88,18 @@ This is an opaque type of which fields are not available.
     elements are added to the B<Gnome::Glib::N-ByteArray>
 =item len; the number of elements in the B<Gnome::Glib::N-ByteArray>
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Standalone Functions]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Standalone Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 array-new-take
 
 Creates a new B<Gnome::Glib::N-Array> with C<$data> as array data, C<$len> as length and a
@@ -139,10 +139,10 @@ Return value; A new B<Gnome::Glib::N-Array>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 array-new-take-zero-terminated
 
 Creates a new B<Gnome::Glib::N-Array> with C<$data> as array data, computing the length of it
@@ -183,10 +183,10 @@ Return value; A new B<Gnome::Glib::N-Array>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 byte-array-free
 
 Frees the memory allocated by the B<Gnome::Glib::N-ByteArray>. If C<$free-segment> is
@@ -210,10 +210,10 @@ Return value; the element data if C<$free-segment> is C<False>, otherwise
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 byte-array-free-to-bytes
 
 Transfers the data from the B<Gnome::Glib::N-ByteArray> into a new immutable B<Gnome::Glib::T-array>.
@@ -241,10 +241,10 @@ Return value; a new immutable B<Gnome::Glib::T-array> representing same
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 byte-array-new
 
 Creates a new B<Gnome::Glib::N-ByteArray> with a reference count of 1.
@@ -262,10 +262,10 @@ Return value; the new B<Gnome::Glib::N-ByteArray>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 byte-array-new-take
 
 Creates a byte array containing the C<$data>.
@@ -293,10 +293,10 @@ Return value; a new B<Gnome::Glib::N-ByteArray>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 byte-array-steal
 
 Frees the data in the array and resets the size to zero, while
@@ -321,10 +321,10 @@ Return value; the element data, which should be
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 byte-array-unref
 
 Atomically decrements the reference count of C<$array> by one. If the
@@ -345,10 +345,10 @@ method byte-array-unref ( N-Object $array )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ptr-array-find
 
 Checks whether C<$needle> exists in C<$haystack>. If the element is found, C<True> is
@@ -377,10 +377,10 @@ Return value; C<True> if C<$needle> is one of the elements of C<$haystack>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ptr-array-find-with-equal-func
 
 Checks whether C<$needle> exists in C<$haystack>, using the given C<$equal-func>.
@@ -413,10 +413,10 @@ Return value; C<True> if C<$needle> is one of the elements of C<$haystack>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ptr-array-new-from-array
 
 Creates a new B<Gnome::Glib::N-PtrArray>, copying C<$len> pointers from C<$data>, and setting
@@ -458,10 +458,10 @@ Return value; A new B<Gnome::Glib::N-PtrArray>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ptr-array-new-from-null-terminated-array
 
 Creates a new B<Gnome::Glib::N-PtrArray> copying the pointers from C<$data> after having
@@ -498,10 +498,10 @@ Return value; A new B<Gnome::Glib::N-PtrArray>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ptr-array-new-take
 
 Creates a new B<Gnome::Glib::N-PtrArray> with C<$data> as pointers, C<$len> as length and a
@@ -539,10 +539,10 @@ Return value; A new B<Gnome::Glib::N-PtrArray>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ptr-array-new-take-null-terminated
 
 Creates a new B<Gnome::Glib::N-PtrArray> with C<$data> as pointers, computing the length of it
@@ -582,5 +582,5 @@ Return value; A new B<Gnome::Glib::N-PtrArray>.
 
 =end comment
 
-=end pod
+=end rakudoc
 

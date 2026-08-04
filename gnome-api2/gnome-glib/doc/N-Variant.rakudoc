@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 N-Variant
 
 =head1 Description
@@ -259,25 +259,25 @@ be shared.
 
 =end comment
 
-=end pod
+=end rakudoc
 #-------------------------------------------------------------------------------
 #--[Record Structure]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-Variant
 
 This is an opaque type of which fields are not available.
 
   class N-Variant:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -288,10 +288,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-variant
 This function is not yet available
 
@@ -335,10 +335,10 @@ method new-variant ( Str $format-string, … --> Gnome::Glib::Variant )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-array
 
 Creates a new B<N-Variant> array from C<$children>.
@@ -371,10 +371,10 @@ method new-array ( CArray[N-VariantType] $child-type, CArray[N-Variant] $childre
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-boolean
 
 Creates a new boolean B<N-Variant> instance -- either C<True> or C<False>.
@@ -392,10 +392,10 @@ method new-boolean ( Bool() $value --> Gnome::Glib::Variant )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-byte
 
 Creates a new byte B<N-Variant> instance.
@@ -413,10 +413,10 @@ method new-byte ( UInt() $value --> Gnome::Glib::Variant )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-bytestring
 
 Creates an array-of-bytes B<N-Variant> with the contents of C<$string>.
@@ -440,10 +440,10 @@ method new-bytestring ( Str $string --> Gnome::Glib::Variant )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-bytestring-array
 
 Constructs an array of bytestring B<N-Variant> from the given array of
@@ -465,10 +465,10 @@ method new-bytestring-array ( Array[Str] $strv, Int() $length --> Gnome::Glib::V
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-dict-entry
 
 Creates a new dictionary entry B<N-Variant>. C<$key> and C<$value> must be
@@ -491,10 +491,10 @@ method new-dict-entry ( CArray[N-Variant] $key, CArray[N-Variant] $value --> Gno
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-double
 
 Creates a new double B<N-Variant> instance.
@@ -512,10 +512,10 @@ method new-double ( Num() $value --> Gnome::Glib::Variant )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-fixed-array
 
 Constructs a new array B<N-Variant> instance, where the elements are
@@ -545,10 +545,10 @@ method new-fixed-array ( CArray[N-VariantType] $element-type, gpointer $elements
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-bytes
 This function is not yet available
 
@@ -577,10 +577,10 @@ method new-from-bytes ( CArray[N-VariantType] $type, CArray[N-Bytes]  $bytes, Bo
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-data
 
 Creates a new B<N-Variant> instance from serialized data.
@@ -625,10 +625,10 @@ method new-from-data ( CArray[N-VariantType] $type, gpointer $data, Int() $size,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-handle
 
 Creates a new handle B<N-Variant> instance.
@@ -650,10 +650,10 @@ method new-handle ( Int() $value --> Gnome::Glib::Variant )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-int16
 
 Creates a new int16 B<N-Variant> instance.
@@ -671,10 +671,10 @@ method new-int16 ( Int() $value --> Gnome::Glib::Variant )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-int32
 
 Creates a new int32 B<N-Variant> instance.
@@ -692,10 +692,10 @@ method new-int32 ( Int() $value --> Gnome::Glib::Variant )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-int64
 
 Creates a new int64 B<N-Variant> instance.
@@ -713,10 +713,10 @@ method new-int64 ( Int() $value --> Gnome::Glib::Variant )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-maybe
 
 Depending on if C<$child> is undefined, either wraps C<$child> inside of a
@@ -744,10 +744,10 @@ method new-maybe ( CArray[N-VariantType] $child-type, CArray[N-Variant] $child -
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-object-path
 
 Creates a D-Bus object path B<N-Variant> with the contents of C<$string>. C<$string> must be a valid D-Bus object path.  Use
@@ -766,10 +766,10 @@ method new-object-path ( Str $object-path --> Gnome::Glib::Variant )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-objv
 
 Constructs an array of object paths B<N-Variant> from the given array of
@@ -794,10 +794,10 @@ method new-objv ( Array[Str] $strv, Int() $length --> Gnome::Glib::Variant )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-parsed
 This function is not yet available
 
@@ -851,10 +851,10 @@ method new-parsed ( Str $format, … --> Gnome::Glib::Variant )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-parsed-va
 This function is not yet available
 
@@ -894,10 +894,10 @@ method new-parsed-va ( Str $format, … --> Gnome::Glib::Variant )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-printf
 This function is not yet available
 
@@ -921,10 +921,10 @@ method new-printf ( Str $format-string, … --> Gnome::Glib::Variant )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-signature
 
 Creates a D-Bus type signature B<N-Variant> with the contents of C<$string>.  C<$string> must be a valid D-Bus type signature.  Use
@@ -943,10 +943,10 @@ method new-signature ( Str $signature --> Gnome::Glib::Variant )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-string
 
 Creates a string B<N-Variant> with the contents of C<$string>.
@@ -966,10 +966,10 @@ method new-string ( Str $string --> Gnome::Glib::Variant )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-strv
 
 Constructs an array of strings B<N-Variant> from the given array of
@@ -991,10 +991,10 @@ method new-strv ( Array[Str] $strv, Int() $length --> Gnome::Glib::Variant )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-take-string
 
 Creates a string B<N-Variant> with the contents of C<$string>.
@@ -1021,10 +1021,10 @@ method new-take-string ( Str $string --> Gnome::Glib::Variant )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-tuple
 
 Creates a new tuple B<N-Variant> out of the items in C<$children>.  The
@@ -1049,10 +1049,10 @@ method new-tuple ( CArray[N-Variant] $children, Int() $n-children --> Gnome::Gli
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-uint16
 
 Creates a new uint16 B<N-Variant> instance.
@@ -1070,10 +1070,10 @@ method new-uint16 ( UInt() $value --> Gnome::Glib::Variant )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-uint32
 
 Creates a new uint32 B<N-Variant> instance.
@@ -1091,10 +1091,10 @@ method new-uint32 ( UInt() $value --> Gnome::Glib::Variant )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-uint64
 
 Creates a new uint64 B<N-Variant> instance.
@@ -1112,10 +1112,10 @@ method new-uint64 ( UInt() $value --> Gnome::Glib::Variant )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-va
 This function is not yet available
 
@@ -1169,10 +1169,10 @@ method new-va ( Str $format-string, Array[Str] $endptr, … --> Gnome::Glib::Var
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-variant
 
 Boxes C<$value>.  The result is a B<N-Variant> instance representing a
@@ -1194,18 +1194,18 @@ method new-variant ( CArray[N-Variant] $value --> Gnome::Glib::Variant )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 byteswap
 
 Performs a byteswapping operation on the contents of C<$value>.  The
@@ -1233,10 +1233,10 @@ Return value; the byteswapped form of C<$value>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 check-format-string
 
 Checks if calling C<.get()> with C<$format_string> on C<$value> would
@@ -1270,10 +1270,10 @@ Return value; C<True> if C<$format_string> is safe to use.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 classify
 This function is not yet available
 
@@ -1290,10 +1290,10 @@ method classify ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 compare
 
 Compares C<$one> and C<$two>.
@@ -1333,10 +1333,10 @@ Return value; negative value if a < b;
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 dup-bytestring
 
 Similar to C<.get-bytestring()> except that instead of
@@ -1361,10 +1361,10 @@ Return value;
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 dup-bytestring-array
 
 Gets the contents of an array of array of bytes B<N-Variant>.  This call
@@ -1393,10 +1393,10 @@ Return value; an array of strings.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 dup-objv
 
 Gets the contents of an array of object paths B<N-Variant>.  This call
@@ -1425,10 +1425,10 @@ Return value; an array of strings.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 dup-string
 
 Similar to C<.get-string()> except that instead of returning
@@ -1453,10 +1453,10 @@ Return value; a newly allocated string, UTF-8 encoded.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 dup-strv
 
 Gets the contents of an array of strings B<N-Variant>.  This call
@@ -1485,10 +1485,10 @@ Return value; an array of strings.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 equal
 
 Checks if C<$one> and C<$two> have the same type and value.
@@ -1511,10 +1511,10 @@ Return value; C<True> if C<$one> and C<$two> are equal.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get
 This function is not yet available
 
@@ -1546,10 +1546,10 @@ method get ( Str $format-string, … )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-boolean
 
 Returns the boolean value of C<$value>.
@@ -1570,10 +1570,10 @@ Return value; C<True> or C<False>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-byte
 
 Returns the byte value of C<$value>.
@@ -1594,10 +1594,10 @@ Return value; a #guint8.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-bytestring
 
 Returns the string value of a B<N-Variant> instance with an
@@ -1633,10 +1633,10 @@ Return value;
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-bytestring-array
 
 Gets the contents of an array of array of bytes B<N-Variant>.  This call
@@ -1665,10 +1665,10 @@ Return value; an array of constant strings.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child
 This function is not yet available
 
@@ -1695,10 +1695,10 @@ method get-child ( Int() $index, Str $format-string, … )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child-value
 
 Reads a child item out of a container B<N-Variant> instance.  This
@@ -1740,10 +1740,10 @@ Return value; the child at the specified index.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-data
 
 Returns a pointer to the serialized form of a B<N-Variant> instance.
@@ -1785,10 +1785,10 @@ Return value; the serialized form of C<$value>, or undefined.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-data-as-bytes
 This function is not yet available
 
@@ -1810,10 +1810,10 @@ Return value; A new B<Gnome::Glib::N-Bytes> representing the variant data.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-double
 
 Returns the double precision floating point value of C<$value>.
@@ -1834,10 +1834,10 @@ Return value; a #gdouble.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-fixed-array
 
 Provides access to the serialized data for an array of fixed-sized
@@ -1880,10 +1880,10 @@ Return value; a pointer to
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-handle
 
 Returns the 32-bit signed integer value of C<$value>.
@@ -1908,10 +1908,10 @@ Return value; a #gint32.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-int16
 
 Returns the 16-bit signed integer value of C<$value>.
@@ -1932,10 +1932,10 @@ Return value; a #gint16.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-int32
 
 Returns the 32-bit signed integer value of C<$value>.
@@ -1956,10 +1956,10 @@ Return value; a #gint32.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-int64
 
 Returns the 64-bit signed integer value of C<$value>.
@@ -1980,10 +1980,10 @@ Return value; a #gint64.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-maybe
 
 Given a maybe-typed B<N-Variant> instance, extract its value.  If the
@@ -2002,10 +2002,10 @@ Return value; the contents of C<$value>, or undefined.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-normal-form
 
 Gets a B<N-Variant> instance that has the same value as C<$value> and is
@@ -2045,10 +2045,10 @@ Return value; a trusted B<N-Variant>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-objv
 
 Gets the contents of an array of object paths B<N-Variant>.  This call
@@ -2077,10 +2077,10 @@ Return value; an array of constant strings.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-size
 
 Determines the number of bytes that would be required to store C<$value>
@@ -2108,10 +2108,10 @@ Return value; the serialized size of C<$value>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-string
 
 Returns the string value of a B<N-Variant> instance with a string
@@ -2149,10 +2149,10 @@ Return value; the constant string, UTF-8 encoded.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-strv
 
 Gets the contents of an array of strings B<N-Variant>.  This call
@@ -2181,10 +2181,10 @@ Return value; an array of constant strings.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-type
 
 Determines the type of C<$value>.
@@ -2205,10 +2205,10 @@ Return value; a B<N-VariantType>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-type-string
 
 Returns the type string of C<$value>.  Unlike the result of calling
@@ -2228,10 +2228,10 @@ Return value; the type string for the type of C<$value>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-uint16
 
 Returns the 16-bit unsigned integer value of C<$value>.
@@ -2252,10 +2252,10 @@ Return value; a #guint16.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-uint32
 
 Returns the 32-bit unsigned integer value of C<$value>.
@@ -2276,10 +2276,10 @@ Return value; a #guint32.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-uint64
 
 Returns the 64-bit unsigned integer value of C<$value>.
@@ -2300,10 +2300,10 @@ Return value; a #guint64.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-va
 This function is not yet available
 
@@ -2343,10 +2343,10 @@ method get-va ( Str $format-string, Array[Str] $endptr, … )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-variant
 
 Unboxes C<$value>.  The result is the B<N-Variant> instance that was
@@ -2365,10 +2365,10 @@ Return value; the item contained in the variant.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 hash
 
 Generates a hash value for a B<N-Variant> instance.
@@ -2394,10 +2394,10 @@ Return value; a hash value corresponding to C<$value>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-container
 
 Checks if C<$value> is a container.
@@ -2415,10 +2415,10 @@ Return value; C<True> if C<$value> is a container.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-floating
 
 Checks whether C<$value> has a floating reference count.
@@ -2444,10 +2444,10 @@ Return value; whether C<$value> is floating.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-normal-form
 
 Checks if C<$value> is in normal form.
@@ -2477,10 +2477,10 @@ Return value; C<True> if C<$value> is in normal form.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-of-type
 
 Checks if a value has a type matching the provided type.
@@ -2500,10 +2500,10 @@ Return value; C<True> if the type of C<$value> matches C<$type>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 iter-new
 This function is not yet available
 
@@ -2529,10 +2529,10 @@ Return value; a new heap-allocated B<N-VariantIter>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 lookup
 This function is not yet available
 
@@ -2566,10 +2566,10 @@ Return value; C<True> if a value was unpacked.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 lookup-value
 
 Looks up a value in a dictionary B<N-Variant>.
@@ -2610,10 +2610,10 @@ Return value; the value of the dictionary key, or undefined.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 n-children
 
 Determines the number of children in a container B<N-Variant> instance.
@@ -2641,10 +2641,10 @@ Return value; the number of children in the container.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 print
 
 Pretty-prints C<$value> in the format understood by C<.parse()>.
@@ -2670,10 +2670,10 @@ Return value; a newly-allocated string holding the result..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 print-string
 This function is not yet available
 
@@ -2699,10 +2699,10 @@ Return value; a B<Gnome::Glib::N-String> containing the string.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ref
 
 Increases the reference count of C<$value>.
@@ -2720,10 +2720,10 @@ Return value; the same C<$value>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ref-sink
 
 B<N-Variant> uses a floating reference count system.  All functions with
@@ -2762,10 +2762,10 @@ Return value; the same C<$value>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 store
 
 Stores the serialized form of C<$value> at C<$data>.  C<$data> should be
@@ -2794,10 +2794,10 @@ method store ( gpointer $data )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 take-ref
 
 If C<$value> is floating, sink it.  Otherwise, do nothing.
@@ -2846,10 +2846,10 @@ Return value; the same C<$value>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unref
 
 Decreases the reference count of C<$value>.  When its reference count
@@ -2866,18 +2866,18 @@ method unref ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-object-path
 
 Determines if a given string is a valid D-Bus object path.  You
@@ -2904,10 +2904,10 @@ Return value; C<True> if C<$string> is a D-Bus object path.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-signature
 
 Determines if a given string is a valid D-Bus type signature.  You
@@ -2932,10 +2932,10 @@ Return value; C<True> if C<$string> is a D-Bus type signature.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 parse
 
 Parses a B<N-Variant> from a text representation.
@@ -2992,10 +2992,10 @@ Return value; a non-floating reference to a B<N-Variant>, or undefined.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 parse-error-print-context
 
 Pretty-prints a message showing the context of a B<N-Variant> parse
@@ -3046,10 +3046,10 @@ Return value; the printed message.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 parse-error-quark
 
 No documentation of method.
@@ -3067,5 +3067,5 @@ Return value; No documentation about its value and use.
 
 =end comment
 
-=end pod
+=end rakudoc
 

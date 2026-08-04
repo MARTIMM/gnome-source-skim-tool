@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Glib::N-MainContext
 
 =head1 Description
@@ -20,13 +20,13 @@ type representing a set of sources to be handled in a main loop.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -37,10 +37,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-maincontext
 
 Creates a new B<Gnome::Glib::N-MainContext> structure.
@@ -56,10 +56,10 @@ method new-maincontext ( --> Gnome::Glib::MainContext \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-with-flags
 
 Creates a new B<Gnome::Glib::N-MainContext> structure.
@@ -78,18 +78,18 @@ method new-with-flags ( UInt $flags --> Gnome::Glib::MainContext \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 acquire
 
 Tries to become the owner of the specified context.
@@ -117,10 +117,10 @@ Return value; C<True> if the operation succeeded, and
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-poll
 
 Adds a file descriptor to the set of file descriptors polled for
@@ -144,10 +144,10 @@ method add-poll ( N-Object $fd, Int() $priority )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 check
 
 Passes the results of polling back to the main loop. You should be
@@ -176,10 +176,10 @@ Return value; C<True> if some sources are ready to be dispatched..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 dispatch
 
 Dispatches all pending sources.
@@ -198,10 +198,10 @@ method dispatch ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 find-source-by-funcs-user-data
 
 Finds a source with the given source functions and user data.  If
@@ -224,10 +224,10 @@ Return value; the source, if one was found, otherwise undefined.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 find-source-by-id
 
 Finds a B<Gnome::Glib::N-Source> given a pair of context and ID.
@@ -258,10 +258,10 @@ Return value; the B<Gnome::Glib::N-Source>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 find-source-by-user-data
 
 Finds a source with the given user data for the callback.  If
@@ -283,10 +283,10 @@ Return value; the source, if one was found, otherwise undefined.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-poll-func
 
 Gets the poll function set by C<.set-poll-func()>.
@@ -304,10 +304,10 @@ Return value; the poll function.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 invoke
 
 Invokes a function in such a way that C<$context> is owned during the
@@ -345,10 +345,10 @@ method invoke ( &function, gpointer $data )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 invoke-full
 
 Invokes a function in such a way that C<$context> is owned during the
@@ -376,10 +376,10 @@ method invoke-full ( Int() $priority, &function, gpointer $data, &notify )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-owner
 
 Determines whether this thread holds the (recursive)
@@ -400,10 +400,10 @@ Return value; C<True> if current thread is owner of C<$context>..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 iteration
 
 Runs a single iteration for the given main loop. This involves
@@ -434,10 +434,10 @@ Return value; C<True> if events were dispatched..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 pending
 
 Checks if any sources have pending events for the given context.
@@ -455,10 +455,10 @@ Return value; C<True> if events are pending..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 pop-thread-default
 
 Pops C<$context> off the thread-default context stack (verifying that
@@ -475,10 +475,10 @@ method pop-thread-default ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 prepare
 
 Prepares to poll sources within a main loop. The resulting information
@@ -504,10 +504,10 @@ Return value; C<True> if some source is ready to be dispatched
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 push-thread-default
 
 Acquires C<$context> and sets it as the thread-default context for the
@@ -560,10 +560,10 @@ method push-thread-default ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 query
 
 Determines information necessary to poll this main loop. You should
@@ -595,10 +595,10 @@ Return value; the number of records actually stored in C<$fds>,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ref
 
 Increases the reference count on a B<Gnome::Glib::N-MainContext> object by one.
@@ -616,10 +616,10 @@ Return value; the C<$context> that was passed in (since 2.6).
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 release
 
 Releases ownership of a context previously acquired by this thread
@@ -638,10 +638,10 @@ method release ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-poll
 
 Removes file descriptor from the set of file descriptors to be
@@ -660,10 +660,10 @@ method remove-poll ( N-Object $fd )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-poll-func
 
 Sets the function to use to handle polling of file descriptors. It
@@ -687,10 +687,10 @@ method set-poll-func ( &func )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unref
 
 Decreases the reference count on a B<Gnome::Glib::N-MainContext> object by one. If
@@ -707,10 +707,10 @@ method unref ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 wakeup
 
 If C<$context> is currently blocking in C<.iteration()>
@@ -739,18 +739,18 @@ method wakeup ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 default
 
 Returns the global default main context. This is the main context
@@ -771,10 +771,10 @@ Return value; the global default main context..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-thread-default
 
 Gets the thread-default B<Gnome::Glib::N-MainContext> for this thread. Asynchronous
@@ -803,10 +803,10 @@ undefined if the thread-default context is the global default context..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ref-thread-default
 
 Gets the thread-default B<Gnome::Glib::N-MainContext> for this thread, as with
@@ -830,5 +830,5 @@ Return value; the thread-default B<Gnome::Glib::N-MainContext>. Unref
 
 =end comment
 
-=end pod
+=end rakudoc
 

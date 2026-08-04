@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Glib::N-VariantBuilder
 
 =head1 Description
@@ -25,13 +25,13 @@ access it from more than one thread.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -42,10 +42,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-variantbuilder
 
 Allocates and initialises a new B<Gnome::Glib::N-VariantBuilder>.
@@ -71,18 +71,18 @@ method new-variantbuilder ( N-Object $type --> Gnome::Glib::VariantBuilder \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add
 This function is not yet available
 
@@ -133,10 +133,10 @@ method add ( Str $format-string, … )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-parsed
 This function is not yet available
 
@@ -183,10 +183,10 @@ method add-parsed ( Str $format, … )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-value
 
 Adds C<$value> to C<$builder>.
@@ -213,10 +213,10 @@ method add-value ( N-Object $value )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 clear
 
 Releases all memory associated with a B<Gnome::Glib::N-VariantBuilder> without
@@ -245,10 +245,10 @@ method clear ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 close
 
 Closes the subcontainer inside the given C<$builder> that was opened by
@@ -269,10 +269,10 @@ method close ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 end
 
 Ends the builder process and returns the constructed value.
@@ -306,10 +306,10 @@ Return value; a new, floating, B<Gnome::Glib::N-Variant>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init
 
 Initialises a B<Gnome::Glib::N-VariantBuilder> structure.
@@ -354,10 +354,10 @@ method init ( N-Object $type )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 open
 
 Opens a subcontainer inside the given C<$builder>.  When done adding
@@ -412,10 +412,10 @@ method open ( N-Object $type )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ref
 
 Increases the reference count on C<$builder>.
@@ -436,10 +436,10 @@ Return value; a new reference to C<$builder>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unref
 
 Decreases the reference count on C<$builder>.
@@ -461,5 +461,5 @@ method unref ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 

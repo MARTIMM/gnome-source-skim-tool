@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Glib::N-ByteArray
 
 =head1 Description
@@ -19,13 +19,13 @@ Contains the public fields of a GByteArray.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -36,18 +36,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append
 
 Adds the given bytes to the end of the B<Gnome::Glib::N-ByteArray>.
@@ -70,10 +70,10 @@ Return value; the B<Gnome::Glib::N-ByteArray>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free
 
 Frees the memory allocated by the B<Gnome::Glib::N-ByteArray>. If C<$free-segment> is
@@ -97,10 +97,10 @@ Return value; the element data if C<$free-segment> is C<False>, otherwise
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free-to-bytes
 
 Transfers the data from the B<Gnome::Glib::N-ByteArray> into a new immutable B<Gnome::Glib::N-Bytes>.
@@ -128,10 +128,10 @@ Return value; a new immutable B<Gnome::Glib::N-Bytes> representing same
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new
 
 Creates a new B<Gnome::Glib::N-ByteArray> with a reference count of 1.
@@ -149,10 +149,10 @@ Return value; the new B<Gnome::Glib::N-ByteArray>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-take
 
 Create byte array containing the data. The data will be owned by the array
@@ -178,10 +178,10 @@ Return value; a new B<Gnome::Glib::N-ByteArray>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 prepend
 
 Adds the given data to the start of the B<Gnome::Glib::N-ByteArray>.
@@ -204,10 +204,10 @@ Return value; the B<Gnome::Glib::N-ByteArray>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ref
 
 Atomically increments the reference count of C<$array> by one.
@@ -228,10 +228,10 @@ Return value; The passed in B<Gnome::Glib::N-ByteArray>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-index
 
 Removes the byte at the given index from a B<Gnome::Glib::N-ByteArray>.
@@ -253,10 +253,10 @@ Return value; the B<Gnome::Glib::N-ByteArray>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-index-fast
 
 Removes the byte at the given index from a B<Gnome::Glib::N-ByteArray>. The last
@@ -280,10 +280,10 @@ Return value; the B<Gnome::Glib::N-ByteArray>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-range
 
 Removes the given number of bytes starting at the given index from a
@@ -306,10 +306,10 @@ Return value; the B<Gnome::Glib::N-ByteArray>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-size
 
 Sets the size of the B<Gnome::Glib::N-ByteArray>, expanding it if necessary.
@@ -330,10 +330,10 @@ Return value; the B<Gnome::Glib::N-ByteArray>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 sized-new
 
 Creates a new B<Gnome::Glib::N-ByteArray> with C<$reserved-size> bytes preallocated.
@@ -356,10 +356,10 @@ Return value; the new B<Gnome::Glib::N-ByteArray>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 sort
 
 Sorts a byte array, using C<$compare-func> which should be a
@@ -387,10 +387,10 @@ method sort ( N-Object $array, &compare-func )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 sort-with-data
 
 Like C<.sort()>, but the comparison function takes an extra
@@ -411,10 +411,10 @@ method sort-with-data ( N-Object $array, &compare-func, gpointer $user-data )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 steal
 
 Frees the data in the array and resets the size to zero, while
@@ -439,10 +439,10 @@ Return value; the element data, which should be
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unref
 
 Atomically decrements the reference count of C<$array> by one. If the
@@ -463,5 +463,5 @@ method unref ( N-Object $array )
 
 =end comment
 
-=end pod
+=end rakudoc
 

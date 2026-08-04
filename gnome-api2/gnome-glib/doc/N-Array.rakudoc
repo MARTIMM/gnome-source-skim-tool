@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Glib::N-Array
 
 =head1 Description
@@ -19,13 +19,13 @@ Contains the public fields of a GArray.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -36,18 +36,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-vals
 
 Adds C<$len> elements onto the end of the array.
@@ -69,10 +69,10 @@ Return value; the B<Gnome::Glib::N-Array>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 binary-search
 
 Checks whether C<$target> exists in C<$array> by performing a binary
@@ -123,10 +123,10 @@ Return value; C<True> if C<$target> is one of the elements of C<$array>, C<False
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 copy
 
 Create a shallow copy of a B<Gnome::Glib::N-Array>. If the array elements consist of
@@ -147,10 +147,10 @@ Return value; A copy of C<$array>..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free
 
 Frees the memory allocated for the B<Gnome::Glib::N-Array>. If C<$free-segment> is
@@ -184,10 +184,10 @@ Return value; the element data if C<$free-segment> is C<False>, otherwise
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-element-size
 
 Gets the size of the elements in C<$array>.
@@ -207,10 +207,10 @@ Return value; Size of each element, in bytes.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-vals
 
 Inserts C<$len> elements into a B<Gnome::Glib::N-Array> at the given index.
@@ -244,10 +244,10 @@ Return value; the B<Gnome::Glib::N-Array>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new
 
 Creates a new B<Gnome::Glib::N-Array> with a reference count of 1.
@@ -271,10 +271,10 @@ Return value; the new B<Gnome::Glib::N-Array>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 prepend-vals
 
 Adds C<$len> elements onto the start of the array.
@@ -302,10 +302,10 @@ Return value; the B<Gnome::Glib::N-Array>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ref
 
 Atomically increments the reference count of C<$array> by one.
@@ -326,10 +326,10 @@ Return value; The passed in B<Gnome::Glib::N-Array>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-index
 
 Removes the element at the given index from a B<Gnome::Glib::N-Array>. The following
@@ -351,10 +351,10 @@ Return value; the B<Gnome::Glib::N-Array>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-index-fast
 
 Removes the element at the given index from a B<Gnome::Glib::N-Array>. The last
@@ -378,10 +378,10 @@ Return value; the B<Gnome::Glib::N-Array>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-range
 
 Removes the given number of elements starting at the given index
@@ -404,10 +404,10 @@ Return value; the B<Gnome::Glib::N-Array>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-clear-func
 
 Sets a function to clear an element of C<$array>.
@@ -458,10 +458,10 @@ method set-clear-func ( N-Object $array, &clear-func )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-size
 
 Sets the size of the array, expanding it if necessary. If the array
@@ -483,10 +483,10 @@ Return value; the B<Gnome::Glib::N-Array>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 sized-new
 
 Creates a new B<Gnome::Glib::N-Array> with C<$reserved-size> elements preallocated and
@@ -514,10 +514,10 @@ Return value; the new B<Gnome::Glib::N-Array>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 sort
 
 Sorts a B<Gnome::Glib::N-Array> using C<$compare-func> which should be a qsort()-style
@@ -541,10 +541,10 @@ method sort ( N-Object $array, &compare-func )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 sort-with-data
 
 Like C<.sort()>, but the comparison function receives an extra
@@ -571,10 +571,10 @@ method sort-with-data ( N-Object $array, &compare-func, gpointer $user-data )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 steal
 
 Frees the data in the array and resets the size to zero, while
@@ -616,10 +616,10 @@ Return value; the element data, which should be
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unref
 
 Atomically decrements the reference count of C<$array> by one. If the
@@ -640,5 +640,5 @@ method unref ( N-Object $array )
 
 =end comment
 
-=end pod
+=end rakudoc
 

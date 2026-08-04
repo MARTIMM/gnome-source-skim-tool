@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Glib::N-List
 
 =head1 Description
@@ -31,13 +31,13 @@ The B<N-List> struct is used for each element in a doubly-linked list.
 
 Please note that data needs to be kept alive in Raku across function calls to prevent cleaning up by the garbage collection process. Here the C<CArray> is stored in C<@keep>. That said, this List class is only useful for Raku developers when list data is returned from other objects. An example of that is the method C<.get-windows()> defined in B<Gnome::Gtk4::Application>.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Record Structure Documentation]---------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-List
 
   class N-List:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
@@ -53,14 +53,14 @@ Please note that data needs to be kept alive in Raku across function calls to pr
 =item next; contains the link to the next element in the list
 =item prev; contains the link to the previous element in the list
 
-=end pod
+=end rakudoc
 
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -72,18 +72,18 @@ Create an object using a native object from an object of the same type found els
   multi method new ( N-Object() :$native-object! )
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 alloc
 
 Allocates space for one B<N-List> element. It is called by C<.append()>, C<.prepend()>, C<.insert()> and C<.insert-sorted()> and so is rarely used on its own.
@@ -103,10 +103,10 @@ Return value; a pointer to the newly-allocated B<N-List> element.
 =end comment
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append
 
 Adds a new element on to the end of the list.
@@ -142,10 +142,10 @@ method append ( N-List $list, gpointer $data --> N-List )
 Return value; either C<$list> or the new start of the B<N-List> if C<$list> was C<Nil>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 concat
 
 Adds the second B<N-List> onto the end of the first B<N-List>.
@@ -172,10 +172,10 @@ method concat ( N-List $list1, N-List $list2 --> N-List )
 Return value; the start of the new B<N-List>, which equals C<$list1> if not C<Nil>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 copy
 
 Copies a B<N-List>.
@@ -191,10 +191,10 @@ method copy ( N-List $list --> N-List )
 Return value; the start of the new list that holds the same data as C<$list>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 copy-deep
 
 Makes a full (deep) copy of a B<N-List>.
@@ -228,10 +228,10 @@ Return value; the start of the new list that holds a full copy of C<$list>,
  use C<.free-full()> to free it. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 delete-link
 
 Removes the node link_ from the list and frees it.
@@ -247,10 +247,10 @@ method delete-link ( N-List $list, N-List $link --> N-List )
 Return value; the (possibly changed) start of the B<N-List>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 find
 
 Finds the element in a B<N-List> which contains the given data.
@@ -265,10 +265,10 @@ method find ( N-List $list, gpointer $data --> N-List )
 Return value; the found B<N-List> element, or C<Nil> if it is not found. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 find-custom
 
 Finds an element in a B<N-List>, using a supplied function to find the desired element. It iterates over the list, calling the given function which should return 0 when the desired element is found. The function takes two C<gconstpointer> arguments,
@@ -286,10 +286,10 @@ method find-custom ( N-List $list, gpointer $data, &func --> N-List )
 Return value; the found B<N-List> element, or C<Nil> if it is not found. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 first
 
 Gets the first element in a B<N-List>.
@@ -304,10 +304,10 @@ Return value; the first element in the B<N-List>,
  or C<Nil> if the B<N-List> has no elements. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 foreach
 
 Calls a function for each element of a B<N-List>.
@@ -322,10 +322,10 @@ method foreach ( N-List $list, &func, gpointer $user-data )
 =item &func; the function to call with each element's data. Tthe function must be specified with following signature; C<:( gpointer $data, gpointer $user-data )>.
 =item $user-data; user data to pass to the function.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free
 
 Frees all of the memory used by a B<N-List>.
@@ -347,10 +347,10 @@ method free ( N-List $list )
 
 =item $list; the first link of a B<N-List>.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free-full
 
 Convenience method, which frees all the memory used by a B<N-List>,
@@ -372,10 +372,10 @@ method free-full ( N-List $list, &free-func )
 =item $list; the first link of a B<N-List>.
 =item &free-func; the function to be called to free each element's data. Tthe function must be specified with following signature; C<:( gpointer $data )>.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free1
 
 Frees one B<N-List> element, but does not update links from the next and previous elements in the list, so you should not call this function on an element that is currently part of a list.
@@ -388,10 +388,10 @@ method free1 ( N-List $list )
 
 =item $list; a B<N-List> element.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 index
 
 Gets the position of the element containing the given data (starting from 0).
@@ -407,10 +407,10 @@ Return value; the index of the element containing the data,
  or -1 if the data is not found. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert
 
 Inserts a new element into the list at the given position.
@@ -428,10 +428,10 @@ method insert ( N-List $list, gpointer $data, Int() $position --> N-List )
 Return value; the (possibly changed) start of the B<N-List>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-before
 
 Inserts a new element into the list before the given position.
@@ -448,10 +448,10 @@ method insert-before ( N-List $list, N-List $sibling, gpointer $data --> N-List 
 Return value; the (possibly changed) start of the B<N-List>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-before-link
 
 Inserts C<$link_> into the list before the given position.
@@ -469,10 +469,10 @@ method insert-before-link ( N-List $list, N-List $sibling, N-List $link --> N-Li
 Return value; the (possibly changed) start of the B<N-List>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-sorted
 
 Inserts a new element into the list, using the given comparison function to determine its position.
@@ -493,10 +493,10 @@ method insert-sorted ( N-List $list, gpointer $data, &func --> N-List )
 Return value; the (possibly changed) start of the B<N-List>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-sorted-with-data
 
 Inserts a new element into the list, using the given comparison function to determine its position.
@@ -518,10 +518,10 @@ method insert-sorted-with-data ( N-List $list, gpointer $data, &func, gpointer $
 Return value; the (possibly changed) start of the B<N-List>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 last
 
 Gets the last element in a B<N-List>.
@@ -536,10 +536,10 @@ Return value; the last element in the B<N-List>,
  or C<Nil> if the B<N-List> has no elements. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 length
 
 Gets the number of elements in a B<N-List>.
@@ -556,10 +556,10 @@ method length ( N-List $list --> UInt )
 Return value; the number of elements in the B<N-List>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 nth
 
 Gets the element at the given position in a B<N-List>.
@@ -577,10 +577,10 @@ Return value; the element, or C<Nil> if the position is off
  the end of the B<N-List>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 nth-data
 
 Gets the data of the element at the given position.
@@ -598,10 +598,10 @@ Return value; the element's data, or C<Nil> if the position
  is off the end of the B<N-List>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 nth-prev
 
 Gets the element C<$n> places before C<$list>.
@@ -617,10 +617,10 @@ Return value; the element, or C<Nil> if the position is
  off the end of the B<N-List>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 position
 
 Gets the position of the given element in the B<N-List> (starting from 0).
@@ -636,10 +636,10 @@ Return value; the position of the element in the B<N-List>,
  or -1 if the element is not found. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 prepend
 
 Prepends a new element on to the start of the list.
@@ -669,10 +669,10 @@ Return value; a pointer to the newly prepended element, which is the new
  start of the B<N-List>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove
 
 Removes an element from a B<N-List>.
@@ -689,10 +689,10 @@ method remove ( N-List $list, gpointer $data --> N-List )
 Return value; the (possibly changed) start of the B<N-List>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-all
 
 Removes all list nodes with data equal to C<$data>.
@@ -708,10 +708,10 @@ method remove-all ( N-List $list, gpointer $data --> N-List )
 Return value; the (possibly changed) start of the B<N-List>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-link
 
 Removes an element from a B<N-List>, without freeing the element.
@@ -737,10 +737,10 @@ method remove-link ( N-List $list, N-List $llink --> N-List )
 Return value; the (possibly changed) start of the B<N-List>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 reverse
 
 Reverses a B<N-List>.
@@ -755,10 +755,10 @@ method reverse ( N-List $list --> N-List )
 Return value; the start of the reversed B<N-List>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 sort
 
 Sorts a B<N-List> using the given comparison function. The algorithm used is a stable sort.
@@ -777,10 +777,10 @@ method sort ( N-List $list, &compare-func --> N-List )
 Return value; the (possibly changed) start of the B<N-List>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 sort-with-data
 
 Like C<.sort()>, but the comparison function accepts a user data argument.
@@ -796,5 +796,5 @@ method sort-with-data ( N-List $list, &compare-func, gpointer $user-data --> N-L
 Return value; the (possibly changed) start of the B<N-List>. 
 
 
-=end pod
+=end rakudoc
 

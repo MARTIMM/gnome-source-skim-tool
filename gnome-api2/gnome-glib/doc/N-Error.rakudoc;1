@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Glib::N-Error
 
 =head1 Description
@@ -26,13 +26,13 @@ $error.free;
 say $error.matches( $domain, $code);                  # False
 =end code
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -43,10 +43,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-error
 This function is not yet available
 
@@ -69,10 +69,10 @@ method new-error ( UInt $domain, Int() $code, Str $format, … --> Gnome::Glib::
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-literal
 
 Creates a new B<Gnome::Glib::N-Error>; unlike C<.new-error()>, C<$message> is
@@ -94,10 +94,10 @@ method new-literal ( UInt $domain, Int() $code, Str $message --> Gnome::Glib::Er
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-valist
 This function is not yet available
 
@@ -120,18 +120,18 @@ method new-valist ( UInt $domain, Int() $code, Str $format, … --> Gnome::Glib:
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 copy
 
 Makes a copy of C<$error>.
@@ -149,10 +149,10 @@ Return value; a new B<Gnome::Glib::N-Error>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free
 
 Frees a B<Gnome::Glib::N-Error> and associated resources.
@@ -168,10 +168,10 @@ method free ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 matches
 
 Returns C<True> if C<$error> matches C<$domain> and C<$code>, C<False>
@@ -201,18 +201,18 @@ Return value; whether C<$error> has C<$domain> and C<$code>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 domain-register
 
 This function registers an extended B<Gnome::Glib::N-Error> domain. C<$error-type-name> will be duplicated. Otherwise does the same as
@@ -237,10 +237,10 @@ Return value; B<Gnome::Glib::Error> representing the error domain.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 domain-register-static
 
 This function registers an extended B<Gnome::Glib::N-Error> domain.
@@ -276,5 +276,5 @@ Return value; B<Gnome::Glib::Error> representing the error domain.
 
 =end comment
 
-=end pod
+=end rakudoc
 

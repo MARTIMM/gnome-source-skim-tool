@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Glib::N-SList
 
 =head1 Description
@@ -20,13 +20,13 @@ Example use of module Gnome::Glib::SList
 
 Note that this class is mainly used to get the data from a list returned by e.g. a widget.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -37,18 +37,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 alloc
 
 Allocates space for one B<Gnome::Glib::N-SList> element. It is called by the
@@ -68,10 +68,10 @@ Return value; a pointer to the newly-allocated B<Gnome::Glib::N-SList> element..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append
 
 Adds a new element on to the end of the list.
@@ -115,10 +115,10 @@ Return value; the new start of the B<Gnome::Glib::N-SList>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 concat
 
 Adds the second B<Gnome::Glib::N-SList> onto the end of the first B<Gnome::Glib::N-SList>.
@@ -141,10 +141,10 @@ Return value; the start of the new B<Gnome::Glib::N-SList>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 copy
 
 Copies a B<Gnome::Glib::N-SList>.
@@ -169,10 +169,10 @@ Return value; a copy of C<$list>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 copy-deep
 
 Makes a full (deep) copy of a B<Gnome::Glib::N-SList>.
@@ -216,10 +216,10 @@ Return value; a full copy of C<$list>, use C<.free-full()> to free it.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 delete-link
 
 Removes the node link_ from the list and frees it.
@@ -248,10 +248,10 @@ Return value; the new head of C<$list>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 find
 
 Finds the element in a B<Gnome::Glib::N-SList> which
@@ -274,10 +274,10 @@ Return value; the found B<Gnome::Glib::N-SList> element,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 find-custom
 
 Finds an element in a B<Gnome::Glib::N-SList>, using a supplied function to
@@ -305,10 +305,10 @@ Return value; the found B<Gnome::Glib::N-SList> element, or undefined if it is n
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 foreach
 
 Calls a function for each element of a B<Gnome::Glib::N-SList>.
@@ -331,10 +331,10 @@ method foreach ( N-SList() $list, &func, gpointer $user-data )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free
 
 Frees all of the memory used by a B<Gnome::Glib::N-SList>.
@@ -366,10 +366,10 @@ method free ( N-SList() $list )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free-full
 
 Convenience method, which frees all the memory used by a B<Gnome::Glib::N-SList>, and
@@ -402,10 +402,10 @@ method free-full ( N-SList() $list, &free-func )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free1
 
 Frees one B<Gnome::Glib::N-SList> element.
@@ -424,10 +424,10 @@ method free1 ( N-SList() $list )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 index
 
 Gets the position of the element containing
@@ -450,10 +450,10 @@ Return value; the index of the element containing the data,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert
 
 Inserts a new element into the list at the given position.
@@ -478,10 +478,10 @@ Return value; the new start of the B<Gnome::Glib::N-SList>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-before
 
 Inserts a node before C<$sibling> containing C<$data>.
@@ -503,10 +503,10 @@ Return value; the new head of the list..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-sorted
 
 Inserts a new element into the list, using the given
@@ -531,10 +531,10 @@ Return value; the new start of the B<Gnome::Glib::N-SList>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-sorted-with-data
 
 Inserts a new element into the list, using the given
@@ -560,10 +560,10 @@ Return value; the new start of the B<Gnome::Glib::N-SList>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 last
 
 Gets the last element in a B<Gnome::Glib::N-SList>.
@@ -586,10 +586,10 @@ Return value; the last element in the B<Gnome::Glib::N-SList>,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 length
 
 Gets the number of elements in a B<Gnome::Glib::N-SList>.
@@ -613,10 +613,10 @@ Return value; the number of elements in the B<Gnome::Glib::N-SList>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 nth
 
 Gets the element at the given position in a B<Gnome::Glib::N-SList>.
@@ -638,10 +638,10 @@ Return value; the element, or undefined if the position is off
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 nth-data
 
 Gets the data of the element at the given position.
@@ -663,10 +663,10 @@ Return value; the element's data, or undefined if the position
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 position
 
 Gets the position of the given element
@@ -689,10 +689,10 @@ Return value; the position of the element in the B<Gnome::Glib::N-SList>,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 prepend
 
 Adds a new element on to the start of the list.
@@ -725,10 +725,10 @@ Return value; the new start of the B<Gnome::Glib::N-SList>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove
 
 Removes an element from a B<Gnome::Glib::N-SList>.
@@ -751,10 +751,10 @@ Return value; the new start of the B<Gnome::Glib::N-SList>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-all
 
 Removes all list nodes with data equal to C<$data>.
@@ -778,10 +778,10 @@ Return value; new head of C<$list>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-link
 
 Removes an element from a B<Gnome::Glib::N-SList>, without
@@ -811,10 +811,10 @@ Return value; the new start of the B<Gnome::Glib::N-SList>, without the element.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 reverse
 
 Reverses a B<Gnome::Glib::N-SList>.
@@ -834,10 +834,10 @@ Return value; the start of the reversed B<Gnome::Glib::N-SList>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 sort
 
 Sorts a B<Gnome::Glib::N-SList> using the given comparison function. The algorithm
@@ -863,10 +863,10 @@ Return value; the start of the sorted B<Gnome::Glib::N-SList>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 sort-with-data
 
 Like C<.sort()>, but the sort function accepts a user data argument.
@@ -888,5 +888,5 @@ Return value; new head of the list.
 
 =end comment
 
-=end pod
+=end rakudoc
 

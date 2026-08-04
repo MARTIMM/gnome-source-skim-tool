@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Glib::N-VariantIter
 
 =head1 Description
@@ -20,13 +20,13 @@ using the following functions.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -37,18 +37,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 copy
 
 Creates a new heap-allocated B<Gnome::Glib::N-VariantIter> to iterate over the
@@ -75,10 +75,10 @@ Return value; a new heap-allocated B<Gnome::Glib::N-VariantIter>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free
 
 Frees a heap-allocated B<Gnome::Glib::N-VariantIter>.  Only call this function on
@@ -96,10 +96,10 @@ method free ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init
 
 Initialises (without allocating) a B<Gnome::Glib::N-VariantIter>.  C<$iter> may be
@@ -124,10 +124,10 @@ Return value; the number of items in C<$value>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 loop
 This function is not yet available
 
@@ -211,10 +211,10 @@ Return value; C<True> if a value was unpacked, or C<False> if there was no
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 n-children
 
 Queries the number of child items in the container that we are
@@ -236,10 +236,10 @@ Return value; the number of children in the container.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 next
 This function is not yet available
 
@@ -301,10 +301,10 @@ Return value; C<True> if a value was unpacked, or C<False> if there as no value.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 next-value
 
 Gets the next item in the container.  If no more items remain then
@@ -350,5 +350,5 @@ Return value; a B<Gnome::Glib::N-Variant>, or undefined.
 
 =end comment
 
-=end pod
+=end rakudoc
 

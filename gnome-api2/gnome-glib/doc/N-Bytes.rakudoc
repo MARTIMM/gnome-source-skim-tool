@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Glib::N-Bytes
 
 =head1 Description
@@ -42,13 +42,13 @@ a mutable B<Gnome::Glib::N-ByteArray>, use the g_byte_array_free_to_bytes() func
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -59,10 +59,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-bytes
 
 Creates a new B<Gnome::Glib::N-Bytes> from C<$data>.
@@ -83,10 +83,10 @@ method new-bytes ( gpointer $data, Int() $size --> Gnome::Glib::Bytes \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-static
 
 Creates a new B<Gnome::Glib::N-Bytes> from static data.
@@ -108,10 +108,10 @@ method new-static ( gpointer $data, Int() $size --> Gnome::Glib::Bytes \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-take
 
 Creates a new B<Gnome::Glib::N-Bytes> from C<$data>.
@@ -141,10 +141,10 @@ method new-take ( gpointer $data, Int() $size --> Gnome::Glib::Bytes \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-with-free-func
 
 Creates a B<Gnome::Glib::N-Bytes> from C<$data>.
@@ -171,18 +171,18 @@ method new-with-free-func ( gpointer $data, Int() $size, &free-func, gpointer $u
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 compare
 
 Compares the two B<Gnome::Glib::N-Bytes> values.
@@ -212,10 +212,10 @@ Return value; a negative value if C<$bytes1> is less than C<$bytes2>, a positive
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 equal
 
 Compares the two B<Gnome::Glib::N-Bytes> values being pointed to and returns
@@ -239,10 +239,10 @@ Return value; C<True> if the two keys match..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-data
 
 Get the byte data in the B<Gnome::Glib::N-Bytes>. This data should not be modified.
@@ -269,10 +269,10 @@ Return value;
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-region
 
 Gets a pointer to a region in C<$bytes>.
@@ -311,10 +311,10 @@ Return value; the requested region, or undefined in case of an error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-size
 
 Get the size of the byte data in the B<Gnome::Glib::N-Bytes>.
@@ -334,10 +334,10 @@ Return value; the size.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 hash
 
 Creates an integer hash code for the byte data in the B<Gnome::Glib::N-Bytes>.
@@ -358,10 +358,10 @@ Return value; a hash value corresponding to the key..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-bytes
 
 Creates a B<Gnome::Glib::N-Bytes> which is a subsection of another B<Gnome::Glib::N-Bytes>. The C<$offset> + C<$length> may not be longer than the size of C<$bytes>.
@@ -390,10 +390,10 @@ Return value; a new B<Gnome::Glib::N-Bytes>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ref
 
 Increase the reference count on C<$bytes>.
@@ -411,10 +411,10 @@ Return value; the B<Gnome::Glib::N-Bytes>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unref
 
 Releases a reference on C<$bytes>.  This may result in the bytes being
@@ -431,10 +431,10 @@ method unref ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unref-to-array
 
 Unreferences the bytes, and returns a new mutable B<Gnome::Glib::N-ByteArray> containing
@@ -462,10 +462,10 @@ Return value; a new mutable B<Gnome::Glib::N-ByteArray> containing the same byte
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unref-to-data
 
 Unreferences the bytes, and returns a pointer the same byte data
@@ -492,5 +492,5 @@ Return value; a pointer to the same byte data, which should be
 
 =end comment
 
-=end pod
+=end rakudoc
 

@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Glib::N-VariantType
 
 =head1 Description
@@ -165,13 +165,13 @@ be a basic type, "{**}" is not a valid type string.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -182,10 +182,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-varianttype
 
 Creates a new B<Gnome::Glib::N-VariantType> corresponding to the type string given
@@ -208,10 +208,10 @@ method new-varianttype ( Str $type-string --> Gnome::Glib::VariantType \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-array
 
 Constructs the type corresponding to an array of elements of the
@@ -232,10 +232,10 @@ method new-array ( N-Object $element --> Gnome::Glib::VariantType \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-dict-entry
 
 Constructs the type corresponding to a dictionary entry with a key
@@ -257,10 +257,10 @@ method new-dict-entry ( N-Object $key, N-Object $value --> Gnome::Glib::VariantT
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-maybe
 
 Constructs the type corresponding to a maybe instance containing
@@ -281,10 +281,10 @@ method new-maybe ( N-Object $element --> Gnome::Glib::VariantType \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-tuple
 
 Constructs a new tuple type, from C<$items>.
@@ -306,18 +306,18 @@ method new-tuple ( N-Object $items, Int() $length --> Gnome::Glib::VariantType \
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 copy
 
 Makes a copy of a B<Gnome::Glib::N-VariantType>.  It is appropriate to call
@@ -338,10 +338,10 @@ Since 2.24.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 dup-string
 
 Returns a newly-allocated copy of the type string corresponding to C<$type>.  The returned string is nul-terminated.  It is appropriate to
@@ -362,10 +362,10 @@ Since 2.24.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 element
 
 Determines the element type of an array or maybe type.
@@ -387,10 +387,10 @@ Since 2.24.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 equal
 
 Compares C<$type1> and C<$type2> for equality.
@@ -421,10 +421,10 @@ Since 2.24.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 first
 
 Determines the first item type of a tuple or dictionary entry
@@ -457,10 +457,10 @@ Since 2.24.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free
 
 Frees a B<Gnome::Glib::N-VariantType> that was allocated with
@@ -482,10 +482,10 @@ method free ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-string-length
 
 Returns the length of the type string corresponding to the given C<$type>.  This function must be used to determine the valid extent of
@@ -506,10 +506,10 @@ Since 2.24.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 hash
 
 Hashes C<$type>.
@@ -533,10 +533,10 @@ Since 2.24.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-array
 
 Determines if the given C<$type> is an array type.  This is true if the
@@ -561,10 +561,10 @@ Since 2.24.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-basic
 
 Determines if the given C<$type> is a basic type.
@@ -592,10 +592,10 @@ Since 2.24.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-container
 
 Determines if the given C<$type> is a container type.
@@ -622,10 +622,10 @@ Since 2.24.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-definite
 
 Determines if the given C<$type> is definite (ie: not indefinite).
@@ -654,10 +654,10 @@ Since 2.24.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-dict-entry
 
 Determines if the given C<$type> is a dictionary entry type.  This is
@@ -682,10 +682,10 @@ Since 2.24.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-maybe
 
 Determines if the given C<$type> is a maybe type.  This is true if the
@@ -710,10 +710,10 @@ Since 2.24.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-subtype-of
 
 Checks if C<$type> is a subtype of C<$supertype>.
@@ -739,10 +739,10 @@ Since 2.24.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-tuple
 
 Determines if the given C<$type> is a tuple type.  This is true if the
@@ -768,10 +768,10 @@ Since 2.24.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-variant
 
 Determines if the given C<$type> is the variant type.
@@ -791,10 +791,10 @@ Since 2.24.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 key
 
 Determines the key type of a dictionary entry type.
@@ -818,10 +818,10 @@ Since 2.24.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 n-items
 
 Determines the number of items contained in a tuple or
@@ -849,10 +849,10 @@ Since 2.24.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 next
 
 Determines the next item type of a tuple or dictionary entry
@@ -881,10 +881,10 @@ Since 2.24.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 peek-string
 
 Returns the type string corresponding to the given C<$type>.  The
@@ -908,10 +908,10 @@ Since 2.24.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 value
 
 Determines the value type of a dictionary entry type.
@@ -933,18 +933,18 @@ Since 2.24.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 string-is-valid
 
 Checks if C<$type-string> is a valid GVariant type string.  This call is
@@ -968,10 +968,10 @@ Since 2.24.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 string-scan
 
 Scan for a single complete and valid GVariant type string in C<$string>.
@@ -1005,5 +1005,5 @@ Return value; C<True> if a valid type string was found.
 
 =end comment
 
-=end pod
+=end rakudoc
 

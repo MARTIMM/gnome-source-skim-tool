@@ -1,14 +1,14 @@
 use v6.d;
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Glib::Error
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 
 ![](images/error.png)
 
@@ -29,13 +29,13 @@ $error.free;
 say $error.matches( $domain, $code);                  # False
 =end code
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Record Structure Documentation]---------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-Error
 
   class N-Error:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
@@ -49,14 +49,14 @@ say $error.matches( $domain, $code);                  # False
 =item code; error code, e.g. %G_FILE_ERROR_NOENT
 =item message; human-readable informative error message
 
-=end pod
+=end rakudoc
 
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -67,10 +67,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-error
 
 Creates a new B<N-Error> with the given C<$domain> and C<$code>,
@@ -93,10 +93,10 @@ method new-error ( UInt $domain, Int() $code, Str $format, … --> Gnome::Glib::
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-literal
 
 Creates a new B<N-Error>; unlike g_error_new(), C<$message> is not a printf()-style format string. Use this function if C<$message> contains text you don't have control over,
@@ -117,10 +117,10 @@ method new-literal ( UInt $domain, Int() $code, Str $message --> Gnome::Glib::Er
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-valist
 This function is not yet available
 
@@ -142,18 +142,18 @@ method new-valist ( UInt $domain, Int() $code, Str $format, … --> Gnome::Glib:
 # Example for new-valist
 
 =end comment
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 copy
 
 Makes a copy of C<$error>.
@@ -171,10 +171,10 @@ Return value; a new B<N-Error>.
 # Example for copy
 
 =end comment
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free
 
 Frees a B<N-Error> and associated resources.
@@ -190,10 +190,10 @@ method free ( )
 =end code
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 matches
 
 Returns C<True> if C<$error> matches C<$domain> and C<$code>, C<False>
@@ -218,18 +218,18 @@ Return value; whether C<$error> has C<$domain> and C<$code>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 domain-register
 
 This function registers an extended B<N-Error> domain. C<$error_type_name> will be duplicated. Otherwise does the same as g_error_domain_register_static().
@@ -257,10 +257,10 @@ Return value; GQuark representing the error domain.
 # Example for domain-register
 
 =end comment
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 domain-register-static
 
 This function registers an extended B<N-Error> domain.
@@ -294,5 +294,5 @@ Return value; GQuark representing the error domain.
 # Example for domain-register-static
 
 =end comment
-=end pod
+=end rakudoc
 

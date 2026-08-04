@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Glib::N-VariantDict
 
 =head1 Description
@@ -111,13 +111,13 @@ B<Gnome::Glib::N-Variant>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -128,10 +128,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-variantdict
 
 Allocates and initialises a new B<Gnome::Glib::N-VariantDict>.
@@ -159,18 +159,18 @@ method new-variantdict ( N-Object $from-asv --> Gnome::Glib::VariantDict \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 clear
 
 Releases all memory associated with a B<Gnome::Glib::N-VariantDict> without freeing
@@ -199,10 +199,10 @@ method clear ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 contains
 
 Checks if C<$key> exists in C<$dict>.
@@ -222,10 +222,10 @@ Return value; C<True> if C<$key> is in C<$dict>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 end
 
 Returns the current value of C<$dict> as a B<Gnome::Glib::N-Variant> of type
@@ -249,10 +249,10 @@ Return value; a new, floating, B<Gnome::Glib::N-Variant>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init
 
 Initialises a B<Gnome::Glib::N-VariantDict> structure.
@@ -285,10 +285,10 @@ method init ( N-Object $from-asv )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert
 This function is not yet available
 
@@ -312,10 +312,10 @@ method insert ( Str $key, Str $format-string, … )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-value
 
 Inserts (or replaces) a key in a B<Gnome::Glib::N-VariantDict>.
@@ -335,10 +335,10 @@ method insert-value ( Str $key, N-Object $value )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 lookup
 This function is not yet available
 
@@ -369,10 +369,10 @@ Return value; C<True> if a value was unpacked.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 lookup-value
 
 Looks up a value in a B<Gnome::Glib::N-VariantDict>.
@@ -403,10 +403,10 @@ Return value; the value of the dictionary key, or undefined.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ref
 
 Increases the reference count on C<$dict>.
@@ -427,10 +427,10 @@ Return value; a new reference to C<$dict>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove
 
 Removes a key and its associated value from a B<Gnome::Glib::N-VariantDict>.
@@ -450,10 +450,10 @@ Return value; C<True> if the key was found and removed.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unref
 
 Decreases the reference count on C<$dict>.
@@ -475,5 +475,5 @@ method unref ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 

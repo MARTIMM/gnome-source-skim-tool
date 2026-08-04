@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Glib::N-MainLoop
 
 =head1 Description
@@ -20,13 +20,13 @@ representing the main event loop of a GLib or GTK+ application.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -37,10 +37,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-mainloop
 
 Creates a new B<Gnome::Glib::N-MainLoop> structure.
@@ -61,18 +61,18 @@ C<True> anyway..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-context
 
 Returns the B<Gnome::Glib::N-MainContext> of C<$loop>.
@@ -90,10 +90,10 @@ Return value; the B<Gnome::Glib::N-MainContext> of C<$loop>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-running
 
 Checks to see if the main loop is currently being run via C<.run()>.
@@ -111,10 +111,10 @@ Return value; C<True> if the mainloop is currently being run..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 quit
 
 Stops a B<Gnome::Glib::N-MainLoop> from running. Any calls to C<.run()>
@@ -134,10 +134,10 @@ method quit ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ref
 
 Increases the reference count on a B<Gnome::Glib::N-MainLoop> object by one.
@@ -155,10 +155,10 @@ Return value; C<$loop>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 run
 
 Runs a main loop until C<.quit()> is called on the loop.
@@ -177,10 +177,10 @@ method run ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unref
 
 Decreases the reference count on a B<Gnome::Glib::N-MainLoop> object by one. If
@@ -197,5 +197,5 @@ method unref ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
