@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::R-Accessible
 =head1 Description
 
@@ -46,17 +46,17 @@ updating the sibling by L<.update-next-accessible-sibling()|#update-next-accessi
 
 =end comment
 
-=end pod
+=end rakudoc
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 announce
 
 Requests the user's screen reader to announce the given message.
@@ -83,10 +83,10 @@ method announce ( Str $message, GtkAccessibleAnnouncementPriority $priority )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-accessible-parent
 
 Retrieves the accessible parent for an accessible object.
@@ -106,10 +106,10 @@ Return value; the accessible parent.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-accessible-role
 
 Retrieves the accessible role of an accessible object.
@@ -127,10 +127,10 @@ Return value; the accessible role.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-at-context
 
 Retrieves the accessible implementation for the given L<Gnome::Gtk4::R-Accessible|/content-docs/api2/reference/Gtk4/R-Accessible>.
@@ -148,10 +148,10 @@ Return value; the accessible implementation object.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-bounds
 
 Queries the coordinates and dimensions of this accessible
@@ -178,10 +178,10 @@ Return value; true if the bounds are valid, and false otherwise.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-first-accessible-child
 
 Retrieves the first accessible child of an accessible object.
@@ -199,10 +199,10 @@ Return value; the first accessible child.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-next-accessible-sibling
 
 Retrieves the next accessible sibling of an accessible object
@@ -220,10 +220,10 @@ Return value; the next accessible sibling.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-platform-state
 
 Query a platform state, such as focus.
@@ -249,10 +249,10 @@ Return value; the value of C<$state> for the accessible.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 reset-property
 
 Resets the accessible C<$property> to its default value.
@@ -270,10 +270,10 @@ method reset-property ( GtkAccessibleProperty $property )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 reset-relation
 
 Resets the accessible C<$relation> to its default value.
@@ -291,10 +291,10 @@ method reset-relation ( GtkAccessibleRelation $relation )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 reset-state
 
 Resets the accessible C<$state> to its default value.
@@ -313,10 +313,10 @@ gtk_accessible_update_property (GTK_ACCESSIBLE (spin_button),
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-accessible-parent
 
 Sets the parent and sibling of an accessible object.
@@ -346,10 +346,10 @@ gtk_accessible_update_relation (accessible,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 update-next-accessible-sibling
 
 Updates the next accessible sibling of C<$self>.
@@ -371,10 +371,10 @@ gtk_accessible_update_state (GTK_ACCESSIBLE (check_button),
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 update-property
 
 Updates a list of accessible properties.
@@ -395,10 +395,10 @@ method update-property ( GtkAccessibleProperty $first-property, … )
 =item $first-property; the first C<enumeration GtkAccessibleProperty defined in Gnome::Gtk4::T-enums>.
 =item …; …. Note that each argument must be specified as a type followed by its value!
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 update-property-value
 
 Updates an array of accessible properties.
@@ -416,10 +416,10 @@ method update-property-value ( Int() $n-properties, GtkAccessibleProperty $prope
 =item $properties; an array of C<enumeration GtkAccessibleProperty defined in Gnome::Gtk4::T-enums>.
 =item $values; an array of B<GValues>, one for each property
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 update-relation
 
 Updates a list of accessible relations.
@@ -437,10 +437,10 @@ method update-relation ( GtkAccessibleRelation $first-relation, … )
 =item $first-relation; the first C<enumeration GtkAccessibleRelation defined in Gnome::Gtk4::T-enums>.
 =item …; …. Note that each argument must be specified as a type followed by its value!
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 update-relation-value
 
 Updates an array of accessible relations.
@@ -458,10 +458,10 @@ method update-relation-value ( Int() $n-relations, GtkAccessibleRelation $relati
 =item $relations; an array of C<enumeration GtkAccessibleRelation defined in Gnome::Gtk4::T-enums>.
 =item $values; an array of B<GValues>, one for each relation
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 update-state
 
 Updates a list of accessible states. See the  enumeration C<AccessibleState> from C<Gnome::Gtk4::T-enums> 
@@ -479,10 +479,10 @@ method update-state ( GtkAccessibleState $first-state, … )
 =item $first-state; the first C<enumeration GtkAccessibleState defined in Gnome::Gtk4::T-enums>.
 =item …; …. Note that each argument must be specified as a type followed by its value!
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 update-state-value
 
 Updates an array of accessible states.
@@ -500,5 +500,5 @@ method update-state-value ( Int() $n-states, GtkAccessibleState $states, N-Objec
 =item $states; an array of C<enumeration GtkAccessibleState defined in Gnome::Gtk4::T-enums>.
 =item $values; an array of B<GValues>, one for each state
 
-=end pod
+=end rakudoc
 

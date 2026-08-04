@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::R-Editable
 =head1 Description
 
@@ -126,17 +126,17 @@ to them on the delegate obtained via L<.get-delegate()|#get-delegate>.
 
 =end comment
 
-=end pod
+=end rakudoc
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 delegate-get-accessible-platform-state
 
 Retrieves the accessible platform state from the editable delegate.
@@ -163,10 +163,10 @@ Return value; No documentation about its value and use.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 delete-selection
 
 Deletes the currently selected text of the editable.
@@ -184,10 +184,10 @@ method delete-selection ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 delete-text
 
 Deletes a sequence of characters.
@@ -213,10 +213,10 @@ method delete-text ( Int() $start-pos, Int() $end-pos )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 finish-delegate
 
 Undoes the setup done by L<.init-delegate()|#init-delegate>.
@@ -235,10 +235,10 @@ method finish-delegate ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-alignment
 
 Gets the alignment of the editable.
@@ -256,10 +256,10 @@ Return value; the alignment.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-chars
 
 Retrieves a sequence of characters.
@@ -289,10 +289,10 @@ Return value; a pointer to the contents of the widget as a
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-delegate
 
 Gets the L<Gnome::Gtk4::R-Editable|/content-docs/api2/reference/Gtk4/R-Editable> that C<$editable> is delegating its
@@ -313,10 +313,10 @@ Return value; the delegate L<Gnome::Gtk4::R-Editable|/content-docs/api2/referenc
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-editable
 
 Retrieves whether C<$editable> is editable.
@@ -334,10 +334,10 @@ Return value; C<True> if C<$editable> is editable..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-enable-undo
 
 Gets if undo/redo actions are enabled for C<$editable>
@@ -355,10 +355,10 @@ Return value; C<True> if undo is enabled.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-max-width-chars
 
 Retrieves the desired maximum width of C<$editable>, in characters.
@@ -376,10 +376,10 @@ Return value; the maximum width of the entry, in characters.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-position
 
 Retrieves the current position of the cursor relative
@@ -400,10 +400,10 @@ Return value; the cursor position.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-selection-bounds
 
 Retrieves the selection bound of the editable.
@@ -428,10 +428,10 @@ Return value; C<True> if there is a non-empty selection, C<False> otherwise.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-text
 
 Retrieves the contents of C<$editable>.
@@ -451,10 +451,10 @@ Return value; a pointer to the contents of the editable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-width-chars
 
 Gets the number of characters of space reserved
@@ -473,10 +473,10 @@ Return value; number of chars to request space for, or negative if unset.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-delegate
 
 Sets up a delegate for L<Gnome::Gtk4::R-Editable|/content-docs/api2/reference/Gtk4/R-Editable>.
@@ -498,10 +498,10 @@ method init-delegate ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-text
 
 Inserts C<$length> bytes of C<$text> into the contents of the
@@ -526,10 +526,10 @@ method insert-text ( Str $text, Int() $length, Array[Int] $position )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 select-region
 
 Selects a region of text.
@@ -554,10 +554,10 @@ method select-region ( Int() $start-pos, Int() $end-pos )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-alignment
 
 Sets the alignment for the contents of the editable.
@@ -579,10 +579,10 @@ method set-alignment ( Num() $xalign )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-editable
 
 Determines if the user can edit the text in the editable widget.
@@ -601,10 +601,10 @@ method set-editable ( Bool() $is-editable )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-enable-undo
 
 If enabled, changes to C<$editable> will be saved for undo/redo
@@ -627,10 +627,10 @@ method set-enable-undo ( Bool() $enable-undo )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-max-width-chars
 
 Sets the desired maximum width in characters of C<$editable>.
@@ -648,10 +648,10 @@ method set-max-width-chars ( Int() $n-chars )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-position
 
 Sets the cursor position in the editable to the given value.
@@ -675,10 +675,10 @@ method set-position ( Int() $position )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-text
 
 Sets the text in the editable to the given value.
@@ -698,10 +698,10 @@ method set-text ( Str $text )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-width-chars
 
 Changes the size request of the editable to be about the
@@ -724,18 +724,18 @@ method set-width-chars ( Int() $n-chars )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 delegate-get-property
 
 Gets a property of the L<Gnome::Gtk4::R-Editable|/content-docs/api2/reference/Gtk4/R-Editable> delegate for C<$object>.
@@ -762,10 +762,10 @@ Return value; C<True> if the property was found.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 delegate-set-property
 
 Sets a property on the L<Gnome::Gtk4::R-Editable|/content-docs/api2/reference/Gtk4/R-Editable> delegate for C<$object>.
@@ -792,10 +792,10 @@ Return value; C<True> if the property was found.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 install-properties
 
 Overrides the L<Gnome::Gtk4::R-Editable|/content-docs/api2/reference/Gtk4/R-Editable> properties for C<$class>.
@@ -830,13 +830,13 @@ Return value; the number of properties that were installed.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -966,5 +966,5 @@ insert_text_handler (GtkEditable *editable,
 
 =end comment
 
-=end pod
+=end rakudoc
 
