@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Viewport
 =head1 Description
 
@@ -38,13 +38,13 @@ Starting from GTK 4.12, B<Gnome::Gtk4::Viewport> uses the B<GTK_ACCESSIBLE_ROLE_
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -55,10 +55,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-viewport
 
 Creates a new B<Gnome::Gtk4::Viewport>.
@@ -80,18 +80,18 @@ method new-viewport ( N-Object() $hadjustment, N-Object() $vadjustment --> Gnome
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child
 
 Gets the child widget of C<$viewport>.
@@ -109,10 +109,10 @@ Return value; the child widget of C<$viewport>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-scroll-to-focus
 
 Gets whether the viewport is scrolling to keep the focused
@@ -131,10 +131,10 @@ Return value; C<True> if the viewport keeps the focus child scrolled to view.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 scroll-to
 
 Scrolls a descendant of the viewport into view.
@@ -157,10 +157,10 @@ method scroll-to ( N-Object() $descendant, N-Object $scroll )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-child
 
 Sets the child widget of C<$viewport>.
@@ -178,10 +178,10 @@ method set-child ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-scroll-to-focus
 
 Sets whether the viewport should automatically scroll
@@ -200,5 +200,5 @@ method set-scroll-to-focus ( Bool() $scroll-to-focus )
 
 =end comment
 
-=end pod
+=end rakudoc
 

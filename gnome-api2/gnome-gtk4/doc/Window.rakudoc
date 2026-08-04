@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Window
 =head1 Description
 
@@ -71,13 +71,13 @@ B<Gnome::Gtk4::Window> defines a set of built-in actions:
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -88,10 +88,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-window
 
 Creates a new B<Gnome::Gtk4::Window>.
@@ -118,18 +118,18 @@ method new-window ( --> Gnome::Gtk4::Window )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 close
 
 Requests that the window is closed.
@@ -151,10 +151,10 @@ method close ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 destroy
 
 Drop the internal reference GTK holds on toplevel windows.
@@ -170,10 +170,10 @@ method destroy ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 fullscreen
 
 Asks to place C<$window> in the fullscreen state.
@@ -198,10 +198,10 @@ method fullscreen ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 fullscreen-on-monitor
 
 Asks to place C<$window> in the fullscreen state on the given C<$monitor>.
@@ -227,10 +227,10 @@ method fullscreen-on-monitor ( N-Object() $monitor )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-application
 
 Gets the L<Gnome::Gtk4::Application|/content-docs/api2/reference/Gtk4/Application> associated with the window.
@@ -248,10 +248,10 @@ Return value; a L<Gnome::Gtk4::Application|/content-docs/api2/reference/Gtk4/App
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child
 
 Gets the child widget of C<$window>.
@@ -269,10 +269,10 @@ Return value; the child widget of C<$window>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-decorated
 
 Returns whether the window has been set to have decorations.
@@ -290,10 +290,10 @@ Return value; C<True> if the window has been set to have decorations.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-default-size
 
 Gets the default size of the window.
@@ -319,10 +319,10 @@ method get-default-size ( Array[Int] $width, Array[Int] $height )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-default-widget
 
 Returns the default widget for C<$window>.
@@ -340,10 +340,10 @@ Return value; the default widget.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-deletable
 
 Returns whether the window has been set to have a close button.
@@ -361,10 +361,10 @@ Return value; C<True> if the window has been set to have a close button.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-destroy-with-parent
 
 Returns whether the window will be destroyed with its transient parent.
@@ -382,10 +382,10 @@ Return value; C<True> if the window will be destroyed with its transient parent.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-focus
 
 Retrieves the current focused widget within the window.
@@ -408,10 +408,10 @@ Return value; the currently focused widget.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-focus-visible
 
 Gets whether “focus rectangles” are supposed to be visible.
@@ -430,10 +430,10 @@ Return value; C<True> if “focus rectangles” are supposed to be visible
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-group
 
 Returns the group for C<$window>.
@@ -454,10 +454,10 @@ Return value; the L<Gnome::Gtk4::WindowGroup|/content-docs/api2/reference/Gtk4/W
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-handle-menubar-accel
 
 Returns whether this window reacts to F10 key presses by
@@ -476,10 +476,10 @@ Return value; C<True> if the window handles F10.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-hide-on-close
 
 Returns whether the window will be hidden when the close button is clicked.
@@ -497,10 +497,10 @@ Return value; C<True> if the window will be hidden.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-icon-name
 
 Returns the name of the themed icon for the window.
@@ -518,10 +518,10 @@ Return value; the icon name.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-mnemonics-visible
 
 Gets whether mnemonics are supposed to be visible.
@@ -540,10 +540,10 @@ Return value; C<True> if mnemonics are supposed to be visible
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-modal
 
 Returns whether the window is modal.
@@ -562,10 +562,10 @@ Return value; C<True> if the window is set to be modal and
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-resizable
 
 Gets the value set by C<.set-resizable()>.
@@ -583,10 +583,10 @@ Return value; C<True> if the user can resize the window.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-title
 
 Retrieves the title of the window.
@@ -604,10 +604,10 @@ Return value; the title of the window.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-titlebar
 
 Returns the custom titlebar that has been set with
@@ -626,10 +626,10 @@ Return value; the custom titlebar.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-transient-for
 
 Fetches the transient parent for this window.
@@ -647,10 +647,10 @@ Return value; the transient parent for this window.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 has-group
 
 Returns whether C<$window> has an explicit window group.
@@ -668,10 +668,10 @@ Return value; C<True> if C<$window> has an explicit window group..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-active
 
 Returns whether the window is part of the current active toplevel.
@@ -695,10 +695,10 @@ Return value; C<True> if the window part of the current active window..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-fullscreen
 
 Retrieves the current fullscreen state of C<$window>.
@@ -725,10 +725,10 @@ Return value; whether the window has a fullscreen state..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-maximized
 
 Retrieves the current maximized state of C<$window>.
@@ -755,10 +755,10 @@ Return value; whether the window has a maximized state..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-suspended
 
 Retrieves the current suspended state of C<$window>.
@@ -779,10 +779,10 @@ Return value; whether the window is suspended..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 maximize
 
 Asks to maximize C<$window>, so that it fills the screen.
@@ -812,10 +812,10 @@ method maximize ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 minimize
 
 Asks to minimize the specified C<$window>.
@@ -844,10 +844,10 @@ method minimize ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 present
 
 Presents a window to the user.
@@ -870,10 +870,10 @@ method present ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 present-with-time
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.14>
@@ -900,10 +900,10 @@ method present-with-time ( UInt() $timestamp )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-application
 
 Sets or unsets the L<Gnome::Gtk4::Application|/content-docs/api2/reference/Gtk4/Application> associated with the window.
@@ -933,10 +933,10 @@ method set-application ( N-Object() $application )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-child
 
 Sets the child widget of C<$window>.
@@ -954,10 +954,10 @@ method set-child ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-decorated
 
 Sets whether the window should be decorated.
@@ -987,10 +987,10 @@ method set-decorated ( Bool() $setting )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-default-size
 
 Sets the default size of a window.
@@ -1037,10 +1037,10 @@ method set-default-size ( Int() $width, Int() $height )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-default-widget
 
 Sets the default widget.
@@ -1062,10 +1062,10 @@ method set-default-widget ( N-Object() $default-widget )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-deletable
 
 Sets whether the window should be deletable.
@@ -1094,10 +1094,10 @@ method set-deletable ( Bool() $setting )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-destroy-with-parent
 
 If C<$setting> is C<True>, then destroying the transient parent of C<$window>
@@ -1119,10 +1119,10 @@ method set-destroy-with-parent ( Bool() $setting )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-display
 
 Sets the L<Gnome::Gdk4::Display|/content-docs/api2/reference/Gdk4/Display> where the C<$window> is displayed.
@@ -1143,10 +1143,10 @@ method set-display ( N-Object() $display )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-focus
 
 Sets the focus widget.
@@ -1171,10 +1171,10 @@ method set-focus ( N-Object() $focus )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-focus-visible
 
 Sets whether “focus rectangles” are supposed to be visible.
@@ -1195,10 +1195,10 @@ method set-focus-visible ( Bool() $setting )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-handle-menubar-accel
 
 Sets whether this window should react to F10 key presses
@@ -1217,10 +1217,10 @@ method set-handle-menubar-accel ( Bool() $handle-menubar-accel )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-hide-on-close
 
 If C<$setting> is C<True>, then clicking the close button on the window
@@ -1239,10 +1239,10 @@ method set-hide-on-close ( Bool() $setting )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-icon-name
 
 Sets the icon for the window from a named themed icon.
@@ -1266,10 +1266,10 @@ method set-icon-name ( Str $name )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-mnemonics-visible
 
 Sets whether mnemonics are supposed to be visible.
@@ -1290,10 +1290,10 @@ method set-mnemonics-visible ( Bool() $setting )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-modal
 
 Sets a window modal or non-modal.
@@ -1317,10 +1317,10 @@ method set-modal ( Bool() $modal )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-resizable
 
 Sets whether the user can resize a window.
@@ -1340,10 +1340,10 @@ method set-resizable ( Bool() $resizable )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-startup-id
 
 Sets the startup notification ID.
@@ -1374,10 +1374,10 @@ method set-startup-id ( Str $startup-id )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-title
 
 Sets the title of the B<Gnome::Gtk4::Window>.
@@ -1404,10 +1404,10 @@ method set-title ( Str $title )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-titlebar
 
 Sets a custom titlebar for C<$window>.
@@ -1435,10 +1435,10 @@ method set-titlebar ( N-Object() $titlebar )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-transient-for
 
 Dialog windows should be set transient for the main application
@@ -1466,10 +1466,10 @@ method set-transient-for ( N-Object() $parent )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unfullscreen
 
 Asks to remove the fullscreen state for C<$window>, and return to
@@ -1497,10 +1497,10 @@ method unfullscreen ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unmaximize
 
 Asks to unmaximize C<$window>.
@@ -1525,10 +1525,10 @@ method unmaximize ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unminimize
 
 Asks to unminimize the specified C<$window>.
@@ -1553,18 +1553,18 @@ method unminimize ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-default-icon-name
 
 Returns the fallback icon name for windows.
@@ -1586,10 +1586,10 @@ Return value; the fallback icon name for windows.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-toplevels
 
 Returns a list of all existing toplevel windows.
@@ -1612,10 +1612,10 @@ Return value; the list
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 list-toplevels
 
 Returns a list of all existing toplevel windows.
@@ -1640,10 +1640,10 @@ Return value; list of
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-auto-startup-notification
 
 Sets whether the window should request startup notification.
@@ -1672,10 +1672,10 @@ method set-auto-startup-notification ( Bool() $setting )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-default-icon-name
 
 Sets an icon to be used as fallback.
@@ -1697,10 +1697,10 @@ method set-default-icon-name ( Str $name )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-interactive-debugging
 
 Opens or closes the [interactive debugger](running.html#interactive-debugging).
@@ -1729,13 +1729,13 @@ method set-interactive-debugging ( Bool() $enable )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -1887,5 +1887,5 @@ window.background [.csd / .solid-csd / .ssd] [.maximized / .fullscreen / .tiled]
 
 =end comment
 
-=end pod
+=end rakudoc
 

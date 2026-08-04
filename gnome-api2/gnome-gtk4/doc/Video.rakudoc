@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Video
 =head1 Description
 
@@ -34,13 +34,13 @@ such as Gstreamer directly.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -51,10 +51,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-video
 
 Creates a new empty B<Gnome::Gtk4::Video>.
@@ -70,10 +70,10 @@ method new-video ( --> Gnome::Gtk4::Video )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-for-file
 
 Creates a B<Gnome::Gtk4::Video> to play back the given C<$file>.
@@ -91,10 +91,10 @@ method new-for-file ( N-Object() $file --> Gnome::Gtk4::Video )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-for-filename
 
 Creates a B<Gnome::Gtk4::Video> to play back the given C<$filename>.
@@ -115,10 +115,10 @@ method new-for-filename ( Str $filename --> Gnome::Gtk4::Video )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-for-media-stream
 
 Creates a B<Gnome::Gtk4::Video> to play back the given C<$stream>.
@@ -136,10 +136,10 @@ method new-for-media-stream ( N-Object() $stream --> Gnome::Gtk4::Video )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-for-resource
 
 Creates a B<Gnome::Gtk4::Video> to play back the resource at the
@@ -160,18 +160,18 @@ method new-for-resource ( Str $resource-path --> Gnome::Gtk4::Video )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-autoplay
 
 Returns C<True> if videos have been set to loop.
@@ -189,10 +189,10 @@ Return value; C<True> if streams should autoplay.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-file
 
 Gets the file played by C<$self> or undefined if not playing back
@@ -211,10 +211,10 @@ Return value; The file played by C<$self>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-graphics-offload
 This function is not yet available
 
@@ -235,10 +235,10 @@ Return value; the graphics offload status.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-loop
 
 Returns C<True> if videos have been set to loop.
@@ -256,10 +256,10 @@ Return value; C<True> if streams should loop.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-media-stream
 
 Gets the media stream managed by C<$self> or undefined if none.
@@ -277,10 +277,10 @@ Return value; The media stream managed by C<$self>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-autoplay
 
 Sets whether C<$self> automatically starts playback when it
@@ -299,10 +299,10 @@ method set-autoplay ( Bool() $autoplay )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-file
 
 Makes C<$self> play the given C<$file>.
@@ -320,10 +320,10 @@ method set-file ( N-Object() $file )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-filename
 
 Makes C<$self> play the given C<$filename>.
@@ -343,10 +343,10 @@ method set-filename ( Str $filename )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-graphics-offload
 
 Sets whether to enable graphics offload.
@@ -366,10 +366,10 @@ method set-graphics-offload ( GtkGraphicsOffloadEnabled  $enabled )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-loop
 
 Sets whether new files loaded by C<$self> should be set to loop.
@@ -387,10 +387,10 @@ method set-loop ( Bool() $loop )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-media-stream
 
 Sets the media stream to be played back.
@@ -407,10 +407,10 @@ method set-media-stream ( N-Object() $stream )
 
 =item $stream; The media stream to play or undefined to unset.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-resource
 
 Makes C<$self> play the resource at the given C<$resource-path>.
@@ -423,5 +423,5 @@ method set-resource ( Str $resource-path )
 
 =item $resource-path; the resource to set.
 
-=end pod
+=end rakudoc
 

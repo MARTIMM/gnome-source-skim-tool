@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::WindowControls
 =head1 Description
 
@@ -72,13 +72,13 @@ B<Gnome::Gtk4::WindowControls> uses the C<GTK_ACCESSIBLE_ROLE_GROUP> role.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -89,10 +89,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-windowcontrols
 
 Creates a new B<Gnome::Gtk4::WindowControls>.
@@ -110,18 +110,18 @@ method new-windowcontrols ( GtkPackType $side --> Gnome::Gtk4::WindowControls )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-decoration-layout
 
 Gets the decoration layout of this B<Gnome::Gtk4::WindowControls>.
@@ -139,10 +139,10 @@ Return value; the decoration layout or undefined if it is unset.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-empty
 
 Gets whether the widget has any window buttons.
@@ -160,10 +160,10 @@ Return value; C<True> if the widget has window buttons, otherwise C<False>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-side
 
 Gets the side to which this B<Gnome::Gtk4::WindowControls> instance belongs.
@@ -181,10 +181,10 @@ Return value; the side.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-decoration-layout
 
 Sets the decoration layout for the title buttons.
@@ -216,10 +216,10 @@ method set-decoration-layout ( Str $layout )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-side
 
 Determines which part of decoration layout the B<Gnome::Gtk4::WindowControls> uses.
@@ -239,5 +239,5 @@ method set-side ( GtkPackType $side )
 
 =end comment
 
-=end pod
+=end rakudoc
 

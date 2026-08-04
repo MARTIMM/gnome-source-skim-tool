@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Widget
 =head1 Description
 
@@ -321,13 +321,13 @@ scope of the class, e.g.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -338,18 +338,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 action-set-enabled
 
 Enable or disable an action installed with
@@ -369,10 +369,10 @@ method action-set-enabled ( Str $action-name, Bool() $enabled )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 activate
 
 For widgets that can be “activated” (buttons, menu items, etc.),
@@ -403,10 +403,10 @@ Return value; C<True> if the widget was activatable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 activate-action
 
 Looks up the action in the action groups associated
@@ -433,10 +433,10 @@ Return value; C<True> if the action was activated, C<False> if the action
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 activate-action-variant
 
 Looks up the action in the action groups associated with C<$widget> and its ancestors, and activates it.
@@ -466,10 +466,10 @@ Return value; C<True> if the action was activated, C<False> if the
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 activate-default
 
 Activates the B<default>.activate` action from C<$widget>.
@@ -485,10 +485,10 @@ method activate-default ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-controller
 
 Adds C<$controller> to C<$widget> so that it will receive events.
@@ -510,10 +510,10 @@ method add-controller ( N-Object() $controller )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-css-class
 
 Adds a style class to C<$widget>.
@@ -538,10 +538,10 @@ method add-css-class ( Str $css-class )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-mnemonic-label
 
 Adds a widget to the list of mnemonic labels for this widget.
@@ -564,10 +564,10 @@ method add-mnemonic-label ( N-Object() $label )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-tick-callback
 
 Queues an animation frame update and adds a callback to be called
@@ -612,10 +612,10 @@ Return value; an id for the connection of this callback. Remove the callback
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 allocate
 
 This function is only used by B<Gnome::Gtk4::Widget> subclasses, to
@@ -645,10 +645,10 @@ method allocate ( Int() $width, Int() $height, Int() $baseline, N-Object $transf
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 child-focus
 
 Called by widgets as the user moves around the window using
@@ -687,10 +687,10 @@ Return value; C<True> if focus ended up inside C<$widget>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 compute-bounds
 
 Computes the bounds for C<$widget> in the coordinate space of C<$target>.
@@ -722,10 +722,10 @@ Return value; C<True> if the bounds could be computed.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 compute-expand
 
 Computes whether a container should give this widget
@@ -757,10 +757,10 @@ Return value; whether widget tree rooted here should be expanded.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 compute-point
 
 Translates the given C<$point> in C<$widget>'s coordinates to coordinates
@@ -788,10 +788,10 @@ Return value; C<True> if the point could be determined, C<False> on failure.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 compute-transform
 
 Computes a matrix suitable to describe a transformation from C<$widget>'s coordinate system into C<$target>'s coordinate system.
@@ -820,10 +820,10 @@ Return value; C<True> if the transform could be computed, C<False> otherwise.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 contains
 
 Tests if the point at ( C<$x>, C<$y>) is contained in C<$widget>.
@@ -847,10 +847,10 @@ Return value; C<True> if C<$widget> contains ( C<$x>, C<$y>)..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 create-pango-context
 
 Creates a new L<Gnome::Pango::Context|/content-docs/api2/reference/Pango/Context> with the appropriate font map,
@@ -872,10 +872,10 @@ Return value; the new L<Gnome::Pango::Context|/content-docs/api2/reference/Pango
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 create-pango-layout
 
 Creates a new L<Gnome::Pango::Layout|/content-docs/api2/reference/Pango/Layout> with the appropriate font map,
@@ -902,10 +902,10 @@ Return value; the new L<Gnome::Pango::Layout|/content-docs/api2/reference/Pango/
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 dispose-template
 
 Clears the template children for the given widget.
@@ -934,10 +934,10 @@ method dispose-template ( GType $widget-type )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 drag-check-threshold
 
 Checks to see if a drag movement has passed the GTK drag threshold.
@@ -960,10 +960,10 @@ Return value; C<True> if the drag threshold has been passed..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 error-bell
 
 Notifies the user about an input-related error on this widget.
@@ -986,10 +986,10 @@ method error-bell ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-allocated-baseline
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.12>
@@ -1013,10 +1013,10 @@ Return value; the baseline of the C<$widget>, or -1 if none.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-allocated-height
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.12>
@@ -1039,10 +1039,10 @@ Return value; the height of the C<$widget>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-allocated-width
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.12>
@@ -1065,10 +1065,10 @@ Return value; the width of the C<$widget>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-allocation
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.12>
@@ -1102,10 +1102,10 @@ method get-allocation ( … )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-ancestor
 
 Gets the first ancestor of C<$widget> with type C<$widget-type>.
@@ -1133,10 +1133,10 @@ Return value; the ancestor widget.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-baseline
 
 Returns the baseline that has currently been allocated to C<$widget>.
@@ -1158,10 +1158,10 @@ Return value; the baseline of the C<$widget>, or -1 if none.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-can-focus
 
 Determines whether the input focus can enter C<$widget> or any
@@ -1182,10 +1182,10 @@ Return value; C<True> if the input focus can enter C<$widget>, C<False> otherwis
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-can-target
 
 Queries whether C<$widget> can be the target of pointer events.
@@ -1203,10 +1203,10 @@ Return value; C<True> if C<$widget> can receive pointer events.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child-visible
 
 Gets the value set with C<.set-child-visible()>.
@@ -1230,10 +1230,10 @@ Return value; C<True> if the widget is mapped with the parent..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-clipboard
 
 Gets the clipboard object for C<$widget>.
@@ -1257,10 +1257,10 @@ Return value; the appropriate clipboard object.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-color
 
 Gets the current foreground color for the widget’s
@@ -1283,10 +1283,10 @@ method get-color ( N-Object $color )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-css-classes
 
 Returns the list of style classes applied to C<$widget>.
@@ -1306,10 +1306,10 @@ Return value; a undefined-terminated list of
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-css-name
 
 Returns the CSS name that is used for C<$self>.
@@ -1327,10 +1327,10 @@ Return value; the CSS name.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-cursor
 
 Queries the cursor set on C<$widget>.
@@ -1351,10 +1351,10 @@ Return value; the cursor
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-direction
 
 Gets the reading direction for a particular widget.
@@ -1374,10 +1374,10 @@ Return value; the reading direction for the widget..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-display
 
 Get the L<Gnome::Gdk4::Display|/content-docs/api2/reference/Gdk4/Display> for the toplevel window associated with
@@ -1404,10 +1404,10 @@ Return value; the L<Gnome::Gdk4::Display|/content-docs/api2/reference/Gdk4/Displ
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-first-child
 
 Returns the widget’s first child.
@@ -1427,10 +1427,10 @@ Return value; The widget's first child.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-focus-child
 
 Returns the current focus child of C<$widget>.
@@ -1449,10 +1449,10 @@ Return value; The current focus
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-focus-on-click
 
 Returns whether the widget should grab focus when it is clicked
@@ -1474,10 +1474,10 @@ Return value; C<True> if the widget should grab focus when it is
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-focusable
 
 Determines whether C<$widget> can own the input focus.
@@ -1497,10 +1497,10 @@ Return value; C<True> if C<$widget> can own the input focus, C<False> otherwise.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-font-map
 
 Gets the font map of C<$widget>.
@@ -1520,10 +1520,10 @@ Return value; A L<Gnome::Pango::FontMap|/content-docs/api2/reference/Pango/FontM
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-font-options
 
 Returns the B<Cairo::cairo_font_options_t> of widget.
@@ -1544,10 +1544,10 @@ Return value; the B<Cairo::cairo_font_options_t>
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-frame-clock
 
 Obtains the frame clock for a widget.
@@ -1586,10 +1586,10 @@ Return value; a L<Gnome::Gdk4::FrameClock|/content-docs/api2/reference/Gdk4/Fram
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-halign
 
 Gets the horizontal alignment of C<$widget>.
@@ -1613,10 +1613,10 @@ Return value; the horizontal alignment of C<$widget>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-has-tooltip
 
 Returns the current value of the B<has>-tooltip` property.
@@ -1634,10 +1634,10 @@ Return value; current value of B<has>-tooltip` on C<$widget>..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-height
 
 Returns the content height of the widget.
@@ -1664,10 +1664,10 @@ Return value; The height of C<$widget>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-hexpand
 
 Gets whether the widget would like any available extra horizontal
@@ -1700,10 +1700,10 @@ Return value; whether hexpand flag is set.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-hexpand-set
 
 Gets whether C<.set-hexpand()> has been used
@@ -1730,10 +1730,10 @@ Return value; whether hexpand has been explicitly set.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-last-child
 
 Returns the widget’s last child.
@@ -1753,10 +1753,10 @@ Return value; The widget's last child.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-layout-manager
 
 Retrieves the layout manager used by C<$widget>.
@@ -1776,10 +1776,10 @@ Return value; a L<Gnome::Gtk4::LayoutManager|/content-docs/api2/reference/Gtk4/L
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-mapped
 
 Whether the widget is mapped.
@@ -1797,10 +1797,10 @@ Return value; C<True> if the widget is mapped, C<False> otherwise..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-margin-bottom
 
 Gets the bottom margin of C<$widget>.
@@ -1818,10 +1818,10 @@ Return value; The bottom margin of C<$widget>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-margin-end
 
 Gets the end margin of C<$widget>.
@@ -1839,10 +1839,10 @@ Return value; The end margin of C<$widget>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-margin-start
 
 Gets the start margin of C<$widget>.
@@ -1860,10 +1860,10 @@ Return value; The start margin of C<$widget>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-margin-top
 
 Gets the top margin of C<$widget>.
@@ -1881,10 +1881,10 @@ Return value; The top margin of C<$widget>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-name
 
 Retrieves the name of a widget.
@@ -1905,10 +1905,10 @@ Return value; name of the widget. This string is owned by GTK and
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-native
 
 Returns the nearest L<Gnome::Gtk4::R-Native|/content-docs/api2/reference/Gtk4/R-Native> ancestor of C<$widget>.
@@ -1931,10 +1931,10 @@ Return value; the L<Gnome::Gtk4::R-Native|/content-docs/api2/reference/Gtk4/R-Na
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-next-sibling
 
 Returns the widget’s next sibling.
@@ -1954,10 +1954,10 @@ Return value; The widget's next sibling.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-opacity
 
 #Fetches the requested opacity for this widget.
@@ -1977,10 +1977,10 @@ Return value; the requested opacity for this widget..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-overflow
 
 Returns the widget’s overflow value.
@@ -1998,10 +1998,10 @@ Return value; The widget's overflow..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-pango-context
 
 Gets a L<Gnome::Pango::Context|/content-docs/api2/reference/Pango/Context> with the appropriate font map, font description,
@@ -2027,10 +2027,10 @@ Return value; the L<Gnome::Pango::Context|/content-docs/api2/reference/Pango/Con
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-parent
 
 Returns the parent widget of C<$widget>.
@@ -2048,10 +2048,10 @@ Return value; the parent widget of C<$widget>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-preferred-size
 
 Retrieves the minimum and natural size of a widget, taking
@@ -2083,10 +2083,10 @@ method get-preferred-size ( N-Object $minimum-size, N-Object $natural-size )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-prev-sibling
 
 Returns the widget’s previous sibling.
@@ -2106,10 +2106,10 @@ Return value; The widget's previous sibling.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-primary-clipboard
 
 Gets the primary clipboard of C<$widget>.
@@ -2133,10 +2133,10 @@ Return value; the appropriate clipboard object.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-realized
 
 Determines whether C<$widget> is realized.
@@ -2154,10 +2154,10 @@ Return value; C<True> if C<$widget> is realized, C<False> otherwise.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-receives-default
 
 Determines whether C<$widget> is always treated as the default widget
@@ -2180,10 +2180,10 @@ Return value; C<True> if C<$widget> acts as the default widget when focused,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-request-mode
 
 Gets whether the widget prefers a height-for-width layout
@@ -2207,10 +2207,10 @@ Return value; The C<enumeration GtkSizeRequestMode defined in Gnome::Gtk4::T-enu
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-root
 
 Returns the L<Gnome::Gtk4::R-Root|/content-docs/api2/reference/Gtk4/R-Root> widget of C<$widget>.
@@ -2233,10 +2233,10 @@ Return value; the root widget of C<$widget>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-scale-factor
 
 Retrieves the internal scale factor that maps from window
@@ -2260,10 +2260,10 @@ Return value; the scale factor for C<$widget>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-sensitive
 
 Returns the widget’s sensitivity.
@@ -2288,10 +2288,10 @@ Return value; C<True> if the widget is sensitive.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-settings
 
 Gets the settings object holding the settings used for this widget.
@@ -2314,10 +2314,10 @@ Return value; the relevant L<Gnome::Gtk4::Settings|/content-docs/api2/reference/
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-size
 
 Returns the content width or height of the widget.
@@ -2348,10 +2348,10 @@ Return value; The size of C<$widget> in C<$orientation>..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-size-request
 
 Gets the size request that was explicitly set for the widget using
@@ -2378,10 +2378,10 @@ method get-size-request ( Array[Int] $width, Array[Int] $height )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-state-flags
 
 Returns the widget state as a flag set.
@@ -2407,10 +2407,10 @@ Return value; The state flags for widget.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-style-context
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -2433,10 +2433,10 @@ Return value; the widget’s L<Gnome::Gtk4::StyleContext|/content-docs/api2/refe
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-template-child
 
 Fetch an object build from the template XML for C<$widget-type> in
@@ -2467,10 +2467,10 @@ Return value; The object built in the template XML with
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-tooltip-markup
 
 Gets the contents of the tooltip for C<$widget>.
@@ -2492,10 +2492,10 @@ Return value; the tooltip text.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-tooltip-text
 
 Gets the contents of the tooltip for C<$widget>.
@@ -2517,10 +2517,10 @@ Return value; the tooltip text.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-valign
 
 Gets the vertical alignment of C<$widget>.
@@ -2538,10 +2538,10 @@ Return value; the vertical alignment of C<$widget>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-vexpand
 
 Gets whether the widget would like any available extra vertical
@@ -2562,10 +2562,10 @@ Return value; whether vexpand flag is set.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-vexpand-set
 
 Gets whether C<.set-vexpand()> has been used to
@@ -2586,10 +2586,10 @@ Return value; whether vexpand has been explicitly set.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-visible
 
 Determines whether the widget is visible.
@@ -2616,10 +2616,10 @@ Return value; C<True> if the widget is visible.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-width
 
 Returns the content width of the widget.
@@ -2646,10 +2646,10 @@ Return value; The width of C<$widget>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 grab-focus
 
 Causes C<$widget> to have the keyboard focus for the L<Gnome::Gtk4::Window|/content-docs/api2/reference/Gtk4/Window> it's inside.
@@ -2674,10 +2674,10 @@ Return value; C<True> if focus is now inside C<$widget>..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 has-css-class
 
 Returns whether C<$css-class> is currently applied to C<$widget>.
@@ -2699,10 +2699,10 @@ Return value; C<True> if C<$css-class> is currently applied to C<$widget>,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 has-default
 
 Determines whether C<$widget> is the current default widget
@@ -2722,10 +2722,10 @@ Return value; C<True> if C<$widget> is the current default widget
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 has-focus
 
 Determines if the widget has the global input focus.
@@ -2747,10 +2747,10 @@ Return value; C<True> if the widget has the global input focus..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 has-visible-focus
 
 Determines if the widget should show a visible indication that
@@ -2777,10 +2777,10 @@ Return value; C<True> if the widget should display a “focus rectangle”.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 hide
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -2800,10 +2800,10 @@ method hide ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 in-destruction
 
 Returns whether the widget is currently being destroyed.
@@ -2824,10 +2824,10 @@ Return value; C<True> if C<$widget> is being destroyed.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-template
 
 Creates and initializes child widgets defined in templates.
@@ -2862,10 +2862,10 @@ method init-template ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-action-group
 
 Inserts C<$group> into C<$widget>.
@@ -2897,10 +2897,10 @@ method insert-action-group ( Str $name, N-Object() $group )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-after
 
 Inserts C<$widget> into the child widget list of C<$parent>.
@@ -2931,10 +2931,10 @@ method insert-after ( N-Object() $parent, N-Object() $previous-sibling )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-before
 
 Inserts C<$widget> into the child widget list of C<$parent>.
@@ -2964,10 +2964,10 @@ method insert-before ( N-Object() $parent, N-Object() $next-sibling )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-ancestor
 
 Determines whether C<$widget> is somewhere inside C<$ancestor>,
@@ -2989,10 +2989,10 @@ Return value; C<True> if C<$ancestor> contains C<$widget> as a child,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-drawable
 
 Determines whether C<$widget> can be drawn to.
@@ -3012,10 +3012,10 @@ Return value; C<True> if C<$widget> is drawable, C<False> otherwise.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-focus
 
 Determines if the widget is the focus widget within its
@@ -3039,10 +3039,10 @@ Return value; C<True> if the widget is the focus widget..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-sensitive
 
 Returns the widget’s effective sensitivity.
@@ -3063,10 +3063,10 @@ Return value; C<True> if the widget is effectively sensitive.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-visible
 
 Determines whether the widget and all its parents are marked as
@@ -3090,10 +3090,10 @@ Return value; C<True> if the widget and all its parents are visible.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 keynav-failed
 
 Emits the `::keynav-failed` signal on the widget.
@@ -3141,10 +3141,10 @@ Return value; C<True> if stopping keyboard navigation is fine, C<False>
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 list-mnemonic-labels
 
 Returns the widgets for which this widget is the target of a
@@ -3174,10 +3174,10 @@ Return value; the list
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 map
 
 Causes a widget to be mapped if it isn’t already.
@@ -3195,10 +3195,10 @@ method map ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 measure
 
 Measures C<$widget> in the orientation C<$orientation> and for the given C<$for-size>.
@@ -3234,10 +3234,10 @@ method measure ( GtkOrientation $orientation, Int() $for-size, Array[Int] $minim
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 mnemonic-activate
 
 Emits the I<mnemonic-activate> signal.
@@ -3259,10 +3259,10 @@ Return value; C<True> if the signal has been handled.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 observe-children
 
 Returns a L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> to track the children of C<$widget>.
@@ -3288,10 +3288,10 @@ Return value;
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 observe-controllers
 
 Returns a L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> to track the L<Gnome::Gtk4::EventController|/content-docs/api2/reference/Gtk4/Gnome>s
@@ -3318,10 +3318,10 @@ Return value;
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 pick
 
 Finds the descendant of C<$widget> closest to the point ( C<$x>, C<$y>).
@@ -3357,10 +3357,10 @@ Return value; The widget descendant at
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 queue-allocate
 
 Flags the widget for a rerun of the [vfunc C<$Gtk>.Widget.size_allocate]
@@ -3385,10 +3385,10 @@ method queue-allocate ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 queue-draw
 
 Schedules this widget to be redrawn in the paint phase
@@ -3408,10 +3408,10 @@ method queue-draw ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 queue-resize
 
 Flags a widget to have its size renegotiated.
@@ -3439,10 +3439,10 @@ method queue-resize ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 realize
 
 Creates the GDK resources associated with a widget.
@@ -3473,10 +3473,10 @@ method realize ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-controller
 
 Removes C<$controller> from C<$widget>, so that it doesn't process
@@ -3500,10 +3500,10 @@ method remove-controller ( N-Object() $controller )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-css-class
 
 Removes a style from C<$widget>.
@@ -3524,10 +3524,10 @@ method remove-css-class ( Str $css-class )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-mnemonic-label
 
 Removes a widget from the list of mnemonic labels for this widget.
@@ -3550,10 +3550,10 @@ method remove-mnemonic-label ( N-Object() $label )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-tick-callback
 
 Removes a tick callback previously registered with
@@ -3572,10 +3572,10 @@ method remove-tick-callback ( UInt() $id )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-can-focus
 
 Specifies whether the input focus can enter the widget
@@ -3607,10 +3607,10 @@ method set-can-focus ( Bool() $can-focus )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-can-target
 
 Sets whether C<$widget> can be the target of pointer events.
@@ -3629,10 +3629,10 @@ method set-can-target ( Bool() $can-target )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-child-visible
 
 Sets whether C<$widget> should be mapped along with its parent.
@@ -3666,10 +3666,10 @@ method set-child-visible ( Bool() $child-visible )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-css-classes
 
 Clear all style classes applied to C<$widget>
@@ -3689,10 +3689,10 @@ method set-css-classes ( Array[Str] $classes )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-cursor
 
 Sets the cursor to be shown when pointer devices point
@@ -3714,10 +3714,10 @@ method set-cursor ( N-Object() $cursor )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-cursor-from-name
 
 Sets a named cursor to be shown when pointer devices point
@@ -3745,10 +3745,10 @@ method set-cursor-from-name ( Str $name )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-direction
 
 Sets the reading direction on a particular widget.
@@ -3778,10 +3778,10 @@ method set-direction ( GtkTextDirection $dir )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-focus-child
 
 Set C<$child> as the current focus child of C<$widget>.
@@ -3804,10 +3804,10 @@ method set-focus-child ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-focus-on-click
 
 Sets whether the widget should grab focus when it is clicked
@@ -3831,10 +3831,10 @@ method set-focus-on-click ( Bool() $focus-on-click )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-focusable
 
 Specifies whether C<$widget> can own the input focus.
@@ -3864,10 +3864,10 @@ method set-focusable ( Bool() $focusable )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-font-map
 
 Sets the font map to use for Pango rendering.
@@ -3893,10 +3893,10 @@ method set-font-map ( N-Object() $font-map )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-font-options
 
 Sets the B<Cairo::cairo_font_options_t> used for Pango rendering
@@ -3919,10 +3919,10 @@ method set-font-options (airo::cairo_font_options_t )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-halign
 
 Sets the horizontal alignment of C<$widget>.
@@ -3940,10 +3940,10 @@ method set-halign ( GtkAlign $align )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-has-tooltip
 
 Sets the B<has>-tooltip` property on C<$widget> to C<$has-tooltip>.
@@ -3961,10 +3961,10 @@ method set-has-tooltip ( Bool() $has-tooltip )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-hexpand
 
 Sets whether the widget would like any available extra horizontal
@@ -4008,10 +4008,10 @@ method set-hexpand ( Bool() $expand )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-hexpand-set
 
 Sets whether the hexpand flag will be used.
@@ -4042,10 +4042,10 @@ method set-hexpand-set ( Bool() $set )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-layout-manager
 
 Sets the layout manager delegate instance that provides an
@@ -4064,10 +4064,10 @@ method set-layout-manager ( N-Object() $layout-manager )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-margin-bottom
 
 Sets the bottom margin of C<$widget>.
@@ -4085,10 +4085,10 @@ method set-margin-bottom ( Int() $margin )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-margin-end
 
 Sets the end margin of C<$widget>.
@@ -4106,10 +4106,10 @@ method set-margin-end ( Int() $margin )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-margin-start
 
 Sets the start margin of C<$widget>.
@@ -4127,10 +4127,10 @@ method set-margin-start ( Int() $margin )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-margin-top
 
 Sets the top margin of C<$widget>.
@@ -4148,10 +4148,10 @@ method set-margin-top ( Int() $margin )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-name
 
 Sets a widgets name.
@@ -4179,10 +4179,10 @@ method set-name ( Str $name )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-opacity
 
 Request the C<$widget> to be rendered partially transparent.
@@ -4221,10 +4221,10 @@ method set-opacity ( Num() $opacity )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-overflow
 
 Sets how C<$widget> treats content that is drawn outside the
@@ -4250,10 +4250,10 @@ method set-overflow ( GtkOverflow $overflow )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-parent
 
 Sets C<$parent> as the parent widget of C<$widget>.
@@ -4278,10 +4278,10 @@ method set-parent ( N-Object() $parent )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-receives-default
 
 Specifies whether C<$widget> will be treated as the default
@@ -4301,10 +4301,10 @@ method set-receives-default ( Bool() $receives-default )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-sensitive
 
 Sets the sensitivity of a widget.
@@ -4327,10 +4327,10 @@ method set-sensitive ( Bool() $sensitive )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-size-request
 
 Sets the minimum size of a widget.
@@ -4383,10 +4383,10 @@ method set-size-request ( Int() $width, Int() $height )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-state-flags
 
 Turns on flag values in the current widget state.
@@ -4413,10 +4413,10 @@ method set-state-flags ( UInt $flags, Bool() $clear )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-tooltip-markup
 
 Sets C<$markup> as the contents of the tooltip, which is marked
@@ -4441,10 +4441,10 @@ method set-tooltip-markup ( Str $markup )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-tooltip-text
 
 Sets C<$text> as the contents of the tooltip.
@@ -4471,10 +4471,10 @@ method set-tooltip-text ( Str $text )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-valign
 
 Sets the vertical alignment of C<$widget>.
@@ -4492,10 +4492,10 @@ method set-valign ( GtkAlign $align )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-vexpand
 
 Sets whether the widget would like any available extra vertical
@@ -4516,10 +4516,10 @@ method set-vexpand ( Bool() $expand )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-vexpand-set
 
 Sets whether the vexpand flag will be used.
@@ -4539,10 +4539,10 @@ method set-vexpand-set ( Bool() $set )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-visible
 
 Sets the visibility state of C<$widget>.
@@ -4563,10 +4563,10 @@ method set-visible ( Bool() $visible )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 should-layout
 
 Returns whether C<$widget> should contribute to
@@ -4589,10 +4589,10 @@ Return value; C<True> if child should be included in
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 show
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -4619,10 +4619,10 @@ method show ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 size-allocate
 
 Allocates widget with a transformation that translates
@@ -4644,10 +4644,10 @@ method size-allocate ( …, Int() $baseline )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 snapshot-child
 
 Snapshot the a child of C<$widget>.
@@ -4680,10 +4680,10 @@ method snapshot-child ( N-Object() $child, N-Object() $snapshot )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 translate-coordinates
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.12>
@@ -4715,10 +4715,10 @@ Return value; C<False> if C<$src-widget> and C<$dest-widget> have no common
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 trigger-tooltip-query
 
 Triggers a tooltip query on the display where the toplevel
@@ -4735,10 +4735,10 @@ method trigger-tooltip-query ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unmap
 
 Causes a widget to be unmapped if it’s currently mapped.
@@ -4756,10 +4756,10 @@ method unmap ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unparent
 
 Dissociate C<$widget> from its parent.
@@ -4778,10 +4778,10 @@ method unparent ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unrealize
 
 Causes a widget to be unrealized (frees all GDK resources
@@ -4800,10 +4800,10 @@ method unrealize ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unset-state-flags
 
 Turns off flag values for the current widget state.
@@ -4825,18 +4825,18 @@ method unset-state-flags ( UInt $flags )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-default-direction
 
 Obtains the current default reading direction.
@@ -4856,10 +4856,10 @@ Return value; the current default direction..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-default-direction
 
 Sets the default reading direction for widgets.
@@ -4879,13 +4879,13 @@ method set-default-direction ( GtkTextDirection $dir )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -5348,5 +5348,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

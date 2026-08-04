@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::WidgetPaintable
 =head1 Description
 
@@ -40,13 +40,13 @@ end up with an infinitely growing widget.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -57,10 +57,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-widgetpaintable
 
 Creates a new widget paintable observing the given widget.
@@ -78,18 +78,18 @@ method new-widgetpaintable ( N-Object() $widget --> Gnome::Gtk4::WidgetPaintable
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-widget
 
 Returns the widget that is observed or undefined if none.
@@ -107,10 +107,10 @@ Return value; the observed widget..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-widget
 
 Sets the widget that should be observed.
@@ -128,5 +128,5 @@ method set-widget ( N-Object() $widget )
 
 =end comment
 
-=end pod
+=end rakudoc
 
