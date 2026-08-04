@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Overlay
 =head1 Description
 
@@ -52,13 +52,13 @@ whose alignments cause them to be positioned at an edge get the style classes
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -69,10 +69,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-overlay
 
 Creates a new B<Gnome::Gtk4::Overlay>.
@@ -88,18 +88,18 @@ method new-overlay ( --> Gnome::Gtk4::Overlay )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-overlay
 
 Adds C<$widget> to C<$overlay>.
@@ -124,10 +124,10 @@ method add-overlay ( N-Object() $widget )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child
 
 Gets the child widget of C<$overlay>.
@@ -145,10 +145,10 @@ Return value; the child widget of C<$overlay>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-clip-overlay
 
 Gets whether C<$widget> should be clipped within the parent.
@@ -168,10 +168,10 @@ Return value; whether the widget is clipped within the parent..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-measure-overlay
 
 Gets whether C<$widget>'s size is included in the measurement of C<$overlay>.
@@ -191,10 +191,10 @@ Return value; whether the widget is measured.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-overlay
 
 Removes an overlay that was added with C<.add-overlay()>.
@@ -212,10 +212,10 @@ method remove-overlay ( N-Object() $widget )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-child
 
 Sets the child widget of C<$overlay>.
@@ -233,10 +233,10 @@ method set-child ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-clip-overlay
 
 Sets whether C<$widget> should be clipped within the parent.
@@ -255,10 +255,10 @@ method set-clip-overlay ( N-Object() $widget, Bool() $clip-overlay )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-measure-overlay
 
 Sets whether C<$widget> is included in the measured size of C<$overlay>.
@@ -281,13 +281,13 @@ method set-measure-overlay ( N-Object() $widget, Bool() $measure )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -336,5 +336,5 @@ Return value; C<True> if the C<$allocation> has been filled
 
 =end comment
 
-=end pod
+=end rakudoc
 
