@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::IconTheme
 =head1 Description
 
@@ -53,13 +53,13 @@ g_object_unref (icon);
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -70,10 +70,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-icontheme
 
 Creates a new icon theme object.
@@ -94,18 +94,18 @@ method new-icontheme ( --> Gnome::Gtk4::IconTheme )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-resource-path
 
 Adds a resource path that will be looked at when looking
@@ -129,10 +129,10 @@ method add-resource-path ( Str $path )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-search-path
 
 Appends a directory to the search path.
@@ -152,10 +152,10 @@ method add-search-path ( Str $path )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-display
 
 Returns the display that the B<Gnome::Gtk4::IconTheme> object was
@@ -174,10 +174,10 @@ Return value; the display of C<$icon-theme>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-icon-names
 
 Lists the names of icons in the current icon theme.
@@ -197,10 +197,10 @@ Return value; a string array
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-icon-sizes
 
 Returns an array of integers describing the sizes at which
@@ -227,10 +227,10 @@ Return value; A newly
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-resource-path
 
 Gets the current resource path.
@@ -251,10 +251,10 @@ Return value;
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-search-path
 
 Gets the current search path.
@@ -275,10 +275,10 @@ Return value;
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-theme-name
 
 Gets the current icon theme name.
@@ -298,10 +298,10 @@ Return value; No documentation about its value and use.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 has-gicon
 
 Checks whether an icon theme includes an icon
@@ -322,10 +322,10 @@ Return value; C<True> if C<$self> includes an icon for C<$gicon>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 has-icon
 
 Checks whether an icon theme includes an icon
@@ -347,10 +347,10 @@ Return value; C<True> if C<$self> includes an
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 lookup-by-gicon
 
 Looks up a icon for a desired size and window scale.
@@ -378,10 +378,10 @@ Return value; a L<Gnome::Gtk4::IconPaintable|/content-docs/api2/reference/Gtk4/I
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 lookup-icon
 
 Looks up a named icon for a desired size and window scale,
@@ -422,10 +422,10 @@ Return value; a L<Gnome::Gtk4::IconPaintable|/content-docs/api2/reference/Gtk4/I
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-resource-path
 
 Sets the resource paths that will be looked at when
@@ -455,10 +455,10 @@ method set-resource-path ( Array[Str] $path )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-search-path
 
 Sets the search path for the icon theme object.
@@ -490,10 +490,10 @@ method set-search-path ( Array[Str] $path )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-theme-name
 
 Sets the name of the icon theme that the B<Gnome::Gtk4::IconTheme> object uses
@@ -516,18 +516,18 @@ method set-theme-name ( Str $theme-name )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-for-display
 
 Gets the icon theme object associated with C<$display>.
@@ -556,13 +556,13 @@ Return value; A unique B<Gnome::Gtk4::IconTheme> associated with
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -594,5 +594,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

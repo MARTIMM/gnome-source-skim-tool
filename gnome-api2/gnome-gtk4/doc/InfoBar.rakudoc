@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::InfoBar
 =head1 Description
 
@@ -94,13 +94,13 @@ style class applied.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
@@ -113,10 +113,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-infobar
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -134,10 +134,10 @@ method new-infobar ( --> Gnome::Gtk4::InfoBar )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-with-buttons
 This function is not yet available
 
@@ -166,18 +166,18 @@ method new-with-buttons ( Str $first-button-text, … --> Gnome::Gtk4::InfoBar )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-action-widget
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -203,10 +203,10 @@ method add-action-widget ( N-Object() $child, Int() $response-id )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-button
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -235,10 +235,10 @@ that was added.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-buttons
 This function is not yet available
 
@@ -265,10 +265,10 @@ method add-buttons ( Str $first-button-text, … )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-child
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -288,10 +288,10 @@ method add-child ( N-Object() $widget )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-message-type
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -311,10 +311,10 @@ Return value; the message type of the message area..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-revealed
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -334,10 +334,10 @@ Return value; the current value of the I<revealed> property.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-show-close-button
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -357,10 +357,10 @@ Return value; C<True> if the widget displays standard close button.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-action-widget
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -383,10 +383,10 @@ method remove-action-widget ( N-Object() $widget )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-child
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -406,10 +406,10 @@ method remove-child ( N-Object() $widget )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 response
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -429,10 +429,10 @@ method response ( Int() $response-id )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-default-response
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -458,10 +458,10 @@ method set-default-response ( Int() $response-id )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-message-type
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -483,10 +483,10 @@ method set-message-type ( GtkMessageType $message-type )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-response-sensitive
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -511,10 +511,10 @@ method set-response-sensitive ( Int() $response-id, Bool() $setting )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-revealed
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -541,10 +541,10 @@ method set-revealed ( Bool() $revealed )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-show-close-button
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -566,13 +566,13 @@ method set-show-close-button ( Bool() $setting )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -637,5 +637,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

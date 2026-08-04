@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Image
 =head1 Description
 
@@ -60,13 +60,13 @@ B<Gnome::Gtk4::Image> uses the B<GTK_ACCESSIBLE_ROLE_IMG> role.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -77,10 +77,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-image
 
 Creates a new empty B<Gnome::Gtk4::Image> widget.
@@ -96,10 +96,10 @@ method new-image ( --> Gnome::Gtk4::Image )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-file
 
 Creates a new B<Gnome::Gtk4::Image> displaying the file C<$filename>.
@@ -129,10 +129,10 @@ method new-from-file ( Str $filename --> Gnome::Gtk4::Image )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-gicon
 
 Creates a B<Gnome::Gtk4::Image> displaying an icon from the current icon theme.
@@ -154,10 +154,10 @@ method new-from-gicon ( N-Object() $icon --> Gnome::Gtk4::Image )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-icon-name
 
 Creates a B<Gnome::Gtk4::Image> displaying an icon from the current icon theme.
@@ -179,10 +179,10 @@ method new-from-icon-name ( Str $icon-name --> Gnome::Gtk4::Image )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-paintable
 
 Creates a new B<Gnome::Gtk4::Image> displaying C<$paintable>.
@@ -207,10 +207,10 @@ method new-from-paintable ( N-Object() $paintable --> Gnome::Gtk4::Image )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-pixbuf
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.12>
@@ -241,10 +241,10 @@ method new-from-pixbuf ( N-Object() $pixbuf --> Gnome::Gtk4::Image )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-resource
 
 Creates a new B<Gnome::Gtk4::Image> displaying the resource file C<$resource-path>.
@@ -274,18 +274,18 @@ method new-from-resource ( Str $resource-path --> Gnome::Gtk4::Image )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 clear
 
 Resets the image to be empty.
@@ -301,10 +301,10 @@ method clear ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-gicon
 
 Gets the L<Gnome::Gio::R-Icon|/content-docs/api2/reference/Gio/R-Icon> being displayed by the B<Gnome::Gtk4::Image>.
@@ -327,10 +327,10 @@ Return value; a L<Gnome::Gio::R-Icon|/content-docs/api2/reference/Gio/R-Icon>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-icon-name
 
 Gets the icon name and size being displayed by the B<Gnome::Gtk4::Image>.
@@ -353,10 +353,10 @@ Return value; the icon name.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-icon-size
 
 Gets the icon size used by the C<$image> when rendering icons.
@@ -374,10 +374,10 @@ Return value; the image size used by icons.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-paintable
 
 Gets the image L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable> being displayed by the B<Gnome::Gtk4::Image>.
@@ -400,10 +400,10 @@ Return value; the displayed paintable.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-pixel-size
 
 Gets the pixel size used for named icons.
@@ -421,10 +421,10 @@ Return value; the pixel size used for named icons..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-storage-type
 
 Gets the type of representation being used by the B<Gnome::Gtk4::Image>
@@ -446,10 +446,10 @@ Return value; image representation being used.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-from-file
 
 Sets a B<Gnome::Gtk4::Image> to show a file.
@@ -469,10 +469,10 @@ method set-from-file ( Str $filename )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-from-gicon
 
 Sets a B<Gnome::Gtk4::Image> to show a L<Gnome::Gio::R-Icon|/content-docs/api2/reference/Gio/R-Icon>.
@@ -492,10 +492,10 @@ method set-from-gicon ( N-Object() $icon )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-from-icon-name
 
 Sets a B<Gnome::Gtk4::Image> to show a named icon.
@@ -515,10 +515,10 @@ method set-from-icon-name ( Str $icon-name )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-from-paintable
 
 Sets a B<Gnome::Gtk4::Image> to show a L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable>.
@@ -538,10 +538,10 @@ method set-from-paintable ( N-Object() $paintable )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-from-pixbuf
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.12>
@@ -567,10 +567,10 @@ method set-from-pixbuf ( N-Object() $pixbuf )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-from-resource
 
 Sets a B<Gnome::Gtk4::Image> to show a resource.
@@ -590,10 +590,10 @@ method set-from-resource ( Str $resource-path )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-icon-size
 
 Suggests an icon size to the theme for named icons.
@@ -611,10 +611,10 @@ method set-icon-size ( GtkIconSize $icon-size )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-pixel-size
 
 Sets the pixel size to use for named icons.
@@ -635,5 +635,5 @@ method set-pixel-size ( Int() $pixel-size )
 
 =end comment
 
-=end pod
+=end rakudoc
 

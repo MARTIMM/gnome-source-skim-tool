@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::IconPaintable
 =head1 Description
 
@@ -23,13 +23,13 @@ B<Gnome::Gtk4::IconPaintable> implements L<Gnome::Gdk4::R-Paintable|/content-doc
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -40,10 +40,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-for-file
 
 Creates a B<Gnome::Gtk4::IconPaintable> for a file with a given size and scale.
@@ -65,18 +65,18 @@ method new-for-file ( N-Object() $file, Int() $size, Int() $scale --> Gnome::Gtk
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-file
 
 Gets the L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File> that was used to load the icon.
@@ -96,10 +96,10 @@ Return value; the L<Gnome::Gio::R-File|/content-docs/api2/reference/Gio/R-File> 
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-icon-name
 
 Get the icon name being used for this icon.
@@ -126,10 +126,10 @@ Return value; the themed icon-name for the
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-symbolic
 
 Checks if the icon is symbolic or not.
@@ -153,5 +153,5 @@ Return value; C<True> if the icon is symbolic, C<False> otherwise.
 
 =end comment
 
-=end pod
+=end rakudoc
 
