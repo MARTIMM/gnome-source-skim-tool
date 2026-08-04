@@ -1,15 +1,15 @@
 =comment Package: Gtk4, C-Source: printoperation
 use v6.d;
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::T-printoperation
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -18,12 +18,12 @@ Initialization of a type class is simple and only needed when the standalone fun
 
   method new ( )
 
-=end pod
+=end rakudoc
 #-------------------------------------------------------------------------------
 #--[Enumerations]---------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Enumerations
 
 =head2 GtkPrintError
@@ -79,13 +79,13 @@ print operation.
 =item C<GTK_PRINT_STATUS_PRINTING>; The printer is processing the print job.
 =item C<GTK_PRINT_STATUS_FINISHED>; The printing has been completed successfully.
 =item C<GTK_PRINT_STATUS_FINISHED_ABORTED>; The printing has been aborted.
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Callback Functions]---------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Callback Functions
 =head2 PageSetupDoneFunc
 
@@ -99,17 +99,17 @@ print operation.
 =item $data; user data that has been passed to
   gtk_print_run_page_setup_dialog_async()
 
-=end pod
+=end rakudoc
 #-------------------------------------------------------------------------------
 #--[Standalone Functions]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Standalone Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 print-error-quark
 
 Registers an error quark for B<Gnome::Gtk4::PrintOperation> if necessary.
@@ -127,10 +127,10 @@ Return value; The error quark used for B<Gnome::Gtk4::PrintOperation> errors..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 print-run-page-setup-dialog
 
 Runs a page setup dialog, letting the user modify the values from C<$page-setup>. If the user cancels the dialog, the returned L<Gnome::Gtk4::PageSetup|/content-docs/api2/reference/Gtk4/PageSetup>
@@ -158,10 +158,10 @@ Return value; a new L<Gnome::Gtk4::PageSetup|/content-docs/api2/reference/Gtk4/P
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 print-run-page-setup-dialog-async
 
 Runs a page setup dialog, letting the user modify the values from C<$page-setup>.
@@ -188,5 +188,5 @@ method print-run-page-setup-dialog-async ( N-Object() $parent, N-Object() $page-
 
 =end comment
 
-=end pod
+=end rakudoc
 
