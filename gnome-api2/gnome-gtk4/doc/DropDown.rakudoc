@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::DropDown
 =head1 Description
 
@@ -62,13 +62,13 @@ B<Gnome::Gtk4::DropDown> uses the C<GTK_ACCESSIBLE_ROLE_COMBO_BOX> role.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -79,10 +79,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-dropdown
 
 Creates a new B<Gnome::Gtk4::DropDown>.
@@ -104,10 +104,10 @@ method new-dropdown ( N-List() $model, N-Object() $expression --> Gnome::Gtk4::D
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-strings
 
 Creates a new B<Gnome::Gtk4::DropDown> that is populated with
@@ -126,18 +126,18 @@ method new-from-strings ( Array[Str] $strings --> Gnome::Gtk4::DropDown )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-enable-search
 
 Returns whether search is enabled.
@@ -155,10 +155,10 @@ Return value; C<True> if the popup includes a search entry.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-expression
 
 Gets the expression set that is used to obtain strings from items.
@@ -178,10 +178,10 @@ Return value; a L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expr
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-factory
 
 Gets the factory that's currently used to populate list items.
@@ -203,10 +203,10 @@ Return value; The factory in use.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-header-factory
 
 Gets the factory that's currently used to create header widgets for the popup.
@@ -224,10 +224,10 @@ Return value; The factory in use.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-list-factory
 
 Gets the factory that's currently used to populate list items in the popup.
@@ -245,10 +245,10 @@ Return value; The factory in use.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-model
 
 Gets the model that provides the displayed items.
@@ -266,10 +266,10 @@ Return value; The model in use.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-search-match-mode
 
 Returns the match mode that the search filter is using.
@@ -287,10 +287,10 @@ Return value; the match mode of the search filter.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-selected
 
 Gets the position of the selected item.
@@ -309,10 +309,10 @@ Return value; the position of the selected item, or C<GTK_INVALID_LIST_POSITION>
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-selected-item
 
 Gets the selected item. If no item is selected, undefined is returned.
@@ -330,10 +330,10 @@ Return value; The selected item.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-show-arrow
 
 Returns whether to show an arrow within the widget.
@@ -351,10 +351,10 @@ Return value; C<True> if an arrow will be shown..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-enable-search
 
 Sets whether a search entry will be shown in the popup that
@@ -376,10 +376,10 @@ method set-enable-search ( Bool() $enable-search )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-expression
 
 Sets the expression that gets evaluated to obtain strings from items.
@@ -400,10 +400,10 @@ method set-expression ( N-Object() $expression )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-factory
 
 Sets the L<Gnome::Gtk4::ListItemFactory|/content-docs/api2/reference/Gtk4/ListItemFactory> to use for populating list items.
@@ -421,10 +421,10 @@ method set-factory ( N-Object() $factory )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-header-factory
 
 Sets the L<Gnome::Gtk4::ListItemFactory|/content-docs/api2/reference/Gtk4/ListItemFactory> to use for creating header widgets for the popup.
@@ -442,10 +442,10 @@ method set-header-factory ( N-Object() $factory )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-list-factory
 
 Sets the L<Gnome::Gtk4::ListItemFactory|/content-docs/api2/reference/Gtk4/ListItemFactory> to use for populating list items in the popup.
@@ -463,10 +463,10 @@ method set-list-factory ( N-Object() $factory )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-model
 
 Sets the L<Gnome::Gio::R-ListModel|/content-docs/api2/reference/Gio/R-ListModel> to use.
@@ -484,10 +484,10 @@ method set-model ( N-List() $model )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-search-match-mode
 
 Sets the match mode for the search filter.
@@ -498,10 +498,10 @@ method set-search-match-mode ( GtkStringFilterMatchMode $search-match-mode )
 
 =item $search-match-mode; the new match mode.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-selected
 
 Selects the item at the given position.
@@ -512,10 +512,10 @@ method set-selected ( UInt() $position )
 
 =item $position; the position of the item to select, or C<GTK_INVALID_LIST_POSITION>.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-show-arrow
 
 Sets whether an arrow will be displayed within the widget.
@@ -526,13 +526,13 @@ method set-show-arrow ( Bool() $show-arrow )
 
 =item $show-arrow; whether to show an arrow within the widget.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -556,5 +556,5 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gtk4::DropDown> object.
 =item %user-options; A list of named arguments provided by L<.register-signal() in class Object|/content-docs/api2/reference/GObject/Object#register-signal>.
 
-=end pod
+=end rakudoc
 

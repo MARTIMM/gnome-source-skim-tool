@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::DropTargetAsync
 =head1 Description
 
@@ -54,13 +54,13 @@ state, which can be used by themes to style the widget as a drop target.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -71,10 +71,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-droptargetasync
 
 Creates a new B<Gnome::Gtk4::DropTargetAsync> object.
@@ -93,18 +93,18 @@ method new-droptargetasync ( N-Object $formats, UInt $actions --> Gnome::Gtk4::D
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-actions
 
 Gets the actions that this drop target supports.
@@ -122,10 +122,10 @@ Return value; the actions that this drop target supports.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-formats
 
 Gets the data formats that this drop target accepts.
@@ -145,10 +145,10 @@ Return value; the supported data formats.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 reject-drop
 
 Sets the C<$drop> as not accepted on this drag site.
@@ -170,10 +170,10 @@ method reject-drop ( N-Object() $drop )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-actions
 
 Sets the actions that this drop target supports.
@@ -191,10 +191,10 @@ method set-actions ( UInt $actions )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-formats
 
 Sets the data formats that this drop target will accept.
@@ -212,13 +212,13 @@ method set-formats ( N-Object $formats )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -406,5 +406,5 @@ Return value; whether the drop is accepted at the given pointer position
 
 =end comment
 
-=end pod
+=end rakudoc
 

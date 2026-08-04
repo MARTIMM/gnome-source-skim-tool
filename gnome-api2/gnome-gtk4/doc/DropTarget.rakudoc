@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::DropTarget
 =head1 Description
 
@@ -92,13 +92,13 @@ use L<Gnome::Gtk4::DropControllerMotion|/content-docs/api2/reference/Gtk4/DropCo
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -109,10 +109,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-droptarget
 
 Creates a new B<Gnome::Gtk4::DropTarget> object.
@@ -135,18 +135,18 @@ method new-droptarget ( GType $type, UInt $actions --> Gnome::Gtk4::DropTarget )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-actions
 
 Gets the actions that this drop target supports.
@@ -164,10 +164,10 @@ Return value; the actions that this drop target supports.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-current-drop
 
 Gets the currently handled drop operation.
@@ -187,10 +187,10 @@ Return value; The current drop.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-drop
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.4>
@@ -212,10 +212,10 @@ Return value; The current drop.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-formats
 
 Gets the data formats that this drop target accepts.
@@ -235,10 +235,10 @@ Return value; the supported data formats.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-gtypes
 This function is not yet available
 
@@ -260,10 +260,10 @@ method get-gtypes ( Array[gsize] $n-types )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-preload
 
 Gets whether data should be preloaded on hover.
@@ -281,10 +281,10 @@ Return value; C<True> if drop data should be preloaded.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-value
 
 Gets the current drop data, as a B<Gnome::GObject::N-Value>.
@@ -302,10 +302,10 @@ Return value; The current drop data.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 reject
 
 Rejects the ongoing drop operation.
@@ -328,10 +328,10 @@ method reject ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-actions
 
 Sets the actions that this drop target supports.
@@ -349,10 +349,10 @@ method set-actions ( UInt $actions )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-gtypes
 
 Sets the supported B<Gnome::GObject::DropTarget>s for this drop target.
@@ -372,10 +372,10 @@ method set-gtypes ( …, Int() $n-types )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-preload
 
 Sets whether data should be preloaded on hover.
@@ -393,13 +393,13 @@ method set-preload ( Bool() $preload )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -577,5 +577,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

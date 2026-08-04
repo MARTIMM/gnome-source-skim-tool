@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::DragIcon
 =head1 Description
 
@@ -31,13 +31,13 @@ Keep in mind that drag icons do not allow user input.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -48,18 +48,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child
 
 Gets the widget currently used as drag icon.
@@ -77,10 +77,10 @@ Return value; The drag icon.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-child
 
 Sets the widget to display as the drag icon.
@@ -98,18 +98,18 @@ method set-child ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 create-widget-for-value
 
 Creates a widget that can be used as a drag icon for the given C<$value>.
@@ -138,10 +138,10 @@ Return value; A new L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widg
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-for-drag
 
 Gets the B<Gnome::Gtk4::DragIcon> in use with C<$drag>.
@@ -164,10 +164,10 @@ Return value; the B<Gnome::Gtk4::DragIcon>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-from-paintable
 
 Creates a B<Gnome::Gtk4::DragIcon> that shows C<$paintable>, and associates
@@ -192,5 +192,5 @@ method set-from-paintable ( N-Object() $drag, N-Object() $paintable, Int() $hot-
 
 =end comment
 
-=end pod
+=end rakudoc
 

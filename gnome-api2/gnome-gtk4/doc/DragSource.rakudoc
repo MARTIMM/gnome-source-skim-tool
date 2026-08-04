@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::DragSource
 =head1 Description
 
@@ -99,13 +99,13 @@ data after it has been transferred.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -116,10 +116,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-dragsource
 
 Creates a new B<Gnome::Gtk4::DragSource> object.
@@ -135,18 +135,18 @@ method new-dragsource ( --> Gnome::Gtk4::DragSource )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 drag-cancel
 
 Cancels a currently ongoing drag operation.
@@ -162,10 +162,10 @@ method drag-cancel ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-actions
 
 Gets the actions that are currently set on the B<Gnome::Gtk4::DragSource>.
@@ -183,10 +183,10 @@ Return value; the actions set on C<$source>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-content
 
 Gets the current content provider of a B<Gnome::Gtk4::DragSource>.
@@ -204,10 +204,10 @@ Return value; the L<Gnome::Gdk4::ContentProvider|/content-docs/api2/reference/Gd
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-drag
 
 Returns the underlying L<Gnome::Gdk4::Drag|/content-docs/api2/reference/Gdk4/Drag> object for an ongoing drag.
@@ -226,10 +226,10 @@ Return value; the L<Gnome::Gdk4::Drag|/content-docs/api2/reference/Gdk4/Drag> of
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-actions
 
 Sets the actions on the B<Gnome::Gtk4::DragSource>.
@@ -255,10 +255,10 @@ method set-actions ( UInt $actions )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-content
 
 Sets a content provider on a B<Gnome::Gtk4::DragSource>.
@@ -285,10 +285,10 @@ method set-content ( N-Object() $content )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-icon
 
 Sets a paintable to use as icon during DND operations.
@@ -317,13 +317,13 @@ method set-icon ( N-Object() $paintable, Int() $hot-x, Int() $hot-y )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -460,5 +460,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

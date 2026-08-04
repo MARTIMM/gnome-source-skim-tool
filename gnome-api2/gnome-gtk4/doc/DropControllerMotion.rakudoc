@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::DropControllerMotion
 =head1 Description
 
@@ -28,13 +28,13 @@ for that purpose.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -45,10 +45,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-dropcontrollermotion
 
 Creates a new event controller that will handle pointer motion
@@ -65,18 +65,18 @@ method new-dropcontrollermotion ( --> Gnome::Gtk4::DropControllerMotion )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 contains-pointer
 
 Returns if a Drag-and-Drop operation is within the widget C<$self> or one of its children.
@@ -94,10 +94,10 @@ Return value; C<True> if a dragging pointer is within C<$self> or one of its chi
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-drop
 
 Returns the L<Gnome::Gdk4::Drop|/content-docs/api2/reference/Gdk4/Drop> of a current Drag-and-Drop operation
@@ -117,10 +117,10 @@ Return value; The L<Gnome::Gdk4::Drop|/content-docs/api2/reference/Gdk4/Drop> cu
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-pointer
 
 Returns if a Drag-and-Drop operation is within the widget C<$self>, not one of its children.
@@ -139,13 +139,13 @@ Return value; C<True> if a dragging pointer is within C<$self> but
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -231,5 +231,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

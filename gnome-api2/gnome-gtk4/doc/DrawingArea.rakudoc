@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::DrawingArea
 =head1 Description
 
@@ -102,13 +102,13 @@ creating your own L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -119,10 +119,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-drawingarea
 
 Creates a new drawing area.
@@ -138,18 +138,18 @@ method new-drawingarea ( --> Gnome::Gtk4::DrawingArea )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-content-height
 
 Retrieves the content height of the B<Gnome::Gtk4::DrawingArea>.
@@ -167,10 +167,10 @@ Return value; The height requested for content of the drawing area.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-content-width
 
 Retrieves the content width of the B<Gnome::Gtk4::DrawingArea>.
@@ -188,10 +188,10 @@ Return value; The width requested for content of the drawing area.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-content-height
 
 Sets the desired height of the contents of the drawing area.
@@ -216,10 +216,10 @@ method set-content-height ( Int() $height )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-content-width
 
 Sets the desired width of the contents of the drawing area.
@@ -244,10 +244,10 @@ method set-content-width ( Int() $width )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-draw-func
 
 Setting a draw function is the main thing you want to do when using
@@ -281,13 +281,13 @@ method set-draw-func ( GtkDrawingAreaDrawFunc &draw-func, gpointer $user-data, G
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -323,5 +323,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

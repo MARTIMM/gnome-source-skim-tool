@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Dialog
 =head1 Description
 
@@ -142,13 +142,13 @@ B<Gnome::Gtk4::Dialog> uses the C<GTK_ACCESSIBLE_ROLE_DIALOG> role.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
@@ -161,10 +161,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-dialog
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -186,10 +186,10 @@ method new-dialog ( --> Gnome::Gtk4::Dialog )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-with-buttons
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -246,18 +246,18 @@ method new-with-buttons ( Str $title, N-Object() $parent, UInt $flags, Str $firs
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-action-widget
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -286,10 +286,10 @@ method add-action-widget ( N-Object() $child, Int() $response-id )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-button
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -317,10 +317,10 @@ Return value; the L<Gnome::Gtk4::Button|/content-docs/api2/reference/Gtk4/Button
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-buttons
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -346,10 +346,10 @@ method add-buttons ( Str $first-button-text, … )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-content-area
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -369,10 +369,10 @@ Return value; the content area L<Gnome::Gtk4::Box|/content-docs/api2/reference/G
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-header-bar
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -395,10 +395,10 @@ Return value; the header bar.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-response-for-widget
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -422,10 +422,10 @@ Return value; the response id of C<$widget>, or C<GTK_RESPONSE_NONE>
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-widget-for-response
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -449,10 +449,10 @@ Return value; the C<$widget> button that uses the given
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 response
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -474,10 +474,10 @@ method response ( Int() $response-id )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-default-response
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -499,10 +499,10 @@ method set-default-response ( Int() $response-id )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-response-sensitive
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -526,13 +526,13 @@ method set-response-sensitive ( Int() $response-id, Bool() $setting )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -596,5 +596,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 
