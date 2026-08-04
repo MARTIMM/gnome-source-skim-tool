@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Graphene::N-Matrix
 
 =head1 Description
@@ -22,13 +22,13 @@ should never be accessed directly.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -39,10 +39,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 alloc
 
 Allocates a new B<Gnome::Graphene::N-Matrix>.
@@ -58,18 +58,18 @@ method alloc ( --> Gnome::Graphene::Matrix \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 decompose
 
 Decomposes a transformation matrix into its component transformations.
@@ -99,10 +99,10 @@ Return value; B<true> if the matrix could be decomposed.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 determinant
 
 Computes the determinant of the given matrix.
@@ -120,10 +120,10 @@ Return value; the value of the determinant.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 equal
 
 Checks whether the two given B<Gnome::Graphene::N-Matrix> matrices are equal.
@@ -143,10 +143,10 @@ Return value; B<true> if the two matrices are equal, and B<false> otherwise.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 equal-fast
 
 Checks whether the two given B<Gnome::Graphene::N-Matrix> matrices are
@@ -190,10 +190,10 @@ Return value; B<true> if the matrices are equal. and B<false> otherwise.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free
 
 Frees the resources allocated by C<.alloc()>.
@@ -209,10 +209,10 @@ method free ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-row
 This function is not yet available
 
@@ -233,10 +233,10 @@ method get-row ( …, N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-value
 This function is not yet available
 
@@ -258,10 +258,10 @@ Return value; the value at the given indices.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-x-scale
 
 Retrieves the scaling factor on the X axis in C<$m>.
@@ -279,10 +279,10 @@ Return value; the value of the scaling factor.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-x-translation
 
 Retrieves the translation component on the X axis from C<$m>.
@@ -300,10 +300,10 @@ Return value; the translation component.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-y-scale
 
 Retrieves the scaling factor on the Y axis in C<$m>.
@@ -321,10 +321,10 @@ Return value; the value of the scaling factor.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-y-translation
 
 Retrieves the translation component on the Y axis from C<$m>.
@@ -342,10 +342,10 @@ Return value; the translation component.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-z-scale
 
 Retrieves the scaling factor on the Z axis in C<$m>.
@@ -363,10 +363,10 @@ Return value; the value of the scaling factor.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-z-translation
 
 Retrieves the translation component on the Z axis from C<$m>.
@@ -384,10 +384,10 @@ Return value; the translation component.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-2d
 
 Initializes a B<Gnome::Graphene::N-Matrix> from the values of an affine
@@ -426,10 +426,10 @@ Return value; the initialized matrix.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-float
 
 Initializes a B<Gnome::Graphene::N-Matrix> with the given array of floating
@@ -451,10 +451,10 @@ Return value; the initialized matrix.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-matrix
 
 Initializes a B<Gnome::Graphene::N-Matrix> using the values of the
@@ -475,10 +475,10 @@ Return value; the initialized matrix.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-vec4
 
 Initializes a B<Gnome::Graphene::N-Matrix> with the given four row
@@ -502,10 +502,10 @@ Return value; the initialized matrix.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-frustum
 
 Initializes a B<Gnome::Graphene::N-Matrix> compatible with B<Gnome::Graphene::N-Frustum>.
@@ -532,10 +532,10 @@ Return value; the initialized matrix.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-identity
 
 Initializes a B<Gnome::Graphene::N-Matrix> with the identity matrix.
@@ -553,10 +553,10 @@ Return value; the initialized matrix.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-look-at
 
 Initializes a B<Gnome::Graphene::N-Matrix> so that it positions the "camera"
@@ -593,10 +593,10 @@ Return value; the initialized matrix.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-ortho
 
 Initializes a B<Gnome::Graphene::N-Matrix> with an orthographic projection.
@@ -621,10 +621,10 @@ Return value; the initialized matrix.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-perspective
 
 Initializes a B<Gnome::Graphene::N-Matrix> with a perspective projection.
@@ -647,10 +647,10 @@ Return value; the initialized matrix.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-rotate
 
 Initializes C<$m> to represent a rotation of C<$angle> degrees on
@@ -672,10 +672,10 @@ Return value; the initialized matrix.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-scale
 
 Initializes a B<Gnome::Graphene::N-Matrix> with the given scaling factors.
@@ -697,10 +697,10 @@ Return value; the initialized matrix.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-skew
 
 Initializes a B<Gnome::Graphene::N-Matrix> with a skew transformation
@@ -722,10 +722,10 @@ Return value; the initialized matrix.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-translate
 
 Initializes a B<Gnome::Graphene::N-Matrix> with a translation to the
@@ -746,10 +746,10 @@ Return value; the initialized matrix.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 interpolate
 
 Linearly interpolates the two given B<Gnome::Graphene::N-Matrix> by
@@ -775,10 +775,10 @@ method interpolate ( N-Object $b, Num() $factor, N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 inverse
 
 Inverts the given matrix.
@@ -799,10 +799,10 @@ Return value; B<true> if the matrix is invertible.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-2d
 
 Checks whether the given B<Gnome::Graphene::N-Matrix> is compatible with an
@@ -822,10 +822,10 @@ Return value; B<true> if the matrix is compatible with an affine
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-backface-visible
 
 Checks whether a B<Gnome::Graphene::N-Matrix> has a visible back face.
@@ -843,10 +843,10 @@ Return value; B<true> if the back face of the matrix is visible.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-identity
 
 Checks whether the given B<Gnome::Graphene::N-Matrix> is the identity matrix.
@@ -864,10 +864,10 @@ Return value; B<true> if the matrix is the identity matrix.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-singular
 
 Checks whether a matrix is singular.
@@ -885,10 +885,10 @@ Return value; B<true> if the matrix is singular.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 multiply
 
 Multiplies two B<Gnome::Graphene::N-Matrix>.
@@ -911,10 +911,10 @@ method multiply ( N-Object $b, N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 near
 
 Compares the two given B<Gnome::Graphene::N-Matrix> matrices and checks
@@ -938,10 +938,10 @@ Return value; B<true> if the two matrices are near each other, and
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 normalize
 
 Normalizes the given B<Gnome::Graphene::N-Matrix>.
@@ -959,10 +959,10 @@ method normalize ( N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 perspective
 
 Applies a perspective of C<$depth> to the matrix.
@@ -982,10 +982,10 @@ method perspective ( Num() $depth, N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 print
 
 Prints the contents of a matrix to the standard error stream.
@@ -1004,10 +1004,10 @@ method print ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 project-point
 
 Projects a B<Gnome::Graphene::N-Point> using the matrix C<$m>.
@@ -1027,10 +1027,10 @@ method project-point ( N-Object $p, N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 project-rect
 
 Projects all corners of a B<Gnome::Graphene::N-Rect> using the given matrix.
@@ -1052,10 +1052,10 @@ method project-rect ( N-Object $r, N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 project-rect-bounds
 
 Projects a B<Gnome::Graphene::N-Rect> using the given matrix.
@@ -1078,10 +1078,10 @@ method project-rect-bounds ( N-Object $r, N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 rotate
 
 Adds a rotation transformation to C<$m>, using the given C<$angle>
@@ -1104,10 +1104,10 @@ method rotate ( Num() $angle, N-Object $axis )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 rotate-euler
 
 Adds a rotation transformation to C<$m>, using the given
@@ -1126,10 +1126,10 @@ method rotate-euler ( N-Object $e )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 rotate-quaternion
 
 Adds a rotation transformation to C<$m>, using the given
@@ -1151,10 +1151,10 @@ method rotate-quaternion ( N-Object $q )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 rotate-x
 
 Adds a rotation transformation around the X axis to C<$m>, using
@@ -1175,10 +1175,10 @@ method rotate-x ( Num() $angle )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 rotate-y
 
 Adds a rotation transformation around the Y axis to C<$m>, using
@@ -1199,10 +1199,10 @@ method rotate-y ( Num() $angle )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 rotate-z
 
 Adds a rotation transformation around the Z axis to C<$m>, using
@@ -1223,10 +1223,10 @@ method rotate-z ( Num() $angle )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 scale
 
 Adds a scaling transformation to C<$m>, using the three
@@ -1250,10 +1250,10 @@ method scale ( Num() $factor-x, Num() $factor-y, Num() $factor-z )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 skew-xy
 
 Adds a skew of C<$factor> on the X and Y axis to the given matrix.
@@ -1271,10 +1271,10 @@ method skew-xy ( Num() $factor )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 skew-xz
 
 Adds a skew of C<$factor> on the X and Z axis to the given matrix.
@@ -1292,10 +1292,10 @@ method skew-xz ( Num() $factor )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 skew-yz
 
 Adds a skew of C<$factor> on the Y and Z axis to the given matrix.
@@ -1313,10 +1313,10 @@ method skew-yz ( Num() $factor )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 to-2d
 
 Converts a B<Gnome::Graphene::N-Matrix> to an affine transformation
@@ -1356,10 +1356,10 @@ Return value; B<true> if the matrix is compatible with an affine
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 to-float
 
 Converts a B<Gnome::Graphene::N-Matrix> to an array of floating point
@@ -1380,10 +1380,10 @@ method to-float ( Num() $v )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 transform-bounds
 
 Transforms each corner of a B<Gnome::Graphene::N-Rect> using the given matrix C<$m>.
@@ -1408,10 +1408,10 @@ method transform-bounds ( N-Object $r, N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 transform-box
 
 Transforms the vertices of a B<Gnome::Graphene::N-Box> using the given matrix C<$m>.
@@ -1434,10 +1434,10 @@ method transform-box ( N-Object $b, N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 transform-point
 
 Transforms the given B<Gnome::Graphene::N-Point> using the matrix C<$m>.
@@ -1463,10 +1463,10 @@ method transform-point ( N-Object $p, N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 transform-point3d
 
 Transforms the given B<graphene_point>3d_t using the matrix C<$m>.
@@ -1491,10 +1491,10 @@ method transform-point3d ( N-Object $p, N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 transform-ray
 
 Transform a B<Gnome::Graphene::N-Ray> using the given matrix C<$m>.
@@ -1514,10 +1514,10 @@ method transform-ray ( N-Object $r, N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 transform-rect
 
 Transforms each corner of a B<Gnome::Graphene::N-Rect> using the given matrix C<$m>.
@@ -1541,10 +1541,10 @@ method transform-rect ( N-Object $r, N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 transform-sphere
 
 Transforms a B<Gnome::Graphene::N-Sphere> using the given matrix C<$m>. The
@@ -1565,10 +1565,10 @@ method transform-sphere ( N-Object $s, N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 transform-vec3
 
 Transforms the given B<graphene_vec>3_t using the matrix C<$m>.
@@ -1593,10 +1593,10 @@ method transform-vec3 ( N-Object $v, N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 transform-vec4
 
 Transforms the given B<graphene_vec>4_t using the matrix C<$m>.
@@ -1617,10 +1617,10 @@ method transform-vec4 ( N-Object $v, N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 translate
 
 Adds a translation transformation to C<$m> using the coordinates
@@ -1642,10 +1642,10 @@ method translate ( N-Object $pos )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 transpose
 
 Transposes the given matrix.
@@ -1664,10 +1664,10 @@ method transpose ( N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unproject-point3d
 
 Unprojects the given C<$point> using the C<$projection> matrix and
@@ -1690,10 +1690,10 @@ method unproject-point3d ( N-Object $modelview, N-Object $point, N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 untransform-bounds
 
 Undoes the transformation on the corners of a B<Gnome::Graphene::N-Rect> using the
@@ -1715,10 +1715,10 @@ method untransform-bounds ( N-Object $r, N-Object $bounds, N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 untransform-point
 
 Undoes the transformation of a B<Gnome::Graphene::N-Point> using the
@@ -1742,5 +1742,5 @@ Return value; B<true> if the point was successfully untransformed.
 
 =end comment
 
-=end pod
+=end rakudoc
 

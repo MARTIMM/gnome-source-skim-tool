@@ -1,15 +1,15 @@
 =comment Package: Graphene, C-Source: rect
 use v6.d;
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Graphene::T-rect
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -18,13 +18,13 @@ Initialization of a type class is simple and only needed when the standalone fun
 
   method new ( )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Record Structure Documentation]---------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-Rect
 
   class N-Rect:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
@@ -36,18 +36,18 @@ Initialization of a type class is simple and only needed when the standalone fun
 =item origin; the coordinates of the origin of the rectangle
 =item size; the size of the rectangle
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Standalone Functions]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Standalone Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 rect-alloc
 
 Allocates a new B<Gnome::Graphene::T-rect>.
@@ -67,10 +67,10 @@ Return value; the newly allocated rectangle.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 rect-zero
 
 Returns a degenerate rectangle with origin fixed at (0, 0) and
@@ -89,5 +89,5 @@ Return value; a fixed rectangle.
 
 =end comment
 
-=end pod
+=end rakudoc
 

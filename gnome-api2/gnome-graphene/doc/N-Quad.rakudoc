@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Graphene::N-Quad
 
 =head1 Description
@@ -22,13 +22,13 @@ accessed directly.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -39,10 +39,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 alloc
 
 Allocates a new B<Gnome::Graphene::N-Quad> instance.
@@ -60,18 +60,18 @@ method alloc ( --> Gnome::Graphene::Quad \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 bounds
 
 Computes the bounding rectangle of C<$q> and places it into C<$r>.
@@ -89,10 +89,10 @@ method bounds ( CArray[N-Rect] $r )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 contains
 This function is not yet available
 
@@ -111,10 +111,10 @@ method contains ( CArray[N-Point] $p )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free
 
 Frees the resources allocated by C<.alloc()>
@@ -130,10 +130,10 @@ method free ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-point
 This function is not yet available
 
@@ -154,10 +154,10 @@ Return value; a B<Gnome::Graphene::N-Point>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init
 
 Initializes a B<Gnome::Graphene::N-Quad> with the given points.
@@ -180,10 +180,10 @@ Return value; the initialized B<Gnome::Graphene::N-Quad>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-points
 
 Initializes a B<Gnome::Graphene::N-Quad> using an array of points.
@@ -203,10 +203,10 @@ Return value; the initialized B<Gnome::Graphene::N-Quad>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-rect
 
 Initializes a B<Gnome::Graphene::N-Quad> using the four corners of the
@@ -227,5 +227,5 @@ Return value; the initialized B<Gnome::Graphene::N-Quad>.
 
 =end comment
 
-=end pod
+=end rakudoc
 

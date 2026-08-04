@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Graphene::N-Plane
 
 =head1 Description
@@ -22,13 +22,13 @@ modified directly.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -39,10 +39,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 alloc
 
 Allocates a new B<Gnome::Graphene::N-Plane> structure.
@@ -60,18 +60,18 @@ method alloc ( --> Gnome::Graphene::Plane \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 distance
 
 Computes the distance of C<$point> from a B<Gnome::Graphene::N-Plane>.
@@ -91,10 +91,10 @@ Return value; the distance of the given B<graphene_point>3d_t from the plane.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 equal
 
 Checks whether the two given B<Gnome::Graphene::N-Plane> are equal.
@@ -114,10 +114,10 @@ Return value; B<true> if the given planes are equal.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free
 
 Frees the resources allocated by C<.alloc()>.
@@ -133,10 +133,10 @@ method free ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-constant
 
 Retrieves the distance along the normal vector of the
@@ -155,10 +155,10 @@ Return value; the constant value of the plane.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-normal
 
 Retrieves the normal vector pointing towards the origin of the
@@ -177,10 +177,10 @@ method get-normal ( N-Object $normal )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init
 
 Initializes the given B<Gnome::Graphene::N-Plane> using the given C<$normal> vector
@@ -205,10 +205,10 @@ Return value; the initialized plane.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-plane
 
 Initializes the given B<Gnome::Graphene::N-Plane> using the normal
@@ -229,10 +229,10 @@ Return value; the initialized plane.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-point
 
 Initializes the given B<Gnome::Graphene::N-Plane> using the given normal vector
@@ -254,10 +254,10 @@ Return value; the initialized plane.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-points
 
 Initializes the given B<Gnome::Graphene::N-Plane> using the 3 provided co-planar
@@ -283,10 +283,10 @@ Return value; the initialized plane.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-vec4
 
 Initializes the given B<Gnome::Graphene::N-Plane> using the components of
@@ -308,10 +308,10 @@ Return value; the initialized plane.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 negate
 
 Negates the normal vector and constant of a B<Gnome::Graphene::N-Plane>, effectively
@@ -330,10 +330,10 @@ method negate ( N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 normalize
 
 Normalizes the vector of the given B<Gnome::Graphene::N-Plane>,
@@ -352,10 +352,10 @@ method normalize ( N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 transform
 
 Transforms a B<Gnome::Graphene::N-Plane> C<$p> using the given C<$matrix>
@@ -382,5 +382,5 @@ method transform ( N-Object $matrix, N-Object $normal-matrix, N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 

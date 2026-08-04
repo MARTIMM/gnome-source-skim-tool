@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Graphene::N-Frustum
 
 =head1 Description
@@ -22,13 +22,13 @@ modified directly.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -39,10 +39,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 alloc
 
 Allocates a new B<Gnome::Graphene::N-Frustum> structure.
@@ -60,18 +60,18 @@ method alloc ( --> Gnome::Graphene::Frustum \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 contains-point
 
 Checks whether a point is inside the volume defined by the given
@@ -92,10 +92,10 @@ Return value; B<true> if the point is inside the frustum.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 equal
 
 Checks whether the two given B<Gnome::Graphene::N-Frustum> are equal.
@@ -115,10 +115,10 @@ Return value; B<true> if the given frustums are equal.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free
 
 Frees the resources allocated by C<.alloc()>.
@@ -134,10 +134,10 @@ method free ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-planes
 
 Retrieves the planes that define the given B<Gnome::Graphene::N-Frustum>.
@@ -156,10 +156,10 @@ method get-planes ( N-Object $planes )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init
 
 Initializes the given B<Gnome::Graphene::N-Frustum> using the provided
@@ -185,10 +185,10 @@ Return value; the initialized frustum.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-frustum
 
 Initializes the given B<Gnome::Graphene::N-Frustum> using the clipping
@@ -209,10 +209,10 @@ Return value; the initialized frustum.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-matrix
 
 Initializes a B<Gnome::Graphene::N-Frustum> using the given C<$matrix>.
@@ -232,10 +232,10 @@ Return value; the initialized frustum.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 intersects-box
 
 Checks whether the given C<$box> intersects a plane of
@@ -256,10 +256,10 @@ Return value; B<true> if the box intersects the frustum.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 intersects-sphere
 
 Checks whether the given C<$sphere> intersects a plane of
@@ -280,5 +280,5 @@ Return value; B<true> if the sphere intersects the frustum.
 
 =end comment
 
-=end pod
+=end rakudoc
 

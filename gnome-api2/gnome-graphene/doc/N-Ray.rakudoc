@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Graphene::N-Ray
 
 =head1 Description
@@ -22,13 +22,13 @@ be modified directly.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -39,10 +39,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 alloc
 
 Allocates a new B<Gnome::Graphene::N-Ray> structure.
@@ -60,18 +60,18 @@ method alloc ( --> Gnome::Graphene::Ray \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 equal
 
 Checks whether the two given B<Gnome::Graphene::N-Ray> are equal.
@@ -91,10 +91,10 @@ Return value; B<true> if the given rays are equal.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free
 
 Frees the resources allocated by C<.alloc()>.
@@ -110,10 +110,10 @@ method free ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-closest-point-to-point
 
 Computes the point on the given B<Gnome::Graphene::N-Ray> that is closest to the
@@ -133,10 +133,10 @@ method get-closest-point-to-point ( N-Object $p, N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-direction
 
 Retrieves the direction of the given B<Gnome::Graphene::N-Ray>.
@@ -154,10 +154,10 @@ method get-direction ( N-Object $direction )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-distance-to-plane
 
 Computes the distance of the origin of the given B<Gnome::Graphene::N-Ray> from the
@@ -180,10 +180,10 @@ Return value; the distance of the origin of the ray from the plane.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-distance-to-point
 
 Computes the distance of the closest approach between the
@@ -208,10 +208,10 @@ Return value; the distance of the point.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-origin
 
 Retrieves the origin of the given B<Gnome::Graphene::N-Ray>.
@@ -229,10 +229,10 @@ method get-origin ( N-Object $origin )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-position-at
 
 Retrieves the coordinates of a point at the distance C<$t> along the
@@ -252,10 +252,10 @@ method get-position-at ( Num() $t, N-Object $position )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init
 
 Initializes the given B<Gnome::Graphene::N-Ray> using the given C<$origin>
@@ -277,10 +277,10 @@ Return value; the initialized ray.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-ray
 
 Initializes the given B<Gnome::Graphene::N-Ray> using the origin and direction
@@ -301,10 +301,10 @@ Return value; the initialized ray.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-vec3
 
 Initializes the given B<Gnome::Graphene::N-Ray> using the given vectors.
@@ -325,10 +325,10 @@ Return value; the initialized ray.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 intersect-box
 
 Intersects the given B<Gnome::Graphene::N-Ray> C<$r> with the given
@@ -350,10 +350,10 @@ Return value; the type of intersection.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 intersect-sphere
 
 Intersects the given B<Gnome::Graphene::N-Ray> C<$r> with the given
@@ -375,10 +375,10 @@ Return value; the type of intersection.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 intersect-triangle
 
 Intersects the given B<Gnome::Graphene::N-Ray> C<$r> with the given
@@ -400,10 +400,10 @@ Return value; the type of intersection.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 intersects-box
 
 Checks whether the given B<Gnome::Graphene::N-Ray> C<$r> intersects the
@@ -426,10 +426,10 @@ Return value; B<true> if the ray intersects the box.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 intersects-sphere
 
 Checks if the given B<Gnome::Graphene::N-Ray> C<$r> intersects the
@@ -452,10 +452,10 @@ Return value; B<true> if the ray intersects the sphere.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 intersects-triangle
 
 Checks whether the given B<Gnome::Graphene::N-Ray> C<$r> intersects the
@@ -478,5 +478,5 @@ Return value; B<true> if the ray intersects the triangle.
 
 =end comment
 
-=end pod
+=end rakudoc
 

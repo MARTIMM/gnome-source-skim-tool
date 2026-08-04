@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Graphene::N-Size
 
 =head1 Description
@@ -19,13 +19,13 @@ A size.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Record Structure Documentation]---------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-Size
 
   class N-Size:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
@@ -37,13 +37,13 @@ A size.
 =item width; the width
 =item height; the height
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -54,10 +54,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 alloc
 
 Allocates a new #graphene_size_t.
@@ -75,18 +75,18 @@ method alloc ( --> Gnome::Graphene::Size \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 equal
 This function is not yet available
 
@@ -105,10 +105,10 @@ method equal ( CArray[N-Size] $b )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free
 
 Frees the resources allocated by C<.alloc()>.
@@ -124,10 +124,10 @@ method free ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init
 
 Initializes a #graphene_size_t using the given C<$width> and C<$height>.
@@ -148,10 +148,10 @@ Return value; the initialized #graphene_size_t.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-size
 
 Initializes a #graphene_size_t using the width and height of
@@ -172,10 +172,10 @@ Return value; the initialized #graphene_size_t.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 interpolate
 
 Linearly interpolates the two given #graphene_size_t using the given
@@ -196,10 +196,10 @@ method interpolate ( CArray[N-Size] $b, Num() $factor, CArray[N-Size] $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 scale
 
 Scales the components of a #graphene_size_t using the given C<$factor>.
@@ -218,18 +218,18 @@ method scale ( Num() $factor, CArray[N-Size] $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 zero
 
 A constant pointer to a zero #graphene_size_t, useful for
@@ -248,5 +248,5 @@ Return value; a constant size.
 
 =end comment
 
-=end pod
+=end rakudoc
 

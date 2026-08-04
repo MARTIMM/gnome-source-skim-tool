@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Graphene::N-Vec4
 
 =head1 Description
@@ -22,13 +22,13 @@ never be accessed directly.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -39,10 +39,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 alloc
 
 Allocates a new B<graphene_vec>4_t structure.
@@ -62,18 +62,18 @@ method alloc ( --> Gnome::Graphene::Vec4 \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add
 
 Adds each component of the two given vectors.
@@ -92,10 +92,10 @@ method add ( CArray[N-Vec4] $b, CArray[N-Vec4] $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 divide
 
 Divides each component of the first operand C<$a> by the corresponding
@@ -116,10 +116,10 @@ method divide ( CArray[N-Vec4] $b, CArray[N-Vec4] $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 dot
 
 Computes the dot product of the two given vectors.
@@ -139,10 +139,10 @@ Return value; the value of the dot product.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 equal
 This function is not yet available
 
@@ -161,10 +161,10 @@ method equal ( CArray[N-Vec4] $v2 )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free
 
 Frees the resources allocated by C<$v>
@@ -180,10 +180,10 @@ method free ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-w
 
 Retrieves the value of the fourth component of the given B<graphene_vec>4_t.
@@ -201,10 +201,10 @@ Return value; the value of the fourth component.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-x
 
 Retrieves the value of the first component of the given B<graphene_vec>4_t.
@@ -222,10 +222,10 @@ Return value; the value of the first component.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-xy
 
 Creates a B<graphene_vec>2_t that contains the first two components
@@ -244,10 +244,10 @@ method get-xy ( CArray[N-Vec2] $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-xyz
 
 Creates a B<graphene_vec>3_t that contains the first three components
@@ -266,10 +266,10 @@ method get-xyz ( CArray[N-Vec3] $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-y
 
 Retrieves the value of the second component of the given B<graphene_vec>4_t.
@@ -287,10 +287,10 @@ Return value; the value of the second component.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-z
 
 Retrieves the value of the third component of the given B<graphene_vec>4_t.
@@ -308,10 +308,10 @@ Return value; the value of the third component.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init
 
 Initializes a B<graphene_vec>4_t using the given values.
@@ -337,10 +337,10 @@ Return value; a pointer to the initialized
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-float
 
 Initializes a B<graphene_vec>4_t with the values inside the given array.
@@ -360,10 +360,10 @@ Return value; the initialized vector.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-vec2
 
 Initializes a B<graphene_vec>4_t using the components of a
@@ -386,10 +386,10 @@ Return value; the initialized vector.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-vec3
 
 Initializes a B<graphene_vec>4_t using the components of a
@@ -411,10 +411,10 @@ Return value; the initialized vector.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-vec4
 
 Initializes a B<graphene_vec>4_t using the components of
@@ -435,10 +435,10 @@ Return value; the initialized vector.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 interpolate
 
 Linearly interpolates C<$v1> and C<$v2> using the given C<$factor>.
@@ -458,10 +458,10 @@ method interpolate ( CArray[N-Vec4] $v2, Num() $factor, CArray[N-Vec4] $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 length
 
 Computes the length of the given B<graphene_vec>4_t.
@@ -479,10 +479,10 @@ Return value; the length of the vector.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 max
 
 Compares each component of the two given vectors and creates a
@@ -502,10 +502,10 @@ method max ( CArray[N-Vec4] $b, CArray[N-Vec4] $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 min
 
 Compares each component of the two given vectors and creates a
@@ -525,10 +525,10 @@ method min ( CArray[N-Vec4] $b, CArray[N-Vec4] $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 multiply
 
 Multiplies each component of the two given vectors.
@@ -547,10 +547,10 @@ method multiply ( CArray[N-Vec4] $b, CArray[N-Vec4] $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 near
 This function is not yet available
 
@@ -571,10 +571,10 @@ method near ( CArray[N-Vec4] $v2, Num() $epsilon )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 negate
 
 Negates the given B<graphene_vec>4_t.
@@ -592,10 +592,10 @@ method negate ( CArray[N-Vec4] $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 normalize
 
 Normalizes the given B<graphene_vec>4_t.
@@ -614,10 +614,10 @@ method normalize ( CArray[N-Vec4] $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 scale
 
 Multiplies all components of the given vector with the given scalar C<$factor>.
@@ -636,10 +636,10 @@ method scale ( Num() $factor, CArray[N-Vec4] $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 subtract
 
 Subtracts from each component of the first operand C<$a> the
@@ -660,10 +660,10 @@ method subtract ( CArray[N-Vec4] $b, CArray[N-Vec4] $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 to-float
 
 Stores the components of the given B<graphene_vec>4_t into an array
@@ -683,18 +683,18 @@ method to-float ( Num() $dest )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 one
 
 Retrieves a pointer to a B<graphene_vec>4_t with all its
@@ -713,10 +713,10 @@ Return value; a constant vector.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 w-axis
 
 Retrieves a pointer to a B<graphene_vec>4_t with its
@@ -735,10 +735,10 @@ Return value; a constant vector.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 x-axis
 
 Retrieves a pointer to a B<graphene_vec>4_t with its
@@ -757,10 +757,10 @@ Return value; a constant vector.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 y-axis
 
 Retrieves a pointer to a B<graphene_vec>4_t with its
@@ -779,10 +779,10 @@ Return value; a constant vector.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 z-axis
 
 Retrieves a pointer to a B<graphene_vec>4_t with its
@@ -801,10 +801,10 @@ Return value; a constant vector.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 zero
 
 Retrieves a pointer to a B<graphene_vec>4_t with all its
@@ -823,5 +823,5 @@ Return value; a constant vector.
 
 =end comment
 
-=end pod
+=end rakudoc
 

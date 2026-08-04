@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Graphene::N-Quaternion
 
 =head1 Description
@@ -22,13 +22,13 @@ and should never be accessed directly.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -39,10 +39,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 alloc
 
 Allocates a new B<Gnome::Graphene::N-Quaternion>.
@@ -60,18 +60,18 @@ method alloc ( --> Gnome::Graphene::Quaternion \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add
 
 Adds two B<Gnome::Graphene::N-Quaternion> C<$a> and C<$b>.
@@ -90,10 +90,10 @@ method add ( N-Object $b, N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 dot
 
 Computes the dot product of two B<Gnome::Graphene::N-Quaternion>.
@@ -113,10 +113,10 @@ Return value; the value of the dot products.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 equal
 
 Checks whether the given quaternions are equal.
@@ -136,10 +136,10 @@ Return value; B<true> if the quaternions are equal.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free
 
 Releases the resources allocated by C<.alloc()>.
@@ -155,10 +155,10 @@ method free ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init
 
 Initializes a B<Gnome::Graphene::N-Quaternion> using the given four values.
@@ -181,10 +181,10 @@ Return value; the initialized quaternion.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-angle-vec3
 
 Initializes a B<Gnome::Graphene::N-Quaternion> using an C<$angle> on a
@@ -206,10 +206,10 @@ Return value; the initialized quaternion.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-angles
 
 Initializes a B<Gnome::Graphene::N-Quaternion> using the values of
@@ -235,10 +235,10 @@ Return value; the initialized quaternion.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-euler
 
 Initializes a B<Gnome::Graphene::N-Quaternion> using the given B<Gnome::Graphene::N-Euler>.
@@ -258,10 +258,10 @@ Return value; the initialized B<Gnome::Graphene::N-Quaternion>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-matrix
 
 Initializes a B<Gnome::Graphene::N-Quaternion> using the rotation components
@@ -282,10 +282,10 @@ Return value; the initialized quaternion.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-quaternion
 
 Initializes a B<Gnome::Graphene::N-Quaternion> with the values from C<$src>.
@@ -305,10 +305,10 @@ Return value; the initialized quaternion.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-radians
 
 Initializes a B<Gnome::Graphene::N-Quaternion> using the values of
@@ -334,10 +334,10 @@ Return value; the initialized quaternion.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-vec4
 
 Initializes a B<Gnome::Graphene::N-Quaternion> with the values from C<$src>.
@@ -357,10 +357,10 @@ Return value; the initialized quaternion.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-identity
 
 Initializes a B<Gnome::Graphene::N-Quaternion> using the identity
@@ -379,10 +379,10 @@ Return value; the initialized quaternion.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 invert
 
 Inverts a B<Gnome::Graphene::N-Quaternion>, and returns the conjugate
@@ -402,10 +402,10 @@ method invert ( N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 multiply
 
 Multiplies two B<Gnome::Graphene::N-Quaternion> C<$a> and C<$b>.
@@ -424,10 +424,10 @@ method multiply ( N-Object $b, N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 normalize
 
 Normalizes a B<Gnome::Graphene::N-Quaternion>.
@@ -446,10 +446,10 @@ method normalize ( N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 scale
 
 Scales all the elements of a B<Gnome::Graphene::N-Quaternion> C<$q> using
@@ -469,10 +469,10 @@ method scale ( Num() $factor, N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 slerp
 
 Interpolates between the two given quaternions using a spherical
@@ -495,10 +495,10 @@ method slerp ( N-Object $b, Num() $factor, N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 to-angle-vec3
 
 Converts a quaternion into an C<$angle>, C<$axis> pair.
@@ -517,10 +517,10 @@ method to-angle-vec3 ( Num() $angle, N-Object $axis )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 to-angles
 
 Converts a B<Gnome::Graphene::N-Quaternion> to its corresponding rotations
@@ -545,10 +545,10 @@ method to-angles ( Num() $deg-x, Num() $deg-y, Num() $deg-z )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 to-matrix
 
 Converts a quaternion into a transformation matrix expressing
@@ -567,10 +567,10 @@ method to-matrix ( N-Object $m )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 to-radians
 
 Converts a B<Gnome::Graphene::N-Quaternion> to its corresponding rotations
@@ -595,10 +595,10 @@ method to-radians ( Num() $rad-x, Num() $rad-y, Num() $rad-z )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 to-vec4
 
 Copies the components of a B<Gnome::Graphene::N-Quaternion> into a
@@ -618,5 +618,5 @@ method to-vec4 ( N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 

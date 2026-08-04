@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Graphene::N-Triangle
 
 =head1 Description
@@ -19,13 +19,13 @@ A triangle.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -36,10 +36,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 alloc
 
 Allocates a new B<Gnome::Graphene::N-Triangle>.
@@ -57,18 +57,18 @@ method alloc ( --> Gnome::Graphene::Triangle \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 contains-point
 
 Checks whether the given triangle C<$t> contains the point C<$p>.
@@ -88,10 +88,10 @@ Return value; B<true> if the point is inside the triangle.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 equal
 
 Checks whether the two given B<Gnome::Graphene::N-Triangle> are equal.
@@ -111,10 +111,10 @@ Return value; B<true> if the triangles are equal.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free
 
 Frees the resources allocated by C<.alloc()>.
@@ -130,10 +130,10 @@ method free ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-area
 
 Computes the area of the given B<Gnome::Graphene::N-Triangle>.
@@ -151,10 +151,10 @@ Return value; the area of the triangle.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-barycoords
 
 Computes the [barycentric coordinates](http://en.wikipedia.org/wiki/Barycentric_coordinate_system)
@@ -191,10 +191,10 @@ Return value; B<true> if the barycentric coordinates are valid.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-bounding-box
 
 Computes the bounding box of the given B<Gnome::Graphene::N-Triangle>.
@@ -212,10 +212,10 @@ method get-bounding-box ( N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-midpoint
 
 Computes the coordinates of the midpoint of the given B<Gnome::Graphene::N-Triangle>.
@@ -237,10 +237,10 @@ method get-midpoint ( N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-normal
 
 Computes the normal vector of the given B<Gnome::Graphene::N-Triangle>.
@@ -258,10 +258,10 @@ method get-normal ( N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-plane
 
 Computes the plane based on the vertices of the given B<Gnome::Graphene::N-Triangle>.
@@ -279,10 +279,10 @@ method get-plane ( N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-points
 
 Retrieves the three vertices of the given B<Gnome::Graphene::N-Triangle> and returns
@@ -306,10 +306,10 @@ method get-points ( N-Object $a, N-Object $b, N-Object $c )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-uv
 
 Computes the UV coordinates of the given point C<$p>.
@@ -345,10 +345,10 @@ Return value; B<true> if the coordinates are valid.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-vertices
 
 Retrieves the three vertices of the given B<Gnome::Graphene::N-Triangle>.
@@ -368,10 +368,10 @@ method get-vertices ( N-Object $a, N-Object $b, N-Object $c )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-float
 
 Initializes a B<Gnome::Graphene::N-Triangle> using the three given arrays
@@ -395,10 +395,10 @@ Return value; the initialized B<Gnome::Graphene::N-Triangle>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-point3d
 
 Initializes a B<Gnome::Graphene::N-Triangle> using the three given 3D points.
@@ -420,10 +420,10 @@ Return value; the initialized B<Gnome::Graphene::N-Triangle>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-vec3
 
 Initializes a B<Gnome::Graphene::N-Triangle> using the three given vectors.
@@ -445,5 +445,5 @@ Return value; the initialized B<Gnome::Graphene::N-Triangle>.
 
 =end comment
 
-=end pod
+=end rakudoc
 

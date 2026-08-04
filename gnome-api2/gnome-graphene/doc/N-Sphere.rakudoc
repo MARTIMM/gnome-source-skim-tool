@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Graphene::N-Sphere
 
 =head1 Description
@@ -19,13 +19,13 @@ A sphere, represented by its center and radius.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -36,10 +36,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 alloc
 
 Allocates a new B<Gnome::Graphene::N-Sphere>.
@@ -57,18 +57,18 @@ method alloc ( --> Gnome::Graphene::Sphere \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 contains-point
 
 Checks whether the given C<$point> is contained in the volume
@@ -89,10 +89,10 @@ Return value; B<true> if the sphere contains the point.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 distance
 
 Computes the distance of the given C<$point> from the surface of
@@ -113,10 +113,10 @@ Return value; the distance of the point.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 equal
 
 Checks whether two B<Gnome::Graphene::N-Sphere> are equal.
@@ -136,10 +136,10 @@ Return value; B<true> if the spheres are equal.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free
 
 Frees the resources allocated by C<.alloc()>.
@@ -155,10 +155,10 @@ method free ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-bounding-box
 
 Computes the bounding box capable of containing the
@@ -177,10 +177,10 @@ method get-bounding-box ( N-Object $box )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-center
 
 Retrieves the coordinates of the center of a B<Gnome::Graphene::N-Sphere>.
@@ -199,10 +199,10 @@ method get-center ( N-Object $center )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-radius
 
 Retrieves the radius of a B<Gnome::Graphene::N-Sphere>.
@@ -220,10 +220,10 @@ Return value; No documentation about its value and use.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init
 
 Initializes the given B<Gnome::Graphene::N-Sphere> with the given C<$center> and C<$radius>.
@@ -245,10 +245,10 @@ Return value; the initialized B<Gnome::Graphene::N-Sphere>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-points
 This function is not yet available
 
@@ -275,10 +275,10 @@ Return value; the initialized B<Gnome::Graphene::N-Sphere>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-vectors
 This function is not yet available
 
@@ -305,10 +305,10 @@ Return value; the initialized B<Gnome::Graphene::N-Sphere>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-empty
 
 Checks whether the sphere has a zero radius.
@@ -326,10 +326,10 @@ Return value; B<true> if the sphere is empty.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 translate
 
 Translates the center of the given B<Gnome::Graphene::N-Sphere> using the C<$point>
@@ -349,5 +349,5 @@ method translate ( N-Object $point, N-Object $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 

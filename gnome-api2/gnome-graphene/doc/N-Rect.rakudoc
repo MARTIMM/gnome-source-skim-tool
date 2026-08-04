@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Graphene::N-Rect
 
 =head1 Description
@@ -30,13 +30,13 @@ B<Gnome::Graphene::N-Rect> will always return a normalized rectangle.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -47,18 +47,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 contains-point
 
 Checks whether a B<Gnome::Graphene::N-Rect> contains the given coordinates.
@@ -78,10 +78,10 @@ Return value; B<true> if the rectangle contains the point.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 contains-rect
 
 Checks whether a B<Gnome::Graphene::N-Rect> fully contains the given
@@ -102,10 +102,10 @@ Return value; B<true> if the rectangle C<$a> fully contains C<$b>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 equal
 
 Checks whether the two given rectangle are equal.
@@ -125,10 +125,10 @@ Return value; B<true> if the rectangles are equal.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 expand
 
 Expands a B<Gnome::Graphene::N-Rect> to contain the given B<Gnome::Graphene::N-Point>.
@@ -147,10 +147,10 @@ method expand ( CArray[N-Point] $p, CArray[N-Rect] $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free
 
 Frees the resources allocated by C<.alloc()>.
@@ -166,10 +166,10 @@ method free ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-area
 
 Compute the area of given normalized rectangle.
@@ -187,10 +187,10 @@ Return value; the area of the normalized rectangle.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-bottom-left
 
 Retrieves the coordinates of the bottom-left corner of the given rectangle.
@@ -208,10 +208,10 @@ method get-bottom-left ( CArray[N-Point] $p )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-bottom-right
 
 Retrieves the coordinates of the bottom-right corner of the given rectangle.
@@ -229,10 +229,10 @@ method get-bottom-right ( CArray[N-Point] $p )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-center
 
 Retrieves the coordinates of the center of the given rectangle.
@@ -250,10 +250,10 @@ method get-center ( CArray[N-Point] $p )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-height
 
 Retrieves the normalized height of the given rectangle.
@@ -271,10 +271,10 @@ Return value; the normalized height of the rectangle.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-top-left
 
 Retrieves the coordinates of the top-left corner of the given rectangle.
@@ -292,10 +292,10 @@ method get-top-left ( CArray[N-Point] $p )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-top-right
 
 Retrieves the coordinates of the top-right corner of the given rectangle.
@@ -313,10 +313,10 @@ method get-top-right ( CArray[N-Point] $p )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-vertices
 
 Computes the four vertices of a B<Gnome::Graphene::N-Rect>.
@@ -335,10 +335,10 @@ method get-vertices ( CArray[N-Vec2] $vertices )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-width
 
 Retrieves the normalized width of the given rectangle.
@@ -356,10 +356,10 @@ Return value; the normalized width of the rectangle.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-x
 
 Retrieves the normalized X coordinate of the origin of the given
@@ -378,10 +378,10 @@ Return value; the normalized X coordinate of the rectangle.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-y
 
 Retrieves the normalized Y coordinate of the origin of the given
@@ -400,10 +400,10 @@ Return value; the normalized Y coordinate of the rectangle.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init
 
 Initializes the given B<Gnome::Graphene::N-Rect> with the given values.
@@ -429,10 +429,10 @@ Return value; the initialized rectangle.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-rect
 
 Initializes C<$r> using the given C<$src> rectangle.
@@ -455,10 +455,10 @@ Return value; the initialized rectangle.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 inset
 
 Changes the given rectangle to be smaller, or larger depending on the
@@ -492,10 +492,10 @@ Return value; the inset rectangle.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 inset-r
 
 Changes the given rectangle to be smaller, or larger depending on the
@@ -528,10 +528,10 @@ method inset-r ( Num() $d-x, Num() $d-y, CArray[N-Rect] $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 interpolate
 
 Linearly interpolates the origin and size of the two given
@@ -553,10 +553,10 @@ method interpolate ( CArray[N-Rect] $b, Num() $factor, CArray[N-Rect] $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 intersection
 
 Computes the intersection of the two given rectangles.
@@ -585,10 +585,10 @@ Return value; B<true> if the two rectangles intersect.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 normalize
 
 Normalizes the passed rectangle.
@@ -610,10 +610,10 @@ Return value; the normalized rectangle.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 normalize-r
 
 Normalizes the passed rectangle.
@@ -636,10 +636,10 @@ method normalize-r ( CArray[N-Rect] $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 offset
 
 Offsets the origin by C<$d-x> and C<$d-y>.
@@ -662,10 +662,10 @@ Return value; the offset rectangle.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 offset-r
 
 Offsets the origin of the given rectangle by C<$d-x> and C<$d-y>.
@@ -688,10 +688,10 @@ method offset-r ( Num() $d-x, Num() $d-y, CArray[N-Rect] $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 round-extents
 
 Rounds the origin of the given rectangle to its nearest
@@ -730,10 +730,10 @@ method round-extents ( CArray[N-Rect] $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 scale
 
 Scales the size and origin of a rectangle horizontaly by C<$s-h>,
@@ -755,10 +755,10 @@ method scale ( Num() $s-h, Num() $s-v, CArray[N-Rect] $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 union
 
 Computes the union of the two given rectangles.
@@ -781,18 +781,18 @@ method union ( CArray[N-Rect] $b, CArray[N-Rect] $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 alloc
 
 Allocates a new B<Gnome::Graphene::N-Rect>.
@@ -812,10 +812,10 @@ Return value; the newly allocated rectangle.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 zero
 
 Returns a degenerate rectangle with origin fixed at (0, 0) and
@@ -834,5 +834,5 @@ Return value; a fixed rectangle.
 
 =end comment
 
-=end pod
+=end rakudoc
 

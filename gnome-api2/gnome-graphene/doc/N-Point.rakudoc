@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::Graphene::N-Point
 
 =head1 Description
@@ -19,13 +19,13 @@ A point with two coordinates.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -36,10 +36,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 alloc
 
 Allocates a new B<Gnome::Graphene::N-Point> structure.
@@ -76,18 +76,18 @@ method alloc ( --> Gnome::Graphene::Point \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 distance
 
 Computes the distance between C<$a> and C<$b>.
@@ -109,10 +109,10 @@ Return value; the distance between the two points.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 equal
 This function is not yet available
 
@@ -136,10 +136,10 @@ method equal ( CArray[N-Point] $b )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 free
 
 Frees the resources allocated by C<.alloc()>.
@@ -155,10 +155,10 @@ method free ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init
 
 Initializes C<$p> to the given C<$x> and C<$y> coordinates.
@@ -181,10 +181,10 @@ Return value; the initialized point.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-point
 
 Initializes C<$p> with the same coordinates of C<$src>.
@@ -204,10 +204,10 @@ Return value; the initialized point.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-vec2
 
 Initializes C<$p> with the coordinates inside the given B<graphene_vec>2_t.
@@ -227,10 +227,10 @@ Return value; the initialized point.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 interpolate
 
 Linearly interpolates the coordinates of C<$a> and C<$b> using the
@@ -252,10 +252,10 @@ method interpolate ( CArray[N-Point] $b, Num() $factor, CArray[N-Point] $res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 near
 This function is not yet available
 
@@ -276,10 +276,10 @@ method near ( CArray[N-Point] $b, Num() $epsilon )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 to-vec2
 
 Stores the coordinates of the given B<Gnome::Graphene::N-Point> into a
@@ -298,18 +298,18 @@ method to-vec2 ( CArray[N-Vec2] $v )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 zero
 
 Returns a point fixed at (0, 0).
@@ -327,5 +327,5 @@ Return value; a fixed point.
 
 =end comment
 
-=end pod
+=end rakudoc
 
