@@ -35,11 +35,15 @@ method add-example-code ( Str $example --> Str ) {
   # Store example in hash
   $examples{$ex-key} = Q:s:to/EOEX/;
     =begin comment
+
+    =begin code
     $example
+    =end code
+
     =end comment
     EOEX
 
-#note "$?LINE $ex-key";#, $example, $examples{$ex-key}";
+note "$?LINE $ex-key, $example";#, $example, $examples{$ex-key}";
   $ex-key
 }
 

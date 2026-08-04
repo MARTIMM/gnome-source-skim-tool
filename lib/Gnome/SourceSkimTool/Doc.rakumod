@@ -74,10 +74,12 @@ method !set-uml ( Str $class-name --> Str ) {
   # New pod does but is not yet ready.
   # add-example-code() returns a key and is text to be returned
   
+#`{{
   # This example is skipped now that there are uml images
   $!dtxt.add-example-code(q:to/EOEX/);
     =comment replaced uml image
     EOEX
+}}
 
   my Str $png-file = $class-name;
   $png-file ~~ s/^ Gnome '::' <-[:]>* '::' //;
@@ -101,8 +103,13 @@ method !set-example ( --> Str ) {
   # add-example-code() returns a key and is text to be returned
   $!dtxt.add-example-code(Q:s:h:to/EOEX/);
 
-    =head2 Example
-    # Example use of module $*work-data<raku-class-name>
+    =head3 Example
+    
+    Example use of module $*work-data<raku-class-name>
+
+    =begin code
+    =end code
+
     EOEX
 }
 
