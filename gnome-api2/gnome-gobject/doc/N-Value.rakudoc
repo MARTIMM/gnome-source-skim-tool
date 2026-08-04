@@ -1,15 +1,15 @@
 # Package: GObject, C-Source: value
 use v6.d;
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::GObject::N-Value
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 
 =head1 Description
 
@@ -25,13 +25,13 @@ B<Gnome::GObject::N-Value> users cannot make any assumptions about how data is s
   … example code …
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -43,18 +43,18 @@ Create an object using a native object from an object of the same type found els
   multi method new ( N-Object() :$native-object! )
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 copy
 
 Copies the value of C<$src_value> into C<$dest_value>.
@@ -65,10 +65,10 @@ method copy ( CArray[N-Value] $dest-value )
 
 =item $dest-value; An initialized B<Gnome::GObject::N-Value> structure of the same type as C<$src_value>..
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 dup-boxed
 
 Get the contents of a %G_TYPE_BOXED derived B<Gnome::GObject::N-Value>. Upon getting,
@@ -83,10 +83,10 @@ method dup-boxed (--> gpointer )
 Return value; boxed contents of C<$value>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 dup-object
 
 Get the contents of a %G_TYPE_OBJECT derived B<Gnome::GObject::N-Value>, increasing its reference count. If the contents of the B<Gnome::GObject::N-Value> are C<Nil>, then C<Nil> will be returned.
@@ -100,10 +100,10 @@ Return value; object content of C<$value>,
  should be unreferenced when no longer needed.. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 dup-param
 
 Get the contents of a %G_TYPE_PARAM B<Gnome::GObject::N-Value>, increasing its reference count.
@@ -117,10 +117,10 @@ Return value; B<Gnome::GObject::ParamSpec> content of C<$value>, should be
  unreferenced when no longer needed.. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 dup-string
 
 Get a copy the contents of a %G_TYPE_STRING B<Gnome::GObject::N-Value>.
@@ -133,10 +133,10 @@ method dup-string (--> Str )
 Return value; a newly allocated copy of the string content of C<$value>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 dup-variant
 
 Get the contents of a variant B<Gnome::GObject::N-Value>, increasing its refcount. The returned B<Gnome::GObject::N-Variant> is never floating.
@@ -150,10 +150,10 @@ Return value; variant contents of C<$value> (may be C<Nil>);
  should be unreffed using g_variant_unref() when no longer needed. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 fits-pointer
 
 Determines if C<$value> will fit inside the size of a pointer value.
@@ -167,10 +167,10 @@ method fits-pointer (--> Bool )
 Return value; C<True> if C<$value> will fit inside a pointer value.. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-boolean
 
 Get the contents of a %G_TYPE_BOOLEAN B<Gnome::GObject::N-Value>.
@@ -183,10 +183,10 @@ method get-boolean (--> Bool )
 Return value; boolean contents of C<$value>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-boxed
 
 Get the contents of a %G_TYPE_BOXED derived B<Gnome::GObject::N-Value>.
@@ -199,10 +199,10 @@ method get-boxed (--> gpointer )
 Return value; boxed contents of C<$value>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-double
 
 Get the contents of a %G_TYPE_DOUBLE B<Gnome::GObject::N-Value>.
@@ -215,10 +215,10 @@ method get-double (--> Num )
 Return value; double contents of C<$value>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-enum
 
 Get the contents of a %G_TYPE_ENUM B<Gnome::GObject::N-Value>.
@@ -231,10 +231,10 @@ method get-enum (--> Int )
 Return value; enum contents of C<$value>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-flags
 
 Get the contents of a %G_TYPE_FLAGS B<Gnome::GObject::N-Value>.
@@ -247,10 +247,10 @@ method get-flags (--> UInt )
 Return value; flags contents of C<$value>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-float
 
 Get the contents of a %G_TYPE_FLOAT B<Gnome::GObject::N-Value>.
@@ -263,10 +263,10 @@ method get-float (--> Num )
 Return value; float contents of C<$value>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-gtype
 
 Get the contents of a %G_TYPE_GTYPE B<Gnome::GObject::N-Value>.
@@ -279,10 +279,10 @@ method get-gtype (--> GType )
 Return value; the GType stored in C<$value>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-int
 
 Get the contents of a %G_TYPE_INT B<Gnome::GObject::N-Value>.
@@ -295,10 +295,10 @@ method get-int (--> Int )
 Return value; integer contents of C<$value>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-int64
 
 Get the contents of a %G_TYPE_INT64 B<Gnome::GObject::N-Value>.
@@ -311,10 +311,10 @@ method get-int64 (--> Int )
 Return value; 64bit integer contents of C<$value>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-long
 
 Get the contents of a %G_TYPE_LONG B<Gnome::GObject::N-Value>.
@@ -327,10 +327,10 @@ method get-long (--> Int )
 Return value; long integer contents of C<$value>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-object
 
 Get the contents of a %G_TYPE_OBJECT derived B<Gnome::GObject::N-Value>.
@@ -343,10 +343,10 @@ method get-object (--> gpointer )
 Return value; object contents of C<$value>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-param
 
 Get the contents of a %G_TYPE_PARAM B<Gnome::GObject::N-Value>.
@@ -359,10 +359,10 @@ method get-param (--> N-Object )
 Return value; B<Gnome::GObject::ParamSpec> content of C<$value>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-pointer
 
 Get the contents of a pointer B<Gnome::GObject::N-Value>.
@@ -375,10 +375,10 @@ method get-pointer (--> gpointer )
 Return value; pointer contents of C<$value>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-schar
 
 Get the contents of a %G_TYPE_CHAR B<Gnome::GObject::N-Value>.
@@ -391,10 +391,10 @@ method get-schar (--> Int )
 Return value; signed 8 bit integer contents of C<$value>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-string
 
 Get the contents of a %G_TYPE_STRING B<Gnome::GObject::N-Value>.
@@ -407,10 +407,10 @@ method get-string (--> Str )
 Return value; string content of C<$value>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-uchar
 
 Get the contents of a %G_TYPE_UCHAR B<Gnome::GObject::N-Value>.
@@ -423,10 +423,10 @@ method get-uchar (--> UInt )
 Return value; unsigned character contents of C<$value>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-uint
 
 Get the contents of a %G_TYPE_UINT B<Gnome::GObject::N-Value>.
@@ -439,10 +439,10 @@ method get-uint (--> UInt )
 Return value; unsigned integer contents of C<$value>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-uint64
 
 Get the contents of a %G_TYPE_UINT64 B<Gnome::GObject::N-Value>.
@@ -455,10 +455,10 @@ method get-uint64 (--> UInt )
 Return value; unsigned 64bit integer contents of C<$value>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-ulong
 
 Get the contents of a %G_TYPE_ULONG B<Gnome::GObject::N-Value>.
@@ -471,10 +471,10 @@ method get-ulong (--> UInt )
 Return value; unsigned long integer contents of C<$value>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-variant
 
 Get the contents of a variant B<Gnome::GObject::N-Value>.
@@ -487,10 +487,10 @@ method get-variant (--> CArray[N-Variant] )
 Return value; variant contents of C<$value> (may be C<Nil>). 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init
 
 Initializes C<$value> with the default value of C<$type>.
@@ -504,10 +504,10 @@ method init ( GType $g-type --> CArray[N-Value] )
 Return value; the B<Gnome::GObject::N-Value> structure that has been passed in. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-instance
 
 Initializes and sets C<$value> from an instantiatable type via the value_table's collect_value() function.
@@ -521,10 +521,10 @@ method init-from-instance ( gpointer $instance )
 
 =item $instance; the instance.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 peek-pointer
 
 Returns the value contents as pointer. This function asserts that C<.fits-pointer()> returned C<True> for the passed in value.
@@ -538,10 +538,10 @@ method peek-pointer (--> gpointer )
 Return value; the value contents as pointer. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 reset
 
 Clears the current value in C<$value> and resets it to the default value
@@ -555,10 +555,10 @@ method reset (--> CArray[N-Value] )
 Return value; the B<Gnome::GObject::N-Value> structure that has been passed in. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-boolean
 
 Set the contents of a %G_TYPE_BOOLEAN B<Gnome::GObject::N-Value> to C<$v_boolean>.
@@ -569,10 +569,10 @@ method set-boolean ( Bool() $v-boolean )
 
 =item $v-boolean; boolean value to be set.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-boxed
 
 Set the contents of a %G_TYPE_BOXED derived B<Gnome::GObject::N-Value> to C<$v_boxed>.
@@ -583,10 +583,10 @@ method set-boxed ( gpointer $v-boxed )
 
 =item $v-boxed; boxed value to be set.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-double
 
 Set the contents of a %G_TYPE_DOUBLE B<Gnome::GObject::N-Value> to C<$v_double>.
@@ -597,10 +597,10 @@ method set-double ( Num() $v-double )
 
 =item $v-double; double value to be set.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-enum
 
 Set the contents of a %G_TYPE_ENUM B<Gnome::GObject::N-Value> to C<$v_enum>.
@@ -611,10 +611,10 @@ method set-enum ( Int() $v-enum )
 
 =item $v-enum; enum value to be set.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-flags
 
 Set the contents of a %G_TYPE_FLAGS B<Gnome::GObject::N-Value> to C<$v_flags>.
@@ -625,10 +625,10 @@ method set-flags ( UInt() $v-flags )
 
 =item $v-flags; flags value to be set.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-float
 
 Set the contents of a %G_TYPE_FLOAT B<Gnome::GObject::N-Value> to C<$v_float>.
@@ -639,10 +639,10 @@ method set-float ( Num() $v-float )
 
 =item $v-float; float value to be set.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-gtype
 
 Set the contents of a %G_TYPE_GTYPE B<Gnome::GObject::N-Value> to C<$v_gtype>.
@@ -653,10 +653,10 @@ method set-gtype ( GType $v-gtype )
 
 =item $v-gtype; GType to be set.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-instance
 
 Sets C<$value> from an instantiatable type via the value_table's collect_value() function.
@@ -667,10 +667,10 @@ method set-instance ( gpointer $instance )
 
 =item $instance; the instance.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-int
 
 Set the contents of a %G_TYPE_INT B<Gnome::GObject::N-Value> to C<$v_int>.
@@ -681,10 +681,10 @@ method set-int ( Int() $v-int )
 
 =item $v-int; integer value to be set.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-int64
 
 Set the contents of a %G_TYPE_INT64 B<Gnome::GObject::N-Value> to C<$v_int64>.
@@ -695,10 +695,10 @@ method set-int64 ( Int() $v-int64 )
 
 =item $v-int64; 64bit integer value to be set.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-interned-string
 
 Set the contents of a %G_TYPE_STRING B<Gnome::GObject::N-Value> to C<$v_string>. The string is assumed to be static and interned (canonical, for example from g_intern_string()), and is thus not duplicated when setting the B<Gnome::GObject::N-Value>.
@@ -709,10 +709,10 @@ method set-interned-string ( Str $v-string )
 
 =item $v-string; static string to be set.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-long
 
 Set the contents of a %G_TYPE_LONG B<Gnome::GObject::N-Value> to C<$v_long>.
@@ -723,10 +723,10 @@ method set-long ( Int() $v-long )
 
 =item $v-long; long integer value to be set.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-object
 
 Set the contents of a %G_TYPE_OBJECT derived B<Gnome::GObject::N-Value> to C<$v_object>.
@@ -742,10 +742,10 @@ method set-object ( gpointer $v-object )
 
 =item $v-object; object value to be set.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-param
 
 Set the contents of a %G_TYPE_PARAM B<Gnome::GObject::N-Value> to C<$param>.
@@ -756,10 +756,10 @@ method set-param ( N-Object() $param )
 
 =item $param; the B<Gnome::GObject::ParamSpec> to be set.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-pointer
 
 Set the contents of a pointer B<Gnome::GObject::N-Value> to C<$v_pointer>.
@@ -770,10 +770,10 @@ method set-pointer ( gpointer $v-pointer )
 
 =item $v-pointer; pointer value to be set.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-schar
 
 Set the contents of a %G_TYPE_CHAR B<Gnome::GObject::N-Value> to C<$v_char>.
@@ -784,10 +784,10 @@ method set-schar ( Int() $v-char )
 
 =item $v-char; signed 8 bit integer to be set.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-static-boxed
 
 Set the contents of a %G_TYPE_BOXED derived B<Gnome::GObject::N-Value> to C<$v_boxed>.
@@ -800,10 +800,10 @@ method set-static-boxed ( gpointer $v-boxed )
 
 =item $v-boxed; static boxed value to be set.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-static-string
 
 Set the contents of a %G_TYPE_STRING B<Gnome::GObject::N-Value> to C<$v_string>.
@@ -818,10 +818,10 @@ method set-static-string ( Str $v-string )
 
 =item $v-string; static string to be set.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-string
 
 Set the contents of a %G_TYPE_STRING B<Gnome::GObject::N-Value> to a copy of C<$v_string>.
@@ -832,10 +832,10 @@ method set-string ( Str $v-string )
 
 =item $v-string; caller-owned string to be duplicated for the B<Gnome::GObject::N-Value>.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-uchar
 
 Set the contents of a %G_TYPE_UCHAR B<Gnome::GObject::N-Value> to C<$v_uchar>.
@@ -846,10 +846,10 @@ method set-uchar ( UInt() $v-uchar )
 
 =item $v-uchar; unsigned character value to be set.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-uint
 
 Set the contents of a %G_TYPE_UINT B<Gnome::GObject::N-Value> to C<$v_uint>.
@@ -860,10 +860,10 @@ method set-uint ( UInt() $v-uint )
 
 =item $v-uint; unsigned integer value to be set.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-uint64
 
 Set the contents of a %G_TYPE_UINT64 B<Gnome::GObject::N-Value> to C<$v_uint64>.
@@ -874,10 +874,10 @@ method set-uint64 ( UInt() $v-uint64 )
 
 =item $v-uint64; unsigned 64bit integer value to be set.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-ulong
 
 Set the contents of a %G_TYPE_ULONG B<Gnome::GObject::N-Value> to C<$v_ulong>.
@@ -888,10 +888,10 @@ method set-ulong ( UInt() $v-ulong )
 
 =item $v-ulong; unsigned long integer value to be set.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-variant
 
 Set the contents of a variant B<Gnome::GObject::N-Value> to C<$variant>.
@@ -903,10 +903,10 @@ method set-variant ( CArray[N-Variant] $variant )
 
 =item $variant; a B<Gnome::GObject::N-Variant>, or C<Nil>.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 take-boxed
 
 Sets the contents of a %G_TYPE_BOXED derived B<Gnome::GObject::N-Value> to C<$v_boxed>
@@ -919,10 +919,10 @@ method take-boxed ( gpointer $v-boxed )
 
 =item $v-boxed; duplicated unowned boxed value to be set.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 take-object
 
 Sets the contents of a %G_TYPE_OBJECT derived B<Gnome::GObject::N-Value> to C<$v_object>
@@ -937,10 +937,10 @@ method take-object ( gpointer $v-object )
 
 =item $v-object; object value to be set.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 take-param
 
 Sets the contents of a %G_TYPE_PARAM B<Gnome::GObject::N-Value> to C<$param> and takes over the ownership of the caller’s reference to C<$param>; the caller doesn’t have to unref it any more.
@@ -951,10 +951,10 @@ method take-param ( N-Object() $param )
 
 =item $param; the B<Gnome::GObject::ParamSpec> to be set.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 take-string
 
 Sets the contents of a %G_TYPE_STRING B<Gnome::GObject::N-Value> to C<$v_string>.
@@ -965,10 +965,10 @@ method take-string ( Str $v-string )
 
 =item $v-string; string to take ownership of.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 take-variant
 
 Set the contents of a variant B<Gnome::GObject::N-Value> to C<$variant>, and takes over the ownership of the caller's reference to C<$variant>;
@@ -986,10 +986,10 @@ method take-variant ( CArray[N-Variant] $variant )
 
 =item $variant; (transfer ownership: full) a B<Gnome::GObject::N-Variant>, or C<Nil>.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 transform
 
 Tries to cast the contents of C<$src_value> into a type appropriate to store in C<$dest_value>, e.g. to transform a %G_TYPE_INT value into a %G_TYPE_FLOAT value. Performing transformations between value types might incur precision lossage. Especially transformations into strings might reveal seemingly arbitrary results and shouldn't be relied upon for production code (such as rcfile value or object property serialization).
@@ -1004,10 +1004,10 @@ Return value; Whether a transformation rule was found and could be applied.
  Upon failing transformations, C<$dest_value> is left untouched.. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unset
 
 Clears the current value in C<$value> (if any) and "unsets" the type,
@@ -1019,18 +1019,18 @@ method unset ( )
 =end code
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 register-transform-func
 
 Registers a value transformation function for use in C<.transform()>.
@@ -1046,10 +1046,10 @@ method register-transform-func ( GType $src-type, GType $dest-type, &transform-f
 =item &transform-func; a function which transforms values of type C<$src_type>
  into value of type C<$dest_type>. Tthe function must be specified with following signature; C<:( N-Value $src-value, N-Value $dest-value )>.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 type-compatible
 
 Returns whether a B<Gnome::GObject::N-Value> of type C<$src_type> can be copied into a B<Gnome::GObject::N-Value> of type C<$dest_type>.
@@ -1064,10 +1064,10 @@ method type-compatible ( GType $src-type, GType $dest-type --> Bool )
 Return value; C<True> if C<.copy()> is possible with C<$src_type> and C<$dest_type>.. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 type-transformable
 
 Check whether C<.transform()> is able to transform values of type C<$src_type> into values of type C<$dest_type>. Note that for the types to be transformable, they must be compatible or a transformation function must be registered.
@@ -1082,5 +1082,5 @@ method type-transformable ( GType $src-type, GType $dest-type --> Bool )
 Return value; C<True> if the transformation is possible, C<False> otherwise.. 
 
 
-=end pod
+=end rakudoc
 

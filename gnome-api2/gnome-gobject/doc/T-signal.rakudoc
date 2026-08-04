@@ -1,15 +1,15 @@
 =comment Package: GObject, C-Source: signal
 use v6.d;
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::GObject::T-signal
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -18,13 +18,13 @@ Initialization of a type class is simple and only needed when the standalone fun
 
   method new ( )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Record Structure Documentation]---------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-SignalInvocationHint
 
   class N-SignalInvocationHint:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
@@ -42,13 +42,13 @@ Initialization of a type class is simple and only needed when the standalone fun
  C<G_SIGNAL_ACCUMULATOR_FIRST_RUN> is only set for the first run of the accumulator
  function for a signal emission.. Enumeration of type GSignalFlags _UA_.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Record Structure Documentation]---------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-SignalQuery
 
   class N-SignalQuery:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
@@ -73,13 +73,13 @@ Initialization of a type class is simple and only needed when the standalone fun
  user callbacks, note that the effective callback signature is:
  
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Constants]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Constants
 
 =head2 G_SIGNAL_FLAGS_MASK
@@ -89,13 +89,13 @@ A mask for all B<Gnome::GObject::T-signal> bits.
 =head2 G_SIGNAL_MATCH_MASK
 
 A mask for all B<Gnome::GObject::T-signal> bits.
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Bitfields]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Bitfields
 
 =head2 GConnectFlags
@@ -150,13 +150,13 @@ match signals by.
 =item C<G_SIGNAL_MATCH_FUNC>; The C closure callback must be the same.
 =item C<G_SIGNAL_MATCH_DATA>; The closure data must be the same.
 =item C<G_SIGNAL_MATCH_UNBLOCKED>; Only unblocked signals may be matched.
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Callback Functions]---------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Callback Functions
 =head2 SignalEmissionHook
 
@@ -185,17 +185,17 @@ match signals by.
 =item $handler-return; A B<Gnome::GObject::N-Value> holding the return value of the signal handler.
 =item $data; Callback data that was specified when creating the signal.
 
-=end pod
+=end rakudoc
 #-------------------------------------------------------------------------------
 #--[Standalone Functions]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Standalone Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 clear-signal-handler
 
 Disconnects a handler from C<$instance> so it will not be called during
@@ -222,10 +222,10 @@ method clear-signal-handler ( …, gpointer $instance )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-accumulator-first-wins
 
 A predefined B<Gnome::GObject::T-signal> for signals intended to be used as a
@@ -250,10 +250,10 @@ method signal-accumulator-first-wins ( Array[Int] $ihint, N-Object $return-accu,
 
 Return value; standard B<Gnome::GObject::T-signal> result. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-accumulator-true-handled
 
 A predefined B<Gnome::GObject::T-signal> for signals that return a
@@ -275,10 +275,10 @@ method signal-accumulator-true-handled ( Array[Int] $ihint, N-Object $return-acc
 
 Return value; standard B<Gnome::GObject::T-signal> result. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-add-emission-hook
 
 Adds an emission hook for a signal, which will get called for any emission
@@ -297,10 +297,10 @@ method signal-add-emission-hook ( UInt() $signal-id, UInt $detail, GSignalEmissi
 
 Return value; the hook id, for later use with g_signal_remove_emission_hook().. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-chain-from-overridden
 
 Calls the original class closure of a signal. This function should only
@@ -317,10 +317,10 @@ method signal-chain-from-overridden ( N-Object $instance-and-params, N-Object $r
  is being emitted on. The rest are any arguments to be passed to the signal.
 =item $return-value; Location for the return value.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-chain-from-overridden-handler
 
 Calls the original class closure of a signal. This function should
@@ -336,10 +336,10 @@ method signal-chain-from-overridden-handler ( gpointer $instance, … )
    emitted on..
 =item …; …. Note that each argument must be specified as a type followed by its value!
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-connect-closure
 
 Connects a closure to a signal for a particular object.
@@ -359,10 +359,10 @@ method signal-connect-closure ( gpointer $instance, Str $detailed-signal, N-Obje
 
 Return value; the handler ID (always greater than 0 for successful connections). 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-connect-closure-by-id
 
 Connects a closure to a signal for a particular object.
@@ -383,10 +383,10 @@ method signal-connect-closure-by-id ( gpointer $instance, UInt() $signal-id, UIn
 
 Return value; the handler ID (always greater than 0 for successful connections). 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-connect-data
 
 Connects a B<Gnome::GObject::T-closure> function to a signal for a particular object. Similar
@@ -408,10 +408,10 @@ method signal-connect-data ( gpointer $instance, Str $detailed-signal, GCallback
 
 Return value; the handler ID (always greater than 0 for successful connections). 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-emit
 
 Emits a signal. Signal emission is done synchronously.
@@ -429,10 +429,10 @@ method signal-emit ( gpointer $instance, UInt() $signal-id, UInt $detail, … )
 =item $detail; the detail.
 =item …; …. Note that each argument must be specified as a type followed by its value!
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-emit-by-name
 
 Emits a signal. Signal emission is done synchronously.
@@ -449,10 +449,10 @@ method signal-emit-by-name ( gpointer $instance, Str $detailed-signal, … )
 =item $detailed-signal; a string of the form "signal-name::detail"..
 =item …; …. Note that each argument must be specified as a type followed by its value!
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-emit-valist
 
 Emits a signal. Signal emission is done synchronously.
@@ -473,10 +473,10 @@ method signal-emit-valist ( gpointer $instance, UInt() $signal-id, UInt $detail,
  location for the return value. If the return type of the signal
  is C<G_TYPE_NONE>, the return value location can be omitted.. Note that each argument must be specified as a type followed by its value!
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-emitv
 
 Emits a signal. Signal emission is done synchronously.
@@ -498,10 +498,10 @@ method signal-emitv ( N-Object $instance-and-params, UInt() $signal-id, UInt $de
 store the return value of the signal emission. This must be provided if the
 specified signal returns a value, but may be ignored otherwise.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-get-invocation-hint
 
 Returns the invocation hint of the innermost signal emission of instance.
@@ -515,10 +515,10 @@ method signal-get-invocation-hint ( gpointer $instance --> Array[Int] )
 Return value; the invocation hint of the innermost
     signal emission, or undefined if not found.. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-handler-block
 
 Blocks a handler of an instance so it will not be called during any
@@ -537,10 +537,10 @@ method signal-handler-block ( gpointer $instance, UInt() $handler-id )
 =item $instance; The instance to block the signal handler of..
 =item $handler-id; Handler id of the handler to be blocked..
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-handler-disconnect
 
 Disconnects a handler from an instance so it will not be called during
@@ -557,10 +557,10 @@ method signal-handler-disconnect ( gpointer $instance, UInt() $handler-id )
 =item $instance; The instance to remove the signal handler from..
 =item $handler-id; Handler id of the handler to be disconnected..
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-handler-find
 
 Finds the first signal handler that matches certain selection criteria.
@@ -584,10 +584,10 @@ method signal-handler-find ( gpointer $instance, UInt $mask, UInt() $signal-id, 
 
 Return value; A valid non-0 signal handler id for a successful match.. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-handler-is-connected
 
 Returns whether C<$handler-id> is the ID of a handler connected to C<$instance>.
@@ -601,10 +601,10 @@ method signal-handler-is-connected ( gpointer $instance, UInt() $handler-id --> 
 
 Return value; whether C<$handler-id> identifies a handler connected to C<$instance>.. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-handler-unblock
 
 Undoes the effect of a previous g_signal_handler_block() call.  A
@@ -628,10 +628,10 @@ method signal-handler-unblock ( gpointer $instance, UInt() $handler-id )
 =item $instance; The instance to unblock the signal handler of..
 =item $handler-id; Handler id of the handler to be unblocked..
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-handlers-block-matched
 
 Blocks all handlers on an instance that match a certain selection criteria.
@@ -663,10 +663,10 @@ method signal-handlers-block-matched ( gpointer $instance, UInt $mask, UInt() $s
 
 Return value; The number of handlers that matched.. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-handlers-destroy
 
 Destroy all signal handlers of a type instance. This function is
@@ -679,10 +679,10 @@ method signal-handlers-destroy ( gpointer $instance )
 
 =item $instance; The instance whose signal handlers are destroyed.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-handlers-disconnect-matched
 
 Disconnects all handlers on an instance that match a certain
@@ -715,10 +715,10 @@ method signal-handlers-disconnect-matched ( gpointer $instance, UInt $mask, UInt
 
 Return value; The number of handlers that matched.. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-handlers-unblock-matched
 
 Unblocks all handlers on an instance that match a certain selection
@@ -752,10 +752,10 @@ method signal-handlers-unblock-matched ( gpointer $instance, UInt $mask, UInt() 
 
 Return value; The number of handlers that matched.. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-has-handler-pending
 
 Returns whether there are any handlers connected to C<$instance> for the
@@ -787,10 +787,10 @@ method signal-has-handler-pending ( gpointer $instance, UInt() $signal-id, UInt 
 Return value; C<True> if a handler is connected to the signal, C<False>
          otherwise.. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-is-valid-name
 
 Validate a signal name. This can be useful for dynamically-generated signals
@@ -808,10 +808,10 @@ method signal-is-valid-name ( Str $name --> Bool )
 
 Return value; C<True> if C<$name> is a valid signal name, C<False> otherwise.. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-list-ids
 
 Lists the signals by id that a certain instance or interface type
@@ -827,10 +827,10 @@ method signal-list-ids ( GType $itype, Array[Int] $n-ids --> Array[Int] )
 
 Return value; Newly allocated array of signal IDs.. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-lookup
 
 Given the name of the signal and the type of object it connects to, gets
@@ -854,10 +854,10 @@ method signal-lookup ( Str $name, GType $itype --> UInt )
 
 Return value; the signal's identifying number, or 0 if no signal was found.. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-name
 
 Given the signal's identifier, finds its name.
@@ -872,10 +872,10 @@ method signal-name ( UInt() $signal-id --> Str )
 
 Return value; the signal name, or undefined if the signal number was invalid.. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-new
 
 Creates a new signal. (This is usually done in the class initializer.)
@@ -927,10 +927,10 @@ method signal-new ( Str $signal-name, GType $itype, UInt $signal-flags, UInt() $
 
 Return value; the signal id. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-new-class-handler
 
 Creates a new signal. (This is usually done in the class initializer.)
@@ -974,10 +974,10 @@ method signal-new-class-handler ( Str $signal-name, GType $itype, UInt $signal-f
 
 Return value; the signal id. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-new-valist
 
 Creates a new signal. (This is usually done in the class initializer.)
@@ -1009,10 +1009,10 @@ method signal-new-valist ( Str $signal-name, GType $itype, UInt $signal-flags, N
 
 Return value; the signal id. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-newv
 
 Creates a new signal. (This is usually done in the class initializer.)
@@ -1047,10 +1047,10 @@ method signal-newv ( Str $signal-name, GType $itype, UInt $signal-flags, N-Objec
 
 Return value; the signal id. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-override-class-closure
 
 Overrides the class closure (i.e. the default handler) for the given signal
@@ -1070,10 +1070,10 @@ method signal-override-class-closure ( UInt() $signal-id, GType $instance-type, 
  for the signal..
 =item $class-closure; the closure.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-override-class-handler
 
 Overrides the class closure (i.e. the default handler) for the
@@ -1094,10 +1094,10 @@ method signal-override-class-handler ( Str $signal-name, GType $instance-type, G
  for the signal..
 =item GCallback &class-handler; the handler.. The function must be specified with the following signature; C<:( )>.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-parse-name
 
 Internal function to parse a signal name into its C<$signal-id>
@@ -1115,10 +1115,10 @@ method signal-parse-name ( Str $detailed-signal, GType $itype, Array[Int] $signa
 
 Return value; Whether the signal name could successfully be parsed and C<$signal-id-p> and C<$detail-p> contain valid return values.. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-query
 
 Queries the signal system for in-depth information about a
@@ -1136,10 +1136,10 @@ method signal-query ( UInt() $signal-id, N-Object $query )
 =item $query; A user provided structure that is
  filled in with constant values upon success.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-remove-emission-hook
 
 Deletes an emission hook.
@@ -1152,10 +1152,10 @@ method signal-remove-emission-hook ( UInt() $signal-id, UInt() $hook-id )
 =item $hook-id; the id of the emission hook, as returned by
  g_signal_add_emission_hook().
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-set-va-marshaller
 
 Change the B<Gnome::GObject::SignalQuery> used for a given signal.  This is a
@@ -1171,10 +1171,10 @@ method signal-set-va-marshaller ( UInt() $signal-id, GType $instance-type, … )
 =item $instance-type; the instance type on which to set the marshaller..
 =item va-marshaller; the marshaller to set.. Note that each argument must be specified as a type followed by its value!
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-stop-emission
 
 Stops a signal's current emission.
@@ -1193,10 +1193,10 @@ method signal-stop-emission ( gpointer $instance, UInt() $signal-id, UInt $detai
 =item $signal-id; the signal identifier, as returned by g_signal_lookup()..
 =item $detail; the detail which the signal was emitted with..
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 signal-stop-emission-by-name
 
 Stops a signal's current emission.
@@ -1211,5 +1211,5 @@ method signal-stop-emission-by-name ( gpointer $instance, Str $detailed-signal )
 =item $instance; the object whose signal handlers you wish to stop..
 =item $detailed-signal; a string of the form "signal-name::detail"..
 
-=end pod
+=end rakudoc
 

@@ -1,15 +1,15 @@
 =comment Package: GObject, C-Source: value
 use v6.d;
 
-=begin pod
+=begin rakudoc
 =head1 Gnome::GObject::T-value
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -18,13 +18,13 @@ Initialization of a type class is simple and only needed when the standalone fun
 
   method new ( )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Record Structure Documentation]---------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-Value
 
   class N-Value:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
@@ -36,13 +36,13 @@ Initialization of a type class is simple and only needed when the standalone fun
 =item g-type; 
 =item data; 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Constants]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Constants
 
 =head2 G_VALUE_INTERNED_STRING
@@ -56,13 +56,13 @@ If passed to G_VALUE_COLLECT(), allocated data won't be copied
 but used verbatim. This does not affect ref-counted types like
 objects. This does not affect usage of C<.copy()>, the data will
 be copied if it is not ref-counted.
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Callback Functions]---------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Callback Functions
 =head2 ValueTransform
 
@@ -74,17 +74,17 @@ be copied if it is not ref-counted.
 =item src-value; Source value.
 =item dest-value; Target value.
 
-=end pod
+=end rakudoc
 #-------------------------------------------------------------------------------
 #--[Standalone Functions]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Standalone Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 value-register-transform-func
 
 Registers a value transformation function for use in C<.transform()>.
@@ -107,10 +107,10 @@ method value-register-transform-func ( GType $src-type, GType $dest-type, &trans
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 value-type-compatible
 
 Returns whether a B<Gnome::GObject::T-value> of type C<$src-type> can be copied into
@@ -132,10 +132,10 @@ Return value; C<True> if C<.copy()> is possible with C<$src-type> and C<$dest-ty
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 value-type-transformable
 
 Check whether C<.transform()> is able to transform values
@@ -159,5 +159,5 @@ Return value; C<True> if the transformation is possible, C<False> otherwise..
 
 =end comment
 
-=end pod
+=end rakudoc
 

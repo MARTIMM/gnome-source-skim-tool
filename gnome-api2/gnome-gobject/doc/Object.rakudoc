@@ -1,16 +1,16 @@
 # Package: GObject, C-Source: object
 use v6.d;
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::GObject::Object
 =comment SUBTITLE Gnome Object System
-=end pod
+=end rakudoc
 
 
 #-------------------------------------------------------------------------------
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 
 =head1 Description
 
@@ -28,7 +28,7 @@ Since GLib 2.72, all GObjects are guaranteed to be aligned to at least the align
   … example code …
 =end comment
 
-=end pod
+=end rakudoc
 
 #`{{
 #NOTE many methods are disabled and doc commented out.
@@ -44,10 +44,10 @@ Create an object using a native object from an object of the same type found els
   multi method new ( N-Object() :$native-object! )
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-object
 
 Creates a new instance of a GObject subtype and sets its properties.
@@ -75,10 +75,10 @@ method new-object (
 =item …; the value of the first property, followed optionally by more
  name/value pairs, followed by C<Nil>. Note that each argument must be specified as a type followed by its value!
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-valist
 
 Creates a new instance of a GObject subtype and sets its properties.
@@ -95,10 +95,10 @@ method new-valist ( GType $object-type, Str $first-property-name, … --> Gnome:
 =item var-args; the value of the first property, followed optionally by more
  name/value pairs, followed by C<Nil>. Note that each argument must be specified as a type followed by its value!
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-with-properties
 
 Creates a new instance of a GObject subtype and sets its properties using the provided arrays. Both arrays must have exactly C<$n_properties> elements,
@@ -116,20 +116,20 @@ method new-with-properties ( GType $object-type, UInt() $n-properties, Array[Str
 =item $names; the names of each property to be set.
 =item $values; the values of each property to be set.
 
-=end pod
+=end rakudoc
 }}
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #`{{
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-toggle-ref
 
 Increases the reference count of the object by one and sets a callback to be called when all other references to the object are dropped, or when this is already the last reference to the object and another reference is established.
@@ -156,10 +156,10 @@ method add-toggle-ref ( &notify, gpointer $data )
  the last reference.. Tthe function must be specified with following signature; C<:( gpointer $data, N-Object $object, gboolean $is-last-ref )>.
 =item $data; data to pass to C<$notify>.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-weak-pointer
 
 Adds a weak reference from weak_pointer to C<$object> to indicate that the pointer located at C<$weak_pointer_location> is only valid during the lifetime of C<$object>. When the C<$object> is finalized, C<$weak_pointer> will be set to C<Nil>.
@@ -173,12 +173,12 @@ method add-weak-pointer ( Array $weak-pointer-location )
 =item $weak-pointer-location; (transfer ownership: full) The memory address
  of a pointer..
 
-=end pod
+=end rakudoc
 }}
 
 #`{{
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 bind-property
 
 Creates a binding between C<$source_property> on C<$source> and <$target_property> on C<$target>.
@@ -216,10 +216,10 @@ Return value; the GBinding instance representing the
  whenever the GBinding reference count reaches zero.. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 bind-property-full
 
 Complete version of C<.bind-property()>.
@@ -262,10 +262,10 @@ Return value; the GBinding instance representing the
  whenever the GBinding reference count reaches zero.. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 bind-property-with-closures
 
 Creates a binding between C<$source_property> on C<$source> and C<$target_property>
@@ -291,11 +291,11 @@ Return value; the GBinding instance representing the
  whenever the GBinding reference count reaches zero.. 
 
 
-=end pod
+=end rakudoc
 }}
 #`{{
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 connect
 
 A convenience function to connect multiple signals at once.
@@ -336,10 +336,10 @@ method connect ( Str $signal-spec, … --> gpointer )
 Return value;  C<$object>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 disconnect
 
 A convenience function to disconnect multiple signals at once.
@@ -356,11 +356,11 @@ method disconnect ( Str $signal-spec, … )
  followed optionally by more signal spec/callback/data triples,
  followed by C<Nil>. Note that each argument must be specified as a type followed by its value!
 
-=end pod
+=end rakudoc
 }}
 #`{{
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 dup-data
 
 This is a variant of C<.get-data()> which returns a 'duplicate' of the value. C<$dup_func> defines the meaning of 'duplicate' in this context, it could e.g.
@@ -388,10 +388,10 @@ Return value; the result of calling C<$dup_func> on the value
  unmodified.. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 dup-qdata
 
 This is a variant of C<.get-qdata()> which returns a 'duplicate' of the value. C<$dup_func> defines the meaning of 'duplicate' in this context, it could e.g.
@@ -419,10 +419,10 @@ Return value; the result of calling C<$dup_func> on the value
  unmodified.. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 force-floating
 
 This function is intended for GObject implementations to re-enforce a floating object reference. Doing this is seldom required: all GInitiallyUnowneds are created with a floating reference which usually just needs to be sunken by calling C<.ref-sink()>.
@@ -432,11 +432,11 @@ method force-floating ( )
 =end code
 
 
-=end pod
+=end rakudoc
 }}
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 freeze-notify
 
 Increases the freeze count on C<$object>. If the freeze count is non-zero, the emission of "notify" signals on C<$object> is stopped. The signals are queued until the freeze count is decreased to zero. Duplicate notifications are squashed so that at most one I<notify> signal is emitted for each property modified while the object is frozen.
@@ -447,11 +447,11 @@ This is necessary for accessors that modify multiple properties to prevent prema
 method freeze-notify ( )
 =end code
 
-=end pod
+=end rakudoc
 
 #`{{
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get
 
 Gets properties of an object.
@@ -489,11 +489,11 @@ method get ( Str $first-property-name, … )
 =item …; return location for the first property, followed optionally by more
  name/return location pairs, followed by C<Nil>. Note that each argument must be specified as a type followed by its value!
 
-=end pod
+=end rakudoc
 }}
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-data
 
 Gets a named field from the objects table of associations (see L<.set-data()|#set-data>).
@@ -506,10 +506,10 @@ method get-data ( Str $key --> gpointer )
 
 Return value; the data if found, or C<Nil> if no such data exists.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-property
 
 Gets a property of an object.
@@ -549,10 +549,10 @@ with my Gnome::Gtk4::Label $label .= new-label {
 
 Please note that most, if not all, properties of the classes are accessable using the class getters and setters. In the case above, C<.set-text()> and C<.get-text()> methods defined in the B<Gnome::Gtk4::Label> class.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-qdata
 
 This function gets back user data pointers stored via L<.set-qdata()|#set-qdata>.
@@ -566,11 +566,11 @@ method get-qdata ( UInt $quark --> gpointer )
 Return value; The user data pointer set, or C<Nil>. 
 
 
-=end pod
+=end rakudoc
 
 #`{{
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-valist
 
 Gets properties of an object.
@@ -587,10 +587,10 @@ method get-valist ( Str $first-property-name, … )
 =item var-args; return location for the first property, followed optionally by more
  name/return location pairs, followed by C<Nil>. Note that each argument must be specified as a type followed by its value!
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 getv
 
 Gets C<$n_properties> properties for an C<$object>.
@@ -605,11 +605,11 @@ method getv ( UInt() $n-properties, Array[Str] $names, CArray[N-Value] $values )
 =item $names; the names of each property to get.
 =item $values; the values of each property to get.
 
-=end pod
+=end rakudoc
 }}
 #`{{
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-floating
 
 Checks whether C<$object> has a floating reference.
@@ -621,11 +621,11 @@ method is-floating (--> Bool )
 
 Return value; C<True> if C<$object> has a floating reference. 
 
-=end pod
+=end rakudoc
 }}
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 notify
 
 Emits a "notify" signal for the property C<$property_name> in this object.
@@ -640,11 +640,11 @@ method notify ( Str $property-name )
 
 =item $property-name; the name of a property installed on the class of C<$object>..
 
-=end pod
+=end rakudoc
 
 #`{{
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 notify-by-pspec
 
 Emits a "notify" signal for the property specified by C<$pspec> on C<$object>.
@@ -692,11 +692,11 @@ method notify-by-pspec ( N-Object() $pspec )
 
 =item $pspec; the GParamSpec of a property installed on the class of C<$object>..
 
-=end pod
+=end rakudoc
 }}
 #`{{
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ref
 
 Increases the reference count of C<$object>.
@@ -712,10 +712,10 @@ method ref (--> gpointer )
 Return value; the same C<$object>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ref-sink
 
 Increase the reference count of C<$object>, and possibly remove the floating reference, if C<$object> has a floating reference.
@@ -732,10 +732,10 @@ method ref-sink (--> gpointer )
 Return value;  C<$object>. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-toggle-ref
 
 Removes a reference added with C<.add-toggle-ref()>. The reference count of the object is decreased by one.
@@ -750,10 +750,10 @@ method remove-toggle-ref ( &notify, gpointer $data )
 =item $data; data to pass to C<$notify>, or C<Nil> to
  match any toggle refs with the C<$notify> argument..
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-weak-pointer
 
 Removes a weak reference from C<$object> that was previously added using C<.add-weak-pointer()>. The C<$weak_pointer_location> has to match the one used with C<.add-weak-pointer()>.
@@ -765,12 +765,12 @@ method remove-weak-pointer ( Array $weak-pointer-location )
 =item $weak-pointer-location; (transfer ownership: full) The memory address
  of a pointer..
 
-=end pod
+=end rakudoc
 }}
 
 #`{{
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 replace-data
 
 Compares the user data for the key C<$key> on this object with C<$oldval>, and if they are the same, replaces C<$oldval> with C<$newval>.
@@ -796,10 +796,10 @@ Return value; C<True> if the existing value for C<$key> was replaced
  by C<$newval>, C<False> otherwise.. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 replace-qdata
 
 Compares the user data for the key C<$quark> on C<$object> with C<$oldval>, and if they are the same, replaces C<$oldval> with C<$newval>.
@@ -823,12 +823,12 @@ Return value; C<True> if the existing value for C<$quark> was replaced
  by C<$newval>, C<False> otherwise.. 
 
 
-=end pod
+=end rakudoc
 }}
 
 #`{{
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 run-dispose
 
 Releases all references to other objects. This can be used to break reference cycles.
@@ -839,12 +839,12 @@ This function should only be called from object system implementations.
 method run-dispose ( )
 =end code
 
-=end pod
+=end rakudoc
 }}
 
 #`{{
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set
 
 Sets properties on an object.
@@ -862,11 +862,11 @@ method set ( Str $first-property-name, … )
 =item …; value for the first property, followed optionally by more
  name/value pairs, followed by C<Nil>. Note that each argument must be specified as a type followed by its value!
 
-=end pod
+=end rakudoc
 }}
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-data
 
 Each object carries around a table of associations from strings to pointers. This function lets you set an association.
@@ -912,11 +912,11 @@ with my Gnome::Gtk4::Label $label .= new-label {
 }
 =end code
 
-=end pod
+=end rakudoc
 
 #`{{
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-data-full
 
 Like C<.set-data()> except it adds notification for when the association is destroyed, either by setting it to a different value or when the object is destroyed.
@@ -931,11 +931,11 @@ method set-data-full ( Str $key, gpointer $data, … )
 =item $data; data to associate with that key.
 =item destroy; function to call when the association is destroyed. Note that each argument must be specified as a type followed by its value!
 
-=end pod
+=end rakudoc
 }}
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-property
 
 Sets a property on an object.
@@ -947,10 +947,10 @@ method set-property ( Str $property-name, CArray[N-Value] $value )
 =item $property-name; the name of the property to set.
 =item $value; the value.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-qdata
 
 This sets an opaque, named pointer on an object. The name is specified through a GQuark (retrieved e.g. via .from-string()), and the pointer can be gotten back from the C<$object> with C<.get-qdata()> until the object is finalized.
@@ -964,11 +964,11 @@ method set-qdata ( UInt $quark, gpointer $data )
 =item $quark; A GQuark, naming the user data pointer.
 =item $data; An opaque user data pointer.
 
-=end pod
+=end rakudoc
 
 #`{{
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-qdata-full
 
 This function works like C<.set-qdata()>, but in addition,
@@ -984,10 +984,10 @@ method set-qdata-full ( UInt $quark, gpointer $data, … )
 =item destroy; Function to invoke with C<$data> as argument, when C<$data>
  needs to be freed. Note that each argument must be specified as a type followed by its value!
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-valist
 
 Sets properties on an object.
@@ -1000,10 +1000,10 @@ method set-valist ( Str $first-property-name, … )
 =item var-args; value for the first property, followed optionally by more
  name/value pairs, followed by C<Nil>. Note that each argument must be specified as a type followed by its value!
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 setv
 
 Sets C<$n_properties> properties for an C<$object>.
@@ -1017,12 +1017,12 @@ method setv ( UInt() $n-properties, Array[Str] $names, CArray[N-Value] $values )
 =item $names; the names of each property to be set.
 =item $values; the values of each property to be set.
 
-=end pod
+=end rakudoc
 }}
 
 #`{{
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 steal-data
 
 Remove a specified datum from the object's data associations,
@@ -1038,10 +1038,10 @@ Return value; the data if found, or C<Nil>
  if no such data exists.. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 steal-qdata
 
 This function gets back user data pointers stored via C<.set-qdata()> and removes the C<$data> from object without invoking its destroy() function (if any was set).
@@ -1082,12 +1082,12 @@ method steal-qdata ( UInt $quark --> gpointer )
 
 Return value; The user data pointer set, or C<Nil>. 
 
-=end pod
+=end rakudoc
 }}
 
 #`{{
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 take-ref
 
 If C<$object> is floating, sink it. Otherwise, do nothing.
@@ -1111,11 +1111,11 @@ method take-ref (--> gpointer )
 
 Return value;  C<$object>. 
 
-=end pod
+=end rakudoc
 }}
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 thaw-notify
 
 Reverts the effect of a previous call to C<.freeze-notify()>. The freeze count is decreased on C<$object> and when it reaches zero, queued "notify" signals are emitted.
@@ -1129,11 +1129,11 @@ method thaw-notify ( )
 =end code
 
 
-=end pod
+=end rakudoc
 
 #`{{
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unref
 
 Decreases the reference count of C<$object>. When its reference count drops to 0, the object is finalized (i.e. its memory is freed).
@@ -1145,10 +1145,10 @@ method unref ( )
 =end code
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 watch-closure
 
 This function essentially limits the life time of the C<$closure> to the life time of the object. That is, when the object is finalized,
@@ -1161,10 +1161,10 @@ method watch-closure ( CArray[N-Closure]  $closure )
 
 =item $closure; GClosure to watch.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 weak-ref
 
 Adds a weak reference callback to an object. Weak references are used for notification when an object is disposed. They are called
@@ -1180,10 +1180,10 @@ method weak-ref ( &notify, gpointer $data )
 =item &notify; callback to invoke before the object is freed. Tthe function must be specified with following signature; C<:( gpointer $data, N-Object $where-the-object-was )>.
 =item $data; extra data to pass to notify.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 weak-unref
 
 Removes a weak reference callback to an object.
@@ -1195,7 +1195,7 @@ method weak-unref ( &notify, gpointer $data )
 =item &notify; callback to search for. Tthe function must be specified with following signature; C<:( gpointer $data, N-Object $where-the-object-was )>.
 =item $data; data to search for.
 
-=end pod
+=end rakudoc
 }}
 
 #`{{
@@ -1203,12 +1203,12 @@ method weak-unref ( &notify, gpointer $data )
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 compat-control
 
 No documentation of method.
@@ -1224,10 +1224,10 @@ method compat-control ( Int() $what, gpointer $data --> Int )
 Return value; No documentation about its value and use. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 interface-find-property
 
 Find the GParamSpec with the given name for an interface. Generally, the interface vtable passed in as C<$g_iface>
@@ -1248,10 +1248,10 @@ Return value; the GParamSpec for the property of the
  such property exists.. 
 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 interface-install-property
 
 Add a property to an interface; this is only useful for interfaces that are added to GObject-derived types. Adding a property to an interface forces all objects classes with that interface to have a compatible property. The compatible property could be a newly created GParamSpec, but normally C<.class-override-property()> will be used so that the object class only needs to provide an implementation and inherits the property description, default value, bounds, and so forth from the interface property.
@@ -1269,10 +1269,10 @@ method interface-install-property ( gpointer $g-iface, N-Object() $pspec )
  vtable for the interface..
 =item $pspec; the GParamSpec for the new property.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 interface-list-properties
 
 Lists the properties of an interface.Generally, the interface vtable passed in as C<$g_iface> will be the default vtable from g_type_default_interface_ref(), or, if you know the interface has already been loaded, g_type_default_interface_peek().
@@ -1292,11 +1292,11 @@ Return value; a
  it.. 
 
 
-=end pod
+=end rakudoc
 }}
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 register-signal
 
 Note: This method is a convenience method not defined by Gnome in the Object class. The method is defined in L<Gnome::N::GObjectSupport|/content-docs/api2//reference/N/GObjectSupport#register-signal>.
@@ -1415,13 +1415,13 @@ $window.register-signal(
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -1460,5 +1460,5 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event.
 =item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
-=end pod
+=end rakudoc
 
