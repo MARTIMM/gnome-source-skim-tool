@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gsk4::Renderer
 =head1 Description
 
@@ -28,13 +28,13 @@ to render the scene.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -45,10 +45,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-for-surface
 
 Creates an appropriate B<Gnome::Gsk4::Renderer> instance for the given C<$surface>.
@@ -72,18 +72,18 @@ method new-for-surface ( N-Object() $surface --> Gnome::Gsk4::Renderer \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-surface
 
 Retrieves the B<Gnome::Gdk4::Surface> set using gsk_enderer_realize().
@@ -103,10 +103,10 @@ Return value; a B<Gnome::Gdk4::Surface>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-realized
 
 Checks whether the C<$renderer> is realized or not.
@@ -124,10 +124,10 @@ Return value; C<True> if the B<Gnome::Gsk4::Renderer> was realized, and C<False>
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 realize
 
 Creates the resources needed by the C<$renderer> to render the scene
@@ -157,10 +157,10 @@ Return value; Whether the renderer was successfully realized.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 render
 
 Renders the scene graph, described by a tree of B<Gnome::Gsk4::RenderNode> instances
@@ -191,10 +191,10 @@ method render ( N-Object() $root, N-Object $region )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 render-texture
 
 Renders the scene graph, described by a tree of B<Gnome::Gsk4::RenderNode> instances,
@@ -222,10 +222,10 @@ Return value; a B<Gnome::Gdk4::Texture> with the rendered contents of C<$root>..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unrealize
 
 Releases all the resources created by C<.realize()>.
@@ -241,5 +241,5 @@ method unrealize ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 

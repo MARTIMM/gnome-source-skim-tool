@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gsk4::CrossFadeNode
 =head1 Description
 
@@ -18,13 +18,13 @@ A render node cross fading between two child nodes.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -35,10 +35,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-crossfadenode
 
 Creates a B<Gnome::Gsk4::RenderNode> that will do a cross-fade between C<$start> and C<$end>.
@@ -59,18 +59,18 @@ method new-crossfadenode ( N-Object() $start, N-Object() $end, Num() $progress -
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-end-child
 
 Retrieves the child B<Gnome::Gsk4::RenderNode> at the end of the cross-fade.
@@ -88,10 +88,10 @@ Return value; a B<Gnome::Gsk4::RenderNode>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-progress
 
 Retrieves the progress value of the cross fade.
@@ -109,10 +109,10 @@ Return value; the progress value, between 0 and 1.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-start-child
 
 Retrieves the child B<Gnome::Gsk4::RenderNode> at the beginning of the cross-fade.
@@ -130,5 +130,5 @@ Return value; a B<Gnome::Gsk4::RenderNode>.
 
 =end comment
 
-=end pod
+=end rakudoc
 

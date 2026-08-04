@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gsk4::ShadowNode
 =head1 Description
 
@@ -18,13 +18,13 @@ A render node drawing one or more shadows behind its single child node.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -35,10 +35,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-shadownode
 
 Creates a B<Gnome::Gsk4::RenderNode> that will draw a C<$child> with the given C<$shadows> below it.
@@ -58,18 +58,18 @@ method new-shadownode ( N-Object() $child, N-Object $shadows, Int() $n-shadows -
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child
 
 Retrieves the child B<Gnome::Gsk4::RenderNode> of the shadow C<$node>.
@@ -87,10 +87,10 @@ Return value; the child render node.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-n-shadows
 
 Retrieves the number of shadows in the C<$node>.
@@ -108,10 +108,10 @@ Return value; the number of shadows..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-shadow
 
 Retrieves the shadow data at the given index C<$i>.
@@ -131,5 +131,5 @@ Return value; the shadow data.
 
 =end comment
 
-=end pod
+=end rakudoc
 

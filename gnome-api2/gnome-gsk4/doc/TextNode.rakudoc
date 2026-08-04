@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gsk4::TextNode
 =head1 Description
 
@@ -18,13 +18,13 @@ A render node drawing a set of glyphs.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -35,10 +35,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-textnode
 
 Creates a render node that renders the given glyphs.
@@ -62,18 +62,18 @@ method new-textnode ( N-Object() $font, N-Object $glyphs, N-Object $color, N-Obj
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-color
 
 Retrieves the color used by the text C<$node>.
@@ -91,10 +91,10 @@ Return value; the text color.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-font
 
 Returns the font used by the text C<$node>.
@@ -112,10 +112,10 @@ Return value; the font.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-glyphs
 
 Retrieves the glyph information in the C<$node>.
@@ -135,10 +135,10 @@ Return value; the glyph information.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-num-glyphs
 
 Retrieves the number of glyphs in the text node.
@@ -156,10 +156,10 @@ Return value; the number of glyphs.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-offset
 
 Retrieves the offset applied to the text.
@@ -177,10 +177,10 @@ Return value; a point with the horizontal and vertical offsets.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 has-color-glyphs
 
 Checks whether the text C<$node> has color glyphs.
@@ -198,5 +198,5 @@ Return value; C<True> if the text node has color glyphs.
 
 =end comment
 
-=end pod
+=end rakudoc
 

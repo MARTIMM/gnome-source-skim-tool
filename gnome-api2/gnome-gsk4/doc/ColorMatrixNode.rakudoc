@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gsk4::ColorMatrixNode
 =head1 Description
 
@@ -18,13 +18,13 @@ A render node controlling the color matrix of its single child node.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -35,10 +35,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-colormatrixnode
 
 Creates a B<Gnome::Gsk4::RenderNode> that will drawn the C<$child> with C<$color-matrix>.
@@ -64,18 +64,18 @@ method new-colormatrixnode ( N-Object() $child, N-Object $color-matrix, N-Object
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child
 
 Gets the child node that is getting its colors modified by the given C<$node>.
@@ -93,10 +93,10 @@ Return value; The child that is getting its colors modified.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-color-matrix
 
 Retrieves the color matrix used by the C<$node>.
@@ -114,10 +114,10 @@ Return value; a 4x4 color matrix.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-color-offset
 
 Retrieves the color offset used by the C<$node>.
@@ -135,5 +135,5 @@ Return value; a color vector.
 
 =end comment
 
-=end pod
+=end rakudoc
 

@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gsk4::OpacityNode
 =head1 Description
 
@@ -18,13 +18,13 @@ A render node controlling the opacity of its single child node.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -35,10 +35,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-opacitynode
 
 Creates a B<Gnome::Gsk4::RenderNode> that will drawn the C<$child> with reduced C<$opacity>.
@@ -57,18 +57,18 @@ method new-opacitynode ( N-Object() $child, Num() $opacity --> Gnome::Gsk4::Opac
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child
 
 Gets the child node that is getting opacityed by the given C<$node>.
@@ -86,10 +86,10 @@ Return value; The child that is getting opacityed.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-opacity
 
 Gets the transparency factor for an opacity node.
@@ -107,5 +107,5 @@ Return value; the opacity factor.
 
 =end comment
 
-=end pod
+=end rakudoc
 

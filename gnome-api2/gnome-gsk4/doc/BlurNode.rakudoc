@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gsk4::BlurNode
 =head1 Description
 
@@ -18,13 +18,13 @@ A render node applying a blur effect to its single child.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -35,10 +35,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-blurnode
 
 Creates a render node that blurs the child.
@@ -57,18 +57,18 @@ method new-blurnode ( N-Object() $child, Num() $radius --> Gnome::Gsk4::BlurNode
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child
 
 Retrieves the child B<Gnome::Gsk4::RenderNode> of the blur C<$node>.
@@ -86,10 +86,10 @@ Return value; the blurred child node.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-radius
 
 Retrieves the blur radius of the C<$node>.
@@ -107,5 +107,5 @@ Return value; the blur radius.
 
 =end comment
 
-=end pod
+=end rakudoc
 

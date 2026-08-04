@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gsk4::BlendNode
 =head1 Description
 
@@ -18,13 +18,13 @@ A render node applying a blending function between its two child nodes.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -35,10 +35,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-blendnode
 
 Creates a B<Gnome::Gsk4::RenderNode> that will use C<$blend-mode> to blend the C<$top>
@@ -59,18 +59,18 @@ method new-blendnode ( N-Object() $bottom, N-Object() $top, GskBlendMode $blend-
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-blend-mode
 
 Retrieves the blend mode used by C<$node>.
@@ -88,10 +88,10 @@ Return value; the blend mode.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-bottom-child
 
 Retrieves the bottom B<Gnome::Gsk4::RenderNode> child of the C<$node>.
@@ -109,10 +109,10 @@ Return value; the bottom child node.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-top-child
 
 Retrieves the top B<Gnome::Gsk4::RenderNode> child of the C<$node>.
@@ -130,5 +130,5 @@ Return value; the top child node.
 
 =end comment
 
-=end pod
+=end rakudoc
 

@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gsk4::GLShader
 =head1 Description
 
@@ -134,13 +134,13 @@ void mainImage(out vec4 fragColor,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -151,10 +151,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-bytes
 
 Creates a B<Gnome::Gsk4::GLShader> that will render pixels using the specified code.
@@ -172,10 +172,10 @@ method new-from-bytes ( N-Object $sourcecode --> Gnome::Gsk4::GLShader \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-resource
 
 Creates a B<Gnome::Gsk4::GLShader> that will render pixels using the specified code.
@@ -194,18 +194,18 @@ method new-from-resource ( Str $resource-path --> Gnome::Gsk4::GLShader \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 compile
 
 Tries to compile the C<$shader> for the given C<$renderer>.
@@ -239,10 +239,10 @@ Return value; C<True> on success, C<False> if an error occurred.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 find-uniform-by-name
 
 Looks for a uniform by the name C<$name>, and returns the index
@@ -263,10 +263,10 @@ Return value; The index of the uniform, or -1.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 format-args
 This function is not yet available
 
@@ -296,10 +296,10 @@ Return value; A newly allocated block of data which can be
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 format-args-va
 This function is not yet available
 
@@ -332,10 +332,10 @@ Return value; A newly allocated block of data which can be
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-arg-bool
 
 Gets the value of the uniform C<$idx> in the C<$args> block.
@@ -358,10 +358,10 @@ Return value; The value.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-arg-float
 
 Gets the value of the uniform C<$idx> in the C<$args> block.
@@ -384,10 +384,10 @@ Return value; The value.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-arg-int
 
 Gets the value of the uniform C<$idx> in the C<$args> block.
@@ -410,10 +410,10 @@ Return value; The value.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-arg-uint
 
 Gets the value of the uniform C<$idx> in the C<$args> block.
@@ -436,10 +436,10 @@ Return value; The value.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-arg-vec2
 
 Gets the value of the uniform C<$idx> in the C<$args> block.
@@ -461,10 +461,10 @@ method get-arg-vec2 ( N-Object $args, Int() $idx, N-Object $out-value )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-arg-vec3
 
 Gets the value of the uniform C<$idx> in the C<$args> block.
@@ -486,10 +486,10 @@ method get-arg-vec3 ( N-Object $args, Int() $idx, N-Object $out-value )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-arg-vec4
 
 Gets the value of the uniform C<$idx> in the C<$args> block.
@@ -511,10 +511,10 @@ method get-arg-vec4 ( N-Object $args, Int() $idx, N-Object $out-value )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-args-size
 
 Get the size of the data block used to specify arguments for this shader.
@@ -532,10 +532,10 @@ Return value; The size of the data block.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-n-textures
 
 Returns the number of textures that the shader requires.
@@ -557,10 +557,10 @@ Return value; The number of texture inputs required by C<$shader>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-n-uniforms
 
 Get the number of declared uniforms for this shader.
@@ -578,10 +578,10 @@ Return value; The number of declared uniforms.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-resource
 
 Gets the resource path for the GLSL sourcecode being used
@@ -600,10 +600,10 @@ Return value; The resource path for the shader.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-source
 
 Gets the GLSL sourcecode being used to render this shader.
@@ -621,10 +621,10 @@ Return value; The source code for the shader.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-uniform-name
 
 Get the name of the declared uniform for this shader at index C<$idx>.
@@ -644,10 +644,10 @@ Return value; The name of the declared uniform.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-uniform-offset
 
 Get the offset into the data block where data for this uniforms is stored.
@@ -667,10 +667,10 @@ Return value; The data offset.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-uniform-type
 
 Get the type of the declared uniform for this shader at index C<$idx>.
@@ -690,5 +690,5 @@ Return value; The type of the declared uniform.
 
 =end comment
 
-=end pod
+=end rakudoc
 

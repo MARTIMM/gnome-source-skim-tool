@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gsk4::TransformNode
 =head1 Description
 
@@ -18,13 +18,13 @@ A render node applying a B<Gnome::Gsk4::N-Transform> to its single child node.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -35,10 +35,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-transformnode
 
 Creates a B<Gnome::Gsk4::RenderNode> that will transform the given C<$child>
@@ -58,18 +58,18 @@ method new-transformnode ( N-Object() $child, N-Object $transform --> Gnome::Gsk
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child
 
 Gets the child node that is getting transformed by the given C<$node>.
@@ -87,10 +87,10 @@ Return value; The child that is getting transformed.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-transform
 
 Retrieves the B<Gnome::Gsk4::N-Transform> used by the C<$node>.
@@ -108,5 +108,5 @@ Return value; a B<Gnome::Gsk4::N-Transform>.
 
 =end comment
 
-=end pod
+=end rakudoc
 

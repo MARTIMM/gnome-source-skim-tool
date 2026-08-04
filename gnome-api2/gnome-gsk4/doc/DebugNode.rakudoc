@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gsk4::DebugNode
 =head1 Description
 
@@ -19,13 +19,13 @@ child node.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -36,10 +36,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-debugnode
 
 Creates a B<Gnome::Gsk4::RenderNode> that will add debug information about
@@ -61,18 +61,18 @@ method new-debugnode ( N-Object() $child, Str $message --> Gnome::Gsk4::DebugNod
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child
 
 Gets the child node that is getting drawn by the given C<$node>.
@@ -90,10 +90,10 @@ Return value; the child B<Gnome::Gsk4::RenderNode>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-message
 
 Gets the debug message that was set on this node
@@ -111,5 +111,5 @@ Return value; The debug message.
 
 =end comment
 
-=end pod
+=end rakudoc
 

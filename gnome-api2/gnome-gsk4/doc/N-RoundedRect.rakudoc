@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gsk4::N-RoundedRect
 =head1 Description
 
@@ -30,13 +30,13 @@ The algorithm used for normalizing corner sizes is described in
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -47,18 +47,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 contains-point
 
 Checks if the given C<$point> is inside the rounded rectangle.
@@ -78,10 +78,10 @@ Return value; C<True> if the C<$point> is inside the rounded rectangle.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 contains-rect
 
 Checks if the given C<$rect> is contained inside the rounded rectangle.
@@ -101,10 +101,10 @@ Return value; C<True> if the C<$rect> is fully contained inside the rounded rect
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init
 
 Initializes the given B<Gnome::Gsk4::N-RoundedRect> with the given values.
@@ -131,10 +131,10 @@ Return value; the initialized rectangle.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-copy
 
 Initializes C<$self> using the given C<$src> rectangle.
@@ -157,10 +157,10 @@ Return value; the initialized rectangle.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 init-from-rect
 
 Initializes C<$self> to the given C<$bounds> and sets the radius
@@ -182,10 +182,10 @@ Return value; the initialized rectangle.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 intersects-rect
 
 Checks if part of the given C<$rect> is contained inside the rounded rectangle.
@@ -205,10 +205,10 @@ Return value; C<True> if the C<$rect> intersects with the rounded rectangle.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-rectilinear
 
 Checks if all corners of C<$self> are right angles and the
@@ -230,10 +230,10 @@ Return value; C<True> if the rectangle is rectilinear.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 normalize
 
 Normalizes the passed rectangle.
@@ -255,10 +255,10 @@ Return value; the normalized rectangle.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 offset
 
 Offsets the bound's origin by C<$dx> and C<$dy>.
@@ -281,10 +281,10 @@ Return value; the offset rectangle.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 shrink
 
 Shrinks (or grows) the given rectangle by moving the 4 sides
@@ -314,5 +314,5 @@ Return value; the resized B<Gnome::Gsk4::N-RoundedRect>.
 
 =end comment
 
-=end pod
+=end rakudoc
 

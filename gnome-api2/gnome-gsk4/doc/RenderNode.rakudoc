@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gsk4::RenderNode
 =head1 Description
 
@@ -30,13 +30,13 @@ properties during construction.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -47,18 +47,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 draw
 
 Draw the contents of C<$node> to the given cairo context.
@@ -83,10 +83,10 @@ method draw ( N-Object $cr )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-bounds
 
 Retrieves the boundaries of the C<$node>.
@@ -106,10 +106,10 @@ method get-bounds ( N-Object $bounds )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-node-type
 
 Returns the type of the C<$node>.
@@ -127,10 +127,10 @@ Return value; the type of the B<Gnome::Gsk4::RenderNode>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ref
 
 Acquires a reference on the given B<Gnome::Gsk4::RenderNode>.
@@ -148,10 +148,10 @@ Return value; the B<Gnome::Gsk4::RenderNode> with an additional reference.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 serialize
 
 Serializes the C<$node> for later deserialization via
@@ -177,10 +177,10 @@ Return value; a B<Gnome::Glib::N-Bytes> representing the node..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unref
 
 Releases a reference on the given B<Gnome::Gsk4::RenderNode>.
@@ -199,10 +199,10 @@ method unref ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 write-to-file
 
 This function is equivalent to calling C<.serialize()>
@@ -231,18 +231,18 @@ Return value; C<True> if saving was successful.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 deserialize
 
 Loads data previously created via C<.serialize()>.
@@ -266,5 +266,5 @@ Return value; a new B<Gnome::Gsk4::RenderNode>.
 
 =end comment
 
-=end pod
+=end rakudoc
 

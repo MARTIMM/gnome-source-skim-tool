@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gsk4::ContainerNode
 =head1 Description
 
@@ -18,13 +18,13 @@ A render node that can contain other render nodes.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -35,10 +35,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-containernode
 
 Creates a new B<Gnome::Gsk4::RenderNode> instance for holding the given C<$children>.
@@ -59,18 +59,18 @@ method new-containernode ( N-Object() $children, UInt() $n-children --> Gnome::G
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child
 
 Gets one of the children of C<$container>.
@@ -90,10 +90,10 @@ Return value; the C<$idx>'th child of C<$container>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-n-children
 
 Retrieves the number of direct children of C<$node>.
@@ -111,5 +111,5 @@ Return value; the number of children of the B<Gnome::Gsk4::RenderNode>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
