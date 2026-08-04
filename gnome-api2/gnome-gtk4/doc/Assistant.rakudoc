@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Assistant
 =head1 Description
 
@@ -56,13 +56,13 @@ class .assistant.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
@@ -75,10 +75,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-assistant
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -96,18 +96,18 @@ method new-assistant ( --> Gnome::Gtk4::Assistant )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-action-widget
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -127,10 +127,10 @@ method add-action-widget ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-page
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -152,10 +152,10 @@ Return value; the index (starting at 0) of the inserted page.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 commit
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -182,10 +182,10 @@ method commit ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-current-page
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -207,10 +207,10 @@ Return value; The index (starting from 0) of the current
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-n-pages
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -230,10 +230,10 @@ Return value; the number of pages in the C<$assistant>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-nth-page
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -257,10 +257,10 @@ Return value; the child widget, or undefined
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-page
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -282,10 +282,10 @@ Return value; the L<Gnome::Gtk4::AssistantPage|/content-docs/api2/reference/Gtk4
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-page-complete
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -307,10 +307,10 @@ Return value; C<True> if C<$page> is complete..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-page-title
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -332,10 +332,10 @@ Return value; the title for C<$page>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-page-type
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -357,10 +357,10 @@ Return value; the page type of C<$page>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-pages
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -380,10 +380,10 @@ Return value; A list model of the pages..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-page
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -407,10 +407,10 @@ Return value; the index (starting from 0) of the inserted page.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 next-page
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -434,10 +434,10 @@ method next-page ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 prepend-page
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -459,10 +459,10 @@ Return value; the index (starting at 0) of the inserted page.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 previous-page
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -486,10 +486,10 @@ method previous-page ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-action-widget
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -509,10 +509,10 @@ method remove-action-widget ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-page
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -533,10 +533,10 @@ method remove-page ( Int() $page-num )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-current-page
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -563,10 +563,10 @@ method set-current-page ( Int() $page-num )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-forward-page-func
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -595,10 +595,10 @@ method set-forward-page-func ( GtkAssistantPageFunc &page-func, gpointer $data, 
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-page-complete
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -622,10 +622,10 @@ method set-page-complete ( N-Object() $page, Bool() $complete )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-page-title
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -649,10 +649,10 @@ method set-page-title ( N-Object() $page, Str $title )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-page-type
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -675,10 +675,10 @@ method set-page-type ( N-Object() $page, GtkAssistantPageType $type )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 update-buttons-state
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -704,13 +704,13 @@ method update-buttons-state ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -856,5 +856,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

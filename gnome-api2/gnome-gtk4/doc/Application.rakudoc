@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Application
 =head1 Description
 
@@ -87,13 +87,13 @@ session while inhibitors are present.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -104,10 +104,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-application
 
 Creates a new B<Gnome::Gtk4::Application> instance.
@@ -143,18 +143,18 @@ method new-application ( Str $application-id, UInt $flags --> Gnome::Gtk4::Appli
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-window
 
 Adds a window to B<application>.
@@ -186,10 +186,10 @@ method add-window ( N-Object() $window )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-accels-for-action
 
 Gets the accelerators that are currently associated with
@@ -212,10 +212,10 @@ Return value;
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-actions-for-accel
 
 Returns the list of actions (possibly empty) that B<accel> maps to.
@@ -251,10 +251,10 @@ Return value; a actions array for B<accel>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-active-window
 
 Gets the “active” window for the application.
@@ -277,10 +277,10 @@ Return value; the active window.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-menu-by-id
 
 Gets a menu from automatically loaded resources.
@@ -304,10 +304,10 @@ Return value; Gets the menu with the
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-menubar
 
 Returns the menu model that has been set with
@@ -326,10 +326,10 @@ Return value; the menubar for windows of B<application>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-window-by-id
 
 Returns the L<Gnome::Gtk4::ApplicationWindow|/content-docs/api2/reference/Gtk4/ApplicationWindow> with the given ID.
@@ -352,10 +352,10 @@ Return value; the window for the given B<id>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-windows
 
 Gets a list of the L<Gnome::Gtk4::Window|/content-docs/api2/reference/Gtk4/Window> instances associated with B<application>.
@@ -382,10 +382,10 @@ Return value; a B<Gnome::Glib::N-List> of L<Gnome::Gtk4::Window|/content-docs/ap
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 inhibit
 
 Inform the session manager that certain types of actions should be
@@ -433,10 +433,10 @@ Return value; A non-zero cookie that is used to uniquely identify this
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 list-action-descriptions
 
 Lists the detailed action names which have associated accelerators.
@@ -456,10 +456,10 @@ Return value; the detailed action names.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-window
 
 Remove a window from B<application>.
@@ -484,10 +484,10 @@ method remove-window ( N-Object() $window )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-accels-for-action
 
 Sets zero or more keyboard accelerators that will trigger the
@@ -518,10 +518,10 @@ method set-accels-for-action ( Str $detailed-action-name, Array[Str] $accels )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-menubar
 
 Sets or unsets the menubar for windows of B<application>.
@@ -556,10 +556,10 @@ method set-menubar ( N-Object() $menubar )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 uninhibit
 
 Removes an inhibitor that has been previously established.
@@ -581,13 +581,13 @@ method uninhibit ( UInt() $cookie )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -678,5 +678,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

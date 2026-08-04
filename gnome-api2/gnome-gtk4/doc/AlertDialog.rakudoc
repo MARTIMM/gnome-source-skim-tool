@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::AlertDialog
 =head1 Description
 
@@ -25,13 +25,13 @@ If you don't need to wait for a button to be clicked, you can use L<.show()|#sho
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -42,10 +42,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-alertdialog
 
 Creates a new B<Gnome::Gtk4::AlertDialog> object.
@@ -66,18 +66,18 @@ method new-alertdialog ( Str $format, … --> Gnome::Gtk4::AlertDialog )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 choose
 
 Shows the alert to the user.
@@ -101,10 +101,10 @@ method choose ( N-Object() $parent, N-Object() $cancellable, GAsyncReadyCallback
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 choose-finish
 
 Finishes the L<.choose()|#choose> call.
@@ -129,10 +129,10 @@ Return value; the index of the button that was clicked, or -1 if
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-buttons
 
 Returns the button labels for the alert.
@@ -150,10 +150,10 @@ Return value; the button labels.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-cancel-button
 
 Returns the index of the cancel button.
@@ -171,10 +171,10 @@ Return value; the index of the cancel button, or -1.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-default-button
 
 Returns the index of the default button.
@@ -192,10 +192,10 @@ Return value; the index of the default button, or -1.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-detail
 
 Returns the detail text that will be shown in the alert.
@@ -213,10 +213,10 @@ Return value; the detail text.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-message
 
 Returns the message that will be shown in the alert.
@@ -234,10 +234,10 @@ Return value; the message.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-modal
 
 Returns whether the alert blocks interaction with the parent window while it is presented.
@@ -255,10 +255,10 @@ Return value; true if the alert is modal.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-buttons
 
 Sets the button labels for the alert.
@@ -276,10 +276,10 @@ method set-buttons ( Array[Str] $labels )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-cancel-button
 
 Sets the index of the cancel button.
@@ -299,10 +299,10 @@ method set-cancel-button ( Int() $button )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-default-button
 
 Sets the index of the default button.
@@ -322,10 +322,10 @@ method set-default-button ( Int() $button )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-detail
 
 Sets the detail text that will be shown in the alert.
@@ -343,10 +343,10 @@ method set-detail ( Str $detail )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-message
 
 Sets the message that will be shown in the alert.
@@ -364,10 +364,10 @@ method set-message ( Str $message )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-modal
 
 Sets whether the alert blocks interaction with the parent window while it is presented.
@@ -385,10 +385,10 @@ method set-modal ( Bool() $modal )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 show
 
 Shows the alert to the user.
@@ -410,5 +410,5 @@ method show ( N-Object() $parent )
 
 =end comment
 
-=end pod
+=end rakudoc
 

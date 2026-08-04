@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::AlternativeTrigger
 =head1 Description
 
@@ -21,13 +21,13 @@ A L<Gnome::Gtk4::ShortcutTrigger|/content-docs/api2/reference/Gtk4/ShortcutTrigg
 
 =end code
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -38,10 +38,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-alternativetrigger
 
 Creates a L<Gnome::Gtk4::ShortcutTrigger|/content-docs/api2/reference/Gtk4/ShortcutTrigger> that will trigger whenever either of the two given triggers gets triggered.
@@ -58,18 +58,18 @@ method new-alternativetrigger (
 =item $first; (transfer ownership: full) The first trigger that may trigger.
 =item $second; (transfer ownership: full) The second trigger that may trigger.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-first
 
 Gets the first of the two alternative triggers that may trigger this object.
@@ -82,10 +82,10 @@ method get-first ( --> N-Object )
 
 Return value; the first alternative trigger. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-second
 
 Gets the second of the two alternative triggers that may trigger this object.
@@ -98,5 +98,5 @@ method get-second ( --> N-Object )
 
 Return value; the second alternative trigger. 
 
-=end pod
+=end rakudoc
 

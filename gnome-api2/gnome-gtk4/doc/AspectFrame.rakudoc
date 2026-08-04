@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::AspectFrame
 =head1 Description
 
@@ -34,13 +34,13 @@ Starting from GTK 4.12, B<Gnome::Gtk4::AspectFrame> uses the B<GTK_ACCESSIBLE_RO
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -51,10 +51,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-aspectframe
 
 Create a new B<Gnome::Gtk4::AspectFrame>.
@@ -78,18 +78,18 @@ method new-aspectframe ( Num() $xalign, Num() $yalign, Num() $ratio, Bool() $obe
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child
 
 Gets the child widget of C<$self>.
@@ -107,10 +107,10 @@ Return value; the child widget of C<$self>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-obey-child
 
 Returns whether the child's size request should override
@@ -129,10 +129,10 @@ Return value; whether to obey the child's size request.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-ratio
 
 Returns the desired aspect ratio of the child.
@@ -150,10 +150,10 @@ Return value; the desired aspect ratio.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-xalign
 
 Returns the horizontal alignment of the child within the
@@ -172,10 +172,10 @@ Return value; the horizontal alignment.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-yalign
 
 Returns the vertical alignment of the child within the
@@ -195,10 +195,10 @@ my Num $yalign = $aspect-frame.get-yalign;
 
 B<Note>; In version 4.9.4 of Gtk 4 and before the value returned is that of xalign and not yalign. The value, however, is set correctly using C<.set-yalign>.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-child
 
 Sets the child widget of C<$self>.
@@ -216,10 +216,10 @@ method set-child ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-obey-child
 
 Sets whether the aspect ratio of the child's size
@@ -240,10 +240,10 @@ method set-obey-child ( Bool() $obey-child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-ratio
 
 Sets the desired aspect ratio of the child.
@@ -261,10 +261,10 @@ method set-ratio ( Num() $ratio )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-xalign
 
 Sets the horizontal alignment of the child within the allocation
@@ -283,10 +283,10 @@ method set-xalign ( Num() $xalign )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-yalign
 
 Sets the vertical alignment of the child within the allocation
@@ -305,5 +305,5 @@ method set-yalign ( Num() $yalign )
 
 =end comment
 
-=end pod
+=end rakudoc
 

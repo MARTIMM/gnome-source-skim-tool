@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Adjustment
 =head1 Description
 
@@ -27,13 +27,13 @@ The B<Gnome::Gtk4::Adjustment> object does not update the value itself. Instead 
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -44,10 +44,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-adjustment
 
 Creates a new B<Gnome::Gtk4::Adjustment>.
@@ -74,18 +74,18 @@ method new-adjustment (
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 clamp-page
 
 Updates the value property to ensure that the range between C<$lower> and C<$upper> is in the current page.
@@ -108,10 +108,10 @@ method clamp-page ( Num() $lower, Num() $upper )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 configure
 
 Sets all properties of the adjustment at once.
@@ -139,10 +139,10 @@ method configure (
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-lower
 
 Retrieves the minimum value of the adjustment.
@@ -160,10 +160,10 @@ Return value; The current minimum value of the adjustment.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-minimum-increment
 
 Gets the smaller of step increment and page increment.
@@ -181,10 +181,10 @@ Return value; the minimum increment of the adjustment.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-page-increment
 
 Retrieves the page increment of the adjustment.
@@ -202,10 +202,10 @@ Return value; The current page increment of the adjustment.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-page-size
 
 Retrieves the page size of the adjustment.
@@ -223,10 +223,10 @@ Return value; The current page size of the adjustment.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-step-increment
 
 Retrieves the step increment of the adjustment.
@@ -244,10 +244,10 @@ Return value; The current step increment of the adjustment.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-upper
 
 Retrieves the maximum value of the adjustment.
@@ -265,10 +265,10 @@ Return value; The current maximum value of the adjustment.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-value
 
 Gets the current value of the adjustment.
@@ -286,10 +286,10 @@ Return value; The current value of the adjustment.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-lower
 
 Sets the minimum value of the adjustment.
@@ -311,10 +311,10 @@ method set-lower ( Num() $lower )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-page-increment
 
 Sets the page increment of the adjustment.
@@ -334,10 +334,10 @@ method set-page-increment ( Num() $page-increment )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-page-size
 
 Sets the page size of the adjustment.
@@ -357,10 +357,10 @@ method set-page-size ( Num() $page-size )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-step-increment
 
 Sets the step increment of the adjustment.
@@ -380,10 +380,10 @@ method set-step-increment ( Num() $step-increment )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-upper
 
 Sets the maximum value of the adjustment.
@@ -405,10 +405,10 @@ method set-upper ( Num() $upper )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-value
 
 Sets the value of the adjustment.
@@ -430,13 +430,13 @@ method set-value ( Num() $value )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -489,5 +489,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

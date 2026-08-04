@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::ApplicationWindow
 =head1 Description
 
@@ -89,13 +89,13 @@ my Gnome::Gtk4::Widget $window .= new-application-window($app);
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -106,10 +106,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-applicationwindow
 
 Creates a new B<Gnome::Gtk4::ApplicationWindow>.
@@ -127,18 +127,18 @@ method new-applicationwindow ( N-Object() $application --> Gnome::Gtk4::Applicat
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-help-overlay
 
 Gets the L<Gnome::Gtk4::ShortcutsWindow|/content-docs/api2/reference/Gtk4/ShortcutsWindow> that is associated with C<$window>.
@@ -159,10 +159,10 @@ Return value; the help overlay associated
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-id
 
 Returns the unique ID of the window.
@@ -183,10 +183,10 @@ Return value; the unique ID for C<$window>, or B<0> if the window
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-show-menubar
 
 Returns whether the window will display a menubar for the app menu
@@ -205,10 +205,10 @@ Return value; C<True> if C<$window> will display a menubar when needed.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-help-overlay
 
 Associates a shortcuts window with the application window.
@@ -230,10 +230,10 @@ method set-help-overlay ( N-Object() $help-overlay )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-show-menubar
 
 Sets whether the window will display a menubar for the app menu
@@ -252,5 +252,5 @@ method set-show-menubar ( Bool() $show-menubar )
 
 =end comment
 
-=end pod
+=end rakudoc
 
