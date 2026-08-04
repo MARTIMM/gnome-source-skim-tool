@@ -1,15 +1,15 @@
 =comment Package: Gtk4, C-Source: accessible
 use v6.d;
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::T-accessible
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -18,25 +18,25 @@ Initialization of a type class is simple and only needed when the standalone fun
 
   method new ( )
 
-=end pod
+=end rakudoc
 #-------------------------------------------------------------------------------
 #--[Record Structure]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-AccessibleList
 
 This is an opaque type of which fields are not available.
 
   class N-AccessibleList:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Enumerations]---------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Enumerations
 
 =head2 GtkAccessiblePlatformState
@@ -46,18 +46,18 @@ using L<.get-platform-state()|#get-platform-state>.
 =item C<GTK_ACCESSIBLE_PLATFORM_STATE_FOCUSABLE>; whether the accessible can be focused
 =item C<GTK_ACCESSIBLE_PLATFORM_STATE_FOCUSED>; whether the accessible has focus
 =item C<GTK_ACCESSIBLE_PLATFORM_STATE_ACTIVE>; whether the accessible is active
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Standalone Functions]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Standalone Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 accessible-property-init-value
 
 No documentation of method.
@@ -76,10 +76,10 @@ method accessible-property-init-value ( GtkAccessibleProperty $property, N-Objec
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 accessible-relation-init-value
 
 No documentation of method.
@@ -98,10 +98,10 @@ method accessible-relation-init-value ( GtkAccessibleRelation $relation, N-Objec
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 accessible-state-init-value
 
 No documentation of method.
@@ -120,5 +120,5 @@ method accessible-state-init-value ( GtkAccessibleState $state, N-Object $value 
 
 =end comment
 
-=end pod
+=end rakudoc
 

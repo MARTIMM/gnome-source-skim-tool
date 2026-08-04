@@ -1,15 +1,15 @@
 =comment Package: Gtk4, C-Source: expression
 use v6.d;
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::T-expression
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -18,25 +18,25 @@ Initialization of a type class is simple and only needed when the standalone fun
 
   method new ( )
 
-=end pod
+=end rakudoc
 #-------------------------------------------------------------------------------
 #--[Record Structure]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Record N-ExpressionWatch
 
 This is an opaque type of which fields are not available.
 
   class N-ExpressionWatch:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Callback Functions]---------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Callback Functions
 =head2 ExpressionNotify
 
@@ -47,17 +47,17 @@ This is an opaque type of which fields are not available.
 
 =item $user-data; data passed to gtk_expression_watch()
 
-=end pod
+=end rakudoc
 #-------------------------------------------------------------------------------
 #--[Standalone Functions]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Standalone Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 param-spec-expression
 
 Creates a new L<Gnome::GObject::ParamSpec|/content-docs/api2/reference/GObject/ParamSpec> instance for a property holding a L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression>.
@@ -82,10 +82,10 @@ Return value; a newly created property specification.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 value-dup-expression
 
 Retrieves the L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression> stored inside the given B<value>, and acquires
@@ -106,10 +106,10 @@ Return value; a L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expr
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 value-get-expression
 
 Retrieves the L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression> stored inside the given B<value>.
@@ -129,10 +129,10 @@ Return value; a L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expr
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 value-set-expression
 
 Stores the given L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression> inside B<value>.
@@ -153,10 +153,10 @@ method value-set-expression ( N-Object $value, N-Object() $expression )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 value-take-expression
 
 Stores the given L<Gnome::Gtk4::Expression|/content-docs/api2/reference/Gtk4/Expression> inside B<value>.
@@ -177,5 +177,5 @@ method value-take-expression ( N-Object $value, N-Object() $expression )
 
 =end comment
 
-=end pod
+=end rakudoc
 
