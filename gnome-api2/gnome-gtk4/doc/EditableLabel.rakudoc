@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::EditableLabel
 =head1 Description
 
@@ -49,13 +49,13 @@ see L<Gnome::Gtk4::Text|/content-docs/api2/reference/Gtk4/Text>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -66,10 +66,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-editablelabel
 
 Creates a new B<Gnome::Gtk4::EditableLabel> widget.
@@ -87,18 +87,18 @@ method new-editablelabel ( Str $str --> Gnome::Gtk4::EditableLabel )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-editing
 
 Returns whether the label is currently in “editing mode”.
@@ -116,10 +116,10 @@ Return value; C<True> if C<$self> is currently in editing mode.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 start-editing
 
 Switches the label into “editing mode”.
@@ -135,10 +135,10 @@ method start-editing ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 stop-editing
 
 Switches the label out of “editing mode”.
@@ -161,5 +161,5 @@ method stop-editing ( Bool() $commit )
 
 =end comment
 
-=end pod
+=end rakudoc
 

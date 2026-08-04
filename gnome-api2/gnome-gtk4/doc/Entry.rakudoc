@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Entry
 =head1 Description
 
@@ -109,13 +109,13 @@ B<Gnome::Gtk4::Entry> uses the C<GTK_ACCESSIBLE_ROLE_TEXT_BOX> role.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -126,10 +126,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-entry
 
 Creates a new entry.
@@ -145,10 +145,10 @@ method new-entry ( --> Gnome::Gtk4::Entry )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-with-buffer
 
 Creates a new entry with the specified text buffer.
@@ -166,18 +166,18 @@ method new-with-buffer ( N-Object() $buffer --> Gnome::Gtk4::Entry )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-activates-default
 
 Retrieves the value set by C<.set-activates-default()>.
@@ -195,10 +195,10 @@ Return value; C<True> if the entry will activate the default widget.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-alignment
 
 Gets the value set by C<.set-alignment()>.
@@ -218,10 +218,10 @@ Return value; the alignment.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-attributes
 
 Gets the attribute list of the B<Gnome::Gtk4::Entry>.
@@ -241,10 +241,10 @@ Return value; the attribute list.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-buffer
 
 Get the L<Gnome::Gtk4::EntryBuffer|/content-docs/api2/reference/Gtk4/EntryBuffer> object which holds the text for
@@ -263,10 +263,10 @@ Return value; A L<Gnome::Gtk4::EntryBuffer|/content-docs/api2/reference/Gtk4/Ent
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-completion
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -288,10 +288,10 @@ Return value; The auxiliary
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-current-icon-drag-source
 
 Returns the index of the icon which is the source of the
@@ -311,10 +311,10 @@ Return value; index of the icon which is the source of the
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-extra-menu
 
 Gets the menu model set with C<.set-extra-menu()>.
@@ -332,10 +332,10 @@ Return value; the menu model.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-has-frame
 
 Gets the value set by C<.set-has-frame()>.
@@ -353,10 +353,10 @@ Return value; whether the entry has a beveled frame.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-icon-activatable
 
 Returns whether the icon is activatable.
@@ -376,10 +376,10 @@ Return value; C<True> if the icon is activatable..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-icon-area
 
 Gets the area where entry’s icon at C<$icon-pos> is drawn.
@@ -405,10 +405,10 @@ method get-icon-area ( GtkEntryIconPosition $icon-pos, N-Object $icon-area )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-icon-at-pos
 
 Finds the icon at the given position and return its index.
@@ -434,10 +434,10 @@ Return value; the index of the icon at the given position, or -1.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-icon-gicon
 
 Retrieves the L<Gnome::Gio::R-Icon|/content-docs/api2/reference/Gio/R-Icon> used for the icon.
@@ -460,10 +460,10 @@ Return value; A L<Gnome::Gio::R-Icon|/content-docs/api2/reference/Gio/R-Icon>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-icon-name
 
 Retrieves the icon name used for the icon.
@@ -486,10 +486,10 @@ Return value; An icon name.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-icon-paintable
 
 Retrieves the L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable> used for the icon.
@@ -513,10 +513,10 @@ Return value; A L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-P
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-icon-sensitive
 
 Returns whether the icon appears sensitive or insensitive.
@@ -536,10 +536,10 @@ Return value; C<True> if the icon is sensitive..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-icon-storage-type
 
 Gets the type of representation being used by the icon
@@ -563,10 +563,10 @@ Return value; image representation being used.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-icon-tooltip-markup
 
 Gets the contents of the tooltip on the icon at the specified
@@ -587,10 +587,10 @@ Return value; the tooltip text.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-icon-tooltip-text
 
 Gets the contents of the tooltip on the icon at the specified
@@ -611,10 +611,10 @@ Return value; the tooltip text.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-input-hints
 
 Gets the input hints of this B<Gnome::Gtk4::Entry>.
@@ -632,10 +632,10 @@ Return value; the input hints.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-input-purpose
 
 Gets the input purpose of the B<Gnome::Gtk4::Entry>.
@@ -653,10 +653,10 @@ Return value; the input purpose.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-invisible-char
 
 Retrieves the character displayed in place of the actual text
@@ -676,10 +676,10 @@ Return value; the current invisible char, or 0, if the entry does not
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-max-length
 
 Retrieves the maximum allowed length of the text in C<$entry>.
@@ -700,10 +700,10 @@ Return value; the maximum allowed number of characters
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-overwrite-mode
 
 Gets whether the B<Gnome::Gtk4::Entry> is in overwrite mode.
@@ -721,10 +721,10 @@ Return value; whether the text is overwritten when typing..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-placeholder-text
 
 Retrieves the text that will be displayed when C<$entry>
@@ -747,10 +747,10 @@ Return value; a pointer to the
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-progress-fraction
 
 Returns the current fraction of the task that’s been completed.
@@ -770,10 +770,10 @@ Return value; a fraction from 0.0 to 1.0.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-progress-pulse-step
 
 Retrieves the pulse step set with
@@ -792,10 +792,10 @@ Return value; a fraction from 0.0 to 1.0.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-tabs
 
 Gets the tabstops of the B<Gnome::Gtk4::Entry>.
@@ -815,10 +815,10 @@ Return value; the tabstops.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-text-length
 
 Retrieves the current length of the text in C<$entry>.
@@ -840,10 +840,10 @@ Return value; the current number of characters
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-visibility
 
 Retrieves whether the text in C<$entry> is visible.
@@ -863,10 +863,10 @@ Return value; C<True> if the text is currently visible.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 grab-focus-without-selecting
 
 Causes C<$entry> to have keyboard focus.
@@ -889,10 +889,10 @@ Return value; C<True> if focus is now inside C<$self>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 progress-pulse
 
 Indicates that some progress is made, but you don’t
@@ -915,10 +915,10 @@ method progress-pulse ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 reset-im-context
 
 Reset the input method context of the entry if needed.
@@ -937,10 +937,10 @@ method reset-im-context ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-activates-default
 
 Sets whether pressing Enter in the C<$entry> will activate the default
@@ -962,10 +962,10 @@ method set-activates-default ( Bool() $setting )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-alignment
 
 Sets the alignment for the contents of the entry.
@@ -989,10 +989,10 @@ method set-alignment ( Num() $xalign )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-attributes
 
 Sets a B<Gnome::Pango::N-AttrList>.
@@ -1016,10 +1016,10 @@ method set-attributes ( N-Object $attrs )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-buffer
 
 Set the L<Gnome::Gtk4::EntryBuffer|/content-docs/api2/reference/Gtk4/EntryBuffer> object which holds the text for
@@ -1038,10 +1038,10 @@ method set-buffer ( N-Object() $buffer )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-completion
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
@@ -1066,10 +1066,10 @@ method set-completion ( N-Object() $completion )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-extra-menu
 
 Sets a menu model to add when constructing
@@ -1088,10 +1088,10 @@ method set-extra-menu ( N-Object() $model )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-has-frame
 
 Sets whether the entry has a beveled frame around it.
@@ -1109,10 +1109,10 @@ method set-has-frame ( Bool() $setting )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-icon-activatable
 
 Sets whether the icon is activatable.
@@ -1131,10 +1131,10 @@ method set-icon-activatable ( GtkEntryIconPosition $icon-pos, Bool() $activatabl
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-icon-drag-source
 
 Sets up the icon at the given position as drag source.
@@ -1157,10 +1157,10 @@ method set-icon-drag-source ( GtkEntryIconPosition $icon-pos, N-Object() $provid
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-icon-from-gicon
 
 Sets the icon shown in the entry at the specified position
@@ -1186,10 +1186,10 @@ method set-icon-from-gicon ( GtkEntryIconPosition $icon-pos, N-Object() $icon )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-icon-from-icon-name
 
 Sets the icon shown in the entry at the specified position
@@ -1215,10 +1215,10 @@ method set-icon-from-icon-name ( GtkEntryIconPosition $icon-pos, Str $icon-name 
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-icon-from-paintable
 
 Sets the icon shown in the specified position using a L<Gnome::Gdk4::R-Paintable|/content-docs/api2/reference/Gdk4/R-Paintable>.
@@ -1239,10 +1239,10 @@ method set-icon-from-paintable ( GtkEntryIconPosition $icon-pos, N-Object() $pai
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-icon-sensitive
 
 Sets the sensitivity for the specified icon.
@@ -1262,10 +1262,10 @@ method set-icon-sensitive ( GtkEntryIconPosition $icon-pos, Bool() $sensitive )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-icon-tooltip-markup
 
 Sets C<$tooltip> as the contents of the tooltip for the icon at
@@ -1291,10 +1291,10 @@ method set-icon-tooltip-markup ( GtkEntryIconPosition $icon-pos, Str $tooltip )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-icon-tooltip-text
 
 Sets C<$tooltip> as the contents of the tooltip for the icon
@@ -1329,10 +1329,10 @@ method set-icon-tooltip-text ( GtkEntryIconPosition $icon-pos, Str $tooltip )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-input-hints
 
 Set additional hints which allow input methods to
@@ -1351,10 +1351,10 @@ method set-input-hints ( UInt $hints )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-input-purpose
 
 Sets the input purpose which can be used by input methods
@@ -1373,10 +1373,10 @@ method set-input-purpose ( GtkInputPurpose $purpose )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-invisible-char
 
 Sets the character to use in place of the actual text
@@ -1403,10 +1403,10 @@ method set-invisible-char ( UInt() $ch )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-max-length
 
 Sets the maximum allowed length of the contents of the widget.
@@ -1432,10 +1432,10 @@ method set-max-length ( Int() $max )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-overwrite-mode
 
 Sets whether the text is overwritten when typing in the B<Gnome::Gtk4::Entry>.
@@ -1453,10 +1453,10 @@ method set-overwrite-mode ( Bool() $overwrite )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-placeholder-text
 
 Sets text to be displayed in C<$entry> when it is empty.
@@ -1477,10 +1477,10 @@ method set-placeholder-text ( Str $text )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-progress-fraction
 
 Causes the entry’s progress indicator to “fill in” the given
@@ -1501,10 +1501,10 @@ method set-progress-fraction ( Num() $fraction )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-progress-pulse-step
 
 Sets the fraction of total entry width to move the progress
@@ -1526,10 +1526,10 @@ method set-progress-pulse-step ( Num() $fraction )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-tabs
 
 Sets a B<Gnome::Pango::N-TabArray>.
@@ -1549,10 +1549,10 @@ method set-tabs ( N-Object $tabs )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-visibility
 
 Sets whether the contents of the entry are visible or not.
@@ -1583,10 +1583,10 @@ method set-visibility ( Bool() $visible )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unset-invisible-char
 
 Unsets the invisible char, so that the default invisible char
@@ -1603,13 +1603,13 @@ method unset-invisible-char ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -1694,5 +1694,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

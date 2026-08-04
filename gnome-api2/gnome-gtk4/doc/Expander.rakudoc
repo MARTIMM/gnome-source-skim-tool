@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Expander
 =head1 Description
 
@@ -115,13 +115,13 @@ B<Gnome::Gtk4::Expander> uses the C<GTK_ACCESSIBLE_ROLE_BUTTON> role.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -132,10 +132,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-expander
 
 Creates a new expander using C<$label> as the text of the label.
@@ -153,10 +153,10 @@ method new-expander ( Str $label --> Gnome::Gtk4::Expander )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-with-mnemonic
 
 Creates a new expander using C<$label> as the text of the label.
@@ -182,18 +182,18 @@ method new-with-mnemonic ( Str $label --> Gnome::Gtk4::Expander )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child
 
 Gets the child widget of C<$expander>.
@@ -211,10 +211,10 @@ Return value; the child widget of C<$expander>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-expanded
 
 Queries a B<Gnome::Gtk4::Expander> and returns its current state.
@@ -234,10 +234,10 @@ Return value; the current state of the expander.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-label
 
 Fetches the text from a label widget.
@@ -262,10 +262,10 @@ Return value; The text of the label widget. This string is owned
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-label-widget
 
 Retrieves the label widget for the frame.
@@ -283,10 +283,10 @@ Return value; the label widget.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-resize-toplevel
 
 Returns whether the expander will resize the toplevel widget
@@ -305,10 +305,10 @@ Return value; the “resize toplevel” setting..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-use-markup
 
 Returns whether the label’s text is interpreted as Pango markup.
@@ -326,10 +326,10 @@ Return value; C<True> if the label’s text will be parsed for markup.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-use-underline
 
 Returns whether an underline in the text indicates a mnemonic.
@@ -348,10 +348,10 @@ Return value; C<True> if an embedded underline in the expander
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-child
 
 Sets the child widget of C<$expander>.
@@ -369,10 +369,10 @@ method set-child ( N-Object() $child )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-expanded
 
 Sets the state of the expander.
@@ -393,10 +393,10 @@ method set-expanded ( Bool() $expanded )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-label
 
 Sets the text of the label of the expander to C<$label>.
@@ -416,10 +416,10 @@ method set-label ( Str $label )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-label-widget
 
 Set the label widget for the expander.
@@ -440,10 +440,10 @@ method set-label-widget ( N-Object() $label-widget )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-resize-toplevel
 
 Sets whether the expander will resize the toplevel widget
@@ -462,10 +462,10 @@ method set-resize-toplevel ( Bool() $resize-toplevel )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-use-markup
 
 Sets whether the text of the label contains Pango markup.
@@ -483,10 +483,10 @@ method set-use-markup ( Bool() $use-markup )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-use-underline
 
 If true, an underline in the text indicates a mnemonic.
@@ -504,13 +504,13 @@ method set-use-underline ( Bool() $use-underline )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -538,5 +538,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

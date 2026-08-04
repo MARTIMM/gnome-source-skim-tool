@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::Expression
 =head1 Description
 
@@ -168,13 +168,13 @@ object:
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -185,18 +185,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 bind
 
 Bind B<target>'s property named B<property> to B<self>.
@@ -230,10 +230,10 @@ Return value; a B<Gnome::Gtk4::N-ExpressionWatch>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 evaluate
 
 Evaluates the given expression and on success stores the result
@@ -263,10 +263,10 @@ Return value; C<True> if the expression could be evaluated.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-value-type
 
 Gets the B<Gnome::GObject::Expression> that this expression evaluates to.
@@ -287,10 +287,10 @@ Return value; The type returned from L<.evaluate()|#evaluate>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-static
 
 Checks if the expression is static.
@@ -314,10 +314,10 @@ Return value; C<True> if the expression is static.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 ref
 
 Acquires a reference on the given B<Gnome::Gtk4::Expression>.
@@ -335,10 +335,10 @@ Return value; the B<Gnome::Gtk4::Expression> with an additional reference.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unref
 
 Releases a reference on the given B<Gnome::Gtk4::Expression>.
@@ -357,10 +357,10 @@ method unref ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 watch
 
 Watch the given B<expression> for changes.
@@ -395,5 +395,5 @@ Return value; The newly installed watch. Note that the only
 
 =end comment
 
-=end pod
+=end rakudoc
 

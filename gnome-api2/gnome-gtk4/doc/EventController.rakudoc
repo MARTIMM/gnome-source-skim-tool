@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::EventController
 =head1 Description
 
@@ -32,13 +32,13 @@ phases of event propagation.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -49,18 +49,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-current-event
 
 Returns the event that is currently being handled by the controller.
@@ -81,10 +81,10 @@ Return value; the event that is currently
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-current-event-device
 
 Returns the device of the event that is currently being
@@ -106,10 +106,10 @@ Return value; device of the event is
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-current-event-state
 
 Returns the modifier state of the event that is currently being
@@ -130,10 +130,10 @@ Return value; modifier state of the event is currently handled by C<$controller>
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-current-event-time
 
 Returns the timestamp of the event that is currently being
@@ -154,10 +154,10 @@ Return value; timestamp of the event is currently handled by C<$controller>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-name
 
 Gets the name of C<$controller>.
@@ -175,10 +175,10 @@ Return value; The controller name.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-propagation-limit
 
 Gets the propagation limit of the event controller.
@@ -196,10 +196,10 @@ Return value; the propagation limit.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-propagation-phase
 
 Gets the propagation phase at which C<$controller> handles events.
@@ -217,10 +217,10 @@ Return value; the propagation phase.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-widget
 
 Returns the L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget> this controller relates to.
@@ -238,10 +238,10 @@ Return value; a L<Gnome::Gtk4::Widget|/content-docs/api2/reference/Gtk4/Widget>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 reset
 
 Resets the C<$controller> to a clean state.
@@ -257,10 +257,10 @@ method reset ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-name
 
 Sets a name on the controller that can be used for debugging.
@@ -278,10 +278,10 @@ method set-name ( Str $name )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-propagation-limit
 
 Sets the event propagation limit on the event controller.
@@ -303,10 +303,10 @@ method set-propagation-limit ( GtkPropagationLimit $limit )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-propagation-phase
 
 Sets the propagation phase at which a controller handles events.
@@ -327,10 +327,10 @@ method set-propagation-phase ( GtkPropagationPhase $phase )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-static-name
 
 Sets a name on the controller that can be used for debugging.
@@ -341,5 +341,5 @@ method set-static-name ( Str $name )
 
 =item $name; a name for C<$controller>, must be a static string.
 
-=end pod
+=end rakudoc
 

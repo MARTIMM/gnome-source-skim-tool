@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gtk4::EntryBuffer
 =head1 Description
 
@@ -30,13 +30,13 @@ integrate with an application’s concept of undo/redo.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -47,10 +47,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-entrybuffer
 
 Create a new B<Gnome::Gtk4::EntryBuffer> object.
@@ -71,18 +71,18 @@ method new-entrybuffer ( Str $initial-chars, Int() $n-initial-chars --> Gnome::G
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 delete-text
 
 Deletes a sequence of characters from the buffer.
@@ -112,10 +112,10 @@ Return value; The number of characters deleted..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 emit-deleted-text
 
 Used when subclassing B<Gnome::Gtk4::EntryBuffer>.
@@ -134,10 +134,10 @@ method emit-deleted-text ( UInt() $position, UInt() $n-chars )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 emit-inserted-text
 
 Used when subclassing B<Gnome::Gtk4::EntryBuffer>.
@@ -157,10 +157,10 @@ method emit-inserted-text ( UInt() $position, Str $chars, UInt() $n-chars )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-bytes
 
 Retrieves the length in bytes of the buffer.
@@ -180,10 +180,10 @@ Return value; The byte length of the buffer..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-length
 
 Retrieves the length in characters of the buffer.
@@ -201,10 +201,10 @@ Return value; The number of characters in the buffer..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-max-length
 
 Retrieves the maximum allowed length of the text in C<$buffer>.
@@ -223,10 +223,10 @@ Return value; the maximum allowed number of characters
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-text
 
 Retrieves the contents of the buffer.
@@ -249,10 +249,10 @@ Return value; a pointer to the contents of the widget as a
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-text
 
 Inserts C<$n-chars> characters of C<$chars> into the contents of the
@@ -282,10 +282,10 @@ Return value; The number of characters actually inserted..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-max-length
 
 Sets the maximum allowed length of the contents of the buffer.
@@ -308,10 +308,10 @@ method set-max-length ( Int() $max-length )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-text
 
 Sets the text in the buffer.
@@ -336,13 +336,13 @@ method set-text ( Str $chars, Int() $n-chars )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -408,5 +408,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 
