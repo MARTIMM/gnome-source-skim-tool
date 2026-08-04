@@ -2,7 +2,7 @@
 use v6.d;
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =TITLE Gnome::N::TopLevelClassSupport
 =head1 Description
 
@@ -21,7 +21,7 @@ unit class Gnome::N::TopLevelClassSupport;
 also is Mu;
 =end code
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 use NativeCall;
@@ -75,7 +75,7 @@ multi method new ( |c ) {
 }}
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head1 Methods
 =head2 new
 
@@ -118,7 +118,7 @@ Create a Raku object using a native object from elsewhere. $native-object can be
     }
   }
 
-=end pod
+=end rakudoc
 
 #TM:2:new(:native-object):*
 submethod BUILD ( *%options ) {
@@ -195,7 +195,7 @@ method _fallback-v2 ( Str $n, Bool $_fallback-v2-ok is rw, *@arguments ) {
 
 #-------------------------------------------------------------------------------
 #TM:1:N-Object:
-=begin pod
+=begin rakudoc
 =head2 N-Object
 
 Method to get the native object wrapped in the Raku objects.
@@ -210,7 +210,7 @@ Example where the native object is retrieved from a B<Gnome::Gtk3::Window> objec
   method N-Object ( --> N-Object )
 =end code
 
-=end pod
+=end rakudoc
 
 method N-Object ( --> N-Object ) {
   note "Coercing to N-Object from ", self.^name if $Gnome::N::x-debug;
@@ -222,7 +222,7 @@ method N-Object ( --> N-Object ) {
 
 #-------------------------------------------------------------------------------
 #TM:1:COERCE:
-=begin pod
+=begin rakudoc
 =head2 COERCE
 
 Method to wrap a native object into a Raku object
@@ -237,7 +237,7 @@ Example;
   method COERCE( $no --> Mu )
 =end code
 
-=end pod
+=end rakudoc
 #method COERCE ( Mu $no --> Mu ) {
 method COERCE ( N-Object $no --> Mu ) {
   note "Coercing from N-Object to ", self.^name if $Gnome::N::x-debug;
@@ -265,14 +265,14 @@ multi method make-pointer ( $type, $value ) {
 
 #-------------------------------------------------------------------------------
 #TM:1:get-class-gtype:
-=begin pod
+=begin rakudoc
 =head2 get-class-gtype
 
 Get type code of this native object which is set when object was created.
 
   method get-class-gtype ( --> GType )
 
-=end pod
+=end rakudoc
 
 method get-class-gtype ( --> GType ) {
   $!class-gtype
@@ -280,13 +280,13 @@ method get-class-gtype ( --> GType ) {
 
 #-------------------------------------------------------------------------------
 #TM:1:get-class-name:
-=begin pod
+=begin rakudoc
 =head2 get-class-name
 
 Return native class name.
 
   method get-class-name ( --> Str )
-=end pod
+=end rakudoc
 
 method get-class-name ( --> Str ) {
   $!class-name
@@ -310,52 +310,52 @@ method _set-native-object-no-reffing ( $native-object ) {
 
 #-------------------------------------------------------------------------------
 #TM:1:native-object-ref:
-=begin pod
+=begin rakudoc
 =head2 native-object-ref
 
 Absolute method needed to be defined in all child classes to do reference count administration.
 
   method native-object-ref ( $n-native-object ) { !!! }
 
-=end pod
+=end rakudoc
 
 method native-object-ref ( $n-native-object ) { !!! }
 
 #-------------------------------------------------------------------------------
 #TM:1:native-object-unref:
-=begin pod
+=begin rakudoc
 =head2 native-object-unref
 
 Absolute method needed to be defined in all child classes to do reference count administration.
 
   method native-object-unref ( $n-native-object ) { !!! }
 
-=end pod
+=end rakudoc
 
 method native-object-unref ( $n-native-object ) { !!! }
 
 #-------------------------------------------------------------------------------
 #TM:1:is-valid
 # doc of $!is-valid defined above
-=begin pod
+=begin rakudoc
 =head2 is-valid
 
 Returns True if native object is valid. When C<False>, the native object is undefined and errors will occur when this instance is used.
 
   method is-valid ( --> Bool )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #TM:1:clear-object
-=begin pod
+=begin rakudoc
 =head2 clear-object
 
 Clear the error and return data to memory pool. The error object is not valid after this call and C<is-valid()> will return C<False>.
 
   method clear-object ()
 
-=end pod
+=end rakudoc
 
 method clear-object ( ) {
   note "Try to clear object ", $!n-native-object.^name if $Gnome::N::x-debug;
@@ -451,7 +451,7 @@ method convert-to-natives ( Callable $s, @params ) {
 #--[ Internal use only ]--------------------------------------------------------
 #-------------------------------------------------------------------------------
 #TM:1:_get-native-object:
-=begin pod
+=begin rakudoc
 =head1 Internally used methods
 =head2 _get-native-object
 
@@ -459,7 +459,7 @@ Get the native object with reference counting by default. When $ref is C<False>,
 
   method _get-native-object ( Bool :$ref = True )
 
-=end pod
+=end rakudoc
 
 multi method _get-native-object ( Bool :$ref = True ) {    # --> N-Type
   $ref ?? self.native-object-ref($!n-native-object) !! $!n-native-object
@@ -472,14 +472,14 @@ multi method get-native-object ( Bool :$ref = True ) {    # --> N-Type
 
 #-------------------------------------------------------------------------------
 #TM:1:_get-native-object-no-reffing:
-=begin pod
+=begin rakudoc
 =head2 _get-native-object-no-reffing
 
 Get the native object without reference counting.
 
   method _get-native-object-no-reffing ( )
 
-=end pod
+=end rakudoc
 
 method _get-native-object-no-reffing ( ) {
   $!n-native-object
@@ -492,14 +492,14 @@ method get-native-object-no-reffing ( ) {
 
 #-------------------------------------------------------------------------------
 #TM:1:_set-native-object:
-=begin pod
+=begin rakudoc
 =head2 _set-native-object
 
 Set the native object. This happens mostly when a native object is created.
 
   method _set-native-object ( $native-object )
 
-=end pod
+=end rakudoc
 method _set-native-object ( Mu $native-object ) {
 #note "$?LINE set native: $native-object.gist()";
 #TODO if previous no is defined, should it be unreffed?
@@ -589,7 +589,7 @@ method set-native-object ( $native-object ) {
 #`{{
 }}
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 _set-builder
 
 Used by B<Gnome::Gtk3::Builder> to register itself. Its purpose is twofold
@@ -599,7 +599,7 @@ Used by B<Gnome::Gtk3::Builder> to register itself. Its purpose is twofold
 
   method _set-builder ( Gnome::Gtk3::Builder$builder )
 
-=end pod
+=end rakudoc
 
 #tm:4:_set-builder:
 method _set-builder ( Mu $builder ) {
@@ -607,14 +607,14 @@ method _set-builder ( Mu $builder ) {
 }
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 _get-builders
 
 Used by B<Gnome::GObject::Object> to search for an object id.
 
   method _get-builders ( --> Array )
 
-=end pod
+=end rakudoc
 
 #tm:4:_get-builders:
 method _get-builders ( --> Array ) {
@@ -622,14 +622,14 @@ method _get-builders ( --> Array ) {
 }
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 _set-test-mode
 
 Used to turn test mode on or off. This is done by B<Gnome::T>. When turned on, an event loop can not be started by calling C<Gnome::Gtk3::Main.new.main()> and can only be started by B<Gnome::T>.
 
   method _set-test-mode ( Bool $mode )
 
-=end pod
+=end rakudoc
 
 #tm:4:_set-test-mode:
 method _set-test-mode ( Bool $mode ) {
@@ -638,14 +638,14 @@ method _set-test-mode ( Bool $mode ) {
 
 #-------------------------------------------------------------------------------
 #tm:4:_set-test-mode:
-=begin pod
+=begin rakudoc
 =head2 _get-test-mode
 
 Get current state.
 
   method _get-test-mode ( --> Bool )
 
-=end pod
+=end rakudoc
 
 method _get-test-mode ( --> Bool ) {
   $test-mode
@@ -653,7 +653,7 @@ method _get-test-mode ( --> Bool ) {
 
 #-------------------------------------------------------------------------------
 #tm:4:_wrap-native-type:
-=begin pod
+=begin rakudoc
 =head2 _wrap-native-type
 
 Used by many classes to create a Raku instance with the native object wrapped in. Sometimes the native object C<$no> is returned from other methods as an undefined object. In that case, the Raku class is created as an invalid object in most cases. Exceptions are the two list classes from C<Gnome::Glib>.
@@ -663,7 +663,7 @@ Used by many classes to create a Raku instance with the native object wrapped in
     --> Mu
   )
 
-=end pod
+=end rakudoc
 
 method _wrap-native-type ( Str:D $type where ?$type, Mu $no --> Mu ) {
 
@@ -686,7 +686,7 @@ method _wrap-native-type ( Str:D $type where ?$type, Mu $no --> Mu ) {
 }
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 _wrap-native-type-from-no
 
 As with C<_wrap-native-type()> this method is used by many classes to create a Raku instance with the native object wrapped in.
@@ -696,7 +696,7 @@ As with C<_wrap-native-type()> this method is used by many classes to create a R
     --> Any
   ) {
 
-=end pod
+=end rakudoc
 
 # Native to raku object wrap when type can be one of a few possible choices
 # e.g. the GtkTreeView may return a GtkTreeModel which can be e.g. a
@@ -800,7 +800,7 @@ method set-class-info ( Str:D $!class-name ) {
 
 #-------------------------------------------------------------------------------
 #TM:1:_set-class-info:
-=begin pod
+=begin rakudoc
 =head3 _set-class-info
 
 Get and store the GType of the provided class name
@@ -809,7 +809,7 @@ Get and store the GType of the provided class name
 
   _set-class-info ( Str:D $!class-name )
 
-=end pod
+=end rakudoc
 
 method _set-class-info ( Str:D $!class-name ) {
   $!class-gtype = _from_name($!class-name);
@@ -823,14 +823,14 @@ method set-class-name-of-sub ( Str:D $!class-name-of-sub ) { }
 
 #-------------------------------------------------------------------------------
 #TM:1:_set-class-name-of-sub:
-=begin pod
+=begin rakudoc
 =head3 _set-class-name-of-sub
 
 Set the name of the class of a subroutine. This method will disappear if all native subs have there method counterpart and that the FALLBACK system is not needed anymore.
 
   _set-class-name-of-sub ( Str:D $!class-name-of-sub )
 
-=end pod
+=end rakudoc
 
 method _set-class-name-of-sub ( Str:D $!class-name-of-sub ) { }
 
@@ -840,27 +840,27 @@ method get-class-name-of-sub ( --> Str ) { $!class-name-of-sub }
 
 #-------------------------------------------------------------------------------
 #TM:1:_get-class-name-of-sub:
-=begin pod
+=begin rakudoc
 =head3 _get-class-name-of-sub
 
 Return the classname of the subroutine. As C<_set-class-name-of-sub()>, this method will disappear too.
 
   _get-class-name-of-sub ( --> Str )
 
-=end pod
+=end rakudoc
 
 method _get-class-name-of-sub ( --> Str ) { $!class-name-of-sub }
 
 #-------------------------------------------------------------------------------
 #TM:1:_set_invalid:
-=begin pod
+=begin rakudoc
 =head3 _set_invalid
 
 Purpose to invalidate an object after some operation such as .destroy().
 
   _set_invalid ( )
 
-=end pod
+=end rakudoc
 
 method _set_invalid ( ) {
   self.clear-object;
@@ -1334,14 +1334,14 @@ sub _iter_get_name ( N-Object $path, int32 $pos --> Str )
 # directly.
 
 #TM:1:_f:
-=begin pod
+=begin rakudoc
 =head3 _f
 
 This method is called from classes which are not leaf classes and may need to cast the native object into another type before calling the method at hand.
 
   method _f ( Str $sub-class? --> Mu )
 
-=end pod
+=end rakudoc
 
 method _f ( Str $sub-class? --> Mu ) {
 #note "$?LINE _f $!n-native-object, $sub-class, $!class-gtype, {_name($!class-gtype)}";

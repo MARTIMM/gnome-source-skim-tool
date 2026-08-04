@@ -8,21 +8,21 @@ use Gnome::N::X;
 # Native object placed here because it is used by several modules. When placed
 # in one of those module it can create circular dependencies
 #
-=begin pod
+=begin rakudoc
 =head2 class N-Object
 
 Class at the top of many food chains. This native object is stored here to prevent circular dependencies.
 
 Previously I thought this would be an object from everything GObject in glib and child classes. Now, I will use it for everything opaque and call it a I<Native Gnome Object>. This object is always stored in the C<Gnome::N> distribution. It is instanciated in a C<.BUILD()> submethod or imported using C<:native-object> or C<:build-id> named argument to a C<.new()> method. There are other objects which are not so opaque like B<N-GError> and B<N-GdkRGBA>. These objects are defined in their proper places. So, in short, every standalone class has its own native object (or even none like B<Gnome::Glib::Quark>), and every class inheriting from B<Gnome::N::TopLevelClassSupport>, directly or indirectly, has this opaque object B<N-Object>.
 
-=end pod
+=end rakudoc
 
 #TT:1:N-Object:
 unit class N-Object is repr('CPointer') is export;
 
 #-------------------------------------------------------------------------------
 #tm:4:CALL-ME:
-=begin pod
+=begin rakudoc
 =head2 CALL-ME
 
 Wrap this native object in a Raku object given by the C<$rk-type> or C<$rk-type-name> from the argument.
@@ -55,7 +55,7 @@ Note that when a native object must be coerced into a Raku object while in a cha
   # Nice to write this for the same result and documents your statement
   $s.get-rgba-visual.('Gnome::Gdk3::Visual').get-depth;
 
-=end pod
+=end rakudoc
 
 multi method CALL-ME( $rk-type ) {
   self._wrap-native-type( $rk-type.^name, self)
@@ -177,7 +177,7 @@ method FALLBACK( $routine, *@a, *%o ) {
 =finish
 #-------------------------------------------------------------------------------
 # TM:1:COERCE:
-=begin pod
+=begin rakudoc
 =head2 COERCE
 
 Method to wrap a native object into a Raku object
@@ -192,7 +192,7 @@ Example;
   method COERCE( $no --> Any )
 =end code
 
-=end pod
+=end rakudoc
 method COERCE( $no --> Any ) {
 note 'N-Object COERCE: ', $no;
   note "Coercing from N-Object to ", self.^name if $Gnome::N::x-debug;

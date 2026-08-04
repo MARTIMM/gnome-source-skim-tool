@@ -14,7 +14,7 @@ class X::Gnome is Exception {
 class Gnome::N {
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 Gnome::N::debug
 
 There are many situations when exceptions are retrown within code of a callback method, Raku is sometimes not able to display the error properly. In those cases you need another way to display errors and show extra messages leading up to it. For instance turn debugging on.
@@ -31,7 +31,7 @@ When both arguments are used, :on has preverence over :off. When no arguments ar
 The state is saved in `$Gnome::N::x-debug` and can be accessed directly to get
 its state.
 
-=end pod
+=end rakudoc
 
   #TS:1:x-debug:
   #TM:1:debug():
@@ -55,7 +55,7 @@ its state.
   }
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 Gnome::N::deprecate
 
 Set a deprecation message whith the Raku trait 'is DEPRECATED' on classes and methods is not sufficient enough. Like those, a message is generated when the X module ends, i.e. when your application exits (hopefully ;-).
@@ -72,7 +72,7 @@ Set a deprecation message whith the Raku trait 'is DEPRECATED' on classes and me
 =item $remove-version; Version of package when the method will be removed.
 =item When $gnome-lib is set, the $remove-version is the version of the gnome lib and $remove-version is ignored.
 
-=end pod
+=end rakudoc
 
   #TM:1:deprecate():
   my $x-deprecated = %();

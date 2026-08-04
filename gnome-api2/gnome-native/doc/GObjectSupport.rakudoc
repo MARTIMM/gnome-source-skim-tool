@@ -1,7 +1,7 @@
 
 use v6.d;
 
-=begin pod
+=begin rakudoc
 
 =TITLE Gnome::N::GObjectSupport
 =head1 Description
@@ -124,27 +124,27 @@ $window.register-signal(
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Native subs]----------------------------------------------------------------
 #-------------------------------------------------------------------------------
 #TM:1:_g_object_ref:
 #`{{
-=begin pod
+=begin rakudoc
 =head2 [g_] object_ref
 
 Increases the reference count of this object and returns the same object.
 
   method g_object_ref ( --> N-Object )
 
-=end pod
+=end rakudoc
 }}
 
 #-------------------------------------------------------------------------------
 #TM:1:_g_object_unref:
 #`{{
-=begin pod
+=begin rakudoc
 =head2 [g_] object_unref
 
 Decreases the reference count of the native object. When its reference count drops to 0, the object is finalized (i.e. its memory is freed).
@@ -155,7 +155,7 @@ When the object has a floating reference because it is not added to a container 
 
 =item N-Object $object; a native I<GObject>.
 
-=end pod
+=end rakudoc
 
 sub g_object_unref ( N-Object $object is copy ) {
 
