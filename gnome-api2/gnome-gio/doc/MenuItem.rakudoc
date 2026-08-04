@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gio::MenuItem
 =head1 Description
 
@@ -22,13 +22,13 @@ functions below.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -39,10 +39,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-menuitem
 
 Creates a new B<Gnome::Gio::MenuItem>.
@@ -68,10 +68,10 @@ method new-menuitem ( Str $label, Str $detailed-action --> Gnome::Gio::MenuItem 
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-model
 
 Creates a B<Gnome::Gio::MenuItem> as an exact copy of an existing menu item in a
@@ -93,10 +93,10 @@ method new-from-model ( N-Object() $model, Int() $item-index --> Gnome::Gio::Men
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-section
 
 Creates a new B<Gnome::Gio::MenuItem> representing a section.
@@ -178,10 +178,10 @@ method new-section ( Str $label, N-Object() $section --> Gnome::Gio::MenuItem \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-submenu
 
 Creates a new B<Gnome::Gio::MenuItem> representing a submenu.
@@ -203,18 +203,18 @@ method new-submenu ( Str $label, N-Object() $submenu --> Gnome::Gio::MenuItem \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-attribute
 This function is not yet available
 
@@ -246,10 +246,10 @@ Return value; C<True> if the named attribute was found with the expected
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-attribute-value
 
 Queries the named C<$attribute> on C<$menu-item>.
@@ -274,10 +274,10 @@ Return value; the attribute value, or undefined.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-link
 
 Queries the named C<$link> on C<$menu-item>.
@@ -297,10 +297,10 @@ Return value; the link, or undefined.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-action-and-target
 This function is not yet available
 
@@ -338,10 +338,10 @@ method set-action-and-target ( Str $action, Str $format-string, … )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-action-and-target-value
 
 Sets or unsets the "action" and "target" attributes of C<$menu-item>.
@@ -395,10 +395,10 @@ method set-action-and-target-value ( Str $action, N-Object $target-value )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-attribute
 This function is not yet available
 
@@ -435,10 +435,10 @@ method set-attribute ( Str $attribute, Str $format-string, … )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-attribute-value
 
 Sets or unsets an attribute on C<$menu-item>.
@@ -475,10 +475,10 @@ method set-attribute-value ( Str $attribute, N-Object $value )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-detailed-action
 
 Sets the "action" and possibly the "target" attribute of C<$menu-item>.
@@ -506,10 +506,10 @@ method set-detailed-action ( Str $detailed-action )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-icon
 
 Sets (or unsets) the icon on C<$menu-item>.
@@ -538,10 +538,10 @@ method set-icon ( N-Object() $icon )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-label
 
 Sets or unsets the "label" attribute of C<$menu-item>.
@@ -562,10 +562,10 @@ method set-label ( Str $label )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-link
 
 Creates a link from C<$menu-item> to C<$model> if non-undefined, or unsets it.
@@ -593,10 +593,10 @@ method set-link ( Str $link, N-Object() $model )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-section
 
 Sets or unsets the "section" link of C<$menu-item> to C<$section>.
@@ -620,10 +620,10 @@ method set-section ( N-Object() $section )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-submenu
 
 Sets or unsets the "submenu" link of C<$menu-item> to C<$submenu>.
@@ -647,5 +647,5 @@ method set-submenu ( N-Object() $submenu )
 
 =end comment
 
-=end pod
+=end rakudoc
 

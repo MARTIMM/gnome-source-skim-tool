@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gio::SimpleAsyncResult
 =head1 Description
 
@@ -186,13 +186,13 @@ baker_bake_cake_finish (Baker        *self,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -203,10 +203,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-simpleasyncresult
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
@@ -238,10 +238,10 @@ method new-simpleasyncresult ( N-Object() $source-object, GAsyncReadyCallback &c
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-error
 This function is not yet available
 
@@ -268,10 +268,10 @@ method new-error ( N-Object() $source-object, GAsyncReadyCallback &callback, gpo
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-from-error
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
@@ -294,10 +294,10 @@ method new-from-error ( N-Object() $source-object, GAsyncReadyCallback &callback
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-take-error
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
@@ -321,18 +321,18 @@ method new-take-error ( N-Object() $source-object, GAsyncReadyCallback &callback
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 complete
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
@@ -356,10 +356,10 @@ method complete ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 complete-in-idle
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
@@ -382,10 +382,10 @@ method complete-in-idle ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-op-res-gboolean
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
@@ -406,10 +406,10 @@ Return value; C<True> if the operation's result was C<True>, C<False>
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-op-res-gpointer
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
@@ -429,10 +429,10 @@ Return value; a pointer from the result..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-op-res-gssize
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
@@ -452,10 +452,10 @@ Return value; a gssize returned from the asynchronous function..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-source-tag
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46.>
@@ -475,10 +475,10 @@ Return value; a #gpointer to the source object for the B<Gnome::Gio::SimpleAsync
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 propagate-error
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
@@ -507,10 +507,10 @@ Return value; C<True> if the error was propagated to C<$dest>. C<False> otherwis
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 run-in-thread
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
@@ -537,10 +537,10 @@ method run-in-thread ( GSimpleAsyncThreadFunc &func, Int() $io-priority, N-Objec
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-check-cancellable
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
@@ -574,10 +574,10 @@ method set-check-cancellable ( N-Object() $check-cancellable )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-error
 This function is not yet available
 
@@ -601,10 +601,10 @@ method set-error ( UInt $domain, Int() $code, Str $format, … )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-error-va
 This function is not yet available
 
@@ -629,10 +629,10 @@ method set-error-va ( UInt $domain, Int() $code, Str $format, … )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-from-error
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
@@ -652,10 +652,10 @@ method set-from-error ( N-Object $error )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-handle-cancellation
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
@@ -679,10 +679,10 @@ method set-handle-cancellation ( Bool() $handle-cancellation )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-op-res-gboolean
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
@@ -702,10 +702,10 @@ method set-op-res-gboolean ( Bool() $op-res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-op-res-gpointer
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
@@ -726,10 +726,10 @@ method set-op-res-gpointer ( gpointer $op-res, GDestroyNotify &destroy-op-res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-op-res-gssize
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
@@ -750,10 +750,10 @@ method set-op-res-gssize ( Int() $op-res )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 take-error
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
@@ -774,18 +774,18 @@ method take-error ( N-Object $error )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-valid
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
@@ -819,5 +819,5 @@ Return value; #TRUE if all checks passed or #FALSE if any failed..
 
 =end comment
 
-=end pod
+=end rakudoc
 

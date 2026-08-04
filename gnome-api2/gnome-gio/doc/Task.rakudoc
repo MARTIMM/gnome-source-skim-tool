@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gio::Task
 =head1 Description
 
@@ -546,13 +546,13 @@ can lead to hard-to-debug crashes. Possible workarounds include:
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -563,10 +563,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-task
 
 Creates a B<Gnome::Gio::Task> acting on C<$source-object>, which will eventually be
@@ -602,18 +602,18 @@ method new-task ( gpointer $source-object, N-Object() $cancellable, GAsyncReadyC
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 attach-source
 
 A utility function for dealing with async operations where you need
@@ -642,10 +642,10 @@ method attach-source ( N-Object $source, GSourceFunc &callback )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-cancellable
 
 Gets C<$task>'s B<Gnome::Gio::Cancellable>
@@ -663,10 +663,10 @@ Return value; C<$task>'s B<Gnome::Gio::Cancellable>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-check-cancellable
 
 Gets C<$task>'s check-cancellable flag. See
@@ -685,10 +685,10 @@ Return value; No documentation about its value and use.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-completed
 
 Gets the value of B<Gnome::Gio::Task>:completed. This changes from C<False> to C<True> after
@@ -708,10 +708,10 @@ Return value; C<True> if the task has completed, C<False> otherwise..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-context
 
 Gets the B<Gnome::Glib::N-MainContext> that C<$task> will return its result in (that
@@ -734,10 +734,10 @@ Return value; C<$task>'s B<Gnome::Glib::N-MainContext>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-name
 
 Gets C<$task>’s name. See C<.set-name()>.
@@ -755,10 +755,10 @@ Return value; C<$task>’s name, or undefined.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-priority
 
 Gets C<$task>'s priority
@@ -776,10 +776,10 @@ Return value; C<$task>'s priority.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-return-on-cancel
 
 Gets C<$task>'s return-on-cancel flag. See
@@ -798,10 +798,10 @@ Return value; No documentation about its value and use.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-source-object
 
 Gets the source object from C<$task>. Like
@@ -820,10 +820,10 @@ Return value; C<$task>'s source object, or undefined.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-source-tag
 
 Gets C<$task>'s source tag. See C<.set-source-tag()>.
@@ -841,10 +841,10 @@ Return value; C<$task>'s source tag.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-task-data
 
 Gets C<$task>'s B<task_data>.
@@ -862,10 +862,10 @@ Return value; C<$task>'s B<task_data>..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 had-error
 
 Tests if C<$task> resulted in an error.
@@ -883,10 +883,10 @@ Return value; C<True> if the task resulted in an error, C<False> otherwise..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 propagate-boolean
 
 Gets the result of C<$task> as a #gboolean.
@@ -914,10 +914,10 @@ Return value; the task result, or C<False> on error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 propagate-int
 
 Gets the result of C<$task> as an integer (#gssize).
@@ -945,10 +945,10 @@ Return value; the task result, or -1 on error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 propagate-pointer
 
 Gets the result of C<$task> as a pointer, and transfers ownership
@@ -977,10 +977,10 @@ Return value; the task result, or undefined on error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 propagate-value
 
 Gets the result of C<$task> as a B<Gnome::GObject::N-Value>, and transfers ownership of
@@ -1012,10 +1012,10 @@ Return value; C<True> if C<$task> succeeded, C<False> on error..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 return-boolean
 
 Sets C<$task>'s result to C<$result> and completes the task (see
@@ -1035,10 +1035,10 @@ method return-boolean ( Bool() $result )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 return-error
 
 Sets C<$task>'s result to C<$error> (which C<$task> assumes ownership of)
@@ -1067,10 +1067,10 @@ method return-error ( N-Object $error )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 return-error-if-cancelled
 
 Checks if C<$task>'s B<Gnome::Gio::Cancellable> has been cancelled, and if so, sets C<$task>'s error accordingly and completes the task (see
@@ -1090,10 +1090,10 @@ Return value; C<True> if C<$task> has been cancelled, C<False> if not.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 return-int
 
 Sets C<$task>'s result to C<$result> and completes the task (see
@@ -1113,10 +1113,10 @@ method return-int ( Int() $result )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 return-new-error
 This function is not yet available
 
@@ -1142,10 +1142,10 @@ method return-new-error ( UInt $domain, Int() $code, Str $format, … )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 return-new-error-literal
 
 Sets C<$task>’s result to a new [type C<$GLib>.Error] created from C<$domain>, C<$code>, C<$message> and completes the task.
@@ -1170,10 +1170,10 @@ method return-new-error-literal ( UInt $domain, Int() $code, Str $message )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 return-pointer
 
 Sets C<$task>'s result to C<$result> and completes the task. If C<$result>
@@ -1210,10 +1210,10 @@ method return-pointer ( gpointer $result, GDestroyNotify &result-destroy )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 return-prefixed-error
 This function is not yet available
 
@@ -1245,10 +1245,10 @@ method return-prefixed-error ( N-Object $error, Str $format, … )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 return-value
 
 Sets C<$task>'s result to C<$result> (by copying it) and completes the task.
@@ -1274,10 +1274,10 @@ method return-value ( N-Object $result )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 run-in-thread
 
 Runs C<$task-func> in another thread. When C<$task-func> returns, C<$task>'s
@@ -1313,10 +1313,10 @@ method run-in-thread ( GTaskThreadFunc &task-func )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 run-in-thread-sync
 
 Runs C<$task-func> in another thread, and waits for it to return or be
@@ -1349,10 +1349,10 @@ method run-in-thread-sync ( GTaskThreadFunc &task-func )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-check-cancellable
 
 Sets or clears C<$task>'s check-cancellable flag. If this is C<True>
@@ -1384,10 +1384,10 @@ method set-check-cancellable ( Bool() $check-cancellable )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-name
 
 Sets C<$task>’s name, used in debugging and profiling. The name defaults to
@@ -1414,10 +1414,10 @@ method set-name ( Str $name )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-priority
 
 Sets C<$task>'s priority. If you do not call this, it will default to
@@ -1441,10 +1441,10 @@ method set-priority ( Int() $priority )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-return-on-cancel
 
 Sets or clears C<$task>'s return-on-cancel flag. This is only
@@ -1494,10 +1494,10 @@ Return value; C<True> if C<$task>'s return-on-cancel flag was changed to
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-source-tag
 
 Sets C<$task>'s source tag.
@@ -1526,10 +1526,10 @@ method set-source-tag ( gpointer $source-tag )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-static-name
 
 Sets C<$task>’s name, used in debugging and profiling.
@@ -1549,10 +1549,10 @@ method set-static-name ( Str $name )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-task-data
 
 Sets C<$task>'s task data (freeing the existing task data, if any).
@@ -1571,18 +1571,18 @@ method set-task-data ( gpointer $task-data, GDestroyNotify &task-data-destroy )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-valid
 
 Checks that C<$result> is a B<Gnome::Gio::Task>, and that C<$source-object> is its
@@ -1607,10 +1607,10 @@ if not.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 report-error
 
 Creates a B<Gnome::Gio::Task> and then immediately calls C<.return-error()>
@@ -1640,10 +1640,10 @@ method report-error ( gpointer $source-object, GAsyncReadyCallback &callback, gp
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 report-new-error
 This function is not yet available
 
@@ -1678,5 +1678,5 @@ method report-new-error ( gpointer $source-object, GAsyncReadyCallback &callback
 
 =end comment
 
-=end pod
+=end rakudoc
 

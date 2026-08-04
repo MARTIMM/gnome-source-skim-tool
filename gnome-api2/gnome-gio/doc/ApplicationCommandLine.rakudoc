@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gio::ApplicationCommandLine
 =head1 Description
 
@@ -83,13 +83,13 @@ The complete example can be found here:
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -100,18 +100,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 create-file-for-arg
 
 Creates a B<Gnome::Gio::R-File> corresponding to a filename that was given as part
@@ -136,10 +136,10 @@ Return value; a new B<Gnome::Gio::R-File>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 done
 
 Signals that command line processing is completed.
@@ -169,10 +169,10 @@ method done ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-arguments
 
 Gets the list of arguments that was passed on the command line.
@@ -203,10 +203,10 @@ Return value;
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-cwd
 
 Gets the working directory of the command line invocation.
@@ -231,10 +231,10 @@ Return value; the current directory, or undefined.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-environ
 
 Gets the contents of the 'environ' variable of the command line
@@ -267,10 +267,10 @@ Return value;
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-exit-status
 
 Gets the exit status of C<$cmdline>.  See
@@ -289,10 +289,10 @@ Return value; the exit status.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-is-remote
 
 Determines if C<$cmdline> represents a remote invocation.
@@ -310,10 +310,10 @@ Return value; C<True> if the invocation was remote.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-options-dict
 
 Gets the options that were passed to g_application_command_line().
@@ -342,10 +342,10 @@ Return value; a B<Gnome::Glib::N-VariantDict> with the options.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-platform-data
 
 Gets the platform data associated with the invocation of C<$cmdline>.
@@ -373,10 +373,10 @@ Return value; the platform data, or undefined.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-stdin
 
 Gets the stdin of the invoking process.
@@ -403,10 +403,10 @@ Return value; a B<Gnome::Gio::InputStream> for stdin.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 getenv
 
 Gets the value of a particular environment variable of the command
@@ -436,10 +436,10 @@ Return value; the value of the variable, or undefined if unset or unsent.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 print
 This function is not yet available
 
@@ -464,10 +464,10 @@ method print ( Str $format, … )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 print-literal
 
 Prints a message using the stdout print handler in the invoking process.
@@ -489,10 +489,10 @@ method print-literal ( Str $message )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 printerr
 This function is not yet available
 
@@ -536,10 +536,10 @@ command_line (GApplication            *application,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 printerr-literal
 
 Prints a message using the stderr print handler in the invoking process.
@@ -604,10 +604,10 @@ test_application_class_init (TestApplicationClass *class)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-exit-status
 
 Sets the exit status that will be used when the invoking process
@@ -675,5 +675,5 @@ command_line (GApplication            *application,
 
 =end comment
 
-=end pod
+=end rakudoc
 

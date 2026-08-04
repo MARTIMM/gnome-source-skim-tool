@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gio::R-ListModel
 
 =head1 Description
@@ -54,20 +54,20 @@ say 'List item at position 2: ', $so.get-string;
 
 =end code
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #`{{
 #NOTE Removed from class. Use .get-object()
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-item
 
 Get the item at C<$position>.
@@ -101,11 +101,11 @@ my Str $string = $so.get-string(1);
 
 =end code
 
-=end pod
+=end rakudoc
 }}
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-item-type
 
 Gets the type of the items in the list.
@@ -120,10 +120,10 @@ method get-item-type ( --> GType )
 
 Return value; the B<GType> of the items contained in list.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-n-items
 
 Gets the number of items in the list.
@@ -136,10 +136,10 @@ method get-n-items ( --> UInt )
 
 Return value; the number of items in the list.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-object
 
 Get the item at C<$position>.
@@ -167,10 +167,10 @@ my Str $string = $so.get-string(1);
 
 =end code
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 items-changed
 
 Emits the  I<items-changed> signal on the list.
@@ -189,13 +189,13 @@ method items-changed ( UInt() $position, UInt() $removed, UInt() $added )
 =item $removed; the number of items removed.
 =item $added; the number of items added.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -226,5 +226,5 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gio::ListModel> object.
 =item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
-=end pod
+=end rakudoc
 

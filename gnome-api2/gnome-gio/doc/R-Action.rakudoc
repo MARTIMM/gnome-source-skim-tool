@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gio::R-Action
 =head1 Description
 
@@ -46,17 +46,17 @@ inside of a B<Gnome::Gio::Action>.
 
 =end comment
 
-=end pod
+=end rakudoc
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 activate
 
 Activates the action.
@@ -79,10 +79,10 @@ method activate ( N-Object $parameter )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 change-state
 
 Request for the state of C<$action> to be changed to C<$value>.
@@ -109,10 +109,10 @@ method change-state ( N-Object $value )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-enabled
 
 Checks if C<$action> is currently enabled.
@@ -133,10 +133,10 @@ Return value; whether the action is enabled.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-name
 
 Queries the name of C<$action>.
@@ -154,10 +154,10 @@ Return value; the name of the action.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-parameter-type
 
 Queries the type of the parameter that must be given when activating C<$action>.
@@ -181,10 +181,10 @@ Return value; the parameter type.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-state
 
 Queries the current state of C<$action>.
@@ -209,10 +209,10 @@ Return value; the current state of the action.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-state-hint
 
 Requests a hint about the valid range of values for the state of C<$action>.
@@ -246,10 +246,10 @@ Return value; the state range hint.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-state-type
 
 Queries the type of the state of C<$action>.
@@ -278,18 +278,18 @@ Return value; the state type, if the action is stateful.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 name-is-valid
 
 Checks if C<$action-name> is valid.
@@ -313,10 +313,10 @@ Return value; C<True> if C<$action-name> is valid.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 parse-detailed-name
 
 Parses a detailed action name into its separate name and target
@@ -371,10 +371,10 @@ Return value; C<True> if successful, else C<False> with C<$error> set.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 print-detailed-name
 
 Formats a detailed action name from C<$action-name> and C<$target-value>.
@@ -404,5 +404,5 @@ Return value; a detailed format string.
 
 =end comment
 
-=end pod
+=end rakudoc
 

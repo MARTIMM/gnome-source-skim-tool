@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gio::R-ActionMap
 =head1 Description
 
@@ -28,17 +28,17 @@ name.
 
 =end comment
 
-=end pod
+=end rakudoc
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-action
 
 Adds an action to the C<$action-map>.
@@ -61,10 +61,10 @@ method add-action ( N-Object() $action )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-action-entries
 
 A convenience function for creating multiple B<Gnome::Gio::SimpleAction> instances
@@ -88,10 +88,10 @@ method add-action-entries ( N-Object $entries, Int() $n-entries, gpointer $user-
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 lookup-action
 
 Looks up the action with the name C<$action-name> in C<$action-map>.
@@ -113,10 +113,10 @@ Return value; a B<Gnome::Gio::R-Action>, or undefined.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-action
 
 Removes the named action from the action map.
@@ -136,10 +136,10 @@ method remove-action ( Str $action-name )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-action-entries
 
 Remove actions from a B<Gnome::Gio::R-ActionMap>. This is meant as the reverse of
@@ -188,5 +188,5 @@ create_action_group (void)
 
 =end comment
 
-=end pod
+=end rakudoc
 

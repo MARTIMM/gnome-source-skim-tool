@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gio::Notification
 =head1 Description
 
@@ -52,13 +52,13 @@ A notification can be sent with C<.send-notification()> in class C<Gnome::Gio::A
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -69,10 +69,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-notification
 
 Creates a new B<Gnome::Gio::Notification> with C<$title> as its title.
@@ -95,18 +95,18 @@ method new-notification ( Str $title --> Gnome::Gio::Notification \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-button
 
 Adds a button to C<$notification> that activates the action in C<$detailed-action> when clicked. That action must be an
@@ -131,10 +131,10 @@ method add-button ( Str $label, Str $detailed-action )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-button-with-target
 This function is not yet available
 
@@ -161,10 +161,10 @@ method add-button-with-target ( Str $label, Str $action, Str $target-format, …
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-button-with-target-value
 
 Adds a button to C<$notification> that activates C<$action> when clicked. C<$action> must be an application-wide action (it must start with "app.").
@@ -187,10 +187,10 @@ method add-button-with-target-value ( Str $label, Str $action, N-Object $target 
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-body
 
 Sets the body of C<$notification> to C<$body>.
@@ -208,10 +208,10 @@ method set-body ( Str $body )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-category
 
 Sets the type of C<$notification> to C<$category>. Categories have a main
@@ -234,10 +234,10 @@ method set-category ( Str $category )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-default-action
 
 Sets the default action of C<$notification> to C<$detailed-action>. This
@@ -265,10 +265,10 @@ method set-default-action ( Str $detailed-action )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-default-action-and-target
 This function is not yet available
 
@@ -299,10 +299,10 @@ method set-default-action-and-target ( Str $action, Str $target-format, … )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-default-action-and-target-value
 
 Sets the default action of C<$notification> to C<$action>. This action is
@@ -329,10 +329,10 @@ method set-default-action-and-target-value ( Str $action, N-Object $target )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-icon
 
 Sets the icon of C<$notification> to C<$icon>.
@@ -350,10 +350,10 @@ method set-icon ( N-Object() $icon )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-priority
 
 Sets the priority of C<$notification> to C<$priority>. See
@@ -372,10 +372,10 @@ method set-priority ( GNotificationPriority $priority )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-title
 
 Sets the title of C<$notification> to C<$title>.
@@ -393,10 +393,10 @@ method set-title ( Str $title )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-urgent
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.42>
@@ -425,5 +425,5 @@ method set-urgent ( Bool() $urgent )
 
 =end comment
 
-=end pod
+=end rakudoc
 

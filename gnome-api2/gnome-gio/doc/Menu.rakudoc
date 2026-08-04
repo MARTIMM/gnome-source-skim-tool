@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gio::Menu
 =head1 Description
 
@@ -28,13 +28,13 @@ C<.insert-submenu()>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -45,10 +45,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-menu
 
 Creates a new B<Gnome::Gio::Menu>.
@@ -66,18 +66,18 @@ method new-menu ( --> Gnome::Gio::Menu \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append
 
 Convenience function for appending a normal menu item to the end of C<$menu>.  Combine C<.item-new()> and C<.insert-item()> for a more
@@ -97,10 +97,10 @@ method append ( Str $label, Str $detailed-action )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-item
 
 Appends C<$item> to the end of C<$menu>.
@@ -120,10 +120,10 @@ method append-item ( N-Object() $item )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-section
 
 Convenience function for appending a section menu item to the end of C<$menu>.  Combine C<.item-new-section()> and C<.insert-item()> for a
@@ -143,10 +143,10 @@ method append-section ( Str $label, N-Object() $section )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-submenu
 
 Convenience function for appending a submenu menu item to the end of C<$menu>.  Combine C<.item-new-submenu()> and C<.insert-item()> for a
@@ -166,10 +166,10 @@ method append-submenu ( Str $label, N-Object() $submenu )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 freeze
 
 Marks C<$menu> as frozen.
@@ -192,10 +192,10 @@ method freeze ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert
 
 Convenience function for inserting a normal menu item into C<$menu>.
@@ -217,10 +217,10 @@ method insert ( Int() $position, Str $label, Str $detailed-action )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-item
 
 Inserts C<$item> into C<$menu>.
@@ -255,10 +255,10 @@ method insert-item ( Int() $position, N-Object() $item )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-section
 
 Convenience function for inserting a section menu item into C<$menu>.
@@ -280,10 +280,10 @@ method insert-section ( Int() $position, Str $label, N-Object() $section )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-submenu
 
 Convenience function for inserting a submenu menu item into C<$menu>.
@@ -305,10 +305,10 @@ method insert-submenu ( Int() $position, Str $label, N-Object() $submenu )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 prepend
 
 Convenience function for prepending a normal menu item to the start
@@ -329,10 +329,10 @@ method prepend ( Str $label, Str $detailed-action )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 prepend-item
 
 Prepends C<$item> to the start of C<$menu>.
@@ -352,10 +352,10 @@ method prepend-item ( N-Object() $item )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 prepend-section
 
 Convenience function for prepending a section menu item to the start
@@ -376,10 +376,10 @@ method prepend-section ( Str $label, N-Object() $section )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 prepend-submenu
 
 Convenience function for prepending a submenu menu item to the start
@@ -400,10 +400,10 @@ method prepend-submenu ( Str $label, N-Object() $submenu )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove
 
 Removes an item from the menu.
@@ -429,10 +429,10 @@ method remove ( Int() $position )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-all
 
 Removes all items in the menu.
@@ -448,5 +448,5 @@ method remove-all ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 

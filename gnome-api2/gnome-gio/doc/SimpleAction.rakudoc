@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gio::SimpleAction
 
 =head1 Description
@@ -26,13 +26,13 @@ See also B<GtkAction>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -43,10 +43,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-simpleaction
 
 Creates a new action.
@@ -69,10 +69,10 @@ method new-simpleaction ( Str $name, CArray[N-VariantType] $parameter-type --> G
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-stateful
 
 Creates a new stateful action.
@@ -97,18 +97,18 @@ method new-stateful ( Str $name, CArray[N-VariantType] $parameter-type, CArray[N
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-enabled
 
 Sets the action as enabled or not.
@@ -132,10 +132,10 @@ method set-enabled ( Bool() $enabled )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-state
 
 Sets the state of the action.
@@ -162,10 +162,10 @@ method set-state ( CArray[N-Variant] $value )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-state-hint
 
 Sets the state hint for the action.
@@ -186,13 +186,13 @@ method set-state-hint ( CArray[N-Variant] $state-hint )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -296,5 +296,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

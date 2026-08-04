@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gio::R-ActionGroup
 =head1 Description
 
@@ -61,17 +61,17 @@ calls to C<.query-action()>.
 
 =end comment
 
-=end pod
+=end rakudoc
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 action-added
 
 Emits the  I<action-added> signal on C<$action-group>.
@@ -91,10 +91,10 @@ method action-added ( Str $action-name )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 action-enabled-changed
 
 Emits the  I<action-enabled-changed> signal on C<$action-group>.
@@ -115,10 +115,10 @@ method action-enabled-changed ( Str $action-name, Bool() $enabled )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 action-removed
 
 Emits the  I<action-removed> signal on C<$action-group>.
@@ -138,10 +138,10 @@ method action-removed ( Str $action-name )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 action-state-changed
 
 Emits the  I<action-state-changed> signal on C<$action-group>.
@@ -162,10 +162,10 @@ method action-state-changed ( Str $action-name, N-Object $state )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 activate-action
 
 Activate the named action within C<$action-group>.
@@ -218,10 +218,10 @@ method activate-action ( Str $action-name, N-Object $parameter )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 change-action-state
 
 Request for the state of the named action within C<$action-group> to be
@@ -250,10 +250,10 @@ method change-action-state ( Str $action-name, N-Object $value )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-action-enabled
 
 Checks if the named action within C<$action-group> is currently enabled.
@@ -276,10 +276,10 @@ Return value; whether or not the action is currently enabled.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-action-parameter-type
 
 Queries the type of the parameter that must be given when activating
@@ -311,10 +311,10 @@ Return value; the parameter type.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-action-state
 
 Queries the current state of the named action within C<$action-group>.
@@ -341,10 +341,10 @@ Return value; the current state of the action.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-action-state-hint
 
 Requests a hint about the valid range of values for the state of the
@@ -381,10 +381,10 @@ Return value; the state range hint.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-action-state-type
 
 Queries the type of the state of the named action within C<$action-group>.
@@ -418,10 +418,10 @@ Return value; the state type, if the action is stateful.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 has-action
 
 Checks if the named action exists within C<$action-group>.
@@ -441,10 +441,10 @@ Return value; whether the named action exists.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 list-actions
 
 Lists the actions contained within C<$action-group>.
@@ -466,10 +466,10 @@ actions in the group.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 query-action
 
 Queries all aspects of the named action within an C<$action-group>.
@@ -520,13 +520,13 @@ Return value; C<True> if the action exists, else C<False>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -649,5 +649,5 @@ method handler (
 
 =end comment
 
-=end pod
+=end rakudoc
 

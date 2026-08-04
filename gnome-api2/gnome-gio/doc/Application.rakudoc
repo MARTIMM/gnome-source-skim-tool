@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gio::Application
 =head1 Description
 
@@ -143,13 +143,13 @@ For an example of using extra D-Bus hooks with B<Gnome::Gio::Application>, see
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -160,10 +160,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-application
 
 Creates a new B<Gnome::Gio::Application> instance.
@@ -188,18 +188,18 @@ method new-application ( Str $application-id, UInt $flags --> Gnome::Gio::Applic
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 activate
 
 Activates the application.
@@ -220,10 +220,10 @@ method activate ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-main-option
 This function is not yet available
 
@@ -260,10 +260,10 @@ method add-main-option ( Str $long-name, Int() $short-name, UInt $flags, GOption
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-main-option-entries
 
 Adds main option entries to be handled by C<$application>.
@@ -335,10 +335,10 @@ method add-main-option-entries ( N-Object $entries )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-option-group
 
 Adds a B<Gnome::Glib::N-OptionGroup> to the commandline handling of C<$application>.
@@ -380,10 +380,10 @@ method add-option-group ( N-Object $group )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 bind-busy-property
 
 Marks C<$application> as busy (see C<.mark-busy()>) while C<$property> on C<$object> is C<True>.
@@ -406,10 +406,10 @@ method bind-busy-property ( gpointer $object, Str $property )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-application-id
 
 Gets the unique identifier for C<$application>.
@@ -427,10 +427,10 @@ Return value; the identifier for C<$application>, owned by C<$application>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-dbus-connection
 
 Gets the B<Gnome::Gio::DBusConnection> being used by the application, or undefined.
@@ -460,10 +460,10 @@ Return value; a B<Gnome::Gio::DBusConnection>, or undefined.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-dbus-object-path
 
 Gets the D-Bus object path being used by the application, or undefined.
@@ -494,10 +494,10 @@ Return value; the object path, or undefined.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-flags
 
 Gets the flags for C<$application>.
@@ -517,10 +517,10 @@ Return value; the flags for C<$application>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-inactivity-timeout
 
 Gets the current inactivity timeout for the application.
@@ -541,10 +541,10 @@ Return value; the timeout, in milliseconds.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-is-busy
 
 Gets the application's current busy state, as set through
@@ -563,10 +563,10 @@ Return value; C<True> if C<$application> is currently marked as busy.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-is-registered
 
 Checks if C<$application> is registered.
@@ -587,10 +587,10 @@ Return value; C<True> if C<$application> is registered.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-is-remote
 
 Checks if C<$application> is remote.
@@ -617,10 +617,10 @@ Return value; C<True> if C<$application> is remote.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-resource-base-path
 
 Gets the resource base path of C<$application>.
@@ -640,10 +640,10 @@ Return value; the base resource path, if one is set.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-version
 
 Gets the version of C<$application>.
@@ -661,10 +661,10 @@ Return value; the version of C<$application>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 hold
 
 Increases the use count of C<$application>.
@@ -686,10 +686,10 @@ method hold ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 mark-busy
 
 Increases the busy count of C<$application>.
@@ -716,10 +716,10 @@ method mark-busy ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 open
 
 Opens the given files.
@@ -750,10 +750,10 @@ method open ( N-Object() $files, Int() $n-files, Str $hint )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 quit
 
 Immediately quits the application.
@@ -781,10 +781,10 @@ method quit ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 register
 
 Attempts registration of the application.
@@ -836,10 +836,10 @@ Return value; C<True> if registration succeeded.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 release
 
 Decrease the use count of C<$application>.
@@ -860,10 +860,10 @@ method release ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 run
 
 Runs the application.
@@ -958,10 +958,10 @@ Return value; the exit status.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 send-notification
 
 Sends a notification on behalf of C<$application> to the desktop shell.
@@ -1006,10 +1006,10 @@ method send-notification ( Str $id, N-Object() $notification )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-action-group
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.32>
@@ -1030,10 +1030,10 @@ method set-action-group ( N-Object() $action-group )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-application-id
 
 Sets the unique identifier for C<$application>.
@@ -1057,10 +1057,10 @@ method set-application-id ( Str $application-id )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-default
 
 Sets or unsets the default application for the process, as returned
@@ -1080,10 +1080,10 @@ method set-default ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-flags
 
 Sets the flags for C<$application>.
@@ -1106,10 +1106,10 @@ method set-flags ( UInt $flags )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-inactivity-timeout
 
 Sets the current inactivity timeout for the application.
@@ -1134,10 +1134,10 @@ method set-inactivity-timeout ( UInt() $inactivity-timeout )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-option-context-description
 
 Adds a description to the C<$application> option context.
@@ -1158,10 +1158,10 @@ method set-option-context-description ( Str $description )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-option-context-parameter-string
 
 Sets the parameter string to be used by the commandline handling of C<$application>.
@@ -1185,10 +1185,10 @@ method set-option-context-parameter-string ( Str $parameter-string )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-option-context-summary
 
 Adds a summary to the C<$application> option context.
@@ -1209,10 +1209,10 @@ method set-option-context-summary ( Str $summary )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-resource-base-path
 
 Sets (or unsets) the base resource path of C<$application>.
@@ -1262,10 +1262,10 @@ method set-resource-base-path ( Str $resource-path )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-version
 
 Sets the version number of C<$application>. This will be used to implement
@@ -1287,10 +1287,10 @@ method set-version ( Str $version )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unbind-busy-property
 
 Destroys a binding between C<$property> and the busy state of C<$application> that was previously created with
@@ -1310,10 +1310,10 @@ method unbind-busy-property ( gpointer $object, Str $property )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unmark-busy
 
 Decreases the busy count of C<$application>.
@@ -1335,10 +1335,10 @@ method unmark-busy ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 withdraw-notification
 
 Withdraws a notification that was sent with
@@ -1368,18 +1368,18 @@ method withdraw-notification ( Str $id )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-default
 
 Returns the default B<Gnome::Gio::Application> instance for this process.
@@ -1403,10 +1403,10 @@ Return value; the default application for this process, or undefined.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 id-is-valid
 
 Checks if C<$application-id> is a valid application identifier.
@@ -1470,13 +1470,13 @@ Return value; C<True> if C<$application-id> is valid.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Signals
 
 =comment -----------------------------------------------------------------------
@@ -1714,5 +1714,5 @@ method handler (
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
-=end pod
+=end rakudoc
 

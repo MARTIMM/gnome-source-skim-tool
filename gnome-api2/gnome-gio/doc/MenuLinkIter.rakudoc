@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gio::MenuLinkIter
 =head1 Description
 
@@ -22,13 +22,13 @@ the functions below.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -39,18 +39,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-name
 
 Gets the name of the link at the current iterator position.
@@ -70,10 +70,10 @@ Return value; the type of the link.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-next
 
 This function combines C<.next()> with
@@ -107,10 +107,10 @@ Return value; C<True> on success, or C<False> if there is no additional link.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-value
 
 Gets the linked B<Gnome::Gio::MenuModel> at the current iterator position.
@@ -130,10 +130,10 @@ Return value; the B<Gnome::Gio::MenuModel> that is linked to.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 next
 
 Attempts to advance the iterator to the next (possibly first)
@@ -158,5 +158,5 @@ Return value; C<True> on success, or C<False> when there are no more links.
 
 =end comment
 
-=end pod
+=end rakudoc
 

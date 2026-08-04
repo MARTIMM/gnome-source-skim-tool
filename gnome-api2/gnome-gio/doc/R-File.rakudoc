@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gio::R-File
 =head1 Description
 
@@ -100,13 +100,13 @@ for HTTP Etag headers, which are a very similar concept.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -117,10 +117,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-build-filename
 This function is not yet available
 
@@ -144,10 +144,10 @@ method new-build-filename ( Str $first-element, … --> Gnome::Gio::File \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-for-commandline-arg
 
 Creates a B<Gnome::Gio::R-File> with the given argument from the command line.
@@ -178,10 +178,10 @@ method new-for-commandline-arg ( Str $arg --> Gnome::Gio::File \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-for-commandline-arg-and-cwd
 
 Creates a B<Gnome::Gio::R-File> with the given argument from the command line.
@@ -210,10 +210,10 @@ method new-for-commandline-arg-and-cwd ( Str $arg, Str $cwd --> Gnome::Gio::File
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-for-path
 
 Constructs a B<Gnome::Gio::R-File> for a given path. This operation never
@@ -234,10 +234,10 @@ method new-for-path ( Str $path --> Gnome::Gio::File \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-for-uri
 
 Constructs a B<Gnome::Gio::R-File> for a given URI. This operation never
@@ -258,10 +258,10 @@ method new-for-uri ( Str $uri --> Gnome::Gio::File \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-tmp
 
 Opens a file in the preferred directory for temporary files (as
@@ -292,10 +292,10 @@ Use C<Pointer> when you want to ignore the error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 parse-name
 
 Constructs a B<Gnome::Gio::R-File> with the given C<$parse-name> (i.e. something
@@ -316,18 +316,18 @@ method parse-name ( Str $parse-name --> Gnome::Gio::File \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-to
 
 Gets an output stream for appending data to the file.
@@ -369,10 +369,10 @@ Return value; a B<Gnome::Gio::FileOutputStream>, or undefined on error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-to-async
 
 Asynchronously opens C<$file> for appending.
@@ -403,10 +403,10 @@ method append-to-async ( UInt $flags, Int() $io-priority, N-Object() $cancellabl
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append-to-finish
 
 Finishes an asynchronous file append operation started with
@@ -432,10 +432,10 @@ Return value; a valid B<Gnome::Gio::FileOutputStream>
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 build-attribute-list-for-copy
 
 Prepares the file attribute query string for copying to C<$file>.
@@ -469,10 +469,10 @@ Return value; an attribute query string for C<.query-info()>,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 copy
 
 Copies the file C<$source> to the location specified by C<$destination>.
@@ -538,10 +538,10 @@ Return value; C<True> on success, C<False> otherwise..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 copy-async
 
 Copies the file C<$source> to the location specified by C<$destination>
@@ -577,10 +577,10 @@ method copy-async ( N-Object() $destination, UInt $flags, Int() $io-priority, N-
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 copy-attributes
 
 Copies the file attributes from C<$source> to C<$destination>.
@@ -614,10 +614,10 @@ Return value; C<True> if the attributes were copied successfully,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 copy-finish
 
 Finishes copying the file started with C<.copy-async()>.
@@ -640,10 +640,10 @@ Return value; a C<True> on success, C<False> on error..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 create
 
 Creates a new file and returns an output stream for writing to it.
@@ -688,10 +688,10 @@ Return value; a B<Gnome::Gio::FileOutputStream> for the newly created
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 create-async
 
 Asynchronously creates a new file and returns an output stream
@@ -723,10 +723,10 @@ method create-async ( UInt $flags, Int() $io-priority, N-Object() $cancellable, 
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 create-finish
 
 Finishes an asynchronous file create operation started with
@@ -751,10 +751,10 @@ Return value; a B<Gnome::Gio::FileOutputStream> or undefined on error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 create-readwrite
 
 Creates a new file and returns a stream for reading and
@@ -803,10 +803,10 @@ Return value; a B<Gnome::Gio::FileIOStream> for the newly created
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 create-readwrite-async
 
 Asynchronously creates a new file and returns a stream
@@ -838,10 +838,10 @@ method create-readwrite-async ( UInt $flags, Int() $io-priority, N-Object() $can
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 create-readwrite-finish
 
 Finishes an asynchronous file create operation started with
@@ -866,10 +866,10 @@ Return value; a B<Gnome::Gio::FileIOStream> or undefined on error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 delete
 
 Deletes a file. If the C<$file> is a directory, it will only be
@@ -915,10 +915,10 @@ Return value; C<True> if the file was deleted. C<False> otherwise..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 delete-async
 
 Asynchronously delete a file. If the C<$file> is a directory, it will
@@ -943,10 +943,10 @@ method delete-async ( Int() $io-priority, N-Object() $cancellable, GAsyncReadyCa
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 delete-finish
 
 Finishes deleting a file started with C<.delete-async()>.
@@ -969,10 +969,10 @@ Return value; C<True> if the file was deleted. C<False> otherwise..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 dup
 
 Duplicates a B<Gnome::Gio::R-File> handle. This operation does not duplicate
@@ -1000,10 +1000,10 @@ Return value; a new B<Gnome::Gio::R-File> that is a duplicate
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 eject-mountable
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.22>
@@ -1034,10 +1034,10 @@ method eject-mountable ( UInt $flags, N-Object() $cancellable, GAsyncReadyCallba
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 eject-mountable-finish
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.22>
@@ -1064,10 +1064,10 @@ Return value; C<True> if the C<$file> was ejected successfully.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 eject-mountable-with-operation
 
 Starts an asynchronous eject on a mountable.
@@ -1098,10 +1098,10 @@ method eject-mountable-with-operation ( UInt $flags, N-Object() $mount-operation
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 eject-mountable-with-operation-finish
 
 Finishes an asynchronous eject operation started by
@@ -1126,10 +1126,10 @@ Return value; C<True> if the C<$file> was ejected successfully.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 enumerate-children
 
 Gets the requested information about the files in a directory.
@@ -1180,10 +1180,10 @@ Return value; A B<Gnome::Gio::FileEnumerator> if successful,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 enumerate-children-async
 
 Asynchronously gets the requested information about the files
@@ -1217,10 +1217,10 @@ method enumerate-children-async ( Str $attributes, UInt $flags, Int() $io-priori
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 enumerate-children-finish
 
 Finishes an async enumerate children operation.
@@ -1246,10 +1246,10 @@ Return value; a B<Gnome::Gio::FileEnumerator> or undefined
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 equal
 
 Checks if the two given B<GFiles> refer to the same file.
@@ -1275,10 +1275,10 @@ Return value; C<True> if C<$file1> and C<$file2> are equal..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 find-enclosing-mount
 
 Gets a B<Gnome::Gio::R-Mount> for the B<Gnome::Gio::R-File>.
@@ -1311,10 +1311,10 @@ Return value; a B<Gnome::Gio::R-Mount> where the C<$file> is located
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 find-enclosing-mount-async
 
 Asynchronously gets the mount for the file.
@@ -1344,10 +1344,10 @@ method find-enclosing-mount-async ( Int() $io-priority, N-Object() $cancellable,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 find-enclosing-mount-finish
 
 Finishes an asynchronous find mount request.
@@ -1372,10 +1372,10 @@ Return value; B<Gnome::Gio::R-Mount> for given C<$file> or undefined on error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-basename
 
 Gets the base name (the last component of the path) for a given B<Gnome::Gio::R-File>.
@@ -1407,10 +1407,10 @@ Return value; string containing the B<Gnome::Gio::R-File>'s
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child
 
 Gets a child of C<$file> with basename equal to C<$name>.
@@ -1437,10 +1437,10 @@ Return value; a B<Gnome::Gio::R-File> to a child specified by C<$name>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-child-for-display-name
 
 Gets the child of C<$file> for a given C<$display-name> (i.e. a UTF-8
@@ -1472,10 +1472,10 @@ Return value; a B<Gnome::Gio::R-File> to the specified child, or
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-parent
 
 Gets the parent directory for the C<$file>.
@@ -1499,10 +1499,10 @@ Return value; a B<Gnome::Gio::R-File> structure to the
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-parse-name
 
 Gets the parse name of the C<$file>.
@@ -1535,10 +1535,10 @@ Return value; a string containing the B<Gnome::Gio::R-File>'s parse name.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-path
 
 Gets the local pathname for B<Gnome::Gio::R-File>, if one exists. If non-undefined, this is
@@ -1561,10 +1561,10 @@ Return value; string containing the B<Gnome::Gio::R-File>'s path,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-relative-path
 
 Gets the path for C<$descendant> relative to C<$parent>.
@@ -1589,10 +1589,10 @@ Return value; string with the relative path from
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-uri
 
 Gets the URI for the C<$file>.
@@ -1615,10 +1615,10 @@ Return value; a string containing the B<Gnome::Gio::R-File>'s URI. If the B<Gnom
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-uri-scheme
 
 Gets the URI scheme for a B<Gnome::Gio::R-File>.
@@ -1651,10 +1651,10 @@ Return value; a string containing the URI scheme for the given
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 has-parent
 
 Checks if C<$file> has a parent, and optionally, if it is C<$parent>.
@@ -1679,10 +1679,10 @@ Return value; C<True> if C<$file> is an immediate child of C<$parent> (or any pa
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 has-prefix
 
 Checks whether C<$file> has the prefix specified by C<$prefix>.
@@ -1716,10 +1716,10 @@ Return value; C<True> if the C<$file>'s parent, grandparent, etc is C<$prefix>,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 has-uri-scheme
 
 Checks to see if a B<Gnome::Gio::R-File> has a given URI scheme.
@@ -1743,10 +1743,10 @@ Return value; C<True> if B<Gnome::Gio::R-File>'s backend supports the
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 hash
 
 Creates a hash value for a B<Gnome::Gio::R-File>.
@@ -1769,10 +1769,10 @@ Return value; 0 if C<$file> is not a valid B<Gnome::Gio::R-File>, otherwise an
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 is-native
 
 Checks to see if a file is native to the platform.
@@ -1800,10 +1800,10 @@ Return value; C<True> if C<$file> is native.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 load-bytes
 
 Loads the contents of C<$file> and returns it as B<Gnome::Glib::N-Bytes>.
@@ -1838,10 +1838,10 @@ Return value; a B<Gnome::Glib::N-Bytes> or undefined and C<$error> is set.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 load-bytes-async
 
 Asynchronously loads the contents of C<$file> as B<Gnome::Glib::N-Bytes>.
@@ -1870,10 +1870,10 @@ method load-bytes-async ( N-Object() $cancellable, GAsyncReadyCallback &callback
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 load-bytes-finish
 
 Completes an asynchronous request to C<.load-bytes-async()>.
@@ -1906,10 +1906,10 @@ Return value; a B<Gnome::Glib::N-Bytes> or undefined and C<$error> is set.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 load-contents
 
 Loads the content of the file into memory. The data is always
@@ -1945,10 +1945,10 @@ Return value; C<True> if the C<$file>'s contents were successfully loaded.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 load-contents-async
 
 Starts an asynchronous load of the C<$file>'s contents.
@@ -1980,10 +1980,10 @@ method load-contents-async ( N-Object() $cancellable, GAsyncReadyCallback &callb
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 load-contents-finish
 
 Finishes an asynchronous load of the C<$file>'s contents.
@@ -2016,10 +2016,10 @@ Return value; C<True> if the load was successful. If C<False> and C<$error> is
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 load-partial-contents-async
 
 Reads the partial contents of a file. A B<Gnome::Gio::T-iotypes> should
@@ -2053,10 +2053,10 @@ method load-partial-contents-async ( N-Object() $cancellable, GFileReadMoreCallb
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 load-partial-contents-finish
 
 Finishes an asynchronous partial load operation that was started
@@ -2089,10 +2089,10 @@ Return value; C<True> if the load was successful. If C<False> and C<$error> is
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 make-directory
 
 Creates a directory. Note that this will only create a child directory
@@ -2128,10 +2128,10 @@ Return value; C<True> on successful creation, C<False> otherwise..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 make-directory-async
 
 Asynchronously creates a directory.
@@ -2154,10 +2154,10 @@ method make-directory-async ( Int() $io-priority, N-Object() $cancellable, GAsyn
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 make-directory-finish
 
 Finishes an asynchronous directory creation, started with
@@ -2181,10 +2181,10 @@ Return value; C<True> on successful directory creation, C<False> otherwise..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 make-directory-with-parents
 
 Creates a directory and any parent directories that may not
@@ -2221,10 +2221,10 @@ otherwise..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 make-symbolic-link
 
 Creates a symbolic link named C<$file> which contains the string C<$symlink-value>.
@@ -2254,10 +2254,10 @@ Return value; C<True> on the creation of a new symlink, C<False> otherwise..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 measure-disk-usage
 
 Recursively measures the disk usage of C<$file>.
@@ -2303,10 +2303,10 @@ Return value; C<True> if successful, with the out parameters set.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 measure-disk-usage-async
 
 Recursively measures the disk usage of C<$file>.
@@ -2333,10 +2333,10 @@ method measure-disk-usage-async ( UInt $flags, Int() $io-priority, N-Object() $c
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 measure-disk-usage-finish
 
 Collects the results from an earlier call to
@@ -2365,10 +2365,10 @@ Return value; C<True> if successful, with the out parameters set.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 monitor
 
 Obtains a file or directory monitor for the given file,
@@ -2400,10 +2400,10 @@ Return value; a B<Gnome::Gio::FileMonitor> for the given C<$file>,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 monitor-directory
 
 Obtains a directory monitor for the given file.
@@ -2441,10 +2441,10 @@ Return value; a B<Gnome::Gio::FileMonitor> for the given C<$file>,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 monitor-file
 
 Obtains a file monitor for the given file. If no file notification
@@ -2484,10 +2484,10 @@ Return value; a B<Gnome::Gio::FileMonitor> for the given C<$file>,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 mount-enclosing-volume
 
 Starts a C<$mount-operation>, mounting the volume that contains
@@ -2520,10 +2520,10 @@ method mount-enclosing-volume ( UInt $flags, N-Object() $mount-operation, N-Obje
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 mount-enclosing-volume-finish
 
 Finishes a mount operation started by C<.mount-enclosing-volume()>.
@@ -2548,10 +2548,10 @@ Return value; C<True> if successful. If an error has occurred,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 mount-mountable
 
 Mounts a file of type G_FILE_TYPE_MOUNTABLE.
@@ -2586,10 +2586,10 @@ method mount-mountable ( UInt $flags, N-Object() $mount-operation, N-Object() $c
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 mount-mountable-finish
 
 Finishes a mount operation. See C<.mount-mountable()> for details.
@@ -2616,10 +2616,10 @@ Return value; a B<Gnome::Gio::R-File> or undefined on error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 move
 
 Tries to move the file or directory C<$source> to the location specified
@@ -2680,10 +2680,10 @@ Return value; C<True> on successful move, C<False> otherwise..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 move-async
 
 Asynchronously moves a file C<$source> to the location of C<$destination>. For details of the behaviour, see C<.move()>.
@@ -2720,10 +2720,10 @@ method move-async ( N-Object() $destination, UInt $flags, Int() $io-priority, N-
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 move-finish
 
 Finishes an asynchronous file movement, started with
@@ -2747,10 +2747,10 @@ Return value; C<True> on successful file move, C<False> otherwise..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 open-readwrite
 
 Opens an existing file for reading and writing. The result is
@@ -2789,10 +2789,10 @@ Return value; B<Gnome::Gio::FileIOStream> or undefined on error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 open-readwrite-async
 
 Asynchronously opens C<$file> for reading and writing.
@@ -2822,10 +2822,10 @@ method open-readwrite-async ( Int() $io-priority, N-Object() $cancellable, GAsyn
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 open-readwrite-finish
 
 Finishes an asynchronous file read operation started with
@@ -2850,10 +2850,10 @@ Return value; a B<Gnome::Gio::FileIOStream> or undefined on error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 peek-path
 
 Exactly like C<.get-path()>, but caches the result via
@@ -2878,10 +2878,10 @@ Return value; string containing the B<Gnome::Gio::R-File>'s path,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 poll-mountable
 
 Polls a file of type C<G_FILE_TYPE_MOUNTABLE>.
@@ -2910,10 +2910,10 @@ method poll-mountable ( N-Object() $cancellable, GAsyncReadyCallback &callback, 
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 poll-mountable-finish
 
 Finishes a poll operation. See C<.poll-mountable()> for details.
@@ -2940,10 +2940,10 @@ otherwise..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 query-default-handler
 
 Returns the B<Gnome::Gio::R-AppInfo> that is registered as the default
@@ -2973,10 +2973,10 @@ Return value; a B<Gnome::Gio::R-AppInfo> if the handle was found,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 query-default-handler-async
 
 Async version of C<.query-default-handler()>.
@@ -2997,10 +2997,10 @@ method query-default-handler-async ( Int() $io-priority, N-Object() $cancellable
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 query-default-handler-finish
 
 Finishes a C<.query-default-handler-async()> operation.
@@ -3025,10 +3025,10 @@ Return value; a B<Gnome::Gio::R-AppInfo> if the handle was found,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 query-exists
 
 Utility function to check if a particular file exists. This is
@@ -3071,10 +3071,10 @@ Return value; C<True> if the file exists (and can be detected without error),
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 query-file-type
 
 Utility function to inspect the B<Gnome::Gio::T-ioenums> of a file. This is
@@ -3101,10 +3101,10 @@ Return value; The B<Gnome::Gio::T-ioenums> of the file and C<G_FILE_TYPE_UNKNOWN
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 query-filesystem-info
 
 Similar to C<.query-info()>, but obtains information
@@ -3154,10 +3154,10 @@ Return value; a B<Gnome::Gio::FileInfo> or undefined if there was an error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 query-filesystem-info-async
 
 Asynchronously gets the requested information about the filesystem
@@ -3191,10 +3191,10 @@ method query-filesystem-info-async ( Str $attributes, Int() $io-priority, N-Obje
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 query-filesystem-info-finish
 
 Finishes an asynchronous filesystem info query.
@@ -3220,10 +3220,10 @@ Return value; B<Gnome::Gio::FileInfo> for given C<$file>
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 query-info
 
 Gets the requested information about specified C<$file>.
@@ -3279,10 +3279,10 @@ Return value; a B<Gnome::Gio::FileInfo> for the given C<$file>, or undefined
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 query-info-async
 
 Asynchronously gets the requested information about specified C<$file>.
@@ -3315,10 +3315,10 @@ method query-info-async ( Str $attributes, UInt $flags, Int() $io-priority, N-Ob
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 query-info-finish
 
 Finishes an asynchronous file info query.
@@ -3344,10 +3344,10 @@ Return value; B<Gnome::Gio::FileInfo> for given C<$file>
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 query-settable-attributes
 
 Obtain the list of settable attributes for the file.
@@ -3382,10 +3382,10 @@ Return value; a B<Gnome::Gio::N-FileAttributeInfoList> describing the settable a
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 query-writable-namespaces
 
 Obtain the list of attribute namespaces where new attributes
@@ -3417,10 +3417,10 @@ Return value; a B<Gnome::Gio::N-FileAttributeInfoList> describing the writable n
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 read
 
 Opens a file for reading. The result is a B<Gnome::Gio::FileInputStream> that
@@ -3454,10 +3454,10 @@ Return value; B<Gnome::Gio::FileInputStream> or undefined on error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 read-async
 
 Asynchronously opens C<$file> for reading.
@@ -3487,10 +3487,10 @@ method read-async ( Int() $io-priority, N-Object() $cancellable, GAsyncReadyCall
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 read-finish
 
 Finishes an asynchronous file read operation started with
@@ -3515,10 +3515,10 @@ Return value; a B<Gnome::Gio::FileInputStream> or undefined on error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 replace
 
 Returns an output stream for overwriting the file, possibly
@@ -3587,10 +3587,10 @@ Return value; a B<Gnome::Gio::FileOutputStream> or undefined on error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 replace-async
 
 Asynchronously overwrites the file, replacing the contents,
@@ -3625,10 +3625,10 @@ method replace-async ( Str $etag, Bool() $make-backup, UInt $flags, Int() $io-pr
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 replace-contents
 
 Replaces the contents of C<$file> with C<$contents> of C<$length> bytes.
@@ -3676,10 +3676,10 @@ Return value; C<True> if successful. If an error has occurred, this function
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 replace-contents-async
 
 Starts an asynchronous replacement of C<$file> with the given C<$contents> of C<$length> bytes. C<$etag> will replace the document's
@@ -3720,10 +3720,10 @@ method replace-contents-async ( Str $contents, Int() $length, Str $etag, Bool() 
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 replace-contents-bytes-async
 
 Same as C<.replace-contents-async()> but takes a B<Gnome::Glib::N-Bytes> input instead.
@@ -3753,10 +3753,10 @@ method replace-contents-bytes-async ( N-Object $contents, Str $etag, Bool() $mak
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 replace-contents-finish
 
 Finishes an asynchronous replace of the given C<$file>. See
@@ -3784,10 +3784,10 @@ Return value; C<True> on success, C<False> on failure..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 replace-finish
 
 Finishes an asynchronous file replace operation started with
@@ -3812,10 +3812,10 @@ Return value; a B<Gnome::Gio::FileOutputStream>, or undefined on error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 replace-readwrite
 
 Returns an output stream for overwriting the file in readwrite mode,
@@ -3853,10 +3853,10 @@ Return value; a B<Gnome::Gio::FileIOStream> or undefined on error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 replace-readwrite-async
 
 Asynchronously overwrites the file in read-write mode,
@@ -3892,10 +3892,10 @@ method replace-readwrite-async ( Str $etag, Bool() $make-backup, UInt $flags, In
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 replace-readwrite-finish
 
 Finishes an asynchronous file replace operation started with
@@ -3920,10 +3920,10 @@ Return value; a B<Gnome::Gio::FileIOStream>, or undefined on error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 resolve-relative-path
 
 Resolves a relative path for C<$file> to an absolute path.
@@ -3948,10 +3948,10 @@ Return value; a B<Gnome::Gio::R-File> for the resolved path..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-attribute
 
 Sets an attribute in the file with attribute name C<$attribute> to C<$value-p>.
@@ -3987,10 +3987,10 @@ Return value; C<True> if the attribute was set, C<False> otherwise..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-attribute-byte-string
 
 Sets C<$attribute> of type C<G_FILE_ATTRIBUTE_TYPE_BYTE_STRING> to C<$value>.
@@ -4024,10 +4024,10 @@ Return value; C<True> if the C<$attribute> was successfully set to C<$value>
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-attribute-int32
 
 Sets C<$attribute> of type %G_FILE_ATTRIBUTE_TYPE_INT32 to C<$value>.
@@ -4060,10 +4060,10 @@ Return value; C<True> if the C<$attribute> was successfully set to C<$value>
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-attribute-int64
 
 Sets C<$attribute> of type %G_FILE_ATTRIBUTE_TYPE_INT64 to C<$value>.
@@ -4095,10 +4095,10 @@ Return value; C<True> if the C<$attribute> was successfully set, C<False> otherw
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-attribute-string
 
 Sets C<$attribute> of type C<G_FILE_ATTRIBUTE_TYPE_STRING> to C<$value>.
@@ -4130,10 +4130,10 @@ Return value; C<True> if the C<$attribute> was successfully set, C<False> otherw
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-attribute-uint32
 
 Sets C<$attribute> of type %G_FILE_ATTRIBUTE_TYPE_UINT32 to C<$value>.
@@ -4166,10 +4166,10 @@ Return value; C<True> if the C<$attribute> was successfully set to C<$value>
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-attribute-uint64
 
 Sets C<$attribute> of type %G_FILE_ATTRIBUTE_TYPE_UINT64 to C<$value>.
@@ -4202,10 +4202,10 @@ Return value; C<True> if the C<$attribute> was successfully set to C<$value>
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-attributes-async
 
 Asynchronously sets the attributes of C<$file> with C<$info>.
@@ -4236,10 +4236,10 @@ method set-attributes-async ( N-Object() $info, UInt $flags, Int() $io-priority,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-attributes-finish
 
 Finishes setting an attribute started in C<.set-attributes-async()>.
@@ -4263,10 +4263,10 @@ Return value; C<True> if the attributes were set correctly, C<False> otherwise..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-attributes-from-info
 
 Tries to set all attributes in the B<Gnome::Gio::FileInfo> on the target
@@ -4303,10 +4303,10 @@ Return value; C<False> if there was any error, C<True> otherwise..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-display-name
 
 Renames C<$file> to the specified display name.
@@ -4347,10 +4347,10 @@ Return value; a B<Gnome::Gio::R-File> specifying what C<$file> was renamed to,
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-display-name-async
 
 Asynchronously sets the display name for a given B<Gnome::Gio::R-File>.
@@ -4381,10 +4381,10 @@ method set-display-name-async ( Str $display-name, Int() $io-priority, N-Object(
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 set-display-name-finish
 
 Finishes setting a display name started with
@@ -4409,10 +4409,10 @@ Return value; a B<Gnome::Gio::R-File> or undefined on error.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 start-mountable
 
 Starts a file of type C<G_FILE_TYPE_MOUNTABLE>.
@@ -4444,10 +4444,10 @@ method start-mountable ( UInt $flags, N-Object() $start-operation, N-Object() $c
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 start-mountable-finish
 
 Finishes a start operation. See C<.start-mountable()> for details.
@@ -4474,10 +4474,10 @@ otherwise..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 stop-mountable
 
 Stops a file of type C<G_FILE_TYPE_MOUNTABLE>.
@@ -4510,10 +4510,10 @@ method stop-mountable ( UInt $flags, N-Object() $mount-operation, N-Object() $ca
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 stop-mountable-finish
 
 Finishes a stop operation, see C<.stop-mountable()> for details.
@@ -4540,10 +4540,10 @@ Return value; C<True> if the operation finished successfully.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 supports-thread-contexts
 
 Checks if C<$file> supports thread-default contexts.
@@ -4562,10 +4562,10 @@ Return value; Whether or not C<$file> supports thread-default contexts..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 trash
 
 Sends C<$file> to the "Trashcan", if possible. This is similar to
@@ -4598,10 +4598,10 @@ Return value; C<True> on successful trash, C<False> otherwise..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 trash-async
 
 Asynchronously sends C<$file> to the Trash location, if possible.
@@ -4624,10 +4624,10 @@ method trash-async ( Int() $io-priority, N-Object() $cancellable, GAsyncReadyCal
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 trash-finish
 
 Finishes an asynchronous file trashing operation, started with
@@ -4651,10 +4651,10 @@ Return value; C<True> on successful trash, C<False> otherwise..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unmount-mountable
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.22>
@@ -4687,10 +4687,10 @@ method unmount-mountable ( UInt $flags, N-Object() $cancellable, GAsyncReadyCall
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unmount-mountable-finish
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.22>
@@ -4719,10 +4719,10 @@ Return value; C<True> if the operation finished successfully.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unmount-mountable-with-operation
 
 Unmounts a file of type C<G_FILE_TYPE_MOUNTABLE>.
@@ -4755,10 +4755,10 @@ method unmount-mountable-with-operation ( UInt $flags, N-Object() $mount-operati
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 unmount-mountable-with-operation-finish
 
 Finishes an unmount operation,
@@ -4786,5 +4786,5 @@ Return value; C<True> if the operation finished successfully.
 
 =end comment
 
-=end pod
+=end rakudoc
 

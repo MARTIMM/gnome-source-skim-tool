@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gio::SimpleActionGroup
 =head1 Description
 
@@ -23,13 +23,13 @@ interfaces.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -40,10 +40,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-simpleactiongroup
 
 Creates a new, empty, B<Gnome::Gio::SimpleActionGroup>.
@@ -59,18 +59,18 @@ method new-simpleactiongroup ( --> Gnome::Gio::SimpleActionGroup \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 add-entries
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.38>
@@ -87,10 +87,10 @@ method add-entries ( N-Object $entries, Int() $n-entries, gpointer $user-data )
 =item $n-entries; the length of C<$entries>, or -1.
 =item $user-data; the user data for signal connections.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.38>
@@ -107,10 +107,10 @@ method insert ( N-Object() $action )
 
 =item $action; a B<Gnome::Gio::R-Action>.
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 lookup
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.38>
@@ -127,10 +127,10 @@ method lookup ( Str $action-name --> N-Object )
 
 Return value; a B<Gnome::Gio::R-Action>, or undefined. 
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove
 
 B<Note: The native version of this routine is deprecated in gio-lib() since version 2.38>
@@ -145,5 +145,5 @@ method remove ( Str $action-name )
 
 =item $action-name; the name of the action.
 
-=end pod
+=end rakudoc
 

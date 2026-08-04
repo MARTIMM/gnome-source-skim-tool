@@ -1,15 +1,15 @@
 =comment Package: Gio, C-Source: file
 use v6.d;
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gio::T-file
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -18,17 +18,17 @@ Initialization of a type class is simple and only needed when the standalone fun
 
   method new ( )
 
-=end pod
+=end rakudoc
 #-------------------------------------------------------------------------------
 #--[Standalone Functions]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Standalone Functions
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 file-new-build-filenamev
 
 Constructs a B<Gnome::Gio::R-File> from a vector of elements using the correct
@@ -52,10 +52,10 @@ Return value; a new B<Gnome::Gio::R-File>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 file-new-for-commandline-arg
 
 Creates a B<Gnome::Gio::R-File> with the given argument from the command line.
@@ -89,10 +89,10 @@ Return value; a new B<Gnome::Gio::R-File>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 file-new-for-commandline-arg-and-cwd
 
 Creates a B<Gnome::Gio::R-File> with the given argument from the command line.
@@ -123,10 +123,10 @@ Return value; a new B<Gnome::Gio::R-File>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 file-new-for-path
 
 Constructs a B<Gnome::Gio::R-File> for a given path. This operation never
@@ -150,10 +150,10 @@ Return value; a new B<Gnome::Gio::R-File> for the given C<$path>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 file-new-for-uri
 
 Constructs a B<Gnome::Gio::R-File> for a given URI. This operation never
@@ -177,10 +177,10 @@ Return value; a new B<Gnome::Gio::R-File> for the given C<$uri>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 file-new-tmp
 
 Opens a file in the preferred directory for temporary files (as
@@ -214,10 +214,10 @@ Return value; a new B<Gnome::Gio::R-File>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 file-new-tmp-async
 
 Asynchronously opens a file in the preferred directory for temporary files
@@ -244,10 +244,10 @@ method file-new-tmp-async ( Str $tmpl, Int() $io-priority, N-Object() $cancellab
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 file-new-tmp-dir-async
 
 Asynchronously creates a directory in the preferred directory for
@@ -274,10 +274,10 @@ method file-new-tmp-dir-async ( Str $tmpl, Int() $io-priority, N-Object() $cance
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 file-new-tmp-dir-finish
 
 Finishes a temporary directory creation started by
@@ -302,10 +302,10 @@ Return value; a new B<Gnome::Gio::R-File>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 file-new-tmp-finish
 
 Finishes a temporary file creation started by C<.new-tmp-async()>.
@@ -330,10 +330,10 @@ Return value; a new B<Gnome::Gio::R-File>.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 file-parse-name
 
 Constructs a B<Gnome::Gio::R-File> with the given C<$parse-name> (i.e. something
@@ -349,5 +349,5 @@ method file-parse-name ( Str $parse-name --> N-Object )
 
 Return value; a new B<Gnome::Gio::R-File>.. 
 
-=end pod
+=end rakudoc
 

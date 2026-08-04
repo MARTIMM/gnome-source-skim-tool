@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gio::Permission
 =head1 Description
 
@@ -35,13 +35,13 @@ when that button is clicked.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -52,18 +52,18 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 acquire
 
 Attempts to acquire the permission represented by C<$permission>.
@@ -100,10 +100,10 @@ Return value; C<True> if the permission was successfully acquired.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 acquire-async
 
 Attempts to acquire the permission represented by C<$permission>.
@@ -126,10 +126,10 @@ method acquire-async ( N-Object() $cancellable, GAsyncReadyCallback &callback, g
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 acquire-finish
 
 Collects the result of attempting to acquire the permission
@@ -156,10 +156,10 @@ Return value; C<True> if the permission was successfully acquired.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-allowed
 
 Gets the value of the 'allowed' property.  This property is C<True> if
@@ -178,10 +178,10 @@ Return value; the value of the 'allowed' property.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-can-acquire
 
 Gets the value of the 'can-acquire' property.  This property is C<True>
@@ -201,10 +201,10 @@ Return value; the value of the 'can-acquire' property.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 get-can-release
 
 Gets the value of the 'can-release' property.  This property is C<True>
@@ -224,10 +224,10 @@ Return value; the value of the 'can-release' property.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 impl-update
 
 This function is called by the B<Gnome::Gio::Permission> implementation to update
@@ -251,10 +251,10 @@ method impl-update ( Bool() $allowed, Bool() $can-acquire, Bool() $can-release )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 release
 
 Attempts to release the permission represented by C<$permission>.
@@ -291,10 +291,10 @@ Return value; C<True> if the permission was successfully released.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 release-async
 
 Attempts to release the permission represented by C<$permission>.
@@ -317,10 +317,10 @@ method release-async ( N-Object() $cancellable, GAsyncReadyCallback &callback, g
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 release-finish
 
 Collects the result of attempting to release the permission
@@ -347,5 +347,5 @@ Return value; C<True> if the permission was successfully released.
 
 =end comment
 
-=end pod
+=end rakudoc
 

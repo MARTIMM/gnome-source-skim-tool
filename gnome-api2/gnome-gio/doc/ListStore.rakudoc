@@ -5,7 +5,7 @@ use v6.d;
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =TITLE Gnome::Gio::ListStore
 =head1 Description
 
@@ -25,13 +25,13 @@ with a fast path for the common case of iterating the list linearly.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Class initialization
 
 =head2 new
@@ -42,10 +42,10 @@ Create an object using a native object from an object of the same type found els
 
   multi method new ( N-Object() :$native-object! )
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 new-liststore
 
 Creates a new B<Gnome::Gio::ListStore> with items of type C<$item-type>. C<$item-type>
@@ -64,18 +64,18 @@ method new-liststore ( GType $item-type --> Gnome::Gio::ListStore \)
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-=begin pod
+=begin rakudoc
 =head1 Methods
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 append
 
 Appends C<$item> to C<$store>. C<$item> must be of type B<Gnome::Gio::ListStore>:item-type.
@@ -98,10 +98,10 @@ method append ( gpointer $item )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 find
 
 Looks up the given C<$item> in the list store by looping over the items until
@@ -128,10 +128,10 @@ set to the position where C<$item> occurred for the first time..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 find-with-equal-func
 
 Looks up the given C<$item> in the list store by looping over the items and
@@ -160,10 +160,10 @@ set to the position where C<$item> occurred for the first time..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 find-with-equal-func-full
 
 Like C<.find-with-equal-func()> but with an additional C<$user-data>
@@ -191,10 +191,10 @@ set to the position where C<$item> occurred for the first time..
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert
 
 Inserts C<$item> into C<$store> at C<$position>. C<$item> must be of type
@@ -220,10 +220,10 @@ method insert ( UInt() $position, gpointer $item )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 insert-sorted
 
 Inserts C<$item> into C<$store> at a position to be determined by the C<$compare-func>.
@@ -251,10 +251,10 @@ Return value; the position at which C<$item> was inserted.
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove
 
 Removes the item from C<$store> that is at C<$position>. C<$position> must be
@@ -276,10 +276,10 @@ method remove ( UInt() $position )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 remove-all
 
 Removes all items from C<$store>.
@@ -295,10 +295,10 @@ method remove-all ( )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 sort
 
 Sort the items in C<$store> according to C<$compare-func>.
@@ -317,10 +317,10 @@ method sort ( GCompareDataFunc &compare-func, gpointer $user-data )
 
 =end comment
 
-=end pod
+=end rakudoc
 
 #-------------------------------------------------------------------------------
-=begin pod
+=begin rakudoc
 =head2 splice
 
 Changes C<$store> by removing C<$n-removals> items and adding C<$n-additions>
@@ -345,5 +345,5 @@ method splice ( UInt() $position, UInt() $n-removals, Array $additions, UInt() $
 =item $additions; the items to add.
 =item $n-additions; the number of items to add.
 
-=end pod
+=end rakudoc
 
