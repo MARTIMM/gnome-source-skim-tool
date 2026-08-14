@@ -110,7 +110,7 @@ method add-signal-types ( Str $module-name, *%signal-descriptions --> Bool ) {
 
 #-------------------------------------------------------------------------------
 #TM:2:register-signal:
-=begin pod
+=begin rakudoc
 =head2 register-signal
 
 Register a handler to process a signal or an event. There are several types of callbacks which can be handled by this regstration. They can be controlled by using a named argument with a special name.
@@ -214,7 +214,7 @@ An example where a keyboard press is handled.
   );
 
 
-=end pod
+=end rakudoc
 
 method register-signal (
   $handler-object, Str:D $handler-name, Str:D $signal-name, *%user-options

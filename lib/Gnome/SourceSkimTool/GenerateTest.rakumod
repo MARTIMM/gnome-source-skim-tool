@@ -1,9 +1,9 @@
 
-=begin pod
+=begin rakudoc
 
 =head1 Generate Raku files using a filename.
 
-=end pod
+=end rakudoc
 use v6.d;
 
 use Gnome::SourceSkimTool::ConstEnumType;

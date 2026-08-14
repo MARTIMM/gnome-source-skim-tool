@@ -1,10 +1,10 @@
 use v6.d;
 
-=begin pod
+=begin rakudoc
 
 =head1 Generate Raku files using a filename.
 
-=end pod
+=end rakudoc
 
 use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::Code;
@@ -238,15 +238,15 @@ note "$?LINE $gir-type";
       $*command-line
       use v6.d;
 
-      =begin pod
+      =begin rakudoc
       =TITLE $class-name
-      =end pod
+      =end rakudoc
       
       EODOC
 
     $doc ~= qq:to/EODOC/ if ?$types-doc<function>;
       {pod-header('Class Initialization')}
-      =begin pod
+      =begin rakudoc
       =head1 Class initialization
 
       =head2 new
@@ -255,7 +255,7 @@ note "$?LINE $gir-type";
 
         method new ( )
 
-      =end pod
+      =end rakudoc
       EODOC
 
     $doc ~= [~] $types-code<record>,

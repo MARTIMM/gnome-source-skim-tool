@@ -52,7 +52,7 @@ method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
     use v6.d;
 
     {pod-header('Class Description')}
-    =begin pod
+    =begin rakudoc
     =TITLE $class-name
     =head1 Description
     $widget-picture
@@ -62,7 +62,7 @@ method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
     {self!set-uml($class-name) if $*gnome-package ~~ any( Gtk3, Gtk4, Gdk3, Gdk4, Gsk4, Gio)}
     {self!set-example}
 
-    =end pod
+    =end rakudoc
     RAKUDOC
 }
 
@@ -124,7 +124,7 @@ method document-build ( XML::Element $element --> Str ) {
   my Str $doc = Q:c:to/EOBUILD/;
 
     {pod-header('Class Initialization')}
-    =begin pod
+    =begin rakudoc
     =head1 Class initialization
 
     {$depr-note}
@@ -160,7 +160,7 @@ method document-build ( XML::Element $element --> Str ) {
   }
 }}
 
-  $doc ~= "\n=end pod\n\n";
+  $doc ~= "\n=end rakudoc\n\n";
   $doc
 }
 
@@ -227,7 +227,7 @@ method document-constructors (
 }}
     $doc ~= Q:c:s:h:to/EOSUB/;
       {HLSEPARATOR}
-      =begin pod
+      =begin rakudoc
       =head2 $method-name
       {$curr-function<missing-type> ?? "This function is not yet available"
                                     !! ''
@@ -242,7 +242,7 @@ method document-constructors (
       =end code
 
       $items-doc
-      =end pod
+      =end rakudoc
 
       EOSUB
   }
@@ -265,9 +265,9 @@ method document-native-subs (
   my Str $subs-header = $routine-type.tc ~ 's';
   my Str $doc = qq:to/EOSUB/;
     {pod-header($subs-header)}
-    =begin pod
+    =begin rakudoc
     =head1 $subs-header
-    =end pod
+    =end rakudoc
 
     EOSUB
 
@@ -362,7 +362,7 @@ method _document-native-subs ( Hash $hcs, Str :$routine-type --> Str ) {
 }}
     $doc ~= qq:to/EOSUB/;
       {HLSEPARATOR}
-      =begin pod
+      =begin rakudoc
       =head2 $native-sub
       {$curr-function<missing-type> ?? "This function is not yet available" !! ''}
       
@@ -376,7 +376,7 @@ method _document-native-subs ( Hash $hcs, Str :$routine-type --> Str ) {
 
       $items-doc$returns-doc
 
-      =end pod
+      =end rakudoc
 
       EOSUB
   }
@@ -405,7 +405,7 @@ method document-structure (
     $doc ~= qq:to/EOREC/;
 
       {pod-header('Record Structure Documentation')}
-      =begin pod
+      =begin rakudoc
       =head1 Record $record-class
 
         class $record-class\:auth<github:MARTIMM>\:api<2> is export is repr\('CStruct') \{
@@ -453,21 +453,21 @@ method document-structure (
       }
     }
 
-    $doc ~= "  }\n\n$item-doc\n=end pod\n\n";
+    $doc ~= "  }\n\n$item-doc\n=end rakudoc\n\n";
   }
 
   else {
     # Generate structure as a pointer when no fields are documented
     $doc ~= qq:to/EOREC/;
       {pod-header('Record Structure')}
-      =begin pod
+      =begin rakudoc
       =head1 Record $record-class
 
       This is an opaque type of which fields are not available.
 
         class $record-class\:auth<github:MARTIMM>\:api<2> is export is repr\('CStruct') \{ \}
 
-      =end pod
+      =end rakudoc
 
       EOREC
   }
@@ -732,7 +732,7 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
   if $signals.keys.elems {
     $doc ~= qq:to/EOSIG/;
       {pod-header('Signal Documentation')}
-      =begin pod
+      =begin rakudoc
       =head1 Signals
       EOSIG
 
@@ -820,7 +820,7 @@ note "$?LINE ", qq:to/EOSIG/;
 #      $doc ~= "\n$ex-key\n";
     }
 
-    $doc ~= "=end pod\n\n";
+    $doc ~= "=end rakudoc\n\n";
   }
 
   $sig-info<doc> = $doc;
@@ -843,7 +843,7 @@ method document-constants ( @constants --> Str ) {
   my Str $doc = qq:to/EOENUM/;
 
     {pod-header('Constants')}
-    =begin pod
+    =begin rakudoc
     =head1 Constants
     EOENUM
 
@@ -869,7 +869,7 @@ method document-constants ( @constants --> Str ) {
     $doc ~= "\n";
   }
 
-  $doc ~= "=end pod\n\n";
+  $doc ~= "=end rakudoc\n\n";
 
   $doc
 }
@@ -886,7 +886,7 @@ method document-enumerations ( @enum-names --> Str ) {
 
   my Str $doc = qq:to/EOENUM/;
     {pod-header('Enumerations')}
-    =begin pod
+    =begin rakudoc
     =head1 Enumerations
 
     EOENUM
@@ -941,7 +941,7 @@ method document-enumerations ( @enum-names --> Str ) {
 
   }
 
-  $doc ~= "=end pod\n\n";
+  $doc ~= "=end rakudoc\n\n";
 
   $doc
 }
@@ -958,7 +958,7 @@ method document-bitfield ( @bitfield-names --> Str ) {
 
   my Str $doc = qq:to/EOBITF/;
     {pod-header('Bitfields')}
-    =begin pod
+    =begin rakudoc
     =head1 Bitfields
 
     EOBITF
@@ -1011,7 +1011,7 @@ method document-bitfield ( @bitfield-names --> Str ) {
     }
   }
 
-  $doc ~= "=end pod\n\n";
+  $doc ~= "=end rakudoc\n\n";
 
   $doc
 }
@@ -1052,9 +1052,9 @@ method document-standalone-functions ( @function-names --> Str ) {
 
   my Str $doc = qq:to/EOSUB/;
     {pod-header('Standalone Functions')}
-    =begin pod
+    =begin rakudoc
     =head1 Standalone Functions
-    =end pod
+    =end rakudoc
 
     EOSUB
 
@@ -1071,7 +1071,7 @@ method document-standalone-functions ( @function-names --> Str ) {
 method document-callback ( @callbacks --> Str ) {
   my Str $doc = qq:to/EOCB/;
     {pod-header('Callback Functions')}
-    =begin pod
+    =begin rakudoc
     =head1 Callback Functions
     EOCB
 
@@ -1093,7 +1093,7 @@ method document-callback ( @callbacks --> Str ) {
     );
   }
 
-  $doc ~= "=end pod\n";
+  $doc ~= "=end rakudoc\n";
 
   $doc
 }
