@@ -47,7 +47,6 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
     $element.attribs<c:type> // $element.attribs<glib:type-name> // '';
   my Hash $h = $!solve.search-name($ctype) // %();
 
-#note "$?LINE $h<gir-type>";
   # Parenting is only for classes
   my Bool $is-class = False;
   my Bool $is-role = False;
@@ -66,7 +65,6 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
   }
 
   $is-role = (($h<gir-type> // '' ) eq 'interface') // False;
-#note "$?LINE role $is-role";
 
   # If the object is a class
   if $is-class {
@@ -90,17 +88,6 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
   self.add-import('Gnome::N::GnomeRoutineCaller') if ?$callables;
 
   my Str $classname = $!solve.set-object-name( $h, :name-type(ClassnameType));
-
-#`{{
-  # Find out if class is deprecated
-  my Str $depr-msg = '';
-  if ?$h<deprecated> {
-    self.add-import('Gnome::N');
-    $depr-msg = [~] "\n", 'Gnome::N::deprecate(', "\n",
-      "  '$classname', ', Str, ',\n  ", "'", $h<deprecated-version>//'', "'",
-      ', Str,', "\n  ", ':class, :gnome-lib(', $*work-data<library>, ')', "\n);\n";
-  }
-}}
 
   # Roles
   if $is-role {
@@ -163,7 +150,6 @@ method set-unit-for-file (
     RAKUMOD
 
   $code ~= "also is Gnome::N::TopLevelClassSupport;\n" if $has-functions;
-#  $code ~= "\n";
 
   $code
 }
@@ -265,6 +251,7 @@ method generate-callables (
 
   my Hash $hcs =
     self.get-native-subs( $element, $xpath, :routine-type<constructor>);
+
   # Generate constructors
   $code ~= self!generate-constructors($hcs) if ?$hcs;
   note "Generate constructors" if $*verbose and ?$code;
@@ -411,8 +398,7 @@ method get-role-signals ( Hash $h --> Str ) {
 
     my Hash $role-h = $!solve.search-name($role);
     if ?$role-h {
-#note "$?LINE role $role, ", $role-h.gist;
-      $role-signals ~= "#`\{\{\n" unless $available;
+#     $role-signals ~= "#`\{\{\n" unless $available;
       $role-signals ~=
         "    self._add_$role-h<symbol-prefix>signal_types\(\$?CLASS\.^name)\n" ~
         "      if self.^can\('_add_$role-h<symbol-prefix>signal_types');\n";
@@ -468,8 +454,6 @@ method get-signal-admin (
 #-------------------------------------------------------------------------------
 method !generate-constructors ( Hash $hcs --> Str ) {
 
-#  my Str $sub-prefix = $*work-data<sub-prefix>;
-#  my Str $pattern = '';
   my Str $temp-inhibit = '';
   my Str $variable-list = '';
 
@@ -482,14 +466,13 @@ method !generate-constructors ( Hash $hcs --> Str ) {
     my Hash $curr-function := $hcs{$function-name};
     $temp-inhibit = ?$curr-function<missing-type> ?? '#' !! '';
 
-#    $pattern = $curr-function<variable-list> ?? ':pattern([' !! '';
     $variable-list = $curr-function<variable-list> ?? ':variable-list, ' !! '';
 
     # Get a list of types for the arguments
     my $par-list = '';
-#    my Str $pattern-starter = '';
     for @($curr-function<parameters>) -> $parameter {
       last if $parameter<raku-type> eq '…';
+
       # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
       my ( $rnt0, $rnt1) = $parameter<raku-type>.split(':');
       $par-list ~= ", $rnt0";
@@ -498,11 +481,6 @@ method !generate-constructors ( Hash $hcs --> Str ) {
     # Remove first comma
     $par-list ~~ s/^ . //;
     my Str $parameters = ?$par-list ?? ":parameters\(\[$par-list\]\), " !! '';
-
-    # Save as a user recognizable name. This makes it possible
-    # to postpone the translation as late as possible at run time
-    # and only once per function.
-    #$function-name ~~ s:g/ '_' /-/;
     
     # Set the full native subroutine name
     my Str $sub-prefix = $*work-data<sub-prefix>;
@@ -789,49 +767,6 @@ method generate-functions ( Hash $hcs, Bool :$standalone = False --> Str ) {
         if ?$curr-function<transfer-ownership> and
             $curr-function<transfer-ownership> ne 'none';
 }}
-#`{{
-      # Check if there is info about the return value
-      if ?$curr-function<rv-doc> {
-        $returns-doc = "\nReturn value; $own$curr-function<rv-doc>\n";
-      }
-
-      elsif $raku-list ~~ / '-->' / {
-        $returns-doc =
-          "\nReturn value; No documentation about its value and use\n";
-      }
-    }
-}}
-#`{{
-    # Assumed that there are no multiple methods to return values. I.e not
-    # returning an array and pointer arguments to receive values in those vars.
-    elsif ?@rv-list {
-      $returns-doc = "Returns a List holding the values\n$returns-doc";
-      #$return-list = [~] '  (', @rv-list.join(', '), ")\n";
-      $raku-list ~= "  --> List";
-    }
-}}
-    # remove first comma
-#    $raku-list ~~ s/^ . //;
-#`{{
-    $doc ~= qq:to/EOSUB/;
-      {HLSEPARATOR}
-      =begin pod
-      =head2 $method-name
-
-      $function-doc
-
-      =begin code
-      method $method-name \(
-       $raku-list
-      \)
-      =end code
-
-      $items-doc
-      $returns-doc
-      =end pod
-
-      EOSUB
-}}
 
     # Return type
     # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
@@ -1089,34 +1024,19 @@ method generate-enumerations-code ( Array:D $enum-names --> Str ) {
 method generate-bitfield-code ( Array:D $bitfield-names --> Str ) {
 
   # Don't look bitfield names up if array is provided
-#  $bitfield-names = self!get-bitfield-names unless ?$bitfield-names;
 
   # Return empty string if no bitfields found.
   return '' unless ?$bitfield-names;
-#note "$?LINE e names: $bitfield-names.gist()";
 
   # Open bitfields file for xpath
   my Str $file = $*work-data<gir-module-path> ~ 'repo-bitfield.gir';
   my XML::XPath $xpath .= new(:$file);
 
-#  my Str $symbol-prefix = $*work-data<sub-prefix>;
   my Str $code = qq:to/EOENUM/;
     {HLSEPARATOR}
     {SEPARATOR('Bitfields');}
     {HLSEPARATOR}
     EOENUM
-
-#`{{
-  my Str $doc = qq:to/EOENUM/;
-    {HLSEPARATOR}
-    {SEPARATOR('Bitfields');}
-    {HLSEPARATOR}
-    =begin pod
-    =head1 Bitfields
-    =end pod
-
-    EOENUM
-}}
 
   # For each of the found names
   my Str $package = $*gnome-package.Str;
@@ -1136,108 +1056,47 @@ method generate-bitfield-code ( Array:D $bitfield-names --> Str ) {
 
     my Str $name = $bitfield-name;
     $name ~~ s/^ $package //;
-#}}
-#note "$?LINE $package, $bitfield-name, $name";
 
-#note "$?LINE $bitfield-name, $package, $name";
     # Get the XML element of the bitfield data
     my XML::Element $e = $xpath.find(
       '//bitfield[@name="' ~ $name ~ '"]', :!to-list
     );
 
-#TE:0:$bitfield-name
-#      {HLSEPARATOR}
     $code ~= "enum $bitfield-name is export \(\n  ";
-
-#    my Str $edoc =
-#      ($xpath.find( 'doc/text()', :start($e), :!to-list) // '').Str;
-#    my Str $s = self.modify-text($edoc);
-#    $doc = self.cleanup($s);
 
     my Str $member-name-list = '';
     my @members = $xpath.find( 'member', :start($e), :to-list);
     my @l = ();
     for @members -> $m {
-#note "$?LINE $m.attribs()<c:identifier>, $m.attribs()<value>";
       @l.push: [~] ':', $m.attribs<c:identifier>, '(', $m.attribs<value>, ')';
     }
 
     $code ~= @l.join(', ') ~ "\n\);\n\n";
   }
-#note "$?LINE $code";
-#exit;
+
   $code
 }
 
 #-------------------------------------------------------------------------------
 method generate-constants ( @constants --> Str ) {
-  
-  # Don't look enum names up if array is provided
-#  @constants = self!get-constant-names unless ?@constants;
 
   # Return empty string if no enums found.
   return '' unless ?@constants;
 
-  # Open constants file for xpath
-#  my Str $file = $*work-data<gir-module-path> ~ 'repo-constant.gir';
-#  my XML::XPath $xpath .= new(:$file);
-
-#  my Str $symbol-prefix = $*work-data<sub-prefix>;
   my Str $code = qq:to/EOENUM/;
     {HLSEPARATOR}
     {SEPARATOR('Constants');}
     {HLSEPARATOR}
     EOENUM
 
-#`{{
-  my Str $doc = qq:to/EOENUM/;
-    {HLSEPARATOR}
-    {SEPARATOR('Bitfields');}
-    {HLSEPARATOR}
-    =begin pod
-    =head1 Bitfields
-    =end pod
-
-    EOENUM
-}}
-
   # For each of the found names
   for @constants -> $constant {
-#note "$?LINE ", $constant.gist;
-#    my Str $name = $constant-name;
-#    my Str $package = $*gnome-package.Str;
-#    $package ~~ s/ \d+ $//;
-#    $name ~~ s/^ $package //;
-
-    # Get the XML element of the constant data
-#    my XML::Element $e = $xpath.find(
-#      '//constant[@name="' ~ $constant[0] ~ '"]', :!to-list
-#    );
-
     my Str $value = $constant[2];
     $value = "'$value'" if $constant[1] ~~ / char /;
 
-#TE:0:$constant[0]
-#      {HLSEPARATOR}
-
     $code ~= "constant $constant[0] is export = $value;\n";
-
-#    my Str $edoc =
-#      ($xpath.find( 'doc/text()', :start($e), :!to-list) // '').Str;
-#    my Str $s = self.modify-text($edoc);
-#    $doc = self.cleanup($s);
-
-#    my Str $member-name-list = '';
-#    my @members = $xpath.find( 'member', :start($e), :to-list);
-#    my @l = ();
-#    for @members -> $m {
-#      @l.push: [~] ':', $m.attribs<c:identifier>, '(', $m.attribs<value>, ')';
-#    }
-
-#    $code ~= @l.join(', ') ~ "\n\);\n";
   }
-#note "$?LINE $code";
-#exit;
+
   $code ~ "\n"
 }
 
