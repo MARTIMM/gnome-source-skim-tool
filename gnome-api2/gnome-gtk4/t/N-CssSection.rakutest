@@ -1,0 +1,126 @@
+=comment Package: Gtk4, C-Source: csssection
+use v6.d;
+
+#TL:1:Gnome::Gtk4::N-CssSection:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+
+use Gnome::Glib::N-Bytes:api<2>;
+#use Gnome::Glib::N-String:api<2>;
+use Gnome::Glib::T-array:api<2>;
+#use Gnome::Glib::T-string:api<2>;
+#use Gnome::Gtk4::N-CssLocation:api<2>;
+use Gnome::Gtk4::N-CssSection:api<2>;
+#use Gnome::Gtk4::T-csslocation:api<2>;
+use Gnome::Gtk4::T-csssection:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-CssSection $n-csssection;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $n-csssection {
+    my N-Object $end;
+    my N-Object $start;
+    my N-Object() $file;
+    my N-Object $bytes;
+
+#`{{
+    #TC:0:new-csssection()
+    $file = …;
+    $start = …;
+    $end = …;
+    $n-csssection .= new-csssection( $file, $start, $end);
+    ok .is-valid, '.new-csssection( $file, $start, $end)';
+
+    #TC:0:new-with-bytes()
+    $file = …;
+    $bytes = …;
+    $start = …;
+    $end = …;
+    $n-csssection .= new-with-bytes( $file, $bytes, $start, $end);
+    ok .is-valid, '.new-with-bytes( $file, $bytes, $start, $end)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $n-csssection {
+    my N-Object $string;
+
+
+#`{{
+    #TM:0:get-bytes()
+     .get-bytes(), '…', '.get-bytes()';
+
+    #TM:0:get-end-location()
+     .get-end-location(), '…', '.get-end-location()';
+
+    #TM:0:get-file()
+     .get-file(), '…', '.get-file()';
+
+    #TM:0:get-parent()
+     .get-parent(), '…', '.get-parent()';
+
+    #TM:0:get-start-location()
+     .get-start-location(), '…', '.get-start-location()';
+
+    #TM:0:print()
+    ok .print( $string), '.print()';
+
+    #TM:0:ref()
+    ok .ref(), '.ref()';
+
+    #TM:0:to-string()
+    ok .to-string(), '.to-string()';
+
+    #TM:0:unref()
+    ok .unref(), '.unref()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $n-csssection {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+

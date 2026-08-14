@@ -1,0 +1,238 @@
+=comment Package: Gtk4, C-Source: csssection
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin rakudoc
+=TITLE Gnome::Gtk4::N-CssSection
+=head1 Description
+
+Defines a part of a CSS document.
+
+Because sections are nested into one another, you can use
+[method C<$CssSection>.get_parent] to get the containing region.
+
+=begin comment
+
+=begin code
+
+=head3 Example
+
+Example use of module Gnome::Gtk4::CssSection
+
+=begin code
+=end code
+
+=end code
+
+=end comment
+
+=end rakudoc
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin rakudoc
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from an object of the same type found elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object() :$native-object! )
+
+=end rakudoc
+
+#-------------------------------------------------------------------------------
+=begin rakudoc
+=head2 new-csssection
+
+Creates a new B<Gnome::Gtk4::N-CssSection> referring to the section
+in the given B<file> from the B<start> location to the
+B<end> location.
+
+=begin code
+method new-csssection ( N-Object() $file, N-Object $start, N-Object $end --> Gnome::Gtk4::CssSection )
+=end code
+
+=item $file; The file this section refers to.
+=item $start; The start location
+=item $end; The end location
+
+=end rakudoc
+
+#-------------------------------------------------------------------------------
+=begin rakudoc
+=head2 new-with-bytes
+
+Creates a new B<Gnome::Gtk4::N-CssSection> referring to the section
+in the given B<file> or the given B<bytes> from the B<start> location to the
+B<end> location.
+
+=begin code
+method new-with-bytes ( N-Object() $file, N-Object $bytes, N-Object $start, N-Object $end --> Gnome::Gtk4::CssSection )
+=end code
+
+=item $file; The file this section refers to.
+=item $bytes; The bytes this sections refers to
+=item $start; The start location
+=item $end; The end location
+
+=end rakudoc
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin rakudoc
+=head1 Methods
+=end rakudoc
+
+#-------------------------------------------------------------------------------
+=begin rakudoc
+=head2 get-bytes
+
+Gets the bytes that C<$section> was parsed from.
+
+=begin code
+method get-bytes (--> N-Object )
+=end code
+
+Return value; the B<Gnome::Glib::N-Bytes> from which the B<section>
+  was parsed. 
+
+=end rakudoc
+
+#-------------------------------------------------------------------------------
+=begin rakudoc
+=head2 get-end-location
+
+Returns the location in the CSS document where this section ends.
+
+=begin code
+method get-end-location (--> N-Object )
+=end code
+
+Return value; The end location of
+  this section. 
+
+=end rakudoc
+
+#-------------------------------------------------------------------------------
+=begin rakudoc
+=head2 get-file
+
+Gets the file that C<$section> was parsed from.
+
+If no such file exists, for example because the CSS was loaded via
+L<.load-from-data() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#load-from-data>, then undefined is returned.
+
+=begin code
+method get-file (--> N-Object )
+=end code
+
+Return value; the L<Gnome::Gio::File|/content-docs/api2/reference/Gio/File> from which the B<section>
+  was parsed. 
+
+=end rakudoc
+
+#-------------------------------------------------------------------------------
+=begin rakudoc
+=head2 get-parent
+
+Gets the parent section for the given B<section>.
+
+The parent section is the section that contains this B<section>. A special
+case are sections of  type B<GTK_CSS_SECTION_DOCUMENT>. Their parent will
+either be undefined if they are the original CSS document that was loaded by
+L<.load-from-file() in class Gnome|/content-docs/api2/reference/Gtk4/Gnome#load-from-file> or a section of type
+B<GTK_CSS_SECTION_IMPORT> if it was loaded with an ` C<$import>` rule from
+a different file.
+
+=begin code
+method get-parent (--> N-Object )
+=end code
+
+Return value; the parent section. 
+
+=end rakudoc
+
+#-------------------------------------------------------------------------------
+=begin rakudoc
+=head2 get-start-location
+
+Returns the location in the CSS document where this section starts.
+
+=begin code
+method get-start-location (--> N-Object )
+=end code
+
+Return value; The start location of
+  this section. 
+
+=end rakudoc
+
+#-------------------------------------------------------------------------------
+=begin rakudoc
+=head2 print
+
+Prints the B<section> into B<string> in a human-readable form.
+
+This is a form like B<gtk>.css:32:1-23` to denote line 32, characters
+1 to 23 in the file B<gtk>.css`.
+
+=begin code
+method print ( N-Object $string )
+=end code
+
+=item $string; a B<Gnome::Glib::N-String> to print to
+
+=end rakudoc
+
+#-------------------------------------------------------------------------------
+=begin rakudoc
+=head2 ref
+
+Increments the reference count on B<section>.
+
+=begin code
+method ref (--> N-Object )
+=end code
+
+Return value; the CSS section itself.. 
+
+=end rakudoc
+
+#-------------------------------------------------------------------------------
+=begin rakudoc
+=head2 to-string
+
+Prints the section into a human-readable text form using
+L<.print()|#print>.
+
+=begin code
+method to-string (--> Str )
+=end code
+
+Return value; A new string.. 
+
+=end rakudoc
+
+#-------------------------------------------------------------------------------
+=begin rakudoc
+=head2 unref
+
+Decrements the reference count on B<section>, freeing the
+structure if the reference count reaches 0.
+
+=begin code
+method unref ( )
+=end code
+
+=end rakudoc
+
