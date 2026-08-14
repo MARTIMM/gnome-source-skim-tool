@@ -920,7 +920,7 @@ method !modify-rest ( Str $text is copy --> Str ) {
     my Str $alt-text = $/<image-regex><alt-text>.Str;
     my Str $url-text = $/<image-regex><url-text>.Str;
 #note "$?LINE $/.gist()";
-    $text ~~ s/ <image-regex> /=for image :src<asset_files\/images\/$url-text> :width<30%> :class<inline>/;
+    $text ~~ s/ <image-regex> /=for Image :src<asset_files\/images\/$url-text> :width<30%> :class<inline>/;
   }
 
   # types
