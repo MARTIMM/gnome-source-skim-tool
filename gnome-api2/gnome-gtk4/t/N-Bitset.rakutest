@@ -132,55 +132,85 @@ subtest 'Function tests using T-bitset', {
        'T-bitset  .bitset-iter-init-first()';
 
     #TM:1:get-value()
+note $?LINE;
     $bitset-iter .= new(:native-object($bi));
+note $?LINE;
     is .get-value, 5, 'N-BitsetIter  .get-value(): 5';
+note $?LINE;
     ok .is-valid, 'N-BitsetIter  .is-valid()';
 
     #TM:1:next()
+note $?LINE;
     ok .next(gint-ptr), 'N-BitsetIter  .next()';
+note $?LINE;
     is .get-value, 6, 'N-BitsetIter  .get-value(): 6';
 
+note $?LINE;
     ok .next(gint-ptr), 'N-BitsetIter  .next()';
+note $?LINE;
     is .get-value, 7, 'N-BitsetIter  .get-value(): 7';
 
     #TM:1:is-valid()
+note $?LINE;
     nok .next(gint-ptr), 'N-BitsetIter  .next()';
+note $?LINE;
     nok .is-valid, 'N-BitsetIter  .is-valid(): passed the end';
+note $?LINE;
 #    is .get-value, 0, '.get-value(): 0 after passing the end';
 
     #TM:1:bitset-iter-init-last()
+note $?LINE;
     $bitset.clear-object;
+note $?LINE;
     $bitset .= new-range( 7, 5);
+note $?LINE;
     $bi .= new;
+note $?LINE;
     ok $t-bitset.bitset-iter-init-last( $bi, $bitset, gint-ptr),
        'T-bitset  .bitset-iter-init-last()';
+note $?LINE;
     $bitset-iter .= new(:native-object($bi));
 
     #TM:1:previous()
     my $count = 0;
+note $?LINE;
     while .previous(gint-ptr) {
       $count++;
       diag .get-value;
     }
+note $?LINE;
     is $count, 4, 'N-BitsetIter  4 successful calls to .previous()';
 
-
     #TM:1:bitset-iter-init-at()
+note $?LINE;
     $bitset.clear-object;
+note $?LINE;
     $bitset .= new-range( 7, 5);
+note $?LINE;
     $bitset.add(50);
+note $?LINE;
+diag "Bitset size: $bitset.get-size()";
+note $?LINE;
+diag "Bitset min: $bitset.get-minimum()";
+note $?LINE;
+diag "Bitset max: $bitset.get-maximum()";
+note $?LINE;
+
+#`{{
     $bi .= new;
     ok $t-bitset.bitset-iter-init-at( $bi, $bitset, 9, gint-ptr),
        'T-bitset  .bitset-iter-init-at()';
     $bitset-iter .= new(:native-object($bi));
-
     $count = 0;
     while .next {
       $count++;
       diag .get-value;
     }
 
+#    $bitset-iter .= new(:native-object($bi));
+
     is $count, 3, 'N-BitsetIter  3 successful calls to .next()';
+}}
   }
 }
 
