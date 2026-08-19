@@ -364,14 +364,15 @@ method clear-object ( ) {
     self.native-object-unref($!n-native-object)
       if $!n-native-object.defined and $!n-native-object.^name eq 'Gnome::N::N-Object';
 
-    # Always True for Lists
+    # Always True for Lists. Other types are set to False
+    # to prevent calling unref twice.
     $!is-valid = $!n-native-object.^name ~~ any(
         <Gnome::Glib::List::N-GList Gnome::Glib::SList::N-GSList>
       ) ?? True !! False;
     $!n-native-object = N-Object;
 
-#`{{
-}}
+    # Check if the object was a builder object. If made invalid
+    # it must be removed from the array.
     if self.^name ~~ m/ '::' Builder $/ {
       loop ( my Int $i; $i < $builders.elems; $i++ ) {
         next if $builders.is-valid;
