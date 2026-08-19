@@ -40,30 +40,7 @@ submethod BUILD ( ) {
 #-------------------------------------------------------------------------------
 #--[Record Structure]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
-#class N-BitsetIter:auth<github:MARTIMM>:api<2> is repr('CPointer') is export {}
-
-#`{{ From include file; it shows an array of 10 gpointers.
-struct _GtkBitsetIter
-{
-  /*< private >*/
-  gpointer private_data[10];
-};
-}}
-
-class N-BitsetIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-  has CArray[gpointer] $!private-data;
-
-  submethod BUILD ( ) {
-    $!private-data := CArray[gpointer].new(|(gpointer xx 10));
-  }
-
-  multi method COERCE ( $no --> N-BitsetIter ) {
-    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
-    nativecast( N-BitsetIter, $no)
-  }
-}
-
+class N-BitsetIter:auth<github:MARTIMM>:api<2> is repr('CPointer') is export {}
 
 #-------------------------------------------------------------------------------
 #--[Standalone functions]-------------------------------------------------------
@@ -79,7 +56,6 @@ my Hash $methods = %(
 
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
 method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
-#note "$?LINE $name, $methods{$name}.gist()";
   if $methods{$name}:exists {
     $_fallback-v2-ok = True;
     return $!routine-caller.call-native-sub(
