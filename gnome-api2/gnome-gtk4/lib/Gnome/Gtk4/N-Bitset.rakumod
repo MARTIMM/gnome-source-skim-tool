@@ -60,7 +60,8 @@ method native-object-ref ( $n-native-object ) {
 }
 
 method native-object-unref ( $n-native-object ) {
-#  self._fallback-v2( 'free', my Bool $x);
+  note "Unreference native object" if $Gnome::N::x-debug;
+  self._fallback-v2( 'unref', my Bool $x);
 }
 
 #-------------------------------------------------------------------------------
