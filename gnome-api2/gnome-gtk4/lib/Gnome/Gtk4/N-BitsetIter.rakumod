@@ -80,8 +80,8 @@ my Hash $methods = %(
   #--[Methods]------------------------------------------------------------------
   get-value => %(:is-symbol<gtk_bitset_iter_get_value>, :returns(guint), ),
   is-valid => %(:is-symbol<gtk_bitset_iter_is_valid>, :returns(gboolean), :cnv-return(Bool), ),
-  next => %(:is-symbol<gtk_bitset_iter_next>, :returns(gboolean), :cnv-return(Bool), :parameters([gint-ptr]), ),
-  previous => %(:is-symbol<gtk_bitset_iter_previous>, :returns(gboolean), :cnv-return(Bool), :parameters([gint-ptr]), ),
+  next => %(:is-symbol<gtk_bitset_iter_next>, :returns(gboolean), :cnv-return(Bool), :parameters([guint-ptr]), ),
+  previous => %(:is-symbol<gtk_bitset_iter_previous>, :returns(gboolean), :cnv-return(Bool), :parameters([guint-ptr]), ),
 
   #--[Functions]----------------------------------------------------------------
   init-at => %( :type(Function), :is-symbol<gtk_bitset_iter_init_at>, :returns(gboolean), :parameters([ N-Object, N-Object, guint, gint-ptr]), ),
