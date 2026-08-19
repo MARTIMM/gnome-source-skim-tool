@@ -175,7 +175,7 @@ multi method call-native-sub ( Str $name, @arguments, Hash $methods ) {
     $routine<function-address>{$func-pattern} = $c;
   }
 
-  note "$?LINE Function: $func-pattern\({$native-args>>.gist.join(', ')}\)"
+  note "Function: $func-pattern\({$native-args>>.gist.join(', ')}\)"
     if $Gnome::N::x-debug;
 
   self.convert-return( $c(|$native-args), $routine)
