@@ -37,6 +37,7 @@ constant \gsize           is export = uint64;
 constant \gssize          is export = int64;
 constant \guchar          is export = uint8;
 constant \guint           is export = uint32;
+constant \guint-ptr       is export = CArray[uint32];
 constant \guint16         is export = uint16;
 constant \guint32         is export = uint32;
 constant \guint64         is export = uint64;
@@ -46,6 +47,7 @@ constant \gunichar        is export = uint32;
 constant \gushort         is export = uint16;
 constant \int-ptr         is export = CArray[int32];
 constant \time_t          is export = int64;
+constant \uint-ptr        is export = CArray[uint32];
 constant \void-ptr        is export = Pointer[void];
 
 #---------------------------------------------------------------------------

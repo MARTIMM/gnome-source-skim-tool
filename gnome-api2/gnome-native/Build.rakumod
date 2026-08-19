@@ -263,6 +263,8 @@ method !build-types-conversion-module ( ) {
 
   $c-types<int-ptr> = "CArray[$c-types<gint>]";
   $c-types<gint-ptr> = "CArray[$c-types<gint>]";
+  $c-types<uint-ptr> = "CArray[$c-types<guint>]";
+  $c-types<guint-ptr> = "CArray[$c-types<guint>]";
   $c-types<char-pptr> = "CArray[$c-types<gchar-ptr>]";
   $c-types<gchar-pptr> = "CArray[$c-types<gchar-ptr>]";
   $c-types<char-ppptr> = "CArray[CArray[$c-types<gchar-ptr>]]";
