@@ -189,7 +189,7 @@ multi method call-native-sub (
 ) {
 #say Backtrace.new.nice;
 
-  printf "\n\n$?LINE calling $name, $native-object" if $Gnome::N::x-debug;
+  printf "\n\nCalling $name, $native-object" if $Gnome::N::x-debug;
 
   my Hash $routine := $methods{$name};
 
