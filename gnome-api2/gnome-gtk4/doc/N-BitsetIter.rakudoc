@@ -12,9 +12,7 @@ use v6.d;
 An opaque, stack-allocated struct for iterating
 over the elements of a B<Gnome::Gtk4::N-Bitset>.
 
-Before a B<Gnome::Gtk4::N-BitsetIter> can be used, it needs to be initialized with
-L<.BitsetIter.init-first().BitsetIter.init-first() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-bitsetiter#BitsetIter.init-first>, L<.BitsetIter.init-last().BitsetIter.init-last() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-bitsetiter#BitsetIter.init-last>
-or L<.BitsetIter.init-at().BitsetIter.init-at() in package Gnome::Gtk4|/content-docs/api2/reference/Gtk4/T-bitsetiter#BitsetIter.init-at>.
+Before a B<Gnome::Gtk4::N-BitsetIter> can be used, it needs to be initialized with L<.init-first()|/content-docs/api2/reference/Gtk4/N-BitsetIter.html#init-first>, L<.init-last()|/content-docs/api2/reference/Gtk4/N-BitsetIter.html#init-last> or L<.init-at() all defined in package Gnome::Gtk4::N-BitsetIter|/content-docs/api2/reference/Gtk4/N-BitsetIter.html#init-at>.
 
 =begin comment
 
@@ -56,21 +54,13 @@ Create an object using a native object from an object of the same type found els
 
 Gets the current value that C<$iter> points to.
 
-If C<$iter> is not valid and L<.is-valid()|#is-valid>
-returns C<False>, this function returns 0.
+If C<$iter> is not valid and L<.is-valid()|#is-valid> returns C<False>, this function returns 0.
 
 =begin code
-method get-value (--> UInt )
+method get-value ( --> UInt )
 =end code
 
 Return value; The current value pointer to by C<$iter>. 
-
-=begin comment
-
-=head2 Example
-# Example for get-value
-
-=end comment
 
 =end rakudoc
 
@@ -81,17 +71,10 @@ Return value; The current value pointer to by C<$iter>.
 Checks if C<$iter> points to a valid value.
 
 =begin code
-method is-valid (--> Bool )
+method is-valid ( --> Bool )
 =end code
 
 Return value; C<True> if C<$iter> points to a valid value. 
-
-=begin comment
-
-=head2 Example
-# Example for is-valid
-
-=end comment
 
 =end rakudoc
 
@@ -101,8 +84,7 @@ Return value; C<True> if C<$iter> points to a valid value.
 
 Moves C<$iter> to the next value in the set.
 
-If it was already pointing to the last value in the set,
-C<False> is returned and C<$iter> is invalidated.
+If it was already pointing to the last value in the set, C<False> is returned and C<$iter> is invalidated.
 
 =begin code
 method next ( Array[Int] $value --> Bool )
@@ -112,13 +94,6 @@ method next ( Array[Int] $value --> Bool )
 
 Return value; C<True> if a next value existed. 
 
-=begin comment
-
-=head2 Example
-# Example for next
-
-=end comment
-
 =end rakudoc
 
 #-------------------------------------------------------------------------------
@@ -127,8 +102,7 @@ Return value; C<True> if a next value existed.
 
 Moves C<$iter> to the previous value in the set.
 
-If it was already pointing to the first value in the set,
-C<False> is returned and C<$iter> is invalidated.
+If it was already pointing to the first value in the set, C<False> is returned and C<$iter> is invalidated.
 
 =begin code
 method previous ( Array[Int] $value --> Bool )
@@ -137,13 +111,6 @@ method previous ( Array[Int] $value --> Bool )
 =item $value; (transfer ownership: full) Set to the previous value.
 
 Return value; C<True> if a previous value existed. 
-
-=begin comment
-
-=head2 Example
-# Example for previous
-
-=end comment
 
 =end rakudoc
 
@@ -161,11 +128,13 @@ Return value; C<True> if a previous value existed.
 
 Initializes C<$iter> to point to C<$target>.
 
-If C<$target> is not found, finds the next value after it.
-If no value >= C<$target> exists in C<$set>, this function returns C<False>.
+If C<$target> is not found, finds the next value after it. If no value >= C<$target> exists in C<$set>, this function returns C<False>.
 
 =begin code
-method init-at ( N-Object $iter, N-Object $set, UInt() $target, Array[Int] $value --> Bool )
+method init-at (
+  N-Object $iter, N-Object $set, UInt() $target, Array[Int] $value
+  --> Bool
+)
 =end code
 
 =item $iter; a pointer to an uninitialized B<Gnome::Gtk4::N-BitsetIter>
@@ -173,14 +142,7 @@ method init-at ( N-Object $iter, N-Object $set, UInt() $target, Array[Int] $valu
 =item $target; target value to start iterating at.
 =item $value; (transfer ownership: full) Set to the found value in C<$set>.
 
-Return value; C<True> if a value was found.. 
-
-=begin comment
-
-=head2 Example
-# Example for init-at
-
-=end comment
+Return value; C<True> if a value was found.
 
 =end rakudoc
 
@@ -188,27 +150,22 @@ Return value; C<True> if a value was found..
 =begin rakudoc
 =head2 init-first
 
-Initializes an iterator for C<$set> and points it to the first
-value in C<$set>.
+Initializes an iterator for C<$set> and points it to the first value in C<$set>.
 
 If C<$set> is empty, C<False> is returned and C<$value> is set to C<G_MAXUINT>.
 
 =begin code
-method init-first ( N-Object $iter, N-Object $set, Array[Int] $value --> Bool )
+method init-first (
+  N-Object $iter, N-Object $set, Array[Int] $value
+  --> Bool
+)
 =end code
 
 =item $iter; a pointer to an uninitialized B<Gnome::Gtk4::N-BitsetIter>
 =item $set; a B<Gnome::Gtk4::N-Bitset>
 =item $value; (transfer ownership: full) Set to the first value in C<$set>.
 
-Return value; C<True> if C<$set> isn't empty.. 
-
-=begin comment
-
-=head2 Example
-# Example for init-first
-
-=end comment
+Return value; C<True> if C<$set> isn't empty.
 
 =end rakudoc
 
@@ -222,21 +179,17 @@ value in C<$set>.
 If C<$set> is empty, C<False> is returned.
 
 =begin code
-method init-last ( N-Object $iter, N-Object $set, Array[Int] $value --> Bool )
+method init-last (
+  N-Object $iter, N-Object $set, Array[Int] $value
+  --> Bool
+)
 =end code
 
 =item $iter; a pointer to an uninitialized B<Gnome::Gtk4::N-BitsetIter>
 =item $set; a B<Gnome::Gtk4::N-Bitset>
 =item $value; (transfer ownership: full) Set to the last value in C<$set>.
 
-Return value; C<True> if C<$set> isn't empty.. 
-
-=begin comment
-
-=head2 Example
-# Example for init-last
-
-=end comment
+Return value; C<True> if C<$set> isn't empty.
 
 =end rakudoc
 

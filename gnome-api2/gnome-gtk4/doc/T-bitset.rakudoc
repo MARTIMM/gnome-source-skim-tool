@@ -26,7 +26,13 @@ Initialization of a type class is simple and only needed when the standalone fun
 
 =begin rakudoc
 =head1 Record N-BitsetIter
-  class N-BitsetIter is repr('CPointer') is export;
+
+This is an opaque type of which fields are not available.
+
+=begin code
+class N-BitsetIter is repr('CPointer') is export;
+=end code
+
 =end rakudoc
 
 #-------------------------------------------------------------------------------
@@ -35,6 +41,9 @@ Initialization of a type class is simple and only needed when the standalone fun
 
 =begin rakudoc
 =head1 Standalone Functions
+
+The functions mentioned here are the same as the methods explained in B<Gnome::Gtk4::N-BitsetIter> except that the name is longer. See also L<.init-first()|/content-docs/api2/reference/Gtk4/N-BitsetIter.html#init-first>, L<.init-last()|/content-docs/api2/reference/Gtk4/N-BitsetIter.html#init-last> or L<.init-at() all defined in package Gnome::Gtk4::N-BitsetIter|/content-docs/api2/reference/Gtk4/N-BitsetIter.html#init-at>.
+
 =end rakudoc
 
 #-------------------------------------------------------------------------------
@@ -43,11 +52,13 @@ Initialization of a type class is simple and only needed when the standalone fun
 
 Initializes C<$iter> to point to C<$target>.
 
-If C<$target> is not found, finds the next value after it.
-If no value >= C<$target> exists in C<$set>, this function returns C<False>.
+If C<$target> is not found, finds the next value after it. If no value >= C<$target> exists in C<$set>, this function returns C<False>.
 
 =begin code
-method bitset-iter-init-at ( N-Object $iter, N-Object $set, UInt() $target, Array[Int] $value --> Bool )
+method bitset-iter-init-at (
+  N-Object $iter, N-Object $set, UInt() $target, Array[Int] $value
+  --> Bool
+)
 =end code
 
 =item $iter; a pointer to an uninitialized B<Gnome::Gtk4::T-bitset>
@@ -55,14 +66,7 @@ method bitset-iter-init-at ( N-Object $iter, N-Object $set, UInt() $target, Arra
 =item $target; target value to start iterating at.
 =item $value; (transfer ownership: full) Set to the found value in C<$set>.
 
-Return value; C<True> if a value was found.. 
-
-=begin comment
-
-=head2 Example
-# Example for bitset-iter-init-at
-
-=end comment
+Return value; C<True> if a value was found.
 
 =end rakudoc
 
@@ -70,27 +74,22 @@ Return value; C<True> if a value was found..
 =begin rakudoc
 =head2 bitset-iter-init-first
 
-Initializes an iterator for C<$set> and points it to the first
-value in C<$set>.
+Initializes an iterator for C<$set> and points it to the first value in C<$set>.
 
 If C<$set> is empty, C<False> is returned and C<$value> is set to C<G_MAXUINT>.
 
 =begin code
-method bitset-iter-init-first ( N-Object $iter, N-Object $set, Array[Int] $value --> Bool )
+method bitset-iter-init-first (
+  N-Object $iter, N-Object $set, Array[Int] $value
+  --> Bool
+)
 =end code
 
 =item $iter; a pointer to an uninitialized B<Gnome::Gtk4::T-bitset>
 =item $set; a B<Gnome::Gtk4::N-Bitset>
 =item $value; (transfer ownership: full) Set to the first value in C<$set>.
 
-Return value; C<True> if C<$set> isn't empty.. 
-
-=begin comment
-
-=head2 Example
-# Example for bitset-iter-init-first
-
-=end comment
+Return value; C<True> if C<$set> isn't empty.
 
 =end rakudoc
 
@@ -98,27 +97,22 @@ Return value; C<True> if C<$set> isn't empty..
 =begin rakudoc
 =head2 bitset-iter-init-last
 
-Initializes an iterator for C<$set> and points it to the last
-value in C<$set>.
+Initializes an iterator for C<$set> and points it to the last value in C<$set>.
 
 If C<$set> is empty, C<False> is returned.
 
 =begin code
-method bitset-iter-init-last ( N-Object $iter, N-Object $set, Array[Int] $value --> Bool )
+method bitset-iter-init-last (
+  N-Object $iter, N-Object $set, Array[Int] $value
+  --> Bool
+)
 =end code
 
 =item $iter; a pointer to an uninitialized B<Gnome::Gtk4::T-bitset>
 =item $set; a B<Gnome::Gtk4::N-Bitset>
 =item $value; (transfer ownership: full) Set to the last value in C<$set>.
 
-Return value; C<True> if C<$set> isn't empty.. 
-
-=begin comment
-
-=head2 Example
-# Example for bitset-iter-init-last
-
-=end comment
+Return value; C<True> if C<$set> isn't empty.
 
 =end rakudoc
 
