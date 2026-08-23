@@ -2,13 +2,14 @@
 
 <!-- -->
 * TODO
-  * [ ] Modify markdown links in text or in Raku links when it uses urls.
+  * [x] Modify markdown links in text or in Raku links when it uses urls.
+  * [x] Make use of modern pod.
   * Add explanations of module documentation layout in the references of the documentation on site.
-    * [ ] Add info about the glib types used and what it means in Raku.
-    * [ ] That properties are mostly not needed because of their getters and setters.
+    * [x] Add info about the glib types used and what it means in Raku.
+    * [x] That properties are mostly not needed because of their getters and setters.
     * [ ] What does a function, constructor and method mean for gnome and how it is translated.
     * [ ] Referencing, dereferencing and floating references.
-    * [ ] Naming the classes, structures, unions, enumerations and the modules where they are defined.
+    * [x] Naming the classes, structures, unions, enumerations and the modules where they are defined.
     * [ ] C-examples and converting to Raku
 
   * Some types need to be implemented
