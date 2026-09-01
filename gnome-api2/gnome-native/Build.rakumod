@@ -37,7 +37,7 @@ method !map-installed-libraries ( ) {
 
 
     #---------------------------------------------------------------------------
-    unit module Gnome::N::NativeLib:auth<github:MARTIMM>;
+    unit module Gnome::N::NativeLib:auth<github:MARTIMM>:api<2>;
 
     #---------------------------------------------------------------------------
     #Note; Libraries for Gsk4 and Gdk4 are in that of Gtk4.
@@ -285,7 +285,7 @@ method !build-types-conversion-module ( ) {
     use v6.d;
     use NativeCall;
 
-    unit package Gnome::N::GlibToRakuTypes:auth<github:MARTIMM>:ver<0.3.0>;
+    unit package Gnome::N::GlibToRakuTypes:auth<github:MARTIMM>:api<2>;
 
     #---------------------------------------------------------------------------
     EOMOD_START
