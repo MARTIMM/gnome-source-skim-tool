@@ -6,9 +6,6 @@ use v6.d;
 
 use NativeCall;
 
-
-
-#use Gnome::Gtk4::T-csslocation:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
