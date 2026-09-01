@@ -116,7 +116,7 @@ my Str $module-text = Q:to/EOMOD_START/;
   #-------------------------------------------------------------------------------
 
   use v6.d;
-  unit package Gnome::N::GlibToRakuTypes;
+  unit package Gnome::N::GlibToRakuTypes:auth<github:MARTIMM>:api<2>;
 
   #-------------------------------------------------------------------------------
   EOMOD_START
