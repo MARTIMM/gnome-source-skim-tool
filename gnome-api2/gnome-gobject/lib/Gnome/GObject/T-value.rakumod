@@ -43,7 +43,7 @@ submethod BUILD ( ) {
 class N-Value:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
 
   has GType $.g-type is rw;
-  has gpointer $.data;
+  has gpointer $!data;
 
   submethod BUILD ( GType :$!g-type ) {
   }
