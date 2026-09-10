@@ -9,8 +9,6 @@ use v6.d;
 
 use NativeCall;
 
-
-#use :api<2>;
 #use Gnome::GObject::N-Closure:api<2>;
 #use Gnome::GObject::T-value:api<2>;
 #use Gnome::GObject::T-Binding:api<2>;
