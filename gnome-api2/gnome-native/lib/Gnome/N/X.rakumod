@@ -28,29 +28,28 @@ There are many situations when exceptions are retrown within code of a callback 
 
 When both arguments are used, :on has preverence over :off. When no arguments are provided, the debugging is turned off.
 
-The state is saved in `$Gnome::N::x-debug` and can be accessed directly to get
+The state is saved in `$x-debug` and can be accessed directly to get
 its state.
 
 =end rakudoc
 
   #TS:1:x-debug:
   #TM:1:debug():
-  our $Gnome::N::x-debug = False;
-  our &Gnome::N::debug = sub ( Bool :$on, Bool :$off ) {
-
+  our $x-debug = False;
+  our &debug = sub ( Bool :$on, Bool :$off ) {
     # when both are undefined only return debug state
     if !$on.defined and !$off.defined {
-      $Gnome::N::x-debug = False;
+      $x-debug = False;
     }
 
     # when only $off is defined, set debug to its opposite
     elsif !$on.defined and $off.defined {
-      $Gnome::N::x-debug = !$off;
+      $x-debug = !$off;
     }
 
     # all other cases $on is defined and has preverence above $off
     else {
-      $Gnome::N::x-debug = $on;
+      $x-debug = $on;
     }
   }
 
@@ -76,7 +75,7 @@ Set a deprecation message whith the Raku trait 'is DEPRECATED' on classes and me
 
   #TM:1:deprecate():
   my $x-deprecated = %();
-  our &Gnome::N::deprecate = sub (
+  our &deprecate = sub (
     Str $old, Str $new,
     Str $deprecate-version, Str $remove-version,
     Str :$gnome-lib = '', Bool :$class = False
@@ -217,7 +216,8 @@ sub test-call ( Callable:D $found-routine, $gobject is rw, |c ) is export {
 # so need another test
 
   my List $sig-params = $found-routine.signature.params;
-  note "\nSignature parameters of $found-routine: ", |$sig-params if $Gnome::N::x-debug;
+  note "\nSignature parameters of $found-routine: ", |$sig-params
+    if $Gnome::N::x-debug;
 
   my $result;
   if +$sig-params and
