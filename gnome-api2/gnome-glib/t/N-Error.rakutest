@@ -28,8 +28,10 @@ my Gnome::Glib::N-Error $error;
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
+note $?LINE;
 
 subtest 'ISA test', {
+note $?LINE;
   given $error {
 #    my  $args;
     my Str $format;
@@ -38,8 +40,10 @@ subtest 'ISA test', {
   my GQuark $domain = 45444;
   my Int $code = 1012342;
   my Str $message = 'my error';
+Gnome::N::debug(:on);
 
   $error .= new-error( $domain, $code, $message);
+note "$?LINE, ", $error.raku;
   ok $error.is-valid, '.new-error( $domain, $code, $message)';
   my N-Error $ne = nativecast( N-Error, $error._get-native-object-no-reffing);
   is $ne.domain, $domain, "domain; $domain";
