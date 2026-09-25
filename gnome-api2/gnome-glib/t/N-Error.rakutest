@@ -28,43 +28,37 @@ my Gnome::Glib::N-Error $error;
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
-note $?LINE;
-
 subtest 'ISA test', {
-note $?LINE;
   given $error {
-#    my  $args;
-    my Str $format;
 
-  #TB:1:new-error
-  my GQuark $domain = 45444;
-  my Int $code = 1012342;
-  my Str $message = 'my error';
-Gnome::N::debug(:on);
+    #TB:1:new-error
+    my GQuark $domain = 45444;
+    my Int $code = 1012342;
+    my Str $message = 'my error';
 
-  $error .= new-error( $domain, $code, $message);
-note "$?LINE, ", $error.raku;
-  ok $error.is-valid, '.new-error( $domain, $code, $message)';
-  my N-Error $ne = nativecast( N-Error, $error._get-native-object-no-reffing);
-  is $ne.domain, $domain, "domain; $domain";
+    $error .= new-error( $domain, $code, $message);
+    ok $error.is-valid, '.new-error( $domain, $code, $message)';
+    my N-Error $ne = nativecast( N-Error, $error._get-native-object-no-reffing);
+    is $ne.domain, $domain, "domain; $domain";
 
-  $message = 'my error %d from file %s';
-  $error .= new-error( $domain, $code, $message, gint, 2, Str, 'log.txt');
-  ok $error.is-valid, '.new-error( $domain, $code, $message, …)';
-  $ne = nativecast( N-Error, $error._get-native-object-no-reffing);
-  is $ne.message, sprintf( $message, 2, 'log.txt'), "message; $ne.message()";
+    $message = 'my error %d from file %s';
+    $error .= new-error( $domain, $code, $message, gint, 2, Str, 'log.txt');
+    ok $error.is-valid, '.new-error( $domain, $code, $message, …)';
+    $ne = nativecast( N-Error, $error._get-native-object-no-reffing);
+    is $ne.message, sprintf( $message, 2, 'log.txt'), "message; $ne.message()";
 
-  #TB:1:new-literal
-  $error .= new-literal( $domain, $code, $message);
-  ok $error.is-valid, '.new-literal( $domain, $code, $message)';
-  $ne = nativecast( N-Error, $error._get-native-object-no-reffing);
-  is $ne.code, $code, "code; $code";
+    #TB:1:new-literal
+    $error .= new-literal( $domain, $code, $message);
+    ok $error.is-valid, '.new-literal( $domain, $code, $message)';
+    $ne = nativecast( N-Error, $error._get-native-object-no-reffing);
+    is $ne.code, $code, "code; $code";
 
-  #TB:0:new( :valist(…), :code(…), :format(…), :args(…))
-  #$error .= new( :valist(…), :code(…), :format(…), :args(…));
-  #ok $error.is-valid, '.new( :valist(…), :code(…), :format(…), :args(…))';
+    #TB:0:new( :valist(…), :code(…), :format(…), :args(…))
+    #$error .= new( :valist(…), :code(…), :format(…), :args(…));
+    #ok $error.is-valid, '.new( :valist(…), :code(…), :format(…), :args(…))';
 
 #`{{
+    my Str $format;
     #TC:0:new-valist()
     $domain = '…';
     $code = -42;
@@ -72,8 +66,8 @@ note "$?LINE, ", $error.raku;
     $args = '…';
     $error .= new-valist( $domain, $code, $format, $args);
     ok .is-valid, '.new-valist( $domain, $code, $format, $args)';
-
 }}
+
   }
 };
 
@@ -101,7 +95,10 @@ subtest 'Method tests', {
     ok .matches( $domain, $code), '.matches()';
 
     #TM:1:copy()
-    my N-Error() $e = .copy();
+    #TODO rakupp COERCE failure. Now it cannot use proper object after
+    # changes in T-Error
+    my N-Error() $e = .copy;
+    #my N-Error $e = nativecast( N-Error, .copy);
     is $e.domain, $domain, '.copy()';
 
     #TM:1:free()

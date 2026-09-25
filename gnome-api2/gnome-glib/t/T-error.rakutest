@@ -1,5 +1,6 @@
 # Command to generate: generate.raku -t Glib error
 use v6.d;
+use lib '/home/marcel/Languages/Raku/Projects/gnome-source-skim-tool/gnome-api2/gnome-native/lib/';
 
 #TL:1:Gnome::Glib::T-error:
 #-------------------------------------------------------------------------------
@@ -23,14 +24,10 @@ my Gnome::Glib::T-error $error .= new;
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $error {
-    my Str $prefix;
-    my CArray[N-Error] $err;
     my gint $code;
     my GQuark $domain;
-    my Str $format;
-    my CArray[N-Error] $dest;
     my Str $message;
-    my N-Error $src;
+    my Str $format;
 
     my N-Error $n-error;
 
@@ -43,7 +40,6 @@ subtest 'Method tests', {
 
 #Gnome::N::debug(:on);
     .set-error-literal( $e, $domain, $code, $message);
-#note $e[0].gist;
     is $e[0].domain, 45444, '.set-error-literal()';
 
     #TB:1:set-error()
@@ -66,7 +62,6 @@ subtest 'Method tests', {
     is $e[0].message, sprintf( $format, 32e-1), '.set-error() with added gdouble';
 
 #`{{
-
     #TM:0:propagate-prefixed-error()
     ok .propagate-prefixed-error( $dest, $src, $format), '.propagate-prefixed-error()';
 
