@@ -16,7 +16,8 @@ unit class Gnome::N::GnomeRoutineCaller:auth<github:MARTIMM>:api<2>;
 
 #-------------------------------------------------------------------------------
 # Define the error structure here too. It belongs in Gnome::Glib but
-# taking it from there creates a circular depency
+# importing it from there creates a circular depency. The name is
+# also N-GError instead of N-Error to prevent other clashes.
 class N-GError is repr('CStruct') {
 
   has GQuark $.domain;
@@ -396,7 +397,6 @@ method !convert-args ( Mu $v, $p ) {
   my $c;
 
   note "\nArgument: type: $p.^name(), value: $v.gist()" if $Gnome::N::x-debug;
-#`{{
   if $v.can('get-native-object-no-reffing') {
     my N-Object $no = $v.get-native-object-no-reffing;
     $c = $no;
@@ -405,7 +405,6 @@ method !convert-args ( Mu $v, $p ) {
   }
 
   else {
-}}
     given $p {
       # May be used to receive an array of strings or to provide one.
       when gchar-pptr {
@@ -503,7 +502,7 @@ note "$?LINE $c.gist()";
       default {
         $c = $v;
       }
-#    }
+    }
   }
 
   note "Converted; type: $c.^name(), value: $c.gist()" if $Gnome::N::x-debug;
