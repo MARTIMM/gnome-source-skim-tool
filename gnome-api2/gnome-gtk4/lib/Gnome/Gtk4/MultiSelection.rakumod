@@ -7,12 +7,13 @@ use v6.d;
 
 use NativeCall;
 
-
-
+use Gnome::Gio::R-ListModel:api<2>;
 
 use Gnome::GObject::Object:api<2>;
+
 #use Gnome::Gtk4::R-SectionModel:api<2>;
 use Gnome::Gtk4::R-SelectionModel:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -28,6 +29,7 @@ unit class Gnome::Gtk4::MultiSelection:auth<github:MARTIMM>:api<2>;
 also is Gnome::GObject::Object;
 #also does Gnome::Gtk4::R-SectionModel;
 also does Gnome::Gtk4::R-SelectionModel;
+also does Gnome::Gio::R-ListModel;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
