@@ -7,12 +7,10 @@ use v6.d;
 
 use NativeCall;
 
-
-
-
 use Gnome::Gtk4::R-Orientable:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -46,7 +44,7 @@ submethod BUILD ( *%options ) {
 
   # Add signal administration info.
   unless $signals-added {
-    
+
     # Signals from interfaces
     self._add_gtk_orientable_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_orientable_signal_types');
