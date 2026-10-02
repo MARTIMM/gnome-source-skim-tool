@@ -56,10 +56,11 @@ submethod BUILD ( *%options ) {
     self._add_gtk_section_model_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_section_model_signal_types');
 }}
-    self._add_gtk_section_model_signal_types($?CLASS.^name)
-      if self.^can('_add_gtk_section_model_signal_types');
+    self._add_g_list_model_signal_types($?CLASS.^name)
+      if self.^can('_add_g_list_model_signal_types');
     self._add_gtk_selection_model_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_selection_model_signal_types');
+
     $signals-added = True;
   }
 
@@ -143,6 +144,11 @@ method _fallback-v2 (
     $r = self._do_gtk_selection_model_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
     ) if self.^can('_do_gtk_selection_model_fallback-v2');
+    return $r if $_fallback-v2-ok;
+
+    $r = self._do_g_list_model_fallback-v2(
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
+    ) if self.^can('_do_g_list_model_fallback-v2');
     return $r if $_fallback-v2-ok;
 
     callsame;
