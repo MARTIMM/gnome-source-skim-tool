@@ -91,6 +91,9 @@ find . -name '*.raku*' | xargs wc -l
 * [x] Improve documentation.
 
 # Release notes
+* 2026-10-02 0.17.9
+  * Missing role usages in GridView, ListView, SingleSelection and MultiSelection. Because of this, some methods and signals were unreachable.
+
 * 2026-05-04 0.17.8
   * Added **Gnome::Gtk4::AlertDialog**. Available since Gtk 4.10.
   * Modify module documents of all distributions
