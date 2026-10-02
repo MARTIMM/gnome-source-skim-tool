@@ -7,13 +7,12 @@ use v6.d;
 
 use NativeCall;
 
-
-
-
+use Gnome::Gtk4::R-Orientable:api<2>;
 use Gnome::Gtk4::ListBase:api<2>;
 use Gnome::Gtk4::N-ScrollInfo:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::Gtk4::T-types:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -49,6 +48,11 @@ submethod BUILD ( *%options ) {
     self.add-signal-types( $?CLASS.^name,
       :w1<activate>,
     );
+
+    # Signals from interfaces
+    self._add_gtk_orientable_signal_types($?CLASS.^name)
+      if self.^can('_add_gtk_orientable_signal_types');
+
     $signals-added = True;
   }
 
@@ -126,6 +130,13 @@ method _fallback-v2 (
   }
 
   else {
+    my $r;
+    my $native-object = self.get-native-object-no-reffing;
+    $r = self._do_gtk_orientable_fallback-v2(
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
+    ) if self.^can('_do_gtk_orientable_fallback-v2');
+    return $r if $_fallback-v2-ok;
+
     callsame;
   }
 }
