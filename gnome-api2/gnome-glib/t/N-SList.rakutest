@@ -24,8 +24,11 @@ use Gnome::N::X:api<2>;
 
 #Gnome::N::debug(:on);
 
-# Helpers to get data in and out
+# Keep is needed because the data is always owned by the caller. This means
+# that we must prevent Raku to clean it up when going out of scpe.
 my @keep = ();
+
+# Helper to get data in and out
 sub pack ( Int $n --> gpointer ) {
   my $o = CArray[gint].new($n);
   @keep.push($o);
