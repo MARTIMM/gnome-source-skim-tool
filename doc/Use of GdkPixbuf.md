@@ -34,7 +34,7 @@ g_object_unref(texture);
 In Raku
 ```raku
 my $e = CArray[N-Error].new(N-Error);
-my Gnome::Gdk4::Pixbuf $pixbuf .= new-from-file( $path-to-picture, $e);
+my Gnome::GdkPixbuf::Pixbuf $pixbuf .= new-from-file( $path-to-picture, $e);
 if $e[0].defined {
   die $e[0].message;
 } else {
