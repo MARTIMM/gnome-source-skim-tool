@@ -20,3 +20,9 @@ Key Platform Differences
 * Windows: Uses the .dll extension. Compiled packages (such as those from MSYS2 or MinGW) append -0 or another ABI suffix to the end of the base name to signify binary compatibility layout. 
 * macOS: Uses the .dylib format. Filenames include the internal library versioning before the extension (e.g., .4.dylib or .2.0.dylib) depending on how they are built via frameworks like Homebrew or GTK-OSX. 
 
+# Location of libraries
+
+|Linux|Windows|macOS/Apple|
+|-|-|-|
+/usr/lib/ |  C:\Windows\System32\ | /usr/lib/
+/usr/lib64/| C:\Windows\SysWOW64\ |
