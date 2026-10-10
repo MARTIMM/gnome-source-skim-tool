@@ -19,7 +19,7 @@ g_set_error_literal( $e, $domain, $code, $message);
 say $e[0].raku;
 say $e.raku;
 
-# Take care of the library name!
+# Take care of the library name of libglib!
 sub g_set_error_literal ( CArray[N-Error], uint32, int32, Str )
   is native('libglib-2.0.so.0')
   {*}
