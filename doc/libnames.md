@@ -14,7 +14,8 @@ libadwaita (Modern GNOME UI)|libadwaita-1.so|libadwaita-1-0.dll|libadwaita-1.dyl
 |||||
 Sandboxed and extendable image loading|libglycin-2.so|libglycin-2-0.dll|libglycin-2.dylib
 
-Key Platform Differences
+
+### Key Platform Differences
 
 * Linux: Uses the standard lib[name].so convention. Major API versions are typically appended directly to the filename (e.g., -4 for GTK4, -2.0 for GLib 2). 
 * Windows: Uses the .dll extension. Compiled packages (such as those from MSYS2 or MinGW) append -0 or another ABI suffix to the end of the base name to signify binary compatibility layout. 
