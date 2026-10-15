@@ -564,6 +564,7 @@ multi method convert-return ( $v, Hash $routine ) {
   $c
 }
 
+#`{{
 #-------------------------------------------------------------------------------
 # called from make-list-from-result() to make lists of returned values via
 # argument pointers
@@ -600,11 +601,12 @@ multi method convert-return ( $v, $p ) {
     }
   }
 
-  #note "Converted return; type: $c.^name(), value: $c.gist()"
-  #  if $Gnome::N::x-debug;
+  note "Converted return; type: $c.^name(), value: $c.gist()"
+    if $Gnome::N::x-debug;
 
   $c
 }
+}}
 
 #-------------------------------------------------------------------------------
 method !adjust-data ( Array $arguments, Array $parameters --> List ) {
