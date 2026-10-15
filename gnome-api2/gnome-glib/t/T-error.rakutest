@@ -38,9 +38,11 @@ subtest 'Method tests', {
     $code = 1012342;
     $message = 'my error';
 
-#Gnome::N::debug(:on);
+Gnome::N::debug(:on);
     .set-error-literal( $e, $domain, $code, $message);
+note "$?LINE $e[0].raku()";
     is $e[0].domain, 45444, '.set-error-literal()';
+exit;
 
     #TB:1:set-error()
     $e = CArray[N-Error].new(N-Error);
