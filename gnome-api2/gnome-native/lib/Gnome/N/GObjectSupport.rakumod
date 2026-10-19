@@ -408,6 +408,7 @@ method !convert-type ( Mu $type, Bool :$type-only = False --> Any ) {
     when 'Rat' { $converted-type = gdouble; }
 #    when 'Pointer' { $converted-type = Pointer; }
     when 'Str' { $converted-type = gchar-ptr; }
+    when /^ 'N-Error' / { $converted-type = N-Object; }
     when /^ Gnome '::' / { $converted-type = N-Object; }
 
     # Assume that all other class types have a Gnome class parent
