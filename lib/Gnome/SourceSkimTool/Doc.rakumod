@@ -787,7 +787,7 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 #$*work-data<raku-class-name>\(\) :\$_native-object,
       $doc ~= qq:to/EOSIG/;
           Int :\$_handle_id,
-          N-GObject :\$_native-object,
+          N-Object :\$_native-object,
           *\%user-options$rv-method
         )
         =end code
@@ -797,7 +797,7 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 #`{{
 note "$?LINE ", qq:to/EOSIG/;
           Int :\$_handle_id,
-          N-GObject :\$_native-object,
+          N-Object :\$_native-object,
           *\%user-options$rv-method
         )
         =end code
