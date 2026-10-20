@@ -83,7 +83,7 @@ subtest 'Signals …', {
       $!signal-processed = True;
     }
 
-    method signal-emitter ( Gnome::Gio::SimpleActionGroup :$_widget --> Str ) {
+    method signal-emitter ( Gnome::Gio::SimpleActionGroup() :$_native-object($_widget) --> Str ) {
 
       while $main.gtk-events-pending() { $main.iteration-do(False); }
 

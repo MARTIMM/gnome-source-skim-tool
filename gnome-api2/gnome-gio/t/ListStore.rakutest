@@ -129,7 +129,7 @@ subtest 'Signals …', {
       $!signal-processed = True;
     }
 
-    method signal-emitter ( Gnome::Gio::ListStore :$_widget --> Str ) {
+    method signal-emitter ( Gnome::Gio::ListStore() :$_native-object($_widget) --> Str ) {
 
       while $main.gtk-events-pending() { $main.iteration-do(False); }
 
