@@ -761,8 +761,7 @@ Emitted when C<$surface> starts being present on the monitor.
 method handler (
   N-Object $monitor,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gdk4::Surface :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -788,8 +787,7 @@ Emitted when GDK receives an input event for C<$surface>.
 method handler (
   gpointer $event,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gdk4::Surface :$_widget,
+  N-Object :$_native-object,
   *%user-options
   --> gboolean
 )
@@ -823,8 +821,7 @@ method handler (
   gint $width,
   gint $height,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gdk4::Surface :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -851,8 +848,7 @@ Emitted when C<$surface> stops being present on the monitor.
 method handler (
   N-Object $monitor,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gdk4::Surface :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -878,8 +874,7 @@ Emitted when part of the surface needs to be redrawn.
 method handler (
    $region,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gdk4::Surface :$_widget,
+  N-Object :$_native-object,
   *%user-options
   --> gboolean
 )

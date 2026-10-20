@@ -272,8 +272,7 @@ Emitted when the drag operation is cancelled.
 method handler (
   UInt $reason,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gdk4::Drag :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -293,8 +292,7 @@ The drag object can now free all miscellaneous data.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gdk4::Drag :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -311,8 +309,7 @@ Emitted when the drop operation is performed on an accepting client.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gdk4::Drag :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code

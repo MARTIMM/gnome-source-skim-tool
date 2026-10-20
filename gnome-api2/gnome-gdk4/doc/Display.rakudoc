@@ -848,8 +848,7 @@ Emitted when the connection to the windowing system for C<$display> is closed.
 method handler (
   gboolean $is-error,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gdk4::Display :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -874,8 +873,7 @@ Emitted when the connection to the windowing system for C<$display> is opened.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gdk4::Display :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -900,8 +898,7 @@ Emitted whenever a new seat is made known to the windowing system.
 method handler (
   N-Object $seat,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gdk4::Display :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -927,8 +924,7 @@ Emitted whenever a seat is removed by the windowing system.
 method handler (
   N-Object $seat,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gdk4::Display :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -954,8 +950,7 @@ Emitted whenever a setting changes its value.
 method handler (
   Str $setting,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gdk4::Display :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
