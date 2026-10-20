@@ -402,11 +402,11 @@ method generate-signal-tests ( Str $test-variable --> Str ) {
           \$!signal-processed = True;
         }
 
-        method signal-emitter \( $*work-data<raku-class-name> :\$_widget --> Str ) \{
+        method signal-emitter \( $*work-data<raku-class-name>\() :\$_native-object\(\$widget) --> Str ) \{
 
           while \$main.gtk-events-pending\() \{ \$main.iteration-do\(False); }
 
-          \$_widget.emit-by-name\(
+          \$widget.emit-by-name\(
             'signal',
           #  'any-args',
           #  :return-type(int32),
@@ -417,7 +417,7 @@ method generate-signal-tests ( Str $test-variable --> Str ) {
           while \$main.gtk-events-pending\() \{ \$main.iteration-do\(False); }
 
           #\$!signal-processed = False;
-          #\$_widget.emit-by-name\(
+          #\$widget.emit-by-name\(
           #  'signal',
           #  'any-args',
           #  :return-type\(int32),
