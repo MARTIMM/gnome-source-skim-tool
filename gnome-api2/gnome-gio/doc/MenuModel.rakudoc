@@ -438,8 +438,7 @@ method handler (
   gint $removed,
   gint $added,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gio::MenuModel :$_widget,
+  N-Object :$_native-object,
   *C<user>-options
 )
 =end code
@@ -449,7 +448,6 @@ method handler (
 =item $added; the number of items added.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gio::MenuModel> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =begin comment

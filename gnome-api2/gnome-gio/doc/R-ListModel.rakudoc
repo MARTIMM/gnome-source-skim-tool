@@ -214,7 +214,7 @@ method handler (
   guint $removed,
   guint $added,
   Int :$_handle_id,
-  N-GObject :$_native-object,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -223,7 +223,7 @@ method handler (
 =item $removed; the number of items removed.
 =item $added; the number of items added.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gio::ListModel> object.
+=item $_native-object; The native object provided by the Raku object which registered this event. This is a native B<Gnome::Gio::ListModel> object.
 =item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =end rakudoc

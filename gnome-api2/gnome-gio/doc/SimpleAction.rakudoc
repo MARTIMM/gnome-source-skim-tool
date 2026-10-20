@@ -215,8 +215,7 @@ of B<Gnome::Gio::SimpleAction> to connect only one handler or the other.
 method handler (
   N-Object $parameter,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gio::SimpleAction :$_widget,
+  N-Object :$_native-object,
   *C<user>-options
 )
 =end code
@@ -225,7 +224,6 @@ method handler (
   no parameter. It is a native B<Gnome::Glib::Variant>.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gio::SimpleAction> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =begin comment
@@ -277,8 +275,7 @@ It could set it to any value at all, or take some other action.
 method handler (
    $value,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gio::SimpleAction :$_widget,
+  N-Object :$_native-object,
   *C<user>-options
 )
 =end code
@@ -286,7 +283,6 @@ method handler (
 =item $value; the requested value for the state.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gio::SimpleAction> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =begin comment

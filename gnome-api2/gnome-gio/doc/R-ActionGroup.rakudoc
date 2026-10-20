@@ -540,8 +540,7 @@ and is now visible.
 method handler (
   Str $action-name,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gio::ActionGroup :$_widget,
+  N-Object :$_native-object,
   *C<user>-options
 )
 =end code
@@ -549,7 +548,6 @@ method handler (
 =item $action-name; the name of the action in C<$action-group>.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gio::ActionGroup> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =begin comment
@@ -569,8 +567,7 @@ method handler (
   Str $action-name,
   gboolean $enabled,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gio::ActionGroup :$_widget,
+  N-Object :$_native-object,
   *C<user>-options
 )
 =end code
@@ -579,7 +576,6 @@ method handler (
 =item $enabled; whether the action is enabled or not.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gio::ActionGroup> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =begin comment
@@ -600,8 +596,7 @@ is still visible and can be queried from the signal handler.
 method handler (
   Str $action-name,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gio::ActionGroup :$_widget,
+  N-Object :$_native-object,
   *C<user>-options
 )
 =end code
@@ -609,7 +604,6 @@ method handler (
 =item $action-name; the name of the action in C<$action-group>.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gio::ActionGroup> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =begin comment
@@ -629,8 +623,7 @@ method handler (
   Str $action-name,
    $value,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gio::ActionGroup :$_widget,
+  N-Object :$_native-object,
   *C<user>-options
 )
 =end code
@@ -639,7 +632,6 @@ method handler (
 =item $value; the new value of the state.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gio::ActionGroup> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =begin comment

@@ -1488,15 +1488,13 @@ activation occurs. See C<.activate()>.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gio::Application :$_widget,
+  N-Object :$_native-object,
   *C<user>-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gio::Application> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =begin comment
@@ -1517,8 +1515,7 @@ the B<Gnome::Gio::ApplicationCommandLine> documentation for more information.
 method handler (
    $command-line,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gio::Application :$_widget,
+  N-Object :$_native-object,
   *C<user>-options
   --> gint
 )
@@ -1528,7 +1525,6 @@ method handler (
     passed commandline.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gio::Application> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 Return value; An integer that is set as the exit status for the calling
@@ -1590,8 +1586,7 @@ normally be required.
 method handler (
    $options,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gio::Application :$_widget,
+  N-Object :$_native-object,
   *C<user>-options
   --> gint
 )
@@ -1600,7 +1595,6 @@ method handler (
 =item $options; the options dictionary.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gio::Application> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 Return value; an exit code. If you have handled your options and want
@@ -1627,8 +1621,7 @@ The default handler for this signal calls C<.quit()>.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gio::Application :$_widget,
+  N-Object :$_native-object,
   *C<user>-options
   --> gboolean
 )
@@ -1636,7 +1629,6 @@ method handler (
 
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gio::Application> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 Return value; C<True> if the signal has been handled
@@ -1660,8 +1652,7 @@ method handler (
   gint $n-files,
   Str $hint,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gio::Application :$_widget,
+  N-Object :$_native-object,
   *C<user>-options
 )
 =end code
@@ -1671,7 +1662,6 @@ method handler (
 =item $hint; a hint provided by the calling instance.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gio::Application> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =comment -----------------------------------------------------------------------
@@ -1683,15 +1673,13 @@ immediately after the main loop terminates.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gio::Application :$_widget,
+  N-Object :$_native-object,
   *C<user>-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gio::Application> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =comment -----------------------------------------------------------------------
@@ -1703,15 +1691,13 @@ after registration. See C<.register()>.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gio::Application :$_widget,
+  N-Object :$_native-object,
   *C<user>-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gio::Application> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =end rakudoc
