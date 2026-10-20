@@ -2340,14 +2340,12 @@ The I<activate-default> signal is a keybinding signal which gets emitted when th
 method handler (
   Int :$_handle_id,
   Gnome::Gtk3::Window() :$_native-object,
-  Gnome::Gtk3::Window :$_widget,
   *%user-options
 )
 =end code
 
 =item $_handle_id; the registered event handler id.
 =item $_native-object; The native object provided by the caller wrapped in the Raku object.
-=item $_widget; the object which received the signal.
 =item %user-options; A list of named arguments provided at the C<.register-signal() method from Gnome::GObject::Object>.
 
 =comment -----------------------------------------------------------------------
@@ -2360,14 +2358,12 @@ The I<activate-focus> signal is a keybinding signal which gets emitted when the 
 method handler (
   Int :$_handle_id,
   Gnome::Gtk3::Window() :$_native-object,
-  Gnome::Gtk3::Window :$_widget,
   *%user-options
 )
 =end code
 
 =item $_handle_id; the registered event handler id.
 =item $_native-object; The native object provided by the caller wrapped in the Raku object.
-=item $_widget; the object which received the signal.
 =item %user-options; A list of named arguments provided at the C<.register-signal() method from Gnome::GObject::Object>.
 
 =comment -----------------------------------------------------------------------
@@ -2383,7 +2379,6 @@ method handler (
   Bool() $toggle,
   Int :$_handle_id,
   Gnome::Gtk3::Window() :$_native-object,
-  Gnome::Gtk3::Window :$_widget,
   *%user-options
   --> gboolean
 )
@@ -2392,7 +2387,6 @@ method handler (
 =item $toggle; toggle the debugger.
 =item $_handle_id; the registered event handler id.
 =item $_native-object; The native object provided by the caller wrapped in the Raku object.
-=item $_widget; the object which received the signal.
 =item %user-options; A list of named arguments provided at the C<.register-signal() method from Gnome::GObject::Object>.
 
 Return value; C<True> if the key binding was handled
@@ -2407,14 +2401,12 @@ The I<keys-changed> signal gets emitted when the set of accelerators or mnemonic
 method handler (
   Int :$_handle_id,
   Gnome::Gtk3::Window() :$_native-object,
-  Gnome::Gtk3::Window :$_widget,
   *%user-options
 )
 =end code
 
 =item $_handle_id; the registered event handler id.
 =item $_native-object; The native object provided by the caller wrapped in the Raku object.
-=item $_widget; the object which received the signal.
 =item %user-options; A list of named arguments provided at the C<.register-signal() method from Gnome::GObject::Object>.
 
 =comment -----------------------------------------------------------------------
@@ -2428,7 +2420,6 @@ method handler (
   N-Object() $widget,
   Int :$_handle_id,
   Gnome::Gtk3::Window() :$_native-object,
-  Gnome::Gtk3::Window :$_widget,
   *%user-options
 )
 =end code
@@ -2436,7 +2427,6 @@ method handler (
 =item $widget; the newly focused widget (or C<Nil> for no focus).
 =item $_handle_id; the registered event handler id.
 =item $_native-object; The native object provided by the caller wrapped in the Raku object.
-=item $_widget; the object which received the signal.
 =item %user-options; A list of named arguments provided at the C<.register-signal() method from Gnome::GObject::Object>.
 
 =end pod

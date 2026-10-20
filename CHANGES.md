@@ -79,7 +79,7 @@ find . -name '*.raku*' | xargs wc -l
 * Code is split into more separate files.
   * **Gnome::\<package>::\<class>**. Class names are as before.
   * **Gnome::\<package>::R-\<role>**. Name of roles are changed but is not a problem because they cannot be used as a class.
-  * **Gnome::\<package>::N-\<structures>**. Structures and unions are stored separately. This is a change from the older packages. The structure names are also exported so that the last part can be used; E.g. **N-Error** imported with **Gnome::Glib::N-Error**. The object **N-Object** found in `Gnome::N` is widely used and was name N-GObject in the first project.
+  * **Gnome::\<package>::N-\<structures>**. Structures and unions are stored separately. This is a change from the older packages. The structure names are also exported so that the last part can be used; E.g. **N-Error** imported with **Gnome::Glib::N-Error**. The object **N-Object** found in `Gnome::N` is widely used and was named N-GObject in the first project.
   * **Gnome::\<package>::T-\<types>**. A gathering of other types like constants and enumerations. The types are all exported.
 * In the older packages GdkPixbuf was put into the Gdk3 package. The newer one will separate this. First of all, it is not specifically pinned to version 3. It isn't gone, however, gnome developers mention that it would be better to use [GdkTexture and GdkPaintables](https://blog.gtk.org/2018/03/16/textures-and-paintables/).
 * New packages are introduced in the new api; To name a few, `Gnome::Atk`, `Gnome::Pango`, `Gnome::Gsk4`, `Gnome::Gtk4`, and `Gnome::Gdk4`.

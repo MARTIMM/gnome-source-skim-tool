@@ -131,7 +131,6 @@ $signal-name; The name of the event to be handled. Each gtk object has its own s
 %user-options; Any other user data in whatever type provided as one or more named arguments. These arguments are provided to the user handler when an event for the handler is fired. The names starting with '_' are reserved to provide other info to the user.
 
 The following reserved named arguments are available;
-  =item C<:$_widget>; The instance which registered the signal.
   =item C<:$_handler-id>; The handler id which is returned from the registration
   =item C<:$_native-object>; The native object provided by the caller.
   =begin code
