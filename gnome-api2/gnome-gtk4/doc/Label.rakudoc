@@ -1521,8 +1521,7 @@ The default bindings for this signal are all forms of the <kbd>Enter</kbd> key.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Label :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -1550,8 +1549,7 @@ which is to call L<.launch() in class FileLauncher|/content-docs/api2/reference/
 method handler (
   Str $uri,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Label :$_widget,
+  N-Object :$_native-object,
   *%user-options
   --> gboolean
 )
@@ -1583,8 +1581,7 @@ The default binding for this signal is <kbd>Ctrl</kbd>+<kbd>c</kbd>.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Label :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -1630,8 +1627,7 @@ method handler (
   gint $count,
   gboolean $extend-selection,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Label :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code

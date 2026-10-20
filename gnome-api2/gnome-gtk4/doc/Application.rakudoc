@@ -603,8 +603,7 @@ to delay the end of the session until state has been saved.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Application :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -630,8 +629,7 @@ L<.add-window()|#add-window>.
 method handler (
   N-Object $window,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Application :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -660,8 +658,7 @@ or explicitly through L<.remove-window()|#remove-window>.
 method handler (
   N-Object $window,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Application :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code

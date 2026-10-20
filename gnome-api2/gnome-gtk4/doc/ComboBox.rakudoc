@@ -860,8 +860,7 @@ emitting it causes the combo box to pop up its dropdown.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::ComboBox :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -889,8 +888,7 @@ also be emitted while typing into the entry of a combo box with an entry.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::ComboBox :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -945,8 +943,7 @@ format_entry_text_callback (GtkComboBox *combo,
 method handler (
   Str $path,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::ComboBox :$_widget,
+  N-Object :$_native-object,
   *%user-options
   --> Str
 )
@@ -979,8 +976,7 @@ This is an [keybinding signal](class.SignalAction.html).
 method handler (
    $scroll-type,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::ComboBox :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -1009,8 +1005,7 @@ The default bindings for this signal are Alt+Up and Escape.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::ComboBox :$_widget,
+  N-Object :$_native-object,
   *%user-options
   --> gboolean
 )
@@ -1041,8 +1036,7 @@ The default binding for this signal is Alt+Down.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::ComboBox :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code

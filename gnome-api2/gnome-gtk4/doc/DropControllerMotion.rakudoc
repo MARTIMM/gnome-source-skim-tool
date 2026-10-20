@@ -158,8 +158,7 @@ method handler (
   gdouble $x,
   gdouble $y,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::DropControllerMotion :$_widget,
+  N-Object :$_native-object,,
   *%user-options
 )
 =end code
@@ -185,8 +184,7 @@ Signals that the pointer has left the widget.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::DropControllerMotion :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -212,8 +210,7 @@ method handler (
   gdouble $x,
   gdouble $y,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::DropControllerMotion :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code

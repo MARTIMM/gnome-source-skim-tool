@@ -611,8 +611,7 @@ chance to adjust the bounds.
 method handler (
   gdouble $value,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Range :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -650,8 +649,7 @@ method handler (
    $scroll,
   gdouble $value,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Range :$_widget,
+  N-Object :$_native-object,
   *%user-options
   --> gboolean
 )
@@ -684,8 +682,7 @@ Used for keybindings.
 method handler (
    $step,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Range :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -710,8 +707,7 @@ Emitted when the range value changes.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Range :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code

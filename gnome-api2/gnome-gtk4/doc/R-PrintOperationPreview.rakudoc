@@ -129,8 +129,7 @@ method handler (
   N-Object $context,
   N-Object $page-setup,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::PrintOperationPreview :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -160,8 +159,7 @@ A handler for this signal can be used for setup tasks.
 method handler (
   N-Object $context,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::PrintOperationPreview :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code

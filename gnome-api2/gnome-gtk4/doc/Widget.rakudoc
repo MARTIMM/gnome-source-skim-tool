@@ -4901,8 +4901,7 @@ This signal is not suitable for saving widget state.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Widget :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -4927,8 +4926,7 @@ Emitted when the text direction of a widget changes.
 method handler (
    $previous-direction,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Widget :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -4953,8 +4951,7 @@ Emitted when C<$widget> is hidden.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Widget :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -4981,8 +4978,7 @@ See L<.keynav-failed()|#keynav-failed> for details.
 method handler (
    $direction,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Widget :$_widget,
+  N-Object :$_native-object,
   *%user-options
   --> gboolean
 )
@@ -5020,8 +5016,7 @@ emission of I<unmap>.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Widget :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -5049,8 +5044,7 @@ is C<False>, or just makes C<$widget> grab focus if C<$group-cycling> is C<True>
 method handler (
   gboolean $group-cycling,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Widget :$_widget,
+  N-Object :$_native-object,
   *%user-options
   --> gboolean
 )
@@ -5085,8 +5079,7 @@ and <kbd>Shift</kbd>+<kbd>Tab</kbd> to move backward.
 method handler (
    $direction,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Widget :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -5127,8 +5120,7 @@ method handler (
   gboolean $keyboard-mode,
   N-Object $tooltip,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Widget :$_widget,
+  N-Object :$_native-object,
   *%user-options
   --> gboolean
 )
@@ -5164,8 +5156,7 @@ or the widget has been mapped (that is, it is going to be drawn).
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Widget :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -5189,8 +5180,7 @@ Emitted when C<$widget> is shown.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Widget :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -5217,8 +5207,7 @@ See L<.get-state-flags()|#get-state-flags>.
 method handler (
    $flags,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Widget :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -5280,8 +5269,7 @@ it can be used to, for example, stop an animation on the widget.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Widget :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -5328,8 +5316,7 @@ or the widget has been unmapped (that is, it is going to be hidden).
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Widget :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code

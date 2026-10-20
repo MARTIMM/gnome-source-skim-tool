@@ -110,7 +110,7 @@ method handler (
   gdouble $x,
   gdouble $y,
   Int :$_handle_id,
-  N-GObject :$_native-object,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -133,7 +133,7 @@ method handler (
   gdouble $x,
   gdouble $y,
   Int :$_handle_id,
-  N-GObject :$_native-object,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -153,7 +153,7 @@ Emitted whenever any time/distance threshold has been exceeded.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -172,9 +172,9 @@ method handler (
   gdouble $x,
   gdouble $y,
   guint $button,
-  N-GObject $sequence,
+  N-Object $sequence,
   Int :$_handle_id,
-  N-GObject :$_native-object,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code

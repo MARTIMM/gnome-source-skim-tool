@@ -779,8 +779,7 @@ pressed again.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::SpinButton :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -813,8 +812,7 @@ The default bindings for this signal are Up/Down and PageUp/PageDown.
 method handler (
    $scroll,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::SpinButton :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -846,8 +844,7 @@ The default conversion uses g_strtod().
 method handler (
   gpointer $new-value,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::SpinButton :$_widget,
+  N-Object :$_native-object,
   *%user-options
   --> gint
 )
@@ -876,8 +873,7 @@ Emitted to tweak the formatting of the value for display.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::SpinButton :$_widget,
+  N-Object :$_native-object,
   *%user-options
   --> gboolean
 )
@@ -930,8 +926,7 @@ Also see the I<output> signal.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::SpinButton :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -979,8 +974,7 @@ to its minimum value or vice-versa.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::SpinButton :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code

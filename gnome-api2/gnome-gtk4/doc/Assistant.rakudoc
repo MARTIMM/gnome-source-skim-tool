@@ -731,8 +731,7 @@ the progress page.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Assistant :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -756,8 +755,7 @@ Emitted when then the cancel button is clicked.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Assistant :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -783,8 +781,7 @@ C<GTK_ASSISTANT_PAGE_CONFIRM>) is clicked.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Assistant :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -808,8 +805,7 @@ The action signal for the Escape binding.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Assistant :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -838,8 +834,7 @@ necessary before showing C<$page>.
 method handler (
   N-Object $page,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Assistant :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code

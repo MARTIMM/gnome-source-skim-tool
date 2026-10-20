@@ -83,8 +83,7 @@ Gets emitted when the user has removed the accelerator.
 method handler (
   Str $path-string,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::CellRendererAccel :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -113,8 +112,7 @@ method handler (
    $accel-mods,
   guint $hardware-keycode,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::CellRendererAccel :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code

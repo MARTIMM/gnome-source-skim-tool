@@ -923,8 +923,7 @@ method unselect-row ( N-Object() $row )
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::ListBox :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -950,8 +949,7 @@ method handler (
   gboolean $p1,
   gboolean $p2,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::ListBox :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -980,8 +978,7 @@ Emitted when a row has been activated by the user.
 method handler (
   N-Object $row,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::ListBox :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -1012,8 +1009,7 @@ the I<selected-rows-changed> signal instead.
 method handler (
   N-Object $row,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::ListBox :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -1043,8 +1039,7 @@ The default binding for this signal is <kbd>Ctrl</kbd>-<kbd>a</kbd>.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::ListBox :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -1068,8 +1063,7 @@ Emitted when the set of selected rows changes.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::ListBox :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -1091,8 +1085,7 @@ method handler (
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::ListBox :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -1122,8 +1115,7 @@ The default binding for this signal is
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::ListBox :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code

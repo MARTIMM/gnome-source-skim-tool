@@ -941,8 +941,7 @@ L<.set-n-pages()|#set-n-pages>.
 method handler (
   N-Object $context,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::PrintOperation :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -977,8 +976,7 @@ information you need from the widgets.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::PrintOperation :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -1008,8 +1006,7 @@ later time.
 method handler (
   N-Object $widget,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::PrintOperation :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -1043,8 +1040,7 @@ after the I<done> signal was emitted.
 method handler (
    $result,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::PrintOperation :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -1122,8 +1118,7 @@ method handler (
   N-Object $context,
   gint $page-nr,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::PrintOperation :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -1153,8 +1148,7 @@ been allocated in the I<begin-print> handler.
 method handler (
   N-Object $context,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::PrintOperation :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -1193,8 +1187,7 @@ from there.
 method handler (
   N-Object $context,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::PrintOperation :$_widget,
+  N-Object :$_native-object,
   *%user-options
   --> gboolean
 )
@@ -1241,8 +1234,7 @@ method handler (
   N-Object $context,
   N-Object $parent,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::PrintOperation :$_widget,
+  N-Object :$_native-object,
   *%user-options
   --> gboolean
 )
@@ -1279,8 +1271,7 @@ method handler (
   gint $page-nr,
   N-Object $setup,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::PrintOperation :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -1311,8 +1302,7 @@ status.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::PrintOperation :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -1342,8 +1332,7 @@ method handler (
   N-Object $setup,
   N-Object $settings,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::PrintOperation :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code

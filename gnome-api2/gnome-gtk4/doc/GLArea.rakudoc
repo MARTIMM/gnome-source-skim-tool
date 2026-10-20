@@ -660,8 +660,7 @@ of how the construction failed.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::GLArea :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -689,8 +688,7 @@ and the buffers are painted to the window once the emission terminates.
 method handler (
    $context,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::GLArea :$_widget,
+  N-Object :$_native-object,
   *%user-options
   --> gboolean
 )
@@ -731,8 +729,7 @@ method handler (
   gint $width,
   gint $height,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::GLArea :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code

@@ -142,8 +142,7 @@ before I<pressed> happened.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::GestureLongPress :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -170,8 +169,7 @@ method handler (
   gdouble $x,
   gdouble $y,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::GestureLongPress :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code

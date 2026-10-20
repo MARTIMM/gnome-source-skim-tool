@@ -710,8 +710,7 @@ method handler (
   N-Object $model,
   N-Object $iter,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::EntryCompletion :$_widget,
+  N-Object :$_native-object,
   *%user-options
   --> gboolean
 )
@@ -749,8 +748,7 @@ next '/'.
 method handler (
   Str $prefix,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::EntryCompletion :$_widget,
+  N-Object :$_native-object,
   *%user-options
   --> gboolean
 )
@@ -787,8 +785,7 @@ method handler (
   N-Object $model,
   N-Object $iter,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::EntryCompletion :$_widget,
+  N-Object :$_native-object,
   *%user-options
   --> gboolean
 )
@@ -820,8 +817,7 @@ In other words when B<Gnome::Gtk4::EntryCompletion> is out of suggestions.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::EntryCompletion :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code

@@ -207,8 +207,7 @@ but use the I<active> property.
 =begin code
 method handler (
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Switch :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -243,8 +242,7 @@ default handler from running.
 method handler (
   gboolean $state,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Switch :$_widget,
+  N-Object :$_native-object,
   *%user-options
   --> gboolean
 )

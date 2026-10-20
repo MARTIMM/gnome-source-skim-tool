@@ -338,8 +338,7 @@ L<.set-icon()|#set-icon>.
 method handler (
    $drag,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::DragSource :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -370,8 +369,7 @@ method handler (
    $drag,
    $reason,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::DragSource :$_widget,
+  N-Object :$_native-object,
   *%user-options
   --> gboolean
 )
@@ -406,8 +404,7 @@ method handler (
    $drag,
   gboolean $delete-data,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::DragSource :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
@@ -441,8 +438,7 @@ method handler (
   gdouble $x,
   gdouble $y,
   Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::DragSource :$_widget,
+  N-Object :$_native-object,
   *%user-options
 )
 =end code
