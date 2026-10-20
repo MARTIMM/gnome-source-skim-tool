@@ -147,7 +147,7 @@ subtest 'Signals …', {
       $!signal-processed = True;
     }
 
-    method signal-emitter ( Gnome::Gtk4::Paned :$_widget --> Str ) {
+    method signal-emitter ( Gnome::Gtk4::Paned() :$_native-object($_widget) --> Str ) {
 
       while $main.gtk-events-pending() { $main.iteration-do(False); }
 

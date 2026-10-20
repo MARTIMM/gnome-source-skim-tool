@@ -359,7 +359,7 @@ subtest 'Signals …', {
       $!signal-processed = True;
     }
 
-    method signal-emitter ( Gnome::Pango::Layout :$_widget --> Str ) {
+    method signal-emitter ( Gnome::Pango::Layout() :$_native-object($_widget) --> Str ) {
 
       while $main.gtk-events-pending() { $main.iteration-do(False); }
 
