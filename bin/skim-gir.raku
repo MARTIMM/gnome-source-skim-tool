@@ -48,28 +48,15 @@ sub MAIN (
 
   $*verbose = $v;
 
-#`{{
-  for @gnome-packages -> $gnome-package {
-    try {
-      $*gnome-package = $gnome-package;#SkimSource(SkimSource.enums{$gnome-package});
-      CATCH {
-        default {
-          USAGE;
-          exit(1);
-        }
-      }
-    }
-}}
-    say "\nGenerate the intermediate gir and yaml files for package $*gnome-package" if $*verbose;
-    my Gnome::SourceSkimTool::Prepare $prepare .= new;
-    my Gnome::SourceSkimTool::SkimGirSource $skim-doc .= new;
+  say "\nGenerate the intermediate gir and yaml files for package $*gnome-package" if $*verbose;
+  my Gnome::SourceSkimTool::Prepare $prepare .= new;
+  my Gnome::SourceSkimTool::SkimGirSource $skim-doc .= new;
 
-    $skim-doc.load-gir-file;
-    $skim-doc.load-map;
-    $skim-doc.make-subgirs-from-gir($module);
-    $skim-doc.save-map;
-    $skim-doc.make-yaml-from-subgirs($module);
-#  }
+  $skim-doc.load-gir-file;
+  $skim-doc.load-map;
+  $skim-doc.make-subgirs-from-gir($module);
+  $skim-doc.save-map;
+  $skim-doc.make-yaml-from-subgirs($module);
 }
 
 #-------------------------------------------------------------------------------
