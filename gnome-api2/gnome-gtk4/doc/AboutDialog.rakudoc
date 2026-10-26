@@ -18,7 +18,9 @@ An about dialog is typically opened when the user selects the B<About> option fr
 
 =for Image :src<asset_files/images/aboutdialog.png> :width<30%> :class<inline>
 
-About dialogs often contain links and email addresses. <Gnome::Gtk4::AboutDialog> displays these as clickable links. By default, it calls L<.launch() in class FileLauncher|/content-docs/api2/reference/Gtk4/FileLauncher#launch> when a user clicks one. The behaviour can be overridden with the I<activate-link> signal.
+<img src="asset_files/images/aboutdialog.png" width="30%" class=inline />
+
+About dialogs often contain links and email addresses. B<Gnome::Gtk4::AboutDialog> displays these as clickable links. By default, it calls L<.launch() in class FileLauncher|/content-docs/api2/reference/Gtk4/FileLauncher#launch> when a user clicks one. The behaviour can be overridden with the I<activate-link> signal.
 
 To specify a person with an email address, use a string like C<Edgar Allan Poe <edgar@poe.com>>. To specify a website with a title, use a string like C<GTK team https://www.gtk.org>.
 
@@ -57,7 +59,6 @@ B<Gnome::Gtk4::AboutDialog> has a single CSS node with the name B<window> and st
 =end comment
 
 =end rakudoc
-=finish
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
@@ -266,7 +267,7 @@ Retrieves the license type.
 method get-license-type (--> GtkLicense )
 =end code
 
-Return value; a  enumeration C<License> from C<Gnome::Gtk4::T-aboutdialog>  value. 
+Return value; an enumeration C<License> from C<Gnome::Gtk4::T-aboutdialog>  value. 
 
 =begin comment
 
