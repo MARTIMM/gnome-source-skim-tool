@@ -84,16 +84,18 @@ sub USAGE ( ) {
   Usage
     {$*PROGRAM.basename} -h
 
-    {$*PROGRAM.basename} [-v] package …
+    {$*PROGRAM.basename} [-v] <package> {<module>}
 
     Options:
-      help    Show this info.
-      v       Show some extra info while stumping. Default False.
+      help      Show this info.
+      v         Show some extra info while stumping. Default False.
 
     Arguments
       package   The Gnome package name used for the class. Select one
                 from this list; Gtk4 Gdk4 Gsk4
                 GdkPixbuf Pango Grapheme Gio Glib GObject.
+      module    Optional. A module name to (re-)generate. When missing,
+                all modules in the distribution are skimmed.
   EOHELP
 }
 
