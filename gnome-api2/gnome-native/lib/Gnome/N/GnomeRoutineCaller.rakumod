@@ -505,25 +505,99 @@ note "$?LINE $c.gist()";
     }
   }
 
-  note "Converted; type: $c.^name(), value: $c.gist()" if $Gnome::N::x-debug;
+  note "Converted type: $c.^name(), value: $c.gist()" if $Gnome::N::x-debug;
 
   $c
 }
 
+#`{{
+#TODO something is wrong here; GEnum, gboolean and int32 all are the same
+#TODO multi is not needed anymore
 #-------------------------------------------------------------------------------
 multi method convert-return ( $v, Hash $routine ) {
   my $c;
   my $p = $routine<returns>;
 
-  note "Returned: type: $p.^name(), value: $v.gist()" if $Gnome::N::x-debug;
+  note "Returned type: $p.^name(), value: $v.gist()" if $Gnome::N::x-debug;
+note "$?LINE $routine<cnv-return>" if ?$routine<cnv-return>;
 
   # Use 'given' because $p is a type and is always undefined
   given $p {
+note $?LINE, ', ', $p.^name, ', ', $p.WHAT;
     when GEnum {
+note "$?LINE $v, {$routine<cnv-return>:exists ?? $routine<cnv-return>.^name !! '?'}, $routine<cnv-return>($v)";
       $c = $routine<cnv-return>($v);
+note $?LINE;
     }
 
     when GFlag {
+note $?LINE;
+      $c = $v.UInt;
+    }
+
+    when gchar-pptr {
+note $?LINE;
+      my Int $i = 0;
+      $c = [];
+      while $v[$i].defined {
+        $c.push: $v[$i++];
+      }
+    }
+
+    when gint-ptr {
+note $?LINE;
+      $c = $v[0];
+    }
+
+    # gboolean is an int32 so it is not visible if it should be a boolean
+    when int32 {
+note "$?LINE $v, $routine<cnv-return>";
+      $c = $routine<cnv-return> ~~ Bool ?? $v[0].Bool !! $v[0].Int;
+    }
+
+    when N-Object {
+note $?LINE;
+      $c = nativecast( N-Object, $v);
+    }
+
+    when .^name ~~ / CArray / {
+note $?LINE;
+      $c = ?$v[0] ?? $v[0] !! $p;
+    }
+
+    # Most values do not need conversion
+    default {
+note $?LINE;
+      $c = $v;
+    }
+  }
+
+  note "Converted return; type: $c.^name(), value: $c.gist()"
+    if $Gnome::N::x-debug;
+
+  $c
+}
+}}
+
+method convert-return ( $v, Hash $routine ) {
+  my $c;
+  my $p = $routine<returns>;
+
+  note "Returned type: $p.^name(), value: $v.gist()" if $Gnome::N::x-debug;
+
+  # Use 'given' because $p is a type and is always undefined
+  given $p {
+    when int32 { # Can be GEnum, cairo_bool_t, gboolean
+      if $routine<cnv-return>:exists {
+        $c = $routine<cnv-return>($v);
+      }
+
+      else {
+        $c = $v.Int;
+      }
+    }
+
+    when uint32 { # Can be GFlag, GQuark, GType, gsize, gunichar
       $c = $v.UInt;
     }
 
@@ -537,11 +611,6 @@ multi method convert-return ( $v, Hash $routine ) {
 
     when gint-ptr {
       $c = $v[0];
-    }
-
-    # gboolean is an int32 so it is not visible if it should be a boolean
-    when int32 {
-      $c = $routine<cnv-return> ~~ Bool ?? $v[0].Bool !! $v[0].Int;
     }
 
     when N-Object {
