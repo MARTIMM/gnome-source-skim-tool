@@ -1,4 +1,5 @@
 =comment Package: GdkPixbuf, C-Source: gdk-pixbuf
+
 use v6.d;
 
 #TL:1:Gnome::GdkPixbuf::Pixbuf:
@@ -40,23 +41,25 @@ my Gnome::Glib::T-quark $quark .= new;
 
 subtest 'ISA test', {
   given $gdkpixbuf {
+#`{{
     my gboolean $has-alpha;
     my N-Object $async-result;
     my N-Object $cancellable;
     my gint $bits-per-sample;
     my gchar-pptr $data;
     my N-Object $stream;
-    my Str $filename;
     my Str $resource-path;
-    my gboolean $preserve-aspect-ratio;
     my gpointer $destroy-fn-data;
-    my gint $width;
     sub destroy-fn ( Str $pixels, gpointer $data ) {}
-    my CArray[N-Error] $err;
     my gint $rowstride;
-    my gint $height;
     my GdkColorspace  $colorspace;
+}}
 
+    my Str $filename;
+    my CArray[N-Error] $err;
+    my gint $width;
+    my gint $height;
+    my gboolean $preserve-aspect-ratio;
 #`{{
     #TC:0:new-gdkpixbuf()
     $colorspace = …;
@@ -204,6 +207,7 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $gdkpixbuf {
+#`{{
     my gint $overall-alpha;
     my CArray[N-Error] $error;
     my gchar-pptr $option-values;
@@ -217,7 +221,6 @@ subtest 'Method tests', {
     my gdouble $offset-x;
     my gint $dest-width;
 #    my GdkPixbufRotation  $angle;
-    my CArray[N-Error] $err;
     my gchar-pptr $buffer;
     my Str $value;
     my gint $height;
@@ -240,7 +243,6 @@ subtest 'Method tests', {
     my gint $dest-x;
     my gint-ptr $length;
     my gboolean $pixelate;
-    my Str $filename;
     my gint $check-x;
     my guchar $r;
     my gdouble $scale-y;
@@ -250,11 +252,14 @@ subtest 'Method tests', {
     my gboolean $horizontal;
     sub save-func ( Str $buf, gsize $count, CArray[N-Error] $error, gpointer $data --> gboolean ) {}
     my N-Object $stream;
-
+}}
+    my Str $filename;
+    my CArray[N-Error] $err;
 
     $filename = 't/Data/gtk-raku.png';
     $err = CArray[N-Error].new(N-Error);
-    $gdkpixbuf .= new-from-file( $filename, $err);
+    lives-ok { $gdkpixbuf .= new-from-file( $filename, $err); },
+      '.new-from-file()';
 
 #`{{
     #TM:0:add-alpha()
