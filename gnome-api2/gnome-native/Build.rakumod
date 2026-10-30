@@ -293,7 +293,7 @@ method !build-types-conversion-module ( ) {
   for $c-types.keys.sort -> $gtype-name {
     my Str $rtype-name = $c-types{$gtype-name};
 note "c-type: $gtype-name, raku type: $rtype-name";
-    $module-text ~= sprintf "constant \\%-15s is export = %s;\n",
+    $module-text ~= sprintf "constant %-15s is export = %s;\n",
           $gtype-name, $rtype-name;
   }
 
