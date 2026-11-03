@@ -67,6 +67,13 @@ for ^$i -> $n {
   note "function $n: ",
        gi_function_info_get_symbol($function-info),
        ", type $flags.fmt('0b%08b')";
+  for ( GI_FUNCTION_INFO_FLAGS_NONE, GI_FUNCTION_IS_METHOD,
+    GI_FUNCTION_IS_CONSTRUCTOR, GI_FUNCTION_IS_GETTER, GI_FUNCTION_IS_SETTER,
+    GI_FUNCTION_WRAPS_VFUNC, GI_FUNCTION_IS_ASYNC
+  ) -> $flag {
+    note "  ", FunctionInfoFlags($flag) if $flags +& $flag;
+  }
+
 
   gi_base_info_unref($function-info);
 }

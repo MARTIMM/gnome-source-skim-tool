@@ -16,6 +16,13 @@ constant GIREPOSITORY = 'girepository-2.0';
 #-------------------------------------------------------------------------------
 
 #-------------------------------------------------------------------------------
+enum FunctionInfoFlags is export (
+  :GI_FUNCTION_INFO_FLAGS_NONE(0), :GI_FUNCTION_IS_METHOD(1),
+  :GI_FUNCTION_IS_CONSTRUCTOR(2), :GI_FUNCTION_IS_GETTER(4),
+  :GI_FUNCTION_IS_SETTER(8), :GI_FUNCTION_WRAPS_VFUNC(16),
+  :GI_FUNCTION_IS_ASYNC(32)
+);
+
 # gi repository 
 # 2026 11 03 - Changes in Gir libs
 # returns a GIRepository
