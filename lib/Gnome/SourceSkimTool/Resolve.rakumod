@@ -206,7 +206,11 @@ method !check-search-list ( ) {
       when 'Glib' {
         @*map-search-list = ('Glib',)
       }
-     }
+
+      when 'GIRepo' {
+        @*map-search-list = ('GIRepository', 'Glib', 'GObject')
+      }
+    }
   }
 }
 
