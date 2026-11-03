@@ -58,6 +58,7 @@ enum SkimSource is export <
   Gtk3 Gsk4 Gtk4
   Graphene
   Pango PangoCairo
+  GIRepo
 >;
 
 enum ExternalModuleType is export <

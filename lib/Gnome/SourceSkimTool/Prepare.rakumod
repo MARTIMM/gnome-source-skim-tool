@@ -312,21 +312,20 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :result-docs(API2MODS ~ 'gnome-gtk3/doc/'),
       );
     }
-
+}}
     when GIRepo {
       $work-data = %(
-        :library('libgirepository-1.0.so'),
+        :library('girepository-2.0'),
         :gir-module-path(SKIMTOOLDATA ~ 'GIRepository/'),
         :raku-package<Gnome::GIRepository>,
         :gnome-name($*gnome-class ?? "GI$*gnome-class" !! ''),
-        :gir(GIRROOT ~ 'GIRepository-2.0.gir'),
-        :name-prefix(''),
-        :result-mods(API2MODS ~ 'gnome-gtk3/lib/Gnome/Gtk3/'),
-        :result-tests(API2MODS ~ 'gnome-gtk3/t/'),
-        :result-docs(API2MODS ~ 'gnome-gtk3/doc/'),
+        :gir(GIRROOT ~ 'GIRepository-3.0.gir'),
+        :name-prefix('gi'),
+        :result-mods(API2MODS ~ 'gnome-gir/lib/Gnome/GIRepository/'),
+        :result-tests(API2MODS ~ 'gnome-gir/t/'),
+        :result-docs(API2MODS ~ 'gnome-gir/doc/'),
       );
     }
-}}
 
     default {
 #      $work-data = %();
