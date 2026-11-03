@@ -1,0 +1,476 @@
+---
+"": 
+  "checks": 
+    "enough-tests": 0
+    "handcorrected-docs": 0
+    "modules-generated": 0
+    "nbr-tests": 0
+    "no-implement": 0
+    "note": ""
+  "class-name": "Gnome::GIRepository::Repository"
+  "gir-type": "class"
+  "gnome-name": "GIRepository"
+  "inheritable": false
+  "parent": "GObject.Object"
+  "parent-gnome-name": "GObject"
+  "parent-raku-name": "Gnome::GObject::Object"
+  "roles":  []
+  "routines": 
+    "constructors": 
+      "new-": 
+        "generated": 0
+        "missing-type": true
+        "parameters":  []
+        "return-c-type": "GIRepository*"
+        "return-raku-type": ""
+        "version": "2.80"
+    "functions": 
+      "dump": 
+        "generated": 0
+        "parameters": 
+          - 
+            "c-type": "const char*"
+            "name": "input-filename"
+            "raku-type": "Str"
+          - 
+            "c-type": "const char*"
+            "name": "output-filename"
+            "raku-type": "Str"
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.80"
+      "dup-default": 
+        "generated": 0
+        "missing-type": true
+        "parameters":  []
+        "return-c-type": "GIRepository*"
+        "return-raku-type": ""
+        "version": "2.86"
+      "error-quark": 
+        "generated": 0
+        "parameters":  []
+        "return-c-type": "GQuark"
+        "return-raku-type": "GQuark"
+      "get-option-group": 
+        "generated": 0
+        "missing-type": true
+        "parameters":  []
+        "return-c-type": "GOptionGroup*"
+        "return-raku-type": ""
+        "version": "2.80"
+    "methods": 
+      "enumerate-versions": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GIRepository*"
+            "name": "repository"
+            "raku-type": ""
+          - 
+            "c-type": "const char*"
+            "name": "namespace"
+            "raku-type": "Str"
+          - 
+            "c-type": "size_t*"
+            "name": "n-versions-out"
+            "raku-type": ""
+        "return-c-type": "char**"
+        "return-raku-type": "gchar-pptr"
+        "version": "2.80"
+      "find-by-error-domain": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GIRepository*"
+            "name": "repository"
+            "raku-type": ""
+          - 
+            "c-type": "GQuark"
+            "name": "domain"
+            "raku-type": "GQuark"
+        "return-c-type": "GIEnumInfo*"
+        "return-raku-type": ""
+        "version": "2.80"
+      "find-by-gtype": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GIRepository*"
+            "name": "repository"
+            "raku-type": ""
+          - 
+            "c-type": "GType"
+            "name": "gtype"
+            "raku-type": "GType"
+        "return-c-type": "GIBaseInfo*"
+        "return-raku-type": ""
+        "version": "2.80"
+      "find-by-name": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GIRepository*"
+            "name": "repository"
+            "raku-type": ""
+          - 
+            "c-type": "const char*"
+            "name": "namespace"
+            "raku-type": "Str"
+          - 
+            "c-type": "const char*"
+            "name": "name"
+            "raku-type": "Str"
+        "return-c-type": "GIBaseInfo*"
+        "return-raku-type": ""
+        "version": "2.80"
+      "get-c-prefix": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GIRepository*"
+            "name": "repository"
+            "raku-type": ""
+          - 
+            "c-type": "const char*"
+            "name": "namespace"
+            "raku-type": "Str"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+        "version": "2.80"
+      "get-dependencies": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GIRepository*"
+            "name": "repository"
+            "raku-type": ""
+          - 
+            "c-type": "const char*"
+            "name": "namespace"
+            "raku-type": "Str"
+          - 
+            "c-type": "size_t*"
+            "name": "n-dependencies-out"
+            "raku-type": ""
+        "return-c-type": "char**"
+        "return-raku-type": "gchar-pptr"
+        "version": "2.80"
+      "get-immediate-dependencies": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GIRepository*"
+            "name": "repository"
+            "raku-type": ""
+          - 
+            "c-type": "const char*"
+            "name": "namespace"
+            "raku-type": "Str"
+          - 
+            "c-type": "size_t*"
+            "name": "n-dependencies-out"
+            "raku-type": ""
+        "return-c-type": "char**"
+        "return-raku-type": "gchar-pptr"
+        "version": "2.80"
+      "get-info": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GIRepository*"
+            "name": "repository"
+            "raku-type": ""
+          - 
+            "c-type": "const char*"
+            "name": "namespace"
+            "raku-type": "Str"
+          - 
+            "c-type": "unsigned int"
+            "name": "idx"
+            "raku-type": ""
+        "return-c-type": "GIBaseInfo*"
+        "return-raku-type": ""
+        "version": "2.80"
+      "get-library-path": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GIRepository*"
+            "name": "repository"
+            "raku-type": ""
+          - 
+            "c-type": "size_t*"
+            "name": "n-paths-out"
+            "raku-type": ""
+        "return-c-type": "const char* const*"
+        "return-raku-type": "gchar-pptr"
+        "version": "2.80"
+      "get-loaded-namespaces": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GIRepository*"
+            "name": "repository"
+            "raku-type": ""
+          - 
+            "c-type": "size_t*"
+            "name": "n-namespaces-out"
+            "raku-type": ""
+        "return-c-type": "char**"
+        "return-raku-type": "gchar-pptr"
+        "version": "2.80"
+      "get-n-infos": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GIRepository*"
+            "name": "repository"
+            "raku-type": ""
+          - 
+            "c-type": "const char*"
+            "name": "namespace"
+            "raku-type": "Str"
+        "return-c-type": "unsigned int"
+        "return-raku-type": ""
+        "version": "2.80"
+      "get-object-gtype-interfaces": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GIRepository*"
+            "name": "repository"
+            "raku-type": ""
+          - 
+            "c-type": "GType"
+            "name": "gtype"
+            "raku-type": "GType"
+          - 
+            "c-type": "size_t*"
+            "name": "n-interfaces-out"
+            "raku-type": ""
+          - 
+            "c-type": "GIInterfaceInfo***"
+            "name": "interfaces-out"
+            "raku-type": ""
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.80"
+      "get-search-path": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GIRepository*"
+            "name": "repository"
+            "raku-type": ""
+          - 
+            "c-type": "size_t*"
+            "name": "n-paths-out"
+            "raku-type": ""
+        "return-c-type": "const char* const*"
+        "return-raku-type": "gchar-pptr"
+        "version": "2.80"
+      "get-shared-libraries": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GIRepository*"
+            "name": "repository"
+            "raku-type": ""
+          - 
+            "c-type": "const char*"
+            "name": "namespace"
+            "raku-type": "Str"
+          - 
+            "c-type": "size_t*"
+            "name": "out-n-elements"
+            "raku-type": ""
+        "return-c-type": "const char* const*"
+        "return-raku-type": "gchar-pptr"
+        "version": "2.80"
+      "get-typelib-path": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GIRepository*"
+            "name": "repository"
+            "raku-type": ""
+          - 
+            "c-type": "const char*"
+            "name": "namespace"
+            "raku-type": "Str"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+        "version": "2.80"
+      "get-version": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GIRepository*"
+            "name": "repository"
+            "raku-type": ""
+          - 
+            "c-type": "const char*"
+            "name": "namespace"
+            "raku-type": "Str"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+        "version": "2.80"
+      "is-registered": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GIRepository*"
+            "name": "repository"
+            "raku-type": ""
+          - 
+            "c-type": "const char*"
+            "name": "namespace"
+            "raku-type": "Str"
+          - 
+            "c-type": "const char*"
+            "name": "version"
+            "raku-type": "Str"
+        "return-c-type": "gboolean"
+        "return-raku-type": "gboolean"
+        "version": "2.80"
+      "load-typelib": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GIRepository*"
+            "name": "repository"
+            "raku-type": ""
+          - 
+            "c-type": "GITypelib*"
+            "name": "typelib"
+            "raku-type": ""
+          - 
+            "c-type": "GIRepositoryLoadFlags"
+            "name": "flags"
+            "raku-type": ""
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "const char*"
+        "return-raku-type": "Str"
+        "version": "2.80"
+      "prepend-library-path": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GIRepository*"
+            "name": "repository"
+            "raku-type": ""
+          - 
+            "c-type": "const char*"
+            "name": "directory"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.80"
+      "prepend-search-path": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GIRepository*"
+            "name": "repository"
+            "raku-type": ""
+          - 
+            "c-type": "const char*"
+            "name": "directory"
+            "raku-type": "Str"
+        "return-c-type": "void"
+        "return-raku-type": "void"
+        "version": "2.80"
+      "require": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GIRepository*"
+            "name": "repository"
+            "raku-type": ""
+          - 
+            "c-type": "const char*"
+            "name": "namespace"
+            "raku-type": "Str"
+          - 
+            "c-type": "const char*"
+            "name": "version"
+            "raku-type": "Str"
+          - 
+            "c-type": "GIRepositoryLoadFlags"
+            "name": "flags"
+            "raku-type": ""
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GITypelib*"
+        "return-raku-type": ""
+        "version": "2.80"
+      "require-private": 
+        "generated": 0
+        "missing-type": true
+        "parameters": 
+          - 
+            "c-type": "GIRepository*"
+            "name": "repository"
+            "raku-type": ""
+          - 
+            "c-type": "const char*"
+            "name": "typelib-dir"
+            "raku-type": "Str"
+          - 
+            "c-type": "const char*"
+            "name": "namespace"
+            "raku-type": "Str"
+          - 
+            "c-type": "const char*"
+            "name": "version"
+            "raku-type": "Str"
+          - 
+            "c-type": "GIRepositoryLoadFlags"
+            "name": "flags"
+            "raku-type": ""
+          - 
+            "name": "err"
+            "raku-type": "CArray[N-Error]"
+            "type": "CArray[N-Error]"
+        "return-c-type": "GITypelib*"
+        "return-raku-type": ""
+        "version": "2.80"
+  "source-filename": "girepository"
+  "symbol-prefix": "gi,gi_repository_"
+  "type-letter": ""
+  "type-name": "Repository"
+  "version": "2.80"
+"namespace-name": "GIRepository"
+"symbol-prefix": "gi,gi"
+"version": "3.0"
+...
