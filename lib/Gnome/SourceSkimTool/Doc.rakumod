@@ -90,6 +90,7 @@ method !set-uml ( Str $class-name --> Str ) {
 
       =head2 Uml Diagram
       =for Image :src<$png-file> :width<70%> :class<inline>
+
       EOUML
   }
 

@@ -236,6 +236,7 @@ note "$?LINE $gir-type";
 #    my Str $doc = $!grd.start-document('T');
     my Str $doc = qq:to/EODOC/;
       $*command-line
+
       use v6.d;
 
       =begin rakudoc
