@@ -47,8 +47,9 @@ submethod BUILD ( ) {
   $*gnome-class = self.drop-prefix($*gnome-class);
   $*work-data = self.prepare-work-data($*gnome-package);
 
-#note "$?LINE $*gnome-package $*gnome-class";
+note "$?LINE $*gnome-package $*gnome-class";
 
+#`{{
   mkdir $*work-data<gir-module-path>, 0o700
     unless $*work-data<gir-module-path>.IO ~~ :e;
 
@@ -76,6 +77,10 @@ submethod BUILD ( ) {
       $*work-data<sub-prefix> = "graphene_{$classname}_".lc;
     }
 
+#    elsif $*gnome-package ~~ GIRepo {
+#      $*work-data<sub-prefix> = "graphene_{$classname}_".lc;
+#    }
+
     else {
       $*work-data<raku-class-name> =
         $*work-data<raku-package> ~ "::$*gnome-class";
@@ -86,6 +91,7 @@ submethod BUILD ( ) {
       $*work-data<sub-prefix> = [~] $*work-data<name-prefix>, '_', $c, '_';
     }
   }
+}}
 
   $*work-data<finit>( $*work-data, :label<work-data>) if $*verbose;
 
@@ -99,6 +105,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
 
   my Hash $work-data;
   with $source {
+#`{{
     when Gtk3 {
       $work-data = %(
         :library<gtk3-lib()>,
@@ -126,7 +133,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :result-docs(API2MODS ~ 'gnome-gdk3/doc/'),
       );
     }
-
+}}
     when GdkPixbuf {
       $work-data = %(
         :library<gdk-pixbuf-lib()>,
@@ -168,6 +175,14 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :result-tests(API2MODS ~ 'gnome-gtk4/t/'),
         :result-docs(API2MODS ~ 'gnome-gtk4/doc/'),
       );
+
+      $work-data<raku-class-name> =
+        $work-data<raku-package> ~ "::$*gnome-class";
+
+      my Str $c = $*gnome-class;
+      $c ~~ s/^ (.) /$0.lc()/;
+      $c ~~ s:g/ (<[A..Z]>) /_$0.lc()/;
+      $work-data<sub-prefix> = [~] $work-data<name-prefix>, '_', $c, '_';
     }
 
     when Gdk4 {
@@ -182,6 +197,14 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :result-tests(API2MODS ~ 'gnome-gdk4/t/'),
         :result-docs(API2MODS ~ 'gnome-gdk4/doc/'),
       );
+
+      $work-data<raku-class-name> =
+        $work-data<raku-package> ~ "::$*gnome-class";
+
+      my Str $c = $*gnome-class;
+      $c ~~ s/^ (.) /$0.lc()/;
+      $c ~~ s:g/ (<[A..Z]>) /_$0.lc()/;
+      $work-data<sub-prefix> = [~] $work-data<name-prefix>, '_', $c, '_';
     }
 
     when Gsk4 {
@@ -196,6 +219,14 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :result-tests(API2MODS ~ 'gnome-gsk4/t/'),
         :result-docs(API2MODS ~ 'gnome-gsk4/doc/'),
       );
+
+      $work-data<raku-class-name> =
+        $work-data<raku-package> ~ "::$*gnome-class";
+
+      my Str $c = $*gnome-class;
+      $c ~~ s/^ (.) /$0.lc()/;
+      $c ~~ s:g/ (<[A..Z]>) /_$0.lc()/;
+      $work-data<sub-prefix> = [~] $work-data<name-prefix>, '_', $c, '_';
     }
 
     when Glib {
@@ -210,6 +241,11 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :result-tests(API2MODS ~ 'gnome-glib/t/'),
         :result-docs(API2MODS ~ 'gnome-glib/doc/'),
       );
+
+      if $*gnome-class ~~ m/ SList / {
+        $work-data<sub-prefix> = 'g_slist_';
+        $work-data<raku-class-name> = $work-data<raku-package> ~ '::SList';
+      }
     }
 
     when Gio {
@@ -224,6 +260,14 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :result-tests(API2MODS ~ 'gnome-gio/t/'),
         :result-docs(API2MODS ~ 'gnome-gio/doc/'),
       );
+
+      $work-data<raku-class-name> =
+        $work-data<raku-package> ~ "::$*gnome-class";
+
+      my Str $c = $*gnome-class;
+      $c ~~ s/^ (.) /$0.lc()/;
+      $c ~~ s:g/ (<[A..Z]>) /_$0.lc()/;
+      $work-data<sub-prefix> = [~] $work-data<name-prefix>, '_', $c, '_';
     }
 
     when GObject {
@@ -238,6 +282,14 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :result-tests(API2MODS ~ 'gnome-gobject/t/'),
         :result-docs(API2MODS ~ 'gnome-gobject/doc/'),
       );
+
+      $work-data<raku-class-name> =
+        $work-data<raku-package> ~ "::$*gnome-class";
+
+      my Str $c = $*gnome-class;
+      $c ~~ s/^ (.) /$0.lc()/;
+      $c ~~ s:g/ (<[A..Z]>) /_$0.lc()/;
+      $work-data<sub-prefix> = [~] $work-data<name-prefix>, '_', $c, '_';
     }
 
     when Graphene {
@@ -252,6 +304,14 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :result-tests(API2MODS ~ 'gnome-graphene/t/'),
         :result-docs(API2MODS ~ 'gnome-graphene/doc/'),
       );
+
+      my Str $classname = $work-data<gnome-name>;
+      $classname ~~ s/^ graphene_ //;
+      $classname ~~ s/ _t $//;
+      $work-data<raku-class-name> =
+        [~] $work-data<raku-package>, '::', $classname.tc;
+      $work-data<raku-name> = $classname.tc;
+      $work-data<sub-prefix> = "graphene_{$classname}_".lc;
     }
 
 #`{{
@@ -295,6 +355,14 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :result-tests(API2MODS ~ 'gnome-pango/t/'),
         :result-docs(API2MODS ~ 'gnome-pango/doc/'),
       );
+
+      $work-data<raku-class-name> =
+        $work-data<raku-package> ~ "::$*gnome-class";
+
+      my Str $c = $*gnome-class;
+      $c ~~ s/^ (.) /$0.lc()/;
+      $c ~~ s:g/ (<[A..Z]>) /_$0.lc()/;
+      $work-data<sub-prefix> = [~] $work-data<name-prefix>, '_', $c, '_';
     }
 
 #`{{
@@ -318,13 +386,23 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :library('girepository-2.0'),
         :gir-module-path(SKIMTOOLDATA ~ 'GIRepository/'),
         :raku-package<Gnome::GIRepository>,
-        :gnome-name($*gnome-class ?? "GI$*gnome-class" !! ''),
+        :gnome-name($*gnome-class ?? "$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'GIRepository-3.0.gir'),
         :name-prefix('gi'),
         :result-mods(API2MODS ~ 'gnome-gir/lib/Gnome/GIRepository/'),
         :result-tests(API2MODS ~ 'gnome-gir/t/'),
         :result-docs(API2MODS ~ 'gnome-gir/doc/'),
       );
+      
+      $work-data<raku-name> = $*gnome-class.Str;
+      $work-data<raku-name> ~~ s/^ GI//;
+      $work-data<raku-class-name> =
+        "$work-data<raku-package>::$work-data<raku-name>";
+
+#      $work-data<raku-class-name> =
+#        $work-data<raku-package> ~ "::$*gnome-class";
+
+      $work-data<sub-prefix> = 'gi_repository_';
     }
 
     default {
@@ -378,6 +456,9 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
       }
 
 
+  # Create any directories if the aren't there already
+  mkdir $work-data<gir-module-path>, 0o700
+    unless $work-data<gir-module-path>.IO.e;
 
   mkdir $work-data<result-mods>, 0o700 unless $work-data<result-mods>.IO.e;
   mkdir $work-data<result-tests>, 0o700 unless $work-data<result-tests>.IO.e;
@@ -396,7 +477,7 @@ method drop-prefix (
 ) {
   return '' unless ?$prefixed-name;
 
-  # Drop type file prefix when only type specs are procesed
+  # Drop type file prefix when only type specs are processed
   $prefixed-name ~~ s/^ 'T-' //;
 #note "$?LINE $prefixed-name";
 

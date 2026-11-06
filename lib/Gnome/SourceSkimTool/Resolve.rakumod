@@ -97,7 +97,10 @@ method set-object-name (
 # reordered to have its type as its toplevel key.
 method get-data-from-filename ( Str $filename --> Hash ) {
 
+  # Most maps are found in 'SKIMTOOLDATA ~ $package' except for the GIR repo.
   my Str $package = S/ \d+ $// with $*gnome-package.Str;
+  $package = 'GIRepository' if $*gnome-package ~~ GIRepo;
+
   self!check-search-list;
   self!check-map($package);
   my Hash $h := $*object-maps{$package};

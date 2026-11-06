@@ -1829,6 +1829,10 @@ method convert-ntype (
     # Graphene
     when / _Bool /            { $raku-type = 'gboolean'; }
 
+    # GIR
+    when / size_t '*' /       { $raku-type = 'CArray[gsize]'; }
+    when / unsigned \s+ int / { $raku-type = 'guint-ptr'; }
+
     when any(
         <gboolean gchar gdouble gfloat gint gint16 gint32 gint64 gint8 
         glong gpointer gshort gsize gssize guchar guint guint16

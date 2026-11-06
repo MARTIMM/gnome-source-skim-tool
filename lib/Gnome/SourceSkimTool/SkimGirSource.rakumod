@@ -77,7 +77,7 @@ method make-subgirs-from-gir ( Str $module = '' ) {
     next if $element-name ~~ m/^ glib \:/;
 
     # Some structures are not needed. Are used at lower level.
-    my Str $name = self!check-pixbuf($attrs<name>);
+    my Str $name = self!check-exceptions($attrs<name>);
     next if $name ~~ m/ [ Class || Private || Iface || Interface ] $/;
 
     # If module defined then skip all but this module
@@ -93,7 +93,7 @@ method make-subgirs-from-gir ( Str $module = '' ) {
     given $element-name {
       # Save the class info in separate gir files
       when 'class' {
-        my Str $name = self!check-pixbuf($attrs<name>);
+        my Str $name = self!check-exceptions($attrs<name>);
         my $xml-file = "$*work-data<gir-module-path>C-$name.gir";
 
 #        if ($xml-file.IO ~~ :!e) or
@@ -128,7 +128,7 @@ method make-subgirs-from-gir ( Str $module = '' ) {
       # Records are structures in C. There are fields for the structure,
       # constructors, methods and functions.
       when 'record' {
-        my Str $name = self!check-pixbuf($attrs<name>);
+        my Str $name = self!check-exceptions($attrs<name>);
         my $xml-file = "$*work-data<gir-module-path>R-$name.gir";
 
 #        if ($xml-file.IO ~~ :!e) or
@@ -159,7 +159,7 @@ method make-subgirs-from-gir ( Str $module = '' ) {
       }
 
       when 'union' {
-        my Str $name = self!check-pixbuf($attrs<name>);
+        my Str $name = self!check-exceptions($attrs<name>);
         if ?$name {
           my Str $name-prefix = $*work-data<name-prefix>;
           $name ~~ s:i/^ $name-prefix //;
@@ -191,7 +191,7 @@ method make-subgirs-from-gir ( Str $module = '' ) {
       }
 
       when 'interface' {
-        my Str $name = self!check-pixbuf($attrs<name>);
+        my Str $name = self!check-exceptions($attrs<name>);
         my $xml-file = "$*work-data<gir-module-path>I-$name.gir";
 
 #        if ($xml-file.IO ~~ :!e) or
@@ -669,6 +669,7 @@ method !map-element (
   $*symbol-prefix =
     [~] $*symbol-prefix, '_', $attrs<c:symbol-prefix> // '', '_';
   $*symbol-prefix ~~ s/^ 'g,glib' /g/;
+  $*symbol-prefix ~~ s/^ 'gi,' //;
 
   # Gather data depending on the tag type
   my Str $element-name = self.test-for-oddities( $element.name, $attrs);
@@ -677,7 +678,7 @@ method !map-element (
       ( $deprecated, $deprecated-version, $source-filename) =
         self!get-source-file($element);
 
-      my Str $type-name = self!check-pixbuf($attrs<name>);
+      my Str $type-name = self!check-exceptions($attrs<name>);
       $class-name = $*work-data<raku-package> ~ '::' ~ $type-name;
       self!map-class-to-fname( $source-filename, $attrs<name>);
 
@@ -719,7 +720,7 @@ method !map-element (
 
       my Str $np = $*work-data<name-prefix>;
 
-      my Str $type-name = self!check-pixbuf($attrs<name>);
+      my Str $type-name = self!check-exceptions($attrs<name>);
       $class-name = $*work-data<raku-package> ~ '::R-' ~ $type-name;
       self!map-class-to-fname( $source-filename, $attrs<name>);
 
@@ -745,7 +746,7 @@ method !map-element (
       ( $deprecated, $deprecated-version, $source-filename) =
         self!get-source-file($element);
 
-      my Str $type-name = self!check-pixbuf($attrs<name>);
+      my Str $type-name = self!check-exceptions($attrs<name>);
       my Str $record-class = 'N-' ~ $type-name;
       my Str $name-prefix = $*work-data<name-prefix>;
       $record-class ~~ s:i/ 'N-' $name-prefix /N-/;
@@ -774,7 +775,7 @@ method !map-element (
       ( $deprecated, $deprecated-version, $source-filename) =
         self!get-source-file($element);
 
-      my Str $type-name = self!check-pixbuf($attrs<name>);
+      my Str $type-name = self!check-exceptions($attrs<name>);
       my Str $union-class = 'N-' ~ $type-name;
       my Str $name-prefix = $*work-data<name-prefix>;
       $union-class ~~ s:i/ 'N-' $name-prefix /N-/;
@@ -799,13 +800,13 @@ method !map-element (
         if ?$deprecated-version;
     }
 
-    # The functions popping up here are callables defined outside class,
+    # The functions popping up here are callables defined outside a class,
     # interface, record or union. The functions must be added to a type module
     when 'function' {
       ( $deprecated, $deprecated-version, $source-filename) =
         self!get-source-file($element);
 
-      my Str $type-name = self!check-pixbuf($source-filename).lc;
+      my Str $type-name = self!check-exceptions($source-filename).lc;
       $class-name = $*work-data<raku-package> ~ '::' ~ 'T-' ~ $type-name;
 
       my Str $function-name = $attrs<name>;
@@ -839,7 +840,7 @@ method !map-element (
         }
       }
 
-      my Str $type-name = self!check-pixbuf-type($source-filename).lc;
+      my Str $type-name = self!check-exceptions-type($source-filename).lc;
       $class-name = $*work-data<raku-package> ~ '::' ~ 'T-' ~ $type-name;
 
       $!map{$ctype} = %(
@@ -863,7 +864,7 @@ method !map-element (
       ( $deprecated, $deprecated-version, $source-filename) =
         self!get-source-file($element);
 
-      my Str $type-name = self!check-pixbuf-type($source-filename).lc;
+      my Str $type-name = self!check-exceptions-type($source-filename).lc;
       $class-name = $*work-data<raku-package> ~ '::' ~ 'T-' ~ $type-name;
 
       $!map{$ctype} = %(
@@ -884,7 +885,7 @@ method !map-element (
       ( $deprecated, $deprecated-version, $source-filename) =
         self!get-source-file($element);
 
-      my Str $type-name = self!check-pixbuf-type($source-filename).lc;
+      my Str $type-name = self!check-exceptions-type($source-filename).lc;
       $class-name = $*work-data<raku-package> ~ '::' ~ 'T-' ~ $type-name;
 
       $!map{$ctype} = %(
@@ -905,7 +906,7 @@ method !map-element (
       ( $deprecated, $deprecated-version, $source-filename) =
         self!get-source-file($element);
 
-      my Str $type-name = self!check-pixbuf-type($source-filename);
+      my Str $type-name = self!check-exceptions-type($source-filename);
       $class-name = $*work-data<raku-package> ~ '::' ~ 'D-' ~ $type-name;
       $!map{$attrs<name>} = %(
         :gir-type<docsection>,
@@ -925,7 +926,7 @@ method !map-element (
       ( $deprecated, $deprecated-version, $source-filename) =
         self!get-source-file($element);
 
-      my Str $type-name = self!check-pixbuf-type($source-filename).lc;
+      my Str $type-name = self!check-exceptions-type($source-filename).lc;
       $class-name = $*work-data<raku-package> ~ '::' ~ 'T-' ~ $type-name;
       my Str $callback-name = $attrs<name>;
       $!map{$ctype} = %(
@@ -1076,7 +1077,7 @@ method !get-source-file( XML::Element:D $element --> List ) {
 }
 
 #-------------------------------------------------------------------------------
-method !check-pixbuf ( Str $name is copy --> Str ) {
+method !check-exceptions ( Str $name is copy --> Str ) {
 #print "$?LINE $name --> ";
   given $name {
     when 'GdkPixbuf'        { $name = 'Pixbuf'; }
@@ -1089,7 +1090,7 @@ method !check-pixbuf ( Str $name is copy --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method !check-pixbuf-type ( Str $source-filename ) {
+method !check-exceptions-type ( Str $source-filename ) {
   my Str $type-name;
   if $source-filename ~~ m/^ 'gdk-pixbuf' / {
     my Str $c = $source-filename;
@@ -1098,6 +1099,11 @@ method !check-pixbuf-type ( Str $source-filename ) {
     $c ~~ s/ GdkPixbuf //;
     $type-name = ?$c ?? $c !! 'Pixbuf';
 #note "$?LINE $source-filename, $c, $type-name";
+  }
+
+  elsif $source-filename ~~ m/^ 'gi' / and $*gnome-package.Str eq 'GIRepo' {
+    $type-name = $source-filename.tc;
+    $type-name ~~ s/^ gi //;
   }
 
   else {
