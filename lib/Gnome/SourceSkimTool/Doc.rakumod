@@ -89,6 +89,7 @@ method !set-uml ( Str $class-name --> Str ) {
     Q:qq:to/EOUML/
 
       =head2 Uml Diagram
+
       =for Image :src<$png-file> :width<70%> :class<inline>
 
       EOUML
@@ -105,7 +106,7 @@ method !set-example ( --> Str ) {
   $!dtxt.add-example-code(Q:s:h:to/EOEX/);
 
     =head3 Example
-    
+
     Example use of module $*work-data<raku-class-name>
 
     =begin code
@@ -739,23 +740,17 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 
     for $signals.keys.sort -> $signal-name {
       my Hash $curr-signal := $signals{$signal-name};
-#`{{
-      # add-example-code() returns a key
-      my Str $ex-key = $!dtxt.add-example-code(qq:to/EOEX/);
 
-        =head2 Example
-        # Example for signal $signal-name
-        EOEX
-}}
-      $doc ~= qq:to/EOSIG/;
+        $doc ~= Q:qq:to/EOSIG/;
 
         {HLPODSEPARATOR}
         =head3 $signal-name
 
         $curr-signal<sdoc>
 
-        =begin code
+        \=begin code
         method handler \(
+
         EOSIG
 
       for @($curr-signal<parameters>) -> $parameter {
@@ -792,18 +787,8 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
           *\%user-options$rv-method
         )
         =end code
-
         EOSIG
 
-#`{{
-note "$?LINE ", qq:to/EOSIG/;
-          Int :\$_handle_id,
-          N-Object :\$_native-object,
-          *\%user-options$rv-method
-        )
-        =end code
-        EOSIG
-}}
       for @($curr-signal<parameters>) -> $parameter {
         my Str $own = ( ?$parameter<transfer-ownership> and
                         $parameter<transfer-ownership> ne 'none'
