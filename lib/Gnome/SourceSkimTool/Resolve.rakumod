@@ -20,7 +20,7 @@ method set-object-name (
   $object-map-entry<type-name> //= $*work-data<raku-name>;
 
   if ?$type-letter and $type-letter eq 'T' {
-     $object-name = 'T-' ~ $object-map-entry<source-filename>;
+     $object-name = 'T-' ~ $object-map-entry<type-name>;
   }
 
   elsif ?$type-letter {
