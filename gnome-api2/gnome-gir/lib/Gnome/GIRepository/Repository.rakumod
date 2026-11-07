@@ -10,8 +10,8 @@ use NativeCall;
 
 
 #use Gnome::GIRepository::N-Typelib:api<2>;
-#use Gnome::GIRepository::T-girepository:api<2>;
 #use Gnome::GIRepository::T-gitypelib:api<2>;
+#use Gnome::GIRepository::T-repository:api<2>;
 use Gnome::GObject::Object:api<2>;
 #use Gnome::Glib::N-OptionGroup:api<2>;
 use Gnome::Glib::T-error:api<2>;
@@ -68,20 +68,20 @@ my Hash $methods = %(
   new-repository => %( :type(Constructor), :is-symbol<gi_repository_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  enumerate-versions => %(:is-symbol<gi_repository_enumerate_versions>, :returns(gchar-pptr), :parameters([Str, CArray[gsize]]), ),
+  enumerate-versions => %(:is-symbol<gi_repository_enumerate_versions>, :returns(gchar-pptr), :parameters([Str, gsize-ptr]), ),
   find-by-error-domain => %(:is-symbol<gi_repository_find_by_error_domain>, :returns(N-Object), :parameters([GQuark]), ),
   find-by-gtype => %(:is-symbol<gi_repository_find_by_gtype>, :returns(N-Object), :parameters([GType]), ),
   find-by-name => %(:is-symbol<gi_repository_find_by_name>, :returns(N-Object), :parameters([Str, Str]), ),
   get-c-prefix => %(:is-symbol<gi_repository_get_c_prefix>, :returns(Str), :parameters([Str]), ),
-  get-dependencies => %(:is-symbol<gi_repository_get_dependencies>, :returns(gchar-pptr), :parameters([Str, CArray[gsize]]), ),
-  get-immediate-dependencies => %(:is-symbol<gi_repository_get_immediate_dependencies>, :returns(gchar-pptr), :parameters([Str, CArray[gsize]]), ),
-  #get-info => %(:is-symbol<gi_repository_get_info>, :returns(N-Object), :parameters([Str, ]), ),
-  get-library-path => %(:is-symbol<gi_repository_get_library_path>, :returns(gchar-pptr), :parameters([CArray[gsize]]), ),
-  get-loaded-namespaces => %(:is-symbol<gi_repository_get_loaded_namespaces>, :returns(gchar-pptr), :parameters([CArray[gsize]]), ),
-  #get-n-infos => %(:is-symbol<gi_repository_get_n_infos>, :parameters([Str]), ),
-  get-object-gtype-interfaces => %(:is-symbol<gi_repository_get_object_gtype_interfaces>, :parameters([GType, CArray[gsize], CArray[N-Object]]), ),
-  get-search-path => %(:is-symbol<gi_repository_get_search_path>, :returns(gchar-pptr), :parameters([CArray[gsize]]), ),
-  get-shared-libraries => %(:is-symbol<gi_repository_get_shared_libraries>, :returns(gchar-pptr), :parameters([Str, CArray[gsize]]), ),
+  get-dependencies => %(:is-symbol<gi_repository_get_dependencies>, :returns(gchar-pptr), :parameters([Str, gsize-ptr]), ),
+  get-immediate-dependencies => %(:is-symbol<gi_repository_get_immediate_dependencies>, :returns(gchar-pptr), :parameters([Str, gsize-ptr]), ),
+  get-info => %(:is-symbol<gi_repository_get_info>, :returns(N-Object), :parameters([Str, guint-ptr]), ),
+  get-library-path => %(:is-symbol<gi_repository_get_library_path>, :returns(gchar-pptr), :parameters([gsize-ptr]), ),
+  get-loaded-namespaces => %(:is-symbol<gi_repository_get_loaded_namespaces>, :returns(gchar-pptr), :parameters([gsize-ptr]), ),
+  get-n-infos => %(:is-symbol<gi_repository_get_n_infos>, :returns(guint-ptr), :parameters([Str]), ),
+  get-object-gtype-interfaces => %(:is-symbol<gi_repository_get_object_gtype_interfaces>, :parameters([GType, gsize-ptr, CArray[N-Object]]), ),
+  get-search-path => %(:is-symbol<gi_repository_get_search_path>, :returns(gchar-pptr), :parameters([gsize-ptr]), ),
+  get-shared-libraries => %(:is-symbol<gi_repository_get_shared_libraries>, :returns(gchar-pptr), :parameters([Str, gsize-ptr]), ),
   get-typelib-path => %(:is-symbol<gi_repository_get_typelib_path>, :returns(Str), :parameters([Str]), ),
   get-version => %(:is-symbol<gi_repository_get_version>, :returns(Str), :parameters([Str]), ),
   is-registered => %(:is-symbol<gi_repository_is_registered>, :returns(gboolean), :cnv-return(Bool), :parameters([Str, Str]), ),
