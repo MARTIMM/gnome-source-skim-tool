@@ -962,6 +962,7 @@ method generate-enumerations-code ( Array:D $enum-names --> Str ) {
   # Open enumerations file for xpath
   my Str $file = $*work-data<gir-module-path> ~ 'repo-enumeration.gir';
   my XML::XPath $xpath .= new(:$file);
+#note "$?LINE XPath enums $file";
 
 #  my Str $symbol-prefix = $*work-data<sub-prefix>;
   my Str $code = qq:to/EOENUM/;
@@ -987,6 +988,10 @@ method generate-enumerations-code ( Array:D $enum-names --> Str ) {
     
     elsif $package ~~ / GdkPixbuf / {
       $package = 'Gdk';
+    }
+    
+    elsif $package ~~ / GIRepo / {
+      $package = 'GI';
     }
 
     else {
@@ -1048,6 +1053,10 @@ method generate-bitfield-code ( Array:D $bitfield-names --> Str ) {
     
     elsif $package ~~ / GdkPixbuf / {
       $package = 'Gdk';
+    }
+    
+    elsif $package ~~ / GIRepo / {
+      $package = 'GI';
     }
 
     else {
