@@ -151,10 +151,10 @@ note "$?LINE code $!filedata<record>.keys()";
     # For a types file/class it must start with 'T-'.
     $data<type-letter> = 'T';
     $data<package-name> = $*work-data<raku-package>;
-    $filename = ?$data<source-filename>
+    $filename = ?$data<type-name>
                  ?? [~] $*work-data<result-mods>,
                         $data<type-letter>,
-                        '-', $data<source-filename>,
+                        '-', $data<type-name>,
                         '.rakumod'
                  !! '';
 

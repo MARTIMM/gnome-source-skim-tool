@@ -1098,17 +1098,18 @@ method !check-exceptions-type ( Str $source-filename ) {
     $c .= tc;
     $c ~~ s/ GdkPixbuf //;
     $type-name = ?$c ?? $c !! 'Pixbuf';
-#note "$?LINE $source-filename, $c, $type-name";
   }
 
   elsif $source-filename ~~ m/^ 'gi' / and $*gnome-package.Str eq 'GIRepo' {
-    $type-name = $source-filename.tc;
+    $type-name = $source-filename.lc;
     $type-name ~~ s/^ gi //;
   }
 
   else {
     $type-name = $source-filename.tc;
   }
+
+note "$?LINE $source-filename, $type-name";
 
   $type-name
 }
