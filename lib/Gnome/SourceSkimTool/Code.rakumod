@@ -1786,7 +1786,7 @@ method convert-ntype (
 #  Str $ctype is copy, Bool :$return-type = False --> Str
 ) {
   return '' unless ?$ctype;
-#note "\n$?LINE convert-ntype ctype: $ctype" if $ctype ~~ m:i/ cairo /;
+#note "\n$?LINE convert-ntype ctype: $ctype";# if $ctype ~~ m:i/ cairo /;
 
   # ignore const and spaces
   my Str $orig-ctype = $ctype;
@@ -1829,9 +1829,12 @@ method convert-ntype (
     # Graphene
     when / _Bool /            { $raku-type = 'gboolean'; }
 
-    # GIR
-    when / size_t '*' /       { $raku-type = 'CArray[gsize]'; }
-    when / unsigned \s+ int / { $raku-type = 'guint-ptr'; }
+    # GIR, note that spaces are removed above
+    when / size_t /           { $raku-type = 'gsize'; }
+    when / int64_t /          { $raku-type = 'gint64'; }
+    when / size_t '*' /       { $raku-type = 'gsize-ptr'; }
+    when / unsignedint /      { $raku-type = 'guint-ptr'; }
+    when / void '*' /         { $raku-type = 'void-ptr'; }
 
     when any(
         <gboolean gchar gdouble gfloat gint gint16 gint32 gint64 gint8 
@@ -1862,11 +1865,12 @@ method convert-ntype (
     # Raku automatically, Double pointers ('**') must become CArray[object].
     default {
       # remove any pointer marks
+#note "  $?LINE $ctype";
       my Bool $is-pointer = $ctype ~~ m/ '*' .*? '*' / ?? True !! False;
       $ctype ~~ s:g/ '*' //;
 
       my Hash $h = $!solve.search-name($ctype);
-#note "  $?LINE $is-pointer, $ctype, $h<gir-type>" if $ctype ~~ m:i/ cairo /;
+#note "  $?LINE $is-pointer, $ctype, $h.keys()";
       given $h<gir-type> // '-' {
         when 'class' {
           $raku-type = 'N-Object';
