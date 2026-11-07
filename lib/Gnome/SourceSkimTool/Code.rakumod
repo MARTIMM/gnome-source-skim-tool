@@ -1830,11 +1830,11 @@ method convert-ntype (
     when / _Bool /            { $raku-type = 'gboolean'; }
 
     # GIR, note that spaces are removed above
+    when / size_t '*' /       { $raku-type = 'gsize-ptr'; }
+    when / void '*' /         { $raku-type = 'void-ptr'; }
     when / size_t /           { $raku-type = 'gsize'; }
     when / int64_t /          { $raku-type = 'gint64'; }
-    when / size_t '*' /       { $raku-type = 'gsize-ptr'; }
     when / unsignedint /      { $raku-type = 'guint-ptr'; }
-    when / void '*' /         { $raku-type = 'void-ptr'; }
 
     when any(
         <gboolean gchar gdouble gfloat gint gint16 gint32 gint64 gint8 
