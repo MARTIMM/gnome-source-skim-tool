@@ -110,6 +110,7 @@ method get-data-from-filename ( Str $filename --> Hash ) {
     next unless $v<source-filename>:exists
                 and $v<source-filename> eq $filename;
 
+#note "$?LINE $k, $v";
     # Reorder on type
     $filedata{$v<gir-type>}{$k} = $v;
   }
