@@ -47,7 +47,7 @@ submethod BUILD ( ) {
   $*gnome-class = self.drop-prefix($*gnome-class);
   $*work-data = self.prepare-work-data($*gnome-package);
 
-note "$?LINE $*gnome-package $*gnome-class";
+#note "$?LINE $*gnome-package $*gnome-class";
 
 #`{{
   mkdir $*work-data<gir-module-path>, 0o700
