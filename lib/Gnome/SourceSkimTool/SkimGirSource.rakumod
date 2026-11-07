@@ -1109,7 +1109,7 @@ method !check-exceptions-type ( Str $source-filename ) {
     $type-name = $source-filename.tc;
   }
 
-note "$?LINE $source-filename, $type-name";
+#note "$?LINE $source-filename, $type-name";
 
   $type-name
 }
