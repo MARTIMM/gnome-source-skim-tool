@@ -252,6 +252,7 @@ method !build-types-conversion-module ( ) {
   # and some types which are defined already
   $c-types<gboolean> = $c-types<gint>;
   $c-types<gsize> = $c-types<gulong>;
+  $c-types<gsize-ptr> = "CArray[$c-types<gsize>]";
   $c-types<gssize> = $c-types<glong>;
   $c-types<GType> = $c-types<gulong>;
   $c-types<GQuark> = $c-types<guint32>;

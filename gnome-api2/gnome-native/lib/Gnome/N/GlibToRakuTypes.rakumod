@@ -34,6 +34,7 @@ constant glong           is export = int64;
 constant gpointer        is export = Pointer;
 constant gshort          is export = int16;
 constant gsize           is export = uint64;
+constant gsize-ptr       is export = CArray[uint64];
 constant gssize          is export = int64;
 constant guchar          is export = uint8;
 constant guint           is export = uint32;
