@@ -39,7 +39,7 @@ method generate-code ( ) {
   my XML::Element $element = $!xpath.find('//union');
   die "//union not found in $*work-data<gir-union-file> for $*work-data<raku-class-name>" unless ?$element;
 
-  my Str $callable-code ~= $!mod.generate-callables( $element, $!xpath);
+  my Str $callable-code = $!mod.generate-callables( $element, $!xpath);
   if ?$callable-code {
 
   #TL:1:$*work-data<raku-class-name>:
@@ -85,11 +85,11 @@ method generate-union-code ( --> Str ) {
   # Generate a structure into a 'package-path/N-*.rakumod' file
   say "\nGenerate record structure: ", $*work-data<raku-class-name>
     if $*verbose;
-  
+
   my Hash $h = $!solve.search-name($*work-data<gnome-name>);
   $!mod.generate-union(
     |$!mod.init-xpath(
-      'record', $!solve.set-object-name( $h, :name-type(FilenameGirType))
+      'union', $!solve.set-object-name( $h, :name-type(FilenameGirType))
     )
   )
 }
