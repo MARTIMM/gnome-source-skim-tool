@@ -41,6 +41,8 @@ multi sub MAIN ( ) {
 
       :Pango<gnome-pango>,
       :GdkPixbuf<gnome-gdkpixbuf>,
+
+      :GIRepo<gnome-gir>,
     );
   }
 
@@ -56,7 +58,7 @@ multi sub MAIN ( ) {
     |-|-|-|
     EOHEADER
 
-  for <Gtk4 Gdk4 Gsk4 Graphene Glib Gio GObject Pango GdkPixbuf> -> $package {
+  for <Gtk4 Gdk4 Gsk4 Graphene Glib Gio GObject Pango GdkPixbuf GIRepo> -> $package {
     $doc ~= "|Gnome::$package|"
           ~ $gnome-versions.raku-version($package) ~ "|"
           ~ $gnome-versions.gnome-version($package) ~ "|\n";
