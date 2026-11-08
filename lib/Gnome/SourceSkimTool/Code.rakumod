@@ -1281,6 +1281,7 @@ TODO can we have callback fields in a structure?
 #-------------------------------------------------------------------------------
 method generate-union (
   XML::XPath $xpath, XML::Element $element, Bool :$user-side = False
+  ---> Str
 ) {
 
   my $temp-external-modules = $*external-modules;
@@ -1404,6 +1405,8 @@ method generate-union (
                       '.rakumod';
 #     [~] $*work-data<result-mods>, '/', $h0<union-class>, '.rakumod';
   self.save-file( $fname, $code, "union structure");
+
+  $code
 }
 
 #-------------------------------------------------------------------------------
