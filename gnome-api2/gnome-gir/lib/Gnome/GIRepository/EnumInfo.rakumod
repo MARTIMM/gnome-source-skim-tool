@@ -7,10 +7,9 @@ use v6.d;
 
 use NativeCall;
 
+use Gnome::GIRepository::RegisteredTypeInfo:api<2>;
+use Gnome::GIRepository::T-types:api<2>;
 
-
-#use Gnome::GIRepo::RegisteredTypeInfo:api<2>;
-#use Gnome::GIRepository::T-types:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -23,7 +22,7 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 unit class Gnome::GIRepository::EnumInfo:auth<github:MARTIMM>:api<2>;
-#also is Gnome::GIRepo::RegisteredTypeInfo;
+also is Gnome::GIRepository::RegisteredTypeInfo;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -64,7 +63,7 @@ my Hash $methods = %(
   get-method => %(:is-symbol<gi_repository_get_method>, :returns(N-Object), :parameters([guint-ptr]), ),
   get-n-methods => %(:is-symbol<gi_repository_get_n_methods>, :returns(guint-ptr), ),
   get-n-values => %(:is-symbol<gi_repository_get_n_values>, :returns(guint-ptr), ),
-  #get-storage-type => %(:is-symbol<gi_repository_get_storage_type>,  :returns(GEnum), :cnv-return(GITypeTag )),
+  get-storage-type => %(:is-symbol<gi_repository_get_storage_type>,  :returns(GEnum), :cnv-return(GITypeTag )),
   get-value => %(:is-symbol<gi_repository_get_value>, :returns(N-Object), :parameters([guint-ptr]), ),
 );
 

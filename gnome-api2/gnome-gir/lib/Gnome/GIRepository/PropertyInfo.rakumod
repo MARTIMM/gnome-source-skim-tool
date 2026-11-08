@@ -8,10 +8,11 @@ use v6.d;
 use NativeCall;
 
 
+use Gnome::GIRepository::BaseInfo:api<2>;
+use Gnome::GIRepository::T-types:api<2>;
 
-#use Gnome::GIRepo::BaseInfo:api<2>;
-#use Gnome::GIRepository::T-types:api<2>;
-#use Gnome::GObject::T-Param:api<2>;
+use Gnome::GObject::T-Param:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -24,7 +25,7 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 unit class Gnome::GIRepository::PropertyInfo:auth<github:MARTIMM>:api<2>;
-#also is Gnome::GIRepo::BaseInfo;
+also is Gnome::GIRepository::BaseInfo;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -61,9 +62,9 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  #get-flags => %(:is-symbol<gi_repository_get_flags>,  :returns(GFlag), :cnv-return(GParamFlags )),
+  get-flags => %(:is-symbol<gi_repository_get_flags>,  :returns(GFlag), :cnv-return(GParamFlags )),
   get-getter => %(:is-symbol<gi_repository_get_getter>, :returns(N-Object), ),
-  #get-ownership-transfer => %(:is-symbol<gi_repository_get_ownership_transfer>,  :returns(GEnum), :cnv-return(GITransfer )),
+  get-ownership-transfer => %(:is-symbol<gi_repository_get_ownership_transfer>,  :returns(GEnum), :cnv-return(GITransfer )),
   get-setter => %(:is-symbol<gi_repository_get_setter>, :returns(N-Object), ),
   get-type-info => %(:is-symbol<gi_repository_get_type_info>, :returns(N-Object), ),
 );

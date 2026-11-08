@@ -7,14 +7,13 @@ use v6.d;
 
 use NativeCall;
 
-
-
-#use Gnome::GIRepo::BaseInfo:api<2>;
+use Gnome::GIRepository::BaseInfo:api<2>;
 #use Gnome::GIRepository::N-Argument:api<2>;
 #use Gnome::GIRepository::N-AttributeIter:api<2>;
 #use Gnome::GIRepository::T-Argument:api<2>;
 #use Gnome::GIRepository::T-gibaseinfo:api<2>;
-#use Gnome::GIRepository::T-types:api<2>;
+use Gnome::GIRepository::T-types:api<2>;
+
 use Gnome::Glib::T-error:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -28,7 +27,7 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 unit class Gnome::GIRepository::CallableInfo:auth<github:MARTIMM>:api<2>;
-#also is Gnome::GIRepo::BaseInfo;
+also is Gnome::GIRepository::BaseInfo;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -68,9 +67,9 @@ my Hash $methods = %(
   can-throw-gerror => %(:is-symbol<gi_repository_can_throw_gerror>, :returns(gboolean), :cnv-return(Bool), ),
   get-arg => %(:is-symbol<gi_repository_get_arg>, :returns(N-Object), :parameters([guint-ptr]), ),
   get-async-function => %(:is-symbol<gi_repository_get_async_function>, :returns(N-Object), ),
-  #get-caller-owns => %(:is-symbol<gi_repository_get_caller_owns>,  :returns(GEnum), :cnv-return(GITransfer )),
+  get-caller-owns => %(:is-symbol<gi_repository_get_caller_owns>,  :returns(GEnum), :cnv-return(GITransfer )),
   get-finish-function => %(:is-symbol<gi_repository_get_finish_function>, :returns(N-Object), ),
-  #get-instance-ownership-transfer => %(:is-symbol<gi_repository_get_instance_ownership_transfer>,  :returns(GEnum), :cnv-return(GITransfer )),
+  get-instance-ownership-transfer => %(:is-symbol<gi_repository_get_instance_ownership_transfer>,  :returns(GEnum), :cnv-return(GITransfer )),
   get-n-args => %(:is-symbol<gi_repository_get_n_args>, :returns(guint-ptr), ),
   get-return-attribute => %(:is-symbol<gi_repository_get_return_attribute>, :returns(Str), :parameters([Str]), ),
   get-return-type => %(:is-symbol<gi_repository_get_return_type>, :returns(N-Object), ),
