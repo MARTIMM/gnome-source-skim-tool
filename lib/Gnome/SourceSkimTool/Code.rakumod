@@ -1281,7 +1281,7 @@ TODO can we have callback fields in a structure?
 #-------------------------------------------------------------------------------
 method generate-union (
   XML::XPath $xpath, XML::Element $element, Bool :$user-side = False
-  ---> Str
+  --> Str
 ) {
 
   my $temp-external-modules = $*external-modules;

@@ -21,6 +21,8 @@ my Hash $repodir = %(
   :GdkPixbuf</gnome-gdkpixbuf>,
 
   :N</gnome-native>,
+
+  :GIRepo</gnome-gir>,
 );
 
 sub MAIN ( Str $repo ) {
@@ -165,13 +167,17 @@ sub check-modules ( Str $repo-name, Str $repo-dir ) {
       elsif $repo-name ~~ 'N' {
         .<description> = "Modules for package Gnome\::N\:api<2>. The support library for other Gnome::* libraries";
       }
+
+      elsif $repo-name ~~ 'GIRepo' {
+        .<description> = "Modules for package Gnome\::GIRepository\:api<2>. A different way to use the Gnome::* libraries";
+      }
     }
   }
 
   # Find modules first to populate the $*provides hash. When changed,
   # the $*update-version boolean is set.
   check-module-files("$repo-dir/lib");
-
+note "$?LINE $repo-dir";
   # Check if other files are changed. Don't need to check if META6
   # must be regenerated.
   check-other-files($base-path) unless $*update-version;
@@ -183,7 +189,7 @@ sub check-modules ( Str $repo-name, Str $repo-dir ) {
     @parts[2]++;
     $meta<version> = Version.new(@parts.join('.'));
     "$base-path/META6.json".IO.spurt($meta.to-json(:sorted-keys));
-#note "$?LINE save $base-path/META6.json";
+note "$?LINE save $base-path/META6.json";
 
     say "New meta file version $meta<version> for $repo-name saved";
   }
