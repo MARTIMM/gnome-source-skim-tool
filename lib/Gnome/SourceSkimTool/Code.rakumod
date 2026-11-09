@@ -1283,13 +1283,14 @@ method generate-union (
   XML::XPath $xpath, XML::Element $element, Bool :$user-side = False
   --> Str
 ) {
-
+#`{{
   my $temp-external-modules = $*external-modules;
   $*external-modules = %(
     :NativeCall(EMTRakudo), 'Gnome::N::NativeLib' => EMTInApi2,
     'Gnome::N::N-Object' => EMTInApi2,
     'Gnome::N::GlibToRakuTypes' => EMTInApi2,
   );
+}}
 
   my Str $name = $*work-data<gnome-name>;
   my Hash $h0 = $!solve.search-name($name);
@@ -1396,9 +1397,11 @@ method generate-union (
     $code, $class-name ~ '::' ~ $union-class
   );
 
+#`{{
   # Reset to original and add this structure
   $*external-modules = $temp-external-modules;
   self.add-import($class-name ~ '::' ~ $union-class);
+}}
 
   my Str $fname = [~] $*work-data<result-mods>, '/',
                       $!solve.set-object-name( $h0, :name-type(FilenameType)),
