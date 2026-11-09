@@ -14,6 +14,7 @@ sub gdk-lib ( --> Str )            is export { 'libgdk-3.so.0'; }
 sub gdk3-lib ( --> Str )           is export { 'libgdk-3.so.0'; }
 sub gdk-pixbuf-lib ( --> Str )     is export { 'libgdk_pixbuf-2.0.so.0'; }
 sub gio-lib ( --> Str )            is export { 'libgio-2.0.so.0'; }
+sub girepository-lib ( --> Str )   is export { 'libgirepository-2.0.so.0'; }
 sub glib-lib ( --> Str )           is export { 'libglib-2.0.so.0'; }
 sub gobject-lib ( --> Str )        is export { 'libgobject-2.0.so.0'; }
 sub graphene-lib ( --> Str )       is export { 'libgraphene-1.0.so.0'; }

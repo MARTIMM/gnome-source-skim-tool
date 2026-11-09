@@ -26,6 +26,7 @@ method !map-installed-libraries ( ) {
     :cairo-gobject(2), :cairo(2), :gdk(3), :gdk3(3),  :gdk_pixbuf(2),
     :gio(2), :glib(2), :gobject(2), :gtk(3), :gtk3(3),
     :gtk4(4), :gsk4(4), :gdk4(4), :graphene(1), :pango(1), :pangocairo(1),
+    :girepository(2),
   );
 # :atk(1), 
 #note %libs-to-map.perl;
@@ -66,6 +67,7 @@ method !map-installed-libraries ( ) {
       sub pango-lib ( --> Str )         is export { 'libpango-1.0-0.dll'; }
       sub pangocairo-lib ( --> Str )    is export { 'libpangocairo-1.0-0.dll'; }
       sub graphene-lib ( --> Str )      is export { 'libgraphene-1.0.dll'; }
+      sub gir-lib ( --> Str )           is export { 'girepository-2.0.dll'; }
 
       # There is no gdk nor gsk lib in version 4. It is included in the gtk lib.
       sub gtk4-lib ( --> Str )          is export { 'libgtk-4-0.dll'; }
