@@ -42,7 +42,7 @@ submethod BUILD ( *%options ) {
 
 
   # Initialize helper
-  $!routine-caller .= new(:library(girepository-2.0));
+  $!routine-caller .= new(:library(girepository-lib()));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::GIRepository::PropertyInfo' {
@@ -78,7 +78,7 @@ method _fallback-v2 (
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(girepository-2.0)
+        :library(girepository-lib())
       );
 
       return self.bless(

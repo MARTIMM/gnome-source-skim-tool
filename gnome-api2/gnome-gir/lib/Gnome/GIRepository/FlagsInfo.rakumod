@@ -38,7 +38,7 @@ submethod BUILD ( *%options ) {
 
 
   # Initialize helper
-  $!routine-caller .= new(:library(girepository-2.0));
+  $!routine-caller .= new(:library(girepository-lib()));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::GIRepository::FlagsInfo' {

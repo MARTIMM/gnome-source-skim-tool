@@ -40,7 +40,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( ) {
   # Initialize helper
-  $!routine-caller .= new(:library(girepository-2.0));
+  $!routine-caller .= new(:library(girepository-lib()));
 }
 
 #-------------------------------------------------------------------------------

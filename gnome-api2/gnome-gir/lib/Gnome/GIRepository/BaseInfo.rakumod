@@ -7,18 +7,17 @@ use v6.d;
 
 use NativeCall;
 
-
-
-#use :api<2>;
 #use Gnome::GIRepository::N-AttributeIter:api<2>;
 #use Gnome::GIRepository::N-Typelib:api<2>;
 #use Gnome::GIRepository::T-gibaseinfo:api<2>;
 #use Gnome::GIRepository::T-gitypelib:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
+use Gnome::N::TopLevelClassSupport:api<2>;
 
 
 #-------------------------------------------------------------------------------
@@ -26,7 +25,7 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 unit class Gnome::GIRepository::BaseInfo:auth<github:MARTIMM>:api<2>;
-#also is ;
+also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -43,7 +42,7 @@ submethod BUILD ( *%options ) {
 
 
   # Initialize helper
-  $!routine-caller .= new(:library(girepository-2.0));
+  $!routine-caller .= new(:library(girepository-lib()));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::GIRepository::BaseInfo' {
@@ -94,7 +93,7 @@ method _fallback-v2 (
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(girepository-2.0)
+        :library(girepository-lib())
       );
 
       return self.bless(
