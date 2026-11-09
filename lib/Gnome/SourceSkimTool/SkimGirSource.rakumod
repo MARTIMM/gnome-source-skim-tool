@@ -1122,8 +1122,7 @@ method !check-exceptions-type ( Str $source-filename ) {
 method !set-names ( Str $naked-gnome-name is copy --> List ) {
 
   my Str $raku-name = $naked-gnome-name;
-
-  my $gnome-name = $naked-gnome-name;
+  my Str $gnome-name = $naked-gnome-name;
   given $naked-gnome-name {
     when /^ GObject \. / {
       $gnome-name ~~ s/^ GObject \. /G/;
@@ -1173,12 +1172,18 @@ method !set-names ( Str $naked-gnome-name is copy --> List ) {
       $gnome-name = "Gdk$naked-gnome-name";
     }
 
+    when ?$naked-gnome-name and $*gnome-package.Str ~~ 'GIRepo' {
+#note "$?LINE GIRepo, $naked-gnome-name, $gnome-name, $raku-name";
+      $gnome-name = "GI$gnome-name";
+      $raku-name = "Gnome::GIRepository::$raku-name";
+    }
+
     when ?$naked-gnome-name {
       $gnome-name = "{ S/ \d $// with $*gnome-package.Str }$naked-gnome-name";
       $raku-name = "Gnome::{$*gnome-package.Str}::$naked-gnome-name";
     }
   }
-
+#note "$?LINE $gnome-name, $raku-name";
   ( $gnome-name, $raku-name)
 }
 
