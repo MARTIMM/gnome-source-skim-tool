@@ -9,10 +9,11 @@ use NativeCall;
 
 
 
-#use Gnome::GIRepo::CallableInfo:api<2>;
+use Gnome::GIRepository::CallableInfo:api<2>;
 #use Gnome::GIRepository::N-Argument:api<2>;
 #use Gnome::GIRepository::T-Argument:api<2>;
-#use Gnome::GIRepository::T-types:api<2>;
+use Gnome::GIRepository::T-types:api<2>;
+
 use Gnome::Glib::T-error:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -26,7 +27,7 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 unit class Gnome::GIRepository::VFuncInfo:auth<github:MARTIMM>:api<2>;
-#also is Gnome::GIRepo::CallableInfo;
+also is Gnome::GIRepository::CallableInfo;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -64,7 +65,7 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   get-address => %(:is-symbol<gi_repository_get_address>, :returns(void-ptr), :parameters([GType, CArray[N-Error]]), ),
-  #get-flags => %(:is-symbol<gi_repository_get_flags>,  :returns(GFlag), :cnv-return(GIVFuncInfoFlags )),
+  get-flags => %(:is-symbol<gi_repository_get_flags>,  :returns(GFlag), :cnv-return(GIVFuncInfoFlags )),
   get-invoker => %(:is-symbol<gi_repository_get_invoker>, :returns(N-Object), ),
   get-offset => %(:is-symbol<gi_repository_get_offset>, :returns(gsize), ),
   get-signal => %(:is-symbol<gi_repository_get_signal>, :returns(N-Object), ),

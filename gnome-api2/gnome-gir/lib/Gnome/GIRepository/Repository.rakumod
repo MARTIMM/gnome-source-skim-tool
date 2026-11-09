@@ -7,15 +7,15 @@ use v6.d;
 
 use NativeCall;
 
-
-
 #use Gnome::GIRepository::N-Typelib:api<2>;
 #use Gnome::GIRepository::T-gitypelib:api<2>;
 #use Gnome::GIRepository::T-repository:api<2>;
+
 use Gnome::GObject::Object:api<2>;
 #use Gnome::Glib::N-OptionGroup:api<2>;
 use Gnome::Glib::T-error:api<2>;
 #use Gnome::Glib::T-option:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -42,7 +42,6 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
-
 
   # Initialize helper
   $!routine-caller .= new(:library(girepository-2.0));
@@ -85,11 +84,11 @@ my Hash $methods = %(
   get-typelib-path => %(:is-symbol<gi_repository_get_typelib_path>, :returns(Str), :parameters([Str]), ),
   get-version => %(:is-symbol<gi_repository_get_version>, :returns(Str), :parameters([Str]), ),
   is-registered => %(:is-symbol<gi_repository_is_registered>, :returns(gboolean), :cnv-return(Bool), :parameters([Str, Str]), ),
-  #load-typelib => %(:is-symbol<gi_repository_load_typelib>, :returns(Str), :parameters([N-Object, GFlag, CArray[N-Error]]), ),
+  load-typelib => %(:is-symbol<gi_repository_load_typelib>, :returns(Str), :parameters([N-Object, GFlag, CArray[N-Error]]), ),
   prepend-library-path => %(:is-symbol<gi_repository_prepend_library_path>, :parameters([Str]), ),
   prepend-search-path => %(:is-symbol<gi_repository_prepend_search_path>, :parameters([Str]), ),
-  #require => %(:is-symbol<gi_repository_require>, :returns(N-Object), :parameters([Str, Str, GFlag, CArray[N-Error]]), ),
-  #require-private => %(:is-symbol<gi_repository_require_private>, :returns(N-Object), :parameters([Str, Str, Str, GFlag, CArray[N-Error]]), ),
+  require => %(:is-symbol<gi_repository_require>, :returns(N-Object), :parameters([Str, Str, GFlag, CArray[N-Error]]), ),
+  require-private => %(:is-symbol<gi_repository_require_private>, :returns(N-Object), :parameters([Str, Str, Str, GFlag, CArray[N-Error]]), ),
 
   #--[Functions]----------------------------------------------------------------
   dump => %( :type(Function), :is-symbol<gi_repository_dump>, :returns(gboolean), :parameters([ Str, Str, CArray[N-Error]]), ),

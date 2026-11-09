@@ -9,7 +9,7 @@ use NativeCall;
 
 
 
-#use Gnome::GIRepo::BaseInfo:api<2>;
+use Gnome::GIRepository::BaseInfo:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -21,7 +21,7 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 unit class Gnome::GIRepository::UnresolvedInfo:auth<github:MARTIMM>:api<2>;
-#also is Gnome::GIRepo::BaseInfo;
+also is Gnome::GIRepository::BaseInfo;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------

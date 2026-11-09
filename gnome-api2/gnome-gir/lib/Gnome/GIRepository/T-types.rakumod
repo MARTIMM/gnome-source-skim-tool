@@ -7,11 +7,10 @@ use v6.d;
 use NativeCall;
 
 
-
-#use :api<2>;
 #use Gnome::GIRepository::T-BaseInfoStack:api<2>;
 #use Gnome::GIRepository::T-gibaseinfo:api<2>;
 #use Gnome::GIRepository::T-gitypelib:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -56,23 +55,10 @@ class N-BaseInfoStack:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
 #-------------------------------------------------------------------------------
 #--[Union Structure]------------------------------------------------------------
 #-------------------------------------------------------------------------------
-=comment Package: GIRepo, C-Source: gitypes
-use v6.d;
-
 
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
-
-use NativeCall;
-
-
-
-use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-Object:api<2>;
-use Gnome::N::NativeLib:api<2>;
-use Gnome::N::X:api<2>;
-
 
 unit class N-Argument:auth<github:MARTIMM>:api<2> is export is repr('CUnion');
 

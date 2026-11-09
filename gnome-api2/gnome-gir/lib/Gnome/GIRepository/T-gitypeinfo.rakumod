@@ -8,7 +8,7 @@ use NativeCall;
 
 
 
-#use Gnome::GIRepo::BaseInfo:api<2>;
+#use Gnome::GIRepository::BaseInfo:api<2>;
 #use Gnome::GIRepository::T-Argument:api<2>;
 #use Gnome::GIRepository::T-gitypeinfo:api<2>;
 #use Gnome::GIRepository::T-types:api<2>;

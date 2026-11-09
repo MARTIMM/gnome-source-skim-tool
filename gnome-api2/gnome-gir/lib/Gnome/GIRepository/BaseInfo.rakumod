@@ -14,7 +14,6 @@ use NativeCall;
 #use Gnome::GIRepository::N-Typelib:api<2>;
 #use Gnome::GIRepository::T-gibaseinfo:api<2>;
 #use Gnome::GIRepository::T-gitypelib:api<2>;
-
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;

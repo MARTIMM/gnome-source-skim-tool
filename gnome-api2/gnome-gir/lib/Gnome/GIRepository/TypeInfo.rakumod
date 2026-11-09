@@ -8,11 +8,11 @@ use v6.d;
 use NativeCall;
 
 
-
-#use Gnome::GIRepo::BaseInfo:api<2>;
+#use Gnome::GIRepository::BaseInfo:api<2>;
 #use Gnome::GIRepository::N-Argument:api<2>;
 #use Gnome::GIRepository::T-Argument:api<2>;
-#use Gnome::GIRepository::T-types:api<2>;
+use Gnome::GIRepository::T-types:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -25,7 +25,7 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 unit class Gnome::GIRepository::TypeInfo:auth<github:MARTIMM>:api<2>;
-#also is Gnome::GIRepo::BaseInfo;
+#also is Gnome::GIRepository::BaseInfo;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -65,11 +65,11 @@ my Hash $methods = %(
   argument-from-hash-pointer => %(:is-symbol<gi_repository_argument_from_hash_pointer>, :parameters([void-ptr, N-Object]), ),
   get-array-fixed-size => %(:is-symbol<gi_repository_get_array_fixed_size>, :returns(gboolean), :cnv-return(Bool), :parameters([gsize-ptr]), ),
   get-array-length-index => %(:is-symbol<gi_repository_get_array_length_index>, :returns(gboolean), :cnv-return(Bool), :parameters([gint-ptr]), ),
-  #get-array-type => %(:is-symbol<gi_repository_get_array_type>,  :returns(GEnum), :cnv-return(GIArrayType )),
+  get-array-type => %(:is-symbol<gi_repository_get_array_type>,  :returns(GEnum), :cnv-return(GIArrayType )),
   get-interface => %(:is-symbol<gi_repository_get_interface>, :returns(N-Object), ),
   get-param-type => %(:is-symbol<gi_repository_get_param_type>, :returns(N-Object), :parameters([guint-ptr]), ),
-  #get-storage-type => %(:is-symbol<gi_repository_get_storage_type>,  :returns(GEnum), :cnv-return(GITypeTag )),
-  #get-tag => %(:is-symbol<gi_repository_get_tag>,  :returns(GEnum), :cnv-return(GITypeTag )),
+  get-storage-type => %(:is-symbol<gi_repository_get_storage_type>,  :returns(GEnum), :cnv-return(GITypeTag )),
+  get-tag => %(:is-symbol<gi_repository_get_tag>,  :returns(GEnum), :cnv-return(GITypeTag )),
   hash-pointer-from-argument => %(:is-symbol<gi_repository_hash_pointer_from_argument>, :returns(void-ptr), :parameters([N-Object]), ),
   is-pointer => %(:is-symbol<gi_repository_is_pointer>, :returns(gboolean), :cnv-return(Bool), ),
   is-zero-terminated => %(:is-symbol<gi_repository_is_zero_terminated>, :returns(gboolean), :cnv-return(Bool), ),

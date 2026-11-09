@@ -37,7 +37,6 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
-
   # Initialize helper
   $!routine-caller .= new(:library(girepository-2.0));
 
