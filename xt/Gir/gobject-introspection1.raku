@@ -1,3 +1,6 @@
+use v6.d;
+use lib './xt/Gir/lib';
+
 use NativeCall;
 
 use Gnome::N::N-Object:api<2>;
