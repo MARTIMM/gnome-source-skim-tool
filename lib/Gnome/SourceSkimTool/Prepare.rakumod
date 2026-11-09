@@ -383,7 +383,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
 }}
     when GIRepo {
       $work-data = %(
-        :library<gir-lib()>,
+        :library<girepository-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'GIRepository/'),
         :raku-package<Gnome::GIRepository>,
         :gnome-name($*gnome-class ?? "$*gnome-class" !! ''),
