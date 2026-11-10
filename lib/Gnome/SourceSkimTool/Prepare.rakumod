@@ -402,7 +402,8 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
 #      $work-data<raku-class-name> =
 #        $work-data<raku-package> ~ "::$*gnome-class";
 
-      $work-data<sub-prefix> = 'gi_repository_';
+      $work-data<sub-prefix> =
+        [~] $work-data<name-prefix>, '_', $work-data<raku-name>.lc, '_';
     }
 
     default {
