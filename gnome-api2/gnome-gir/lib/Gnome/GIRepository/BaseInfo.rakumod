@@ -7,18 +7,19 @@ use v6.d;
 
 use NativeCall;
 
+
+
+#use :api<2>;
 #use Gnome::GIRepository::N-AttributeIter:api<2>;
 #use Gnome::GIRepository::N-Typelib:api<2>;
 #use Gnome::GIRepository::T-gibaseinfo:api<2>;
 #use Gnome::GIRepository::T-gitypelib:api<2>;
-
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 use Gnome::N::TopLevelClassSupport:api<2>;
-
 
 #-------------------------------------------------------------------------------
 #--[Class Declaration]----------------------------------------------------------
@@ -71,17 +72,17 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  clear => %(:is-symbol<gi_repository_clear>, ),
-  equal => %(:is-symbol<gi_repository_equal>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object]), ),
-  get-attribute => %(:is-symbol<gi_repository_get_attribute>, :returns(Str), :parameters([Str]), ),
-  get-container => %(:is-symbol<gi_repository_get_container>, :returns(N-Object), ),
-  get-name => %(:is-symbol<gi_repository_get_name>, :returns(Str), ),
-  get-namespace => %(:is-symbol<gi_repository_get_namespace>, :returns(Str), ),
-  get-typelib => %(:is-symbol<gi_repository_get_typelib>, :returns(N-Object), ),
-  is-deprecated => %(:is-symbol<gi_repository_is_deprecated>, :returns(gboolean), :cnv-return(Bool), ),
-  iterate-attributes => %(:is-symbol<gi_repository_iterate_attributes>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, gchar-pptr, gchar-pptr]), ),
-  ref => %(:is-symbol<gi_repository_ref>, :returns(N-Object), ),
-  unref => %(:is-symbol<gi_repository_unref>, ),
+  clear => %(:is-symbol<gi_baseinfo_clear>, ),
+  equal => %(:is-symbol<gi_baseinfo_equal>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object]), ),
+  get-attribute => %(:is-symbol<gi_baseinfo_get_attribute>, :returns(Str), :parameters([Str]), ),
+  get-container => %(:is-symbol<gi_baseinfo_get_container>, :returns(N-Object), ),
+  get-name => %(:is-symbol<gi_baseinfo_get_name>, :returns(Str), ),
+  get-namespace => %(:is-symbol<gi_baseinfo_get_namespace>, :returns(Str), ),
+  get-typelib => %(:is-symbol<gi_baseinfo_get_typelib>, :returns(N-Object), ),
+  is-deprecated => %(:is-symbol<gi_baseinfo_is_deprecated>, :returns(gboolean), :cnv-return(Bool), ),
+  iterate-attributes => %(:is-symbol<gi_baseinfo_iterate_attributes>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, gchar-pptr, gchar-pptr]), ),
+  ref => %(:is-symbol<gi_baseinfo_ref>, :returns(N-Object), ),
+  unref => %(:is-symbol<gi_baseinfo_unref>, ),
 );
 
 #-------------------------------------------------------------------------------

@@ -9,8 +9,8 @@ use NativeCall;
 
 
 
-#use Gnome::GIRepo::BaseInfo:api<2>;
-#use Gnome::GIRepository::N-Argument:api<2>;
+use Gnome::GIRepository::BaseInfo:api<2>;
+use Gnome::GIRepository::N-Argument:api<2>;
 #use Gnome::GIRepository::T-Argument:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -24,7 +24,7 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 unit class Gnome::GIRepository::ConstantInfo:auth<github:MARTIMM>:api<2>;
-#also is Gnome::GIRepo::BaseInfo;
+also is Gnome::GIRepository::BaseInfo;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -61,9 +61,9 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  free-value => %(:is-symbol<gi_repository_free_value>, :parameters([N-Object]), ),
-  get-type-info => %(:is-symbol<gi_repository_get_type_info>, :returns(N-Object), ),
-  get-value => %(:is-symbol<gi_repository_get_value>, :returns(gsize), :parameters([N-Object]), ),
+  free-value => %(:is-symbol<gi_constantinfo_free_value>, :parameters([N-Object]), ),
+  get-type-info => %(:is-symbol<gi_constantinfo_get_type_info>, :returns(N-Object), ),
+  get-value => %(:is-symbol<gi_constantinfo_get_value>, :returns(gsize), :parameters([N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------

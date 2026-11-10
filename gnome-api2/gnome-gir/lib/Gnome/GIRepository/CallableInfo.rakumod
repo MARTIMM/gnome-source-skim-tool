@@ -7,13 +7,14 @@ use v6.d;
 
 use NativeCall;
 
+
+
 use Gnome::GIRepository::BaseInfo:api<2>;
-#use Gnome::GIRepository::N-Argument:api<2>;
+use Gnome::GIRepository::N-Argument:api<2>;
 #use Gnome::GIRepository::N-AttributeIter:api<2>;
 #use Gnome::GIRepository::T-Argument:api<2>;
 #use Gnome::GIRepository::T-gibaseinfo:api<2>;
 use Gnome::GIRepository::T-types:api<2>;
-
 use Gnome::Glib::T-error:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -64,24 +65,24 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  can-throw-gerror => %(:is-symbol<gi_repository_can_throw_gerror>, :returns(gboolean), :cnv-return(Bool), ),
-  get-arg => %(:is-symbol<gi_repository_get_arg>, :returns(N-Object), :parameters([guint-ptr]), ),
-  get-async-function => %(:is-symbol<gi_repository_get_async_function>, :returns(N-Object), ),
-  get-caller-owns => %(:is-symbol<gi_repository_get_caller_owns>,  :returns(GEnum), :cnv-return(GITransfer )),
-  get-finish-function => %(:is-symbol<gi_repository_get_finish_function>, :returns(N-Object), ),
-  get-instance-ownership-transfer => %(:is-symbol<gi_repository_get_instance_ownership_transfer>,  :returns(GEnum), :cnv-return(GITransfer )),
-  get-n-args => %(:is-symbol<gi_repository_get_n_args>, :returns(guint-ptr), ),
-  get-return-attribute => %(:is-symbol<gi_repository_get_return_attribute>, :returns(Str), :parameters([Str]), ),
-  get-return-type => %(:is-symbol<gi_repository_get_return_type>, :returns(N-Object), ),
-  get-sync-function => %(:is-symbol<gi_repository_get_sync_function>, :returns(N-Object), ),
-  invoke => %(:is-symbol<gi_repository_invoke>, :returns(gboolean), :cnv-return(Bool), :parameters([void-ptr, N-Object, gsize, N-Object, gsize, N-Object, CArray[N-Error]]), ),
-  is-async => %(:is-symbol<gi_repository_is_async>, :returns(gboolean), :cnv-return(Bool), ),
-  is-method => %(:is-symbol<gi_repository_is_method>, :returns(gboolean), :cnv-return(Bool), ),
-  iterate-return-attributes => %(:is-symbol<gi_repository_iterate_return_attributes>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, gchar-pptr, gchar-pptr]), ),
-  load-arg => %(:is-symbol<gi_repository_load_arg>, :parameters([guint-ptr, N-Object]), ),
-  load-return-type => %(:is-symbol<gi_repository_load_return_type>, :parameters([N-Object]), ),
-  may-return-null => %(:is-symbol<gi_repository_may_return_null>, :returns(gboolean), :cnv-return(Bool), ),
-  skip-return => %(:is-symbol<gi_repository_skip_return>, :returns(gboolean), :cnv-return(Bool), ),
+  can-throw-gerror => %(:is-symbol<gi_callableinfo_can_throw_gerror>, :returns(gboolean), :cnv-return(Bool), ),
+  get-arg => %(:is-symbol<gi_callableinfo_get_arg>, :returns(N-Object), :parameters([guint-ptr]), ),
+  get-async-function => %(:is-symbol<gi_callableinfo_get_async_function>, :returns(N-Object), ),
+  get-caller-owns => %(:is-symbol<gi_callableinfo_get_caller_owns>,  :returns(GEnum), :cnv-return(GITransfer)),
+  get-finish-function => %(:is-symbol<gi_callableinfo_get_finish_function>, :returns(N-Object), ),
+  get-instance-ownership-transfer => %(:is-symbol<gi_callableinfo_get_instance_ownership_transfer>,  :returns(GEnum), :cnv-return(GITransfer)),
+  get-n-args => %(:is-symbol<gi_callableinfo_get_n_args>, :returns(guint-ptr), ),
+  get-return-attribute => %(:is-symbol<gi_callableinfo_get_return_attribute>, :returns(Str), :parameters([Str]), ),
+  get-return-type => %(:is-symbol<gi_callableinfo_get_return_type>, :returns(N-Object), ),
+  get-sync-function => %(:is-symbol<gi_callableinfo_get_sync_function>, :returns(N-Object), ),
+  invoke => %(:is-symbol<gi_callableinfo_invoke>, :returns(gboolean), :cnv-return(Bool), :parameters([void-ptr, N-Object, gsize, N-Object, gsize, N-Object, CArray[N-Error]]), ),
+  is-async => %(:is-symbol<gi_callableinfo_is_async>, :returns(gboolean), :cnv-return(Bool), ),
+  is-method => %(:is-symbol<gi_callableinfo_is_method>, :returns(gboolean), :cnv-return(Bool), ),
+  iterate-return-attributes => %(:is-symbol<gi_callableinfo_iterate_return_attributes>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, gchar-pptr, gchar-pptr]), ),
+  load-arg => %(:is-symbol<gi_callableinfo_load_arg>, :parameters([guint-ptr, N-Object]), ),
+  load-return-type => %(:is-symbol<gi_callableinfo_load_return_type>, :parameters([N-Object]), ),
+  may-return-null => %(:is-symbol<gi_callableinfo_may_return_null>, :returns(gboolean), :cnv-return(Bool), ),
+  skip-return => %(:is-symbol<gi_callableinfo_skip_return>, :returns(gboolean), :cnv-return(Bool), ),
 );
 
 #-------------------------------------------------------------------------------

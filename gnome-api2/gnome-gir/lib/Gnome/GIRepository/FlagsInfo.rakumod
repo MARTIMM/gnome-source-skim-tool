@@ -9,7 +9,7 @@ use NativeCall;
 
 
 
-#use Gnome::GIRepo::EnumInfo:api<2>;
+use Gnome::GIRepository::EnumInfo:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -21,7 +21,7 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 unit class Gnome::GIRepository::FlagsInfo:auth<github:MARTIMM>:api<2>;
-#also is Gnome::GIRepo::EnumInfo;
+also is Gnome::GIRepository::EnumInfo;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------

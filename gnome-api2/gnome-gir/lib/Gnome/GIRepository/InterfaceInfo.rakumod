@@ -8,8 +8,8 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::GIRepository::RegisteredTypeInfo:api<2>;
 
+use Gnome::GIRepository::RegisteredTypeInfo:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -59,22 +59,22 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  find-method => %(:is-symbol<gi_repository_find_method>, :returns(N-Object), :parameters([Str]), ),
-  find-signal => %(:is-symbol<gi_repository_find_signal>, :returns(N-Object), :parameters([Str]), ),
-  find-vfunc => %(:is-symbol<gi_repository_find_vfunc>, :returns(N-Object), :parameters([Str]), ),
-  get-constant => %(:is-symbol<gi_repository_get_constant>, :returns(N-Object), :parameters([guint-ptr]), ),
-  get-iface-struct => %(:is-symbol<gi_repository_get_iface_struct>, :returns(N-Object), ),
-  get-method => %(:is-symbol<gi_repository_get_method>, :returns(N-Object), :parameters([guint-ptr]), ),
-  get-n-constants => %(:is-symbol<gi_repository_get_n_constants>, :returns(guint-ptr), ),
-  get-n-methods => %(:is-symbol<gi_repository_get_n_methods>, :returns(guint-ptr), ),
-  get-n-prerequisites => %(:is-symbol<gi_repository_get_n_prerequisites>, :returns(guint-ptr), ),
-  get-n-properties => %(:is-symbol<gi_repository_get_n_properties>, :returns(guint-ptr), ),
-  get-n-signals => %(:is-symbol<gi_repository_get_n_signals>, :returns(guint-ptr), ),
-  get-n-vfuncs => %(:is-symbol<gi_repository_get_n_vfuncs>, :returns(guint-ptr), ),
-  get-prerequisite => %(:is-symbol<gi_repository_get_prerequisite>, :returns(N-Object), :parameters([guint-ptr]), ),
-  get-property => %(:is-symbol<gi_repository_get_property>, :returns(N-Object), :parameters([guint-ptr]), ),
-  get-signal => %(:is-symbol<gi_repository_get_signal>, :returns(N-Object), :parameters([guint-ptr]), ),
-  get-vfunc => %(:is-symbol<gi_repository_get_vfunc>, :returns(N-Object), :parameters([guint-ptr]), ),
+  find-method => %(:is-symbol<gi_interfaceinfo_find_method>, :returns(N-Object), :parameters([Str]), ),
+  find-signal => %(:is-symbol<gi_interfaceinfo_find_signal>, :returns(N-Object), :parameters([Str]), ),
+  find-vfunc => %(:is-symbol<gi_interfaceinfo_find_vfunc>, :returns(N-Object), :parameters([Str]), ),
+  get-constant => %(:is-symbol<gi_interfaceinfo_get_constant>, :returns(N-Object), :parameters([guint-ptr]), ),
+  get-iface-struct => %(:is-symbol<gi_interfaceinfo_get_iface_struct>, :returns(N-Object), ),
+  get-method => %(:is-symbol<gi_interfaceinfo_get_method>, :returns(N-Object), :parameters([guint-ptr]), ),
+  get-n-constants => %(:is-symbol<gi_interfaceinfo_get_n_constants>, :returns(guint-ptr), ),
+  get-n-methods => %(:is-symbol<gi_interfaceinfo_get_n_methods>, :returns(guint-ptr), ),
+  get-n-prerequisites => %(:is-symbol<gi_interfaceinfo_get_n_prerequisites>, :returns(guint-ptr), ),
+  get-n-properties => %(:is-symbol<gi_interfaceinfo_get_n_properties>, :returns(guint-ptr), ),
+  get-n-signals => %(:is-symbol<gi_interfaceinfo_get_n_signals>, :returns(guint-ptr), ),
+  get-n-vfuncs => %(:is-symbol<gi_interfaceinfo_get_n_vfuncs>, :returns(guint-ptr), ),
+  get-prerequisite => %(:is-symbol<gi_interfaceinfo_get_prerequisite>, :returns(N-Object), :parameters([guint-ptr]), ),
+  get-property => %(:is-symbol<gi_interfaceinfo_get_property>, :returns(N-Object), :parameters([guint-ptr]), ),
+  get-signal => %(:is-symbol<gi_interfaceinfo_get_signal>, :returns(N-Object), :parameters([guint-ptr]), ),
+  get-vfunc => %(:is-symbol<gi_interfaceinfo_get_vfunc>, :returns(N-Object), :parameters([guint-ptr]), ),
 );
 
 #-------------------------------------------------------------------------------

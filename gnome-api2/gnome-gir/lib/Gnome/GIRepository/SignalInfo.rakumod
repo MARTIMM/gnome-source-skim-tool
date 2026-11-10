@@ -7,10 +7,10 @@ use v6.d;
 
 use NativeCall;
 
+
+
 use Gnome::GIRepository::CallableInfo:api<2>;
-
-use Gnome::GObject::T-Signal:api<2>;
-
+#use Gnome::GObject::T-Signal:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -60,9 +60,9 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-class-closure => %(:is-symbol<gi_repository_get_class_closure>, :returns(N-Object), ),
-  #get-flags => %(:is-symbol<gi_repository_get_flags>,  :returns(GFlag), :cnv-return(GSignalFlags )),
-  true-stops-emit => %(:is-symbol<gi_repository_true_stops_emit>, :returns(gboolean), :cnv-return(Bool), ),
+  get-class-closure => %(:is-symbol<gi_signalinfo_get_class_closure>, :returns(N-Object), ),
+  #get-flags => %(:is-symbol<gi_signalinfo_get_flags>,  :returns(GFlag), :cnv-return(GSignalFlags )),
+  true-stops-emit => %(:is-symbol<gi_signalinfo_true_stops_emit>, :returns(gboolean), :cnv-return(Bool), ),
 );
 
 #-------------------------------------------------------------------------------

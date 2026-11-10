@@ -8,8 +8,8 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::GIRepo::RegisteredTypeInfo:api<2>;
 
+use Gnome::GIRepository::RegisteredTypeInfo:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -22,7 +22,7 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 unit class Gnome::GIRepository::UnionInfo:auth<github:MARTIMM>:api<2>;
-also is Gnome::GIRepo::RegisteredTypeInfo;
+also is Gnome::GIRepository::RegisteredTypeInfo;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -59,19 +59,19 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  find-method => %(:is-symbol<gi_repository_find_method>, :returns(N-Object), :parameters([Str]), ),
-  get-alignment => %(:is-symbol<gi_repository_get_alignment>, :returns(gsize), ),
-  get-copy-function-name => %(:is-symbol<gi_repository_get_copy_function_name>, :returns(Str), ),
-  get-discriminator => %(:is-symbol<gi_repository_get_discriminator>, :returns(N-Object), :parameters([gsize]), ),
-  get-discriminator-offset => %(:is-symbol<gi_repository_get_discriminator_offset>, :returns(gboolean), :cnv-return(Bool), :parameters([gsize-ptr]), ),
-  get-discriminator-type => %(:is-symbol<gi_repository_get_discriminator_type>, :returns(N-Object), ),
-  get-field => %(:is-symbol<gi_repository_get_field>, :returns(N-Object), :parameters([guint-ptr]), ),
-  get-free-function-name => %(:is-symbol<gi_repository_get_free_function_name>, :returns(Str), ),
-  get-method => %(:is-symbol<gi_repository_get_method>, :returns(N-Object), :parameters([guint-ptr]), ),
-  get-n-fields => %(:is-symbol<gi_repository_get_n_fields>, :returns(guint-ptr), ),
-  get-n-methods => %(:is-symbol<gi_repository_get_n_methods>, :returns(guint-ptr), ),
-  get-size => %(:is-symbol<gi_repository_get_size>, :returns(gsize), ),
-  is-discriminated => %(:is-symbol<gi_repository_is_discriminated>, :returns(gboolean), :cnv-return(Bool), ),
+  find-method => %(:is-symbol<gi_unioninfo_find_method>, :returns(N-Object), :parameters([Str]), ),
+  get-alignment => %(:is-symbol<gi_unioninfo_get_alignment>, :returns(gsize), ),
+  get-copy-function-name => %(:is-symbol<gi_unioninfo_get_copy_function_name>, :returns(Str), ),
+  get-discriminator => %(:is-symbol<gi_unioninfo_get_discriminator>, :returns(N-Object), :parameters([gsize]), ),
+  get-discriminator-offset => %(:is-symbol<gi_unioninfo_get_discriminator_offset>, :returns(gboolean), :cnv-return(Bool), :parameters([gsize-ptr]), ),
+  get-discriminator-type => %(:is-symbol<gi_unioninfo_get_discriminator_type>, :returns(N-Object), ),
+  get-field => %(:is-symbol<gi_unioninfo_get_field>, :returns(N-Object), :parameters([guint-ptr]), ),
+  get-free-function-name => %(:is-symbol<gi_unioninfo_get_free_function_name>, :returns(Str), ),
+  get-method => %(:is-symbol<gi_unioninfo_get_method>, :returns(N-Object), :parameters([guint-ptr]), ),
+  get-n-fields => %(:is-symbol<gi_unioninfo_get_n_fields>, :returns(guint-ptr), ),
+  get-n-methods => %(:is-symbol<gi_unioninfo_get_n_methods>, :returns(guint-ptr), ),
+  get-size => %(:is-symbol<gi_unioninfo_get_size>, :returns(gsize), ),
+  is-discriminated => %(:is-symbol<gi_unioninfo_is_discriminated>, :returns(gboolean), :cnv-return(Bool), ),
 );
 
 #-------------------------------------------------------------------------------

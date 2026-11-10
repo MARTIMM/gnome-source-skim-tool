@@ -10,10 +10,9 @@ use NativeCall;
 
 
 use Gnome::GIRepository::BaseInfo:api<2>;
-#use Gnome::GIRepository::N-Argument:api<2>;
+use Gnome::GIRepository::N-Argument:api<2>;
 #use Gnome::GIRepository::T-Argument:api<2>;
 use Gnome::GIRepository::T-types:api<2>;
-
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -26,7 +25,7 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 unit class Gnome::GIRepository::FieldInfo:auth<github:MARTIMM>:api<2>;
-also is Gnome::GIRepo::BaseInfo;
+also is Gnome::GIRepository::BaseInfo;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -63,12 +62,12 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-field => %(:is-symbol<gi_repository_get_field>, :returns(gboolean), :cnv-return(Bool), :parameters([void-ptr, N-Object]), ),
-  get-flags => %(:is-symbol<gi_repository_get_flags>,  :returns(GFlag), :cnv-return(GIFieldInfoFlags )),
-  get-offset => %(:is-symbol<gi_repository_get_offset>, :returns(gsize), ),
-  get-size => %(:is-symbol<gi_repository_get_size>, :returns(gsize), ),
-  get-type-info => %(:is-symbol<gi_repository_get_type_info>, :returns(N-Object), ),
-  set-field => %(:is-symbol<gi_repository_set_field>, :returns(gboolean), :cnv-return(Bool), :parameters([void-ptr, N-Object]), ),
+  get-field => %(:is-symbol<gi_fieldinfo_get_field>, :returns(gboolean), :cnv-return(Bool), :parameters([void-ptr, N-Object]), ),
+  get-flags => %(:is-symbol<gi_fieldinfo_get_flags>,  :returns(GFlag), :cnv-return(GIFieldInfoFlags)),
+  get-offset => %(:is-symbol<gi_fieldinfo_get_offset>, :returns(gsize), ),
+  get-size => %(:is-symbol<gi_fieldinfo_get_size>, :returns(gsize), ),
+  get-type-info => %(:is-symbol<gi_fieldinfo_get_type_info>, :returns(N-Object), ),
+  set-field => %(:is-symbol<gi_fieldinfo_set_field>, :returns(gboolean), :cnv-return(Bool), :parameters([void-ptr, N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------

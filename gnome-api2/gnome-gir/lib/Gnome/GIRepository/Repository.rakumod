@@ -7,15 +7,15 @@ use v6.d;
 
 use NativeCall;
 
+
+
 #use Gnome::GIRepository::N-Typelib:api<2>;
 #use Gnome::GIRepository::T-gitypelib:api<2>;
-#use Gnome::GIRepository::T-repository:api<2>;
-
+use Gnome::GIRepository::T-repository:api<2>;
 use Gnome::GObject::Object:api<2>;
 #use Gnome::Glib::N-OptionGroup:api<2>;
 use Gnome::Glib::T-error:api<2>;
 #use Gnome::Glib::T-option:api<2>;
-
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -42,6 +42,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
 
   # Initialize helper
   $!routine-caller .= new(:library(girepository-lib()));

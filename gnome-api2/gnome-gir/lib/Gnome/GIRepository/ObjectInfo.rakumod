@@ -8,8 +8,8 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::GIRepository::RegisteredTypeInfo:api<2>;
 
+use Gnome::GIRepository::RegisteredTypeInfo:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -59,40 +59,40 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  find-method => %(:is-symbol<gi_repository_find_method>, :returns(N-Object), :parameters([Str]), ),
-  find-method-using-interfaces => %(:is-symbol<gi_repository_find_method_using_interfaces>, :returns(N-Object), :parameters([Str, CArray[N-Object]]), ),
-  find-signal => %(:is-symbol<gi_repository_find_signal>, :returns(N-Object), :parameters([Str]), ),
-  find-vfunc => %(:is-symbol<gi_repository_find_vfunc>, :returns(N-Object), :parameters([Str]), ),
-  find-vfunc-using-interfaces => %(:is-symbol<gi_repository_find_vfunc_using_interfaces>, :returns(N-Object), :parameters([Str, CArray[N-Object]]), ),
-  get-abstract => %(:is-symbol<gi_repository_get_abstract>, :returns(gboolean), :cnv-return(Bool), ),
-  get-class-struct => %(:is-symbol<gi_repository_get_class_struct>, :returns(N-Object), ),
-  get-constant => %(:is-symbol<gi_repository_get_constant>, :returns(N-Object), :parameters([guint-ptr]), ),
-  get-field => %(:is-symbol<gi_repository_get_field>, :returns(N-Object), :parameters([guint-ptr]), ),
-  get-final => %(:is-symbol<gi_repository_get_final>, :returns(gboolean), :cnv-return(Bool), ),
-  get-fundamental => %(:is-symbol<gi_repository_get_fundamental>, :returns(gboolean), :cnv-return(Bool), ),
-  get-get-value-function-name => %(:is-symbol<gi_repository_get_get_value_function_name>, :returns(Str), ),
-  #get-get-value-function-pointer => %(:is-symbol<gi_repository_get_get_value_function_pointer>, ),
-  get-interface => %(:is-symbol<gi_repository_get_interface>, :returns(N-Object), :parameters([guint-ptr]), ),
-  get-method => %(:is-symbol<gi_repository_get_method>, :returns(N-Object), :parameters([guint-ptr]), ),
-  get-n-constants => %(:is-symbol<gi_repository_get_n_constants>, :returns(guint-ptr), ),
-  get-n-fields => %(:is-symbol<gi_repository_get_n_fields>, :returns(guint-ptr), ),
-  get-n-interfaces => %(:is-symbol<gi_repository_get_n_interfaces>, :returns(guint-ptr), ),
-  get-n-methods => %(:is-symbol<gi_repository_get_n_methods>, :returns(guint-ptr), ),
-  get-n-properties => %(:is-symbol<gi_repository_get_n_properties>, :returns(guint-ptr), ),
-  get-n-signals => %(:is-symbol<gi_repository_get_n_signals>, :returns(guint-ptr), ),
-  get-n-vfuncs => %(:is-symbol<gi_repository_get_n_vfuncs>, :returns(guint-ptr), ),
-  get-parent => %(:is-symbol<gi_repository_get_parent>, :returns(N-Object), ),
-  get-property => %(:is-symbol<gi_repository_get_property>, :returns(N-Object), :parameters([guint-ptr]), ),
-  get-ref-function-name => %(:is-symbol<gi_repository_get_ref_function_name>, :returns(Str), ),
-  #get-ref-function-pointer => %(:is-symbol<gi_repository_get_ref_function_pointer>, ),
-  get-set-value-function-name => %(:is-symbol<gi_repository_get_set_value_function_name>, :returns(Str), ),
-  #get-set-value-function-pointer => %(:is-symbol<gi_repository_get_set_value_function_pointer>, ),
-  get-signal => %(:is-symbol<gi_repository_get_signal>, :returns(N-Object), :parameters([guint-ptr]), ),
-  get-type-init-function-name => %(:is-symbol<gi_repository_get_type_init_function_name>, :returns(Str), ),
-  get-type-name => %(:is-symbol<gi_repository_get_type_name>, :returns(Str), ),
-  get-unref-function-name => %(:is-symbol<gi_repository_get_unref_function_name>, :returns(Str), ),
-  #get-unref-function-pointer => %(:is-symbol<gi_repository_get_unref_function_pointer>, ),
-  get-vfunc => %(:is-symbol<gi_repository_get_vfunc>, :returns(N-Object), :parameters([guint-ptr]), ),
+  find-method => %(:is-symbol<gi_objectinfo_find_method>, :returns(N-Object), :parameters([Str]), ),
+  find-method-using-interfaces => %(:is-symbol<gi_objectinfo_find_method_using_interfaces>, :returns(N-Object), :parameters([Str, CArray[N-Object]]), ),
+  find-signal => %(:is-symbol<gi_objectinfo_find_signal>, :returns(N-Object), :parameters([Str]), ),
+  find-vfunc => %(:is-symbol<gi_objectinfo_find_vfunc>, :returns(N-Object), :parameters([Str]), ),
+  find-vfunc-using-interfaces => %(:is-symbol<gi_objectinfo_find_vfunc_using_interfaces>, :returns(N-Object), :parameters([Str, CArray[N-Object]]), ),
+  get-abstract => %(:is-symbol<gi_objectinfo_get_abstract>, :returns(gboolean), :cnv-return(Bool), ),
+  get-class-struct => %(:is-symbol<gi_objectinfo_get_class_struct>, :returns(N-Object), ),
+  get-constant => %(:is-symbol<gi_objectinfo_get_constant>, :returns(N-Object), :parameters([guint-ptr]), ),
+  get-field => %(:is-symbol<gi_objectinfo_get_field>, :returns(N-Object), :parameters([guint-ptr]), ),
+  get-final => %(:is-symbol<gi_objectinfo_get_final>, :returns(gboolean), :cnv-return(Bool), ),
+  get-fundamental => %(:is-symbol<gi_objectinfo_get_fundamental>, :returns(gboolean), :cnv-return(Bool), ),
+  get-get-value-function-name => %(:is-symbol<gi_objectinfo_get_get_value_function_name>, :returns(Str), ),
+  #get-get-value-function-pointer => %(:is-symbol<gi_objectinfo_get_get_value_function_pointer>, ),
+  get-interface => %(:is-symbol<gi_objectinfo_get_interface>, :returns(N-Object), :parameters([guint-ptr]), ),
+  get-method => %(:is-symbol<gi_objectinfo_get_method>, :returns(N-Object), :parameters([guint-ptr]), ),
+  get-n-constants => %(:is-symbol<gi_objectinfo_get_n_constants>, :returns(guint-ptr), ),
+  get-n-fields => %(:is-symbol<gi_objectinfo_get_n_fields>, :returns(guint-ptr), ),
+  get-n-interfaces => %(:is-symbol<gi_objectinfo_get_n_interfaces>, :returns(guint-ptr), ),
+  get-n-methods => %(:is-symbol<gi_objectinfo_get_n_methods>, :returns(guint-ptr), ),
+  get-n-properties => %(:is-symbol<gi_objectinfo_get_n_properties>, :returns(guint-ptr), ),
+  get-n-signals => %(:is-symbol<gi_objectinfo_get_n_signals>, :returns(guint-ptr), ),
+  get-n-vfuncs => %(:is-symbol<gi_objectinfo_get_n_vfuncs>, :returns(guint-ptr), ),
+  get-parent => %(:is-symbol<gi_objectinfo_get_parent>, :returns(N-Object), ),
+  get-property => %(:is-symbol<gi_objectinfo_get_property>, :returns(N-Object), :parameters([guint-ptr]), ),
+  get-ref-function-name => %(:is-symbol<gi_objectinfo_get_ref_function_name>, :returns(Str), ),
+  #get-ref-function-pointer => %(:is-symbol<gi_objectinfo_get_ref_function_pointer>, ),
+  get-set-value-function-name => %(:is-symbol<gi_objectinfo_get_set_value_function_name>, :returns(Str), ),
+  #get-set-value-function-pointer => %(:is-symbol<gi_objectinfo_get_set_value_function_pointer>, ),
+  get-signal => %(:is-symbol<gi_objectinfo_get_signal>, :returns(N-Object), :parameters([guint-ptr]), ),
+  get-type-init-function-name => %(:is-symbol<gi_objectinfo_get_type_init_function_name>, :returns(Str), ),
+  get-type-name => %(:is-symbol<gi_objectinfo_get_type_name>, :returns(Str), ),
+  get-unref-function-name => %(:is-symbol<gi_objectinfo_get_unref_function_name>, :returns(Str), ),
+  #get-unref-function-pointer => %(:is-symbol<gi_objectinfo_get_unref_function_pointer>, ),
+  get-vfunc => %(:is-symbol<gi_objectinfo_get_vfunc>, :returns(N-Object), :parameters([guint-ptr]), ),
 );
 
 #-------------------------------------------------------------------------------

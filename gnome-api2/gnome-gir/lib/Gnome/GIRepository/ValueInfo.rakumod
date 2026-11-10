@@ -8,8 +8,8 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::GIRepository::BaseInfo:api<2>;
 
+use Gnome::GIRepository::BaseInfo:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -59,7 +59,7 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-value => %(:is-symbol<gi_repository_get_value>, :returns(gint64), ),
+  get-value => %(:is-symbol<gi_valueinfo_get_value>, :returns(gint64), ),
 );
 
 #-------------------------------------------------------------------------------
