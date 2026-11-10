@@ -28,6 +28,7 @@ list-dir("$api2/gnome-graphene/lib");
 list-dir("$api2/gnome-pango/lib");
 
 list-dir("$api2/gnome-native/lib");
+list-dir("$api2/gnome-gir/lib");
 
 #`{{
 list-dir("$api2/gnome-gtk3/lib");
