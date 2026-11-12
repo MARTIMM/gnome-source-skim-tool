@@ -47,30 +47,26 @@ method !map-installed-libraries ( ) {
 
 
   if $*DISTRO.is-win {
-    # Pick names found for mingw installation on AppVeyor
-#      sub atk-lib ( --> Str )           is export { 'libatk-1.0-0.dll'; }
-#      sub gtk4-lib ( --> Str )          is export { 'libgtk-4-0.dll'; }
-
     $map ~= Q:q:to/EOMAP/;
-      sub cairo-gobject-lib ( --> Str ) is export { 'libcairo-gobject-2.dll'; }
-      sub cairo-lib ( --> Str )         is export { 'libcairo-2.dll'; }
-      sub gdk-lib ( --> Str )           is export { 'libgdk-3-0.dll'; }
-      sub gdk3-lib ( --> Str )          is export { 'libgdk-3-0.dll'; }
-      sub gdk-pixbuf-lib ( --> Str )    is export { 'libgdk_pixbuf-2.0-0.dll'; }
-      sub gio-lib ( --> Str )           is export { 'libgio-2.0-0.dll'; }
-      sub glib-lib ( --> Str )          is export { 'libglib-2.0-0.dll'; }
-      sub gobject-lib ( --> Str )       is export { 'libgobject-2.0-0.dll'; }
-      sub gtk-lib ( --> Str )           is export { 'libgtk-3-0.dll'; }
-      sub gtk3-lib ( --> Str )          is export { 'libgtk-3-0.dll'; }
-      sub gdk4-lib ( --> Str )          is export { 'libgtk-4-0.dll'; }
-      sub gsk4-lib ( --> Str )          is export { 'libgtk-4-0.dll'; }
-      sub pango-lib ( --> Str )         is export { 'libpango-1.0-0.dll'; }
-      sub pangocairo-lib ( --> Str )    is export { 'libpangocairo-1.0-0.dll'; }
-      sub graphene-lib ( --> Str )      is export { 'libgraphene-1.0.dll'; }
-      sub gir-lib ( --> Str )           is export { 'girepository-2.0.dll'; }
+      sub cairo-gobject-lib ( --> Str ) is export { 'cairo-gobject-2'; }
+      sub cairo-lib ( --> Str )         is export { 'cairo-2'; }
+      sub gdk-lib ( --> Str )           is export { 'gdk-3-0'; }
+      sub gdk3-lib ( --> Str )          is export { 'gdk-3-0'; }
+      sub gdk-pixbuf-lib ( --> Str )    is export { 'gdk_pixbuf-2.0-0'; }
+      sub gio-lib ( --> Str )           is export { 'gio-2.0-0'; }
+      sub glib-lib ( --> Str )          is export { 'glib-2.0-0'; }
+      sub gobject-lib ( --> Str )       is export { 'gobject-2.0-0'; }
+      sub gtk-lib ( --> Str )           is export { 'gtk-3-0'; }
+      sub gtk3-lib ( --> Str )          is export { 'gtk-3-0'; }
+      sub gdk4-lib ( --> Str )          is export { 'gtk-4-0'; }
+      sub gsk4-lib ( --> Str )          is export { 'gtk-4-0'; }
+      sub pango-lib ( --> Str )         is export { 'pango-1.0-0'; }
+      sub pangocairo-lib ( --> Str )    is export { 'pangocairo-1.0-0'; }
+      sub graphene-lib ( --> Str )      is export { 'graphene-1.0'; }
+      sub gir-lib ( --> Str )           is export { 'girepository-2.0'; }
 
       # There is no gdk nor gsk lib in version 4. It is included in the gtk lib.
-      sub gtk4-lib ( --> Str )          is export { 'libgtk-4-0.dll'; }
+      sub gtk4-lib ( --> Str )          is export { 'libgtk-4-0'; }
       EOMAP
   }
 
