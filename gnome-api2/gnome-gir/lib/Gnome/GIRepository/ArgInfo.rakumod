@@ -60,18 +60,18 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-closure-index => %(:is-symbol<gi_arginfo_get_closure_index>, :returns(gboolean), :cnv-return(Bool), :parameters([gint-ptr]), ),
-  get-destroy-index => %(:is-symbol<gi_arginfo_get_destroy_index>, :returns(gboolean), :cnv-return(Bool), :parameters([gint-ptr]), ),
-  get-direction => %(:is-symbol<gi_arginfo_get_direction>,  :returns(GEnum), :cnv-return(GIDirection)),
-  get-ownership-transfer => %(:is-symbol<gi_arginfo_get_ownership_transfer>,  :returns(GEnum), :cnv-return(GITransfer)),
-  get-scope => %(:is-symbol<gi_arginfo_get_scope>,  :returns(GEnum), :cnv-return(GIScopeType)),
-  get-type-info => %(:is-symbol<gi_arginfo_get_type_info>, :returns(N-Object), ),
-  is-caller-allocates => %(:is-symbol<gi_arginfo_is_caller_allocates>, :returns(gboolean), :cnv-return(Bool), ),
-  is-optional => %(:is-symbol<gi_arginfo_is_optional>, :returns(gboolean), :cnv-return(Bool), ),
-  is-return-value => %(:is-symbol<gi_arginfo_is_return_value>, :returns(gboolean), :cnv-return(Bool), ),
-  is-skip => %(:is-symbol<gi_arginfo_is_skip>, :returns(gboolean), :cnv-return(Bool), ),
-  load-type-info => %(:is-symbol<gi_arginfo_load_type_info>, :parameters([N-Object]), ),
-  may-be-null => %(:is-symbol<gi_arginfo_may_be_null>, :returns(gboolean), :cnv-return(Bool), ),
+  get-closure-index => %(:is-symbol<gi_arg_info_get_closure_index>, :returns(gboolean), :cnv-return(Bool), :parameters([gint-ptr]), ),
+  get-destroy-index => %(:is-symbol<gi_arg_info_get_destroy_index>, :returns(gboolean), :cnv-return(Bool), :parameters([gint-ptr]), ),
+  get-direction => %(:is-symbol<gi_arg_info_get_direction>,  :returns(GEnum), :cnv-return(GIDirection)),
+  get-ownership-transfer => %(:is-symbol<gi_arg_info_get_ownership_transfer>,  :returns(GEnum), :cnv-return(GITransfer)),
+  get-scope => %(:is-symbol<gi_arg_info_get_scope>,  :returns(GEnum), :cnv-return(GIScopeType)),
+  get-type-info => %(:is-symbol<gi_arg_info_get_type_info>, :returns(N-Object), ),
+  is-caller-allocates => %(:is-symbol<gi_arg_info_is_caller_allocates>, :returns(gboolean), :cnv-return(Bool), ),
+  is-optional => %(:is-symbol<gi_arg_info_is_optional>, :returns(gboolean), :cnv-return(Bool), ),
+  is-return-value => %(:is-symbol<gi_arg_info_is_return_value>, :returns(gboolean), :cnv-return(Bool), ),
+  is-skip => %(:is-symbol<gi_arg_info_is_skip>, :returns(gboolean), :cnv-return(Bool), ),
+  load-type-info => %(:is-symbol<gi_arg_info_load_type_info>, :parameters([N-Object]), ),
+  may-be-null => %(:is-symbol<gi_arg_info_may_be_null>, :returns(gboolean), :cnv-return(Bool), ),
 );
 
 #-------------------------------------------------------------------------------
