@@ -1482,8 +1482,10 @@ method cleanup-id ( $id is copy, Bool :$is-function = False --> Str ) {
     $id ~~ s/^ $sub-prefix //;
   }
 
-  # Drop the last underscore of variable if there is one, it's ugly 😎.
-  $id ~~ s/ '_' $//;
+  else {
+    # Drop the last underscore of variables if there is one, it's ugly 😎.
+    $id ~~ s/ '_' $//;
+  }
 
   # Cleanup the name, convert _ to - and ending numbers in words
   $id ~~ s:g/ '_' /-/;
