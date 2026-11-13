@@ -484,8 +484,7 @@ method !generate-constructors ( Hash $hcs --> Str ) {
     
     # Set the full native subroutine name
     my Str $sub-prefix = $*work-data<sub-prefix>;
-    my Str $is-symbol = $curr-function<gnome-function-name>; #$sub-prefix ~ $function-name;
-#    $is-symbol ~~ s:g/ '-' /_/;
+    my Str $is-symbol = $curr-function<gnome-function-name>;
     $is-symbol = ':is-symbol<' ~ $is-symbol ~ '>, ';
 
     # Change the name of 'new' into 'new-<classname.lc>'. E.g. new-button.
@@ -643,8 +642,7 @@ method !generate-methods ( Hash $hcs --> Str ) {
 
     # Set the full native subroutine name
     my Str $sub-prefix = $*work-data<sub-prefix>;
-    my Str $is-symbol = $curr-function<gnome-function-name>; #$sub-prefix ~ $function-name;
-#    $is-symbol ~~ s:g/ '-' /_/;
+    my Str $is-symbol = $curr-function<gnome-function-name>;
     $is-symbol = ':is-symbol<' ~ $is-symbol ~ '>, ';
 
     # Add deprecation parameters
@@ -790,8 +788,7 @@ method generate-functions ( Hash $hcs, Bool :$standalone = False --> Str ) {
     # Set the full native subroutine name
     my Str $sub-prefix = $standalone ?? "$*work-data<name-prefix>_"
                                      !! $*work-data<sub-prefix>;
-    my Str $is-symbol = $curr-function<gnome-function-name>; #$sub-prefix ~ $function-name;
-#    $is-symbol ~~ s:g/ '-' /_/;
+    my Str $is-symbol = $curr-function<gnome-function-name>;
     $is-symbol = ':is-symbol<' ~ $is-symbol ~ '>, ';
 
     # Add deprecation parameters
@@ -1625,7 +1622,7 @@ method !get-method-data (
   # This must be converted.
   my Str $function-name = self.cleanup-id( $e.attribs<name>, :is-function);
   my Str $gnome-function-name = $e.attribs<c:identifier>;
-note "$?LINE $function-name, $gnome-function-name";
+
   # Skip emptied function names. Assumed that those are for internal use.
   return ( '', %()) unless ?$function-name;
 
