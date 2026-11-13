@@ -4,7 +4,7 @@ use NativeCall;
 
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
-#use Gnome::N::Gir;
+use Gnome::N::X:api<2>;
 
 use Gnome::Glib::T-error:api<2>;
 
@@ -56,15 +56,16 @@ else {
 }
 
 # returned base info is a GIObjectInfo
-$base-info = $repository.find-by-name( 'Gtk', 'Label');
+my Gnome::GIRepository::ObjectInfo() $object-info =
+   $repository.find-by-name( 'Gtk', 'Label');
 
-note 'GtkLabel: ', $base-info.is-deprecated.Bool;
-my GEnum $info-type = $base-info.get-type;
-note 'type: ', $info-type, ' = object';
+note 'GtkLabel deprecated?: ', $object-info.is-deprecated.Bool;
+#my GEnum $info-type = $base-info.get-type;
+#note 'type: ', $info-type, ' = object';
 
-my Gnome::GIRepository::ObjectInfo $object-info = $base-info;
 note 'type name: ', $object-info.get-type-name;
 
+#Gnome::N::debug(:on);
 my Gnome::GIRepository::FunctionInfo() $function-info;
 my Int $i = $object-info.get-n-methods;
 for ^$i -> $n {
@@ -77,7 +78,6 @@ for ^$i -> $n {
   ) -> $flag {
     note "  ", GIFunctionInfoFlags($flag) if $flags +& $flag;
   }
-
 
   $function-info.clear-object;
 }

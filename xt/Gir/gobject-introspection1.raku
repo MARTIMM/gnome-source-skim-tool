@@ -56,9 +56,9 @@ $base-info = gi_repository_find_by_name(
   $repository, 'Gtk', 'Label'
 );
 
-note 'GtkLabel: ', gi_base_info_is_deprecated($base-info).Bool;
-my GEnum $info-type = gi_base_info_get_type($base-info);
-note 'type: ', $info-type, ' = object';
+note 'GtkLabel deprecated?: ', gi_base_info_is_deprecated($base-info).Bool;
+#my GEnum $info-type = gi_base_info_get_type($base-info);
+#note 'type: ', $info-type, ' = object';
 note 'type name: ', gi_object_info_get_type_name($base-info);
 
 
