@@ -56,7 +56,9 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
 
     # Check for parent class. There are never more than one. When there is
     # none, pick TopLevelClassSupport
-    my Str $parent = $h<parent-raku-name> // 'Gnome::N::TopLevelClassSupport';
+    my Str $parent = ?$h<parent-raku-name>
+                        ?? $h<parent-raku-name>
+                        !! 'Gnome::N::TopLevelClassSupport';
 
     # Misc is deprecated so shortcut to Widget. This is only for Gtk3!
     $parent = 'Gnome::Gtk3::Widget' if $parent ~~ m/ \:\: Misc $/;
