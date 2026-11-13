@@ -1849,7 +1849,7 @@ method convert-ntype (
     when / void '*' /         { $raku-type = 'void-ptr'; }
     when / size_t /           { $raku-type = 'gsize'; }
     when / int64_t /          { $raku-type = 'gint64'; }
-    when / unsignedint /      { $raku-type = 'guint-ptr'; }
+    when / unsignedint /      { $raku-type = 'guint'; }
 
     when any(
         <gboolean gchar gdouble gfloat gint gint16 gint32 gint64 gint8 
