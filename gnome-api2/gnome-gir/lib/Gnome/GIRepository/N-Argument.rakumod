@@ -17,24 +17,24 @@ use Gnome::N::X:api<2>;
 
 
 unit class N-Argument:auth<github:MARTIMM>:api<2> is export is repr('CUnion');
-
+#`{{
 HAS gboolean $.v-boolean;
-HAS gint8 $.v-int8;
-HAS guint8 $.v-uint8;
-HAS gint16 $.v-int16;
-HAS guint16 $.v-uint16;
-HAS gint32 $.v-int32;
-HAS guint32 $.v-uint32;
+HAS  $.v-int8;
+HAS  $.v-uint8;
+HAS  $.v-int16;
+HAS  $.v-uint16;
+HAS  $.v-int32;
+HAS  $.v-uint32;
 HAS gint64 $.v-int64;
 HAS gint64 $.v-uint64;
 HAS gfloat $.v-float;
 HAS gdouble $.v-double;
 HAS gshort $.v-short;
-HAS gushort $.v-ushort;
+HAS  $.v-ushort;
 HAS gint $.v-int;
 HAS guint-ptr $.v-uint;
 HAS glong $.v-long;
-HAS gulong $.v-ulong;
+HAS  $.v-ulong;
 HAS gssize $.v-ssize;
 HAS gsize $.v-size;
 HAS Str $.v-string;
@@ -50,3 +50,4 @@ method COERCE ( $no --> N-Argument ) {
   nativecast( N-Argument, $no)
 }
 
+}}

@@ -60,9 +60,9 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-class-closure => %(:is-symbol<gi_signalinfo_get_class_closure>, :returns(N-Object), ),
-  #get-flags => %(:is-symbol<gi_signalinfo_get_flags>,  :returns(GFlag), :cnv-return(GSignalFlags )),
-  true-stops-emit => %(:is-symbol<gi_signalinfo_true_stops_emit>, :returns(gboolean), :cnv-return(Bool), ),
+  get-class-closure => %(:is-symbol<gi_signal_info_get_class_closure>, :returns(N-Object), ),
+  #get-flags => %(:is-symbol<gi_signal_info_get_flags>,  :returns(GFlag), :cnv-return(GSignalFlags )),
+  true-stops-emit => %(:is-symbol<gi_signal_info_true_stops_emit>, :returns(gboolean), :cnv-return(Bool), ),
 );
 
 #-------------------------------------------------------------------------------

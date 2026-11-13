@@ -61,9 +61,9 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  free-value => %(:is-symbol<gi_constantinfo_free_value>, :parameters([N-Object]), ),
-  get-type-info => %(:is-symbol<gi_constantinfo_get_type_info>, :returns(N-Object), ),
-  get-value => %(:is-symbol<gi_constantinfo_get_value>, :returns(gsize), :parameters([N-Object]), ),
+  free-value => %(:is-symbol<gi_constant_info_free_value>, :parameters([N-Object]), ),
+  get-type-info => %(:is-symbol<gi_constant_info_get_type_info>, :returns(N-Object), ),
+  get-value => %(:is-symbol<gi_constant_info_get_value>, :returns(gsize), :parameters([N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------

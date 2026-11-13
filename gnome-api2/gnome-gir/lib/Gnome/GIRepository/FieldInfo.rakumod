@@ -62,12 +62,12 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-field => %(:is-symbol<gi_fieldinfo_get_field>, :returns(gboolean), :cnv-return(Bool), :parameters([void-ptr, N-Object]), ),
-  get-flags => %(:is-symbol<gi_fieldinfo_get_flags>,  :returns(GFlag), :cnv-return(GIFieldInfoFlags)),
-  get-offset => %(:is-symbol<gi_fieldinfo_get_offset>, :returns(gsize), ),
-  get-size => %(:is-symbol<gi_fieldinfo_get_size>, :returns(gsize), ),
-  get-type-info => %(:is-symbol<gi_fieldinfo_get_type_info>, :returns(N-Object), ),
-  set-field => %(:is-symbol<gi_fieldinfo_set_field>, :returns(gboolean), :cnv-return(Bool), :parameters([void-ptr, N-Object]), ),
+  get-field => %(:is-symbol<gi_field_info_get_field>, :returns(gboolean), :cnv-return(Bool), :parameters([void-ptr, N-Object]), ),
+  get-flags => %(:is-symbol<gi_field_info_get_flags>,  :returns(GFlag), :cnv-return(GIFieldInfoFlags)),
+  get-offset => %(:is-symbol<gi_field_info_get_offset>, :returns(gsize), ),
+  get-size => %(:is-symbol<gi_field_info_get_size>, :returns(gsize), ),
+  get-type-info => %(:is-symbol<gi_field_info_get_type_info>, :returns(N-Object), ),
+  set-field => %(:is-symbol<gi_field_info_set_field>, :returns(gboolean), :cnv-return(Bool), :parameters([void-ptr, N-Object]), ),
 );
 
 #-------------------------------------------------------------------------------

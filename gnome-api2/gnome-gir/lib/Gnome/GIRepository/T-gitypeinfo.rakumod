@@ -8,10 +8,9 @@ use NativeCall;
 
 
 
-#use Gnome::GIRepository::BaseInfo:api<2>;
+use Gnome::GIRepository::BaseInfo:api<2>;
 #use Gnome::GIRepository::T-Argument:api<2>;
-#use Gnome::GIRepository::T-gitypeinfo:api<2>;
-#use Gnome::GIRepository::T-types:api<2>;
+use Gnome::GIRepository::T-types:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -49,9 +48,9 @@ submethod BUILD ( ) {
 my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
-  #type-tag-argument-from-hash-pointer => %( :type(Function), :is-symbol<gi_type_tag_argument_from_hash_pointer>, :parameters([ GITypeTag , void-ptr, N-Object]), ),
-  #type-tag-hash-pointer-from-argument => %( :type(Function), :is-symbol<gi_type_tag_hash_pointer_from_argument>, :returns(void-ptr), :parameters([ GITypeTag , N-Object]), ),
-  #type-tag-to-string => %( :type(Function), :is-symbol<gi_type_tag_to_string>, :returns(Str), :parameters([GITypeTag ]), ),
+  type-tag-argument-from-hash-pointer => %( :type(Function), :is-symbol<gi_type_tag_argument_from_hash_pointer>, :parameters([ GITypeTag, void-ptr, N-Object]), ),
+  type-tag-hash-pointer-from-argument => %( :type(Function), :is-symbol<gi_type_tag_hash_pointer_from_argument>, :returns(void-ptr), :parameters([ GITypeTag, N-Object]), ),
+  type-tag-to-string => %( :type(Function), :is-symbol<gi_type_tag_to_string>, :returns(Str), :parameters([GITypeTag]), ),
 
 );
 # This method is recognized in class Gnome::N::TopLevelClassSupport.

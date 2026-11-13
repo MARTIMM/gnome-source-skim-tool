@@ -59,18 +59,18 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  find-field => %(:is-symbol<gi_structinfo_find_field>, :returns(N-Object), :parameters([Str]), ),
-  find-method => %(:is-symbol<gi_structinfo_find_method>, :returns(N-Object), :parameters([Str]), ),
-  get-alignment => %(:is-symbol<gi_structinfo_get_alignment>, :returns(gsize), ),
-  get-copy-function-name => %(:is-symbol<gi_structinfo_get_copy_function_name>, :returns(Str), ),
-  get-field => %(:is-symbol<gi_structinfo_get_field>, :returns(N-Object), :parameters([guint-ptr]), ),
-  get-free-function-name => %(:is-symbol<gi_structinfo_get_free_function_name>, :returns(Str), ),
-  get-method => %(:is-symbol<gi_structinfo_get_method>, :returns(N-Object), :parameters([guint-ptr]), ),
-  get-n-fields => %(:is-symbol<gi_structinfo_get_n_fields>, :returns(guint-ptr), ),
-  get-n-methods => %(:is-symbol<gi_structinfo_get_n_methods>, :returns(guint-ptr), ),
-  get-size => %(:is-symbol<gi_structinfo_get_size>, :returns(gsize), ),
-  is-foreign => %(:is-symbol<gi_structinfo_is_foreign>, :returns(gboolean), :cnv-return(Bool), ),
-  is-gtype-struct => %(:is-symbol<gi_structinfo_is_gtype_struct>, :returns(gboolean), :cnv-return(Bool), ),
+  find-field => %(:is-symbol<gi_struct_info_find_field>, :returns(N-Object), :parameters([Str]), ),
+  find-method => %(:is-symbol<gi_struct_info_find_method>, :returns(N-Object), :parameters([Str]), ),
+  get-alignment => %(:is-symbol<gi_struct_info_get_alignment>, :returns(gsize), ),
+  get-copy-function-name => %(:is-symbol<gi_struct_info_get_copy_function_name>, :returns(Str), ),
+  get-field => %(:is-symbol<gi_struct_info_get_field>, :returns(N-Object), :parameters([guint]), ),
+  get-free-function-name => %(:is-symbol<gi_struct_info_get_free_function_name>, :returns(Str), ),
+  get-method => %(:is-symbol<gi_struct_info_get_method>, :returns(N-Object), :parameters([guint]), ),
+  get-n-fields => %(:is-symbol<gi_struct_info_get_n_fields>, :returns(guint), ),
+  get-n-methods => %(:is-symbol<gi_struct_info_get_n_methods>, :returns(guint), ),
+  get-size => %(:is-symbol<gi_struct_info_get_size>, :returns(gsize), ),
+  is-foreign => %(:is-symbol<gi_struct_info_is_foreign>, :returns(gboolean), :cnv-return(Bool), ),
+  is-gtype-struct => %(:is-symbol<gi_struct_info_is_gtype_struct>, :returns(gboolean), :cnv-return(Bool), ),
 );
 
 #-------------------------------------------------------------------------------

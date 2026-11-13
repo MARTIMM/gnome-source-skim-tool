@@ -60,12 +60,12 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-error-domain => %(:is-symbol<gi_enuminfo_get_error_domain>, :returns(Str), ),
-  get-method => %(:is-symbol<gi_enuminfo_get_method>, :returns(N-Object), :parameters([guint-ptr]), ),
-  get-n-methods => %(:is-symbol<gi_enuminfo_get_n_methods>, :returns(guint-ptr), ),
-  get-n-values => %(:is-symbol<gi_enuminfo_get_n_values>, :returns(guint-ptr), ),
-  get-storage-type => %(:is-symbol<gi_enuminfo_get_storage_type>,  :returns(GEnum), :cnv-return(GITypeTag)),
-  get-value => %(:is-symbol<gi_enuminfo_get_value>, :returns(N-Object), :parameters([guint-ptr]), ),
+  get-error-domain => %(:is-symbol<gi_enum_info_get_error_domain>, :returns(Str), ),
+  get-method => %(:is-symbol<gi_enum_info_get_method>, :returns(N-Object), :parameters([guint]), ),
+  get-n-methods => %(:is-symbol<gi_enum_info_get_n_methods>, :returns(guint), ),
+  get-n-values => %(:is-symbol<gi_enum_info_get_n_values>, :returns(guint), ),
+  get-storage-type => %(:is-symbol<gi_enum_info_get_storage_type>,  :returns(GEnum), :cnv-return(GITypeTag)),
+  get-value => %(:is-symbol<gi_enum_info_get_value>, :returns(N-Object), :parameters([guint]), ),
 );
 
 #-------------------------------------------------------------------------------

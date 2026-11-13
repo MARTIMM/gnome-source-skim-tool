@@ -59,7 +59,7 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-value => %(:is-symbol<gi_valueinfo_get_value>, :returns(gint64), ),
+  get-value => %(:is-symbol<gi_value_info_get_value>, :returns(gint64), ),
 );
 
 #-------------------------------------------------------------------------------

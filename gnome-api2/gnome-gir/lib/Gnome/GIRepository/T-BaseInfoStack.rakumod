@@ -71,7 +71,7 @@ use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
-
+#`{{
 unit class N-Argument:auth<github:MARTIMM>:api<2> is export is repr('CUnion');
 
 HAS gboolean $.v-boolean;
@@ -105,6 +105,7 @@ method COERCE ( $no --> N-Argument ) {
   note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
   nativecast( N-Argument, $no)
 }
+}}
 
 #-------------------------------------------------------------------------------
 #--[Constants]------------------------------------------------------------------

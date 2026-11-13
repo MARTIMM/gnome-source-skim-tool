@@ -63,11 +63,11 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-flags => %(:is-symbol<gi_functioninfo_get_flags>,  :returns(GFlag), :cnv-return(GIFunctionInfoFlags)),
-  get-property => %(:is-symbol<gi_functioninfo_get_property>, :returns(N-Object), ),
-  get-symbol => %(:is-symbol<gi_functioninfo_get_symbol>, :returns(Str), ),
-  get-vfunc => %(:is-symbol<gi_functioninfo_get_vfunc>, :returns(N-Object), ),
-  invoke => %(:is-symbol<gi_functioninfo_invoke>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, gsize, N-Object, gsize, N-Object, CArray[N-Error]]), ),
+  get-flags => %(:is-symbol<gi_function_info_get_flags>,  :returns(GFlag), :cnv-return(GIFunctionInfoFlags)),
+  get-property => %(:is-symbol<gi_function_info_get_property>, :returns(N-Object), ),
+  get-symbol => %(:is-symbol<gi_function_info_get_symbol>, :returns(Str), ),
+  get-vfunc => %(:is-symbol<gi_function_info_get_vfunc>, :returns(N-Object), ),
+  invoke => %(:is-symbol<gi_function_info_invoke>, :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, gsize, N-Object, gsize, N-Object, CArray[N-Error]]), ),
 );
 
 #-------------------------------------------------------------------------------

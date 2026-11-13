@@ -10,10 +10,9 @@ use NativeCall;
 
 
 use Gnome::GIRepository::CallableInfo:api<2>;
-#use Gnome::GIRepository::N-Argument:api<2>;
+use Gnome::GIRepository::N-Argument:api<2>;
 #use Gnome::GIRepository::T-Argument:api<2>;
 use Gnome::GIRepository::T-types:api<2>;
-
 use Gnome::Glib::T-error:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -64,12 +63,12 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-address => %(:is-symbol<gi_repository_get_address>, :returns(void-ptr), :parameters([GType, CArray[N-Error]]), ),
-  get-flags => %(:is-symbol<gi_repository_get_flags>,  :returns(GFlag), :cnv-return(GIVFuncInfoFlags )),
-  get-invoker => %(:is-symbol<gi_repository_get_invoker>, :returns(N-Object), ),
-  get-offset => %(:is-symbol<gi_repository_get_offset>, :returns(gsize), ),
-  get-signal => %(:is-symbol<gi_repository_get_signal>, :returns(N-Object), ),
-  invoke => %(:is-symbol<gi_repository_invoke>, :returns(gboolean), :cnv-return(Bool), :parameters([GType, N-Object, gsize, N-Object, gsize, N-Object, CArray[N-Error]]), ),
+  get-address => %(:is-symbol<gi_vfunc_info_get_address>, :returns(void-ptr), :parameters([GType, CArray[N-Error]]), ),
+  get-flags => %(:is-symbol<gi_vfunc_info_get_flags>,  :returns(GFlag), :cnv-return(GIVFuncInfoFlags)),
+  get-invoker => %(:is-symbol<gi_vfunc_info_get_invoker>, :returns(N-Object), ),
+  get-offset => %(:is-symbol<gi_vfunc_info_get_offset>, :returns(gsize), ),
+  get-signal => %(:is-symbol<gi_vfunc_info_get_signal>, :returns(N-Object), ),
+  invoke => %(:is-symbol<gi_vfunc_info_invoke>, :returns(gboolean), :cnv-return(Bool), :parameters([GType, N-Object, gsize, N-Object, gsize, N-Object, CArray[N-Error]]), ),
 );
 
 #-------------------------------------------------------------------------------

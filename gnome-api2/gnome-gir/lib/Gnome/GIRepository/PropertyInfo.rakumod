@@ -61,11 +61,11 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  #get-flags => %(:is-symbol<gi_propertyinfo_get_flags>,  :returns(GFlag), :cnv-return(GParamFlags )),
-  get-getter => %(:is-symbol<gi_propertyinfo_get_getter>, :returns(N-Object), ),
-  get-ownership-transfer => %(:is-symbol<gi_propertyinfo_get_ownership_transfer>,  :returns(GEnum), :cnv-return(GITransfer)),
-  get-setter => %(:is-symbol<gi_propertyinfo_get_setter>, :returns(N-Object), ),
-  get-type-info => %(:is-symbol<gi_propertyinfo_get_type_info>, :returns(N-Object), ),
+  #get-flags => %(:is-symbol<gi_property_info_get_flags>,  :returns(GFlag), :cnv-return(GParamFlags )),
+  get-getter => %(:is-symbol<gi_property_info_get_getter>, :returns(N-Object), ),
+  get-ownership-transfer => %(:is-symbol<gi_property_info_get_ownership_transfer>,  :returns(GEnum), :cnv-return(GITransfer)),
+  get-setter => %(:is-symbol<gi_property_info_get_setter>, :returns(N-Object), ),
+  get-type-info => %(:is-symbol<gi_property_info_get_type_info>, :returns(N-Object), ),
 );
 
 #-------------------------------------------------------------------------------

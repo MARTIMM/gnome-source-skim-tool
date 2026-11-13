@@ -59,10 +59,10 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-g-type => %(:is-symbol<gi_registeredtypeinfo_get_g_type>, :returns(GType), ),
-  get-type-init-function-name => %(:is-symbol<gi_registeredtypeinfo_get_type_init_function_name>, :returns(Str), ),
-  get-type-name => %(:is-symbol<gi_registeredtypeinfo_get_type_name>, :returns(Str), ),
-  is-boxed => %(:is-symbol<gi_registeredtypeinfo_is_boxed>, :returns(gboolean), :cnv-return(Bool), ),
+  get-g-type => %(:is-symbol<gi_registered_type_info_get_g_type>, :returns(GType), ),
+  get-type-init-function-name => %(:is-symbol<gi_registered_type_info_get_type_init_function_name>, :returns(Str), ),
+  get-type-name => %(:is-symbol<gi_registered_type_info_get_type_name>, :returns(Str), ),
+  is-boxed => %(:is-symbol<gi_registered_type_info_is_boxed>, :returns(gboolean), :cnv-return(Bool), ),
 );
 
 #-------------------------------------------------------------------------------

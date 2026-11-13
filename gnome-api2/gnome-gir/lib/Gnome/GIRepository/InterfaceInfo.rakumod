@@ -59,22 +59,22 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  find-method => %(:is-symbol<gi_interfaceinfo_find_method>, :returns(N-Object), :parameters([Str]), ),
-  find-signal => %(:is-symbol<gi_interfaceinfo_find_signal>, :returns(N-Object), :parameters([Str]), ),
-  find-vfunc => %(:is-symbol<gi_interfaceinfo_find_vfunc>, :returns(N-Object), :parameters([Str]), ),
-  get-constant => %(:is-symbol<gi_interfaceinfo_get_constant>, :returns(N-Object), :parameters([guint-ptr]), ),
-  get-iface-struct => %(:is-symbol<gi_interfaceinfo_get_iface_struct>, :returns(N-Object), ),
-  get-method => %(:is-symbol<gi_interfaceinfo_get_method>, :returns(N-Object), :parameters([guint-ptr]), ),
-  get-n-constants => %(:is-symbol<gi_interfaceinfo_get_n_constants>, :returns(guint-ptr), ),
-  get-n-methods => %(:is-symbol<gi_interfaceinfo_get_n_methods>, :returns(guint-ptr), ),
-  get-n-prerequisites => %(:is-symbol<gi_interfaceinfo_get_n_prerequisites>, :returns(guint-ptr), ),
-  get-n-properties => %(:is-symbol<gi_interfaceinfo_get_n_properties>, :returns(guint-ptr), ),
-  get-n-signals => %(:is-symbol<gi_interfaceinfo_get_n_signals>, :returns(guint-ptr), ),
-  get-n-vfuncs => %(:is-symbol<gi_interfaceinfo_get_n_vfuncs>, :returns(guint-ptr), ),
-  get-prerequisite => %(:is-symbol<gi_interfaceinfo_get_prerequisite>, :returns(N-Object), :parameters([guint-ptr]), ),
-  get-property => %(:is-symbol<gi_interfaceinfo_get_property>, :returns(N-Object), :parameters([guint-ptr]), ),
-  get-signal => %(:is-symbol<gi_interfaceinfo_get_signal>, :returns(N-Object), :parameters([guint-ptr]), ),
-  get-vfunc => %(:is-symbol<gi_interfaceinfo_get_vfunc>, :returns(N-Object), :parameters([guint-ptr]), ),
+  find-method => %(:is-symbol<gi_interface_info_find_method>, :returns(N-Object), :parameters([Str]), ),
+  find-signal => %(:is-symbol<gi_interface_info_find_signal>, :returns(N-Object), :parameters([Str]), ),
+  find-vfunc => %(:is-symbol<gi_interface_info_find_vfunc>, :returns(N-Object), :parameters([Str]), ),
+  get-constant => %(:is-symbol<gi_interface_info_get_constant>, :returns(N-Object), :parameters([guint]), ),
+  get-iface-struct => %(:is-symbol<gi_interface_info_get_iface_struct>, :returns(N-Object), ),
+  get-method => %(:is-symbol<gi_interface_info_get_method>, :returns(N-Object), :parameters([guint]), ),
+  get-n-constants => %(:is-symbol<gi_interface_info_get_n_constants>, :returns(guint), ),
+  get-n-methods => %(:is-symbol<gi_interface_info_get_n_methods>, :returns(guint), ),
+  get-n-prerequisites => %(:is-symbol<gi_interface_info_get_n_prerequisites>, :returns(guint), ),
+  get-n-properties => %(:is-symbol<gi_interface_info_get_n_properties>, :returns(guint), ),
+  get-n-signals => %(:is-symbol<gi_interface_info_get_n_signals>, :returns(guint), ),
+  get-n-vfuncs => %(:is-symbol<gi_interface_info_get_n_vfuncs>, :returns(guint), ),
+  get-prerequisite => %(:is-symbol<gi_interface_info_get_prerequisite>, :returns(N-Object), :parameters([guint]), ),
+  get-property => %(:is-symbol<gi_interface_info_get_property>, :returns(N-Object), :parameters([guint]), ),
+  get-signal => %(:is-symbol<gi_interface_info_get_signal>, :returns(N-Object), :parameters([guint]), ),
+  get-vfunc => %(:is-symbol<gi_interface_info_get_vfunc>, :returns(N-Object), :parameters([guint]), ),
 );
 
 #-------------------------------------------------------------------------------
