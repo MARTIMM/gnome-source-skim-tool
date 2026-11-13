@@ -42,7 +42,7 @@ note 'version: ', $repository.get-version('Gtk');
 
 
 # works shows that GtkActionEntry is deprecated
-my Gnome::GIRepository::BaseInfo $base-info .= new(
+my Gnome::GIRepository::BaseInfo() $base-info .= new(
   :native-object($repository.find-by-name( 'Gtk', 'AppChooserButton'))
 );
 
@@ -59,7 +59,7 @@ else {
 $base-info = $repository.find-by-name( 'Gtk', 'Label');
 
 note 'GtkLabel: ', $base-info.is-deprecated.Bool;
-my GEnum $info-type = $base-info.get_type;
+my GEnum $info-type = $base-info.get-type;
 note 'type: ', $info-type, ' = object';
 
 my Gnome::GIRepository::ObjectInfo $object-info = $base-info;
